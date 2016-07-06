@@ -1,6 +1,6 @@
 site_name: Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
 pages:
-- Home: index.md
+- Introduction: index.md
 - Your First Mobile App: introduction.md
 - Authentication: authentication.md
 - Data Access and Offline Sync: data.md
