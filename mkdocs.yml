@@ -1,1 +1,16 @@
-site_name: My Docs
+site_name: Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+pages:
+- Home: index.md
+- Your First Mobile App: introduction.md
+- Authentication: authentication.md
+- Data Access and Offline Sync: data.md
+- File Management: files.md
+- Push Notifications: push.md
+- Server Side Code: custom.md
+- Web and Mobile Apps: combined.md
+- The Development Environment: developing.md
+- Testing your Application: testing.md
+- Troubleshooting: troubleshooting.md
+- Going to Production: production.md
+- References: references.md
+theme: readthedocs
