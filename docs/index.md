@@ -26,7 +26,19 @@ A cloud connected mobile application will use one or more services in the follow
 * Push notifications
 * Invocation of Custom Code
 
-I am going to cover each of these in great detail.  In addition, I will also cover some common issues and solutions that developers run into while developing cloud connected mobile applications such as testing and going to production.
+I am going to cover each of these in great detail.  In addition, I will also cover some common issues and solutions that developers run into while developing cloud connected mobile applications such as testing and going to production.  
+
+Aside from the actual features of mobile apps, there are other things to consider while developing your mobile application.  Here is my list, in no particular order:
+
+1. Continuous Deployment
+2. Slots or Staging Sites
+3. Automatic Scalability
+4. Database Backups
+5. Combined Web 
+
+The point here is that my intent is to write a production quality application.  I need to be able to deploy my site with confidence without resorting to jumping through hoops.  I want to run multiple versions of the backend so that I can run a staging site for testing purposes.  I want to be able to roll back my production site to a previous version at a moments notice.  I want to be able to handle the load when my app is successful, and I want things to be backed up (since bad things inevitably happen when I am least prepared).
+
+All of these features are available in Azure App Service, and the Mobile Apps SDK that I will use throughout the book is supported only on Azure App Service.
 
 ## What You Will Need
 
@@ -44,7 +56,7 @@ You should also download and install [Xamarin Studio](https://www.xamarin.com/pl
 
 Your Windows 10 PC should also be running the latest version of Windows 10. Make sure you have automatic updates turned on.  In addition to Windows 10, you will want to turn on Hyper-V. The installer for Visual Studio will do this for you if necessary.  If you do not turn on Hyper-V, you will not be able to use the Visual Studio Emulator for Android.  This emulator is superior to the emulator that is supplied with the Android Toolkit.
 
-Aside from Windows 10 and Hyper-V, you will need to download and install [Visual Studio Community](https://www.visualstudio.com/products/visual-studio-community-vs).  If you have access to a higher edition of Visual Studio, that will work as well.  If you have already installed Visual Studio, you may want to re-run the installer to add the Mobile development components.  You want to request the installs for Web applications and cross-platform mobile development.
+Aside from Windows 10 and Hyper-V, you will need to download and install [Visual Studio Community](https://www.visualstudio.com/products/visual-studio-community-vs) and the [Azure SDK](https://azure.microsoft.com/en-us/downloads/).  If you have access to a higher edition of Visual Studio, that will work as well.  If you have already installed Visual Studio, you may want to re-run the installer to add the Mobile development components.  You want to request the installs for Web applications and cross-platform mobile development.
 
 > Development Tools are big, multi-gigabyte installers.  If you are on a slow or restricted link, you may want to download the installers onto a thumb drive for local installation.
 
