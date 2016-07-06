@@ -10,7 +10,7 @@ Include a link to the book content here
 
 ## Building the book
 
-The book uses (MkDocs)[1] for the content.  To build the static site, use:
+The book uses [MkDocs](http://www.mkdocs.org) for the content.  To build the static site, use:
 
 ```
 mkdocs build --clean
@@ -28,6 +28,3 @@ site, use
 ```
 mkdocs gh-deploy --clean
 ```
-
-<!-- Content -->
-[1]: http://www.mkdocs.org/
