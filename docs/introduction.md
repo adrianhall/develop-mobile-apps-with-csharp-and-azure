@@ -304,11 +304,115 @@ Visual Studio will open a browser.  Add `/tables/todoitem?ZUMO-API-VERSION=2.0.0
 to the end of the URL.  This will show the JSON contents of the table that we
 defined in the backend.
 
-> You will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A**ZU**re **MO**bile.
+> You will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A<b>ZU</b>re <b>MO</b>bile.
 
 ## The Mobile Client
 
+Now that the mobile backend is created and deployed, we can move onto the client
+side of things.  First of all, let's prepare the Visual Studio instance.  If you
+have installed the Cross-Platform Mobile tools during the installation, most of
+the work has already been done.  However, you may want to install the [Xamarin
+Forms Templates][8] using the Tools -> Extensions and Updates...
+
+  ![Installing the Xamarin Forms Templates][img4]
+
+This template pack provides additional templates for Xamarin Forms development
+that I find useful.  Most notably, there is a specific template for a mobile
+cross-platform project covering the Android, iOS and UWP mobile platforms.  
+
 ### Creating a Simple Mobile Client with Xamarin
+
+Now that we have prepared your Visual Studio instance, we can create the project.
+Right-click on the solution and select **Add** -> **New Project...**.  This will
+bring up the familiar New Project dialog.  The project you want is under **Visual C#**
+-> **Cross-Platform**, and is called **Xamarin.Forms (UWP/Android/iOS)**.  If you
+did not install the Xamarin Forms Template add-on, then choose the
+**Blank Xaml App (Xamarin.Forms Portable)** project.  Give the project a name,
+then click on **OK**.
+
+  ![Creating the Xamarin Forms Project][img5]
+
+Project creation will take longer than you expect, but there is a lot going on.
+If you have never created a mobile or UWP project before, you will be prompted
+to turn on Windows 10 Developer Mode:
+
+  ![Turn on Developer Mode][img6]
+
+Developer mode in Windows 10 allows you to run unsigned binaries for development
+purposes and to turn on debugging so that you can step through your UWP programs
+within Visual Studio.
+
+We will also get asked to choose what version of the Universal Windows platform
+we want to target:
+
+  ![UWP Platform Chooser][img7]
+
+Version 10240 was the first version of Windows 10 that was released to the general
+public, so that's a good minimum version to pick.  In general, the defaults for
+the Universal Windows Platform choice are good enough.
+
+Finally, we will be asked about our iOS build host.  This must be some sort of
+mac.  As I said previously, I use a Mac Mini underneath my desk for this. The
+latest Xamarin tools forego a dedicated build service and instead use a secure
+shell (ssh) connection to connect to the Mac.  That means you must go through
+the process for [setting up the mac for ssh access][9].  
+
+When prompted about the Xamarin Mac Agent, click on **OK** to get the list of
+local mac agents:
+
+  ![Xamarin Mac Agent - Host List][img8]
+
+Highlight your mac (in case there are multiples), then click on **Connect...**.
+You will be prompted for your username and password:
+
+  ![Xamarin Mac Agent - Login][img9]
+
+Just enter the username and password that you use to log in to your mac and click
+on **Login**.
+
+> **What's my username?**  Apple tries very hard to hide the real username of
+your account from you.  The easiest way to find your mac username is to open up
+the Finder.  The name next to your home icon is the name of your account.
+
+Once the project is created, you will see that four new projects have been
+created: a common library which you named plus one project for each platform
+that has been chosen.  Since we chose a project with three platforms, we get
+four projects:
+
+  ![The TaskList Project Layout][img10]
+
+Most of our work will happen in the common library.  However, we can introduce
+platform-specific code at any point.  The platform-specific code is stored in
+the platform-specific project.
+
+There is one final item we must do before we leave the set up of the project.
+There are a number of platform upgrades that inevitably have to happen.  The
+Xamarin Platform is updated much more often than the Visual Studio plugin - the
+updates are released via NuGet: the standard method of distributing libraries
+for .NET applications.  In addition to the inevitable Xamarin Platform update,
+we also will want to add the following NuGet packages:
+
+*  Microsoft.Azure.Mobile.Client v2.0.0 or later
+*  Newtonsoft.Json v6.0.3 or later
+
+> Although it is tempting, do not include a v1.x version of the Mobile Client.
+This is for the earlier Azure Mobile Services.  There are many differences between
+the wire protocols of the two products.
+
+You can install the NuGet packages by right-clicking on the project and selecting
+**Manage NuGet Packages...**.
+
+  ![Manage NuGet Packages][img11]
+
+You must install the updates and the new NuGet packages on all four projects.  
+This involves repeating the same process for each client project in your
+solution.
+
+> Android generally has more updates than the other platforms.  Ensure that you
+update the main Xamarin.Forms package and then refresh the update list.  This will
+ensure the right list of packages is updated.
+ 
+### Building the Common Library
 
 ### Building the Client for Android
 
@@ -319,6 +423,14 @@ defined in the backend.
 [img1]: img/ch1-pic1.PNG
 [img2]: img/ch1-pic2.PNG
 [img3]: img/ch1-pic3.PNG
+[img4]: img/ch1-xamarinforms-templates.PNG
+[img5]: img/ch1-new-xf-project.PNG
+[img6]: img/ch1-win10-developermode.PNG
+[img7]: img/ch1-pick-uwp-platform.PNG
+[img8]: img/ch1-xamarin-mac-agent.PNG
+[img9]: img/ch1-xamarin-mac-login.PNG
+[img10]: img/ch1-xf-newsolution.PNG
+[img11]: img/ch1-nuget-mobileinstall.PNG
 
 [1]: https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/
 [2]: https://mockingbot.com/app/RQe0vlW0Hs8SchvHQ6d2W8995XNe8jK
@@ -327,3 +439,5 @@ defined in the backend.
 [5]: http://www.odata.org/documentation/odata-version-3-0/
 [6]: https://portal.azure.com/
 [7]: https://guidgenerator.com/
+[8]: https://visualstudiogallery.msdn.microsoft.com/e1d736b0-5531-4eee-a27a-30a0318cac45
+[9]: https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/
