@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  
+
+  <link rel="shortcut icon" href="./img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="./css/highlight.css">
+  <link href="./extra.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "None";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = "/";
+  </script>
+  
+  <script src="./js/jquery-2.1.1.min.js"></script>
+  <script src="./js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="./js/highlight.pack.js"></script>
+  <script src="./js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href=".">Introduction</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#introduction">Introduction</a></li>
+                
+                    <li><a class="toctree-l4" href="#who-is-this-book-for">Who is This Book For?</a></li>
+                
+                    <li><a class="toctree-l4" href="#what-are-cloud-connected-mobile-apps">What are Cloud Connected Mobile Apps?</a></li>
+                
+                    <li><a class="toctree-l4" href="#features-of-cloud-connected-mobile-apps">Features of Cloud Connected Mobile Apps</a></li>
+                
+                    <li><a class="toctree-l4" href="#what-you-will-need">What You Will Need</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="introduction/">Your First Mobile App</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="authentication/">Authentication</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="data/">Data Access and Offline Sync</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="files/">File Management</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="push/">Push Notifications</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="custom/">Server Side Code</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="combined/">Web and Mobile Apps</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="developing/">The Development Environment</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="testing/">Testing your Application</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="troubleshooting/">Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="production/">Going to Production</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="references/">References</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="introduction">Introduction</h1>
+<p>Welcome to my first book.  It's free, it's open source, and it's comprehensive.
+Those attributes also describe two of my favorite technologies, and I'm basing
+my first book on them.  The first is <a href="https://www.xamarin.com/forms">Xamarin Forms</a> , a technology that
+allows you to develop cross-platform mobile applications using C# and the .NET
+framework.  The second is <a href="https://aka.ms/azuremobileapps">Azure Mobile Apps</a>, a technology that allows
+you to connect your mobile app to  resources that are important in cloud
+connected mobile applications such as table data, authentication, and push
+notifications.</p>
+<p>This book does not tell you everything there is to know about either topic.  It
+focuses on the topics necessary to get your mobile apps connected to the cloud.</p>
+<h2 id="who-is-this-book-for">Who is This Book For?</h2>
+<p>This book is for intermediate to experienced C# developers who have already
+built a mobile app with Xamarin and want to take their mobile apps to the next
+level by utilizing cloud services.</p>
+<p>This book is not for the beginner.  Explicitly, I already expect you to know how
+to develop C# and ASP.NET.  If you are unfamiliar with the C# language, you can
+get started with a free course on the Internet.  The basics of the language can
+be learned at <a href="http://www.learncs.org/">www.learncs.org</a>.  Once you have the
+language basics under your belt, you can move on to ASP.NET. There are some good
+tutorials at the <a href="http://www.asp.net/">asp.net</a> website.  Finally, you will want
+to develop a mobile app without the cloud before moving on to the cloud
+connection.  You can learn more about developing cross-platform mobile
+development with Xamarin at the <a href="https://developer.xamarin.com/">Xamarin</a> website.</p>
+<h2 id="what-are-cloud-connected-mobile-apps">What are Cloud Connected Mobile Apps?</h2>
+<p>I guess I should define some of the terminology that I am going to use.  When I
+refer to a <strong>mobile application</strong> or <strong>mobile app</strong>, I mean every piece of
+software that is related to the application you want to use.  This includes, for
+example, the <strong>mobile client</strong>. This is the piece of code you run on your iPhone
+or Android phone.  It also includes the <strong>mobile backend</strong> which is the service
+that you run in the cloud to provide important services to your mobile client.</p>
+<p>A <strong>cloud connected mobile application</strong> is a mobile client that connects to a
+mobile backend for shared services.  Quite a few of the apps on your phone are
+cloud connected already.  For example, Instagram uses the cloud for photo
+storage, and Facebook uses the cloud to store the news feeds of you and your
+friends.</p>
+<h2 id="features-of-cloud-connected-mobile-apps">Features of Cloud Connected Mobile Apps</h2>
+<p>A cloud connected mobile application will use one or more services in the
+following areas:</p>
+<ul>
+<li>Authentication</li>
+<li>Storage of structured data (like a task list)</li>
+<li>Storage of unstructured data (like photographs)</li>
+<li>Push notifications</li>
+<li>Invocation of Custom Code</li>
+</ul>
+<p>I am going to cover each of these in great detail.  In addition, I will also
+cover some common issues and solutions that developers run into while developing
+cloud connected mobile applications such as testing and going to production.  </p>
+<p>Aside from the actual features of mobile apps, there are other things to
+consider while developing your mobile application.  Here is my list, in no
+particular order:</p>
+<ol>
+<li>Continuous Deployment</li>
+<li>Slots or Staging Sites</li>
+<li>Automatic Scalability</li>
+<li>Database Backups</li>
+<li>Combined Web</li>
+</ol>
+<p>The point here is that my intent is to write a production quality application.
+I need to be able to deploy my site with confidence without resorting to jumping
+through hoops.  I want to run multiple versions of the backend so that I can run
+a staging site for testing purposes.  I want to be able to roll back my
+production site to a previous version at a moments notice.  I want to be able to
+handle the load when my app is successful, and I want things to be backed up
+(since bad things inevitably happen when I am least prepared).</p>
+<p>All of these features are available in Azure App Service, and the Mobile Apps
+SDK that I will use throughout the book is supported only on Azure App Service.</p>
+<h2 id="what-you-will-need">What You Will Need</h2>
+<p>All the software you need to develop compelling mobile applications is available
+for free on the Internet.  The hardware needs is pretty basic. You will need a
+PC or a Mac.  If you intend to build and distribute iOS applications, you will
+need a Mac.  Similarly, if you intend to build and distribution Universal
+Windows applications, you will need a Windows 10 PC.  I do all my development
+using a combination of both.  I have a <a href="http://www.apple.com/shop/buy-mac/mac-mini?product=MGEQ2LL/A&amp;step=config#">Mac Mini</a> to build my iOS applications,
+and a beefy <a href="http://www.intel.com/content/www/us/en/nuc/change-the-game-with-nuc.html">Windows 10 PC</a> to build my Universal Windows and Android
+applications.  I do all of my development using my Windows 10 PC.</p>
+<p>In terms of software, you should have the following:</p>
+<h4 id="on-your-mac">On your Mac</h4>
+<p>Your Mac should be running the latest version of Mac OSX and you should have
+installed <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12">XCode</a> from the Mac App Store.  You can't just install it though.
+You need to run it at least once so you can agree to the license.</p>
+<p>You should also download and install <a href="https://www.xamarin.com/platform">Xamarin Studio</a> even if you intend to
+develop all your code using the Windows 10 PC.  Xamarin Studio provides the
+tools for compiling iOS and Android apps on a Mac.  If you wish to develop
+mobile apps on your Mac, it also includes an Integrated Development Environment
+(IDE) specifically for this.</p>
+<h4 id="on-your-windows-10-pc">On your Windows 10 PC</h4>
+<p>Your Windows 10 PC should also be running the latest version of Windows 10. Make
+sure you have automatic updates turned on.  In addition to Windows 10, you will
+want to turn on Hyper-V. The installer for Visual Studio will do this for you if
+necessary.  If you do not turn on Hyper-V, you will not be able to use the
+Visual Studio Emulator for Android.  This emulator is superior to the emulator
+that is supplied with the Android Toolkit.</p>
+<p>Aside from Windows 10 and Hyper-V, you will need to download and install
+<a href="https://www.visualstudio.com/products/visual-studio-community-vs">Visual Studio Community</a> and the <a href="https://azure.microsoft.com/en-us/downloads/">Azure SDK</a>.  If you have access to
+a higher edition of Visual Studio, that will work as well.  If you have already
+installed Visual Studio, you may want to re-run the installer to add the Mobile
+development components.  You want to request the installs for Web applications
+and cross-platform mobile development.</p>
+<blockquote>
+<p>Development Tools are big, multi-gigabyte installers.  If you are on a slow or
+restricted link, you may want to download the installers onto a thumb drive for
+local installation.</p>
+</blockquote>
+<p>Once you have downloaded and installed everything (Xcode, Xamarin Studio and
+Visual Studio), go to the updates section for each tool and ensure they are
+updated to the latest editions.  Small bugs tend to be fixed and never noted in
+the description of the updates.  Nothing is more infuriating than bumping into a
+bug without realizing that it has already been fixed and the problem is not
+really your fault.</p>
+<h4 id="other-learning">Other Learning</h4>
+<p>Before you get started with development, spend some time learning the tools of
+the trade.  The command prompt on the Mac is <a href="http://guide.bash.academy/">bash</a> and the command prompt
+on the PC is <a href="https://mva.microsoft.com/en-us/training-courses/getting-started-with-powershell-3-0-jump-start-8276">PowerShell</a>.  You should be proficient in the shell on the
+platforms that you use.</p>
+<p>Additionally, you should become familiar with the source code control system
+that you will use.  For most, this means becoming familiar with
+<a href="https://try.github.io/levels/1/challenges/1">git</a>.  Don't even think of developing without using source control.</p>
+<h4 id="cloud-services">Cloud Services</h4>
+<p>You will need an Azure account to complete most of the tutorials in this book.
+In fact, you won't be able to get very far without one. If you have an MSDN
+account, you already have access to free Azure resources.  You just need to log
+into your <a href="https://msdn.microsoft.com/en-us/default.aspx">MSDN account</a> and activate your Azure benefit.  Students may be
+able to get access to <a href="https://www.dreamspark.com/Product/Product.aspx?productid=99">Dreamspark</a> from school resources, but this is not
+suitable for developing mobile applications.  This is because storage costs
+money.  If you don't have MSDN, then there is a <a href="https://azure.microsoft.com/en-us/free/">free trial</a> available.<br />
+Once the trial period ends, you can move to a Pay-As-You-Go account and continue
+to use free services without incurring a charge. I'll point out when you are
+going to incur charges on your Azure account, but I will be using free resources
+most of the time.</p>
+<p>Aside from Azure resources, you will want some place to store your code.  This
+doesn't have to be in the cloud.  If you want to use the cloud, you can use
+GitHub or Visual Studio Team Services.  Both are free to use.  GitHub provides
+public repositories for free.  Visual Studio Team Services provides private
+respositories for free.  Visual Studio Team Services also includes other
+services that I will talk about during the course of the book, some of which may
+incur cost.  I will be publishing all my samples and tutorial code on GitHub so
+that you can easily download it.  You don't have to use one of these resources,
+but I won't be covering other service usage.</p>
+<p>You will need a <strong>Developer Account</strong> for the appropriate app store if you
+intend to distribute your mobile clients or if you intend to use specific cloud
+services.  Apple is specific - if you intend to use push notifications or
+distribute iOS apps, then you need an <a href="https://developer.apple.com/programs/">Apple Developer Account</a>,
+<a href="https://play.google.com/apps/publish/signup">Google Developer Account</a> and/or <a href="https://developer.microsoft.com/en-us/store/register">Windows Store Developer Account</a>.
+The terms of the accounts are changed constantly, so review the current terms
+when you sign up.  My recommendation is to defer signing up for these programs
+until you need something they offer.</p>
+<p>Now, let's get developing!</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="introduction/" class="btn btn-neutral float-right" title="Your First Mobile App">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+        <span style="margin-left: 15px"><a href="introduction/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 0.15.3
+Build Date UTC : 2016-07-09 20:36:17.400820
+-->
