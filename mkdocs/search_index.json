@@ -1,773 +1,773 @@
 {
     "docs": [
         {
-            "location": "/",
-            "text": "Introduction\n\n\nWelcome to my first book.  It's free, it's open source, and it's comprehensive.\nThose attributes also describe two of my favorite technologies, and I'm basing\nmy first book on them.  The first is \nXamarin Forms\n , a technology that\nallows you to develop cross-platform mobile applications using C# and the .NET\nframework.  The second is \nAzure Mobile Apps\n, a technology that allows\nyou to connect your mobile app to  resources that are important in cloud\nconnected mobile applications such as table data, authentication, and push\nnotifications.\n\n\nThis book does not tell you everything there is to know about either topic.  It\nfocuses on the topics necessary to get your mobile apps connected to the cloud.\n\n\nWho is This Book For?\n\n\nThis book is for intermediate to experienced C# developers who have already\nbuilt a mobile app with Xamarin and want to take their mobile apps to the next\nlevel by utilizing cloud services.\n\n\nThis book is not for the beginner.  Explicitly, I already expect you to know how\nto develop C# and ASP.NET.  If you are unfamiliar with the C# language, you can\nget started with a free course on the Internet.  The basics of the language can\nbe learned at \nwww.learncs.org\n.  Once you have the\nlanguage basics under your belt, you can move on to ASP.NET. There are some good\ntutorials at the \nasp.net\n website.  Finally, you will want\nto develop a mobile app without the cloud before moving on to the cloud\nconnection.  You can learn more about developing cross-platform mobile\ndevelopment with Xamarin at the \nXamarin\n website.\n\n\nWhat are Cloud Connected Mobile Apps?\n\n\nI guess I should define some of the terminology that I am going to use.  When I\nrefer to a \nmobile application\n or \nmobile app\n, I mean every piece of\nsoftware that is related to the application you want to use.  This includes, for\nexample, the \nmobile client\n. This is the piece of code you run on your iPhone\nor Android phone.  It also includes the \nmobile backend\n which is the service\nthat you run in the cloud to provide important services to your mobile client.\n\n\nA \ncloud connected mobile application\n is a mobile client that connects to a\nmobile backend for shared services.  Quite a few of the apps on your phone are\ncloud connected already.  For example, Instagram uses the cloud for photo\nstorage, and Facebook uses the cloud to store the news feeds of you and your\nfriends.\n\n\nFeatures of Cloud Connected Mobile Apps\n\n\nA cloud connected mobile application will use one or more services in the\nfollowing areas:\n\n\n\n\nAuthentication\n\n\nStorage of structured data (like a task list)\n\n\nStorage of unstructured data (like photographs)\n\n\nPush notifications\n\n\nInvocation of Custom Code\n\n\n\n\nI am going to cover each of these in great detail.  In addition, I will also\ncover some common issues and solutions that developers run into while developing\ncloud connected mobile applications such as testing and going to production.  \n\n\nAside from the actual features of mobile apps, there are other things to\nconsider while developing your mobile application.  Here is my list, in no\nparticular order:\n\n\n\n\nContinuous Deployment\n\n\nSlots or Staging Sites\n\n\nAutomatic Scalability\n\n\nDatabase Backups\n\n\nCombined Web\n\n\n\n\nThe point here is that my intent is to write a production quality application.\nI need to be able to deploy my site with confidence without resorting to jumping\nthrough hoops.  I want to run multiple versions of the backend so that I can run\na staging site for testing purposes.  I want to be able to roll back my\nproduction site to a previous version at a moments notice.  I want to be able to\nhandle the load when my app is successful, and I want things to be backed up\n(since bad things inevitably happen when I am least prepared).\n\n\nAll of these features are available in Azure App Service, and the Mobile Apps\nSDK that I will use throughout the book is supported only on Azure App Service.\n\n\nWhat You Will Need\n\n\nAll the software you need to develop compelling mobile applications is available\nfor free on the Internet.  The hardware needs is pretty basic. You will need a\nPC or a Mac.  If you intend to build and distribute iOS applications, you will\nneed a Mac.  Similarly, if you intend to build and distribution Universal\nWindows applications, you will need a Windows 10 PC.  I do all my development\nusing a combination of both.  I have a \nMac Mini\n to build my iOS applications,\nand a beefy \nWindows 10 PC\n to build my Universal Windows and Android\napplications.  I do all of my development using my Windows 10 PC.\n\n\nIn terms of software, you should have the following:\n\n\nOn your Mac\n\n\nYour Mac should be running the latest version of Mac OSX and you should have\ninstalled \nXCode\n from the Mac App Store.  You can't just install it though.\nYou need to run it at least once so you can agree to the license.\n\n\nYou should also download and install \nXamarin Studio\n even if you intend to\ndevelop all your code using the Windows 10 PC.  Xamarin Studio provides the\ntools for compiling iOS and Android apps on a Mac.  If you wish to develop\nmobile apps on your Mac, it also includes an Integrated Development Environment\n(IDE) specifically for this.\n\n\nOn your Windows 10 PC\n\n\nYour Windows 10 PC should also be running the latest version of Windows 10. Make\nsure you have automatic updates turned on.  In addition to Windows 10, you will\nwant to turn on Hyper-V. The installer for Visual Studio will do this for you if\nnecessary.  If you do not turn on Hyper-V, you will not be able to use the\nVisual Studio Emulator for Android.  This emulator is superior to the emulator\nthat is supplied with the Android Toolkit.\n\n\nAside from Windows 10 and Hyper-V, you will need to download and install\n\nVisual Studio Community\n and the \nAzure SDK\n.  If you have access to\na higher edition of Visual Studio, that will work as well.  If you have already\ninstalled Visual Studio, you may want to re-run the installer to add the Mobile\ndevelopment components.  You want to request the installs for Web applications\nand cross-platform mobile development.\n\n\n\n\nDevelopment Tools are big, multi-gigabyte installers.  If you are on a slow or\nrestricted link, you may want to download the installers onto a thumb drive for\nlocal installation.\n\n\n\n\nOnce you have downloaded and installed everything (Xcode, Xamarin Studio and\nVisual Studio), go to the updates section for each tool and ensure they are\nupdated to the latest editions.  Small bugs tend to be fixed and never noted in\nthe description of the updates.  Nothing is more infuriating than bumping into a\nbug without realizing that it has already been fixed and the problem is not\nreally your fault.\n\n\nOther Learning\n\n\nBefore you get started with development, spend some time learning the tools of\nthe trade.  The command prompt on the Mac is \nbash\n and the command prompt\non the PC is \nPowerShell\n.  You should be proficient in the shell on the\nplatforms that you use.\n\n\nAdditionally, you should become familiar with the source code control system\nthat you will use.  For most, this means becoming familiar with\n\ngit\n.  Don't even think of developing without using source control.\n\n\nCloud Services\n\n\nYou will need an Azure account to complete most of the tutorials in this book.\nIn fact, you won't be able to get very far without one. If you have an MSDN\naccount, you already have access to free Azure resources.  You just need to log\ninto your \nMSDN account\n and activate your Azure benefit.  Students may be\nable to get access to \nDreamspark\n from school resources, but this is not\nsuitable for developing mobile applications.  This is because storage costs\nmoney.  If you don't have MSDN, then there is a \nfree trial\n available.\n\nOnce the trial period ends, you can move to a Pay-As-You-Go account and continue\nto use free services without incurring a charge. I'll point out when you are\ngoing to incur charges on your Azure account, but I will be using free resources\nmost of the time.\n\n\nAside from Azure resources, you will want some place to store your code.  This\ndoesn't have to be in the cloud.  If you want to use the cloud, you can use\nGitHub or Visual Studio Team Services.  Both are free to use.  GitHub provides\npublic repositories for free.  Visual Studio Team Services provides private\nrespositories for free.  Visual Studio Team Services also includes other\nservices that I will talk about during the course of the book, some of which may\nincur cost.  I will be publishing all my samples and tutorial code on GitHub so\nthat you can easily download it.  You don't have to use one of these resources,\nbut I won't be covering other service usage.\n\n\nYou will need a \nDeveloper Account\n for the appropriate app store if you\nintend to distribute your mobile clients or if you intend to use specific cloud\nservices.  Apple is specific - if you intend to use push notifications or\ndistribute iOS apps, then you need an \nApple Developer Account\n,\n\nGoogle Developer Account\n and/or \nWindows Store Developer Account\n.\nThe terms of the accounts are changed constantly, so review the current terms\nwhen you sign up.  My recommendation is to defer signing up for these programs\nuntil you need something they offer.\n\n\nNow, let's get developing!",
+            "location": "/", 
+            "text": "Introduction\n\n\nWelcome to my first book.  It's free, it's open source, and it's comprehensive.\nThose attributes also describe two of my favorite technologies, and I'm basing\nmy first book on them.  The first is \nXamarin Forms\n , a technology that\nallows you to develop cross-platform mobile applications using C# and the .NET\nframework.  The second is \nAzure Mobile Apps\n, a technology that allows\nyou to connect your mobile app to  resources that are important in cloud\nconnected mobile applications such as table data, authentication, and push\nnotifications.\n\n\nThis book does not tell you everything there is to know about either topic.  It\nfocuses on the topics necessary to get your mobile apps connected to the cloud.\n\n\nWho is This Book For?\n\n\nThis book is for intermediate to experienced C# developers who have already\nbuilt a mobile app with Xamarin and want to take their mobile apps to the next\nlevel by utilizing cloud services.\n\n\nThis book is not for the beginner.  Explicitly, I already expect you to know how\nto develop C# and ASP.NET.  If you are unfamiliar with the C# language, you can\nget started with a free course on the Internet.  The basics of the language can\nbe learned at \nwww.learncs.org\n.  Once you have the\nlanguage basics under your belt, you can move on to ASP.NET. There are some good\ntutorials at the \nasp.net\n website.  Finally, you will want\nto develop a mobile app without the cloud before moving on to the cloud\nconnection.  You can learn more about developing cross-platform mobile\ndevelopment with Xamarin at the \nXamarin\n website.\n\n\nWhat are Cloud Connected Mobile Apps?\n\n\nI guess I should define some of the terminology that I am going to use.  When I\nrefer to a \nmobile application\n or \nmobile app\n, I mean every piece of\nsoftware that is related to the application you want to use.  This includes, for\nexample, the \nmobile client\n. This is the piece of code you run on your iPhone\nor Android phone.  It also includes the \nmobile backend\n which is the service\nthat you run in the cloud to provide important services to your mobile client.\n\n\nA \ncloud connected mobile application\n is a mobile client that connects to a\nmobile backend for shared services.  Quite a few of the apps on your phone are\ncloud connected already.  For example, Instagram uses the cloud for photo\nstorage, and Facebook uses the cloud to store the news feeds of you and your\nfriends.\n\n\nFeatures of Cloud Connected Mobile Apps\n\n\nA cloud connected mobile application will use one or more services in the\nfollowing areas:\n\n\n\n\nAuthentication\n\n\nStorage of structured data (like a task list)\n\n\nStorage of unstructured data (like photographs)\n\n\nPush notifications\n\n\nInvocation of Custom Code\n\n\n\n\nI am going to cover each of these in great detail.  In addition, I will also\ncover some common issues and solutions that developers run into while developing\ncloud connected mobile applications such as testing and going to production.  \n\n\nAside from the actual features of mobile apps, there are other things to\nconsider while developing your mobile application.  Here is my list, in no\nparticular order:\n\n\n\n\nContinuous Deployment\n\n\nSlots or Staging Sites\n\n\nAutomatic Scalability\n\n\nDatabase Backups\n\n\nCombined Web\n\n\n\n\nThe point here is that my intent is to write a production quality application.\nI need to be able to deploy my site with confidence without resorting to jumping\nthrough hoops.  I want to run multiple versions of the backend so that I can run\na staging site for testing purposes.  I want to be able to roll back my\nproduction site to a previous version at a moments notice.  I want to be able to\nhandle the load when my app is successful, and I want things to be backed up\n(since bad things inevitably happen when I am least prepared).\n\n\nAll of these features are available in Azure App Service, and the Mobile Apps\nSDK that I will use throughout the book is supported only on Azure App Service.\n\n\nWhat You Will Need\n\n\nAll the software you need to develop compelling mobile applications is available\nfor free on the Internet.  The hardware needs is pretty basic. You will need a\nPC or a Mac.  If you intend to build and distribute iOS applications, you will\nneed a Mac.  Similarly, if you intend to build and distribution Universal\nWindows applications, you will need a Windows 10 PC.  I do all my development\nusing a combination of both.  I have a \nMac Mini\n to build my iOS applications,\nand a beefy \nWindows 10 PC\n to build my Universal Windows and Android\napplications.  I do all of my development using my Windows 10 PC.\n\n\nIn terms of software, you should have the following:\n\n\nOn your Mac\n\n\nYour Mac should be running the latest version of Mac OSX and you should have\ninstalled \nXCode\n from the Mac App Store.  You can't just install it though.\nYou need to run it at least once so you can agree to the license.\n\n\nYou should also download and install \nXamarin Studio\n even if you intend to\ndevelop all your code using the Windows 10 PC.  Xamarin Studio provides the\ntools for compiling iOS and Android apps on a Mac.  If you wish to develop\nmobile apps on your Mac, it also includes an Integrated Development Environment\n(IDE) specifically for this.\n\n\nOn your Windows 10 PC\n\n\nYour Windows 10 PC should also be running the latest version of Windows 10. Make\nsure you have automatic updates turned on.  In addition to Windows 10, you will\nwant to turn on Hyper-V. The installer for Visual Studio will do this for you if\nnecessary.  If you do not turn on Hyper-V, you will not be able to use the\nVisual Studio Emulator for Android.  This emulator is superior to the emulator\nthat is supplied with the Android Toolkit.\n\n\nAside from Windows 10 and Hyper-V, you will need to download and install\n\nVisual Studio Community\n and the \nAzure SDK\n.  If you have access to\na higher edition of Visual Studio, that will work as well.  If you have already\ninstalled Visual Studio, you may want to re-run the installer to add the Mobile\ndevelopment components.  You want to request the installs for Web applications\nand cross-platform mobile development.\n\n\n\n\nDevelopment Tools are big, multi-gigabyte installers.  If you are on a slow or\nrestricted link, you may want to download the installers onto a thumb drive for\nlocal installation.\n\n\n\n\nOnce you have downloaded and installed everything (Xcode, Xamarin Studio and\nVisual Studio), go to the updates section for each tool and ensure they are\nupdated to the latest editions.  Small bugs tend to be fixed and never noted in\nthe description of the updates.  Nothing is more infuriating than bumping into a\nbug without realizing that it has already been fixed and the problem is not\nreally your fault.\n\n\nOther Learning\n\n\nBefore you get started with development, spend some time learning the tools of\nthe trade.  The command prompt on the Mac is \nbash\n and the command prompt\non the PC is \nPowerShell\n.  You should be proficient in the shell on the\nplatforms that you use.\n\n\nAdditionally, you should become familiar with the source code control system\nthat you will use.  For most, this means becoming familiar with\n\ngit\n.  Don't even think of developing without using source control.\n\n\nCloud Services\n\n\nYou will need an Azure account to complete most of the tutorials in this book.\nIn fact, you won't be able to get very far without one. If you have an MSDN\naccount, you already have access to free Azure resources.  You just need to log\ninto your \nMSDN account\n and activate your Azure benefit.  Students may be\nable to get access to \nDreamspark\n from school resources, but this is not\nsuitable for developing mobile applications.  This is because storage costs\nmoney.  If you don't have MSDN, then there is a \nfree trial\n available.\n\nOnce the trial period ends, you can move to a Pay-As-You-Go account and continue\nto use free services without incurring a charge. I'll point out when you are\ngoing to incur charges on your Azure account, but I will be using free resources\nmost of the time.\n\n\nAside from Azure resources, you will want some place to store your code.  This\ndoesn't have to be in the cloud.  If you want to use the cloud, you can use\nGitHub or Visual Studio Team Services.  Both are free to use.  GitHub provides\npublic repositories for free.  Visual Studio Team Services provides private\nrespositories for free.  Visual Studio Team Services also includes other\nservices that I will talk about during the course of the book, some of which may\nincur cost.  I will be publishing all my samples and tutorial code on GitHub so\nthat you can easily download it.  You don't have to use one of these resources,\nbut I won't be covering other service usage.\n\n\nYou will need a \nDeveloper Account\n for the appropriate app store if you\nintend to distribute your mobile clients or if you intend to use specific cloud\nservices.  Apple is specific - if you intend to use push notifications or\ndistribute iOS apps, then you need an \nApple Developer Account\n,\n\nGoogle Developer Account\n and/or \nWindows Store Developer Account\n.\nThe terms of the accounts are changed constantly, so review the current terms\nwhen you sign up.  My recommendation is to defer signing up for these programs\nuntil you need something they offer.\n\n\nNow, let's get developing!", 
             "title": "Introduction"
-        },
+        }, 
         {
-            "location": "/#introduction",
-            "text": "Welcome to my first book.  It's free, it's open source, and it's comprehensive.\nThose attributes also describe two of my favorite technologies, and I'm basing\nmy first book on them.  The first is  Xamarin Forms  , a technology that\nallows you to develop cross-platform mobile applications using C# and the .NET\nframework.  The second is  Azure Mobile Apps , a technology that allows\nyou to connect your mobile app to  resources that are important in cloud\nconnected mobile applications such as table data, authentication, and push\nnotifications.  This book does not tell you everything there is to know about either topic.  It\nfocuses on the topics necessary to get your mobile apps connected to the cloud.",
+            "location": "/#introduction", 
+            "text": "Welcome to my first book.  It's free, it's open source, and it's comprehensive.\nThose attributes also describe two of my favorite technologies, and I'm basing\nmy first book on them.  The first is  Xamarin Forms  , a technology that\nallows you to develop cross-platform mobile applications using C# and the .NET\nframework.  The second is  Azure Mobile Apps , a technology that allows\nyou to connect your mobile app to  resources that are important in cloud\nconnected mobile applications such as table data, authentication, and push\nnotifications.  This book does not tell you everything there is to know about either topic.  It\nfocuses on the topics necessary to get your mobile apps connected to the cloud.", 
             "title": "Introduction"
-        },
+        }, 
         {
-            "location": "/#who-is-this-book-for",
-            "text": "This book is for intermediate to experienced C# developers who have already\nbuilt a mobile app with Xamarin and want to take their mobile apps to the next\nlevel by utilizing cloud services.  This book is not for the beginner.  Explicitly, I already expect you to know how\nto develop C# and ASP.NET.  If you are unfamiliar with the C# language, you can\nget started with a free course on the Internet.  The basics of the language can\nbe learned at  www.learncs.org .  Once you have the\nlanguage basics under your belt, you can move on to ASP.NET. There are some good\ntutorials at the  asp.net  website.  Finally, you will want\nto develop a mobile app without the cloud before moving on to the cloud\nconnection.  You can learn more about developing cross-platform mobile\ndevelopment with Xamarin at the  Xamarin  website.",
+            "location": "/#who-is-this-book-for", 
+            "text": "This book is for intermediate to experienced C# developers who have already\nbuilt a mobile app with Xamarin and want to take their mobile apps to the next\nlevel by utilizing cloud services.  This book is not for the beginner.  Explicitly, I already expect you to know how\nto develop C# and ASP.NET.  If you are unfamiliar with the C# language, you can\nget started with a free course on the Internet.  The basics of the language can\nbe learned at  www.learncs.org .  Once you have the\nlanguage basics under your belt, you can move on to ASP.NET. There are some good\ntutorials at the  asp.net  website.  Finally, you will want\nto develop a mobile app without the cloud before moving on to the cloud\nconnection.  You can learn more about developing cross-platform mobile\ndevelopment with Xamarin at the  Xamarin  website.", 
             "title": "Who is This Book For?"
-        },
+        }, 
         {
-            "location": "/#what-are-cloud-connected-mobile-apps",
-            "text": "I guess I should define some of the terminology that I am going to use.  When I\nrefer to a  mobile application  or  mobile app , I mean every piece of\nsoftware that is related to the application you want to use.  This includes, for\nexample, the  mobile client . This is the piece of code you run on your iPhone\nor Android phone.  It also includes the  mobile backend  which is the service\nthat you run in the cloud to provide important services to your mobile client.  A  cloud connected mobile application  is a mobile client that connects to a\nmobile backend for shared services.  Quite a few of the apps on your phone are\ncloud connected already.  For example, Instagram uses the cloud for photo\nstorage, and Facebook uses the cloud to store the news feeds of you and your\nfriends.",
+            "location": "/#what-are-cloud-connected-mobile-apps", 
+            "text": "I guess I should define some of the terminology that I am going to use.  When I\nrefer to a  mobile application  or  mobile app , I mean every piece of\nsoftware that is related to the application you want to use.  This includes, for\nexample, the  mobile client . This is the piece of code you run on your iPhone\nor Android phone.  It also includes the  mobile backend  which is the service\nthat you run in the cloud to provide important services to your mobile client.  A  cloud connected mobile application  is a mobile client that connects to a\nmobile backend for shared services.  Quite a few of the apps on your phone are\ncloud connected already.  For example, Instagram uses the cloud for photo\nstorage, and Facebook uses the cloud to store the news feeds of you and your\nfriends.", 
             "title": "What are Cloud Connected Mobile Apps?"
-        },
+        }, 
         {
-            "location": "/#features-of-cloud-connected-mobile-apps",
-            "text": "A cloud connected mobile application will use one or more services in the\nfollowing areas:   Authentication  Storage of structured data (like a task list)  Storage of unstructured data (like photographs)  Push notifications  Invocation of Custom Code   I am going to cover each of these in great detail.  In addition, I will also\ncover some common issues and solutions that developers run into while developing\ncloud connected mobile applications such as testing and going to production.    Aside from the actual features of mobile apps, there are other things to\nconsider while developing your mobile application.  Here is my list, in no\nparticular order:   Continuous Deployment  Slots or Staging Sites  Automatic Scalability  Database Backups  Combined Web   The point here is that my intent is to write a production quality application.\nI need to be able to deploy my site with confidence without resorting to jumping\nthrough hoops.  I want to run multiple versions of the backend so that I can run\na staging site for testing purposes.  I want to be able to roll back my\nproduction site to a previous version at a moments notice.  I want to be able to\nhandle the load when my app is successful, and I want things to be backed up\n(since bad things inevitably happen when I am least prepared).  All of these features are available in Azure App Service, and the Mobile Apps\nSDK that I will use throughout the book is supported only on Azure App Service.",
+            "location": "/#features-of-cloud-connected-mobile-apps", 
+            "text": "A cloud connected mobile application will use one or more services in the\nfollowing areas:   Authentication  Storage of structured data (like a task list)  Storage of unstructured data (like photographs)  Push notifications  Invocation of Custom Code   I am going to cover each of these in great detail.  In addition, I will also\ncover some common issues and solutions that developers run into while developing\ncloud connected mobile applications such as testing and going to production.    Aside from the actual features of mobile apps, there are other things to\nconsider while developing your mobile application.  Here is my list, in no\nparticular order:   Continuous Deployment  Slots or Staging Sites  Automatic Scalability  Database Backups  Combined Web   The point here is that my intent is to write a production quality application.\nI need to be able to deploy my site with confidence without resorting to jumping\nthrough hoops.  I want to run multiple versions of the backend so that I can run\na staging site for testing purposes.  I want to be able to roll back my\nproduction site to a previous version at a moments notice.  I want to be able to\nhandle the load when my app is successful, and I want things to be backed up\n(since bad things inevitably happen when I am least prepared).  All of these features are available in Azure App Service, and the Mobile Apps\nSDK that I will use throughout the book is supported only on Azure App Service.", 
             "title": "Features of Cloud Connected Mobile Apps"
-        },
+        }, 
         {
-            "location": "/#what-you-will-need",
-            "text": "All the software you need to develop compelling mobile applications is available\nfor free on the Internet.  The hardware needs is pretty basic. You will need a\nPC or a Mac.  If you intend to build and distribute iOS applications, you will\nneed a Mac.  Similarly, if you intend to build and distribution Universal\nWindows applications, you will need a Windows 10 PC.  I do all my development\nusing a combination of both.  I have a  Mac Mini  to build my iOS applications,\nand a beefy  Windows 10 PC  to build my Universal Windows and Android\napplications.  I do all of my development using my Windows 10 PC.  In terms of software, you should have the following:",
+            "location": "/#what-you-will-need", 
+            "text": "All the software you need to develop compelling mobile applications is available\nfor free on the Internet.  The hardware needs is pretty basic. You will need a\nPC or a Mac.  If you intend to build and distribute iOS applications, you will\nneed a Mac.  Similarly, if you intend to build and distribution Universal\nWindows applications, you will need a Windows 10 PC.  I do all my development\nusing a combination of both.  I have a  Mac Mini  to build my iOS applications,\nand a beefy  Windows 10 PC  to build my Universal Windows and Android\napplications.  I do all of my development using my Windows 10 PC.  In terms of software, you should have the following:", 
             "title": "What You Will Need"
-        },
+        }, 
         {
-            "location": "/#on-your-mac",
-            "text": "Your Mac should be running the latest version of Mac OSX and you should have\ninstalled  XCode  from the Mac App Store.  You can't just install it though.\nYou need to run it at least once so you can agree to the license.  You should also download and install  Xamarin Studio  even if you intend to\ndevelop all your code using the Windows 10 PC.  Xamarin Studio provides the\ntools for compiling iOS and Android apps on a Mac.  If you wish to develop\nmobile apps on your Mac, it also includes an Integrated Development Environment\n(IDE) specifically for this.",
+            "location": "/#on-your-mac", 
+            "text": "Your Mac should be running the latest version of Mac OSX and you should have\ninstalled  XCode  from the Mac App Store.  You can't just install it though.\nYou need to run it at least once so you can agree to the license.  You should also download and install  Xamarin Studio  even if you intend to\ndevelop all your code using the Windows 10 PC.  Xamarin Studio provides the\ntools for compiling iOS and Android apps on a Mac.  If you wish to develop\nmobile apps on your Mac, it also includes an Integrated Development Environment\n(IDE) specifically for this.", 
             "title": "On your Mac"
-        },
+        }, 
         {
-            "location": "/#on-your-windows-10-pc",
-            "text": "Your Windows 10 PC should also be running the latest version of Windows 10. Make\nsure you have automatic updates turned on.  In addition to Windows 10, you will\nwant to turn on Hyper-V. The installer for Visual Studio will do this for you if\nnecessary.  If you do not turn on Hyper-V, you will not be able to use the\nVisual Studio Emulator for Android.  This emulator is superior to the emulator\nthat is supplied with the Android Toolkit.  Aside from Windows 10 and Hyper-V, you will need to download and install Visual Studio Community  and the  Azure SDK .  If you have access to\na higher edition of Visual Studio, that will work as well.  If you have already\ninstalled Visual Studio, you may want to re-run the installer to add the Mobile\ndevelopment components.  You want to request the installs for Web applications\nand cross-platform mobile development.   Development Tools are big, multi-gigabyte installers.  If you are on a slow or\nrestricted link, you may want to download the installers onto a thumb drive for\nlocal installation.   Once you have downloaded and installed everything (Xcode, Xamarin Studio and\nVisual Studio), go to the updates section for each tool and ensure they are\nupdated to the latest editions.  Small bugs tend to be fixed and never noted in\nthe description of the updates.  Nothing is more infuriating than bumping into a\nbug without realizing that it has already been fixed and the problem is not\nreally your fault.",
+            "location": "/#on-your-windows-10-pc", 
+            "text": "Your Windows 10 PC should also be running the latest version of Windows 10. Make\nsure you have automatic updates turned on.  In addition to Windows 10, you will\nwant to turn on Hyper-V. The installer for Visual Studio will do this for you if\nnecessary.  If you do not turn on Hyper-V, you will not be able to use the\nVisual Studio Emulator for Android.  This emulator is superior to the emulator\nthat is supplied with the Android Toolkit.  Aside from Windows 10 and Hyper-V, you will need to download and install Visual Studio Community  and the  Azure SDK .  If you have access to\na higher edition of Visual Studio, that will work as well.  If you have already\ninstalled Visual Studio, you may want to re-run the installer to add the Mobile\ndevelopment components.  You want to request the installs for Web applications\nand cross-platform mobile development.   Development Tools are big, multi-gigabyte installers.  If you are on a slow or\nrestricted link, you may want to download the installers onto a thumb drive for\nlocal installation.   Once you have downloaded and installed everything (Xcode, Xamarin Studio and\nVisual Studio), go to the updates section for each tool and ensure they are\nupdated to the latest editions.  Small bugs tend to be fixed and never noted in\nthe description of the updates.  Nothing is more infuriating than bumping into a\nbug without realizing that it has already been fixed and the problem is not\nreally your fault.", 
             "title": "On your Windows 10 PC"
-        },
+        }, 
         {
-            "location": "/#other-learning",
-            "text": "Before you get started with development, spend some time learning the tools of\nthe trade.  The command prompt on the Mac is  bash  and the command prompt\non the PC is  PowerShell .  You should be proficient in the shell on the\nplatforms that you use.  Additionally, you should become familiar with the source code control system\nthat you will use.  For most, this means becoming familiar with git .  Don't even think of developing without using source control.",
+            "location": "/#other-learning", 
+            "text": "Before you get started with development, spend some time learning the tools of\nthe trade.  The command prompt on the Mac is  bash  and the command prompt\non the PC is  PowerShell .  You should be proficient in the shell on the\nplatforms that you use.  Additionally, you should become familiar with the source code control system\nthat you will use.  For most, this means becoming familiar with git .  Don't even think of developing without using source control.", 
             "title": "Other Learning"
-        },
+        }, 
         {
-            "location": "/#cloud-services",
-            "text": "You will need an Azure account to complete most of the tutorials in this book.\nIn fact, you won't be able to get very far without one. If you have an MSDN\naccount, you already have access to free Azure resources.  You just need to log\ninto your  MSDN account  and activate your Azure benefit.  Students may be\nable to get access to  Dreamspark  from school resources, but this is not\nsuitable for developing mobile applications.  This is because storage costs\nmoney.  If you don't have MSDN, then there is a  free trial  available. \nOnce the trial period ends, you can move to a Pay-As-You-Go account and continue\nto use free services without incurring a charge. I'll point out when you are\ngoing to incur charges on your Azure account, but I will be using free resources\nmost of the time.  Aside from Azure resources, you will want some place to store your code.  This\ndoesn't have to be in the cloud.  If you want to use the cloud, you can use\nGitHub or Visual Studio Team Services.  Both are free to use.  GitHub provides\npublic repositories for free.  Visual Studio Team Services provides private\nrespositories for free.  Visual Studio Team Services also includes other\nservices that I will talk about during the course of the book, some of which may\nincur cost.  I will be publishing all my samples and tutorial code on GitHub so\nthat you can easily download it.  You don't have to use one of these resources,\nbut I won't be covering other service usage.  You will need a  Developer Account  for the appropriate app store if you\nintend to distribute your mobile clients or if you intend to use specific cloud\nservices.  Apple is specific - if you intend to use push notifications or\ndistribute iOS apps, then you need an  Apple Developer Account , Google Developer Account  and/or  Windows Store Developer Account .\nThe terms of the accounts are changed constantly, so review the current terms\nwhen you sign up.  My recommendation is to defer signing up for these programs\nuntil you need something they offer.  Now, let's get developing!",
+            "location": "/#cloud-services", 
+            "text": "You will need an Azure account to complete most of the tutorials in this book.\nIn fact, you won't be able to get very far without one. If you have an MSDN\naccount, you already have access to free Azure resources.  You just need to log\ninto your  MSDN account  and activate your Azure benefit.  Students may be\nable to get access to  Dreamspark  from school resources, but this is not\nsuitable for developing mobile applications.  This is because storage costs\nmoney.  If you don't have MSDN, then there is a  free trial  available. \nOnce the trial period ends, you can move to a Pay-As-You-Go account and continue\nto use free services without incurring a charge. I'll point out when you are\ngoing to incur charges on your Azure account, but I will be using free resources\nmost of the time.  Aside from Azure resources, you will want some place to store your code.  This\ndoesn't have to be in the cloud.  If you want to use the cloud, you can use\nGitHub or Visual Studio Team Services.  Both are free to use.  GitHub provides\npublic repositories for free.  Visual Studio Team Services provides private\nrespositories for free.  Visual Studio Team Services also includes other\nservices that I will talk about during the course of the book, some of which may\nincur cost.  I will be publishing all my samples and tutorial code on GitHub so\nthat you can easily download it.  You don't have to use one of these resources,\nbut I won't be covering other service usage.  You will need a  Developer Account  for the appropriate app store if you\nintend to distribute your mobile clients or if you intend to use specific cloud\nservices.  Apple is specific - if you intend to use push notifications or\ndistribute iOS apps, then you need an  Apple Developer Account , Google Developer Account  and/or  Windows Store Developer Account .\nThe terms of the accounts are changed constantly, so review the current terms\nwhen you sign up.  My recommendation is to defer signing up for these programs\nuntil you need something they offer.  Now, let's get developing!", 
             "title": "Cloud Services"
-        },
+        }, 
         {
-            "location": "/introduction/",
-            "text": "Your First Mobile App\n\n\nThere is a lot of detail to absorb about the possible services that the mobile\nclient can consume and I will go into significant depth on those subjects.\nFirst, wouldn't it be nice to write some code and get something working?\nMicrosoft Azure has a great \nfirst-steps tutorial\n that takes you via the\nquickest possible route from creating a mobile backend to having a functional\nbackend.  I would like to take things a little slower so that we can understand\nwhat is going on while we are doing the process.  We will have practically the\nsame application at the end.\n\n\nThe application we are going to build together is a simple task list.  The\nmobile client will have three screens - an entry screen, a task list and a task\ndetails page.  I have mocked these pages up using \nMockingBot\n.\n\n\n\n\nMocking your screens before you start coding is a great habit to get into.\nThere are some great tools available including free tools like \nMockingBot\n.\nDoing mockups before you start coding is a good way to prevent wasted time later\non.\n\n\n\n\n\n\n\n\nWhy include a back button?  If you are using iOS, then you may want to remove\nthe back button as the style guides suggest you don't need one.  Other platforms\nwill need it though, so it's best to start with the least common denominator.\nIt's the same reason I add a refresh button even though it's only valid on\nWindows Phone!\n\n\n\n\nMy ideas for this app include:\n\n\n\n\nTapping on a task title in the task list will bring up the details page.\n\n\nToggling the completed link in the task list will set the completed flag.\n\n\nTapping the spinner will initiate a network refresh.\n\n\nClicking on Delete Task in the task details will ask \"Are you sure?\" before deleting the task.\n\n\n\n\nNow that we have our client screens planned out, we can move onto the thinking\nabout the mobile backend.\n\n\nThe Mobile Backend\n\n\nThe mobile backend is an ASP.NET WebApi that is served from within Azure App\nService: a highly scalable and redundant web hosting facility that supports all\nthe major web languages (like ASP.NET, Node, PHP and Python).  \n\n\nCreating a Simple Azure Mobile Apps Backend\n\n\nMicrosoft Azure has included a comprehensive starter kit template in the\nAzure SDK.  To get started:\n\n\n\n\nFire up Visual Studio 2015\n\n\nAdd a new project with File -> New Project...\n\n\n\n\nIn the \nNew Project\n window:\n\n\n\n\nOpen up Templates -> Visual C# -> Web and select \nASP.NET Web Application (.NET Framework)\n.\n\n\nEnter \nBackend\n for the Name and \nChapter1\n for the Solution name.\n\n\nPick a suitable directory for the Location field.\n\n\nClick on OK.\n\n\n\n\n\n\n\n\n\n\nIn the \nNew ASP.NET Web Application\n window:\n\n\n\n\nClick on \nAzure Mobile App\n.\n\n\nDo \nNOT\n check \"Host in the cloud\" or any other checkboxes.\n\n\nClick on OK.\n\n\n\n\n\n\n\n\nAt this point, Visual Studio will create your backend project.\n\n\n\n\nIt's very tempting to select \nAzure Mobile Services\n instead - it sounds closer to what you want.  Azure Mobile Services is the \nOLD\n service and is being shut down.  You should not select Azure Mobile Services for any project.\n\n\n\n\nThere are a few files of which you should take note.  The Mobile Apps SDK is\ninitialized within \nApp_Start\\Startup.MobileApp.cs\n (with the call to the\nconfiguration routine happening within \nStartup.cs\n).  The default startup\nroutine is reasonable but it hides what it is doing behind extension methods.\nThis technique is fairly common in ASP.NET programs.  Let's expand the configuration\nroutine to only include what we need:\n\n\npublic static void ConfigureMobileApp(IAppBuilder app)\n{\n    var config = new HttpConfiguration();\n    var mobileConfig = new MobileAppConfiguration();\n\n    mobileConfig\n        .AddTablesWithEntityFramework()\n        .ApplyTo(config);\n\n    Database.SetInitializer(new MobileServiceInitializer());\n\n    app.UseWebApi(config);\n}\n\n\n\n\nThe minimal version of the mobile backend initialization is actually shorter\nthan the original.  It also only includes a data access layer.  Other services\nlike authentication, storage and push notifications are not configured.\n\n\nThere is another method in the \nApp_Start\\Startup.MobileApp.cs\n file for\nseeding data into the database for us.  We can leave that alone for now, but\nremember it is there in case we need to adust things for your own backend.\n\n\nThe next important file is the \nDbContext\n - located in \nModels\\MobileServiceContext.cs\n.\nAzure Mobile Apps is heavily dependent on \nEntity Framework v6.x\n and the\n\nDbContext\n is a central part of that library.  Fortunately, we don't need\nto do anything to this file right now.  \n\n\nFinally, we get to the meat of the backend.  The whole point of this demonstration\nis to project a single database table - the TodoItem table - into the mobile realm\nwith the aid of an opinionated \nOData v3\n feed.  To that end, we need three\nitems:\n\n\n\n\nA \nDbSet<>\n within the \nDbContext\n\n\nA Data Transfer Object (or DTO)\n\n\nA Table Controller\n\n\n\n\nThe first item is already taken care of.  However, if we added additional tables,\nwe would have to modify the \nMobileServiceContext\n.  The DTO is a special model,\nlocated in the \nDataObjects\n folder:\n\n\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.DataObjects\n{\n    public class TodoItem : EntityData\n    {\n        public string Text { get; set; }\n\n        public bool Complete { get; set; }\n    }\n}\n\n\n\n\nNote that the model uses \nEntityData\n as a base class.  The \nEntityData\n class\nadds five additional properties to the class - we'll discuss those in more\ndetails during the \nData Access and Offline Sync\n chapter.\n\n\nFinally, let's look at the \nControllers\\TodoItemController.cs\n:\n\n\nusing System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    public class TodoItemController : TableController<TodoItem>\n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager<TodoItem>(context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable<TodoItem> GetAllTodoItems() => Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult<TodoItem> GetTodoItem(string id) => Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task<TodoItem> PatchTodoItem(string id, Delta<TodoItem> patch) => UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        public async Task<IHttpActionResult> PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute(\"Tables\", new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task DeleteTodoItem(string id) => DeleteAsync(id);\n    }\n}\n\n\n\n\nThe \nTableController\n is the central processing for the database access layer.\nIt handles all the OData capabilities for us.  This means that the actual code\nfor this controller is tiny - just 12 lines of code.\n\n\n\n\nYou can delete the \nControllers\\ValuesController.cs\n file if you like - it isn't important for this walkthrough.\n\n\n\n\nWe can build the project at this point.  If Visual Studio hasn't done so already,\nthe missing NuGet packages for Azure Mobile Apps will be downloaded.  There\nshould not be any errors.  If there are, check the typing for any changes you\nmade.\n\n\nBuilding an Azure App Service for Mobile Apps\n\n\nThe next step in the process is to build the resources on Azure that will run\nyour mobile backend.  Start by logging into the \nAzure Portal\n, then follow\nthese instructions:\n\n\n\n\nClick on the big \n+ New\n button in the top-left corner.\n\n\nClick on \nWeb + Mobile\n, then \nMobile App\n.\n\n\n\n\nEnter a unique name in the \nApp name\n box.\n\n\n\n\nSince the name doesn't matter and it has to be unique, you can use \na GUID generator\n to generate a unique name.  \n\n\n\n\n\n\n\n\nIf you have more than one subscription (for example, you have a trial and\n    an MSDN subscription), then ensure you select the right subscription in\n    the \nSubscription\n drop-down.\n\n\n\n\n\n\nSelect \nCreate new\n under resource group and enter a name for this mobile application.\n\n\n\n\nResource groups are great for grouping all the resources associated with a mobile application together.  During development, it means you can delete all the resources in one operation.  For production, it means you can see how much the service is costing you and how the resources are being used.\n\n\n\n\n\n\n\n\nFinally, select or create a new \nApp Service Plan\n.\n\n\n\n\nThe App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.\n\n\n\n\nI tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process is relatively simple.  You have two choices.  The easy choice is where is the service going to run.  In a production environment, the correct choice is \"near your customers\".  During development \"close to the developers\" is a good choice.  Unfortunately, neither of those is an option, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.\n\n\nThe second choice you have to make is what to run the service on - also known as the Pricing tier.  If you click on \nView all\n, you will see you have lots of choices. F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling and large amounts of storage - they differ in the number of sites or instances you can run on them.  \n\n\nFinally, there is a number after the plan - this tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.\n\n\nFor our purposes, an F1 Free site is enough to run the site unless we run into problems.\n\n\n\n\n\n\nOnce you have created your app service plan and saved it, click on \nCreate\n.\n\n\n\n\n\n\nThe creation of the service can take a couple of minutes, depending on what else is going on.  Once you have created your app service, the App Service blade will open up.\n\n\n\n\nWhat's the difference between a Web App, a Mobile App and an API App?  Not a lot.  The type determines which Quick start projects are available in the Quick start menu under \nAll settings\n.  Since we selected a Mobile app, a set of starter client projects for mobile devices will be presented.\n\n\n\n\nThe next step in the process is to create a SQL Azure instance.  The ASP.NET application that we produced earlier will use this to store the data presented in the table controller.\n\n\n\n\nClick on the \n+ New\n button on the left hand side of the page.\n\n\nSelect \nData + Storage\n and then \nSQL Database\n.\n\n\nEnter a unique database name (I use a GUID again) in the \nDatabase name\n box.\n\n\nSelect \nUse existing\n under the \nResource group\n, then select the resource group you created earlier.\n\n\nSelect \nBlank database\n in the \nSelect source\n box.\n\n\n\n\nClick on \nConfigure required settings\n for the \nServer\n.\n\n\n\n\nClick on \nCreate a new server\n.\n\n\nEnter another globally unique name for the \nServer name\n (I use a GUID yet again).\n\n\nEnter \nappservice\n in the \nServer admin login\n (or use your own name).\n\n\nEnter a password in the \nPassword\n and \nConfirm password\n boxes.\n\n\nSelect the same location as your App Service in the \nLocation\n box.\n\n\nClick on \nSelect\n to create the Server.\n\n\n\n\n\n\n\n\nClick on the \nPricing tier\n.  The \nB Basic\n plan is the cheapest plan available.\n\n\n\n\nClick on \nCreate\n.\n\n\n\n\nThe SQL Azure instance takes longer to deploy than the App Service in general.\nUnfortunately, you cannot get away without a cost if you are going to develop\nmobile backends with C#.\n\n\n\n\nGUIDs are not the best names to use when you need to actually find resources, but the prevent conflicts when deploying, so I prefer them.  You can prefix them (example: chapter1-GUID) to aid in finding them.  Generally, the first four digits are enough to identify individual resources.\n\n\n\n\nFinally, you will need to link your SQL Azure instance to the App Service instance:\n\n\n\n\nClick on \nResource groups\n in the left hand side menu.\n\n\nClick on the resource group you created.\n\n\nClick on the App Service you created.\n\n\nClick on \nAll settings\n.\n\n\nClick on \nData connections\n in the \nMOBILE\n menu.\n\n\n\n\nClick on \nAdd\n.\n\n\n\n\nClick on the \nConfigure required settings\n under \nSQL Database\n.\n\n\nSelect the database you just created, then click on \nSelect\n.\n\n\nClick on \nConfigure required settings\n under \nConnection string\n.\n\n\nEnter \nappservice\n in the \nUser Name\n box.\n\n\nEnter your chosen password in the \nPassword\n box.\n\n\nwatch for green tick marks to ensure the username and password are correct.\n\n\nClick on \nOK\n\n\nClick on \nOK\n in the \nAdd data connection\n blade.\n\n\n\n\n\n\n\n\nThis produces another deployment step.  It doesn't take very long so you can\nswitch back to your Visual Studio window.\n\n\n\n\nIf you want a completely free mobile backend, search for the \nMobile Apps\nQuickstart\n in the Azure Marketplace.  This template does not require a\ndatabase.  It relies on a Node backend, however, so you won't be developing a C#\nbackend.\n\n\n\n\nDeploying the Azure Mobile Apps Backend\n\n\nDeploying to Azure as a developer can be accomplished while entirely within Visual Studio:\n\n\n\n\nRight-click on the \nBackend\n project, then select \nPublish...\n.\n\n\n\n\nMake sure you see this screen shot:\n\n\n\n\nIf you do not see this image, then it is likely you have an older version\nof the Azure SDK installed.  Make sure the Azure SDK version is v2.9 or\nlater.\n\n\n\n\n\n\nClick on \nMicrosoft Azure App Service\n.\n\n\n\n\nYou may be prompted to enter your Azure credentials here.  Enter the same\n    information that you enter to access the Azure Portal.\n\n\nIn the lower box, expand the resource group that you created and select the\n    app service you created in the portal.\n\n\nClick on \nOK\n.\n\n\nClick on \nPublish\n.\n\n\n\n\nVisual Studio will open a browser.  Add \n/tables/todoitem?ZUMO-API-VERSION=2.0.0\n\nto the end of the URL.  This will show the JSON contents of the table that we\ndefined in the backend.\n\n\n\n\nYou will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A\nZU\nre \nMO\nbile.\n\n\n\n\nThe Mobile Client\n\n\nNow that the mobile backend is created and deployed, we can move onto the client\nside of things.  First of all, let's prepare the Visual Studio instance.  If you\nhave installed the Cross-Platform Mobile tools during the installation, most of\nthe work has already been done.  However, you may want to install the \nXamarin\nForms Templates\n using the Tools -> Extensions and Updates...\n\n\n\n\nThis template pack provides additional templates for Xamarin Forms development\nthat I find useful.  Most notably, there is a specific template for a mobile\ncross-platform project covering the Android, iOS and UWP mobile platforms.  \n\n\nCreating a Simple Mobile Client with Xamarin\n\n\nNow that we have prepared your Visual Studio instance, we can create the project.\nRight-click on the solution and select \nAdd\n -> \nNew Project...\n.  This will\nbring up the familiar New Project dialog.  The project you want is under \nVisual C#\n\n-> \nCross-Platform\n, and is called \nXamarin.Forms (UWP/Android/iOS)\n.  If you\ndid not install the Xamarin Forms Template add-on, then choose the\n\nBlank Xaml App (Xamarin.Forms Portable)\n project.  Give the project a name,\nthen click on \nOK\n.\n\n\n\n\nProject creation will take longer than you expect, but there is a lot going on.\nIf you have never created a mobile or UWP project before, you will be prompted\nto turn on Windows 10 Developer Mode:\n\n\n\n\nDeveloper mode in Windows 10 allows you to run unsigned binaries for development\npurposes and to turn on debugging so that you can step through your UWP programs\nwithin Visual Studio.\n\n\nWe will also get asked to choose what version of the Universal Windows platform\nwe want to target:\n\n\n\n\nVersion 10240 was the first version of Windows 10 that was released to the general\npublic, so that's a good minimum version to pick.  In general, the defaults for\nthe Universal Windows Platform choice are good enough.\n\n\nFinally, we will be asked about our iOS build host.  This must be some sort of\nmac.  As I said previously, I use a Mac Mini underneath my desk for this. The\nlatest Xamarin tools forego a dedicated build service and instead use a secure\nshell (ssh) connection to connect to the Mac.  That means you must go through\nthe process for \nsetting up the mac for ssh access\n.  \n\n\nWhen prompted about the Xamarin Mac Agent, click on \nOK\n to get the list of\nlocal mac agents:\n\n\n\n\nHighlight your mac (in case there are multiples), then click on \nConnect...\n.\nYou will be prompted for your username and password:\n\n\n\n\nJust enter the username and password that you use to log in to your mac and click\non \nLogin\n.\n\n\n\n\nWhat's my username?\n  Apple tries very hard to hide the real username of\nyour account from you.  The easiest way to find your mac username is to open up\nthe Finder.  The name next to your home icon is the name of your account.\n\n\n\n\nOnce the project is created, you will see that four new projects have been\ncreated: a common library which you named plus one project for each platform\nthat has been chosen.  Since we chose a project with three platforms, we get\nfour projects:\n\n\n\n\nMost of our work will happen in the common library.  However, we can introduce\nplatform-specific code at any point.  The platform-specific code is stored in\nthe platform-specific project.\n\n\nThere is one final item we must do before we leave the set up of the project.\nThere are a number of platform upgrades that inevitably have to happen.  The\nXamarin Platform is updated much more often than the Visual Studio plugin - the\nupdates are released via NuGet: the standard method of distributing libraries\nfor .NET applications.  In addition to the inevitable Xamarin Platform update,\nwe also will want to add the following NuGet packages:\n\n\n\n\nMicrosoft.Azure.Mobile.Client v2.0.0 or later\n\n\nNewtonsoft.Json v6.0.3 or later\n\n\n\n\n\n\nAlthough it is tempting, do not include a v1.x version of the Mobile Client.\nThis is for the earlier Azure Mobile Services.  There are many differences between\nthe wire protocols of the two products.\n\n\n\n\nYou can install the NuGet packages by right-clicking on the project and selecting\n\nManage NuGet Packages...\n.\n\n\n\n\nYou must install the updates and the new NuGet packages on all four projects.\n\nThis involves repeating the same process for each client project in your\nsolution.\n\n\n\n\nAndroid generally has more updates than the other platforms.  Ensure that you\nupdate the main Xamarin.Forms package and then refresh the update list.  This will\nensure the right list of packages is updated.\n\n\n\n\nBuilding the Common Library\n\n\nBuilding the Client for Android\n\n\nBuilding the Client for Universal Windows\n\n\nBuilding the Client for iOS",
+            "location": "/introduction/", 
+            "text": "Your First Mobile App\n\n\nThere is a lot of detail to absorb about the possible services that the mobile\nclient can consume and I will go into significant depth on those subjects.\nFirst, wouldn't it be nice to write some code and get something working?\nMicrosoft Azure has a great \nfirst-steps tutorial\n that takes you via the\nquickest possible route from creating a mobile backend to having a functional\nbackend.  I would like to take things a little slower so that we can understand\nwhat is going on while we are doing the process.  We will have practically the\nsame application at the end.\n\n\nThe application we are going to build together is a simple task list.  The\nmobile client will have three screens - an entry screen, a task list and a task\ndetails page.  I have mocked these pages up using \nMockingBot\n.\n\n\n\n\nMocking your screens before you start coding is a great habit to get into.\nThere are some great tools available including free tools like \nMockingBot\n.\nDoing mockups before you start coding is a good way to prevent wasted time later\non.\n\n\n\n\n\n\n\n\nWhy include a back button?  If you are using iOS, then you may want to remove\nthe back button as the style guides suggest you don't need one.  Other platforms\nwill need it though, so it's best to start with the least common denominator.\nIt's the same reason I add a refresh button even though it's only valid on\nWindows Phone!\n\n\n\n\nMy ideas for this app include:\n\n\n\n\nTapping on a task title in the task list will bring up the details page.\n\n\nToggling the completed link in the task list will set the completed flag.\n\n\nTapping the spinner will initiate a network refresh.\n\n\nClicking on Delete Task in the task details will ask \"Are you sure?\" before deleting the task.\n\n\n\n\nNow that we have our client screens planned out, we can move onto the thinking\nabout the mobile backend.\n\n\nThe Mobile Backend\n\n\nThe mobile backend is an ASP.NET WebApi that is served from within Azure App\nService: a highly scalable and redundant web hosting facility that supports all\nthe major web languages (like ASP.NET, Node, PHP and Python).  \n\n\nCreating a Simple Azure Mobile Apps Backend\n\n\nMicrosoft Azure has included a comprehensive starter kit template in the\nAzure SDK.  To get started:\n\n\n\n\nFire up Visual Studio 2015\n\n\nAdd a new project with File -\n New Project...\n\n\n\n\nIn the \nNew Project\n window:\n\n\n\n\nOpen up Templates -\n Visual C# -\n Web and select \nASP.NET Web Application (.NET Framework)\n.\n\n\nEnter \nBackend\n for the Name and \nChapter1\n for the Solution name.\n\n\nPick a suitable directory for the Location field.\n\n\nClick on OK.\n\n\n\n\n\n\n\n\n\n\nIn the \nNew ASP.NET Web Application\n window:\n\n\n\n\nClick on \nAzure Mobile App\n.\n\n\nDo \nNOT\n check \"Host in the cloud\" or any other checkboxes.\n\n\nClick on OK.\n\n\n\n\n\n\n\n\nAt this point, Visual Studio will create your backend project.\n\n\n\n\nIt's very tempting to select \nAzure Mobile Services\n instead - it sounds closer to what you want.  Azure Mobile Services is the \nOLD\n service and is being shut down.  You should not select Azure Mobile Services for any project.\n\n\n\n\nThere are a few files of which you should take note.  The Mobile Apps SDK is\ninitialized within \nApp_Start\\Startup.MobileApp.cs\n (with the call to the\nconfiguration routine happening within \nStartup.cs\n).  The default startup\nroutine is reasonable but it hides what it is doing behind extension methods.\nThis technique is fairly common in ASP.NET programs.  Let's expand the configuration\nroutine to only include what we need:\n\n\npublic static void ConfigureMobileApp(IAppBuilder app)\n{\n    var config = new HttpConfiguration();\n    var mobileConfig = new MobileAppConfiguration();\n\n    mobileConfig\n        .AddTablesWithEntityFramework()\n        .ApplyTo(config);\n\n    Database.SetInitializer(new MobileServiceInitializer());\n\n    app.UseWebApi(config);\n}\n\n\n\n\nThe minimal version of the mobile backend initialization is actually shorter\nthan the original.  It also only includes a data access layer.  Other services\nlike authentication, storage and push notifications are not configured.\n\n\nThere is another method in the \nApp_Start\\Startup.MobileApp.cs\n file for\nseeding data into the database for us.  We can leave that alone for now, but\nremember it is there in case we need to adust things for your own backend.\n\n\nThe next important file is the \nDbContext\n - located in \nModels\\MobileServiceContext.cs\n.\nAzure Mobile Apps is heavily dependent on \nEntity Framework v6.x\n and the\n\nDbContext\n is a central part of that library.  Fortunately, we don't need\nto do anything to this file right now.  \n\n\nFinally, we get to the meat of the backend.  The whole point of this demonstration\nis to project a single database table - the TodoItem table - into the mobile realm\nwith the aid of an opinionated \nOData v3\n feed.  To that end, we need three\nitems:\n\n\n\n\nA \nDbSet\n within the \nDbContext\n\n\nA Data Transfer Object (or DTO)\n\n\nA Table Controller\n\n\n\n\nThe first item is already taken care of.  However, if we added additional tables,\nwe would have to modify the \nMobileServiceContext\n.  The DTO is a special model,\nlocated in the \nDataObjects\n folder:\n\n\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.DataObjects\n{\n    public class TodoItem : EntityData\n    {\n        public string Text { get; set; }\n\n        public bool Complete { get; set; }\n    }\n}\n\n\n\n\nNote that the model uses \nEntityData\n as a base class.  The \nEntityData\n class\nadds five additional properties to the class - we'll discuss those in more\ndetails during the \nData Access and Offline Sync\n chapter.\n\n\nFinally, let's look at the \nControllers\\TodoItemController.cs\n:\n\n\nusing System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    public class TodoItemController : TableController\nTodoItem\n\n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager\nTodoItem\n(context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable\nTodoItem\n GetAllTodoItems() =\n Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult\nTodoItem\n GetTodoItem(string id) =\n Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task\nTodoItem\n PatchTodoItem(string id, Delta\nTodoItem\n patch) =\n UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        public async Task\nIHttpActionResult\n PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute(\nTables\n, new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task DeleteTodoItem(string id) =\n DeleteAsync(id);\n    }\n}\n\n\n\n\nThe \nTableController\n is the central processing for the database access layer.\nIt handles all the OData capabilities for us.  This means that the actual code\nfor this controller is tiny - just 12 lines of code.\n\n\n\n\nYou can delete the \nControllers\\ValuesController.cs\n file if you like - it isn't important for this walkthrough.\n\n\n\n\nWe can build the project at this point.  If Visual Studio hasn't done so already,\nthe missing NuGet packages for Azure Mobile Apps will be downloaded.  There\nshould not be any errors.  If there are, check the typing for any changes you\nmade.\n\n\nBuilding an Azure App Service for Mobile Apps\n\n\nThe next step in the process is to build the resources on Azure that will run\nyour mobile backend.  Start by logging into the \nAzure Portal\n, then follow\nthese instructions:\n\n\n\n\nClick on the big \n+ New\n button in the top-left corner.\n\n\nClick on \nWeb + Mobile\n, then \nMobile App\n.\n\n\n\n\nEnter a unique name in the \nApp name\n box.\n\n\n\n\nSince the name doesn't matter and it has to be unique, you can use \na GUID generator\n to generate a unique name.  \n\n\n\n\n\n\n\n\nIf you have more than one subscription (for example, you have a trial and\n    an MSDN subscription), then ensure you select the right subscription in\n    the \nSubscription\n drop-down.\n\n\n\n\n\n\nSelect \nCreate new\n under resource group and enter a name for this mobile application.\n\n\n\n\nResource groups are great for grouping all the resources associated with a mobile application together.  During development, it means you can delete all the resources in one operation.  For production, it means you can see how much the service is costing you and how the resources are being used.\n\n\n\n\n\n\n\n\nFinally, select or create a new \nApp Service Plan\n.\n\n\n\n\nThe App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.\n\n\n\n\nI tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process is relatively simple.  You have two choices.  The easy choice is where is the service going to run.  In a production environment, the correct choice is \"near your customers\".  During development \"close to the developers\" is a good choice.  Unfortunately, neither of those is an option, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.\n\n\nThe second choice you have to make is what to run the service on - also known as the Pricing tier.  If you click on \nView all\n, you will see you have lots of choices. F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling and large amounts of storage - they differ in the number of sites or instances you can run on them.  \n\n\nFinally, there is a number after the plan - this tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.\n\n\nFor our purposes, an F1 Free site is enough to run the site unless we run into problems.\n\n\n\n\n\n\nOnce you have created your app service plan and saved it, click on \nCreate\n.\n\n\n\n\n\n\nThe creation of the service can take a couple of minutes, depending on what else is going on.  Once you have created your app service, the App Service blade will open up.\n\n\n\n\nWhat's the difference between a Web App, a Mobile App and an API App?  Not a lot.  The type determines which Quick start projects are available in the Quick start menu under \nAll settings\n.  Since we selected a Mobile app, a set of starter client projects for mobile devices will be presented.\n\n\n\n\nThe next step in the process is to create a SQL Azure instance.  The ASP.NET application that we produced earlier will use this to store the data presented in the table controller.\n\n\n\n\nClick on the \n+ New\n button on the left hand side of the page.\n\n\nSelect \nData + Storage\n and then \nSQL Database\n.\n\n\nEnter a unique database name (I use a GUID again) in the \nDatabase name\n box.\n\n\nSelect \nUse existing\n under the \nResource group\n, then select the resource group you created earlier.\n\n\nSelect \nBlank database\n in the \nSelect source\n box.\n\n\n\n\nClick on \nConfigure required settings\n for the \nServer\n.\n\n\n\n\nClick on \nCreate a new server\n.\n\n\nEnter another globally unique name for the \nServer name\n (I use a GUID yet again).\n\n\nEnter \nappservice\n in the \nServer admin login\n (or use your own name).\n\n\nEnter a password in the \nPassword\n and \nConfirm password\n boxes.\n\n\nSelect the same location as your App Service in the \nLocation\n box.\n\n\nClick on \nSelect\n to create the Server.\n\n\n\n\n\n\n\n\nClick on the \nPricing tier\n.  The \nB Basic\n plan is the cheapest plan available.\n\n\n\n\nClick on \nCreate\n.\n\n\n\n\nThe SQL Azure instance takes longer to deploy than the App Service in general.\nUnfortunately, you cannot get away without a cost if you are going to develop\nmobile backends with C#.\n\n\n\n\nGUIDs are not the best names to use when you need to actually find resources, but the prevent conflicts when deploying, so I prefer them.  You can prefix them (example: chapter1-GUID) to aid in finding them.  Generally, the first four digits are enough to identify individual resources.\n\n\n\n\nFinally, you will need to link your SQL Azure instance to the App Service instance:\n\n\n\n\nClick on \nResource groups\n in the left hand side menu.\n\n\nClick on the resource group you created.\n\n\nClick on the App Service you created.\n\n\nClick on \nAll settings\n.\n\n\nClick on \nData connections\n in the \nMOBILE\n menu.\n\n\n\n\nClick on \nAdd\n.\n\n\n\n\nClick on the \nConfigure required settings\n under \nSQL Database\n.\n\n\nSelect the database you just created, then click on \nSelect\n.\n\n\nClick on \nConfigure required settings\n under \nConnection string\n.\n\n\nEnter \nappservice\n in the \nUser Name\n box.\n\n\nEnter your chosen password in the \nPassword\n box.\n\n\nwatch for green tick marks to ensure the username and password are correct.\n\n\nClick on \nOK\n\n\nClick on \nOK\n in the \nAdd data connection\n blade.\n\n\n\n\n\n\n\n\nThis produces another deployment step.  It doesn't take very long so you can\nswitch back to your Visual Studio window.\n\n\n\n\nIf you want a completely free mobile backend, search for the \nMobile Apps\nQuickstart\n in the Azure Marketplace.  This template does not require a\ndatabase.  It relies on a Node backend, however, so you won't be developing a C#\nbackend.\n\n\n\n\nDeploying the Azure Mobile Apps Backend\n\n\nDeploying to Azure as a developer can be accomplished while entirely within Visual Studio:\n\n\n\n\nRight-click on the \nBackend\n project, then select \nPublish...\n.\n\n\n\n\nMake sure you see this screen shot:\n\n\n\n\nIf you do not see this image, then it is likely you have an older version\nof the Azure SDK installed.  Make sure the Azure SDK version is v2.9 or\nlater.\n\n\n\n\n\n\nClick on \nMicrosoft Azure App Service\n.\n\n\n\n\nYou may be prompted to enter your Azure credentials here.  Enter the same\n    information that you enter to access the Azure Portal.\n\n\nIn the lower box, expand the resource group that you created and select the\n    app service you created in the portal.\n\n\nClick on \nOK\n.\n\n\nClick on \nPublish\n.\n\n\n\n\nVisual Studio will open a browser.  Add \n/tables/todoitem?ZUMO-API-VERSION=2.0.0\n\nto the end of the URL.  This will show the JSON contents of the table that we\ndefined in the backend.\n\n\n\n\nYou will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A\nZU\nre \nMO\nbile.\n\n\n\n\nThe Mobile Client\n\n\nNow that the mobile backend is created and deployed, we can move onto the client\nside of things.  First of all, let's prepare the Visual Studio instance.  If you\nhave installed the Cross-Platform Mobile tools during the installation, most of\nthe work has already been done.  However, you may want to install the \nXamarin\nForms Templates\n using the Tools -\n Extensions and Updates...\n\n\n\n\nThis template pack provides additional templates for Xamarin Forms development\nthat I find useful.  Most notably, there is a specific template for a mobile\ncross-platform project covering the Android, iOS and UWP mobile platforms.  \n\n\nCreating a Simple Mobile Client with Xamarin\n\n\nNow that we have prepared your Visual Studio instance, we can create the project.\nRight-click on the solution and select \nAdd\n -\n \nNew Project...\n.  This will\nbring up the familiar New Project dialog.  The project you want is under \nVisual C#\n\n-\n \nCross-Platform\n, and is called \nXamarin.Forms (UWP/Android/iOS)\n.  If you\ndid not install the Xamarin Forms Template add-on, then choose the\n\nBlank Xaml App (Xamarin.Forms Portable)\n project.  Give the project a name,\nthen click on \nOK\n.\n\n\n\n\nProject creation will take longer than you expect, but there is a lot going on.\nIf you have never created a mobile or UWP project before, you will be prompted\nto turn on Windows 10 Developer Mode:\n\n\n\n\nDeveloper mode in Windows 10 allows you to run unsigned binaries for development\npurposes and to turn on debugging so that you can step through your UWP programs\nwithin Visual Studio.\n\n\nWe will also get asked to choose what version of the Universal Windows platform\nwe want to target:\n\n\n\n\nVersion 10240 was the first version of Windows 10 that was released to the general\npublic, so that's a good minimum version to pick.  In general, the defaults for\nthe Universal Windows Platform choice are good enough.\n\n\nFinally, we will be asked about our iOS build host.  This must be some sort of\nmac.  As I said previously, I use a Mac Mini underneath my desk for this. The\nlatest Xamarin tools forego a dedicated build service and instead use a secure\nshell (ssh) connection to connect to the Mac.  That means you must go through\nthe process for \nsetting up the mac for ssh access\n.  \n\n\nWhen prompted about the Xamarin Mac Agent, click on \nOK\n to get the list of\nlocal mac agents:\n\n\n\n\nHighlight your mac (in case there are multiples), then click on \nConnect...\n.\nYou will be prompted for your username and password:\n\n\n\n\nJust enter the username and password that you use to log in to your mac and click\non \nLogin\n.\n\n\n\n\nWhat's my username?\n  Apple tries very hard to hide the real username of\nyour account from you.  The easiest way to find your mac username is to open up\nthe Finder.  The name next to your home icon is the name of your account.\n\n\n\n\nOnce the project is created, you will see that four new projects have been\ncreated: a common library which you named plus one project for each platform\nthat has been chosen.  Since we chose a project with three platforms, we get\nfour projects:\n\n\n\n\nMost of our work will happen in the common library.  However, we can introduce\nplatform-specific code at any point.  The platform-specific code is stored in\nthe platform-specific project.\n\n\nThere is one final item we must do before we leave the set up of the project.\nThere are a number of platform upgrades that inevitably have to happen.  The\nXamarin Platform is updated much more often than the Visual Studio plugin - the\nupdates are released via NuGet: the standard method of distributing libraries\nfor .NET applications.  In addition to the inevitable Xamarin Platform update,\nwe also will want to add the following NuGet packages:\n\n\n\n\nMicrosoft.Azure.Mobile.Client v2.0.0 or later\n\n\nNewtonsoft.Json v6.0.3 or later\n\n\n\n\n\n\nAlthough it is tempting, do not include a v1.x version of the Mobile Client.\nThis is for the earlier Azure Mobile Services.  There are many differences between\nthe wire protocols of the two products.\n\n\n\n\nYou can install the NuGet packages by right-clicking on the project and selecting\n\nManage NuGet Packages...\n.\n\n\n\n\nYou must install the updates and the new NuGet packages on all four projects.\n\nThis involves repeating the same process for each client project in your\nsolution.\n\n\n\n\nAndroid generally has more updates than the other platforms.  Ensure that you\nupdate the main Xamarin.Forms package and then refresh the update list.  This will\nensure the right list of packages is updated.\n\n\n\n\nBuilding the Common Library\n\n\nBuilding the Client for Android\n\n\nBuilding the Client for Universal Windows\n\n\nBuilding the Client for iOS", 
             "title": "Your First Mobile App"
-        },
+        }, 
         {
-            "location": "/introduction/#your-first-mobile-app",
-            "text": "There is a lot of detail to absorb about the possible services that the mobile\nclient can consume and I will go into significant depth on those subjects.\nFirst, wouldn't it be nice to write some code and get something working?\nMicrosoft Azure has a great  first-steps tutorial  that takes you via the\nquickest possible route from creating a mobile backend to having a functional\nbackend.  I would like to take things a little slower so that we can understand\nwhat is going on while we are doing the process.  We will have practically the\nsame application at the end.  The application we are going to build together is a simple task list.  The\nmobile client will have three screens - an entry screen, a task list and a task\ndetails page.  I have mocked these pages up using  MockingBot .   Mocking your screens before you start coding is a great habit to get into.\nThere are some great tools available including free tools like  MockingBot .\nDoing mockups before you start coding is a good way to prevent wasted time later\non.     Why include a back button?  If you are using iOS, then you may want to remove\nthe back button as the style guides suggest you don't need one.  Other platforms\nwill need it though, so it's best to start with the least common denominator.\nIt's the same reason I add a refresh button even though it's only valid on\nWindows Phone!   My ideas for this app include:   Tapping on a task title in the task list will bring up the details page.  Toggling the completed link in the task list will set the completed flag.  Tapping the spinner will initiate a network refresh.  Clicking on Delete Task in the task details will ask \"Are you sure?\" before deleting the task.   Now that we have our client screens planned out, we can move onto the thinking\nabout the mobile backend.",
+            "location": "/introduction/#your-first-mobile-app", 
+            "text": "There is a lot of detail to absorb about the possible services that the mobile\nclient can consume and I will go into significant depth on those subjects.\nFirst, wouldn't it be nice to write some code and get something working?\nMicrosoft Azure has a great  first-steps tutorial  that takes you via the\nquickest possible route from creating a mobile backend to having a functional\nbackend.  I would like to take things a little slower so that we can understand\nwhat is going on while we are doing the process.  We will have practically the\nsame application at the end.  The application we are going to build together is a simple task list.  The\nmobile client will have three screens - an entry screen, a task list and a task\ndetails page.  I have mocked these pages up using  MockingBot .   Mocking your screens before you start coding is a great habit to get into.\nThere are some great tools available including free tools like  MockingBot .\nDoing mockups before you start coding is a good way to prevent wasted time later\non.     Why include a back button?  If you are using iOS, then you may want to remove\nthe back button as the style guides suggest you don't need one.  Other platforms\nwill need it though, so it's best to start with the least common denominator.\nIt's the same reason I add a refresh button even though it's only valid on\nWindows Phone!   My ideas for this app include:   Tapping on a task title in the task list will bring up the details page.  Toggling the completed link in the task list will set the completed flag.  Tapping the spinner will initiate a network refresh.  Clicking on Delete Task in the task details will ask \"Are you sure?\" before deleting the task.   Now that we have our client screens planned out, we can move onto the thinking\nabout the mobile backend.", 
             "title": "Your First Mobile App"
-        },
+        }, 
         {
-            "location": "/introduction/#the-mobile-backend",
-            "text": "The mobile backend is an ASP.NET WebApi that is served from within Azure App\nService: a highly scalable and redundant web hosting facility that supports all\nthe major web languages (like ASP.NET, Node, PHP and Python).",
+            "location": "/introduction/#the-mobile-backend", 
+            "text": "The mobile backend is an ASP.NET WebApi that is served from within Azure App\nService: a highly scalable and redundant web hosting facility that supports all\nthe major web languages (like ASP.NET, Node, PHP and Python).", 
             "title": "The Mobile Backend"
-        },
+        }, 
         {
-            "location": "/introduction/#creating-a-simple-azure-mobile-apps-backend",
-            "text": "Microsoft Azure has included a comprehensive starter kit template in the\nAzure SDK.  To get started:   Fire up Visual Studio 2015  Add a new project with File -> New Project...   In the  New Project  window:   Open up Templates -> Visual C# -> Web and select  ASP.NET Web Application (.NET Framework) .  Enter  Backend  for the Name and  Chapter1  for the Solution name.  Pick a suitable directory for the Location field.  Click on OK.      In the  New ASP.NET Web Application  window:   Click on  Azure Mobile App .  Do  NOT  check \"Host in the cloud\" or any other checkboxes.  Click on OK.     At this point, Visual Studio will create your backend project.   It's very tempting to select  Azure Mobile Services  instead - it sounds closer to what you want.  Azure Mobile Services is the  OLD  service and is being shut down.  You should not select Azure Mobile Services for any project.   There are a few files of which you should take note.  The Mobile Apps SDK is\ninitialized within  App_Start\\Startup.MobileApp.cs  (with the call to the\nconfiguration routine happening within  Startup.cs ).  The default startup\nroutine is reasonable but it hides what it is doing behind extension methods.\nThis technique is fairly common in ASP.NET programs.  Let's expand the configuration\nroutine to only include what we need:  public static void ConfigureMobileApp(IAppBuilder app)\n{\n    var config = new HttpConfiguration();\n    var mobileConfig = new MobileAppConfiguration();\n\n    mobileConfig\n        .AddTablesWithEntityFramework()\n        .ApplyTo(config);\n\n    Database.SetInitializer(new MobileServiceInitializer());\n\n    app.UseWebApi(config);\n}  The minimal version of the mobile backend initialization is actually shorter\nthan the original.  It also only includes a data access layer.  Other services\nlike authentication, storage and push notifications are not configured.  There is another method in the  App_Start\\Startup.MobileApp.cs  file for\nseeding data into the database for us.  We can leave that alone for now, but\nremember it is there in case we need to adust things for your own backend.  The next important file is the  DbContext  - located in  Models\\MobileServiceContext.cs .\nAzure Mobile Apps is heavily dependent on  Entity Framework v6.x  and the DbContext  is a central part of that library.  Fortunately, we don't need\nto do anything to this file right now.    Finally, we get to the meat of the backend.  The whole point of this demonstration\nis to project a single database table - the TodoItem table - into the mobile realm\nwith the aid of an opinionated  OData v3  feed.  To that end, we need three\nitems:   A  DbSet<>  within the  DbContext  A Data Transfer Object (or DTO)  A Table Controller   The first item is already taken care of.  However, if we added additional tables,\nwe would have to modify the  MobileServiceContext .  The DTO is a special model,\nlocated in the  DataObjects  folder:  using Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.DataObjects\n{\n    public class TodoItem : EntityData\n    {\n        public string Text { get; set; }\n\n        public bool Complete { get; set; }\n    }\n}  Note that the model uses  EntityData  as a base class.  The  EntityData  class\nadds five additional properties to the class - we'll discuss those in more\ndetails during the  Data Access and Offline Sync  chapter.  Finally, let's look at the  Controllers\\TodoItemController.cs :  using System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    public class TodoItemController : TableController<TodoItem>\n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager<TodoItem>(context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable<TodoItem> GetAllTodoItems() => Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult<TodoItem> GetTodoItem(string id) => Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task<TodoItem> PatchTodoItem(string id, Delta<TodoItem> patch) => UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        public async Task<IHttpActionResult> PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute(\"Tables\", new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task DeleteTodoItem(string id) => DeleteAsync(id);\n    }\n}  The  TableController  is the central processing for the database access layer.\nIt handles all the OData capabilities for us.  This means that the actual code\nfor this controller is tiny - just 12 lines of code.   You can delete the  Controllers\\ValuesController.cs  file if you like - it isn't important for this walkthrough.   We can build the project at this point.  If Visual Studio hasn't done so already,\nthe missing NuGet packages for Azure Mobile Apps will be downloaded.  There\nshould not be any errors.  If there are, check the typing for any changes you\nmade.",
+            "location": "/introduction/#creating-a-simple-azure-mobile-apps-backend", 
+            "text": "Microsoft Azure has included a comprehensive starter kit template in the\nAzure SDK.  To get started:   Fire up Visual Studio 2015  Add a new project with File -  New Project...   In the  New Project  window:   Open up Templates -  Visual C# -  Web and select  ASP.NET Web Application (.NET Framework) .  Enter  Backend  for the Name and  Chapter1  for the Solution name.  Pick a suitable directory for the Location field.  Click on OK.      In the  New ASP.NET Web Application  window:   Click on  Azure Mobile App .  Do  NOT  check \"Host in the cloud\" or any other checkboxes.  Click on OK.     At this point, Visual Studio will create your backend project.   It's very tempting to select  Azure Mobile Services  instead - it sounds closer to what you want.  Azure Mobile Services is the  OLD  service and is being shut down.  You should not select Azure Mobile Services for any project.   There are a few files of which you should take note.  The Mobile Apps SDK is\ninitialized within  App_Start\\Startup.MobileApp.cs  (with the call to the\nconfiguration routine happening within  Startup.cs ).  The default startup\nroutine is reasonable but it hides what it is doing behind extension methods.\nThis technique is fairly common in ASP.NET programs.  Let's expand the configuration\nroutine to only include what we need:  public static void ConfigureMobileApp(IAppBuilder app)\n{\n    var config = new HttpConfiguration();\n    var mobileConfig = new MobileAppConfiguration();\n\n    mobileConfig\n        .AddTablesWithEntityFramework()\n        .ApplyTo(config);\n\n    Database.SetInitializer(new MobileServiceInitializer());\n\n    app.UseWebApi(config);\n}  The minimal version of the mobile backend initialization is actually shorter\nthan the original.  It also only includes a data access layer.  Other services\nlike authentication, storage and push notifications are not configured.  There is another method in the  App_Start\\Startup.MobileApp.cs  file for\nseeding data into the database for us.  We can leave that alone for now, but\nremember it is there in case we need to adust things for your own backend.  The next important file is the  DbContext  - located in  Models\\MobileServiceContext.cs .\nAzure Mobile Apps is heavily dependent on  Entity Framework v6.x  and the DbContext  is a central part of that library.  Fortunately, we don't need\nto do anything to this file right now.    Finally, we get to the meat of the backend.  The whole point of this demonstration\nis to project a single database table - the TodoItem table - into the mobile realm\nwith the aid of an opinionated  OData v3  feed.  To that end, we need three\nitems:   A  DbSet  within the  DbContext  A Data Transfer Object (or DTO)  A Table Controller   The first item is already taken care of.  However, if we added additional tables,\nwe would have to modify the  MobileServiceContext .  The DTO is a special model,\nlocated in the  DataObjects  folder:  using Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.DataObjects\n{\n    public class TodoItem : EntityData\n    {\n        public string Text { get; set; }\n\n        public bool Complete { get; set; }\n    }\n}  Note that the model uses  EntityData  as a base class.  The  EntityData  class\nadds five additional properties to the class - we'll discuss those in more\ndetails during the  Data Access and Offline Sync  chapter.  Finally, let's look at the  Controllers\\TodoItemController.cs :  using System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    public class TodoItemController : TableController TodoItem \n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager TodoItem (context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable TodoItem  GetAllTodoItems() =  Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult TodoItem  GetTodoItem(string id) =  Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task TodoItem  PatchTodoItem(string id, Delta TodoItem  patch) =  UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        public async Task IHttpActionResult  PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute( Tables , new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task DeleteTodoItem(string id) =  DeleteAsync(id);\n    }\n}  The  TableController  is the central processing for the database access layer.\nIt handles all the OData capabilities for us.  This means that the actual code\nfor this controller is tiny - just 12 lines of code.   You can delete the  Controllers\\ValuesController.cs  file if you like - it isn't important for this walkthrough.   We can build the project at this point.  If Visual Studio hasn't done so already,\nthe missing NuGet packages for Azure Mobile Apps will be downloaded.  There\nshould not be any errors.  If there are, check the typing for any changes you\nmade.", 
             "title": "Creating a Simple Azure Mobile Apps Backend"
-        },
+        }, 
         {
-            "location": "/introduction/#building-an-azure-app-service-for-mobile-apps",
-            "text": "The next step in the process is to build the resources on Azure that will run\nyour mobile backend.  Start by logging into the  Azure Portal , then follow\nthese instructions:   Click on the big  + New  button in the top-left corner.  Click on  Web + Mobile , then  Mobile App .   Enter a unique name in the  App name  box.   Since the name doesn't matter and it has to be unique, you can use  a GUID generator  to generate a unique name.       If you have more than one subscription (for example, you have a trial and\n    an MSDN subscription), then ensure you select the right subscription in\n    the  Subscription  drop-down.    Select  Create new  under resource group and enter a name for this mobile application.   Resource groups are great for grouping all the resources associated with a mobile application together.  During development, it means you can delete all the resources in one operation.  For production, it means you can see how much the service is costing you and how the resources are being used.     Finally, select or create a new  App Service Plan .   The App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.   I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process is relatively simple.  You have two choices.  The easy choice is where is the service going to run.  In a production environment, the correct choice is \"near your customers\".  During development \"close to the developers\" is a good choice.  Unfortunately, neither of those is an option, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.  The second choice you have to make is what to run the service on - also known as the Pricing tier.  If you click on  View all , you will see you have lots of choices. F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling and large amounts of storage - they differ in the number of sites or instances you can run on them.    Finally, there is a number after the plan - this tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.  For our purposes, an F1 Free site is enough to run the site unless we run into problems.    Once you have created your app service plan and saved it, click on  Create .    The creation of the service can take a couple of minutes, depending on what else is going on.  Once you have created your app service, the App Service blade will open up.   What's the difference between a Web App, a Mobile App and an API App?  Not a lot.  The type determines which Quick start projects are available in the Quick start menu under  All settings .  Since we selected a Mobile app, a set of starter client projects for mobile devices will be presented.   The next step in the process is to create a SQL Azure instance.  The ASP.NET application that we produced earlier will use this to store the data presented in the table controller.   Click on the  + New  button on the left hand side of the page.  Select  Data + Storage  and then  SQL Database .  Enter a unique database name (I use a GUID again) in the  Database name  box.  Select  Use existing  under the  Resource group , then select the resource group you created earlier.  Select  Blank database  in the  Select source  box.   Click on  Configure required settings  for the  Server .   Click on  Create a new server .  Enter another globally unique name for the  Server name  (I use a GUID yet again).  Enter  appservice  in the  Server admin login  (or use your own name).  Enter a password in the  Password  and  Confirm password  boxes.  Select the same location as your App Service in the  Location  box.  Click on  Select  to create the Server.     Click on the  Pricing tier .  The  B Basic  plan is the cheapest plan available.   Click on  Create .   The SQL Azure instance takes longer to deploy than the App Service in general.\nUnfortunately, you cannot get away without a cost if you are going to develop\nmobile backends with C#.   GUIDs are not the best names to use when you need to actually find resources, but the prevent conflicts when deploying, so I prefer them.  You can prefix them (example: chapter1-GUID) to aid in finding them.  Generally, the first four digits are enough to identify individual resources.   Finally, you will need to link your SQL Azure instance to the App Service instance:   Click on  Resource groups  in the left hand side menu.  Click on the resource group you created.  Click on the App Service you created.  Click on  All settings .  Click on  Data connections  in the  MOBILE  menu.   Click on  Add .   Click on the  Configure required settings  under  SQL Database .  Select the database you just created, then click on  Select .  Click on  Configure required settings  under  Connection string .  Enter  appservice  in the  User Name  box.  Enter your chosen password in the  Password  box.  watch for green tick marks to ensure the username and password are correct.  Click on  OK  Click on  OK  in the  Add data connection  blade.     This produces another deployment step.  It doesn't take very long so you can\nswitch back to your Visual Studio window.   If you want a completely free mobile backend, search for the  Mobile Apps\nQuickstart  in the Azure Marketplace.  This template does not require a\ndatabase.  It relies on a Node backend, however, so you won't be developing a C#\nbackend.",
+            "location": "/introduction/#building-an-azure-app-service-for-mobile-apps", 
+            "text": "The next step in the process is to build the resources on Azure that will run\nyour mobile backend.  Start by logging into the  Azure Portal , then follow\nthese instructions:   Click on the big  + New  button in the top-left corner.  Click on  Web + Mobile , then  Mobile App .   Enter a unique name in the  App name  box.   Since the name doesn't matter and it has to be unique, you can use  a GUID generator  to generate a unique name.       If you have more than one subscription (for example, you have a trial and\n    an MSDN subscription), then ensure you select the right subscription in\n    the  Subscription  drop-down.    Select  Create new  under resource group and enter a name for this mobile application.   Resource groups are great for grouping all the resources associated with a mobile application together.  During development, it means you can delete all the resources in one operation.  For production, it means you can see how much the service is costing you and how the resources are being used.     Finally, select or create a new  App Service Plan .   The App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.   I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process is relatively simple.  You have two choices.  The easy choice is where is the service going to run.  In a production environment, the correct choice is \"near your customers\".  During development \"close to the developers\" is a good choice.  Unfortunately, neither of those is an option, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.  The second choice you have to make is what to run the service on - also known as the Pricing tier.  If you click on  View all , you will see you have lots of choices. F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling and large amounts of storage - they differ in the number of sites or instances you can run on them.    Finally, there is a number after the plan - this tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.  For our purposes, an F1 Free site is enough to run the site unless we run into problems.    Once you have created your app service plan and saved it, click on  Create .    The creation of the service can take a couple of minutes, depending on what else is going on.  Once you have created your app service, the App Service blade will open up.   What's the difference between a Web App, a Mobile App and an API App?  Not a lot.  The type determines which Quick start projects are available in the Quick start menu under  All settings .  Since we selected a Mobile app, a set of starter client projects for mobile devices will be presented.   The next step in the process is to create a SQL Azure instance.  The ASP.NET application that we produced earlier will use this to store the data presented in the table controller.   Click on the  + New  button on the left hand side of the page.  Select  Data + Storage  and then  SQL Database .  Enter a unique database name (I use a GUID again) in the  Database name  box.  Select  Use existing  under the  Resource group , then select the resource group you created earlier.  Select  Blank database  in the  Select source  box.   Click on  Configure required settings  for the  Server .   Click on  Create a new server .  Enter another globally unique name for the  Server name  (I use a GUID yet again).  Enter  appservice  in the  Server admin login  (or use your own name).  Enter a password in the  Password  and  Confirm password  boxes.  Select the same location as your App Service in the  Location  box.  Click on  Select  to create the Server.     Click on the  Pricing tier .  The  B Basic  plan is the cheapest plan available.   Click on  Create .   The SQL Azure instance takes longer to deploy than the App Service in general.\nUnfortunately, you cannot get away without a cost if you are going to develop\nmobile backends with C#.   GUIDs are not the best names to use when you need to actually find resources, but the prevent conflicts when deploying, so I prefer them.  You can prefix them (example: chapter1-GUID) to aid in finding them.  Generally, the first four digits are enough to identify individual resources.   Finally, you will need to link your SQL Azure instance to the App Service instance:   Click on  Resource groups  in the left hand side menu.  Click on the resource group you created.  Click on the App Service you created.  Click on  All settings .  Click on  Data connections  in the  MOBILE  menu.   Click on  Add .   Click on the  Configure required settings  under  SQL Database .  Select the database you just created, then click on  Select .  Click on  Configure required settings  under  Connection string .  Enter  appservice  in the  User Name  box.  Enter your chosen password in the  Password  box.  watch for green tick marks to ensure the username and password are correct.  Click on  OK  Click on  OK  in the  Add data connection  blade.     This produces another deployment step.  It doesn't take very long so you can\nswitch back to your Visual Studio window.   If you want a completely free mobile backend, search for the  Mobile Apps\nQuickstart  in the Azure Marketplace.  This template does not require a\ndatabase.  It relies on a Node backend, however, so you won't be developing a C#\nbackend.", 
             "title": "Building an Azure App Service for Mobile Apps"
-        },
+        }, 
         {
-            "location": "/introduction/#deploying-the-azure-mobile-apps-backend",
-            "text": "Deploying to Azure as a developer can be accomplished while entirely within Visual Studio:   Right-click on the  Backend  project, then select  Publish... .   Make sure you see this screen shot:   If you do not see this image, then it is likely you have an older version\nof the Azure SDK installed.  Make sure the Azure SDK version is v2.9 or\nlater.    Click on  Microsoft Azure App Service .   You may be prompted to enter your Azure credentials here.  Enter the same\n    information that you enter to access the Azure Portal.  In the lower box, expand the resource group that you created and select the\n    app service you created in the portal.  Click on  OK .  Click on  Publish .   Visual Studio will open a browser.  Add  /tables/todoitem?ZUMO-API-VERSION=2.0.0 \nto the end of the URL.  This will show the JSON contents of the table that we\ndefined in the backend.   You will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A ZU re  MO bile.",
+            "location": "/introduction/#deploying-the-azure-mobile-apps-backend", 
+            "text": "Deploying to Azure as a developer can be accomplished while entirely within Visual Studio:   Right-click on the  Backend  project, then select  Publish... .   Make sure you see this screen shot:   If you do not see this image, then it is likely you have an older version\nof the Azure SDK installed.  Make sure the Azure SDK version is v2.9 or\nlater.    Click on  Microsoft Azure App Service .   You may be prompted to enter your Azure credentials here.  Enter the same\n    information that you enter to access the Azure Portal.  In the lower box, expand the resource group that you created and select the\n    app service you created in the portal.  Click on  OK .  Click on  Publish .   Visual Studio will open a browser.  Add  /tables/todoitem?ZUMO-API-VERSION=2.0.0 \nto the end of the URL.  This will show the JSON contents of the table that we\ndefined in the backend.   You will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A ZU re  MO bile.", 
             "title": "Deploying the Azure Mobile Apps Backend"
-        },
+        }, 
         {
-            "location": "/introduction/#the-mobile-client",
-            "text": "Now that the mobile backend is created and deployed, we can move onto the client\nside of things.  First of all, let's prepare the Visual Studio instance.  If you\nhave installed the Cross-Platform Mobile tools during the installation, most of\nthe work has already been done.  However, you may want to install the  Xamarin\nForms Templates  using the Tools -> Extensions and Updates...   This template pack provides additional templates for Xamarin Forms development\nthat I find useful.  Most notably, there is a specific template for a mobile\ncross-platform project covering the Android, iOS and UWP mobile platforms.",
+            "location": "/introduction/#the-mobile-client", 
+            "text": "Now that the mobile backend is created and deployed, we can move onto the client\nside of things.  First of all, let's prepare the Visual Studio instance.  If you\nhave installed the Cross-Platform Mobile tools during the installation, most of\nthe work has already been done.  However, you may want to install the  Xamarin\nForms Templates  using the Tools -  Extensions and Updates...   This template pack provides additional templates for Xamarin Forms development\nthat I find useful.  Most notably, there is a specific template for a mobile\ncross-platform project covering the Android, iOS and UWP mobile platforms.", 
             "title": "The Mobile Client"
-        },
+        }, 
         {
-            "location": "/introduction/#creating-a-simple-mobile-client-with-xamarin",
-            "text": "Now that we have prepared your Visual Studio instance, we can create the project.\nRight-click on the solution and select  Add  ->  New Project... .  This will\nbring up the familiar New Project dialog.  The project you want is under  Visual C# \n->  Cross-Platform , and is called  Xamarin.Forms (UWP/Android/iOS) .  If you\ndid not install the Xamarin Forms Template add-on, then choose the Blank Xaml App (Xamarin.Forms Portable)  project.  Give the project a name,\nthen click on  OK .   Project creation will take longer than you expect, but there is a lot going on.\nIf you have never created a mobile or UWP project before, you will be prompted\nto turn on Windows 10 Developer Mode:   Developer mode in Windows 10 allows you to run unsigned binaries for development\npurposes and to turn on debugging so that you can step through your UWP programs\nwithin Visual Studio.  We will also get asked to choose what version of the Universal Windows platform\nwe want to target:   Version 10240 was the first version of Windows 10 that was released to the general\npublic, so that's a good minimum version to pick.  In general, the defaults for\nthe Universal Windows Platform choice are good enough.  Finally, we will be asked about our iOS build host.  This must be some sort of\nmac.  As I said previously, I use a Mac Mini underneath my desk for this. The\nlatest Xamarin tools forego a dedicated build service and instead use a secure\nshell (ssh) connection to connect to the Mac.  That means you must go through\nthe process for  setting up the mac for ssh access .    When prompted about the Xamarin Mac Agent, click on  OK  to get the list of\nlocal mac agents:   Highlight your mac (in case there are multiples), then click on  Connect... .\nYou will be prompted for your username and password:   Just enter the username and password that you use to log in to your mac and click\non  Login .   What's my username?   Apple tries very hard to hide the real username of\nyour account from you.  The easiest way to find your mac username is to open up\nthe Finder.  The name next to your home icon is the name of your account.   Once the project is created, you will see that four new projects have been\ncreated: a common library which you named plus one project for each platform\nthat has been chosen.  Since we chose a project with three platforms, we get\nfour projects:   Most of our work will happen in the common library.  However, we can introduce\nplatform-specific code at any point.  The platform-specific code is stored in\nthe platform-specific project.  There is one final item we must do before we leave the set up of the project.\nThere are a number of platform upgrades that inevitably have to happen.  The\nXamarin Platform is updated much more often than the Visual Studio plugin - the\nupdates are released via NuGet: the standard method of distributing libraries\nfor .NET applications.  In addition to the inevitable Xamarin Platform update,\nwe also will want to add the following NuGet packages:   Microsoft.Azure.Mobile.Client v2.0.0 or later  Newtonsoft.Json v6.0.3 or later    Although it is tempting, do not include a v1.x version of the Mobile Client.\nThis is for the earlier Azure Mobile Services.  There are many differences between\nthe wire protocols of the two products.   You can install the NuGet packages by right-clicking on the project and selecting Manage NuGet Packages... .   You must install the updates and the new NuGet packages on all four projects. \nThis involves repeating the same process for each client project in your\nsolution.   Android generally has more updates than the other platforms.  Ensure that you\nupdate the main Xamarin.Forms package and then refresh the update list.  This will\nensure the right list of packages is updated.",
+            "location": "/introduction/#creating-a-simple-mobile-client-with-xamarin", 
+            "text": "Now that we have prepared your Visual Studio instance, we can create the project.\nRight-click on the solution and select  Add  -   New Project... .  This will\nbring up the familiar New Project dialog.  The project you want is under  Visual C# \n-   Cross-Platform , and is called  Xamarin.Forms (UWP/Android/iOS) .  If you\ndid not install the Xamarin Forms Template add-on, then choose the Blank Xaml App (Xamarin.Forms Portable)  project.  Give the project a name,\nthen click on  OK .   Project creation will take longer than you expect, but there is a lot going on.\nIf you have never created a mobile or UWP project before, you will be prompted\nto turn on Windows 10 Developer Mode:   Developer mode in Windows 10 allows you to run unsigned binaries for development\npurposes and to turn on debugging so that you can step through your UWP programs\nwithin Visual Studio.  We will also get asked to choose what version of the Universal Windows platform\nwe want to target:   Version 10240 was the first version of Windows 10 that was released to the general\npublic, so that's a good minimum version to pick.  In general, the defaults for\nthe Universal Windows Platform choice are good enough.  Finally, we will be asked about our iOS build host.  This must be some sort of\nmac.  As I said previously, I use a Mac Mini underneath my desk for this. The\nlatest Xamarin tools forego a dedicated build service and instead use a secure\nshell (ssh) connection to connect to the Mac.  That means you must go through\nthe process for  setting up the mac for ssh access .    When prompted about the Xamarin Mac Agent, click on  OK  to get the list of\nlocal mac agents:   Highlight your mac (in case there are multiples), then click on  Connect... .\nYou will be prompted for your username and password:   Just enter the username and password that you use to log in to your mac and click\non  Login .   What's my username?   Apple tries very hard to hide the real username of\nyour account from you.  The easiest way to find your mac username is to open up\nthe Finder.  The name next to your home icon is the name of your account.   Once the project is created, you will see that four new projects have been\ncreated: a common library which you named plus one project for each platform\nthat has been chosen.  Since we chose a project with three platforms, we get\nfour projects:   Most of our work will happen in the common library.  However, we can introduce\nplatform-specific code at any point.  The platform-specific code is stored in\nthe platform-specific project.  There is one final item we must do before we leave the set up of the project.\nThere are a number of platform upgrades that inevitably have to happen.  The\nXamarin Platform is updated much more often than the Visual Studio plugin - the\nupdates are released via NuGet: the standard method of distributing libraries\nfor .NET applications.  In addition to the inevitable Xamarin Platform update,\nwe also will want to add the following NuGet packages:   Microsoft.Azure.Mobile.Client v2.0.0 or later  Newtonsoft.Json v6.0.3 or later    Although it is tempting, do not include a v1.x version of the Mobile Client.\nThis is for the earlier Azure Mobile Services.  There are many differences between\nthe wire protocols of the two products.   You can install the NuGet packages by right-clicking on the project and selecting Manage NuGet Packages... .   You must install the updates and the new NuGet packages on all four projects. \nThis involves repeating the same process for each client project in your\nsolution.   Android generally has more updates than the other platforms.  Ensure that you\nupdate the main Xamarin.Forms package and then refresh the update list.  This will\nensure the right list of packages is updated.", 
             "title": "Creating a Simple Mobile Client with Xamarin"
-        },
+        }, 
         {
-            "location": "/introduction/#building-the-common-library",
-            "text": "",
+            "location": "/introduction/#building-the-common-library", 
+            "text": "", 
             "title": "Building the Common Library"
-        },
+        }, 
         {
-            "location": "/introduction/#building-the-client-for-android",
-            "text": "",
+            "location": "/introduction/#building-the-client-for-android", 
+            "text": "", 
             "title": "Building the Client for Android"
-        },
+        }, 
         {
-            "location": "/introduction/#building-the-client-for-universal-windows",
-            "text": "",
+            "location": "/introduction/#building-the-client-for-universal-windows", 
+            "text": "", 
             "title": "Building the Client for Universal Windows"
-        },
+        }, 
         {
-            "location": "/introduction/#building-the-client-for-ios",
-            "text": "",
+            "location": "/introduction/#building-the-client-for-ios", 
+            "text": "", 
             "title": "Building the Client for iOS"
-        },
+        }, 
         {
-            "location": "/authentication/",
-            "text": "Authentication\n\n\nAuthentication Concepts\n\n\nThe OAuth Process\n\n\nServer Side vs. Client Side Authentication\n\n\nWhat is in a JWT\n\n\nBest Practices\n\n\nAdding Authentication to a Mobile Backend\n\n\nSocial Authentication\n\n\nEnterprise Authentication\n\n\nCustom Authentication\n\n\nConfiguring Refresh Tokens\n\n\nImplementing Authentication to a Mobile Client\n\n\nSocial Authentication\n\n\nEnterprise Authentication\n\n\nCustom Authentication\n\n\nHandling Refresh Tokens",
+            "location": "/authentication/", 
+            "text": "Authentication\n\n\nAuthentication Concepts\n\n\nThe OAuth Process\n\n\nServer Side vs. Client Side Authentication\n\n\nWhat is in a JWT\n\n\nBest Practices\n\n\nAdding Authentication to a Mobile Backend\n\n\nSocial Authentication\n\n\nEnterprise Authentication\n\n\nCustom Authentication\n\n\nConfiguring Refresh Tokens\n\n\nImplementing Authentication to a Mobile Client\n\n\nSocial Authentication\n\n\nEnterprise Authentication\n\n\nCustom Authentication\n\n\nHandling Refresh Tokens", 
             "title": "Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#authentication",
-            "text": "",
+            "location": "/authentication/#authentication", 
+            "text": "", 
             "title": "Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#authentication-concepts",
-            "text": "",
+            "location": "/authentication/#authentication-concepts", 
+            "text": "", 
             "title": "Authentication Concepts"
-        },
+        }, 
         {
-            "location": "/authentication/#the-oauth-process",
-            "text": "",
+            "location": "/authentication/#the-oauth-process", 
+            "text": "", 
             "title": "The OAuth Process"
-        },
+        }, 
         {
-            "location": "/authentication/#server-side-vs-client-side-authentication",
-            "text": "",
+            "location": "/authentication/#server-side-vs-client-side-authentication", 
+            "text": "", 
             "title": "Server Side vs. Client Side Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#what-is-in-a-jwt",
-            "text": "",
+            "location": "/authentication/#what-is-in-a-jwt", 
+            "text": "", 
             "title": "What is in a JWT"
-        },
+        }, 
         {
-            "location": "/authentication/#best-practices",
-            "text": "",
+            "location": "/authentication/#best-practices", 
+            "text": "", 
             "title": "Best Practices"
-        },
+        }, 
         {
-            "location": "/authentication/#adding-authentication-to-a-mobile-backend",
-            "text": "",
+            "location": "/authentication/#adding-authentication-to-a-mobile-backend", 
+            "text": "", 
             "title": "Adding Authentication to a Mobile Backend"
-        },
+        }, 
         {
-            "location": "/authentication/#social-authentication",
-            "text": "",
+            "location": "/authentication/#social-authentication", 
+            "text": "", 
             "title": "Social Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#enterprise-authentication",
-            "text": "",
+            "location": "/authentication/#enterprise-authentication", 
+            "text": "", 
             "title": "Enterprise Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#custom-authentication",
-            "text": "",
+            "location": "/authentication/#custom-authentication", 
+            "text": "", 
             "title": "Custom Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#configuring-refresh-tokens",
-            "text": "",
+            "location": "/authentication/#configuring-refresh-tokens", 
+            "text": "", 
             "title": "Configuring Refresh Tokens"
-        },
+        }, 
         {
-            "location": "/authentication/#implementing-authentication-to-a-mobile-client",
-            "text": "",
+            "location": "/authentication/#implementing-authentication-to-a-mobile-client", 
+            "text": "", 
             "title": "Implementing Authentication to a Mobile Client"
-        },
+        }, 
         {
-            "location": "/authentication/#social-authentication_1",
-            "text": "",
+            "location": "/authentication/#social-authentication_1", 
+            "text": "", 
             "title": "Social Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#enterprise-authentication_1",
-            "text": "",
+            "location": "/authentication/#enterprise-authentication_1", 
+            "text": "", 
             "title": "Enterprise Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#custom-authentication_1",
-            "text": "",
+            "location": "/authentication/#custom-authentication_1", 
+            "text": "", 
             "title": "Custom Authentication"
-        },
+        }, 
         {
-            "location": "/authentication/#handling-refresh-tokens",
-            "text": "",
+            "location": "/authentication/#handling-refresh-tokens", 
+            "text": "", 
             "title": "Handling Refresh Tokens"
-        },
+        }, 
         {
-            "location": "/data/",
-            "text": "Data Access and Offline Sync\n\n\nData Access Concepts\n\n\nData Access Protocol\n\n\nHow Offline Sync Works\n\n\nTesting Data Access\n\n\nAdding a SQL Table Controller\n\n\nUsing an Existing SQL Table\n\n\nUsing Code Behind\n\n\nWhy use Code Behind?\n\n\nImplementing Code Behind\n\n\nCode Behind Recipes\n\n\nWorking with Data in your Client\n\n\nImplementing an Online Table\n\n\nImplementing an Offline Table\n\n\nUsing a Non-SQL Data Source\n\n\nThe ASP.NET Domain Manager\n\n\nImplementing a DocumentDB Domain Manager\n\n\nImplementing an Azure Table Storage Domain Manager",
+            "location": "/data/", 
+            "text": "Data Access and Offline Sync\n\n\nData Access Concepts\n\n\nData Access Protocol\n\n\nHow Offline Sync Works\n\n\nTesting Data Access\n\n\nAdding a SQL Table Controller\n\n\nUsing an Existing SQL Table\n\n\nUsing Code Behind\n\n\nWhy use Code Behind?\n\n\nImplementing Code Behind\n\n\nCode Behind Recipes\n\n\nWorking with Data in your Client\n\n\nImplementing an Online Table\n\n\nImplementing an Offline Table\n\n\nUsing a Non-SQL Data Source\n\n\nThe ASP.NET Domain Manager\n\n\nImplementing a DocumentDB Domain Manager\n\n\nImplementing an Azure Table Storage Domain Manager", 
             "title": "Data Access and Offline Sync"
-        },
+        }, 
         {
-            "location": "/data/#data-access-and-offline-sync",
-            "text": "",
+            "location": "/data/#data-access-and-offline-sync", 
+            "text": "", 
             "title": "Data Access and Offline Sync"
-        },
+        }, 
         {
-            "location": "/data/#data-access-concepts",
-            "text": "",
+            "location": "/data/#data-access-concepts", 
+            "text": "", 
             "title": "Data Access Concepts"
-        },
+        }, 
         {
-            "location": "/data/#data-access-protocol",
-            "text": "",
+            "location": "/data/#data-access-protocol", 
+            "text": "", 
             "title": "Data Access Protocol"
-        },
+        }, 
         {
-            "location": "/data/#how-offline-sync-works",
-            "text": "",
+            "location": "/data/#how-offline-sync-works", 
+            "text": "", 
             "title": "How Offline Sync Works"
-        },
+        }, 
         {
-            "location": "/data/#testing-data-access",
-            "text": "",
+            "location": "/data/#testing-data-access", 
+            "text": "", 
             "title": "Testing Data Access"
-        },
+        }, 
         {
-            "location": "/data/#adding-a-sql-table-controller",
-            "text": "",
+            "location": "/data/#adding-a-sql-table-controller", 
+            "text": "", 
             "title": "Adding a SQL Table Controller"
-        },
+        }, 
         {
-            "location": "/data/#using-an-existing-sql-table",
-            "text": "",
+            "location": "/data/#using-an-existing-sql-table", 
+            "text": "", 
             "title": "Using an Existing SQL Table"
-        },
+        }, 
         {
-            "location": "/data/#using-code-behind",
-            "text": "",
+            "location": "/data/#using-code-behind", 
+            "text": "", 
             "title": "Using Code Behind"
-        },
+        }, 
         {
-            "location": "/data/#why-use-code-behind",
-            "text": "",
+            "location": "/data/#why-use-code-behind", 
+            "text": "", 
             "title": "Why use Code Behind?"
-        },
+        }, 
         {
-            "location": "/data/#implementing-code-behind",
-            "text": "",
+            "location": "/data/#implementing-code-behind", 
+            "text": "", 
             "title": "Implementing Code Behind"
-        },
+        }, 
         {
-            "location": "/data/#code-behind-recipes",
-            "text": "",
+            "location": "/data/#code-behind-recipes", 
+            "text": "", 
             "title": "Code Behind Recipes"
-        },
+        }, 
         {
-            "location": "/data/#working-with-data-in-your-client",
-            "text": "",
+            "location": "/data/#working-with-data-in-your-client", 
+            "text": "", 
             "title": "Working with Data in your Client"
-        },
+        }, 
         {
-            "location": "/data/#implementing-an-online-table",
-            "text": "",
+            "location": "/data/#implementing-an-online-table", 
+            "text": "", 
             "title": "Implementing an Online Table"
-        },
+        }, 
         {
-            "location": "/data/#implementing-an-offline-table",
-            "text": "",
+            "location": "/data/#implementing-an-offline-table", 
+            "text": "", 
             "title": "Implementing an Offline Table"
-        },
+        }, 
         {
-            "location": "/data/#using-a-non-sql-data-source",
-            "text": "",
+            "location": "/data/#using-a-non-sql-data-source", 
+            "text": "", 
             "title": "Using a Non-SQL Data Source"
-        },
+        }, 
         {
-            "location": "/data/#the-aspnet-domain-manager",
-            "text": "",
+            "location": "/data/#the-aspnet-domain-manager", 
+            "text": "", 
             "title": "The ASP.NET Domain Manager"
-        },
+        }, 
         {
-            "location": "/data/#implementing-a-documentdb-domain-manager",
-            "text": "",
+            "location": "/data/#implementing-a-documentdb-domain-manager", 
+            "text": "", 
             "title": "Implementing a DocumentDB Domain Manager"
-        },
+        }, 
         {
-            "location": "/data/#implementing-an-azure-table-storage-domain-manager",
-            "text": "",
+            "location": "/data/#implementing-an-azure-table-storage-domain-manager", 
+            "text": "", 
             "title": "Implementing an Azure Table Storage Domain Manager"
-        },
+        }, 
         {
-            "location": "/files/",
-            "text": "File Management\n\n\nAzure Storage Concepts\n\n\nBlobs, Table, Queues and files\n\n\nThe SAS Tokens\n\n\nFile Sync with Azure Mobile Apps\n\n\nDealing with Files\n\n\nUploading a File to Blob Storage\n\n\nDownload a File from Blob Storage\n\n\nFile Sync with Azure Mobile Apps\n\n\nConfiguring the Mobile Backend\n\n\nDeveloping the Mobile Client",
+            "location": "/files/", 
+            "text": "File Management\n\n\nAzure Storage Concepts\n\n\nBlobs, Table, Queues and files\n\n\nThe SAS Tokens\n\n\nFile Sync with Azure Mobile Apps\n\n\nDealing with Files\n\n\nUploading a File to Blob Storage\n\n\nDownload a File from Blob Storage\n\n\nFile Sync with Azure Mobile Apps\n\n\nConfiguring the Mobile Backend\n\n\nDeveloping the Mobile Client", 
             "title": "File Management"
-        },
+        }, 
         {
-            "location": "/files/#file-management",
-            "text": "",
+            "location": "/files/#file-management", 
+            "text": "", 
             "title": "File Management"
-        },
+        }, 
         {
-            "location": "/files/#azure-storage-concepts",
-            "text": "",
+            "location": "/files/#azure-storage-concepts", 
+            "text": "", 
             "title": "Azure Storage Concepts"
-        },
+        }, 
         {
-            "location": "/files/#blobs-table-queues-and-files",
-            "text": "",
+            "location": "/files/#blobs-table-queues-and-files", 
+            "text": "", 
             "title": "Blobs, Table, Queues and files"
-        },
+        }, 
         {
-            "location": "/files/#the-sas-tokens",
-            "text": "",
+            "location": "/files/#the-sas-tokens", 
+            "text": "", 
             "title": "The SAS Tokens"
-        },
+        }, 
         {
-            "location": "/files/#file-sync-with-azure-mobile-apps",
-            "text": "",
+            "location": "/files/#file-sync-with-azure-mobile-apps", 
+            "text": "", 
             "title": "File Sync with Azure Mobile Apps"
-        },
+        }, 
         {
-            "location": "/files/#dealing-with-files",
-            "text": "",
+            "location": "/files/#dealing-with-files", 
+            "text": "", 
             "title": "Dealing with Files"
-        },
+        }, 
         {
-            "location": "/files/#uploading-a-file-to-blob-storage",
-            "text": "",
+            "location": "/files/#uploading-a-file-to-blob-storage", 
+            "text": "", 
             "title": "Uploading a File to Blob Storage"
-        },
+        }, 
         {
-            "location": "/files/#download-a-file-from-blob-storage",
-            "text": "",
+            "location": "/files/#download-a-file-from-blob-storage", 
+            "text": "", 
             "title": "Download a File from Blob Storage"
-        },
+        }, 
         {
-            "location": "/files/#file-sync-with-azure-mobile-apps_1",
-            "text": "",
+            "location": "/files/#file-sync-with-azure-mobile-apps_1", 
+            "text": "", 
             "title": "File Sync with Azure Mobile Apps"
-        },
+        }, 
         {
-            "location": "/files/#configuring-the-mobile-backend",
-            "text": "",
+            "location": "/files/#configuring-the-mobile-backend", 
+            "text": "", 
             "title": "Configuring the Mobile Backend"
-        },
+        }, 
         {
-            "location": "/files/#developing-the-mobile-client",
-            "text": "",
+            "location": "/files/#developing-the-mobile-client", 
+            "text": "", 
             "title": "Developing the Mobile Client"
-        },
+        }, 
         {
-            "location": "/push/",
-            "text": "Push Notifications\n\n\nPush Notification Concepts\n\n\nHow Push Notifications Works\n\n\nWorking with Notification Hubs\n\n\nTesting Push Notifications\n\n\nPush Notifications for Android\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notifications for iOS\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notifications for Universal Windows\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notification Recipes\n\n\nCross-Platform Templates\n\n\nPushing to Tags",
+            "location": "/push/", 
+            "text": "Push Notifications\n\n\nPush Notification Concepts\n\n\nHow Push Notifications Works\n\n\nWorking with Notification Hubs\n\n\nTesting Push Notifications\n\n\nPush Notifications for Android\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notifications for iOS\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notifications for Universal Windows\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notification Recipes\n\n\nCross-Platform Templates\n\n\nPushing to Tags", 
             "title": "Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#push-notifications",
-            "text": "",
+            "location": "/push/#push-notifications", 
+            "text": "", 
             "title": "Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#push-notification-concepts",
-            "text": "",
+            "location": "/push/#push-notification-concepts", 
+            "text": "", 
             "title": "Push Notification Concepts"
-        },
+        }, 
         {
-            "location": "/push/#how-push-notifications-works",
-            "text": "",
+            "location": "/push/#how-push-notifications-works", 
+            "text": "", 
             "title": "How Push Notifications Works"
-        },
+        }, 
         {
-            "location": "/push/#working-with-notification-hubs",
-            "text": "",
+            "location": "/push/#working-with-notification-hubs", 
+            "text": "", 
             "title": "Working with Notification Hubs"
-        },
+        }, 
         {
-            "location": "/push/#testing-push-notifications",
-            "text": "",
+            "location": "/push/#testing-push-notifications", 
+            "text": "", 
             "title": "Testing Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#push-notifications-for-android",
-            "text": "",
+            "location": "/push/#push-notifications-for-android", 
+            "text": "", 
             "title": "Push Notifications for Android"
-        },
+        }, 
         {
-            "location": "/push/#configuring-the-notification-hub",
-            "text": "",
+            "location": "/push/#configuring-the-notification-hub", 
+            "text": "", 
             "title": "Configuring the Notification Hub"
-        },
+        }, 
         {
-            "location": "/push/#registering-for-push-notifications",
-            "text": "",
+            "location": "/push/#registering-for-push-notifications", 
+            "text": "", 
             "title": "Registering for Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#handling-push-notifications",
-            "text": "",
+            "location": "/push/#handling-push-notifications", 
+            "text": "", 
             "title": "Handling Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#push-notifications-for-ios",
-            "text": "",
+            "location": "/push/#push-notifications-for-ios", 
+            "text": "", 
             "title": "Push Notifications for iOS"
-        },
+        }, 
         {
-            "location": "/push/#configuring-the-notification-hub_1",
-            "text": "",
+            "location": "/push/#configuring-the-notification-hub_1", 
+            "text": "", 
             "title": "Configuring the Notification Hub"
-        },
+        }, 
         {
-            "location": "/push/#registering-for-push-notifications_1",
-            "text": "",
+            "location": "/push/#registering-for-push-notifications_1", 
+            "text": "", 
             "title": "Registering for Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#handling-push-notifications_1",
-            "text": "",
+            "location": "/push/#handling-push-notifications_1", 
+            "text": "", 
             "title": "Handling Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#push-notifications-for-universal-windows",
-            "text": "",
+            "location": "/push/#push-notifications-for-universal-windows", 
+            "text": "", 
             "title": "Push Notifications for Universal Windows"
-        },
+        }, 
         {
-            "location": "/push/#configuring-the-notification-hub_2",
-            "text": "",
+            "location": "/push/#configuring-the-notification-hub_2", 
+            "text": "", 
             "title": "Configuring the Notification Hub"
-        },
+        }, 
         {
-            "location": "/push/#registering-for-push-notifications_2",
-            "text": "",
+            "location": "/push/#registering-for-push-notifications_2", 
+            "text": "", 
             "title": "Registering for Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#handling-push-notifications_2",
-            "text": "",
+            "location": "/push/#handling-push-notifications_2", 
+            "text": "", 
             "title": "Handling Push Notifications"
-        },
+        }, 
         {
-            "location": "/push/#push-notification-recipes",
-            "text": "",
+            "location": "/push/#push-notification-recipes", 
+            "text": "", 
             "title": "Push Notification Recipes"
-        },
+        }, 
         {
-            "location": "/push/#cross-platform-templates",
-            "text": "",
+            "location": "/push/#cross-platform-templates", 
+            "text": "", 
             "title": "Cross-Platform Templates"
-        },
+        }, 
         {
-            "location": "/push/#pushing-to-tags",
-            "text": "",
+            "location": "/push/#pushing-to-tags", 
+            "text": "", 
             "title": "Pushing to Tags"
-        },
+        }, 
         {
-            "location": "/custom/",
-            "text": "Server Side\n\n\nWorking with Server Side\n\n\nCustom APIs\n\n\nFunctions\n\n\nServer Side Recipes",
+            "location": "/custom/", 
+            "text": "Server Side\n\n\nWorking with Server Side\n\n\nCustom APIs\n\n\nFunctions\n\n\nServer Side Recipes", 
             "title": "Server Side Code"
-        },
+        }, 
         {
-            "location": "/custom/#server-side",
-            "text": "",
+            "location": "/custom/#server-side", 
+            "text": "", 
             "title": "Server Side"
-        },
+        }, 
         {
-            "location": "/custom/#working-with-server-side",
-            "text": "",
+            "location": "/custom/#working-with-server-side", 
+            "text": "", 
             "title": "Working with Server Side"
-        },
+        }, 
         {
-            "location": "/custom/#custom-apis",
-            "text": "",
+            "location": "/custom/#custom-apis", 
+            "text": "", 
             "title": "Custom APIs"
-        },
+        }, 
         {
-            "location": "/custom/#functions",
-            "text": "",
+            "location": "/custom/#functions", 
+            "text": "", 
             "title": "Functions"
-        },
+        }, 
         {
-            "location": "/custom/#server-side-recipes",
-            "text": "",
+            "location": "/custom/#server-side-recipes", 
+            "text": "", 
             "title": "Server Side Recipes"
-        },
+        }, 
         {
-            "location": "/combined/",
-            "text": "Web and Mobile Apps\n\n\nServer Side Development\n\n\nSharing the Database Between Web and Mobile Apps\n\n\nAuthentication for Web and Mobile Apps\n\n\nClient Side Development\n\n\nAccessing Mobile Data from a Single Page Application\n\n\nAuthentication for Single Page Applications\n\n\nRecipes for Single Page Applications\n\n\nAngular 1.x\n\n\nAngular 2.x\n\n\nEmber 1.x\n\n\nReact",
+            "location": "/combined/", 
+            "text": "Web and Mobile Apps\n\n\nServer Side Development\n\n\nSharing the Database Between Web and Mobile Apps\n\n\nAuthentication for Web and Mobile Apps\n\n\nClient Side Development\n\n\nAccessing Mobile Data from a Single Page Application\n\n\nAuthentication for Single Page Applications\n\n\nRecipes for Single Page Applications\n\n\nAngular 1.x\n\n\nAngular 2.x\n\n\nEmber 1.x\n\n\nReact", 
             "title": "Web and Mobile Apps"
-        },
+        }, 
         {
-            "location": "/combined/#web-and-mobile-apps",
-            "text": "",
+            "location": "/combined/#web-and-mobile-apps", 
+            "text": "", 
             "title": "Web and Mobile Apps"
-        },
+        }, 
         {
-            "location": "/combined/#server-side-development",
-            "text": "",
+            "location": "/combined/#server-side-development", 
+            "text": "", 
             "title": "Server Side Development"
-        },
+        }, 
         {
-            "location": "/combined/#sharing-the-database-between-web-and-mobile-apps",
-            "text": "",
+            "location": "/combined/#sharing-the-database-between-web-and-mobile-apps", 
+            "text": "", 
             "title": "Sharing the Database Between Web and Mobile Apps"
-        },
+        }, 
         {
-            "location": "/combined/#authentication-for-web-and-mobile-apps",
-            "text": "",
+            "location": "/combined/#authentication-for-web-and-mobile-apps", 
+            "text": "", 
             "title": "Authentication for Web and Mobile Apps"
-        },
+        }, 
         {
-            "location": "/combined/#client-side-development",
-            "text": "",
+            "location": "/combined/#client-side-development", 
+            "text": "", 
             "title": "Client Side Development"
-        },
+        }, 
         {
-            "location": "/combined/#accessing-mobile-data-from-a-single-page-application",
-            "text": "",
+            "location": "/combined/#accessing-mobile-data-from-a-single-page-application", 
+            "text": "", 
             "title": "Accessing Mobile Data from a Single Page Application"
-        },
+        }, 
         {
-            "location": "/combined/#authentication-for-single-page-applications",
-            "text": "",
+            "location": "/combined/#authentication-for-single-page-applications", 
+            "text": "", 
             "title": "Authentication for Single Page Applications"
-        },
+        }, 
         {
-            "location": "/combined/#recipes-for-single-page-applications",
-            "text": "",
+            "location": "/combined/#recipes-for-single-page-applications", 
+            "text": "", 
             "title": "Recipes for Single Page Applications"
-        },
+        }, 
         {
-            "location": "/combined/#angular-1x",
-            "text": "",
+            "location": "/combined/#angular-1x", 
+            "text": "", 
             "title": "Angular 1.x"
-        },
+        }, 
         {
-            "location": "/combined/#angular-2x",
-            "text": "",
+            "location": "/combined/#angular-2x", 
+            "text": "", 
             "title": "Angular 2.x"
-        },
+        }, 
         {
-            "location": "/combined/#ember-1x",
-            "text": "",
+            "location": "/combined/#ember-1x", 
+            "text": "", 
             "title": "Ember 1.x"
-        },
+        }, 
         {
-            "location": "/combined/#react",
-            "text": "",
+            "location": "/combined/#react", 
+            "text": "", 
             "title": "React"
-        },
+        }, 
         {
-            "location": "/developing/",
-            "text": "The Development Environment\n\n\nWorking with Azure mobile Apps Locally\n\n\nHandling Authentication\n\n\nHandling Push Notifications\n\n\nDebugging your Cloud Mobile Backend\n\n\nDiagnostic Logging\n\n\nUsing the Visual Studio Debugger",
+            "location": "/developing/", 
+            "text": "The Development Environment\n\n\nWorking with Azure mobile Apps Locally\n\n\nHandling Authentication\n\n\nHandling Push Notifications\n\n\nDebugging your Cloud Mobile Backend\n\n\nDiagnostic Logging\n\n\nUsing the Visual Studio Debugger", 
             "title": "The Development Environment"
-        },
+        }, 
         {
-            "location": "/developing/#the-development-environment",
-            "text": "",
+            "location": "/developing/#the-development-environment", 
+            "text": "", 
             "title": "The Development Environment"
-        },
+        }, 
         {
-            "location": "/developing/#working-with-azure-mobile-apps-locally",
-            "text": "",
+            "location": "/developing/#working-with-azure-mobile-apps-locally", 
+            "text": "", 
             "title": "Working with Azure mobile Apps Locally"
-        },
+        }, 
         {
-            "location": "/developing/#handling-authentication",
-            "text": "",
+            "location": "/developing/#handling-authentication", 
+            "text": "", 
             "title": "Handling Authentication"
-        },
+        }, 
         {
-            "location": "/developing/#handling-push-notifications",
-            "text": "",
+            "location": "/developing/#handling-push-notifications", 
+            "text": "", 
             "title": "Handling Push Notifications"
-        },
+        }, 
         {
-            "location": "/developing/#debugging-your-cloud-mobile-backend",
-            "text": "",
+            "location": "/developing/#debugging-your-cloud-mobile-backend", 
+            "text": "", 
             "title": "Debugging your Cloud Mobile Backend"
-        },
+        }, 
         {
-            "location": "/developing/#diagnostic-logging",
-            "text": "",
+            "location": "/developing/#diagnostic-logging", 
+            "text": "", 
             "title": "Diagnostic Logging"
-        },
+        }, 
         {
-            "location": "/developing/#using-the-visual-studio-debugger",
-            "text": "",
+            "location": "/developing/#using-the-visual-studio-debugger", 
+            "text": "", 
             "title": "Using the Visual Studio Debugger"
-        },
+        }, 
         {
-            "location": "/testing/",
-            "text": "Testing your Mobile Application\n\n\nTesting your Mobile Client\n\n\nIntroduction to Mobile Client Testing\n\n\nIntroduction to Xamarin Test Cloud\n\n\nUsing Mock Data Services\n\n\nUnit Testing\n\n\nTesting your Mobile Backend\n\n\nIntroduction to Mobile Backend Testing\n\n\nUnit Testing\n\n\nLoad Testing\n\n\nEnd to End Testing",
+            "location": "/testing/", 
+            "text": "Testing your Mobile Application\n\n\nTesting your Mobile Client\n\n\nIntroduction to Mobile Client Testing\n\n\nIntroduction to Xamarin Test Cloud\n\n\nUsing Mock Data Services\n\n\nUnit Testing\n\n\nTesting your Mobile Backend\n\n\nIntroduction to Mobile Backend Testing\n\n\nUnit Testing\n\n\nLoad Testing\n\n\nEnd to End Testing", 
             "title": "Testing your Application"
-        },
+        }, 
         {
-            "location": "/testing/#testing-your-mobile-application",
-            "text": "",
+            "location": "/testing/#testing-your-mobile-application", 
+            "text": "", 
             "title": "Testing your Mobile Application"
-        },
+        }, 
         {
-            "location": "/testing/#testing-your-mobile-client",
-            "text": "",
+            "location": "/testing/#testing-your-mobile-client", 
+            "text": "", 
             "title": "Testing your Mobile Client"
-        },
+        }, 
         {
-            "location": "/testing/#introduction-to-mobile-client-testing",
-            "text": "",
+            "location": "/testing/#introduction-to-mobile-client-testing", 
+            "text": "", 
             "title": "Introduction to Mobile Client Testing"
-        },
+        }, 
         {
-            "location": "/testing/#introduction-to-xamarin-test-cloud",
-            "text": "",
+            "location": "/testing/#introduction-to-xamarin-test-cloud", 
+            "text": "", 
             "title": "Introduction to Xamarin Test Cloud"
-        },
+        }, 
         {
-            "location": "/testing/#using-mock-data-services",
-            "text": "",
+            "location": "/testing/#using-mock-data-services", 
+            "text": "", 
             "title": "Using Mock Data Services"
-        },
+        }, 
         {
-            "location": "/testing/#unit-testing",
-            "text": "",
+            "location": "/testing/#unit-testing", 
+            "text": "", 
             "title": "Unit Testing"
-        },
+        }, 
         {
-            "location": "/testing/#testing-your-mobile-backend",
-            "text": "",
+            "location": "/testing/#testing-your-mobile-backend", 
+            "text": "", 
             "title": "Testing your Mobile Backend"
-        },
+        }, 
         {
-            "location": "/testing/#introduction-to-mobile-backend-testing",
-            "text": "",
+            "location": "/testing/#introduction-to-mobile-backend-testing", 
+            "text": "", 
             "title": "Introduction to Mobile Backend Testing"
-        },
+        }, 
         {
-            "location": "/testing/#unit-testing_1",
-            "text": "",
+            "location": "/testing/#unit-testing_1", 
+            "text": "", 
             "title": "Unit Testing"
-        },
+        }, 
         {
-            "location": "/testing/#load-testing",
-            "text": "",
+            "location": "/testing/#load-testing", 
+            "text": "", 
             "title": "Load Testing"
-        },
+        }, 
         {
-            "location": "/testing/#end-to-end-testing",
-            "text": "",
+            "location": "/testing/#end-to-end-testing", 
+            "text": "", 
             "title": "End to End Testing"
-        },
+        }, 
         {
-            "location": "/troubleshooting/",
-            "text": "Troubleshooting\n\n\nTroubleshooting the Mobile Backend\n\n\nIntroduction to Azure Application Insights\n\n\nTroubleshooting the Mobile Client\n\n\nIntroduction to HockeyApp\n\n\nIntroduction to Xamarin Insights",
+            "location": "/troubleshooting/", 
+            "text": "Troubleshooting\n\n\nTroubleshooting the Mobile Backend\n\n\nIntroduction to Azure Application Insights\n\n\nTroubleshooting the Mobile Client\n\n\nIntroduction to HockeyApp\n\n\nIntroduction to Xamarin Insights", 
             "title": "Troubleshooting"
-        },
+        }, 
         {
-            "location": "/troubleshooting/#troubleshooting",
-            "text": "",
+            "location": "/troubleshooting/#troubleshooting", 
+            "text": "", 
             "title": "Troubleshooting"
-        },
+        }, 
         {
-            "location": "/troubleshooting/#troubleshooting-the-mobile-backend",
-            "text": "",
+            "location": "/troubleshooting/#troubleshooting-the-mobile-backend", 
+            "text": "", 
             "title": "Troubleshooting the Mobile Backend"
-        },
+        }, 
         {
-            "location": "/troubleshooting/#introduction-to-azure-application-insights",
-            "text": "",
+            "location": "/troubleshooting/#introduction-to-azure-application-insights", 
+            "text": "", 
             "title": "Introduction to Azure Application Insights"
-        },
+        }, 
         {
-            "location": "/troubleshooting/#troubleshooting-the-mobile-client",
-            "text": "",
+            "location": "/troubleshooting/#troubleshooting-the-mobile-client", 
+            "text": "", 
             "title": "Troubleshooting the Mobile Client"
-        },
+        }, 
         {
-            "location": "/troubleshooting/#introduction-to-hockeyapp",
-            "text": "",
+            "location": "/troubleshooting/#introduction-to-hockeyapp", 
+            "text": "", 
             "title": "Introduction to HockeyApp"
-        },
+        }, 
         {
-            "location": "/troubleshooting/#introduction-to-xamarin-insights",
-            "text": "",
+            "location": "/troubleshooting/#introduction-to-xamarin-insights", 
+            "text": "", 
             "title": "Introduction to Xamarin Insights"
-        },
+        }, 
         {
-            "location": "/production/",
-            "text": "Going to Production\n\n\nDeploying Beta Editions of your Application\n\n\nUsing Slots for the Mobile Backend\n\n\nUsing HockeyApp for the Mobile Client\n\n\nScaling your Backend\n\n\nMonitoring your Production Application\n\n\nApplication Insights vs. Xamarin Insights\n\n\nConfiguration as Code (DevOps)\n\n\nIntroduction to Azure Resource Manager\n\n\nDeploying your site with Azure Resource Manager",
+            "location": "/production/", 
+            "text": "Going to Production\n\n\nDeploying Beta Editions of your Application\n\n\nUsing Slots for the Mobile Backend\n\n\nUsing HockeyApp for the Mobile Client\n\n\nScaling your Backend\n\n\nMonitoring your Production Application\n\n\nApplication Insights vs. Xamarin Insights\n\n\nConfiguration as Code (DevOps)\n\n\nIntroduction to Azure Resource Manager\n\n\nDeploying your site with Azure Resource Manager", 
             "title": "Going to Production"
-        },
+        }, 
         {
-            "location": "/production/#going-to-production",
-            "text": "",
+            "location": "/production/#going-to-production", 
+            "text": "", 
             "title": "Going to Production"
-        },
+        }, 
         {
-            "location": "/production/#deploying-beta-editions-of-your-application",
-            "text": "",
+            "location": "/production/#deploying-beta-editions-of-your-application", 
+            "text": "", 
             "title": "Deploying Beta Editions of your Application"
-        },
+        }, 
         {
-            "location": "/production/#using-slots-for-the-mobile-backend",
-            "text": "",
+            "location": "/production/#using-slots-for-the-mobile-backend", 
+            "text": "", 
             "title": "Using Slots for the Mobile Backend"
-        },
+        }, 
         {
-            "location": "/production/#using-hockeyapp-for-the-mobile-client",
-            "text": "",
+            "location": "/production/#using-hockeyapp-for-the-mobile-client", 
+            "text": "", 
             "title": "Using HockeyApp for the Mobile Client"
-        },
+        }, 
         {
-            "location": "/production/#scaling-your-backend",
-            "text": "",
+            "location": "/production/#scaling-your-backend", 
+            "text": "", 
             "title": "Scaling your Backend"
-        },
+        }, 
         {
-            "location": "/production/#monitoring-your-production-application",
-            "text": "",
+            "location": "/production/#monitoring-your-production-application", 
+            "text": "", 
             "title": "Monitoring your Production Application"
-        },
+        }, 
         {
-            "location": "/production/#application-insights-vs-xamarin-insights",
-            "text": "",
+            "location": "/production/#application-insights-vs-xamarin-insights", 
+            "text": "", 
             "title": "Application Insights vs. Xamarin Insights"
-        },
+        }, 
         {
-            "location": "/production/#configuration-as-code-devops",
-            "text": "",
+            "location": "/production/#configuration-as-code-devops", 
+            "text": "", 
             "title": "Configuration as Code (DevOps)"
-        },
+        }, 
         {
-            "location": "/production/#introduction-to-azure-resource-manager",
-            "text": "",
+            "location": "/production/#introduction-to-azure-resource-manager", 
+            "text": "", 
             "title": "Introduction to Azure Resource Manager"
-        },
+        }, 
         {
-            "location": "/production/#deploying-your-site-with-azure-resource-manager",
-            "text": "",
+            "location": "/production/#deploying-your-site-with-azure-resource-manager", 
+            "text": "", 
             "title": "Deploying your site with Azure Resource Manager"
-        },
+        }, 
         {
-            "location": "/references/",
-            "text": "References\n\n\nFurther Reading\n\n\nAPI References\n\n\nSamples\n\n\nHow to get Help",
+            "location": "/references/", 
+            "text": "References\n\n\nFurther Reading\n\n\nAPI References\n\n\nSamples\n\n\nHow to get Help", 
             "title": "References"
-        },
+        }, 
         {
-            "location": "/references/#references",
-            "text": "",
+            "location": "/references/#references", 
+            "text": "", 
             "title": "References"
-        },
+        }, 
         {
-            "location": "/references/#further-reading",
-            "text": "",
+            "location": "/references/#further-reading", 
+            "text": "", 
             "title": "Further Reading"
-        },
+        }, 
         {
-            "location": "/references/#api-references",
-            "text": "",
+            "location": "/references/#api-references", 
+            "text": "", 
             "title": "API References"
-        },
+        }, 
         {
-            "location": "/references/#samples",
-            "text": "",
+            "location": "/references/#samples", 
+            "text": "", 
             "title": "Samples"
-        },
+        }, 
         {
-            "location": "/references/#how-to-get-help",
-            "text": "",
+            "location": "/references/#how-to-get-help", 
+            "text": "", 
             "title": "How to get Help"
         }
     ]
