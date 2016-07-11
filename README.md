@@ -6,7 +6,7 @@ will work with you.
 
 ## Finding the book
 
-Include a link to the book content here
+You can find [the book online](https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/).
 
 ## Building the book
 
