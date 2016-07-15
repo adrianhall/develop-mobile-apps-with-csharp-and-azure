@@ -97,7 +97,8 @@ like authentication, storage and push notifications are not configured.
 
 There is another method in the `App_Start\Startup.MobileApp.cs` file for
 seeding data into the database for us.  We can leave that alone for now, but
-remember it is there in case we need to adust things for your own backend.
+remember it is there in case you need to seed data into a new database for
+your own backend.
 
 The next important file is the `DbContext` - located in `Models\MobileServiceContext.cs`.
 Azure Mobile Apps is heavily dependent on [Entity Framework v6.x][4] and the
@@ -214,17 +215,16 @@ these instructions:
 
     > The App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.
 
-    I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process is relatively simple.  You have two choices.  The easy choice is where is the service going to run.  In a production environment, the correct choice is "near your customers".  During development "close to the developers" is a good choice.  Unfortunately, neither of those is an option, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.
+    I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process is relatively simple.  You have two decisions to make.  The first decision is where is the service going to run.  In a production environment, the correct choice is "near your customers".  "Close to the developers" is a good choice during development.  Unfortunately, neither
+    of those is an option, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.
 
-    The second choice you have to make is what to run the service on - also known as the Pricing tier.  If you click on **View all**, you will see you have lots of choices. F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling and large amounts of storage - they differ in the number of sites or instances you can run on them.  
+    The second decision you have to make is what to run the service on; also known as the Pricing tier.   If you click on **View all**, you will see you have lots of choices. F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling and large amounts of storage; they differ in features: the number of sites or instances you can run on them, for example.  Finally, there is a number after the plan.  This tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.
 
-    Finally, there is a number after the plan - this tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.
-
-    For our purposes, an F1 Free site is enough to run the site unless we run into problems.
+    For our purposes, an F1 Free site is enough to run this small demonstration project.
 
 7. Once you have created your app service plan and saved it, click on **Create**.
 
-The creation of the service can take a couple of minutes, depending on what else is going on.  Once you have created your app service, the App Service blade will open up.
+The creation of the service can take a couple of minutes.  Once you have created your app service, the App Service blade will open.
 
 > What's the difference between a Web App, a Mobile App and an API App?  Not a lot.  The type determines which Quick start projects are available in the Quick start menu under **All settings**.  Since we selected a Mobile app, a set of starter client projects for mobile devices will be presented.
 
@@ -247,11 +247,13 @@ The next step in the process is to create a SQL Azure instance.  The ASP.NET app
 7. Click on the **Pricing tier**.  The **B Basic** plan is the cheapest plan available.
 8. Click on **Create**.
 
-The SQL Azure instance takes longer to deploy than the App Service in general.
-Unfortunately, you cannot get away without a cost if you are going to develop
-mobile backends with C#.
+> There are other methods of creating a SQL Azure instance, including using
+the Data Connections blade within the App Service.
 
-> GUIDs are not the best names to use when you need to actually find resources, but the prevent conflicts when deploying, so I prefer them.  You can prefix them (example: chapter1-GUID) to aid in finding them.  Generally, the first four digits are enough to identify individual resources.
+The SQL Azure instance takes longer to deploy than the App Service in general.
+However, it will still be available within 3-5 minutes.
+
+> GUIDs are not the best names to use when you need to actually find resources, but using GUIDS prevents conflicts when deploying, so I prefer them as a naming scheme.  You can prefix the GUID (example: chapter1-GUID) to aid in discovery later on.  Generally, the first four digits of a GUID are enough to identify individual resources.
 
 Finally, you will need to link your SQL Azure instance to the App Service instance:
 
@@ -411,8 +413,144 @@ solution.
 > Android generally has more updates than the other platforms.  Ensure that you
 update the main Xamarin.Forms package and then refresh the update list.  This will
 ensure the right list of packages is updated.
- 
+
 ### Building the Common Library
+
+There are two parts that we must concentrate on within the common library.  The
+first is the connection to Azure Mobile Apps and the second is in the pages
+that the user interacts with.  In both cases, there are best practices to observe.
+
+#### Building an Azure Mobile Apps Connection
+
+We will rely on interfaces for defining the shape for the class for any service
+that we interact with.  This is really not important in small projects like this
+one.  This technique allows us to mock the backend service, as we shall see
+later on.  Mocking the backend service is a great technique to rapidly iterate
+on the front end mobile client without getting tied into what the backend is doing.
+
+There are two interfaces that we need to define.  The first is the table definition.
+We need to do standard CRUD (<b>C</b>reate, <b>R</b>ead, <b>U</b>pdate and <b>D</b>elete):
+
+```csharp
+/* Project: TaskList, File: Abstractions/ITable.cs */
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    /// <summary>
+    /// Definition of the Table Operations
+    /// </summary>
+    /// <typeparam name="T">The model type/typeparam>
+    public interface ITable<T> where T : class
+    {
+        /// <summary>
+        /// CRUD Operation: CREATE
+        /// </summary>
+        /// <param name="item">The item to Add</param>
+        /// <returns>The inserted item</returns>
+        Task<T> CreateAsync(T item);
+
+        /// <summary>
+        /// CRUD Operation: READ
+        /// </summary>
+        /// <param name="id">The id of the item</param>
+        /// <returns>The item (or null)</returns>
+        Task<T> ReadAsync(string id);
+
+        /// <summary>
+        /// CRUD Operation: UPDATE
+        /// </summary>
+        /// <param name="item">The item to update</param>
+        /// <returns>The updated item</returns>
+        Task<T> UpdateAsync(T item);
+
+        /// <summary>
+        /// CRUD Operations: DELETE
+        /// </summary>
+        /// <param name="item">The item to delete</param>
+        /// <returns>The deleted item</returns>
+        Task<bool> DeleteAsync(T item);
+
+        /// <summary>
+        /// CRUD Operation: READ (BULK)
+        /// </summary>
+        /// <returns>The list of items</returns>
+        Task<List<T>> ListAsync();
+
+        /// <summary>
+        /// Synchronize changes with the backend
+        /// </summary>
+        Task SyncAsync();
+    }
+}
+```
+
+This interface is defined as a completely async interface.  In general, the
+implementation is interacting with a remote system and we don't want the network
+operations interfering with the operation of the UI.  The other interface that
+we need to define is the interface for the mobile backend connection:
+
+```csharp
+/* Project: TaskList, File: Abstractions/IMobileBackend.cs */
+
+using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    /// <summary>
+    /// Definition of the connection to the remote backend
+    /// </summary>
+    public interface IMobileBackend
+    {
+        /// <summary>
+        /// Obtain a reference to a table
+        /// </summary>
+        /// <typeparam name="T">The model type</typeparam>
+        /// <returns>The ITable definition</returns>
+        ITable<T> GetTable<T>() where T : class;
+
+        /// <summary>
+        /// Produce the UI and login to the backend system
+        /// </summary>
+        Task LoginAsync();
+
+        /// <summary>
+        /// Produce any UI and log out of the backend system
+        /// </summary>
+        Task LogoutAsync();
+    }
+}
+```
+
+We can now implement the concrete versions of these interfaces to interact
+with the mobile backend that we created earlier.  Here is the concrete
+implementation of the MobileClient:
+
+```csharp
+```
+
+The things to note here are:
+
+* We create a connection to the Azure Mobile Apps backend by instantiating a
+  `MobileServiceClient` object and naming the mobile backend URI.  This is the
+  same URI as the App Service we created in the Azure Portal.
+* We are not implementing a LoginAsync() or LogoutAsync() method yet - we have
+  not implemented authentication in the backend.  More on Authentication in the
+  next chapter.
+* The `GetTable<T>` method returns an `AzureMobileTable`, which is defined below.
+
+The concrete implementation of the `ITable<T>` interface for Azure Mobile Apps
+is below:
+
+```csharp
+```
+
+This is an "online only" version of the interface.  We are not defining an
+offline synchronization process here.  Whenever a change is requested, it is
+pushed to the remote end.   We will cover offline synchronization patterns in
+
 
 ### Building the Client for Android
 

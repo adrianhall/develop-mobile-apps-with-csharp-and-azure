@@ -1,17 +1,20 @@
 site_name: Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
 pages:
 - Introduction: index.md
-- Your First Mobile App: introduction.md
-- Authentication: authentication.md
-- Data Access and Offline Sync: data.md
-- File Management: files.md
-- Push Notifications: push.md
-- Server Side Code: custom.md
-- Web and Mobile Apps: combined.md
-- The Development Environment: developing.md
-- Testing your Application: testing.md
-- Troubleshooting: troubleshooting.md
-- Going to Production: production.md
-- References: references.md
+- 1. Your First Mobile App: introduction.md
+- 2. Authentication: authentication.md
+- 3. Data Access and Offline Sync: data.md
+- 4. File Management: files.md
+- 5. Push Notifications: push.md
+- 6. Server Side Code: custom.md
+- 7. Media Services: media.md
+- 8. Leveraging Search: search.md
+- 9. Integrating with Office 365: o365.md
+- 10. Web and Mobile Apps: combined.md
+- 11. The Development Environment: developing.md
+- 12. Testing your Application: testing.md
+- 13. Troubleshooting: troubleshooting.md
+- 14. Going to Production: production.md
+- 15. References: references.md
 theme: readthedocs
 extra_css: [extra.css]
