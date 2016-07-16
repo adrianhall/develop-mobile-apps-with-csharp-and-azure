@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskList.Pages.TaskList"
+             Title="{Binding Title}">
+  <ContentPage.Content>
+    <StackLayout>
+      <ListView BackgroundColor="#7F7F7F"
+                CachingStrategy="RecycleElement"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                ItemsSource="{Binding Items}"
+                RefreshCommand="{Binding RefreshCommand}"
+                RowHeight="50"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout HorizontalOptions="FillAndExpand"
+                           Orientation="Horizontal"
+                           Padding="10"
+                           VerticalOptions="CenterAndExpand">
+                <Label HorizontalOptions="FillAndExpand"
+                       Text="{Binding Text}"
+                       TextColor="#272832" />
+                <Switch IsToggled="{Binding Complete, Mode=OneWay}" />
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      <StackLayout HorizontalOptions="Center"
+                   Orientation="Horizontal">
+        <Button BackgroundColor="Teal"
+                Command="{Binding AddNewItemCommand}"
+                Text="Add New Item"
+                TextColor="White" />
+      </StackLayout>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>
