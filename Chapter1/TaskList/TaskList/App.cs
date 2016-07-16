@@ -1,30 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using TaskList.Abstractions;
+using TaskList.Services;
 using Xamarin.Forms;
 
 namespace TaskList
 {
     public class App : Application
     {
+        public static ICloudService CloudService { get; set; }
+
         public App()
         {
+            // Initialize the Cloud Service
+            CloudService = new AzureCloudService();
+
             // The root page of your application
-            MainPage = new ContentPage
-            {
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                         new Label {
-                             HorizontalTextAlignment = TextAlignment.Center,
-                             Text = "Welcome to Xamarin Forms!"
-                         }
-                     }
-                }
-            };
+            MainPage = new NavigationPage(new Pages.EntryPage());
         }
 
         protected override void OnStart()
