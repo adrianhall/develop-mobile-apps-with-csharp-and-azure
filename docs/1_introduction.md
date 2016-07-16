@@ -657,6 +657,8 @@ Earlier, I showed the mockup for my UI.  It included three pages - an entry
 page, a list page and a detail page.  These pages have three elements - a
 XAML definition file, a (simple) code-behind file and a view model.
 
+> This book is not intending to introduce you to everything that there is to know about Xamarin and UI programming with XAML.  If you wish to have that sort of introduction, then I recommend reading the excellent book by Charles Petzold: [Creating Mobile Apps with Xamarin.Forms][10].
+
 I tend to use MVVM (or Model-View-ViewModel) for UI development in Xamarin
 based applications.  It's a nice clean pattern and is well understood and
 documented.  In MVVM, there is a 1:1 correlation between the view and the
@@ -722,6 +724,150 @@ is replaced by the `SetProperty()` call.  The `SetProperty()` call deals with th
 notification; calling the event emitter if the property has changed value.  We
 only need two properties on the `BaseViewModel`: the title and the network indicator.
 
+I tend to write my apps in two stages.  I concentrate on the functionality of the
+app in the first stage.  There is no fancy graphics, custom UI widgets, or anything
+else to clutter the thinking.   The page is all about the functionality of the
+various interactions.  Once I have the functionality working, I work on the styling
+of the page.  We won't be doing any styling work in the demonstration apps that we
+write during the course of this book.
+
+The EntryPage has just one thing to do.  It provides a button that enters the app.
+When we cover authentication later on, we'll use this to log in to the backend.  If
+you are looking at the perfect app, this is a great place to put the introductory
+screen.
+
+Creating a XAML file is relatively simple.  First, create a `Pages` directory to
+hold the pages of our application.  Then right-click on the `Pages` directory in
+the solution explorer and choose **Add** -> **New Item...**.  In the **Add New Item**
+dialog, pick **Visual C#** -> **Cross-Platform** -> **Forms Xaml Page**.  Name the
+new page `EntryPage.cs`.  This will create two files - `EntryPage.xaml` and
+`EntryPage.xaml.cs`.  Let's center a button on the page and wire it up with
+a command.  Here is the `Pages\EntryPage.xaml` file:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskList.Pages.EntryPage"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center"
+                     Orientation="Vertical"
+                     VerticalOptions="Center">
+            <Button BackgroundColor="Teal"
+                    BorderRadius="10"
+                    Command="{Binding LoginCommand}"
+                    Text="Login"
+                    TextColor="White" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+```
+
+There are a couple of interesting things to note here.  The `StackLayout` element
+is our layout element.  It occupies the entire screen (since it is a direct child
+of the content page) and the options just center whatever the contents are.  The
+only contents are a button.
+
+There are two bindings.  These are bound from the ViewModel.  We've already screen
+the Title property - this is a text field that specifies the title of the page.
+The other binding is a login command.  When the button is tapped, the login command
+will be run.  We'll get onto that in the ViewModel later.
+
+The other part of the XAML is the code-behind file.  Because we are moving all
+of the non-UI code into a ViewModel, the code-behind file is trivial:
+
+```csharp
+using TaskList.ViewModels;
+using Xamarin.Forms;
+
+namespace TaskList.Pages
+{
+    public partial class EntryPage : ContentPage
+    {
+        public EntryPage()
+        {
+            InitializeComponent();
+            BindingContext = new EntryPageViewModel();
+        }
+    }
+}
+```
+
+This is a recipe that will be repeated over and over again for the code-behind
+when you are using a XAML-based project with MVVM.  We initialize the UI, then
+bind all the bindings to a new instantiation of the view model.  
+
+Talking of which, the view-model needs just to handle the login click.  Note that
+the location or namespace is `TaskList.ViewModels`.  I'm of two minds about location.
+There tends to be a 1:1 relationship between the XAML file and the View Model, so
+it makes sense that they are stored together.  However, just about all the sample
+code that I see has the view-models in a separate namespace.  Which one is correct?
+I'll go with copying the samples for now.  Here is the code for `ViewModels\EntryPageViewModel.cs`:
+
+```csharp
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class EntryPageViewModel : BaseViewModel
+    {
+        public EntryPageViewModel()
+        {
+            Title = "Task List";
+        }
+
+        Command loginCmd;
+        public Command LoginCommand => loginCmd ?? (loginCmd = new Command(async () => await ExecuteLoginCommand()));
+
+        async Task ExecuteLoginCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Login] Error = {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+    }
+}
+```
+
+This is a fairly simple view-model but there are some patterns here that are
+worth explaining.  Firstly, note the way we create the `LoginCommand` property.
+This is the property that is bound to the `Command` parameter in the `Button`
+of our view.  This recipe is the method of invoking a UI action asynchronously.
+It isn't important now, but we will want this technique repeatedly as our UI
+actions kick off network activity.
+
+The second is the pattern for the `ExecuteLoginCommand` method.  Firstly, I
+ensure nothing else is happening by checking the IsBusy flag.   If nothing
+is happening, I set the IsBusy flag.  Then I do what I need to do in a try/catch
+block.  If an exception is thrown, I deal with it.  Most of the time this
+involves displaying an error condition.  There are several cross-platform dialog
+packages to choose from or you can roll your own.  That is not covered here.  We
+just write a debug log statement so we can see the result in the debug log.  Once
+everything is done, we clear the IsBusy flag.
+
+The only thing we are doing now is swapping out our main page for a new main
+page.  This is where we will attach authentication later on.
+
+The next page is the Task List page.
+
 ### Building the Client for Android
 
 ### Building the Client for Universal Windows
@@ -749,3 +895,4 @@ only need two properties on the `BaseViewModel`: the title and the network indic
 [7]: https://guidgenerator.com/
 [8]: https://visualstudiogallery.msdn.microsoft.com/e1d736b0-5531-4eee-a27a-30a0318cac45
 [9]: https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/
+[10]: https://developer.xamarin.com/guides/xamarin-forms/creating-mobile-apps-xamarin-forms/
