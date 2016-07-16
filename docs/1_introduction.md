@@ -428,129 +428,299 @@ one.  This technique allows us to mock the backend service, as we shall see
 later on.  Mocking the backend service is a great technique to rapidly iterate
 on the front end mobile client without getting tied into what the backend is doing.
 
-There are two interfaces that we need to define.  The first is the table definition.
-We need to do standard CRUD (<b>C</b>reate, <b>R</b>ead, <b>U</b>pdate and <b>D</b>elete):
+Let's start with the cloud service - this is defined in `Abstractions\ICloudService.cs`.
+It is basically used for initializing the connection and getting a table definition:
 
 ```csharp
-/* Project: TaskList, File: Abstractions/ITable.cs */
+namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        public ICloudTable<T> GetTable<T>() where T : TableData;
+    }
+}
+```
 
+There is a dependent implementation here: the `ICloudTable` generic interface.  This
+represents a CRUD interface into our tables and is defined in `Abstractions\ICloudTable.cs`:
+
+```csharp
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TaskList.Abstractions
 {
-    /// <summary>
-    /// Definition of the Table Operations
-    /// </summary>
-    /// <typeparam name="T">The model type/typeparam>
-    public interface ITable<T> where T : class
+    public interface ICloudTable<T> where T : TableData
     {
-        /// <summary>
-        /// CRUD Operation: CREATE
-        /// </summary>
-        /// <param name="item">The item to Add</param>
-        /// <returns>The inserted item</returns>
-        Task<T> CreateAsync(T item);
+        Task<T> CreateItemAsync(T item);
+        Task<T> ReadItemAsync(string id);
+        Task<T> UpdateItemAsync(T item);
+        Task DeleteItemAsync(T item);
 
-        /// <summary>
-        /// CRUD Operation: READ
-        /// </summary>
-        /// <param name="id">The id of the item</param>
-        /// <returns>The item (or null)</returns>
-        Task<T> ReadAsync(string id);
-
-        /// <summary>
-        /// CRUD Operation: UPDATE
-        /// </summary>
-        /// <param name="item">The item to update</param>
-        /// <returns>The updated item</returns>
-        Task<T> UpdateAsync(T item);
-
-        /// <summary>
-        /// CRUD Operations: DELETE
-        /// </summary>
-        /// <param name="item">The item to delete</param>
-        /// <returns>The deleted item</returns>
-        Task<bool> DeleteAsync(T item);
-
-        /// <summary>
-        /// CRUD Operation: READ (BULK)
-        /// </summary>
-        /// <returns>The list of items</returns>
-        Task<List<T>> ListAsync();
-
-        /// <summary>
-        /// Synchronize changes with the backend
-        /// </summary>
-        Task SyncAsync();
+        Task<ICollection<T>> ReadAllItemsAsync() where T : TableData;
     }
 }
 ```
 
-This interface is defined as a completely async interface.  In general, the
-implementation is interacting with a remote system and we don't want the network
-operations interfering with the operation of the UI.  The other interface that
-we need to define is the interface for the mobile backend connection:
+The `ICloudTable<T>` interface defines the normal CRUD operations: Create, Read,
+Update and Delete.  However, it does so asynchronously.  We are dealing with network
+operations in general so it is easy for those operations to tie up the UI thread
+for an appreciable amount of time.  Making them async provides the ability to
+respond to other events.  I also provide a `ReadAllItemsAsync()` method that
+returns a collection of all the items.
+
+There are some fields that every single record within an Azure Mobile Apps table
+provides.  These fields are required for offline sync capabilities like incremental
+sync and conflict resolution.  The fields are provided by an abstract base class
+on the client called `TableData`:
 
 ```csharp
-/* Project: TaskList, File: Abstractions/IMobileBackend.cs */
-
-using System.Threading.Tasks;
+using System;
 
 namespace TaskList.Abstractions
 {
-    /// <summary>
-    /// Definition of the connection to the remote backend
-    /// </summary>
-    public interface IMobileBackend
+    public abstract class TableData
     {
-        /// <summary>
-        /// Obtain a reference to a table
-        /// </summary>
-        /// <typeparam name="T">The model type</typeparam>
-        /// <returns>The ITable definition</returns>
-        ITable<T> GetTable<T>() where T : class;
-
-        /// <summary>
-        /// Produce the UI and login to the backend system
-        /// </summary>
-        Task LoginAsync();
-
-        /// <summary>
-        /// Produce any UI and log out of the backend system
-        /// </summary>
-        Task LogoutAsync();
+        public string Id { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public byte[] Version { get; set; }
     }
 }
 ```
 
-We can now implement the concrete versions of these interfaces to interact
-with the mobile backend that we created earlier.  Here is the concrete
-implementation of the MobileClient:
+As we will learn when we deal with table data in Chapter 3, these fields need to
+be defined with the same name and semantics as on the server.  Our model on
+the server was sub-classed from `EntityData` and the `EntityData` class on the
+server defines these fields.
+
+It's tempting to call the client version of the class the same as the server
+version.  If we did that, the models on both the client and server would look
+the same.  However, I find that this confuses the issue.  The models on the
+client and server are not the same.  They are missing the `Deleted` flag and
+they do not contain any relationship information on the client.  I choose to
+deliberately call the base class something else on the client to avoid this
+confusion.
+
+We will be adding to these interfaces in future chapters as we add more
+capabilities to the application.
+
+The concrete implementations of these classes are similarly easily defined.  The
+Azure Mobile Apps Client SDK does most of the work for us.  Here is the concrete
+implementation of the `ICloudService` (in `Services\AzureCloudService.cs`):
 
 ```csharp
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+
+namespace TaskList.Services
+{
+    public class AzureCloudService : ICloudService
+    {
+        MobileServiceClient client;
+
+        public AzureCloudService()
+        {
+            client = new MobileServiceClient("https://my-backend.azurewebsites.net");
+        }
+
+        public ICloudTable<T> GetTable<T>() where T : TableData
+        {
+            return new AzureCloudTable<T>(client);
+        }
+    }
+}
 ```
 
-The things to note here are:
+The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating
+with the mobile backend that we have already published.  Just swap out the
+name of your mobile backend and the rest is silently dealt with.  
 
-* We create a connection to the Azure Mobile Apps backend by instantiating a
-  `MobileServiceClient` object and naming the mobile backend URI.  This is the
-  same URI as the App Service we created in the Azure Portal.
-* We are not implementing a LoginAsync() or LogoutAsync() method yet - we have
-  not implemented authentication in the backend.  More on Authentication in the
-  next chapter.
-* The `GetTable<T>` method returns an `AzureMobileTable`, which is defined below.
+> The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are not interchangeable with clients for Azure Mobile Apps.  
 
-The concrete implementation of the `ITable<T>` interface for Azure Mobile Apps
-is below:
+We also need a concrete implementation of the `ICloudTable<T>` interface (in `Services\AzureCloudTable.cs`):
 
 ```csharp
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+
+namespace TaskList.Services
+{
+    public class AzureCloudTable<T> : ICloudTable<T> where T : TableData
+    {
+        MobileServiceClient client;
+        IMobileServiceTable<T> table;
+
+        public AzureCloudTable(MobileServiceClient client)
+        {
+            this.client = client;
+            this.table = client.GetTable<T>();
+        }
+
+        #region ICloudTable implementation
+        public async Task<T> CreateItemAsync(T item)
+        {
+            await table.InsertAsync(item);
+            return item;
+        }
+
+        public async Task<T> DeleteItemAsync(T item)
+        {
+            await table.DeleteAsync(item);
+        }
+
+        public async Task<ICollection<T>> ReadAllItemsAsync()
+        {
+            return await table.ToListAsync();
+        }
+
+        public async Task<T> ReadItemAsync(string id)
+        {
+            return await table.LookupAsync(id);
+        }
+
+        public async Task<T> UpdateItemAsync(T item)
+        {
+          await table.UpdateAsync(item);
+          return item;
+        }
+        #endregion
+    }
+}
 ```
 
-This is an "online only" version of the interface.  We are not defining an
-offline synchronization process here.  Whenever a change is requested, it is
-pushed to the remote end.   We will cover offline synchronization patterns in
+It's important to note here that the Azure Mobile Apps Client SDK does a lot of
+the work for us.  In fact, we are just wrapping the basic interface here.  This
+won't normally be the case, but you can see that the majority of the code for
+dealing with the remote server is done for us.
 
+> You can use a shorthand (called a lambda expression) for methods with only one line.  For instance, the delete method could just as easily have been written as `public async Task<T> DeleteItemAsync(T item) => await table.DeleteAsync(item);`.  You may see this sort of short hand in samples.
+
+We also need to create the model that we will use for the data.  This should
+look very similar to the model on the server - including having the same name
+and fields.  In this case, it's `Models\TodoItem.cs`:
+
+```csharp
+using TaskList.Abstractions
+
+namespace TaskList.Models
+{
+    public class TodoItem : TableData
+    {
+        public string Text { get; set; }
+        public bool Complete { get; set; }
+    }
+}
+```
+
+We have a final piece of code to write before we move on to the views, but it's
+an important piece.  The `ICloudService` must be a singleton in the client.  We
+will add authentication and offline sync capabilities in future versions of this
+code.  The singleton becomes critical when using those features.  For right now,
+it's good practice and saves on memory if you only have one copy of the `ICloudService`
+in your mobile client.  Since there is only one copy of the `App.cs` in any
+given app, I can place it there.  Ideally, I'd use some sort of dependency
+injection system or a singleton manager to deal with this.  Here is the `App.cs`:
+
+```csharp
+using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            CloudService = new AzureCloudService();
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+
+        // There are lifecycle methods here...
+    }
+}
+```
+
+We haven't written `Pages.EntryPage` yet, but that's coming.  The original `App.cs`
+class file had several methods for handling lifecycle events like starting, suspending
+or resuming the app.  I did not touch those methods for this example.
+
+#### Building the UI for the App
+
+Earlier, I showed the mockup for my UI.  It included three pages - an entry
+page, a list page and a detail page.  These pages have three elements - a
+XAML definition file, a (simple) code-behind file and a view model.
+
+I tend to use MVVM (or Model-View-ViewModel) for UI development in Xamarin
+based applications.  It's a nice clean pattern and is well understood and
+documented.  In MVVM, there is a 1:1 correlation between the view and the
+view-model, 2-way communication between the view and the view-model and
+properties within the view-model are bound directly to UI elements.  In
+general (and in all my code), view-models expose an INotifyPropertyChanged
+event to tell the UI that something within the view-model has been changed.
+
+To do this, we will use a `BaseViewModel` class that implements the base functionality
+for each view.  Aside from the `INotifyPropertyChanged` interface, there are
+some common properties we need for each page.  Each page needs a title, for
+example, and each page needs an indicator of network activity.  These can be
+placed in the `Abstractions\BaseViewModel.cs` class:
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace TaskList.Abstractions
+{
+    public class BaseViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        string _propTitle = string.Empty;
+        bool _propIsBusy;
+
+        public string Title
+        {
+            get { return _propTitle; }
+            set { SetProperty(ref _propTitle, value, "Title"); }
+        }
+
+        public bool IsBusy
+        {
+            get { return _propIsBusy; }
+            set { SetProperty(ref _propIsBusy, value, "IsBusy"); }
+        }
+
+        protected void SetProperty<T>(ref T store, T value, string propName, Action onChanged = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(store, value))
+                return;
+            store = value;
+            if (onChanged != null)
+                onChanged();
+            OnPropertyChanged(propName);
+        }
+
+        public void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged == null)
+                return;
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+    }
+}
+```
+
+This is a fairly common `INotifyPropertyChanged` interface implementation pattern.
+Each property that we want to expose is a standard property, but the `set` operation
+is replaced by the `SetProperty()` call.  The `SetProperty()` call deals with the
+notification; calling the event emitter if the property has changed value.  We
+only need two properties on the `BaseViewModel`: the title and the network indicator.
 
 ### Building the Client for Android
 
