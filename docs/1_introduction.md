@@ -1377,7 +1377,18 @@ list.  For a free account, it looks like this:
 Click on the Create button next to **iOS Development**.  Once the UI comes back,
 click on **Done**.  For more information on this process, refer to the [Apple Documentation][16].
 
-You can close XCode at this point.  Ensure Xamarin Studio is not running.
+You can close XCode at this point.  Ensure Xamarin Studio is not running.  Back
+within Visual Studio, right-click on the **TaskList.iOS** project and select **Rebuild**.
+This will (finally!) build the application for you.
+
+Running the application in a simulator from within Visual Studio will also be
+easy, but it throws up another road-block.  The **Run** button has received a
+**Device** label, but there are several other simulator devices.  Pick something
+simple like a **iPhone 6 iOS 9.3** simulator and click on run.  Before long, you
+should see the following:
+
+![iOS Simulator Runtime Error][img21]
+
 
 ## Some Final Thoughts
 
@@ -1403,6 +1414,7 @@ You can close XCode at this point.  Ensure Xamarin Studio is not running.
 [img18]: img/ch1/xcode-add-appleid.PNG
 [img19]: img/ch1/xcode-appleid.PNG
 [img20]: img/ch1/xcode-signing-identities.PNG
+[img21]: img/ch1/ios-missing-nuget.PNG
 
 [int-data]: ./3_data.md
 
