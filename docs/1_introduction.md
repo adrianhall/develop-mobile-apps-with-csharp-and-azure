@@ -1344,6 +1344,31 @@ The fix is to do the following:
 
 Once you have done this sequence, the error should go away.
 
+The error about _No valid iOS code signing keys found in keychain_ is because
+we have not yet signed up for an Apple Developer Account and linked it to our
+Mac development environment.
+
+- Go to the [Apple Developer Center][15].
+- Click on **Account** in the top navigation bar.
+- If you haven't got an Apple ID yet, create one first.
+- If you have go an Apple ID, then log in.
+
+There are a sequence of sign-up prompts in both cases (first for creating your
+Apple ID and secondly for signing up for the Apple Developer program).  Once
+you have gone through this process, you are registered as an Apple Developer.
+
+> If you want to distribute your apps on the Apple App Store or get access to the beta bits, then you might consider signing up for the Apple Developer Program.  The Apple Developer Program is an additional cost and is not required for developing iOS apps that are not for distribution.
+
+Once you have created your account and enabled it as a developer account, open
+up XCode.  You will need to get beyond the first screen; I just create a
+Playground for this purpose.  Go to **Preferences...**, then **Account** and
+click on the **+** in the bottom-left corner of the window:
+
+![Adding an Apple ID to XCode][img18]
+
+Sign in with the same account you used to sign up for the developer account.
+
+![The Apple ID in XCode][img19]
 
 ## Some Final Thoughts
 
@@ -1366,6 +1391,8 @@ Once you have done this sequence, the error should go away.
 [img15]: img/ch1/avd-mac.PNG
 [img16]: img/ch1/droid-final.PNG
 [img17]: img/ch1/ios-build-errors.PNG
+[img18]: img/ch1/xcode-add-appleid.PNG
+[img19]: img/ch1/xcode-appleid.PNG
 
 [int-data]: ./3_data.md
 
@@ -1383,3 +1410,4 @@ Once you have done this sequence, the error should go away.
 [12]: https://github.com/
 [13]: https://stackoverflow.com/questions/3480201/how-do-you-install-an-apk-file-in-the-android-emulator/3480235#3480235
 [14]: https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/
+[15]: https://developer.apple.com/
