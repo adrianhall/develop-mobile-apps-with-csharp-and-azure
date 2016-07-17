@@ -8,12 +8,10 @@ namespace TaskList.Services
 {
     public class AzureCloudTable<T> : ICloudTable<T> where T : TableData
     {
-        MobileServiceClient client;
         IMobileServiceTable<T> table;
 
         public AzureCloudTable(MobileServiceClient client)
         {
-            this.client = client;
             this.table = client.GetTable<T>();
         }
 
