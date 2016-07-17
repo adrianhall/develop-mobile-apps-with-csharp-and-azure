@@ -1293,9 +1293,57 @@ to the standard Android Emulator, so this process is well worth going through.
 > When testing the mobile client manually through the Visual Studio Emulator for Android, you are likely to need to rebuild the application.  You do not have to shut down the emulator between runs.  You can leave it running.  The application will be stopped and replaced before starting again.  This can significantly speed up the debug cycle since you are not waiting for the emulator to start each time.
 
 Watch the Output window.  If the debugger won't connect or the application
-won't start, you may need to restart your computer again.
+won't start, you may need to restart your computer again to get the network
+working.
+
+> If your computer doesn't run Hyper-V well (or at all), then the emulator won't run well (or at all) either.  I find laptops to be particularly prone to this problem.  If this happens, you can always run the Google Emulator instead.  Build the application as normal.  You will find the APK file to install in `...\TaskList.Droid\bin\Debug`. Fortunately, there are lots of resources that show how to do this.  You can find the answer on [Stack Overflow][13]
+
+If everything is working, you should see the Visual Studio Emulator for Android
+display your mobile client:
+
+![Visual Studio Emulator for Android Final][img16]
+
+> You can also build the Android version on a mac with Xamarin Studio.  However, I find that version mismatches between Mono (which is used on the mac) and Visual Studio - particularly in reference to the version of the .NET framework - cause issues when swapping between the two environments.  For best results, stay in one environment.
+
+Note that the task list view is a "light" style and the rest of the app is a
+"dark" style.  This is because the default styling on an Android device is
+dark.  We are using the default styling on two of the pages and specifying
+colors on the list page.  Fortunately, Xamarin Forms allows for [platform-specific
+styling][14].  The [final sample][11] has platform-specific styling for the
+list page.
 
 ### Building the Client for iOS
+
+Finally, we get to the iOS platform.  You will need to ensure your Mac is turned
+on and accessible, that it has XCode installed (and you have run XCode once so
+that you can accept the license agreement), and it has Xamarin Studio installed.
+
+When you created the projects, you were asked to link Visual Studio to your mac.  
+This linkage is used for building the project.  In essence, the entire project
+is sent to the Mac and the build tools that are supplied with Xamarin Studio
+will be used to build the project.
+
+- Right-click on the **TaskList.iOS** project and select **Set as StartUp Project**.
+- Right-click on the **TaskList.iOS** project and select **Build**.
+
+You knew it was not going to be that easy, right?  Here are the errors that I
+received when building for the first time:
+
+![iOS First Build Errors][img17]
+
+There are two errors right at the top.  Let's cover the first one.  The error
+about _Build Action 'EmbeddedResource' is not supported_ is an annoying one.
+The fix is to do the following:
+
+1. Set the iOS project as the StartUp project.
+2. Go through each project, expand the **References** node and ensure that there are no references with a warning (a little yellow triangle).  If there are - fix those first.  Generally, this is fixed by either using the **Restore NuGet Packages** option or removing the reference and then adding it again from NuGet.
+3. Close the solution.
+4. Re-open the solution.  You don't need to close Visual Studio to do this.
+5. Right-click on the iOS project and select **Clean**.
+6. Right-click on the iOS project and select **Rebuild**.
+
+Once you have done this sequence, the error should go away.
+
 
 ## Some Final Thoughts
 
@@ -1316,6 +1364,8 @@ won't start, you may need to restart your computer again.
 [img13]: img/ch1/need-hyperv.PNG
 [img14]: img/ch1/emulator-setup-internet.PNG
 [img15]: img/ch1/avd-mac.PNG
+[img16]: img/ch1/droid-final.PNG
+[img17]: img/ch1/ios-build-errors.PNG
 
 [int-data]: ./3_data.md
 
@@ -1331,3 +1381,5 @@ won't start, you may need to restart your computer again.
 [10]: https://developer.xamarin.com/guides/xamarin-forms/creating-mobile-apps-xamarin-forms/
 [11]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1
 [12]: https://github.com/
+[13]: https://stackoverflow.com/questions/3480201/how-do-you-install-an-apk-file-in-the-android-emulator/3480235#3480235
+[14]: https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/

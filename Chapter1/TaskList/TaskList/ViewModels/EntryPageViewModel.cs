@@ -17,7 +17,7 @@ namespace TaskList.ViewModels
         public Command LoginCommand => loginCmd ?? (loginCmd = new Command(async () => await ExecuteLoginCommand()));
 
 
-        protected async Task ExecuteLoginCommand()
+        async Task ExecuteLoginCommand()
         {
             if (IsBusy)
                 return;

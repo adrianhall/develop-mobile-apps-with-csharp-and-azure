@@ -14,7 +14,9 @@ namespace TaskList.ViewModels
         public TaskListViewModel()
         {
             Title = "Task List";
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             RefreshList();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             items.CollectionChanged += this.OnCollectionChanged;
         }
 
