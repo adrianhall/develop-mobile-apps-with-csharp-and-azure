@@ -134,7 +134,7 @@ namespace Backend.DataObjects
 
 Note that the model uses `EntityData` as a base class.  The `EntityData` class
 adds five additional properties to the class - we'll discuss those in more
-details during the [Data Access and Offline Sync](data.md) chapter.
+details during the [Data Access and Offline Sync][int-data] chapter.
 
 Finally, let's look at the `Controllers\TodoItemController.cs`:
 
@@ -769,13 +769,13 @@ is our layout element.  It occupies the entire screen (since it is a direct chil
 of the content page) and the options just center whatever the contents are.  The
 only contents are a button.
 
-There are two bindings.  These are bound from the ViewModel.  We've already screen
+There are two bindings.  These are bound from the view-model.  We've already screen
 the Title property - this is a text field that specifies the title of the page.
 The other binding is a login command.  When the button is tapped, the login command
-will be run.  We'll get onto that in the ViewModel later.
+will be run.  We'll get onto that in the view-model later.
 
 The other part of the XAML is the code-behind file.  Because we are moving all
-of the non-UI code into a ViewModel, the code-behind file is trivial:
+of the non-UI code into a view-model, the code-behind file is trivial:
 
 ```csharp
 using TaskList.ViewModels;
@@ -866,25 +866,457 @@ everything is done, we clear the IsBusy flag.
 The only thing we are doing now is swapping out our main page for a new main
 page.  This is where we will attach authentication later on.
 
-The next page is the Task List page.
+The next page is the Task List page, which is in `Pages\TaskList.xaml`:
 
-### Building the Client for Android
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskList.Pages.TaskList"
+             Title="{Binding Title}">
+  <ContentPage.Content>
+    <StackLayout>
+      <ListView BackgroundColor="#7F7F7F"
+                CachingStrategy="RecycleElement"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                ItemsSource="{Binding Items}"
+                RefreshCommand="{Binding RefreshCommand}"
+                RowHeight="50"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout HorizontalOptions="FillAndExpand"
+                           Orientation="Horizontal"
+                           Padding="10"
+                           VerticalOptions="CenterAndExpand">
+                <Label HorizontalOptions="FillAndExpand"
+                       Text="{Binding Text}"
+                       TextColor="#272832" />
+                <Switch IsToggled="{Binding Complete, Mode=OneWay}" />
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      <StackLayout HorizontalOptions="Center"
+                   Orientation="Horizontal">
+        <Button BackgroundColor="Teal"
+                Command="{Binding AddNewItemCommand}"
+                Text="Add New Item"
+                TextColor="White" />
+      </StackLayout>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>
+```
+
+Note that some bindings here are one-way.  This means that the value in the
+view-model drives the value in the UI.  There is nothing within the UI that you
+can do to alter the state of the underlying property.  Some bindings are two-way.
+Doing something in the UI (for example, toggling the switch) alters the underlying
+property.
+
+This view is a little more complex.  It can be split into two parts - the list
+at the top of the page and the button area at the bottom of the page.  The list
+area uses a template to help with the display of each item.
+
+Note that the `ListView` object has a "pull-to-refresh" option that I have wired
+up so that when pulled, it calls the RefreshCommand.  It also has an indicator
+that I have wired up to the IsBusy indicator.  Anyone who is familiar with the
+iOS "pull-to-refresh" gesture can probably guess what this does.  
+
+There is a view-model that goes along with the view (in `ViewModels\TaskListViewModel.cs`):
+
+```csharp
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using TaskList.Models;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class TaskListViewModel : BaseViewModel
+    {
+        public TaskListViewModel()
+        {
+            Title = "Task List";
+            RefreshList();
+        }
+
+        ObservableCollection<TodoItem> items = new ObservableCollection<TodoItem>();
+        public ObservableCollection<TodoItem> Items
+        {
+            get { return items; }
+            set { SetProperty(ref items, value, "Items"); }
+        }
+
+        TodoItem selectedItem;
+        public TodoItem SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                SetProperty(ref selectedItem, value, "SelectedItem");
+                if (selectedItem != null)
+                {
+                    Application.Current.MainPage.Navigation.PushAsync(new Pages.TaskDetail(selectedItem));
+                    SelectedItem = null;
+                }
+            }
+        }
+
+        Command refreshCmd;
+        public Command RefreshCommand => refreshCmd ?? (refreshCmd = new Command(async () => await ExecuteRefreshCommand()));
+
+        async Task ExecuteRefreshCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                var table = App.CloudService.GetTable<TodoItem>();
+                var list = await table.ReadAllItemsAsync();
+                Items.Clear();
+                foreach (var item in list)
+                    Items.Add(item);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[TaskList] Error loading items: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        Command addNewCmd;
+        public Command AddNewItemCommand => addNewCmd ?? (addNewCmd = new Command(async () => await ExecuteAddNewItemCommand()));
+
+        async Task ExecuteAddNewItemCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new Pages.TaskDetail());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[TaskList] Error in AddNewItem: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        async Task RefreshList()
+        {
+            await ExecuteRefreshCommand();
+            MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) =>
+            {
+                await ExecuteRefreshCommand();
+            });
+        }
+    }
+}
+```
+
+This is a combination of the patterns we have seen earlier.  The Add New Item
+and Refresh commands should be fairly normal patterns now.  We navigate to the
+detail page (more on that later) in the case of selecting an item (which occurs
+when the UI sets the `SelectedItem` property through a two-way binding) and when
+the user clicks on the Add New Item button.  When the Refresh button is clicked
+(or when the user opens the view for the first time), the list is refreshed.  It
+is fairly common to use an `ObservableCollection` or another class that uses the
+`ICollectionChanged` event handler for the list storage.  Doing so allows the UI
+to react to changes in the items.
+
+Note the use of the `ICloudTable` interface here.  We are using the `ReadAllItemsAsync()`
+method to get a list of items, then we copy the items we received into the `ObservableCollection`.
+
+Finally, there is the TaskDetail page.  This is defined in the `Pages\TaskDetail.xaml`
+file:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskList.Pages.TaskDetail"
+             Title="{Binding Title}">
+  <ContentPage.Content>
+    <StackLayout Padding="10" Spacing="10">
+      <Label Text="What should I be doing?"/>
+      <Entry Text="{Binding Item.Text}"/>
+      <Label Text="Completed?"/>
+      <Switch IsToggled="{Binding Item.Complete}"/>
+      <StackLayout VerticalOptions="CenterAndExpand"/>
+      <StackLayout Orientation="Vertical" VerticalOptions="End">
+        <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+          <Button BackgroundColor="#A6E55E"
+                  Command="{Binding SaveCommand}"
+                  Text="Save" TextColor="White"/>
+          <Button BackgroundColor="Red"
+                  Command="{Binding DeleteCommand}"
+                  Text="Delete" TextColor="White"/>          
+        </StackLayout>
+      </StackLayout>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>
+```
+
+This page is a simple form with just two buttons that need to have commands
+wired up.  However, this page is used for both the "Add New Item" gesture
+and the "Edit Item" gesture.  As a result of this, we need to handle the
+passing of the item to be edited.  This is done in the `Pages\TaskDetail.xaml.cs`
+code-behind file:
+
+```csharp
+using TaskList.Models;
+using TaskList.ViewModels;
+using Xamarin.Forms;
+
+namespace TaskList.Pages
+{
+    public partial class TaskDetail : ContentPage
+    {
+        public TaskDetail(TodoItem item = null)
+        {
+            InitializeComponent();
+            BindingContext = new TaskDetailViewModel(item);
+        }
+    }
+}
+```
+
+The item that is passed in from the `TaskList` page is used to create a
+specific view-model for that item.  The view-model is similarly configured
+to use that item:
+
+```csharp
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using TaskList.Models;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class TaskDetailViewModel : BaseViewModel
+    {
+        ICloudTable<TodoItem> table = App.CloudService.GetTable<TodoItem>();
+
+        public TaskDetailViewModel(TodoItem item = null)
+        {
+            if (item != null)
+            {
+                Item = item;
+                Title = item.Text;
+            }
+            else
+            {
+                Item = new TodoItem { Text = "New Item", Complete = false };
+                Title = "New Item";
+            }
+        }
+
+        public TodoItem Item { get; set; }
+
+        Command cmdSave;
+        public Command SaveCommand => cmdSave ?? (cmdSave = new Command(async () => await ExecuteSaveCommand()));
+
+        async Task ExecuteSaveCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                if (Item.Id == null)
+                {
+                    await table.CreateItemAsync(Item);
+                }
+                else
+                {
+                    await table.UpdateItemAsync(Item);
+                }
+                MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[TaskDetail] Save error: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        Command cmdDelete;
+        public Command DeleteCommand => cmdDelete ?? (cmdDelete = new Command(async () => await ExecuteDeleteCommand()));
+
+        async Task ExecuteDeleteCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                if (Item.Id != null)
+                {
+                    await table.DeleteItemAsync(Item);
+                }
+                MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[TaskDetail] Save error: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+    }
+}
+```
+
+The save command uses the `ICloudTable` interface again - this time doing
+either `CreateItemAsync()` or `UpdateItemAsync()` to create or update the
+item.  The delete command, as you would expect, deletes the item with the
+`DeleteItemAsync()` method.
+
+The final thing to note from our views is that I am using the `MessagingCenter`
+to communicate between the TaskDetail and TaskList views.  If I change the item
+in the `TaskDetail` list, then I want to update the list in the `TaskList` view.
+
+Note that all the code we have added to the solution thus far is in the common
+`TaskList` project.  Nothing is required for this simple example in a platform
+specific project.  That isn't normal, as we shall see.
 
 ### Building the Client for Universal Windows
 
+I tend to start by building the Universal Windows mobile client.  I'm using
+Visual Studio, after all, and I don't need to use any emulator.  To build the
+clients:
+
+- Right-click on the **TaskList.UWP (Universal Windows)** project, then select **Set as StartUp Project**.
+- Right-click on the **TaskList.UWP (Universal Windows)** project again, then select **Build**.
+- Once the build is complete, Right-click on the **TaskList.UWP (Universal Windows)** project again, then select **Deploy**.
+- Click on the **Local Machine** button in your command bar to run the application.
+
+Here are the three screen screens we generated on Windows:
+
+![Screen shots for Windows UWP][img12]
+
+There are some problems with the UWP version.  Most notably, the "pull-to-refresh"
+gesture does not exist, so we will need to set up an alternate gesture.  This
+could be as easy as adding a refresh button right next to the Add New Item
+button.  In addition, there is no indication of network activity - this manifests
+as a significant delay between the TaskList page appearing and the data appearing
+in the list.
+
+Aside from this, I did do some styling work to ensure that the final version
+looked like my mock-ups (with the exception of the UI form of the switch, which
+is platform dependent).  If you want to see what I did to correct this, check out
+the final version of [the Chapter 1 sample][11] on GitHub.  
+
+If you need to build the project, ensure you redeploy the project after building.
+It's a step that is easy to miss and can cause some consternation as you change
+the code and it doesn't seem to have an effect on the application.
+
+### Building the Client for Android
+
+Building Android with Visual Studio is as easy as building the Universal Windows
+version of the mobile client:
+
+- Right-click on the **TaskList.Droid** project, then select **Set as StartUp Project**.
+- Right-click on the **TaskList.Droid** project again, then select **Build**.
+
+The button for running the application has a drop-down that is now significant.
+It lets you choose the type of device that you will use.  Normally, this runs
+either a 5" or 7" KitKat-based Android device.  There is some setup required for
+the Visual Studio Emulator for Android.  The Visual Studio Emulator for Android
+runs within Hyper-V, so you must install Hyper-V before use.  You get the following
+error if you don't do this:
+
+![Hyper-V is not installed][img13]
+
+To install Hyper-V:
+
+- Close all applications (your system will be rebooted during this process).
+- Search for **Programs and Features**.
+- Click on **Turn Windows features on or off** (in the left-hand menu).
+- Expand the **Hyper-V** node.
+- Check all the boxes below the **Hyper-V** node.  This will include Hyper-V Management Tools and Hyper-V Services.
+- Click on **OK**.
+- Your system will install the required pieces and then ask you to restart.  Click on **Restart now** when prompted.
+
+Once you have done this, the next hurdle is to be added to the Hyper-V Administrators
+security group.  It gets done for you (again - the first time you try to run the
+application after installing Hyper-V).  Once it is done, close Visual Studio (again),
+the log out and back in again.
+
+As if that wasn't enough, the emulator also needs an Internet connection to
+start.  
+
+![The emulator requires and Internet connection to start][img14]
+
+You should be able to just click on **Yes** or **OK** to enable the Internet
+connection.  My laptop required a reboot before this would work, however.  In
+addition, the process may request elevated privileges.
+
+> If you want to run additional Android profiles before starting, run the **Visual Studio Emulator for Android** and download any additional profiles.  For example, if you wish to emulate something similar to a Samsung Galaxy S6, then download the profile for a 5.1" Marshmallow (6.0.0) XXHDPI Phone.
+
+Finally the Visual Studio Emulator for Android starts when you click on the Run
+button.  Fortunately, the setup of the emulator only has to be done once per
+machine.  The Visual Studio Emulator for Android is also a superior emulator
+to the standard Android Emulator, so this process is well worth going through.
+
+> When testing the mobile client manually through the Visual Studio Emulator for Android, you are likely to need to rebuild the application.  You do not have to shut down the emulator between runs.  You can leave it running.  The application will be stopped and replaced before starting again.  This can significantly speed up the debug cycle since you are not waiting for the emulator to start each time.
+
+Watch the Output window.  If the debugger won't connect or the application
+won't start, you may need to restart your computer again.
+
 ### Building the Client for iOS
 
-[img1]: img/ch1-pic1.PNG
-[img2]: img/ch1-pic2.PNG
-[img3]: img/ch1-pic3.PNG
-[img4]: img/ch1-xamarinforms-templates.PNG
-[img5]: img/ch1-new-xf-project.PNG
-[img6]: img/ch1-win10-developermode.PNG
-[img7]: img/ch1-pick-uwp-platform.PNG
-[img8]: img/ch1-xamarin-mac-agent.PNG
-[img9]: img/ch1-xamarin-mac-login.PNG
-[img10]: img/ch1-xf-newsolution.PNG
-[img11]: img/ch1-nuget-mobileinstall.PNG
+## Some Final Thoughts
+
+
+
+[img1]: img/ch1/pic1.PNG
+[img2]: img/ch1/pic2.PNG
+[img3]: img/ch1/pic3.PNG
+[img4]: img/ch1/xamarinforms-templates.PNG
+[img5]: img/ch1/new-xf-project.PNG
+[img6]: img/ch1/win10-developermode.PNG
+[img7]: img/ch1/pick-uwp-platform.PNG
+[img8]: img/ch1/xamarin-mac-agent.PNG
+[img9]: img/ch1/xamarin-mac-login.PNG
+[img10]: img/ch1/xf-newsolution.PNG
+[img11]: img/ch1/nuget-mobileinstall.PNG
+[img12]: img/ch1/uwp-final.PNG
+[img13]: img/ch1/need-hyperv.PNG
+[img14]: img/ch1/emulator-setup-internet.PNG
+
+[int-data]: ./3_data.md
 
 [1]: https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/
 [2]: https://mockingbot.com/app/RQe0vlW0Hs8SchvHQ6d2W8995XNe8jK
@@ -896,3 +1328,4 @@ The next page is the Task List page.
 [8]: https://visualstudiogallery.msdn.microsoft.com/e1d736b0-5531-4eee-a27a-30a0318cac45
 [9]: https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/
 [10]: https://developer.xamarin.com/guides/xamarin-forms/creating-mobile-apps-xamarin-forms/
+[11]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1
