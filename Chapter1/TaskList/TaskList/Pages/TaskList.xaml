@@ -5,7 +5,7 @@
              Title="{Binding Title}">
   <ContentPage.Content>
     <StackLayout>
-      <ListView BackgroundColor="#7F7F7F"
+      <ListView BackgroundColor="#F0F0F0"
                 CachingStrategy="RecycleElement"
                 IsPullToRefreshEnabled="True"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
@@ -16,14 +16,16 @@
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
-              <StackLayout HorizontalOptions="FillAndExpand"
+              <StackLayout BackgroundColor="White" 
+                           HorizontalOptions="FillAndExpand"
                            Orientation="Horizontal"
                            Padding="10"
                            VerticalOptions="CenterAndExpand">
                 <Label HorizontalOptions="FillAndExpand"
                        Text="{Binding Text}"
                        TextColor="#272832" />
-                <Switch IsToggled="{Binding Complete, Mode=OneWay}" />
+                <Switch IsEnabled="False" 
+                        IsToggled="{Binding Complete, Mode=OneWay}"/>
               </StackLayout>
             </ViewCell>
           </DataTemplate>
@@ -35,6 +37,14 @@
                 Command="{Binding AddNewItemCommand}"
                 Text="Add New Item"
                 TextColor="White" />
+        <Button BackgroundColor="Teal"
+                Command="{Binding RefreshCommand}"
+                Text="Refresh"
+                TextColor="White" />
+        <ActivityIndicator Color="Black"
+                           HorizontalOptions="End"
+                           IsRunning="{Binding IsBusy, Mode=OneWay}"
+                           VerticalOptions="Center" />
       </StackLayout>
     </StackLayout>
   </ContentPage.Content>

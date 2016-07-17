@@ -10,7 +10,7 @@
       <Button BackgroundColor="Teal"
               BorderRadius="10"
               Command="{Binding LoginCommand}"
-              Text="Login"
+              Text="Enter The App"
               TextColor="White"/>
     </StackLayout>
   </ContentPage.Content>
