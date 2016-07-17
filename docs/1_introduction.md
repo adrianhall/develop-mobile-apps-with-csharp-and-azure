@@ -1315,6 +1315,7 @@ won't start, you may need to restart your computer again.
 [img12]: img/ch1/uwp-final.PNG
 [img13]: img/ch1/need-hyperv.PNG
 [img14]: img/ch1/emulator-setup-internet.PNG
+[img15]: img/ch1/avd-mac.PNG
 
 [int-data]: ./3_data.md
 
@@ -1329,3 +1330,4 @@ won't start, you may need to restart your computer again.
 [9]: https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/
 [10]: https://developer.xamarin.com/guides/xamarin-forms/creating-mobile-apps-xamarin-forms/
 [11]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1
+[12]: https://github.com/

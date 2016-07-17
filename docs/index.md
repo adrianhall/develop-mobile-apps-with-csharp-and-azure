@@ -105,6 +105,11 @@ tools for compiling iOS and Android apps on a Mac.  If you wish to develop
 mobile apps on your Mac, it also includes an Integrated Development Environment
 (IDE) specifically for this.
 
+If you intend to build Android applications on your Mac, you will also need to
+download and install [Android Studio and Tools][21].  This is not required if
+you intend to build your Android applications on your Windows 10 PC with Visual
+Studio.
+
 #### On your Windows 10 PC
 
 Your Windows 10 PC should also be running the latest version of Windows 10. Make
