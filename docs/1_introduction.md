@@ -1360,8 +1360,7 @@ you have gone through this process, you are registered as an Apple Developer.
 > If you want to distribute your apps on the Apple App Store or get access to the beta bits, then you might consider signing up for the Apple Developer Program.  The Apple Developer Program is an additional cost and is not required for developing iOS apps that are not for distribution.
 
 Once you have created your account and enabled it as a developer account, open
-up XCode.  You will need to get beyond the first screen; I just create a
-Playground for this purpose.  Go to **Preferences...**, then **Account** and
+up XCode.  Go to **Preferences...**, then **Account** and
 click on the **+** in the bottom-left corner of the window:
 
 ![Adding an Apple ID to XCode][img18]
@@ -1369,6 +1368,16 @@ click on the **+** in the bottom-left corner of the window:
 Sign in with the same account you used to sign up for the developer account.
 
 ![The Apple ID in XCode][img19]
+
+Click on the **View Details** button.  This will bring up the Signing Identities
+list.  For a free account, it looks like this:
+
+![XCode Signing Identities][img20]
+
+Click on the Create button next to **iOS Development**.  Once the UI comes back,
+click on **Done**.  For more information on this process, refer to the [Apple Documentation][16].
+
+You can close XCode at this point.  Ensure Xamarin Studio is not running.
 
 ## Some Final Thoughts
 
@@ -1393,6 +1402,7 @@ Sign in with the same account you used to sign up for the developer account.
 [img17]: img/ch1/ios-build-errors.PNG
 [img18]: img/ch1/xcode-add-appleid.PNG
 [img19]: img/ch1/xcode-appleid.PNG
+[img20]: img/ch1/xcode-signing-identities.PNG
 
 [int-data]: ./3_data.md
 
@@ -1411,3 +1421,4 @@ Sign in with the same account you used to sign up for the developer account.
 [13]: https://stackoverflow.com/questions/3480201/how-do-you-install-an-apk-file-in-the-android-emulator/3480235#3480235
 [14]: https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/
 [15]: https://developer.apple.com/
+[16]: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html#//apple_ref/doc/uid/TP40012582-CH31-SW6
