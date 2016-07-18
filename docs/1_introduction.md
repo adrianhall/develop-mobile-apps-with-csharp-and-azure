@@ -40,7 +40,7 @@ about the mobile backend.
 
 The mobile backend is an ASP.NET WebApi that is served from within Azure App
 Service: a highly scalable and redundant web hosting facility that supports all
-the major web languages (like ASP.NET, Node, PHP and Python).  
+the major web languages (like ASP.NET, Node, PHP and Python).
 
 ### Creating a Simple Azure Mobile Apps Backend
 
@@ -103,7 +103,7 @@ your own backend.
 The next important file is the `DbContext` - located in `Models\MobileServiceContext.cs`.
 Azure Mobile Apps is heavily dependent on [Entity Framework v6.x][4] and the
 `DbContext` is a central part of that library.  Fortunately, we don't need
-to do anything to this file right now.  
+to do anything to this file right now.
 
 Finally, we get to the meat of the backend.  The whole point of this demonstration
 is to project a single database table - the TodoItem table - into the mobile realm
@@ -202,7 +202,7 @@ these instructions:
 2. Click on **Web + Mobile**, then **Mobile App**.
 3. Enter a unique name in the **App name** box.
 
-    > Since the name doesn't matter and it has to be unique, you can use [a GUID generator][7] to generate a unique name.  
+    > Since the name doesn't matter and it has to be unique, you can use [a GUID generator][7] to generate a unique name.
 
 4. If you have more than one subscription (for example, you have a trial and
     an MSDN subscription), then ensure you select the right subscription in
@@ -320,7 +320,7 @@ Forms Templates][8] using the Tools -> Extensions and Updates...
 
 This template pack provides additional templates for Xamarin Forms development
 that I find useful.  Most notably, there is a specific template for a mobile
-cross-platform project covering the Android, iOS and UWP mobile platforms.  
+cross-platform project covering the Android, iOS and UWP mobile platforms.
 
 ### Creating a Simple Mobile Client with Xamarin
 
@@ -357,7 +357,7 @@ Finally, we will be asked about our iOS build host.  This must be some sort of
 mac.  As I said previously, I use a Mac Mini underneath my desk for this. The
 latest Xamarin tools forego a dedicated build service and instead use a secure
 shell (ssh) connection to connect to the Mac.  That means you must go through
-the process for [setting up the mac for ssh access][9].  
+the process for [setting up the mac for ssh access][9].
 
 When prompted about the Xamarin Mac Agent, click on **OK** to get the list of
 local mac agents:
@@ -406,7 +406,7 @@ You can install the NuGet packages by right-clicking on the project and selectin
 
   ![Manage NuGet Packages][img11]
 
-You must install the updates and the new NuGet packages on all four projects.  
+You must install the updates and the new NuGet packages on all four projects.
 This involves repeating the same process for each client project in your
 solution.
 
@@ -534,9 +534,9 @@ namespace TaskList.Services
 
 The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating
 with the mobile backend that we have already published.  Just swap out the
-name of your mobile backend and the rest is silently dealt with.  
+name of your mobile backend and the rest is silently dealt with.
 
-> The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are not interchangeable with clients for Azure Mobile Apps.  
+> The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are not interchangeable with clients for Azure Mobile Apps.
 
 We also need a concrete implementation of the `ICloudTable<T>` interface (in `Services\AzureCloudTable.cs`):
 
@@ -796,7 +796,7 @@ namespace TaskList.Pages
 
 This is a recipe that will be repeated over and over again for the code-behind
 when you are using a XAML-based project with MVVM.  We initialize the UI, then
-bind all the bindings to a new instantiation of the view model.  
+bind all the bindings to a new instantiation of the view model.
 
 Talking of which, the view-model needs just to handle the login click.  Note that
 the location or namespace is `TaskList.ViewModels`.  I'm of two minds about location.
@@ -925,7 +925,7 @@ area uses a template to help with the display of each item.
 Note that the `ListView` object has a "pull-to-refresh" option that I have wired
 up so that when pulled, it calls the RefreshCommand.  It also has an indicator
 that I have wired up to the IsBusy indicator.  Anyone who is familiar with the
-iOS "pull-to-refresh" gesture can probably guess what this does.  
+iOS "pull-to-refresh" gesture can probably guess what this does.
 
 There is a view-model that goes along with the view (in `ViewModels\TaskListViewModel.cs`):
 
@@ -1069,7 +1069,7 @@ file:
                   Text="Save" TextColor="White"/>
           <Button BackgroundColor="Red"
                   Command="{Binding DeleteCommand}"
-                  Text="Delete" TextColor="White"/>          
+                  Text="Delete" TextColor="White"/>
         </StackLayout>
       </StackLayout>
     </StackLayout>
@@ -1236,7 +1236,7 @@ in the list.
 Aside from this, I did do some styling work to ensure that the final version
 looked like my mock-ups (with the exception of the UI form of the switch, which
 is platform dependent).  If you want to see what I did to correct this, check out
-the final version of [the Chapter 1 sample][11] on GitHub.  
+the final version of [the Chapter 1 sample][11] on GitHub.
 
 If you need to build the project, ensure you redeploy the project after building.
 It's a step that is easy to miss and can cause some consternation as you change
@@ -1275,7 +1275,7 @@ application after installing Hyper-V).  Once it is done, close Visual Studio (ag
 the log out and back in again.
 
 As if that wasn't enough, the emulator also needs an Internet connection to
-start.  
+start.
 
 ![The emulator requires and Internet connection to start][img14]
 
@@ -1318,7 +1318,7 @@ Finally, we get to the iOS platform.  You will need to ensure your Mac is turned
 on and accessible, that it has XCode installed (and you have run XCode once so
 that you can accept the license agreement), and it has Xamarin Studio installed.
 
-When you created the projects, you were asked to link Visual Studio to your mac.  
+When you created the projects, you were asked to link Visual Studio to your mac.
 This linkage is used for building the project.  In essence, the entire project
 is sent to the Mac and the build tools that are supplied with Xamarin Studio
 will be used to build the project.
@@ -1357,7 +1357,7 @@ There are a sequence of sign-up prompts in both cases (first for creating your
 Apple ID and secondly for signing up for the Apple Developer program).  Once
 you have gone through this process, you are registered as an Apple Developer.
 
-> If you want to distribute your apps on the Apple App Store or get access to the beta bits, then you might consider signing up for the Apple Developer Program.  The Apple Developer Program is an additional cost and is not required for developing iOS apps that are not for distribution.
+> If you want to distribute your apps on the Apple App Store, run on real devices or get access to the beta bits, then you might consider signing up for the Apple Developer Program.  The Apple Developer Program is an additional cost and is not required for developing iOS apps that are only run on the iOS simulator.
 
 Once you have created your account and enabled it as a developer account, open
 up XCode.  Go to **Preferences...**, then **Account** and
@@ -1381,13 +1381,38 @@ You can close XCode at this point.  Ensure Xamarin Studio is not running.  Back
 within Visual Studio, right-click on the **TaskList.iOS** project and select **Rebuild**.
 This will (finally!) build the application for you.
 
-Running the application in a simulator from within Visual Studio will also be
-easy, but it throws up another road-block.  The **Run** button has received a
-**Device** label, but there are several other simulator devices.  Pick something
-simple like a **iPhone 6 iOS 9.3** simulator and click on run.  Before long, you
-should see the following:
+> Getting an error about _Provisioning Profiles_ not being available?  This is because you are building for a real device instead of the simulator.  In order to build for a real device, you must have a linked Apple Developer Program.  To get around this, select a Simulator before building.
+
+The **Run** button has received a **Device** label, but there are several simulator options.
+You should only use **Device** if you have signed up for the Apple Developer Program.  Pick
+one of the simulator options like the **iPhone 6 iOS 9.3** simulator, then click on it
+to run the simulator.  Before long, you should see the following:
 
 ![iOS Simulator Runtime Error][img21]
+
+At some point, you will need a platform initialization call on all platforms.  It's best to
+add it now.  In TaskList.Droid, this should be added in `MainActivity.cs` and in TaskList.iOS,
+it's `AppDelegate.cs`.  In each of these files, there is a line that initializes the Xamarin
+Forms system.
+
+```csharp
+// Android Version
+global::Xamarin.Forms.Forms.Init(this, bundle);
+// iOS Version
+global::Xamarin.Forms.Forms.Init ();
+```
+
+Imemdiately before this line, you should add the  initializer for Azure Mobile Apps. It's
+important that the Azure Mobile Apps subsystem is initialized prior to Xamarin Forms being
+initialized and any UI code being called.
+
+```csharp
+Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init ();
+```
+
+This initializer is not required on the UWP project.  Once this is done and you have re-built
+the project, we can see the fruits of our labor:
+
 
 
 ## Some Final Thoughts

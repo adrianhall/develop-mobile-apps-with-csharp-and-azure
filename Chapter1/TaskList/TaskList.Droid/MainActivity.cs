@@ -9,16 +9,18 @@ using Android.OS;
 
 namespace TaskList.Droid
 {
-    [Activity(Label = "TaskList.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
-    {
-        protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
+	[Activity (Label = "TaskList.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+	{
+		protected override void OnCreate (Bundle bundle)
+		{
+			base.OnCreate (bundle);
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
-        }
-    }
+			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init ();
+
+			global::Xamarin.Forms.Forms.Init (this, bundle);
+			LoadApplication (new App ());
+		}
+	}
 }
 
