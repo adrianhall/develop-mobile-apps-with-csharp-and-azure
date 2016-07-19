@@ -8,7 +8,7 @@
   
   
   
-  <title>Authentication - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  <title>3. Data Access and Offline Sync - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -24,9 +24,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Authentication";
-    var mkdocs_page_input_path = "authentication.md";
-    var mkdocs_page_url = "/authentication/";
+    var mkdocs_page_name = "3. Data Access and Offline Sync";
+    var mkdocs_page_input_path = "3_data.md";
+    var mkdocs_page_url = "/3_data/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -64,24 +64,35 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../introduction/">Your First Mobile App</a>
+        <a class="" href="../1_introduction/">1. Your First Mobile App</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../2_authentication/">2. Authentication</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">Authentication</a>
+        <a class="current" href="./">3. Data Access and Offline Sync</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#authentication">Authentication</a></li>
+                <li class="toctree-l3"><a href="#data-access-and-offline-sync">Data Access and Offline Sync</a></li>
                 
-                    <li><a class="toctree-l4" href="#authentication-concepts">Authentication Concepts</a></li>
+                    <li><a class="toctree-l4" href="#data-access-concepts">Data Access Concepts</a></li>
                 
-                    <li><a class="toctree-l4" href="#adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</a></li>
+                    <li><a class="toctree-l4" href="#adding-a-sql-table-controller">Adding a SQL Table Controller</a></li>
                 
-                    <li><a class="toctree-l4" href="#implementing-authentication-to-a-mobile-client">Implementing Authentication to a Mobile Client</a></li>
+                    <li><a class="toctree-l4" href="#using-code-behind">Using Code Behind</a></li>
+                
+                    <li><a class="toctree-l4" href="#working-with-data-in-your-client">Working with Data in your Client</a></li>
+                
+                    <li><a class="toctree-l4" href="#using-a-non-sql-data-source">Using a Non-SQL Data Source</a></li>
                 
             
             </ul>
@@ -91,63 +102,70 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../data/">Data Access and Offline Sync</a>
+        <a class="" href="../4_files/">4. File Management</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../files/">File Management</a>
+        <a class="" href="../5_push/">5. Push Notifications</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../push/">Push Notifications</a>
+        <a class="" href="../6_custom/">6. Server Side Code</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../custom/">Server Side Code</a>
+        <a class="" href="../7_media/">7. Media Services</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../combined/">Web and Mobile Apps</a>
+        <a class="" href="../8_search/">8. Leveraging Search</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../developing/">The Development Environment</a>
+        <a class="" href="../9_combined/">9. Web and Mobile Apps</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../testing/">Testing your Application</a>
+        <a class="" href="../10_developing/">10. The Development Environment</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../troubleshooting/">Troubleshooting</a>
+        <a class="" href="../11_testing/">11. Testing your Application</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../production/">Going to Production</a>
+        <a class="" href="../12_troubleshooting/">12. Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../13_production/">13. Going to Production</a>
         
     </li>
 <li>
@@ -181,7 +199,7 @@
     
       
     
-    <li>Authentication</li>
+    <li>3. Data Access and Offline Sync</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -191,22 +209,24 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="authentication">Authentication</h1>
-<h2 id="authentication-concepts">Authentication Concepts</h2>
-<h3 id="the-oauth-process">The OAuth Process</h3>
-<h3 id="server-side-vs-client-side-authentication">Server Side vs. Client Side Authentication</h3>
-<h3 id="what-is-in-a-jwt">What is in a JWT</h3>
-<h3 id="best-practices">Best Practices</h3>
-<h2 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</h2>
-<h3 id="social-authentication">Social Authentication</h3>
-<h3 id="enterprise-authentication">Enterprise Authentication</h3>
-<h3 id="custom-authentication">Custom Authentication</h3>
-<h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
-<h2 id="implementing-authentication-to-a-mobile-client">Implementing Authentication to a Mobile Client</h2>
-<h3 id="social-authentication_1">Social Authentication</h3>
-<h3 id="enterprise-authentication_1">Enterprise Authentication</h3>
-<h3 id="custom-authentication_1">Custom Authentication</h3>
-<h3 id="handling-refresh-tokens">Handling Refresh Tokens</h3>
+                <h1 id="data-access-and-offline-sync">Data Access and Offline Sync</h1>
+<h2 id="data-access-concepts">Data Access Concepts</h2>
+<h3 id="data-access-protocol">Data Access Protocol</h3>
+<h3 id="how-offline-sync-works">How Offline Sync Works</h3>
+<h3 id="testing-data-access">Testing Data Access</h3>
+<h2 id="adding-a-sql-table-controller">Adding a SQL Table Controller</h2>
+<h3 id="using-an-existing-sql-table">Using an Existing SQL Table</h3>
+<h2 id="using-code-behind">Using Code Behind</h2>
+<h3 id="why-use-code-behind">Why use Code Behind?</h3>
+<h3 id="implementing-code-behind">Implementing Code Behind</h3>
+<h3 id="code-behind-recipes">Code Behind Recipes</h3>
+<h2 id="working-with-data-in-your-client">Working with Data in your Client</h2>
+<h3 id="implementing-an-online-table">Implementing an Online Table</h3>
+<h3 id="implementing-an-offline-table">Implementing an Offline Table</h3>
+<h2 id="using-a-non-sql-data-source">Using a Non-SQL Data Source</h2>
+<h3 id="the-aspnet-domain-manager">The ASP.NET Domain Manager</h3>
+<h3 id="implementing-a-documentdb-domain-manager">Implementing a DocumentDB Domain Manager</h3>
+<h3 id="implementing-an-azure-table-storage-domain-manager">Implementing an Azure Table Storage Domain Manager</h3>
               
             </div>
           </div>
@@ -214,10 +234,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../data/" class="btn btn-neutral float-right" title="Data Access and Offline Sync">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../4_files/" class="btn btn-neutral float-right" title="4. File Management">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../introduction/" class="btn btn-neutral" title="Your First Mobile App"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2_authentication/" class="btn btn-neutral" title="2. Authentication"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -243,10 +263,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../introduction/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../2_authentication/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../data/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../4_files/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

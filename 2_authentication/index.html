@@ -8,7 +8,7 @@
   
   
   
-  <title>File Management - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  <title>2. Authentication - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -24,9 +24,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "File Management";
-    var mkdocs_page_input_path = "files.md";
-    var mkdocs_page_url = "/files/";
+    var mkdocs_page_name = "2. Authentication";
+    var mkdocs_page_input_path = "2_authentication.md";
+    var mkdocs_page_url = "/2_authentication/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -64,38 +64,24 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../introduction/">Your First Mobile App</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../authentication/">Authentication</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../data/">Data Access and Offline Sync</a>
+        <a class="" href="../1_introduction/">1. Your First Mobile App</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">File Management</a>
+        <a class="current" href="./">2. Authentication</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#file-management">File Management</a></li>
+                <li class="toctree-l3"><a href="#authentication">Authentication</a></li>
                 
-                    <li><a class="toctree-l4" href="#azure-storage-concepts">Azure Storage Concepts</a></li>
+                    <li><a class="toctree-l4" href="#authentication-concepts">Authentication Concepts</a></li>
                 
-                    <li><a class="toctree-l4" href="#dealing-with-files">Dealing with Files</a></li>
+                    <li><a class="toctree-l4" href="#adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</a></li>
                 
-                    <li><a class="toctree-l4" href="#file-sync-with-azure-mobile-apps_1">File Sync with Azure Mobile Apps</a></li>
+                    <li><a class="toctree-l4" href="#implementing-authentication-to-a-mobile-client">Implementing Authentication to a Mobile Client</a></li>
                 
             
             </ul>
@@ -105,49 +91,77 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../push/">Push Notifications</a>
+        <a class="" href="../3_data/">3. Data Access and Offline Sync</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../custom/">Server Side Code</a>
+        <a class="" href="../4_files/">4. File Management</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../combined/">Web and Mobile Apps</a>
+        <a class="" href="../5_push/">5. Push Notifications</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../developing/">The Development Environment</a>
+        <a class="" href="../6_custom/">6. Server Side Code</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../testing/">Testing your Application</a>
+        <a class="" href="../7_media/">7. Media Services</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../troubleshooting/">Troubleshooting</a>
+        <a class="" href="../8_search/">8. Leveraging Search</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../production/">Going to Production</a>
+        <a class="" href="../9_combined/">9. Web and Mobile Apps</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../10_developing/">10. The Development Environment</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../11_testing/">11. Testing your Application</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../12_troubleshooting/">12. Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../13_production/">13. Going to Production</a>
         
     </li>
 <li>
@@ -181,7 +195,7 @@
     
       
     
-    <li>File Management</li>
+    <li>2. Authentication</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -191,17 +205,22 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="file-management">File Management</h1>
-<h2 id="azure-storage-concepts">Azure Storage Concepts</h2>
-<h3 id="blobs-table-queues-and-files">Blobs, Table, Queues and files</h3>
-<h3 id="the-sas-tokens">The SAS Tokens</h3>
-<h3 id="file-sync-with-azure-mobile-apps">File Sync with Azure Mobile Apps</h3>
-<h2 id="dealing-with-files">Dealing with Files</h2>
-<h3 id="uploading-a-file-to-blob-storage">Uploading a File to Blob Storage</h3>
-<h3 id="download-a-file-from-blob-storage">Download a File from Blob Storage</h3>
-<h2 id="file-sync-with-azure-mobile-apps_1">File Sync with Azure Mobile Apps</h2>
-<h3 id="configuring-the-mobile-backend">Configuring the Mobile Backend</h3>
-<h3 id="developing-the-mobile-client">Developing the Mobile Client</h3>
+                <h1 id="authentication">Authentication</h1>
+<h2 id="authentication-concepts">Authentication Concepts</h2>
+<h3 id="the-oauth-process">The OAuth Process</h3>
+<h3 id="server-side-vs-client-side-authentication">Server Side vs. Client Side Authentication</h3>
+<h3 id="what-is-in-a-jwt">What is in a JWT</h3>
+<h3 id="best-practices">Best Practices</h3>
+<h2 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</h2>
+<h3 id="social-authentication">Social Authentication</h3>
+<h3 id="enterprise-authentication">Enterprise Authentication</h3>
+<h3 id="custom-authentication">Custom Authentication</h3>
+<h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
+<h2 id="implementing-authentication-to-a-mobile-client">Implementing Authentication to a Mobile Client</h2>
+<h3 id="social-authentication_1">Social Authentication</h3>
+<h3 id="enterprise-authentication_1">Enterprise Authentication</h3>
+<h3 id="custom-authentication_1">Custom Authentication</h3>
+<h3 id="handling-refresh-tokens">Handling Refresh Tokens</h3>
               
             </div>
           </div>
@@ -209,10 +228,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../push/" class="btn btn-neutral float-right" title="Push Notifications">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../3_data/" class="btn btn-neutral float-right" title="3. Data Access and Offline Sync">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../data/" class="btn btn-neutral" title="Data Access and Offline Sync"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../1_introduction/" class="btn btn-neutral" title="1. Your First Mobile App"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -238,10 +257,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../data/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../1_introduction/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../push/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../3_data/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
