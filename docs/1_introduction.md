@@ -1407,13 +1407,28 @@ important that the Azure Mobile Apps subsystem is initialized prior to Xamarin F
 initialized and any UI code being called.
 
 ```csharp
-Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init ();
+Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 ```
 
 This initializer is not required on the UWP project.  Once this is done and you have re-built
-the project, we can see the fruits of our labor:
+the project, we can see the fruits of our labor.  You can, of course, run the IPA in the
+iOS simulator on the Mac.  However, it's much more satisfying (to me, at least) to be able
+to do everything from within Visual Studio.  For this, you need to install the
+[Xamarin Installer][17].  This is an MSI for your Windows development system and is
+quickly installed.  Once installed, start (or restart) Visual Studio, select **Tools** ->
+**Options**.  Search for **Xamarin**, and select the **iOS Settings** page.  There is
+a new option:
 
+![iOS Simulator Settings][img23]
 
+Note the **Remote Simulator to Windows**.  This should be checked.  You may need to
+rebuild the TaskList.iOS project after installing the Xamarin Simulator.  The debug
+window will tell you if this is the case.  There are also a few [known issues][18]
+so check the documentation if you run into problems.
+
+The final product screens look like this:
+
+![iOS Final Screens][img22]
 
 ## Some Final Thoughts
 
@@ -1440,6 +1455,8 @@ the project, we can see the fruits of our labor:
 [img19]: img/ch1/xcode-appleid.PNG
 [img20]: img/ch1/xcode-signing-identities.PNG
 [img21]: img/ch1/ios-missing-nuget.PNG
+[img22]: img/ch1/ios-final.PNG
+[img23]: img/ch1/vs-ios-simulator-settings.PNG
 
 [int-data]: ./3_data.md
 
@@ -1459,3 +1476,5 @@ the project, we can see the fruits of our labor:
 [14]: https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/
 [15]: https://developer.apple.com/
 [16]: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html#//apple_ref/doc/uid/TP40012582-CH31-SW6
+[17]: https://developer.xamarin.com/guides/cross-platform/windows/ios-simulator/
+[18]: https://developer.xamarin.com/guides/cross-platform/windows/ios-simulator/#Known_Issues
