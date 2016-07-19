@@ -7,7 +7,10 @@ Microsoft Azure has a great [first-steps tutorial][1] that takes you via the
 quickest possible route from creating a mobile backend to having a functional
 backend.  I would like to take things a little slower so that we can understand
 what is going on while we are doing the process.  We will have practically the
-same application at the end.
+same application at the end.  The primary reason for going through this slowly
+is to ensure that all our build and run processes are set up properly.  If this
+is the first mobile app you have ever written, you will see that there are quite
+a few things that need to be set up.
 
 The application we are going to build together is a simple task list.  The
 mobile client will have three screens - an entry screen, a task list and a task
@@ -769,7 +772,7 @@ is our layout element.  It occupies the entire screen (since it is a direct chil
 of the content page) and the options just center whatever the contents are.  The
 only contents are a button.
 
-There are two bindings.  These are bound from the view-model.  We've already screen
+There are two bindings.  These are bound from the view-model.  We've already seen
 the Title property - this is a text field that specifies the title of the page.
 The other binding is a login command.  When the button is tapped, the login command
 will be run.  We'll get onto that in the view-model later.
@@ -1402,7 +1405,7 @@ global::Xamarin.Forms.Forms.Init(this, bundle);
 global::Xamarin.Forms.Forms.Init ();
 ```
 
-Imemdiately before this line, you should add the  initializer for Azure Mobile Apps. It's
+Immediately before this line, you should add the  initializer for Azure Mobile Apps. It's
 important that the Azure Mobile Apps subsystem is initialized prior to Xamarin Forms being
 initialized and any UI code being called.
 
@@ -1432,7 +1435,20 @@ The final product screens look like this:
 
 ## Some Final Thoughts
 
+If you have got through the entire process outlined in this Chapter and built the application
+for each platform, then congratulations.  There are a lot of places where things can go
+wrong.  You are really integrating the build systems across Visual Studio, Android, Xamarin,
+and XCode.
 
+Fortunately, once these are set up, it's likely that they will continue working and you
+won't have to think too much about them again. The Android and iOS build tools and simulators
+will just work.
+
+The next 7 chapters each take one aspect of the cloud services that can be provided to
+mobile apps and explores it in detail, using an Azure Mobile App as a beginning. You can
+jump around at this point, but be aware that we expect you to cover these topics in order.
+If you do the data chapter before covering authentication, it's likely you will have missed
+important functionality in your app to complete the work.
 
 [img1]: img/ch1/pic1.PNG
 [img2]: img/ch1/pic2.PNG
