@@ -32,14 +32,9 @@ token is added to every single subsequent request to identify the user.
 ### Server Side vs. Client Side Authentication
 
 There are two types of authentication flow: Server-Flow and Client-Flow.  They
-are so named because of who controls the flow of the actual authentication.  In
-a server-flow authentication, the client asks Azure Mobile Apps to login.  Azure
-Mobile Apps then redirects to the configured Identity Provider.  That IdP will
-then authenticate the user before redirecting back to Azure Mobile Apps.  At
-this point, Azure Mobile Apps will mint a ZUMO token that shows the user is
-authenticated and return that token to the client application.  
+are so named because of who controls the flow of the actual authentication.  
 
-![Server-Flow][img1]
+![Authentication Flow][img1]
 
 Server-flow is named because the authentication flow is managed by the server
 through a web connection.  It is generally used in two cases:
@@ -47,15 +42,27 @@ through a web connection.  It is generally used in two cases:
 * You want a simple placeholder for authentication in your mobile app while you are developing other code.
 * You are developing a web app.
 
+In the case of Server Flow:
+
+1. The client brings up a web view and asks for the login page from the resource.
+2. The resource redirects the client to the identity provider.
+3. The identity provider does the authentication before redirecting the client back to the resource (with an identity provider token).
+4. The resource validates the identity provider token with the identity provider.
+5. Finally, the resource mints a new resource token that it returns to the client.
+
 Client-flow authentication uses an IdP provided SDK to integrate a more native
 feel to the authentication flow.  The actual flow happens on the client,
-communicating only with the IdP.  For example, if you use the Facebook SDK for
-authentication, your app will seamlessly switch over into the Facebook app and
-ask you to authorize your client application before switching you back to your
-client application.  The IdP SDK will return a token to your code.  Your client
-application will then contact the mobile backend to swap the IdP token for a
-ZUMO token.  You will then use the ZUMO token to communicate with the mobile
-backend.
+communicating only with the IdP.  
+
+1. The client uses the IdP SDK to communicate with the identity provider.
+2. The identity provider does the authentication, returning an identity provider token.
+3. The client presents the identity provider token to the resource.
+4. The resource validates the identity provider token with the identity provider.
+5. Finally, the resource mints a new resource token that it returns to the client.
+
+For example, if you use the Facebook SDK for authentication, your app will seamlessly
+switch over into the Facebook app and ask you to authorize your client application
+before switching you back to your client application.  
 
 It is generally recommended that you use the IdP SDK when developing an app
 that will be released on the app store.  This follows the best practice provided
@@ -350,7 +357,7 @@ signifies you have done everything right:
 
 ## Best Practices
 
-[img1]: img/ch2/idp-flow.PNG
+[img1]: img/ch2/auth-flow.PNG
 [img2]: img/ch2/fb-dev-1.PNG
 [img3]: img/ch2/fb-dev-2.PNG
 [img4]: img/ch2/fb-dev-3.PNG
