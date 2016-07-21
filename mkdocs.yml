@@ -4,16 +4,17 @@ pages:
 - 1. Your First Mobile App: 1_introduction.md
 - 2. Authentication: 2_authentication.md
 - 3. Data Access and Offline Sync: 3_data.md
-- 4. File Management: 4_files.md
-- 5. Push Notifications: 5_push.md
-- 6. Server Side Code: 6_custom.md
-- 7. Media Services: 7_media.md
-- 8. Leveraging Search: 8_search.md
-- 9. Web and Mobile Apps: 9_combined.md
-- 10. The Development Environment: 10_developing.md
-- 11. Testing your Application: 11_testing.md
-- 12. Troubleshooting: 12_troubleshooting.md
-- 13. Going to Production: 13_production.md
+- 4. Authenticated Data Access: 4_authdata.md
+- 5. File Management: 5_files.md
+- 6. Push Notifications: 6_push.md
+- 7. Server Side Code: 7_custom.md
+- 8. Media Services: 8_media.md
+- 9. Leveraging Search: 9_search.md
+- 10. Web and Mobile Apps: 10_combined.md
+- 11. The Development Environment: 11_developing.md
+- 12. Testing your Application: 12_testing.md
+- 13. Troubleshooting: 13_troubleshooting.md
+- 14. Going to Production: 14_production.md
 - References: references.md
 theme: readthedocs
 extra_css: [extra.css]
