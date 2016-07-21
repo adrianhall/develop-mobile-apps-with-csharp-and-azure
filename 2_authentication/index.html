@@ -206,21 +206,86 @@
             <div class="section">
               
                 <h1 id="authentication">Authentication</h1>
+<p>One of the very first things you will want to do is to provide users with a
+unique experience.  For our example task list application, this could be as
+simple as providing a task list for the user who is logged in.  In more complex
+applications, this is the gateway to role-based access controls, group rules,
+and sharing with your friends.  In all these cases, properly identifying the
+user using the phone is the starting point.</p>
 <h2 id="authentication-concepts">Authentication Concepts</h2>
+<p>Authentication provides a process by which the user that is using the mobile
+device can be identified securely.  This is generally done by entering a username
+and password.  However, modern systems can also provide <a href="https://en.wikipedia.org/wiki/Multi-factor_authentication">multi-factor authentication</a>,
+send you a text message to a registered device, or <a href="https://support.apple.com/en-us/HT201371">use your fingerprint</a> as the password.</p>
 <h3 id="the-oauth-process">The OAuth Process</h3>
+<p>In just about every single mobile application, a process called <a href="http://oauth.net/2/">OAuth</a> is used
+to properly identify a user to the mobile backend.  OAuth is not an authentication
+mechanism in its own right.  It is used to route the authentication request to the
+right place and to verify that the authentication took place. There are three actors
+in the OAuth protocol:</p>
+<ul>
+<li>The <strong>Client</strong> is the application attempting to get access to the resource.</li>
+<li>The <strong>Resource</strong> is the mobile backend that the client is attempting to access.</li>
+<li>The <strong>Identity Provider</strong> (or IdP) is the service that is responsible for authenticating the client.</li>
+</ul>
+<p>At the end of the process, a cryptographically signed token is minted.  This
+token is added to every single subsequent request to identify the user.</p>
 <h3 id="server-side-vs-client-side-authentication">Server Side vs. Client Side Authentication</h3>
-<h3 id="what-is-in-a-jwt">What is in a JWT</h3>
-<h3 id="best-practices">Best Practices</h3>
+<p>There are two types of authentication flow: Server-Flow and Client-Flow.  They
+are so named because of who controls the flow of the actual authentication.  In
+a server-flow authentication, the client asks Azure Mobile Apps to login.  Azure
+Mobile Apps then redirects to the configured Identity Provider.  That IdP will
+then authenticate the user before redirecting back to Azure Mobile Apps.  At
+this point, Azure Mobile Apps will mint a ZUMO token that shows the user is
+authenticated and return that token to the client application.  </p>
+<p>![Server-Flow][img1]</p>
+<p>Server-flow is named because the authentication flow is managed by the server
+through a web connection.  It is generally used in two cases:</p>
+<ul>
+<li>You want a simple placeholder for authentication in your mobile app while you are developing other code.</li>
+<li>You are developing a web app.</li>
+</ul>
+<p>Client-flow authentication uses an IdP provided SDK to integrate a more native
+feel to the authentication flow.  The actual flow happens on the client,
+communicating only with the IdP.  For example, if you use the Facebook SDK for
+authentication, your app will seamlessly switch over into the Facebook app and
+ask you to authorize your client application before switching you back to your
+client application.  The IdP SDK will return a token to your code.  Your client
+application will then contact the mobile backend to swap the IdP token for a
+ZUMO token.  You will then use the ZUMO token to communicate with the mobile
+backend.</p>
+<p>It is generally recommended that you use the IdP SDK when developing an app
+that will be released on the app store.  This follows the best practice provided
+by the majority of identity providers and provides the best experience for your
+end users.</p>
+<h3 id="authentication-providers">Authentication Providers</h3>
+<p>Azure Mobile Apps supports five identity providers natively:</p>
+<ul>
+<li>Azure Active Directory</li>
+<li>Facebook</li>
+<li>Google</li>
+<li>Microsoft (MSA)</li>
+<li>Twitter</li>
+</ul>
+<p>In addition, you can set up client-flow custom authentication that allows
+you to mint a ZUMO token to your specifications for any provider using a
+client-flow.  For example, you could use authentication providers like
+<a href="https://azure.microsoft.com/en-us/services/active-directory-b2c/">Azure AD B2C</a>, <a href="https://developer.linkedin.com/docs/oauth2">LinkedIn</a> or <a href="https://developer.github.com/v3/oauth/">GitHub</a>, a third-party authentication
+provider like  <a href="https://auth0.com/">Auth0</a>, or you could set up an identity table in your
+database so that you can check  username and password without an identity
+provider.</p>
 <h2 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</h2>
 <h3 id="social-authentication">Social Authentication</h3>
 <h3 id="enterprise-authentication">Enterprise Authentication</h3>
 <h3 id="custom-authentication">Custom Authentication</h3>
 <h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
+<h3 id="what-is-in-a-jwt">What is in a JWT</h3>
 <h2 id="implementing-authentication-to-a-mobile-client">Implementing Authentication to a Mobile Client</h2>
 <h3 id="social-authentication_1">Social Authentication</h3>
 <h3 id="enterprise-authentication_1">Enterprise Authentication</h3>
 <h3 id="custom-authentication_1">Custom Authentication</h3>
 <h3 id="handling-refresh-tokens">Handling Refresh Tokens</h3>
+<h3 id="best-practices">Best Practices</h3>
               
             </div>
           </div>
