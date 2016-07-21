@@ -34,7 +34,6 @@ My ideas for this app include:
 * Tapping on a task title in the task list will bring up the details page.
 * Toggling the completed link in the task list will set the completed flag.
 * Tapping the spinner will initiate a network refresh.
-* Clicking on Delete Task in the task details will ask "Are you sure?" before deleting the task.
 
 Now that we have our client screens planned out, we can move onto the thinking
 about the mobile backend.
@@ -43,7 +42,9 @@ about the mobile backend.
 
 The mobile backend is an ASP.NET WebApi that is served from within Azure App
 Service: a highly scalable and redundant web hosting facility that supports all
-the major web languages (like ASP.NET, Node, PHP and Python).
+the major web languages (like ASP.NET, Node, PHP and Python).  Azure Mobile
+Apps is an SDK (which is available in ASP.NET and Node) that runs on top of
+Azure App Service.
 
 ### Creating a Simple Azure Mobile Apps Backend
 
@@ -103,6 +104,8 @@ seeding data into the database for us.  We can leave that alone for now, but
 remember it is there in case you need to seed data into a new database for
 your own backend.
 
+> We refer to "seeding data" into a database.  This means that we are going to introduce some data into the database so that we aren't operating on an empty database.  The data will be there when we query the database later on.
+
 The next important file is the `DbContext` - located in `Models\MobileServiceContext.cs`.
 Azure Mobile Apps is heavily dependent on [Entity Framework v6.x][4] and the
 `DbContext` is a central part of that library.  Fortunately, we don't need
@@ -117,9 +120,11 @@ items:
 * A Data Transfer Object (or DTO)
 * A Table Controller
 
-The first item is already taken care of.  However, if we added additional tables,
-we would have to modify the `MobileServiceContext`.  The DTO is a special model,
-located in the `DataObjects` folder:
+When we create the project, a sample of each one of these for the TodoItem table
+is added for us.  You can see the `DbSet<>` in the `Models\MobileServiceContext.cs`
+file, for example.  Let's take a look at the DTO and Table Controller for this
+example table as well.  The DTO for the TodoItem table is located within the
+`DataObjects` directory:
 
 ```csharp
 using Microsoft.Azure.Mobile.Server;
@@ -139,7 +144,8 @@ Note that the model uses `EntityData` as a base class.  The `EntityData` class
 adds five additional properties to the class - we'll discuss those in more
 details during the [Data Access and Offline Sync][int-data] chapter.
 
-Finally, let's look at the `Controllers\TodoItemController.cs`:
+Finally, let's look at the table controller for the example TodoItem table.  This
+is located in `Controllers\TodoItemController.cs`:
 
 ```csharp
 using System.Linq;
@@ -185,15 +191,17 @@ namespace Backend.Controllers
 ```
 
 The `TableController` is the central processing for the database access layer.
-It handles all the OData capabilities for us.  This means that the actual code
-for this controller is tiny - just 12 lines of code.
+It handles all the OData capabilities for us and exposes these as REST endpoints
+within our WebAPI.  This means that the actual code for this controller is tiny - just 12 lines of code.
 
-> You can delete the `Controllers\ValuesController.cs` file if you like - it isn't important for this walkthrough.
+> [OData][5] is a specification for accessing table data on the Internet.  It provides a mechanism for querying and manipulating data within a table.  Entity Framework is a common data access layer for ASP.NET applications.
 
 We can build the project at this point.  If Visual Studio hasn't done so already,
 the missing NuGet packages for Azure Mobile Apps will be downloaded.  There
 should not be any errors.  If there are, check the typing for any changes you
 made.
+
+> You can delete or ignore the `Controllers\ValuesController.cs` file if you like - it isn't important for this walkthrough.
 
 ### Building an Azure App Service for Mobile Apps
 
@@ -218,16 +226,16 @@ these instructions:
 
     > The App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.
 
-    I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process is relatively simple.  You have two decisions to make.  The first decision is where is the service going to run.  In a production environment, the correct choice is "near your customers".  "Close to the developers" is a good choice during development.  Unfortunately, neither
-    of those is an option, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.
+    I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process for creating an App Service Plan is straight forward.  You have two decisions to make.  The first decision is where is the service going to run.  In a production environment, the correct choice is "near your customers".  "Close to the developers" is a good choice during development.  Unfortunately, neither
+    of those is an option you can actually choose in the portal, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.
 
-    The second decision you have to make is what to run the service on; also known as the Pricing tier.   If you click on **View all**, you will see you have lots of choices. F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling and large amounts of storage; they differ in features: the number of sites or instances you can run on them, for example.  Finally, there is a number after the plan.  This tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.
+    The second decision you have to make is what to run the service on; also known as the Pricing tier.   If you click on **View all**, you will see you have lots of choices.  F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling, automatic backups, and large amounts of storage; they differ in features: the number of sites or instances you can run on them, for example.  Finally, there is a number after the plan.  This tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.
 
-    For our purposes, an F1 Free site is enough to run this small demonstration project.
+    For our purposes, an F1 Free site is enough to run this small demonstration project.  More complex development projects should use something in the Basic range of pricing plans.  Production apps should be set up in Standard or Premium pricing plans.
 
 7. Once you have created your app service plan and saved it, click on **Create**.
 
-The creation of the service can take a couple of minutes.  Once you have created your app service, the App Service blade will open.
+The creation of the service can take a couple of minutes.  You can monitor the process of deployment by clicking on the Notifications icon.  This is in the top bar on the right-hand side and looks like a Bell.  Clicking on a specific notification will provide more information about the activity.  Once you have created your app service, the App Service blade will open.
 
 > What's the difference between a Web App, a Mobile App and an API App?  Not a lot.  The type determines which Quick start projects are available in the Quick start menu under **All settings**.  Since we selected a Mobile app, a set of starter client projects for mobile devices will be presented.
 
@@ -325,6 +333,10 @@ This template pack provides additional templates for Xamarin Forms development
 that I find useful.  Most notably, there is a specific template for a mobile
 cross-platform project covering the Android, iOS and UWP mobile platforms.
 
+> When you compile a Xamarin.Forms application for a specific platform, you are
+producing a true native application for that platform - whether it be iOS, Android
+or Windows.
+
 ### Creating a Simple Mobile Client with Xamarin
 
 Now that we have prepared your Visual Studio instance, we can create the project.
@@ -336,6 +348,8 @@ did not install the Xamarin Forms Template add-on, then choose the
 then click on **OK**.
 
   ![Creating the Xamarin Forms Project][img5]
+
+> If you did not install the Xamarin Forms Templates, then you can create a **Blank Xaml App (Xamarin.Forms Portable)** project instead.
 
 Project creation will take longer than you expect, but there is a lot going on.
 If you have never created a mobile or UWP project before, you will be prompted
@@ -356,11 +370,13 @@ Version 10240 was the first version of Windows 10 that was released to the gener
 public, so that's a good minimum version to pick.  In general, the defaults for
 the Universal Windows Platform choice are good enough.
 
-Finally, we will be asked about our iOS build host.  This must be some sort of
-mac.  As I said previously, I use a Mac Mini underneath my desk for this. The
-latest Xamarin tools forego a dedicated build service and instead use a secure
-shell (ssh) connection to connect to the Mac.  That means you must go through
-the process for [setting up the mac for ssh access][9].
+Xamarin allows us to build iOS applications directly from Visual Studio. For
+this to work, we must have access to a Mac. This could be anything from a MacBook
+Air/Pro, to a Mac Mini in a drawer or closet in the office, or maybe even a
+[Mac in the cloud][19].  The Xamarin tools use SSH to connect to the Mac, which
+must be [configured to build iOS apps from Visual Studio][9].
+
+> If you don't have a Mac and are not interested in building iOS applications, don't give up now!  You can cancel through the Mac specific project setup and continue with building a great Android and Universal Windows app.  You can delete the iOS specific project after it has been created.
 
 When prompted about the Xamarin Mac Agent, click on **OK** to get the list of
 local mac agents:
@@ -368,6 +384,11 @@ local mac agents:
   ![Xamarin Mac Agent - Host List][img8]
 
 Highlight your mac (in case there are multiples), then click on **Connect...**.
+If your mac is not listed or you are using a Mac in the cloud, then you can
+always enter the IP address for your mac.  
+
+> For more troubleshooting tips, visit  https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/troubleshooting/
+
 You will be prompted for your username and password:
 
   ![Xamarin Mac Agent - Login][img9]
@@ -378,6 +399,10 @@ on **Login**.
 > **What's my username?**  Apple tries very hard to hide the real username of
 your account from you.  The easiest way to find your mac username is to open up
 the Finder.  The name next to your home icon is the name of your account.
+
+If the connection has successed, you will see a green icon in the Xamarin Visual
+Studio toolbar area. It may take a minute or two to connect and verify that the
+mac can be used.
 
 Once the project is created, you will see that four new projects have been
 created: a common library which you named plus one project for each platform
@@ -1494,3 +1519,4 @@ important functionality in your app to complete the work.
 [16]: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html#//apple_ref/doc/uid/TP40012582-CH31-SW6
 [17]: https://developer.xamarin.com/guides/cross-platform/windows/ios-simulator/
 [18]: https://developer.xamarin.com/guides/cross-platform/windows/ios-simulator/#Known_Issues
+[19]: http://www.macincloud.com/

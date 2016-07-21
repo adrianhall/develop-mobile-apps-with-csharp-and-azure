@@ -12,23 +12,6 @@ notifications.
 This book does not tell you everything there is to know about either topic.  It
 focuses on the topics necessary to get your mobile apps connected to the cloud.
 
-## Who is This Book For?
-
-This book is for intermediate to experienced C# developers who have already
-built a mobile app with Xamarin and want to take their mobile apps to the next
-level by utilizing cloud services.
-
-This book is not for the beginner.  Explicitly, I already expect you to know how
-to develop C# and ASP.NET.  If you are unfamiliar with the C# language, you can
-get started with a free course on the Internet.  The basics of the language can
-be learned at [www.learncs.org][3].  Once you have the
-language basics under your belt, you can move on to ASP.NET. There are some good
-tutorials at the [asp.net][4] website.  Finally, you will want
-to develop a mobile app without the cloud before moving on to the cloud
-connection.  You can learn more about developing cross-platform mobile
-development with Xamarin at the [Xamarin][5] website.
-
-
 ## What are Cloud Connected Mobile Apps?
 
 I guess I should define some of the terminology that I am going to use.  When I
@@ -44,7 +27,50 @@ cloud connected already.  For example, Instagram uses the cloud for photo
 storage, and Facebook uses the cloud to store the news feeds of you and your
 friends.
 
-## Features of Cloud Connected Mobile Apps
+## Why Cross-Platform Native Development is important?
+
+It should come as no surprise that Apple and Google have pretty much won the
+mobile OS wars.  Over 90% of the smart phones being sold today run either iOS
+or Android.  However, these are two very different mobile operating systems,
+with different programming models.  iOS is based on either [Swift][21] or
+Objective-C.  Android is based on [Java][22].  If you want to develop for the
+80% case (and you should), then you need to know both Swift and Java.  That's
+a tall order even for the most dedicated mobile developer.  
+
+However, there are alternatives out there.  Most notable, you can write your
+mobile application with one code-base and just write exceptions for when the
+platforms diverge.  You have to pick a single language and a tool set that
+supports cross-platform development to do this.  Not all cross-platform tool
+sets are created equal, however.  Some do not compile your code to native
+binaries, which means that you do not get access to all the functionality of
+the mobile platforms you are targeting.
+
+Xamarin, recently acquired by Microsoft, allows you to target all major
+platforms - iOS, Android and Windows - to gain greater than 95% coverage of
+the mobile smart phone market.  It does this by leveraging the .NET framework
+and compiling your code to a native binary for each platform.
+
+Xamarin.Forms is a cross-platform framework, based on XAML and .NET, that
+allows you to use common UI pages to develop your apps.  
+
+## Why Azure Mobile Apps?
+
+When you think about the major apps in the marketplace for each mobile
+platform, the thing that they have in common is that they have some sort
+of cloud infrastructure driving them.  It might be as simple as storing
+your task list, or as complex as your Facebook news feed.  It could be a
+gaming leader board, or the social sharing of your photos.  Whatever it
+is, cloud connectivity is a must.
+
+Not all clouds are created equal.  There are some common features that you
+should think about including irrespective of the application.  I like to use
+Azure Mobile Apps for these features because they are all included and you
+can get started with most of the features for zero cost.  Even the features
+that cannot be obtained without spending a little money are relatively cheap.
+
+> Azure Mobile Apps is a feature of Azure App Service.  Azure App Service is a collection of services that commonly are used together to develop modern Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.
+
+### Features of Cloud Connected Mobile Apps
 
 A cloud connected mobile application will use one or more services in the
 following areas:
@@ -80,64 +106,24 @@ handle the load when my app is successful, and I want things to be backed up
 All of these features are available in Azure App Service, and the Mobile Apps
 SDK that I will use throughout the book is supported only on Azure App Service.
 
-## What You Will Need
+## Who is This Book For?
 
-All the software you need to develop compelling mobile applications is available
-for free on the Internet.  The hardware needs is pretty basic. You will need a
-PC or a Mac.  If you intend to build and distribute iOS applications, you will
-need a Mac.  Similarly, if you intend to build and distribution Universal
-Windows applications, you will need a Windows 10 PC.  I do all my development
-using a combination of both.  I have a [Mac Mini][6] to build my iOS applications,
-and a beefy [Windows 10 PC][7] to build my Universal Windows and Android
-applications.  I do all of my development using my Windows 10 PC.
+This book is for intermediate to experienced C# developers who have already
+built a mobile app with Xamarin and want to take their mobile apps to the next
+level by utilizing cloud services.
 
-In terms of software, you should have the following:
+This book is not for the beginner.  Explicitly, I already expect you to know how
+to develop mobile applications with C# and Xamarin technologies.  If you are
+unfamiliar with the C# language, you can get started with a free course on the
+Internet.  The basics of the language can be learned at [www.learncs.org][3].  
+Once you have the language basics under your belt, you can move on to building
+mobile applications with Xamarin. You can learn more about developing cross-platform
+mobile development with Xamarin at the [Xamarin][5] website.  Although you do
+not need to understand ASP.NET to get value out of this book, be aware that the
+mobile back ends that I will be covering are written in C# and ASP.NET.  A good
+understanding of ASP.NET will assist you.
 
-#### On your Mac
-
-Your Mac should be running the latest version of Mac OSX and you should have
-installed [XCode][8] from the Mac App Store.  You can't just install it though.
-You need to run it at least once so you can agree to the license.
-
-You should also download and install [Xamarin Studio][9] even if you intend to
-develop all your code using the Windows 10 PC.  Xamarin Studio provides the
-tools for compiling iOS and Android apps on a Mac.  If you wish to develop
-mobile apps on your Mac, it also includes an Integrated Development Environment
-(IDE) specifically for this.
-
-If you intend to build Android applications on your Mac, you will also need to
-download and install [Android Studio and Tools][21].  This is not required if
-you intend to build your Android applications on your Windows 10 PC with Visual
-Studio.
-
-#### On your Windows 10 PC
-
-Your Windows 10 PC should also be running the latest version of Windows 10. Make
-sure you have automatic updates turned on.  In addition to Windows 10, you will
-want to turn on Hyper-V. The installer for Visual Studio will do this for you if
-necessary.  If you do not turn on Hyper-V, you will not be able to use the
-Visual Studio Emulator for Android.  This emulator is superior to the emulator
-that is supplied with the Android Toolkit.
-
-Aside from Windows 10 and Hyper-V, you will need to download and install
-[Visual Studio Community][10] and the [Azure SDK][11].  If you have access to
-a higher edition of Visual Studio, that will work as well.  If you have already
-installed Visual Studio, you may want to re-run the installer to add the Mobile
-development components.  You want to request the installs for Web applications
-and cross-platform mobile development.
-
-> Development Tools are big, multi-gigabyte installers.  If you are on a slow or
-restricted link, you may want to download the installers onto a thumb drive for
-local installation.
-
-Once you have downloaded and installed everything (Xcode, Xamarin Studio and
-Visual Studio), go to the updates section for each tool and ensure they are
-updated to the latest editions.  Small bugs tend to be fixed and never noted in
-the description of the updates.  Nothing is more infuriating than bumping into a
-bug without realizing that it has already been fixed and the problem is not
-really your fault.
-
-#### Other Learning
+### Things You Should Know!
 
 Before you get started with development, spend some time learning the tools of
 the trade.  The command prompt on the Mac is [bash][12] and the command prompt
@@ -148,7 +134,56 @@ Additionally, you should become familiar with the source code control system
 that you will use.  For most, this means becoming familiar with
 [git][14].  Don't even think of developing without using source control.
 
-#### Cloud Services
+## What You Will Need
+
+The list of hardware and software for mobile development is longer than your
+typical development projects.  It is still, thankfully, relatively short and
+easy to acquire.
+
+### Hardware
+
+You will want a computer on which to develop code.  If you develop iOS
+applications, then you **MUST** have a Mac running the latest version of Mac
+OSX.  If you develop Universal Windows applications, then you **MUST** have a
+PC running Windows 10.  Android applications can be developed on either platform.
+
+My own experience has taught me that the tooling for developing mobile backends
+in C# and ASP.NET (our primary languages during the course of this book) are
+better on a PC running Windows 10.  Thus, my hardware choice is a rather beefy
+[Windows 10 PC][7] for my main development system.  In addition, I have a
+[Mac Mini][6] underneath my desk that I use to build the iOS portions of the
+applications.
+
+### Software
+
+All of the following software are freely available.  You should install each
+package and update it (if appropriate) so that it is fully patched.
+
+#### On your Mac
+
+* [XCode][8] (available on the Mac App Store)
+* [Xamarin Studio][9]
+* [Android Studio and Tools][23] (if you intend to build Android apps on the Mac)
+
+You must run XCode at least once after installation so that you can accept the
+license agreement.
+
+#### On your Windows PC
+
+* [Android Studio and Tools][23]
+* [Visual Studio Community][10]
+* [Azure SDK][11]
+
+When installing Visual Studio, you will want to install the components for
+Web applications and Cross-platform Mobile development.  If you have already
+installed Visual Studio and did not install these components, run the installer
+again to add the components.
+
+> Development Tools are big, multi-gigabyte installers.  If you are on a slow or
+restricted link, you may want to download the installers onto a thumb drive for
+local installation.
+
+### Cloud Services
 
 You will need an Azure account to complete most of the tutorials in this book.
 In fact, you won't be able to get very far without one. If you have an MSDN
@@ -203,3 +238,6 @@ Now, let's get developing!
 [18]: https://developer.apple.com/programs/
 [19]: https://play.google.com/apps/publish/signup
 [20]: https://developer.microsoft.com/en-us/store/register
+[21]: https://developer.apple.com/swift/
+[22]: https://developer.android.com/training/index.html
+[23]: https://developer.android.com/
