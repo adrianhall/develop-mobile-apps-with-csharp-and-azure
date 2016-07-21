@@ -218,10 +218,12 @@ namespace Backend.Controllers
 }
 ```
 
-Although the attribute is called `[Authorize]`, this only does authentication.  
-It does not actually perform authorization.  Authorization is about ensuring
-that only certain authorized users can perform actions.  We'll get onto
-authorization later on.
+Note that the `[Authorize]` attribute can do so much more than what is provided
+here.  Underneath there are various parameters that you can adjust to see if the
+user belongs to a specific group or role.  However, the token that is checked
+to see if the user is authenticated does not pull in any of the other information
+that is normally needed for such authorization tasks.  As a result, the `[Authorize]`
+tags is really only checking authentication - not authorization.
 
 ### Social Authentication
 
