@@ -147,7 +147,7 @@
         }, 
         {
             "location": "/2_authentication/", 
-            "text": "Authentication\n\n\nOne of the very first things you will want to do is to provide users with a\nunique experience.  For our example task list application, this could be as\nsimple as providing a task list for the user who is logged in.  In more complex\napplications, this is the gateway to role-based access controls, group rules,\nand sharing with your friends.  In all these cases, properly identifying the\nuser using the phone is the starting point.\n\n\nAuthentication Concepts\n\n\nAuthentication provides a process by which the user that is using the mobile\ndevice can be identified securely.  This is generally done by entering a username\nand password.  However, modern systems can also provide \nmulti-factor authentication\n,\nsend you a text message to a registered device, or \nuse your fingerprint\n as the password.\n\n\nThe OAuth Process\n\n\nIn just about every single mobile application, a process called \nOAuth\n is used\nto properly identify a user to the mobile backend.  OAuth is not an authentication\nmechanism in its own right.  It is used to route the authentication request to the\nright place and to verify that the authentication took place. There are three actors\nin the OAuth protocol:\n\n\n\n\nThe \nClient\n is the application attempting to get access to the resource.\n\n\nThe \nResource\n is the mobile backend that the client is attempting to access.\n\n\nThe \nIdentity Provider\n (or IdP) is the service that is responsible for authenticating the client.\n\n\n\n\nAt the end of the process, a cryptographically signed token is minted.  This\ntoken is added to every single subsequent request to identify the user.\n\n\nServer Side vs. Client Side Authentication\n\n\nThere are two types of authentication flow: Server-Flow and Client-Flow.  They\nare so named because of who controls the flow of the actual authentication.  In\na server-flow authentication, the client asks Azure Mobile Apps to login.  Azure\nMobile Apps then redirects to the configured Identity Provider.  That IdP will\nthen authenticate the user before redirecting back to Azure Mobile Apps.  At\nthis point, Azure Mobile Apps will mint a ZUMO token that shows the user is\nauthenticated and return that token to the client application.  \n\n\n![Server-Flow][img1]\n\n\nServer-flow is named because the authentication flow is managed by the server\nthrough a web connection.  It is generally used in two cases:\n\n\n\n\nYou want a simple placeholder for authentication in your mobile app while you are developing other code.\n\n\nYou are developing a web app.\n\n\n\n\nClient-flow authentication uses an IdP provided SDK to integrate a more native\nfeel to the authentication flow.  The actual flow happens on the client,\ncommunicating only with the IdP.  For example, if you use the Facebook SDK for\nauthentication, your app will seamlessly switch over into the Facebook app and\nask you to authorize your client application before switching you back to your\nclient application.  The IdP SDK will return a token to your code.  Your client\napplication will then contact the mobile backend to swap the IdP token for a\nZUMO token.  You will then use the ZUMO token to communicate with the mobile\nbackend.\n\n\nIt is generally recommended that you use the IdP SDK when developing an app\nthat will be released on the app store.  This follows the best practice provided\nby the majority of identity providers and provides the best experience for your\nend users.\n\n\nAuthentication Providers\n\n\nAzure Mobile Apps supports five identity providers natively:\n\n\n\n\nAzure Active Directory\n\n\nFacebook\n\n\nGoogle\n\n\nMicrosoft (MSA)\n\n\nTwitter\n\n\n\n\nIn addition, you can set up client-flow custom authentication that allows\nyou to mint a ZUMO token to your specifications for any provider using a\nclient-flow.  For example, you could use authentication providers like\n\nAzure AD B2C\n, \nLinkedIn\n or \nGitHub\n, a third-party authentication\nprovider like  \nAuth0\n, or you could set up an identity table in your\ndatabase so that you can check  username and password without an identity\nprovider.\n\n\nAdding Authentication to a Mobile Backend\n\n\nSocial Authentication\n\n\nEnterprise Authentication\n\n\nCustom Authentication\n\n\nConfiguring Refresh Tokens\n\n\nWhat is in a JWT\n\n\nImplementing Authentication to a Mobile Client\n\n\nSocial Authentication\n\n\nEnterprise Authentication\n\n\nCustom Authentication\n\n\nHandling Refresh Tokens\n\n\nBest Practices", 
+            "text": "Authentication\n\n\nOne of the very first things you will want to do is to provide users with a\nunique experience.  For our example task list application, this could be as\nsimple as providing a task list for the user who is logged in.  In more complex\napplications, this is the gateway to role-based access controls, group rules,\nand sharing with your friends.  In all these cases, properly identifying the\nuser using the phone is the starting point.\n\n\nAuthentication Concepts\n\n\nAuthentication provides a process by which the user that is using the mobile\ndevice can be identified securely.  This is generally done by entering a username\nand password.  However, modern systems can also provide \nmulti-factor authentication\n,\nsend you a text message to a registered device, or \nuse your fingerprint\n as the password.\n\n\nThe OAuth Process\n\n\nIn just about every single mobile application, a process called \nOAuth\n is used\nto properly identify a user to the mobile backend.  OAuth is not an authentication\nmechanism in its own right.  It is used to route the authentication request to the\nright place and to verify that the authentication took place. There are three actors\nin the OAuth protocol:\n\n\n\n\nThe \nClient\n is the application attempting to get access to the resource.\n\n\nThe \nResource\n is the mobile backend that the client is attempting to access.\n\n\nThe \nIdentity Provider\n (or IdP) is the service that is responsible for authenticating the client.\n\n\n\n\nAt the end of the process, a cryptographically signed token is minted.  This\ntoken is added to every single subsequent request to identify the user.\n\n\nServer Side vs. Client Side Authentication\n\n\nThere are two types of authentication flow: Server-Flow and Client-Flow.  They\nare so named because of who controls the flow of the actual authentication.  In\na server-flow authentication, the client asks Azure Mobile Apps to login.  Azure\nMobile Apps then redirects to the configured Identity Provider.  That IdP will\nthen authenticate the user before redirecting back to Azure Mobile Apps.  At\nthis point, Azure Mobile Apps will mint a ZUMO token that shows the user is\nauthenticated and return that token to the client application.  \n\n\n\n\nServer-flow is named because the authentication flow is managed by the server\nthrough a web connection.  It is generally used in two cases:\n\n\n\n\nYou want a simple placeholder for authentication in your mobile app while you are developing other code.\n\n\nYou are developing a web app.\n\n\n\n\nClient-flow authentication uses an IdP provided SDK to integrate a more native\nfeel to the authentication flow.  The actual flow happens on the client,\ncommunicating only with the IdP.  For example, if you use the Facebook SDK for\nauthentication, your app will seamlessly switch over into the Facebook app and\nask you to authorize your client application before switching you back to your\nclient application.  The IdP SDK will return a token to your code.  Your client\napplication will then contact the mobile backend to swap the IdP token for a\nZUMO token.  You will then use the ZUMO token to communicate with the mobile\nbackend.\n\n\nIt is generally recommended that you use the IdP SDK when developing an app\nthat will be released on the app store.  This follows the best practice provided\nby the majority of identity providers and provides the best experience for your\nend users.\n\n\nAuthentication Providers\n\n\nAzure Mobile Apps supports five identity providers natively:\n\n\n\n\nAzure Active Directory\n\n\nFacebook\n\n\nGoogle\n\n\nMicrosoft (MSA)\n\n\nTwitter\n\n\n\n\nIn addition, you can set up client-flow custom authentication that allows\nyou to mint a ZUMO token to your specifications for any provider using a\nclient-flow.  For example, you could use authentication providers like\n\nAzure AD B2C\n, \nLinkedIn\n or \nGitHub\n, a third-party authentication\nprovider like  \nAuth0\n, or you could set up an identity table in your\ndatabase so that you can check  username and password without an identity\nprovider.\n\n\nAdding Authentication to a Mobile Backend\n\n\nAdding authentication to an Azure Mobile Apps backend is made easier because\nAzure Mobile Apps adds authentication using the default ASP.NET identity\nframework.  However, you must add the authentication initialization code to\nyour \nStartup.MobileApp.cs\n file:\n\n\npublic static void ConfigureMobileApp(IAppBuilder app)\n{\n    HttpConfiguration config = new HttpConfiguration();\n\n    new MobileAppConfiguration()\n        .AddTablesWithEntityFramework()\n        .ApplyTo(config);\n\n    // Use Entity Framework Code First to create database tables based on your DbContext\n    Database.SetInitializer(new MobileServiceInitializer());\n\n    MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();\n\n    if (string.IsNullOrEmpty(settings.HostName))\n    {\n        app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions\n        {\n            // This middleware is intended to be used locally for debugging. By default, HostName will\n            // only have a value when running in an App Service application.\n            SigningKey = ConfigurationManager.AppSettings[\nSigningKey\n],\n            ValidAudiences = new[] { ConfigurationManager.AppSettings[\nValidAudience\n] },\n            ValidIssuers = new[] { ConfigurationManager.AppSettings[\nValidIssuer\n] },\n            TokenHandler = config.GetAppServiceTokenHandler()\n        });\n    }\n\n    app.UseWebApi(config);\n}\n\n\n\n\nAuthentication is done at one of two levels.  We can add\nauthentication to an entire table controller by adding the \n[Authorize]\n\nattribute to the table controller.  We can also add authentication on\nindividual operations by adding the \n[Authorize]\n attribute to individual\nmethods within the table controller. For example, here is our table controller\nfrom the first chapter with authentication required for all operations:\n\n\nusing System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    [Authorize]\n    public class TodoItemController : TableController\nTodoItem\n\n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager\nTodoItem\n(context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable\nTodoItem\n GetAllTodoItems() =\n Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult\nTodoItem\n GetTodoItem(string id) =\n Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task\nTodoItem\n PatchTodoItem(string id, Delta\nTodoItem\n patch) =\n UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        public async Task\nIHttpActionResult\n PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute(\nTables\n, new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task DeleteTodoItem(string id) =\n DeleteAsync(id);\n    }\n}\n\n\n\n\nWe could also have a version where reading was possible anonymously but\nupdating the database required authentication:\n\n\nusing System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    public class TodoItemController : TableController\nTodoItem\n\n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager\nTodoItem\n(context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable\nTodoItem\n GetAllTodoItems() =\n Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult\nTodoItem\n GetTodoItem(string id) =\n Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        [Authorize]\n        public Task\nTodoItem\n PatchTodoItem(string id, Delta\nTodoItem\n patch) =\n UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        [Authorize]\n        public async Task\nIHttpActionResult\n PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute(\nTables\n, new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        [Authorize]\n        public Task DeleteTodoItem(string id) =\n DeleteAsync(id);\n    }\n}\n\n\n\n\nAlthough the attribute is called \n[Authorize]\n, this only does authentication.\n\nIt does not actually perform authorization.  Authorization is about ensuring\nthat only certain authorized users can perform actions.  We'll get onto\nauthorization later on.\n\n\nSocial Authentication\n\n\nAzure App Service provides built-in support for Facebook, Google, Microsoft\nand Twitter.  Irrespective of whether you intend to use server-flow or\nclient-flow, you will need to configure the Azure App Service Authentication\nservice.  In general, the method involves:\n\n\n\n\nObtain a Developer Account for the provider.\n\n\nCreate a new application, obtaining a Client ID and Secret.\n\n\nTurn on Azure App Service Authentication.\n\n\nEnter the Client ID and Secret into the specific provider setup.\n\n\nSave the configuration.\n\n\n\n\nBefore you start any of this, create a new Azure Mobile Apps as we described\nin \nChapter 1\n.  If you want a site to deploy for the configuration, the\n\nBackend\n project in the [Chapter2][10] solution is pre-configured for authorization.\nYou just need to deploy it to Azure App Service.\n\n\nFacebook Authentication\n\n\nI'm going to assume you have a Facebook account already.  If you don't, go to\n\nFacebook\n and sign up.  All your friends are likely there already!  Now\nlog in to the \nFacebook Developers\n web site.  Let's create a new Facebook\napplication:\n\n\n\n\nNote\n: Facebook updates the look and feel of their developer site on a regularb\nbasis.  As a result, the screen shots I've provided here may be different.  If\nin doubt, follow the bullet descriptions to find your way.\n\n\n\n\nIf you are not already registered, click on the drop-down in the top-right\ncorner and \nRegister as a Developer\n before continuing.\n\n\n\n\n\n\nClick on the \nMy Apps\n link in the top right corner of the screen.\n\n\nClick on \nCreate a New App\n.\n\n\nFill in the form:\n\n\n\n\n\n\n\n\n\n\nIf required, verify your account according to the instructions.  This usually\ninvolves adding a credit card number or verifying your mobile phone number.  \n\n\n\n\n\n\nClick on the \nGet Started\n button next to \nFacebook Login\n.\n\n\n\n\n\n\n\n\n\n\nEnter your application URL + \n/.auth/login/facebook/callback\n in the \nValid\nOAuth redirect URIs\n.\n\n\n\n\n\n\n\n\nNote that you may not be able to use SSL if you are using the certain plans such\nas the F1 Free App  Service Plan.  Some identity providers only allow SSL redirects.\n\nYou can upgrade the App Service Plan to a B1 Basic in this case.\n\n\n\n\n\n\nClick on \nSave Changes\n.\n\n\nClick on the \nSettings\n -\n \nBasic\n in the left hand side-bar.\n\n\nClick on the \nShow\n button next to the App Secret\n\n\n\n\nNow that you have the \nApp ID\n and \nApp Secret\n, you can continue configuration\nof your app within the \nAzure Portal\n.\n\n\n\n\nOpen up your App Service by clicking on \nAll Resources\n or \nApp Services\n\nfollowed by the name of your app service.\n\n\nIn the \nSettings\n blade, click on \nAuthentication / Authorization\n which\nis under \nFeatures\n.\n\n\nTurn \nApp Service Authentication\n to \nOn\n.\n\n\nIn the \nAction to take when request is not authenticated\n, select \nAllow Request (no action)\n.\n\n\n\n\n\n\nIt's very tempting to choose \nLog in with Facebook\n.  However, you need to avoid this.  Selecting this option will mean that all requests need to be authenticated and you won't get the information on the back end.  Selecting \nAllow Request\n means your app is in charge of what gets authenticated and what does not require authentication.\n\n\n\n\n\n\nClick on \nFacebook\n (which should show \nNot Configured\n).\n\n\nCut and Paste the \nApp ID\n and \nApp Secret\n into the boxes provided.\n\n\nSelect \npublic_profile\n and \nemail\n for Scopes.\n\n\n\n\n\n\nNote that if you request anything but public_profile, user_friends, and email, your app will need further review by Facebook, which will take time.  This process is not worth it for test apps like this one.\n\n\n\n\n\n\nClick on \nOK\n (at the bottom of the blade) to close the Facebook configuration blade.\n\n\nClick on \nSave\n (at the top of the blade) to save your Authentication changes.\n\n\n\n\nYou can test your authentication process by browsing to https://\nyoursite\n.azurewebsites.net/.auth/login/facebook;\nthis is the same endpoint that the Azure Mobile Apps Client SDK calls when it is time\nto integrate authentication into the mobile client.\n\n\n\n\nIf you are not logged in to facebook already, you will be prompted for your\nfacebook credentials first.  Finally, here is your happy page - the page that\nsignifies you have done everything right:\n\n\n\n\nGoogle Authentication\n\n\nEnterprise Authentication\n\n\nWhat is in a JWT\n\n\nImplementing Authentication to a Mobile Client\n\n\nSocial Authentication\n\n\nEnterprise Authentication\n\n\nCustom Authentication\n\n\nAzure Active Directory B2C\n\n\nUsing Third-Party Tokens\n\n\nUsing an Identity Database.\n\n\nAuthorization\n\n\nRefresh Tokens\n\n\nConfiguring Refresh Tokens\n\n\nUsing Refresh Tokens\n\n\nLogging out\n\n\nBest Practices", 
             "title": "2. Authentication"
         }, 
         {
@@ -167,7 +167,7 @@
         }, 
         {
             "location": "/2_authentication/#server-side-vs-client-side-authentication", 
-            "text": "There are two types of authentication flow: Server-Flow and Client-Flow.  They\nare so named because of who controls the flow of the actual authentication.  In\na server-flow authentication, the client asks Azure Mobile Apps to login.  Azure\nMobile Apps then redirects to the configured Identity Provider.  That IdP will\nthen authenticate the user before redirecting back to Azure Mobile Apps.  At\nthis point, Azure Mobile Apps will mint a ZUMO token that shows the user is\nauthenticated and return that token to the client application.    ![Server-Flow][img1]  Server-flow is named because the authentication flow is managed by the server\nthrough a web connection.  It is generally used in two cases:   You want a simple placeholder for authentication in your mobile app while you are developing other code.  You are developing a web app.   Client-flow authentication uses an IdP provided SDK to integrate a more native\nfeel to the authentication flow.  The actual flow happens on the client,\ncommunicating only with the IdP.  For example, if you use the Facebook SDK for\nauthentication, your app will seamlessly switch over into the Facebook app and\nask you to authorize your client application before switching you back to your\nclient application.  The IdP SDK will return a token to your code.  Your client\napplication will then contact the mobile backend to swap the IdP token for a\nZUMO token.  You will then use the ZUMO token to communicate with the mobile\nbackend.  It is generally recommended that you use the IdP SDK when developing an app\nthat will be released on the app store.  This follows the best practice provided\nby the majority of identity providers and provides the best experience for your\nend users.", 
+            "text": "There are two types of authentication flow: Server-Flow and Client-Flow.  They\nare so named because of who controls the flow of the actual authentication.  In\na server-flow authentication, the client asks Azure Mobile Apps to login.  Azure\nMobile Apps then redirects to the configured Identity Provider.  That IdP will\nthen authenticate the user before redirecting back to Azure Mobile Apps.  At\nthis point, Azure Mobile Apps will mint a ZUMO token that shows the user is\nauthenticated and return that token to the client application.     Server-flow is named because the authentication flow is managed by the server\nthrough a web connection.  It is generally used in two cases:   You want a simple placeholder for authentication in your mobile app while you are developing other code.  You are developing a web app.   Client-flow authentication uses an IdP provided SDK to integrate a more native\nfeel to the authentication flow.  The actual flow happens on the client,\ncommunicating only with the IdP.  For example, if you use the Facebook SDK for\nauthentication, your app will seamlessly switch over into the Facebook app and\nask you to authorize your client application before switching you back to your\nclient application.  The IdP SDK will return a token to your code.  Your client\napplication will then contact the mobile backend to swap the IdP token for a\nZUMO token.  You will then use the ZUMO token to communicate with the mobile\nbackend.  It is generally recommended that you use the IdP SDK when developing an app\nthat will be released on the app store.  This follows the best practice provided\nby the majority of identity providers and provides the best experience for your\nend users.", 
             "title": "Server Side vs. Client Side Authentication"
         }, 
         {
@@ -177,28 +177,28 @@
         }, 
         {
             "location": "/2_authentication/#adding-authentication-to-a-mobile-backend", 
-            "text": "", 
+            "text": "Adding authentication to an Azure Mobile Apps backend is made easier because\nAzure Mobile Apps adds authentication using the default ASP.NET identity\nframework.  However, you must add the authentication initialization code to\nyour  Startup.MobileApp.cs  file:  public static void ConfigureMobileApp(IAppBuilder app)\n{\n    HttpConfiguration config = new HttpConfiguration();\n\n    new MobileAppConfiguration()\n        .AddTablesWithEntityFramework()\n        .ApplyTo(config);\n\n    // Use Entity Framework Code First to create database tables based on your DbContext\n    Database.SetInitializer(new MobileServiceInitializer());\n\n    MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();\n\n    if (string.IsNullOrEmpty(settings.HostName))\n    {\n        app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions\n        {\n            // This middleware is intended to be used locally for debugging. By default, HostName will\n            // only have a value when running in an App Service application.\n            SigningKey = ConfigurationManager.AppSettings[ SigningKey ],\n            ValidAudiences = new[] { ConfigurationManager.AppSettings[ ValidAudience ] },\n            ValidIssuers = new[] { ConfigurationManager.AppSettings[ ValidIssuer ] },\n            TokenHandler = config.GetAppServiceTokenHandler()\n        });\n    }\n\n    app.UseWebApi(config);\n}  Authentication is done at one of two levels.  We can add\nauthentication to an entire table controller by adding the  [Authorize] \nattribute to the table controller.  We can also add authentication on\nindividual operations by adding the  [Authorize]  attribute to individual\nmethods within the table controller. For example, here is our table controller\nfrom the first chapter with authentication required for all operations:  using System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    [Authorize]\n    public class TodoItemController : TableController TodoItem \n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager TodoItem (context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable TodoItem  GetAllTodoItems() =  Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult TodoItem  GetTodoItem(string id) =  Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task TodoItem  PatchTodoItem(string id, Delta TodoItem  patch) =  UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        public async Task IHttpActionResult  PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute( Tables , new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public Task DeleteTodoItem(string id) =  DeleteAsync(id);\n    }\n}  We could also have a version where reading was possible anonymously but\nupdating the database required authentication:  using System.Linq;\nusing System.Threading.Tasks;\nusing System.Web.Http;\nusing System.Web.Http.Controllers;\nusing System.Web.Http.OData;\nusing Backend.DataObjects;\nusing Backend.Models;\nusing Microsoft.Azure.Mobile.Server;\n\nnamespace Backend.Controllers\n{\n    public class TodoItemController : TableController TodoItem \n    {\n        protected override void Initialize(HttpControllerContext controllerContext)\n        {\n            base.Initialize(controllerContext);\n            MobileServiceContext context = new MobileServiceContext();\n            DomainManager = new EntityDomainManager TodoItem (context, Request);\n        }\n\n        // GET tables/TodoItem\n        public IQueryable TodoItem  GetAllTodoItems() =  Query();\n\n        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        public SingleResult TodoItem  GetTodoItem(string id) =  Lookup(id);\n\n        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        [Authorize]\n        public Task TodoItem  PatchTodoItem(string id, Delta TodoItem  patch) =  UpdateAsync(id, patch);\n\n        // POST tables/TodoItem\n        [Authorize]\n        public async Task IHttpActionResult  PostTodoItem(TodoItem item)\n        {\n            TodoItem current = await InsertAsync(item);\n            return CreatedAtRoute( Tables , new { id = current.Id }, current);\n        }\n\n        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959\n        [Authorize]\n        public Task DeleteTodoItem(string id) =  DeleteAsync(id);\n    }\n}  Although the attribute is called  [Authorize] , this only does authentication. \nIt does not actually perform authorization.  Authorization is about ensuring\nthat only certain authorized users can perform actions.  We'll get onto\nauthorization later on.", 
             "title": "Adding Authentication to a Mobile Backend"
         }, 
         {
             "location": "/2_authentication/#social-authentication", 
-            "text": "", 
+            "text": "Azure App Service provides built-in support for Facebook, Google, Microsoft\nand Twitter.  Irrespective of whether you intend to use server-flow or\nclient-flow, you will need to configure the Azure App Service Authentication\nservice.  In general, the method involves:   Obtain a Developer Account for the provider.  Create a new application, obtaining a Client ID and Secret.  Turn on Azure App Service Authentication.  Enter the Client ID and Secret into the specific provider setup.  Save the configuration.   Before you start any of this, create a new Azure Mobile Apps as we described\nin  Chapter 1 .  If you want a site to deploy for the configuration, the Backend  project in the [Chapter2][10] solution is pre-configured for authorization.\nYou just need to deploy it to Azure App Service.", 
             "title": "Social Authentication"
+        }, 
+        {
+            "location": "/2_authentication/#facebook-authentication", 
+            "text": "I'm going to assume you have a Facebook account already.  If you don't, go to Facebook  and sign up.  All your friends are likely there already!  Now\nlog in to the  Facebook Developers  web site.  Let's create a new Facebook\napplication:   Note : Facebook updates the look and feel of their developer site on a regularb\nbasis.  As a result, the screen shots I've provided here may be different.  If\nin doubt, follow the bullet descriptions to find your way.   If you are not already registered, click on the drop-down in the top-right\ncorner and  Register as a Developer  before continuing.    Click on the  My Apps  link in the top right corner of the screen.  Click on  Create a New App .  Fill in the form:      If required, verify your account according to the instructions.  This usually\ninvolves adding a credit card number or verifying your mobile phone number.      Click on the  Get Started  button next to  Facebook Login .      Enter your application URL +  /.auth/login/facebook/callback  in the  Valid\nOAuth redirect URIs .     Note that you may not be able to use SSL if you are using the certain plans such\nas the F1 Free App  Service Plan.  Some identity providers only allow SSL redirects. \nYou can upgrade the App Service Plan to a B1 Basic in this case.    Click on  Save Changes .  Click on the  Settings  -   Basic  in the left hand side-bar.  Click on the  Show  button next to the App Secret   Now that you have the  App ID  and  App Secret , you can continue configuration\nof your app within the  Azure Portal .   Open up your App Service by clicking on  All Resources  or  App Services \nfollowed by the name of your app service.  In the  Settings  blade, click on  Authentication / Authorization  which\nis under  Features .  Turn  App Service Authentication  to  On .  In the  Action to take when request is not authenticated , select  Allow Request (no action) .    It's very tempting to choose  Log in with Facebook .  However, you need to avoid this.  Selecting this option will mean that all requests need to be authenticated and you won't get the information on the back end.  Selecting  Allow Request  means your app is in charge of what gets authenticated and what does not require authentication.    Click on  Facebook  (which should show  Not Configured ).  Cut and Paste the  App ID  and  App Secret  into the boxes provided.  Select  public_profile  and  email  for Scopes.    Note that if you request anything but public_profile, user_friends, and email, your app will need further review by Facebook, which will take time.  This process is not worth it for test apps like this one.    Click on  OK  (at the bottom of the blade) to close the Facebook configuration blade.  Click on  Save  (at the top of the blade) to save your Authentication changes.   You can test your authentication process by browsing to https:// yoursite .azurewebsites.net/.auth/login/facebook;\nthis is the same endpoint that the Azure Mobile Apps Client SDK calls when it is time\nto integrate authentication into the mobile client.   If you are not logged in to facebook already, you will be prompted for your\nfacebook credentials first.  Finally, here is your happy page - the page that\nsignifies you have done everything right:", 
+            "title": "Facebook Authentication"
+        }, 
+        {
+            "location": "/2_authentication/#google-authentication", 
+            "text": "", 
+            "title": "Google Authentication"
         }, 
         {
             "location": "/2_authentication/#enterprise-authentication", 
             "text": "", 
             "title": "Enterprise Authentication"
-        }, 
-        {
-            "location": "/2_authentication/#custom-authentication", 
-            "text": "", 
-            "title": "Custom Authentication"
-        }, 
-        {
-            "location": "/2_authentication/#configuring-refresh-tokens", 
-            "text": "", 
-            "title": "Configuring Refresh Tokens"
         }, 
         {
             "location": "/2_authentication/#what-is-in-a-jwt", 
@@ -221,14 +221,49 @@
             "title": "Enterprise Authentication"
         }, 
         {
-            "location": "/2_authentication/#custom-authentication_1", 
+            "location": "/2_authentication/#custom-authentication", 
             "text": "", 
             "title": "Custom Authentication"
         }, 
         {
-            "location": "/2_authentication/#handling-refresh-tokens", 
+            "location": "/2_authentication/#azure-active-directory-b2c", 
             "text": "", 
-            "title": "Handling Refresh Tokens"
+            "title": "Azure Active Directory B2C"
+        }, 
+        {
+            "location": "/2_authentication/#using-third-party-tokens", 
+            "text": "", 
+            "title": "Using Third-Party Tokens"
+        }, 
+        {
+            "location": "/2_authentication/#using-an-identity-database", 
+            "text": "", 
+            "title": "Using an Identity Database."
+        }, 
+        {
+            "location": "/2_authentication/#authorization", 
+            "text": "", 
+            "title": "Authorization"
+        }, 
+        {
+            "location": "/2_authentication/#refresh-tokens", 
+            "text": "", 
+            "title": "Refresh Tokens"
+        }, 
+        {
+            "location": "/2_authentication/#configuring-refresh-tokens", 
+            "text": "", 
+            "title": "Configuring Refresh Tokens"
+        }, 
+        {
+            "location": "/2_authentication/#using-refresh-tokens", 
+            "text": "", 
+            "title": "Using Refresh Tokens"
+        }, 
+        {
+            "location": "/2_authentication/#logging-out", 
+            "text": "", 
+            "title": "Logging out"
         }, 
         {
             "location": "/2_authentication/#best-practices", 
@@ -331,512 +366,522 @@
             "title": "Implementing an Azure Table Storage Domain Manager"
         }, 
         {
-            "location": "/4_files/", 
-            "text": "File Management\n\n\nAzure Storage Concepts\n\n\nBlobs, Table, Queues and files\n\n\nThe SAS Tokens\n\n\nFile Sync with Azure Mobile Apps\n\n\nDealing with Files\n\n\nUploading a File to Blob Storage\n\n\nDownload a File from Blob Storage\n\n\nFile Sync with Azure Mobile Apps\n\n\nConfiguring the Mobile Backend\n\n\nDeveloping the Mobile Client", 
-            "title": "4. File Management"
+            "location": "/4_authdata/", 
+            "text": "Authenticated Data Access\n\n\nAdjusting the querying\n\n\nPotential things you can do\n- Per User Tables (with ID)\n- Per Email Tables\n- See My Friends Data", 
+            "title": "4. Authenticated Data Access"
         }, 
         {
-            "location": "/4_files/#file-management", 
+            "location": "/4_authdata/#authenticated-data-access", 
+            "text": "Adjusting the querying  Potential things you can do\n- Per User Tables (with ID)\n- Per Email Tables\n- See My Friends Data", 
+            "title": "Authenticated Data Access"
+        }, 
+        {
+            "location": "/5_files/", 
+            "text": "File Management\n\n\nAzure Storage Concepts\n\n\nBlobs, Table, Queues and files\n\n\nThe SAS Tokens\n\n\nFile Sync with Azure Mobile Apps\n\n\nDealing with Files\n\n\nUploading a File to Blob Storage\n\n\nDownload a File from Blob Storage\n\n\nFile Sync with Azure Mobile Apps\n\n\nConfiguring the Mobile Backend\n\n\nDeveloping the Mobile Client", 
+            "title": "5. File Management"
+        }, 
+        {
+            "location": "/5_files/#file-management", 
             "text": "", 
             "title": "File Management"
         }, 
         {
-            "location": "/4_files/#azure-storage-concepts", 
+            "location": "/5_files/#azure-storage-concepts", 
             "text": "", 
             "title": "Azure Storage Concepts"
         }, 
         {
-            "location": "/4_files/#blobs-table-queues-and-files", 
+            "location": "/5_files/#blobs-table-queues-and-files", 
             "text": "", 
             "title": "Blobs, Table, Queues and files"
         }, 
         {
-            "location": "/4_files/#the-sas-tokens", 
+            "location": "/5_files/#the-sas-tokens", 
             "text": "", 
             "title": "The SAS Tokens"
         }, 
         {
-            "location": "/4_files/#file-sync-with-azure-mobile-apps", 
+            "location": "/5_files/#file-sync-with-azure-mobile-apps", 
             "text": "", 
             "title": "File Sync with Azure Mobile Apps"
         }, 
         {
-            "location": "/4_files/#dealing-with-files", 
+            "location": "/5_files/#dealing-with-files", 
             "text": "", 
             "title": "Dealing with Files"
         }, 
         {
-            "location": "/4_files/#uploading-a-file-to-blob-storage", 
+            "location": "/5_files/#uploading-a-file-to-blob-storage", 
             "text": "", 
             "title": "Uploading a File to Blob Storage"
         }, 
         {
-            "location": "/4_files/#download-a-file-from-blob-storage", 
+            "location": "/5_files/#download-a-file-from-blob-storage", 
             "text": "", 
             "title": "Download a File from Blob Storage"
         }, 
         {
-            "location": "/4_files/#file-sync-with-azure-mobile-apps_1", 
+            "location": "/5_files/#file-sync-with-azure-mobile-apps_1", 
             "text": "", 
             "title": "File Sync with Azure Mobile Apps"
         }, 
         {
-            "location": "/4_files/#configuring-the-mobile-backend", 
+            "location": "/5_files/#configuring-the-mobile-backend", 
             "text": "", 
             "title": "Configuring the Mobile Backend"
         }, 
         {
-            "location": "/4_files/#developing-the-mobile-client", 
+            "location": "/5_files/#developing-the-mobile-client", 
             "text": "", 
             "title": "Developing the Mobile Client"
         }, 
         {
-            "location": "/5_push/", 
+            "location": "/6_push/", 
             "text": "Push Notifications\n\n\nPush Notification Concepts\n\n\nHow Push Notifications Works\n\n\nWorking with Notification Hubs\n\n\nTesting Push Notifications\n\n\nPush Notifications for Android\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notifications for iOS\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notifications for Universal Windows\n\n\nConfiguring the Notification Hub\n\n\nRegistering for Push Notifications\n\n\nHandling Push Notifications\n\n\nPush Notification Recipes\n\n\nCross-Platform Templates\n\n\nPushing to Tags", 
-            "title": "5. Push Notifications"
+            "title": "6. Push Notifications"
         }, 
         {
-            "location": "/5_push/#push-notifications", 
+            "location": "/6_push/#push-notifications", 
             "text": "", 
             "title": "Push Notifications"
         }, 
         {
-            "location": "/5_push/#push-notification-concepts", 
+            "location": "/6_push/#push-notification-concepts", 
             "text": "", 
             "title": "Push Notification Concepts"
         }, 
         {
-            "location": "/5_push/#how-push-notifications-works", 
+            "location": "/6_push/#how-push-notifications-works", 
             "text": "", 
             "title": "How Push Notifications Works"
         }, 
         {
-            "location": "/5_push/#working-with-notification-hubs", 
+            "location": "/6_push/#working-with-notification-hubs", 
             "text": "", 
             "title": "Working with Notification Hubs"
         }, 
         {
-            "location": "/5_push/#testing-push-notifications", 
+            "location": "/6_push/#testing-push-notifications", 
             "text": "", 
             "title": "Testing Push Notifications"
         }, 
         {
-            "location": "/5_push/#push-notifications-for-android", 
+            "location": "/6_push/#push-notifications-for-android", 
             "text": "", 
             "title": "Push Notifications for Android"
         }, 
         {
-            "location": "/5_push/#configuring-the-notification-hub", 
+            "location": "/6_push/#configuring-the-notification-hub", 
             "text": "", 
             "title": "Configuring the Notification Hub"
         }, 
         {
-            "location": "/5_push/#registering-for-push-notifications", 
+            "location": "/6_push/#registering-for-push-notifications", 
             "text": "", 
             "title": "Registering for Push Notifications"
         }, 
         {
-            "location": "/5_push/#handling-push-notifications", 
+            "location": "/6_push/#handling-push-notifications", 
             "text": "", 
             "title": "Handling Push Notifications"
         }, 
         {
-            "location": "/5_push/#push-notifications-for-ios", 
+            "location": "/6_push/#push-notifications-for-ios", 
             "text": "", 
             "title": "Push Notifications for iOS"
         }, 
         {
-            "location": "/5_push/#configuring-the-notification-hub_1", 
+            "location": "/6_push/#configuring-the-notification-hub_1", 
             "text": "", 
             "title": "Configuring the Notification Hub"
         }, 
         {
-            "location": "/5_push/#registering-for-push-notifications_1", 
+            "location": "/6_push/#registering-for-push-notifications_1", 
             "text": "", 
             "title": "Registering for Push Notifications"
         }, 
         {
-            "location": "/5_push/#handling-push-notifications_1", 
+            "location": "/6_push/#handling-push-notifications_1", 
             "text": "", 
             "title": "Handling Push Notifications"
         }, 
         {
-            "location": "/5_push/#push-notifications-for-universal-windows", 
+            "location": "/6_push/#push-notifications-for-universal-windows", 
             "text": "", 
             "title": "Push Notifications for Universal Windows"
         }, 
         {
-            "location": "/5_push/#configuring-the-notification-hub_2", 
+            "location": "/6_push/#configuring-the-notification-hub_2", 
             "text": "", 
             "title": "Configuring the Notification Hub"
         }, 
         {
-            "location": "/5_push/#registering-for-push-notifications_2", 
+            "location": "/6_push/#registering-for-push-notifications_2", 
             "text": "", 
             "title": "Registering for Push Notifications"
         }, 
         {
-            "location": "/5_push/#handling-push-notifications_2", 
+            "location": "/6_push/#handling-push-notifications_2", 
             "text": "", 
             "title": "Handling Push Notifications"
         }, 
         {
-            "location": "/5_push/#push-notification-recipes", 
+            "location": "/6_push/#push-notification-recipes", 
             "text": "", 
             "title": "Push Notification Recipes"
         }, 
         {
-            "location": "/5_push/#cross-platform-templates", 
+            "location": "/6_push/#cross-platform-templates", 
             "text": "", 
             "title": "Cross-Platform Templates"
         }, 
         {
-            "location": "/5_push/#pushing-to-tags", 
+            "location": "/6_push/#pushing-to-tags", 
             "text": "", 
             "title": "Pushing to Tags"
         }, 
         {
-            "location": "/6_custom/", 
+            "location": "/7_custom/", 
             "text": "Server Side\n\n\nWorking with Server Side\n\n\nCustom APIs\n\n\nFunctions\n\n\nServer Side Recipes", 
-            "title": "6. Server Side Code"
+            "title": "7. Server Side Code"
         }, 
         {
-            "location": "/6_custom/#server-side", 
+            "location": "/7_custom/#server-side", 
             "text": "", 
             "title": "Server Side"
         }, 
         {
-            "location": "/6_custom/#working-with-server-side", 
+            "location": "/7_custom/#working-with-server-side", 
             "text": "", 
             "title": "Working with Server Side"
         }, 
         {
-            "location": "/6_custom/#custom-apis", 
+            "location": "/7_custom/#custom-apis", 
             "text": "", 
             "title": "Custom APIs"
         }, 
         {
-            "location": "/6_custom/#functions", 
+            "location": "/7_custom/#functions", 
             "text": "", 
             "title": "Functions"
         }, 
         {
-            "location": "/6_custom/#server-side-recipes", 
+            "location": "/7_custom/#server-side-recipes", 
             "text": "", 
             "title": "Server Side Recipes"
         }, 
         {
-            "location": "/7_media/", 
+            "location": "/8_media/", 
             "text": "Using Media Services\n\n\nWhat can Media Services do?\n\n\nUploading Videos from Mobile\n\n\nAutomatically Processing Videos\n\n\nStreaming Videos to Mobile\n\n\nCase Study: Video Learning App", 
-            "title": "7. Media Services"
+            "title": "8. Media Services"
         }, 
         {
-            "location": "/7_media/#using-media-services", 
+            "location": "/8_media/#using-media-services", 
             "text": "", 
             "title": "Using Media Services"
         }, 
         {
-            "location": "/7_media/#what-can-media-services-do", 
+            "location": "/8_media/#what-can-media-services-do", 
             "text": "", 
             "title": "What can Media Services do?"
         }, 
         {
-            "location": "/7_media/#uploading-videos-from-mobile", 
+            "location": "/8_media/#uploading-videos-from-mobile", 
             "text": "", 
             "title": "Uploading Videos from Mobile"
         }, 
         {
-            "location": "/7_media/#automatically-processing-videos", 
+            "location": "/8_media/#automatically-processing-videos", 
             "text": "", 
             "title": "Automatically Processing Videos"
         }, 
         {
-            "location": "/7_media/#streaming-videos-to-mobile", 
+            "location": "/8_media/#streaming-videos-to-mobile", 
             "text": "", 
             "title": "Streaming Videos to Mobile"
         }, 
         {
-            "location": "/7_media/#case-study-video-learning-app", 
+            "location": "/8_media/#case-study-video-learning-app", 
             "text": "", 
             "title": "Case Study: Video Learning App"
         }, 
         {
-            "location": "/8_search/", 
+            "location": "/9_search/", 
             "text": "Integrating Mobile Search\n\n\nDiscovering Search capabilities\n\n\nConfiguring Azure Search\n\n\nUsing Azure Search", 
-            "title": "8. Leveraging Search"
+            "title": "9. Leveraging Search"
         }, 
         {
-            "location": "/8_search/#integrating-mobile-search", 
+            "location": "/9_search/#integrating-mobile-search", 
             "text": "", 
             "title": "Integrating Mobile Search"
         }, 
         {
-            "location": "/8_search/#discovering-search-capabilities", 
+            "location": "/9_search/#discovering-search-capabilities", 
             "text": "", 
             "title": "Discovering Search capabilities"
         }, 
         {
-            "location": "/8_search/#configuring-azure-search", 
+            "location": "/9_search/#configuring-azure-search", 
             "text": "", 
             "title": "Configuring Azure Search"
         }, 
         {
-            "location": "/8_search/#using-azure-search", 
+            "location": "/9_search/#using-azure-search", 
             "text": "", 
             "title": "Using Azure Search"
         }, 
         {
-            "location": "/9_combined/", 
+            "location": "/10_combined/", 
             "text": "Web and Mobile Apps\n\n\nServer Side Development\n\n\nSharing the Database Between Web and Mobile Apps\n\n\nAuthentication for Web and Mobile Apps\n\n\nClient Side Development\n\n\nAccessing Mobile Data from a Single Page Application\n\n\nAuthentication for Single Page Applications\n\n\nRecipes for Single Page Applications\n\n\nAngular 1.x\n\n\nAngular 2.x\n\n\nEmber 1.x\n\n\nReact", 
-            "title": "9. Web and Mobile Apps"
+            "title": "10. Web and Mobile Apps"
         }, 
         {
-            "location": "/9_combined/#web-and-mobile-apps", 
+            "location": "/10_combined/#web-and-mobile-apps", 
             "text": "", 
             "title": "Web and Mobile Apps"
         }, 
         {
-            "location": "/9_combined/#server-side-development", 
+            "location": "/10_combined/#server-side-development", 
             "text": "", 
             "title": "Server Side Development"
         }, 
         {
-            "location": "/9_combined/#sharing-the-database-between-web-and-mobile-apps", 
+            "location": "/10_combined/#sharing-the-database-between-web-and-mobile-apps", 
             "text": "", 
             "title": "Sharing the Database Between Web and Mobile Apps"
         }, 
         {
-            "location": "/9_combined/#authentication-for-web-and-mobile-apps", 
+            "location": "/10_combined/#authentication-for-web-and-mobile-apps", 
             "text": "", 
             "title": "Authentication for Web and Mobile Apps"
         }, 
         {
-            "location": "/9_combined/#client-side-development", 
+            "location": "/10_combined/#client-side-development", 
             "text": "", 
             "title": "Client Side Development"
         }, 
         {
-            "location": "/9_combined/#accessing-mobile-data-from-a-single-page-application", 
+            "location": "/10_combined/#accessing-mobile-data-from-a-single-page-application", 
             "text": "", 
             "title": "Accessing Mobile Data from a Single Page Application"
         }, 
         {
-            "location": "/9_combined/#authentication-for-single-page-applications", 
+            "location": "/10_combined/#authentication-for-single-page-applications", 
             "text": "", 
             "title": "Authentication for Single Page Applications"
         }, 
         {
-            "location": "/9_combined/#recipes-for-single-page-applications", 
+            "location": "/10_combined/#recipes-for-single-page-applications", 
             "text": "", 
             "title": "Recipes for Single Page Applications"
         }, 
         {
-            "location": "/9_combined/#angular-1x", 
+            "location": "/10_combined/#angular-1x", 
             "text": "", 
             "title": "Angular 1.x"
         }, 
         {
-            "location": "/9_combined/#angular-2x", 
+            "location": "/10_combined/#angular-2x", 
             "text": "", 
             "title": "Angular 2.x"
         }, 
         {
-            "location": "/9_combined/#ember-1x", 
+            "location": "/10_combined/#ember-1x", 
             "text": "", 
             "title": "Ember 1.x"
         }, 
         {
-            "location": "/9_combined/#react", 
+            "location": "/10_combined/#react", 
             "text": "", 
             "title": "React"
         }, 
         {
-            "location": "/10_developing/", 
+            "location": "/11_developing/", 
             "text": "The Development Environment\n\n\nWorking with Azure mobile Apps Locally\n\n\nHandling Authentication\n\n\nHandling Push Notifications\n\n\nDebugging your Cloud Mobile Backend\n\n\nDiagnostic Logging\n\n\nUsing the Visual Studio Debugger", 
-            "title": "10. The Development Environment"
+            "title": "11. The Development Environment"
         }, 
         {
-            "location": "/10_developing/#the-development-environment", 
+            "location": "/11_developing/#the-development-environment", 
             "text": "", 
             "title": "The Development Environment"
         }, 
         {
-            "location": "/10_developing/#working-with-azure-mobile-apps-locally", 
+            "location": "/11_developing/#working-with-azure-mobile-apps-locally", 
             "text": "", 
             "title": "Working with Azure mobile Apps Locally"
         }, 
         {
-            "location": "/10_developing/#handling-authentication", 
+            "location": "/11_developing/#handling-authentication", 
             "text": "", 
             "title": "Handling Authentication"
         }, 
         {
-            "location": "/10_developing/#handling-push-notifications", 
+            "location": "/11_developing/#handling-push-notifications", 
             "text": "", 
             "title": "Handling Push Notifications"
         }, 
         {
-            "location": "/10_developing/#debugging-your-cloud-mobile-backend", 
+            "location": "/11_developing/#debugging-your-cloud-mobile-backend", 
             "text": "", 
             "title": "Debugging your Cloud Mobile Backend"
         }, 
         {
-            "location": "/10_developing/#diagnostic-logging", 
+            "location": "/11_developing/#diagnostic-logging", 
             "text": "", 
             "title": "Diagnostic Logging"
         }, 
         {
-            "location": "/10_developing/#using-the-visual-studio-debugger", 
+            "location": "/11_developing/#using-the-visual-studio-debugger", 
             "text": "", 
             "title": "Using the Visual Studio Debugger"
         }, 
         {
-            "location": "/11_testing/", 
+            "location": "/12_testing/", 
             "text": "Testing your Mobile Application\n\n\nTesting your Mobile Client\n\n\nIntroduction to Mobile Client Testing\n\n\nIntroduction to Xamarin Test Cloud\n\n\nUsing Mock Data Services\n\n\nUnit Testing\n\n\nTesting your Mobile Backend\n\n\nIntroduction to Mobile Backend Testing\n\n\nUnit Testing\n\n\nLoad Testing\n\n\nEnd to End Testing", 
-            "title": "11. Testing your Application"
+            "title": "12. Testing your Application"
         }, 
         {
-            "location": "/11_testing/#testing-your-mobile-application", 
+            "location": "/12_testing/#testing-your-mobile-application", 
             "text": "", 
             "title": "Testing your Mobile Application"
         }, 
         {
-            "location": "/11_testing/#testing-your-mobile-client", 
+            "location": "/12_testing/#testing-your-mobile-client", 
             "text": "", 
             "title": "Testing your Mobile Client"
         }, 
         {
-            "location": "/11_testing/#introduction-to-mobile-client-testing", 
+            "location": "/12_testing/#introduction-to-mobile-client-testing", 
             "text": "", 
             "title": "Introduction to Mobile Client Testing"
         }, 
         {
-            "location": "/11_testing/#introduction-to-xamarin-test-cloud", 
+            "location": "/12_testing/#introduction-to-xamarin-test-cloud", 
             "text": "", 
             "title": "Introduction to Xamarin Test Cloud"
         }, 
         {
-            "location": "/11_testing/#using-mock-data-services", 
+            "location": "/12_testing/#using-mock-data-services", 
             "text": "", 
             "title": "Using Mock Data Services"
         }, 
         {
-            "location": "/11_testing/#unit-testing", 
+            "location": "/12_testing/#unit-testing", 
             "text": "", 
             "title": "Unit Testing"
         }, 
         {
-            "location": "/11_testing/#testing-your-mobile-backend", 
+            "location": "/12_testing/#testing-your-mobile-backend", 
             "text": "", 
             "title": "Testing your Mobile Backend"
         }, 
         {
-            "location": "/11_testing/#introduction-to-mobile-backend-testing", 
+            "location": "/12_testing/#introduction-to-mobile-backend-testing", 
             "text": "", 
             "title": "Introduction to Mobile Backend Testing"
         }, 
         {
-            "location": "/11_testing/#unit-testing_1", 
+            "location": "/12_testing/#unit-testing_1", 
             "text": "", 
             "title": "Unit Testing"
         }, 
         {
-            "location": "/11_testing/#load-testing", 
+            "location": "/12_testing/#load-testing", 
             "text": "", 
             "title": "Load Testing"
         }, 
         {
-            "location": "/11_testing/#end-to-end-testing", 
+            "location": "/12_testing/#end-to-end-testing", 
             "text": "", 
             "title": "End to End Testing"
         }, 
         {
-            "location": "/12_troubleshooting/", 
+            "location": "/13_troubleshooting/", 
             "text": "Troubleshooting\n\n\nTroubleshooting the Mobile Backend\n\n\nIntroduction to Azure Application Insights\n\n\nTroubleshooting the Mobile Client\n\n\nIntroduction to HockeyApp\n\n\nIntroduction to Xamarin Insights", 
-            "title": "12. Troubleshooting"
+            "title": "13. Troubleshooting"
         }, 
         {
-            "location": "/12_troubleshooting/#troubleshooting", 
+            "location": "/13_troubleshooting/#troubleshooting", 
             "text": "", 
             "title": "Troubleshooting"
         }, 
         {
-            "location": "/12_troubleshooting/#troubleshooting-the-mobile-backend", 
+            "location": "/13_troubleshooting/#troubleshooting-the-mobile-backend", 
             "text": "", 
             "title": "Troubleshooting the Mobile Backend"
         }, 
         {
-            "location": "/12_troubleshooting/#introduction-to-azure-application-insights", 
+            "location": "/13_troubleshooting/#introduction-to-azure-application-insights", 
             "text": "", 
             "title": "Introduction to Azure Application Insights"
         }, 
         {
-            "location": "/12_troubleshooting/#troubleshooting-the-mobile-client", 
+            "location": "/13_troubleshooting/#troubleshooting-the-mobile-client", 
             "text": "", 
             "title": "Troubleshooting the Mobile Client"
         }, 
         {
-            "location": "/12_troubleshooting/#introduction-to-hockeyapp", 
+            "location": "/13_troubleshooting/#introduction-to-hockeyapp", 
             "text": "", 
             "title": "Introduction to HockeyApp"
         }, 
         {
-            "location": "/12_troubleshooting/#introduction-to-xamarin-insights", 
+            "location": "/13_troubleshooting/#introduction-to-xamarin-insights", 
             "text": "", 
             "title": "Introduction to Xamarin Insights"
         }, 
         {
-            "location": "/13_production/", 
+            "location": "/14_production/", 
             "text": "Going to Production\n\n\nDeploying Beta Editions of your Application\n\n\nUsing Slots for the Mobile Backend\n\n\nUsing HockeyApp for the Mobile Client\n\n\nScaling your Backend\n\n\nMonitoring your Production Application\n\n\nApplication Insights vs. Xamarin Insights\n\n\nConfiguration as Code (DevOps)\n\n\nIntroduction to Azure Resource Manager\n\n\nDeploying your site with Azure Resource Manager", 
-            "title": "13. Going to Production"
+            "title": "14. Going to Production"
         }, 
         {
-            "location": "/13_production/#going-to-production", 
+            "location": "/14_production/#going-to-production", 
             "text": "", 
             "title": "Going to Production"
         }, 
         {
-            "location": "/13_production/#deploying-beta-editions-of-your-application", 
+            "location": "/14_production/#deploying-beta-editions-of-your-application", 
             "text": "", 
             "title": "Deploying Beta Editions of your Application"
         }, 
         {
-            "location": "/13_production/#using-slots-for-the-mobile-backend", 
+            "location": "/14_production/#using-slots-for-the-mobile-backend", 
             "text": "", 
             "title": "Using Slots for the Mobile Backend"
         }, 
         {
-            "location": "/13_production/#using-hockeyapp-for-the-mobile-client", 
+            "location": "/14_production/#using-hockeyapp-for-the-mobile-client", 
             "text": "", 
             "title": "Using HockeyApp for the Mobile Client"
         }, 
         {
-            "location": "/13_production/#scaling-your-backend", 
+            "location": "/14_production/#scaling-your-backend", 
             "text": "", 
             "title": "Scaling your Backend"
         }, 
         {
-            "location": "/13_production/#monitoring-your-production-application", 
+            "location": "/14_production/#monitoring-your-production-application", 
             "text": "", 
             "title": "Monitoring your Production Application"
         }, 
         {
-            "location": "/13_production/#application-insights-vs-xamarin-insights", 
+            "location": "/14_production/#application-insights-vs-xamarin-insights", 
             "text": "", 
             "title": "Application Insights vs. Xamarin Insights"
         }, 
         {
-            "location": "/13_production/#configuration-as-code-devops", 
+            "location": "/14_production/#configuration-as-code-devops", 
             "text": "", 
             "title": "Configuration as Code (DevOps)"
         }, 
         {
-            "location": "/13_production/#introduction-to-azure-resource-manager", 
+            "location": "/14_production/#introduction-to-azure-resource-manager", 
             "text": "", 
             "title": "Introduction to Azure Resource Manager"
         }, 
         {
-            "location": "/13_production/#deploying-your-site-with-azure-resource-manager", 
+            "location": "/14_production/#deploying-your-site-with-azure-resource-manager", 
             "text": "", 
             "title": "Deploying your site with Azure Resource Manager"
         }, 

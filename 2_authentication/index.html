@@ -83,6 +83,16 @@
                 
                     <li><a class="toctree-l4" href="#implementing-authentication-to-a-mobile-client">Implementing Authentication to a Mobile Client</a></li>
                 
+                    <li><a class="toctree-l4" href="#custom-authentication">Custom Authentication</a></li>
+                
+                    <li><a class="toctree-l4" href="#authorization">Authorization</a></li>
+                
+                    <li><a class="toctree-l4" href="#refresh-tokens">Refresh Tokens</a></li>
+                
+                    <li><a class="toctree-l4" href="#logging-out">Logging out</a></li>
+                
+                    <li><a class="toctree-l4" href="#best-practices">Best Practices</a></li>
+                
             
             </ul>
         
@@ -98,70 +108,77 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../4_files/">4. File Management</a>
+        <a class="" href="../4_authdata/">4. Authenticated Data Access</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../5_push/">5. Push Notifications</a>
+        <a class="" href="../5_files/">5. File Management</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../6_custom/">6. Server Side Code</a>
+        <a class="" href="../6_push/">6. Push Notifications</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../7_media/">7. Media Services</a>
+        <a class="" href="../7_custom/">7. Server Side Code</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../8_search/">8. Leveraging Search</a>
+        <a class="" href="../8_media/">8. Media Services</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../9_combined/">9. Web and Mobile Apps</a>
+        <a class="" href="../9_search/">9. Leveraging Search</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../10_developing/">10. The Development Environment</a>
+        <a class="" href="../10_combined/">10. Web and Mobile Apps</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../11_testing/">11. Testing your Application</a>
+        <a class="" href="../11_developing/">11. The Development Environment</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../12_troubleshooting/">12. Troubleshooting</a>
+        <a class="" href="../12_testing/">12. Testing your Application</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../13_production/">13. Going to Production</a>
+        <a class="" href="../13_troubleshooting/">13. Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../14_production/">14. Going to Production</a>
         
     </li>
 <li>
@@ -238,7 +255,7 @@ Mobile Apps then redirects to the configured Identity Provider.  That IdP will
 then authenticate the user before redirecting back to Azure Mobile Apps.  At
 this point, Azure Mobile Apps will mint a ZUMO token that shows the user is
 authenticated and return that token to the client application.  </p>
-<p>![Server-Flow][img1]</p>
+<p><img alt="Server-Flow" src="../img/ch2/idp-flow.PNG" /></p>
 <p>Server-flow is named because the authentication flow is managed by the server
 through a web connection.  It is generally used in two cases:</p>
 <ul>
@@ -275,17 +292,249 @@ provider like  <a href="https://auth0.com/">Auth0</a>, or you could set up an id
 database so that you can check  username and password without an identity
 provider.</p>
 <h2 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</h2>
+<p>Adding authentication to an Azure Mobile Apps backend is made easier because
+Azure Mobile Apps adds authentication using the default ASP.NET identity
+framework.  However, you must add the authentication initialization code to
+your <code>Startup.MobileApp.cs</code> file:</p>
+<pre><code class="csharp">public static void ConfigureMobileApp(IAppBuilder app)
+{
+    HttpConfiguration config = new HttpConfiguration();
+
+    new MobileAppConfiguration()
+        .AddTablesWithEntityFramework()
+        .ApplyTo(config);
+
+    // Use Entity Framework Code First to create database tables based on your DbContext
+    Database.SetInitializer(new MobileServiceInitializer());
+
+    MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+    if (string.IsNullOrEmpty(settings.HostName))
+    {
+        app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
+        {
+            // This middleware is intended to be used locally for debugging. By default, HostName will
+            // only have a value when running in an App Service application.
+            SigningKey = ConfigurationManager.AppSettings[&quot;SigningKey&quot;],
+            ValidAudiences = new[] { ConfigurationManager.AppSettings[&quot;ValidAudience&quot;] },
+            ValidIssuers = new[] { ConfigurationManager.AppSettings[&quot;ValidIssuer&quot;] },
+            TokenHandler = config.GetAppServiceTokenHandler()
+        });
+    }
+
+    app.UseWebApi(config);
+}
+</code></pre>
+
+<p>Authentication is done at one of two levels.  We can add
+authentication to an entire table controller by adding the <code>[Authorize]</code>
+attribute to the table controller.  We can also add authentication on
+individual operations by adding the <code>[Authorize]</code> attribute to individual
+methods within the table controller. For example, here is our table controller
+from the first chapter with authentication required for all operations:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Backend.DataObjects;
+using Backend.Models;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.Controllers
+{
+    [Authorize]
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
+        }
+
+        // GET tables/TodoItem
+        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
+
+        // POST tables/TodoItem
+        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
+    }
+}
+</code></pre>
+
+<p>We could also have a version where reading was possible anonymously but
+updating the database required authentication:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Backend.DataObjects;
+using Backend.Models;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.Controllers
+{
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
+        }
+
+        // GET tables/TodoItem
+        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [Authorize]
+        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
+
+        // POST tables/TodoItem
+        [Authorize]
+        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [Authorize]
+        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
+    }
+}
+</code></pre>
+
+<p>Although the attribute is called <code>[Authorize]</code>, this only does authentication.<br />
+It does not actually perform authorization.  Authorization is about ensuring
+that only certain authorized users can perform actions.  We'll get onto
+authorization later on.</p>
 <h3 id="social-authentication">Social Authentication</h3>
+<p>Azure App Service provides built-in support for Facebook, Google, Microsoft
+and Twitter.  Irrespective of whether you intend to use server-flow or
+client-flow, you will need to configure the Azure App Service Authentication
+service.  In general, the method involves:</p>
+<ol>
+<li>Obtain a Developer Account for the provider.</li>
+<li>Create a new application, obtaining a Client ID and Secret.</li>
+<li>Turn on Azure App Service Authentication.</li>
+<li>Enter the Client ID and Secret into the specific provider setup.</li>
+<li>Save the configuration.</li>
+</ol>
+<p>Before you start any of this, create a new Azure Mobile Apps as we described
+in <a href="../1_introduction/">Chapter 1</a>.  If you want a site to deploy for the configuration, the
+<strong>Backend</strong> project in the [Chapter2][10] solution is pre-configured for authorization.
+You just need to deploy it to Azure App Service.</p>
+<h4 id="facebook-authentication">Facebook Authentication</h4>
+<p>I'm going to assume you have a Facebook account already.  If you don't, go to
+<a href="https://facebook.com/">Facebook</a> and sign up.  All your friends are likely there already!  Now
+log in to the <a href="https://developers.facebook.com/">Facebook Developers</a> web site.  Let's create a new Facebook
+application:</p>
+<p><img alt="Facebook Developers" src="../img/ch2/fb-dev-1.PNG" /></p>
+<p><strong>Note</strong>: Facebook updates the look and feel of their developer site on a regularb
+basis.  As a result, the screen shots I've provided here may be different.  If
+in doubt, follow the bullet descriptions to find your way.</p>
+<blockquote>
+<p>If you are not already registered, click on the drop-down in the top-right
+corner and <strong>Register as a Developer</strong> before continuing.</p>
+</blockquote>
+<ul>
+<li>Click on the <strong>My Apps</strong> link in the top right corner of the screen.</li>
+<li>Click on <strong>Create a New App</strong>.</li>
+<li>Fill in the form:</li>
+</ul>
+<p><img alt="Create a new Application" src="../img/ch2/fb-dev-2.PNG" /></p>
+<ul>
+<li>
+<p>If required, verify your account according to the instructions.  This usually
+involves adding a credit card number or verifying your mobile phone number.  </p>
+</li>
+<li>
+<p>Click on the <strong>Get Started</strong> button next to <strong>Facebook Login</strong>.</p>
+</li>
+</ul>
+<p><img alt="Facebook Login" src="../img/ch2/fb-dev-3.PNG" /></p>
+<ul>
+<li>Enter your application URL + <code>/.auth/login/facebook/callback</code> in the <strong>Valid
+OAuth redirect URIs</strong>.</li>
+</ul>
+<p><img alt="Facebook OAuth redirect URIs" src="../img/ch2/fb-dev-4.PNG" /></p>
+<blockquote>
+<p>Note that you may not be able to use SSL if you are using the certain plans such
+as the F1 Free App  Service Plan.  Some identity providers only allow SSL redirects.<br />
+You can upgrade the App Service Plan to a B1 Basic in this case.</p>
+</blockquote>
+<ul>
+<li>Click on <strong>Save Changes</strong>.</li>
+<li>Click on the <strong>Settings</strong> -&gt; <strong>Basic</strong> in the left hand side-bar.</li>
+<li>Click on the <strong>Show</strong> button next to the App Secret</li>
+</ul>
+<p>Now that you have the <strong>App ID</strong> and <strong>App Secret</strong>, you can continue configuration
+of your app within the <a href="https://portal.azure.com/">Azure Portal</a>.</p>
+<ul>
+<li>Open up your App Service by clicking on <strong>All Resources</strong> or <strong>App Services</strong>
+followed by the name of your app service.</li>
+<li>In the <strong>Settings</strong> blade, click on <strong>Authentication / Authorization</strong> which
+is under <strong>Features</strong>.</li>
+<li>Turn <strong>App Service Authentication</strong> to <strong>On</strong>.</li>
+<li>In the <strong>Action to take when request is not authenticated</strong>, select <strong>Allow Request (no action)</strong>.</li>
+</ul>
+<blockquote>
+<p>It's very tempting to choose <strong>Log in with Facebook</strong>.  However, you need to avoid this.  Selecting this option will mean that all requests need to be authenticated and you won't get the information on the back end.  Selecting <strong>Allow Request</strong> means your app is in charge of what gets authenticated and what does not require authentication.</p>
+</blockquote>
+<ul>
+<li>Click on <strong>Facebook</strong> (which should show <em>Not Configured</em>).</li>
+<li>Cut and Paste the <strong>App ID</strong> and <strong>App Secret</strong> into the boxes provided.</li>
+<li>Select <strong>public_profile</strong> and <strong>email</strong> for Scopes.</li>
+</ul>
+<blockquote>
+<p>Note that if you request anything but public_profile, user_friends, and email, your app will need further review by Facebook, which will take time.  This process is not worth it for test apps like this one.</p>
+</blockquote>
+<ul>
+<li>Click on <strong>OK</strong> (at the bottom of the blade) to close the Facebook configuration blade.</li>
+<li>Click on <strong>Save</strong> (at the top of the blade) to save your Authentication changes.</li>
+</ul>
+<p>You can test your authentication process by browsing to https://<em>yoursite</em>.azurewebsites.net/.auth/login/facebook;
+this is the same endpoint that the Azure Mobile Apps Client SDK calls when it is time
+to integrate authentication into the mobile client.</p>
+<p><img alt="Confirming Facebook Authentication" src="../img/ch2/fb-dev-5.PNG" /></p>
+<p>If you are not logged in to facebook already, you will be prompted for your
+facebook credentials first.  Finally, here is your happy page - the page that
+signifies you have done everything right:</p>
+<p><img alt="Authentication Succeeded" src="../img/ch2/auth-success.PNG" /></p>
+<h4 id="google-authentication">Google Authentication</h4>
 <h3 id="enterprise-authentication">Enterprise Authentication</h3>
-<h3 id="custom-authentication">Custom Authentication</h3>
-<h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
 <h3 id="what-is-in-a-jwt">What is in a JWT</h3>
 <h2 id="implementing-authentication-to-a-mobile-client">Implementing Authentication to a Mobile Client</h2>
 <h3 id="social-authentication_1">Social Authentication</h3>
 <h3 id="enterprise-authentication_1">Enterprise Authentication</h3>
-<h3 id="custom-authentication_1">Custom Authentication</h3>
-<h3 id="handling-refresh-tokens">Handling Refresh Tokens</h3>
-<h3 id="best-practices">Best Practices</h3>
+<h2 id="custom-authentication">Custom Authentication</h2>
+<h3 id="azure-active-directory-b2c">Azure Active Directory B2C</h3>
+<h3 id="using-third-party-tokens">Using Third-Party Tokens</h3>
+<h3 id="using-an-identity-database">Using an Identity Database.</h3>
+<h2 id="authorization">Authorization</h2>
+<h2 id="refresh-tokens">Refresh Tokens</h2>
+<h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
+<h3 id="using-refresh-tokens">Using Refresh Tokens</h3>
+<h2 id="logging-out">Logging out</h2>
+<h2 id="best-practices">Best Practices</h2>
               
             </div>
           </div>

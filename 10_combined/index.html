@@ -8,7 +8,7 @@
   
   
   
-  <title>4. File Management - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  <title>10. Web and Mobile Apps - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -24,9 +24,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "4. File Management";
-    var mkdocs_page_input_path = "4_files.md";
-    var mkdocs_page_url = "/4_files/";
+    var mkdocs_page_name = "10. Web and Mobile Apps";
+    var mkdocs_page_input_path = "10_combined.md";
+    var mkdocs_page_url = "/10_combined/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -84,18 +84,60 @@
 <li>
           
             <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../4_authdata/">4. Authenticated Data Access</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../5_files/">5. File Management</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../6_push/">6. Push Notifications</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../7_custom/">7. Server Side Code</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../8_media/">8. Media Services</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../9_search/">9. Leveraging Search</a>
+        
+    </li>
+<li>
+          
+            <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">4. File Management</a>
+        <a class="current" href="./">10. Web and Mobile Apps</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#file-management">File Management</a></li>
+                <li class="toctree-l3"><a href="#web-and-mobile-apps">Web and Mobile Apps</a></li>
                 
-                    <li><a class="toctree-l4" href="#azure-storage-concepts">Azure Storage Concepts</a></li>
+                    <li><a class="toctree-l4" href="#server-side-development">Server Side Development</a></li>
                 
-                    <li><a class="toctree-l4" href="#dealing-with-files">Dealing with Files</a></li>
+                    <li><a class="toctree-l4" href="#client-side-development">Client Side Development</a></li>
                 
-                    <li><a class="toctree-l4" href="#file-sync-with-azure-mobile-apps_1">File Sync with Azure Mobile Apps</a></li>
+                    <li><a class="toctree-l4" href="#recipes-for-single-page-applications">Recipes for Single Page Applications</a></li>
                 
             
             </ul>
@@ -105,63 +147,28 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../5_push/">5. Push Notifications</a>
+        <a class="" href="../11_developing/">11. The Development Environment</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../6_custom/">6. Server Side Code</a>
+        <a class="" href="../12_testing/">12. Testing your Application</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../7_media/">7. Media Services</a>
+        <a class="" href="../13_troubleshooting/">13. Troubleshooting</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../8_search/">8. Leveraging Search</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../9_combined/">9. Web and Mobile Apps</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../10_developing/">10. The Development Environment</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../11_testing/">11. Testing your Application</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../12_troubleshooting/">12. Troubleshooting</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../13_production/">13. Going to Production</a>
+        <a class="" href="../14_production/">14. Going to Production</a>
         
     </li>
 <li>
@@ -195,7 +202,7 @@
     
       
     
-    <li>4. File Management</li>
+    <li>10. Web and Mobile Apps</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -205,17 +212,18 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="file-management">File Management</h1>
-<h2 id="azure-storage-concepts">Azure Storage Concepts</h2>
-<h3 id="blobs-table-queues-and-files">Blobs, Table, Queues and files</h3>
-<h3 id="the-sas-tokens">The SAS Tokens</h3>
-<h3 id="file-sync-with-azure-mobile-apps">File Sync with Azure Mobile Apps</h3>
-<h2 id="dealing-with-files">Dealing with Files</h2>
-<h3 id="uploading-a-file-to-blob-storage">Uploading a File to Blob Storage</h3>
-<h3 id="download-a-file-from-blob-storage">Download a File from Blob Storage</h3>
-<h2 id="file-sync-with-azure-mobile-apps_1">File Sync with Azure Mobile Apps</h2>
-<h3 id="configuring-the-mobile-backend">Configuring the Mobile Backend</h3>
-<h3 id="developing-the-mobile-client">Developing the Mobile Client</h3>
+                <h1 id="web-and-mobile-apps">Web and Mobile Apps</h1>
+<h2 id="server-side-development">Server Side Development</h2>
+<h3 id="sharing-the-database-between-web-and-mobile-apps">Sharing the Database Between Web and Mobile Apps</h3>
+<h3 id="authentication-for-web-and-mobile-apps">Authentication for Web and Mobile Apps</h3>
+<h2 id="client-side-development">Client Side Development</h2>
+<h3 id="accessing-mobile-data-from-a-single-page-application">Accessing Mobile Data from a Single Page Application</h3>
+<h3 id="authentication-for-single-page-applications">Authentication for Single Page Applications</h3>
+<h2 id="recipes-for-single-page-applications">Recipes for Single Page Applications</h2>
+<h3 id="angular-1x">Angular 1.x</h3>
+<h3 id="angular-2x">Angular 2.x</h3>
+<h3 id="ember-1x">Ember 1.x</h3>
+<h3 id="react">React</h3>
               
             </div>
           </div>
@@ -223,10 +231,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../5_push/" class="btn btn-neutral float-right" title="5. Push Notifications">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../11_developing/" class="btn btn-neutral float-right" title="11. The Development Environment">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../3_data/" class="btn btn-neutral" title="3. Data Access and Offline Sync"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../9_search/" class="btn btn-neutral" title="9. Leveraging Search"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -252,10 +260,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../3_data/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../9_search/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../5_push/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../11_developing/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

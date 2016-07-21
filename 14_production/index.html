@@ -8,7 +8,7 @@
   
   
   
-  <title>5. Push Notifications - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  <title>14. Going to Production - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -24,9 +24,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "5. Push Notifications";
-    var mkdocs_page_input_path = "5_push.md";
-    var mkdocs_page_url = "/5_push/";
+    var mkdocs_page_name = "14. Going to Production";
+    var mkdocs_page_input_path = "14_production.md";
+    var mkdocs_page_url = "/14_production/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -85,87 +85,92 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../4_files/">4. File Management</a>
+        <a class="" href="../4_authdata/">4. Authenticated Data Access</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../5_files/">5. File Management</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../6_push/">6. Push Notifications</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../7_custom/">7. Server Side Code</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../8_media/">8. Media Services</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../9_search/">9. Leveraging Search</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../10_combined/">10. Web and Mobile Apps</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../11_developing/">11. The Development Environment</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../12_testing/">12. Testing your Application</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../13_troubleshooting/">13. Troubleshooting</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">5. Push Notifications</a>
+        <a class="current" href="./">14. Going to Production</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#push-notifications">Push Notifications</a></li>
+                <li class="toctree-l3"><a href="#going-to-production">Going to Production</a></li>
                 
-                    <li><a class="toctree-l4" href="#push-notification-concepts">Push Notification Concepts</a></li>
+                    <li><a class="toctree-l4" href="#deploying-beta-editions-of-your-application">Deploying Beta Editions of your Application</a></li>
                 
-                    <li><a class="toctree-l4" href="#push-notifications-for-android">Push Notifications for Android</a></li>
+                    <li><a class="toctree-l4" href="#scaling-your-backend">Scaling your Backend</a></li>
                 
-                    <li><a class="toctree-l4" href="#push-notifications-for-ios">Push Notifications for iOS</a></li>
+                    <li><a class="toctree-l4" href="#monitoring-your-production-application">Monitoring your Production Application</a></li>
                 
-                    <li><a class="toctree-l4" href="#push-notifications-for-universal-windows">Push Notifications for Universal Windows</a></li>
-                
-                    <li><a class="toctree-l4" href="#push-notification-recipes">Push Notification Recipes</a></li>
+                    <li><a class="toctree-l4" href="#configuration-as-code-devops">Configuration as Code (DevOps)</a></li>
                 
             
             </ul>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../6_custom/">6. Server Side Code</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../7_media/">7. Media Services</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../8_search/">8. Leveraging Search</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../9_combined/">9. Web and Mobile Apps</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../10_developing/">10. The Development Environment</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../11_testing/">11. Testing your Application</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../12_troubleshooting/">12. Troubleshooting</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../13_production/">13. Going to Production</a>
         
     </li>
 <li>
@@ -199,7 +204,7 @@
     
       
     
-    <li>5. Push Notifications</li>
+    <li>14. Going to Production</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -209,26 +214,16 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="push-notifications">Push Notifications</h1>
-<h2 id="push-notification-concepts">Push Notification Concepts</h2>
-<h3 id="how-push-notifications-works">How Push Notifications Works</h3>
-<h3 id="working-with-notification-hubs">Working with Notification Hubs</h3>
-<h3 id="testing-push-notifications">Testing Push Notifications</h3>
-<h2 id="push-notifications-for-android">Push Notifications for Android</h2>
-<h3 id="configuring-the-notification-hub">Configuring the Notification Hub</h3>
-<h3 id="registering-for-push-notifications">Registering for Push Notifications</h3>
-<h3 id="handling-push-notifications">Handling Push Notifications</h3>
-<h2 id="push-notifications-for-ios">Push Notifications for iOS</h2>
-<h3 id="configuring-the-notification-hub_1">Configuring the Notification Hub</h3>
-<h3 id="registering-for-push-notifications_1">Registering for Push Notifications</h3>
-<h3 id="handling-push-notifications_1">Handling Push Notifications</h3>
-<h2 id="push-notifications-for-universal-windows">Push Notifications for Universal Windows</h2>
-<h3 id="configuring-the-notification-hub_2">Configuring the Notification Hub</h3>
-<h3 id="registering-for-push-notifications_2">Registering for Push Notifications</h3>
-<h3 id="handling-push-notifications_2">Handling Push Notifications</h3>
-<h2 id="push-notification-recipes">Push Notification Recipes</h2>
-<h3 id="cross-platform-templates">Cross-Platform Templates</h3>
-<h3 id="pushing-to-tags">Pushing to Tags</h3>
+                <h1 id="going-to-production">Going to Production</h1>
+<h2 id="deploying-beta-editions-of-your-application">Deploying Beta Editions of your Application</h2>
+<h3 id="using-slots-for-the-mobile-backend">Using Slots for the Mobile Backend</h3>
+<h3 id="using-hockeyapp-for-the-mobile-client">Using HockeyApp for the Mobile Client</h3>
+<h2 id="scaling-your-backend">Scaling your Backend</h2>
+<h2 id="monitoring-your-production-application">Monitoring your Production Application</h2>
+<h3 id="application-insights-vs-xamarin-insights">Application Insights vs. Xamarin Insights</h3>
+<h2 id="configuration-as-code-devops">Configuration as Code (DevOps)</h2>
+<h3 id="introduction-to-azure-resource-manager">Introduction to Azure Resource Manager</h3>
+<h3 id="deploying-your-site-with-azure-resource-manager">Deploying your site with Azure Resource Manager</h3>
               
             </div>
           </div>
@@ -236,10 +231,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../6_custom/" class="btn btn-neutral float-right" title="6. Server Side Code">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../references/" class="btn btn-neutral float-right" title="References">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../4_files/" class="btn btn-neutral" title="4. File Management"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../13_troubleshooting/" class="btn btn-neutral" title="13. Troubleshooting"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -265,10 +260,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../4_files/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../13_troubleshooting/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../6_custom/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../references/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

@@ -8,7 +8,7 @@
   
   
   
-  <title>13. Going to Production - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  <title>5. File Management - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -24,9 +24,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "13. Going to Production";
-    var mkdocs_page_input_path = "13_production.md";
-    var mkdocs_page_url = "/13_production/";
+    var mkdocs_page_name = "5. File Management";
+    var mkdocs_page_input_path = "5_files.md";
+    var mkdocs_page_url = "/5_files/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -85,85 +85,90 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../4_files/">4. File Management</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../5_push/">5. Push Notifications</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../6_custom/">6. Server Side Code</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../7_media/">7. Media Services</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../8_search/">8. Leveraging Search</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../9_combined/">9. Web and Mobile Apps</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../10_developing/">10. The Development Environment</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../11_testing/">11. Testing your Application</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../12_troubleshooting/">12. Troubleshooting</a>
+        <a class="" href="../4_authdata/">4. Authenticated Data Access</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">13. Going to Production</a>
+        <a class="current" href="./">5. File Management</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#going-to-production">Going to Production</a></li>
+                <li class="toctree-l3"><a href="#file-management">File Management</a></li>
                 
-                    <li><a class="toctree-l4" href="#deploying-beta-editions-of-your-application">Deploying Beta Editions of your Application</a></li>
+                    <li><a class="toctree-l4" href="#azure-storage-concepts">Azure Storage Concepts</a></li>
                 
-                    <li><a class="toctree-l4" href="#scaling-your-backend">Scaling your Backend</a></li>
+                    <li><a class="toctree-l4" href="#dealing-with-files">Dealing with Files</a></li>
                 
-                    <li><a class="toctree-l4" href="#monitoring-your-production-application">Monitoring your Production Application</a></li>
-                
-                    <li><a class="toctree-l4" href="#configuration-as-code-devops">Configuration as Code (DevOps)</a></li>
+                    <li><a class="toctree-l4" href="#file-sync-with-azure-mobile-apps_1">File Sync with Azure Mobile Apps</a></li>
                 
             
             </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../6_push/">6. Push Notifications</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../7_custom/">7. Server Side Code</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../8_media/">8. Media Services</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../9_search/">9. Leveraging Search</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../10_combined/">10. Web and Mobile Apps</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../11_developing/">11. The Development Environment</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../12_testing/">12. Testing your Application</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../13_troubleshooting/">13. Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../14_production/">14. Going to Production</a>
         
     </li>
 <li>
@@ -197,7 +202,7 @@
     
       
     
-    <li>13. Going to Production</li>
+    <li>5. File Management</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -207,16 +212,17 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="going-to-production">Going to Production</h1>
-<h2 id="deploying-beta-editions-of-your-application">Deploying Beta Editions of your Application</h2>
-<h3 id="using-slots-for-the-mobile-backend">Using Slots for the Mobile Backend</h3>
-<h3 id="using-hockeyapp-for-the-mobile-client">Using HockeyApp for the Mobile Client</h3>
-<h2 id="scaling-your-backend">Scaling your Backend</h2>
-<h2 id="monitoring-your-production-application">Monitoring your Production Application</h2>
-<h3 id="application-insights-vs-xamarin-insights">Application Insights vs. Xamarin Insights</h3>
-<h2 id="configuration-as-code-devops">Configuration as Code (DevOps)</h2>
-<h3 id="introduction-to-azure-resource-manager">Introduction to Azure Resource Manager</h3>
-<h3 id="deploying-your-site-with-azure-resource-manager">Deploying your site with Azure Resource Manager</h3>
+                <h1 id="file-management">File Management</h1>
+<h2 id="azure-storage-concepts">Azure Storage Concepts</h2>
+<h3 id="blobs-table-queues-and-files">Blobs, Table, Queues and files</h3>
+<h3 id="the-sas-tokens">The SAS Tokens</h3>
+<h3 id="file-sync-with-azure-mobile-apps">File Sync with Azure Mobile Apps</h3>
+<h2 id="dealing-with-files">Dealing with Files</h2>
+<h3 id="uploading-a-file-to-blob-storage">Uploading a File to Blob Storage</h3>
+<h3 id="download-a-file-from-blob-storage">Download a File from Blob Storage</h3>
+<h2 id="file-sync-with-azure-mobile-apps_1">File Sync with Azure Mobile Apps</h2>
+<h3 id="configuring-the-mobile-backend">Configuring the Mobile Backend</h3>
+<h3 id="developing-the-mobile-client">Developing the Mobile Client</h3>
               
             </div>
           </div>
@@ -224,10 +230,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../references/" class="btn btn-neutral float-right" title="References">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../6_push/" class="btn btn-neutral float-right" title="6. Push Notifications">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../12_troubleshooting/" class="btn btn-neutral" title="12. Troubleshooting"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../4_authdata/" class="btn btn-neutral" title="4. Authenticated Data Access"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -253,10 +259,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../12_troubleshooting/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../4_authdata/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../references/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../6_push/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

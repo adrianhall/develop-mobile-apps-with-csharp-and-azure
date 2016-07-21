@@ -8,7 +8,7 @@
   
   
   
-  <title>8. Leveraging Search - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  <title>8. Media Services - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -24,9 +24,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "8. Leveraging Search";
-    var mkdocs_page_input_path = "8_search.md";
-    var mkdocs_page_url = "/8_search/";
+    var mkdocs_page_name = "8. Media Services";
+    var mkdocs_page_input_path = "8_media.md";
+    var mkdocs_page_url = "/8_media/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -85,45 +85,49 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../4_files/">4. File Management</a>
+        <a class="" href="../4_authdata/">4. Authenticated Data Access</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../5_push/">5. Push Notifications</a>
+        <a class="" href="../5_files/">5. File Management</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../6_custom/">6. Server Side Code</a>
+        <a class="" href="../6_push/">6. Push Notifications</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../7_media/">7. Media Services</a>
+        <a class="" href="../7_custom/">7. Server Side Code</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">8. Leveraging Search</a>
+        <a class="current" href="./">8. Media Services</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#integrating-mobile-search">Integrating Mobile Search</a></li>
+                <li class="toctree-l3"><a href="#using-media-services">Using Media Services</a></li>
                 
-                    <li><a class="toctree-l4" href="#discovering-search-capabilities">Discovering Search capabilities</a></li>
+                    <li><a class="toctree-l4" href="#what-can-media-services-do">What can Media Services do?</a></li>
                 
-                    <li><a class="toctree-l4" href="#configuring-azure-search">Configuring Azure Search</a></li>
+                    <li><a class="toctree-l4" href="#uploading-videos-from-mobile">Uploading Videos from Mobile</a></li>
                 
-                    <li><a class="toctree-l4" href="#using-azure-search">Using Azure Search</a></li>
+                    <li><a class="toctree-l4" href="#automatically-processing-videos">Automatically Processing Videos</a></li>
+                
+                    <li><a class="toctree-l4" href="#streaming-videos-to-mobile">Streaming Videos to Mobile</a></li>
+                
+                    <li><a class="toctree-l4" href="#case-study-video-learning-app">Case Study: Video Learning App</a></li>
                 
             
             </ul>
@@ -133,35 +137,42 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../9_combined/">9. Web and Mobile Apps</a>
+        <a class="" href="../9_search/">9. Leveraging Search</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../10_developing/">10. The Development Environment</a>
+        <a class="" href="../10_combined/">10. Web and Mobile Apps</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../11_testing/">11. Testing your Application</a>
+        <a class="" href="../11_developing/">11. The Development Environment</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../12_troubleshooting/">12. Troubleshooting</a>
+        <a class="" href="../12_testing/">12. Testing your Application</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../13_production/">13. Going to Production</a>
+        <a class="" href="../13_troubleshooting/">13. Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../14_production/">14. Going to Production</a>
         
     </li>
 <li>
@@ -195,7 +206,7 @@
     
       
     
-    <li>8. Leveraging Search</li>
+    <li>8. Media Services</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -205,10 +216,12 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="integrating-mobile-search">Integrating Mobile Search</h1>
-<h2 id="discovering-search-capabilities">Discovering Search capabilities</h2>
-<h2 id="configuring-azure-search">Configuring Azure Search</h2>
-<h2 id="using-azure-search">Using Azure Search</h2>
+                <h1 id="using-media-services">Using Media Services</h1>
+<h2 id="what-can-media-services-do">What can Media Services do?</h2>
+<h2 id="uploading-videos-from-mobile">Uploading Videos from Mobile</h2>
+<h2 id="automatically-processing-videos">Automatically Processing Videos</h2>
+<h2 id="streaming-videos-to-mobile">Streaming Videos to Mobile</h2>
+<h2 id="case-study-video-learning-app">Case Study: Video Learning App</h2>
               
             </div>
           </div>
@@ -216,10 +229,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../9_combined/" class="btn btn-neutral float-right" title="9. Web and Mobile Apps">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../9_search/" class="btn btn-neutral float-right" title="9. Leveraging Search">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../7_media/" class="btn btn-neutral" title="7. Media Services"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../7_custom/" class="btn btn-neutral" title="7. Server Side Code"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -245,10 +258,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../7_media/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../7_custom/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../9_combined/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../9_search/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

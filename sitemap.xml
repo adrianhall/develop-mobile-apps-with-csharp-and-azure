@@ -35,7 +35,7 @@
 
     
     <url>
-     <loc>None/4_files/</loc>
+     <loc>None/4_authdata/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -43,7 +43,7 @@
 
     
     <url>
-     <loc>None/5_push/</loc>
+     <loc>None/5_files/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -51,7 +51,7 @@
 
     
     <url>
-     <loc>None/6_custom/</loc>
+     <loc>None/6_push/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -59,7 +59,7 @@
 
     
     <url>
-     <loc>None/7_media/</loc>
+     <loc>None/7_custom/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -67,7 +67,7 @@
 
     
     <url>
-     <loc>None/8_search/</loc>
+     <loc>None/8_media/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -75,7 +75,7 @@
 
     
     <url>
-     <loc>None/9_combined/</loc>
+     <loc>None/9_search/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -83,7 +83,7 @@
 
     
     <url>
-     <loc>None/10_developing/</loc>
+     <loc>None/10_combined/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -91,7 +91,7 @@
 
     
     <url>
-     <loc>None/11_testing/</loc>
+     <loc>None/11_developing/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -99,7 +99,7 @@
 
     
     <url>
-     <loc>None/12_troubleshooting/</loc>
+     <loc>None/12_testing/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -107,7 +107,15 @@
 
     
     <url>
-     <loc>None/13_production/</loc>
+     <loc>None/13_troubleshooting/</loc>
+     <lastmod>2016-07-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/14_production/</loc>
      <lastmod>2016-07-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
