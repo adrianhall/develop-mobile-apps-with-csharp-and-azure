@@ -264,7 +264,10 @@ the Data Connections blade within the App Service.
 The SQL Azure instance takes longer to deploy than the App Service in general.
 However, it will still be available within 3-5 minutes.
 
-> GUIDs are not the best names to use when you need to actually find resources, but using GUIDS prevents conflicts when deploying, so I prefer them as a naming scheme.  You can prefix the GUID (example: chapter1-GUID) to aid in discovery later on.  Generally, the first four digits of a GUID are enough to identify individual resources.
+> GUIDs are not the best names to use when you need to actually find resources, but using GUIDS 
+prevents conflicts when deploying, so I prefer them as a naming scheme.  You can prefix the GUID 
+(example: chapter1-GUID) to aid in discovery later on.  Generally, the first four digits of a 
+GUID are enough to identify individual resources.
 
 Finally, you will need to link your SQL Azure instance to the App Service instance:
 
@@ -317,7 +320,9 @@ Visual Studio will open a browser.  Add `/tables/todoitem?ZUMO-API-VERSION=2.0.0
 to the end of the URL.  This will show the JSON contents of the table that we
 defined in the backend.
 
-> You will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A<b>ZU</b>re <b>MO</b>bile.
+> You will see the word ZUMO all over the SDK, including in optional HTTP headers 
+and throughout the SDK source code.  ZUMO was the original code name within Microsoft
+for A<b>ZU</b>re <b>MO</b>bile.
 
 ## The Mobile Client
 
@@ -517,7 +522,7 @@ namespace TaskList.Abstractions
 }
 ```
 
-As we will learn when we deal with table data in Chapter 3, these fields need to
+As we will learn when we deal with [table data][int-data], these fields need to
 be defined with the same name and semantics as on the server.  Our model on
 the server was sub-classed from `EntityData` and the `EntityData` class on the
 server defines these fields.
@@ -564,7 +569,9 @@ The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating
 with the mobile backend that we have already published.  Just swap out the
 name of your mobile backend and the rest is silently dealt with.
 
-> The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are not interchangeable with clients for Azure Mobile Apps.
+> The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure 
+Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are 
+not interchangeable with clients for Azure Mobile Apps.
 
 We also need a concrete implementation of the `ICloudTable<T>` interface (in `Services\AzureCloudTable.cs`):
 
@@ -625,7 +632,9 @@ the work for us.  In fact, we are just wrapping the basic interface here.  This
 won't normally be the case, but you can see that the majority of the code for
 dealing with the remote server is done for us.
 
-> You can use a shorthand (called a lambda expression) for methods with only one line.  For instance, the delete method could just as easily have been written as `public async Task<T> DeleteItemAsync(T item) => await table.DeleteAsync(item);`.  You may see this sort of short hand in samples.
+> You can use a shorthand (called a lambda expression) for methods with only one line.  
+For instance, the delete method could just as easily have been written as `public async Task<T> DeleteItemAsync(T item) => await table.DeleteAsync(item);`.  
+You may see this sort of short hand in samples.
 
 We also need to create the model that we will use for the data.  This should
 look very similar to the model on the server - including having the same name
@@ -685,7 +694,9 @@ Earlier, I showed the mockup for my UI.  It included three pages - an entry
 page, a list page and a detail page.  These pages have three elements - a
 XAML definition file, a (simple) code-behind file and a view model.
 
-> This book is not intending to introduce you to everything that there is to know about Xamarin and UI programming with XAML.  If you wish to have that sort of introduction, then I recommend reading the excellent book by Charles Petzold: [Creating Mobile Apps with Xamarin.Forms][10].
+> This book is not intending to introduce you to everything that there is to know 
+about Xamarin and UI programming with XAML.  If you wish to have that sort of introduction, 
+then I recommend reading the excellent book by Charles Petzold: [Creating Mobile Apps with Xamarin.Forms][10].
 
 I tend to use MVVM (or Model-View-ViewModel) for UI development in Xamarin
 based applications.  It's a nice clean pattern and is well understood and
@@ -1469,7 +1480,10 @@ Fortunately, once these are set up, it's likely that they will continue working 
 won't have to think too much about them again. The Android and iOS build tools and simulators
 will just work.
 
-The next 7 chapters each take one aspect of the cloud services that can be provided to
+If you would rather develop code on your mac, the next chapter is for you - it gets into
+the nitty gritty of developing the exact same app, but using Xamarin Studio instead.
+
+The following 7 chapters each take one aspect of the cloud services that can be provided to
 mobile apps and explores it in detail, using an Azure Mobile App as a beginning. You can
 jump around at this point, but be aware that we expect you to cover these topics in order.
 If you do the data chapter before covering authentication, it's likely you will have missed
@@ -1499,7 +1513,7 @@ important functionality in your app to complete the work.
 [img22]: img/ch1/ios-final.PNG
 [img23]: img/ch1/vs-ios-simulator-settings.PNG
 
-[int-data]: ./3_data.md
+[int-data]: ./data.md
 
 [1]: https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/
 [2]: https://mockingbot.com/app/RQe0vlW0Hs8SchvHQ6d2W8995XNe8jK
