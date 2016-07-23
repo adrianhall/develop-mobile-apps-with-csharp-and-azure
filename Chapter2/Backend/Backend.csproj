@@ -204,6 +204,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\274e2e0e-e139-478a-beca-2f6a34560a1a - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\eb3961b4-820c-4be0-ae9e-539120358e72 - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
