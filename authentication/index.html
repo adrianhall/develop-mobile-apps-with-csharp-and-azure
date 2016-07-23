@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Authentication - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  <link href="../extra.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Authentication";
+    var mkdocs_page_input_path = "authentication.md";
+    var mkdocs_page_url = "/authentication/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Introduction</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../firstapp_pc/">Building a Mobile App on Windows</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../firstapp_mac/">Building a Mobile App on a Mac</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Authentication</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#authentication">Authentication</a></li>
+                
+                    <li><a class="toctree-l4" href="#authentication-concepts">Authentication Concepts</a></li>
+                
+                    <li><a class="toctree-l4" href="#adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</a></li>
+                
+                    <li><a class="toctree-l4" href="#adding-authentication-to-a-mobile-client">Adding Authentication to a Mobile Client</a></li>
+                
+                    <li><a class="toctree-l4" href="#custom-authentication">Custom Authentication</a></li>
+                
+                    <li><a class="toctree-l4" href="#authorization">Authorization</a></li>
+                
+                    <li><a class="toctree-l4" href="#refresh-tokens">Refresh Tokens</a></li>
+                
+                    <li><a class="toctree-l4" href="#logging-out">Logging out</a></li>
+                
+                    <li><a class="toctree-l4" href="#best-practices">Best Practices</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../data/">Data Access and Offline Sync</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../authdata/">Authenticated Data Access</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../files/">File Management</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../push/">Push Notifications</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../custom/">Server Side Code</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../media/">Media Services</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../search/">Leveraging Search</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../combined/">Web and Mobile Apps</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../developing/">The Development Environment</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../testing/">Testing your Application</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../troubleshooting/">Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../production/">Going to Production</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../references/">References</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Authentication</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="authentication">Authentication</h1>
+<p>One of the very first things you will want to do is to provide users with a
+unique experience.  For our example task list application, this could be as
+simple as providing a task list for the user who is logged in.  In more complex
+applications, this is the gateway to role-based access controls, group rules,
+and sharing with your friends.  In all these cases, properly identifying the
+user using the phone is the starting point.</p>
+<h2 id="authentication-concepts">Authentication Concepts</h2>
+<p>Authentication provides a process by which the user that is using the mobile
+device can be identified securely.  This is generally done by entering a
+username and password.  However, modern systems can also provide
+<a href="https://en.wikipedia.org/wiki/Multi-factor_authentication">multi-factor authentication</a>, send you a text message to a registered
+device, or <a href="https://support.apple.com/en-us/HT201371">use your fingerprint</a> as the password.</p>
+<h3 id="the-oauth-process">The OAuth Process</h3>
+<p>In just about every single mobile application, a process called <a href="http://oauth.net/2/">OAuth</a> is
+used to properly identify a user to the mobile backend.  OAuth is not an
+authentication mechanism in its own right.  It is used to route the
+authentication request to the right place and to verify that the authentication
+took place. There are three actors in the OAuth protocol:</p>
+<ul>
+<li>The <strong>Client</strong> is the application attempting to get access to the resource.</li>
+<li>The <strong>Resource</strong> is the mobile backend that the client is attempting to access.</li>
+<li>The <strong>Identity Provider</strong> (or IdP) is the service that is responsible for authenticating the client.</li>
+</ul>
+<p>At the end of the process, a cryptographically signed token is minted.  This
+token is added to every single subsequent request to identify the user.</p>
+<h3 id="server-side-vs-client-side-authentication">Server Side vs. Client Side Authentication</h3>
+<p>There are two types of authentication flow: Server-Flow and Client-Flow.  They
+are so named because of who controls the flow of the actual authentication.  </p>
+<p><img alt="Authentication Flow" src="../img/ch2/auth-flow.PNG" /></p>
+<p>Server-flow is named because the authentication flow is managed by the server
+through a web connection.  It is generally used in two cases:</p>
+<ul>
+<li>You want a simple placeholder for authentication in your mobile app while you are developing other code.</li>
+<li>You are developing a web app.</li>
+</ul>
+<p>In the case of Server Flow:</p>
+<ol>
+<li>The client brings up a web view and asks for the login page from the resource.</li>
+<li>The resource redirects the client to the identity provider.</li>
+<li>The identity provider does the authentication before redirecting the client back to the resource (with an identity provider token).</li>
+<li>The resource validates the identity provider token with the identity provider.</li>
+<li>Finally, the resource mints a new resource token that it returns to the client.</li>
+</ol>
+<p>Client-flow authentication uses an IdP provided SDK to integrate a more native
+feel to the authentication flow.  The actual flow happens on the client,
+communicating only with the IdP.  </p>
+<ol>
+<li>The client uses the IdP SDK to communicate with the identity provider.</li>
+<li>The identity provider does the authentication, returning an identity provider token.</li>
+<li>The client presents the identity provider token to the resource.</li>
+<li>The resource validates the identity provider token with the identity provider.</li>
+<li>Finally, the resource mints a new resource token that it returns to the client.</li>
+</ol>
+<p>For example, if you use the Facebook SDK for authentication, your app will seamlessly
+switch over into the Facebook app and ask you to authorize your client application
+before switching you back to your client application.  </p>
+<p>It is generally recommended that you use the IdP SDK when developing an app
+that will be released on the app store.  This follows the best practice provided
+by the majority of identity providers and provides the best experience for your
+end users.</p>
+<h3 id="authentication-providers">Authentication Providers</h3>
+<p>Azure Mobile Apps supports five identity providers natively:</p>
+<ul>
+<li>Azure Active Directory</li>
+<li>Facebook</li>
+<li>Google</li>
+<li>Microsoft (MSA)</li>
+<li>Twitter</li>
+</ul>
+<p>In addition, you can set up client-flow custom authentication that allows
+you to mint a ZUMO token to your specifications for any provider using a
+client-flow.  For example, you could use authentication providers like
+<a href="https://azure.microsoft.com/en-us/services/active-directory-b2c/">Azure AD B2C</a>, <a href="https://developer.linkedin.com/docs/oauth2">LinkedIn</a> or <a href="https://developer.github.com/v3/oauth/">GitHub</a>, a third-party authentication
+provider like  <a href="https://auth0.com/">Auth0</a>, or you could set up an identity table in your
+database so that you can check  username and password without an identity
+provider.</p>
+<h2 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</h2>
+<p>Adding authentication to an Azure Mobile Apps backend is made easier because
+Azure Mobile Apps adds authentication using the default ASP.NET identity
+framework.  However, you must add the authentication initialization code to
+your <code>Startup.MobileApp.cs</code> file:</p>
+<pre><code class="csharp">public static void ConfigureMobileApp(IAppBuilder app)
+{
+    HttpConfiguration config = new HttpConfiguration();
+
+    new MobileAppConfiguration()
+        .AddTablesWithEntityFramework()
+        .ApplyTo(config);
+
+    // Use Entity Framework Code First to create database tables based on your DbContext
+    Database.SetInitializer(new MobileServiceInitializer());
+
+    MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+    if (string.IsNullOrEmpty(settings.HostName))
+    {
+        app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
+        {
+            // This middleware is intended to be used locally for debugging. By default, HostName will
+            // only have a value when running in an App Service application.
+            SigningKey = ConfigurationManager.AppSettings[&quot;SigningKey&quot;],
+            ValidAudiences = new[] { ConfigurationManager.AppSettings[&quot;ValidAudience&quot;] },
+            ValidIssuers = new[] { ConfigurationManager.AppSettings[&quot;ValidIssuer&quot;] },
+            TokenHandler = config.GetAppServiceTokenHandler()
+        });
+    }
+
+    app.UseWebApi(config);
+}
+</code></pre>
+
+<p>Authentication is done at one of two levels.  We can add
+authentication to an entire table controller by adding the <code>[Authorize]</code>
+attribute to the table controller.  We can also add authentication on
+individual operations by adding the <code>[Authorize]</code> attribute to individual
+methods within the table controller. For example, here is our table controller
+from the first chapter with authentication required for all operations:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Backend.DataObjects;
+using Backend.Models;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.Controllers
+{
+    [Authorize]
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
+        }
+
+        // GET tables/TodoItem
+        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
+
+        // POST tables/TodoItem
+        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
+    }
+}
+</code></pre>
+
+<p>We could also have a version where reading was possible anonymously but
+updating the database required authentication:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Backend.DataObjects;
+using Backend.Models;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.Controllers
+{
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
+        }
+
+        // GET tables/TodoItem
+        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [Authorize]
+        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
+
+        // POST tables/TodoItem
+        [Authorize]
+        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [Authorize]
+        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
+    }
+}
+</code></pre>
+
+<p>Note that the <code>[Authorize]</code> attribute can do so much more than what is provided
+here.  Underneath there are various parameters that you can adjust to see if the
+user belongs to a specific group or role.  However, the token that is checked
+to see if the user is authenticated does not pull in any of the other information
+that is normally needed for such authorization tasks.  As a result, the <code>[Authorize]</code>
+tags is really only checking authentication - not authorization.</p>
+<h3 id="social-authentication">Social Authentication</h3>
+<p>Azure App Service provides built-in support for Facebook, Google, Microsoft
+and Twitter.  Irrespective of whether you intend to use server-flow or
+client-flow, you will need to configure the Azure App Service Authentication
+service.  In general, the method involves:</p>
+<ol>
+<li>Obtain a Developer Account for the provider.</li>
+<li>Create a new application, obtaining a Client ID and Secret.</li>
+<li>Turn on Azure App Service Authentication.</li>
+<li>Enter the Client ID and Secret into the specific provider setup.</li>
+<li>Save the configuration.</li>
+</ol>
+<p>Before you start any of this, create a new Azure Mobile Apps as we described in
+<a href="../firstapp_pc/">Chapter 1</a>.  If you want a site to deploy for the configuration, the
+<strong>Backend</strong> project in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">Chapter2</a> solution is pre-configured for
+authorization. You just need to deploy it to Azure App Service.</p>
+<h4 id="facebook-authentication">Facebook Authentication</h4>
+<p>I'm going to assume you have a Facebook account already.  If you don't, go to
+<a href="https://facebook.com/">Facebook</a> and sign up.  All your friends are likely there already!  Now
+log in to the <a href="https://developers.facebook.com/">Facebook Developers</a> web site.  Let's create a new Facebook
+application:</p>
+<p><img alt="Facebook Developers" src="../img/ch2/fb-dev-1.PNG" /></p>
+<p><strong>Note</strong>: Facebook updates the look and feel of their developer site on a
+regular basis.  As a result, the screen shots I've provided here may be
+different.  If in doubt, follow the bullet descriptions to find your way.</p>
+<blockquote>
+<p>If you are not already registered, click on the drop-down in the top-right
+corner and <strong>Register as a Developer</strong> before continuing.</p>
+</blockquote>
+<ul>
+<li>Click on the <strong>My Apps</strong> link in the top right corner of the screen.</li>
+<li>Click on <strong>Create a New App</strong>.</li>
+<li>Fill in the form:</li>
+</ul>
+<p><img alt="Create a new Application" src="../img/ch2/fb-dev-2.PNG" /></p>
+<ul>
+<li>
+<p>If required, verify your account according to the instructions.  This usually
+involves adding a credit card number or verifying your mobile phone number.  </p>
+</li>
+<li>
+<p>Click on the <strong>Get Started</strong> button next to <strong>Facebook Login</strong>.</p>
+</li>
+</ul>
+<p><img alt="Facebook Login" src="../img/ch2/fb-dev-3.PNG" /></p>
+<ul>
+<li>Enter your application URL + <code>/.auth/login/facebook/callback</code> in the <strong>Valid
+OAuth redirect URIs</strong>.</li>
+</ul>
+<p><img alt="Facebook OAuth redirect URIs" src="../img/ch2/fb-dev-4.PNG" /></p>
+<blockquote>
+<p>Note that you may not be able to use SSL if you are using the certain plans
+such as the F1 Free App  Service Plan.  Some identity providers only allow SSL
+redirects.   You can upgrade the App Service Plan to a B1 Basic in this case.</p>
+</blockquote>
+<ul>
+<li>Click on <strong>Save Changes</strong>.</li>
+<li>Click on the <strong>Settings</strong> -&gt; <strong>Basic</strong> in the left hand side-bar.</li>
+<li>Click on the <strong>Show</strong> button next to the App Secret</li>
+</ul>
+<p>Now that you have the <strong>App ID</strong> and <strong>App Secret</strong>, you can continue
+configuration of your app within the <a href="https://portal.azure.com/">Azure Portal</a>.</p>
+<ul>
+<li>Open up your App Service by clicking on <strong>All Resources</strong> or <strong>App Services</strong>
+followed by the name of your app service.</li>
+<li>In the <strong>Settings</strong> blade, click on <strong>Authentication / Authorization</strong> which
+is under <strong>Features</strong>.</li>
+<li>Turn <strong>App Service Authentication</strong> to <strong>On</strong>.</li>
+<li>In the <strong>Action to take when request is not authenticated</strong>, select <strong>Allow
+Request (no action)</strong>.</li>
+</ul>
+<blockquote>
+<p>It's very tempting to choose <strong>Log in with Facebook</strong>.  However, you need to
+avoid this.  Selecting this option will mean that all requests need to be
+authenticated and you won't get the information on the back end.  Selecting
+<strong>Allow Request</strong> means your app is in charge of what gets authenticated and
+what does not require authentication.</p>
+</blockquote>
+<ul>
+<li>Click on <strong>Facebook</strong> (which should show <em>Not Configured</em>).</li>
+<li>Cut and Paste the <strong>App ID</strong> and <strong>App Secret</strong> into the boxes provided.</li>
+<li>Select <strong>public_profile</strong> and <strong>email</strong> for Scopes.</li>
+</ul>
+<blockquote>
+<p>Note that if you request anything but public_profile, user_friends, and email,
+your app will need further review by Facebook, which will take time.  This
+process is not worth it for test apps like this one.</p>
+</blockquote>
+<ul>
+<li>Click on <strong>OK</strong> (at the bottom of the blade) to close the Facebook
+configuration blade.</li>
+<li>Click on <strong>Save</strong> (at the top of the blade) to save your Authentication
+changes.</li>
+</ul>
+<p>You can test your authentication process by browsing to https://<em>yoursite</em>.azurewebsites.net/.auth/login/facebook;
+this is the same endpoint that the Azure Mobile Apps Client SDK calls when it
+is time to integrate authentication into the mobile client.</p>
+<p><img alt="Confirming Facebook Authentication" src="../img/ch2/fb-dev-5.PNG" /></p>
+<p>If you are not logged in to facebook already, you will be prompted for your
+facebook credentials first.  Finally, here is your happy page - the page that
+signifies you have done everything right:</p>
+<p><img alt="Authentication Succeeded" src="../img/ch2/auth-success.PNG" /></p>
+<blockquote>
+<p><strong>Minimal Permissions</strong>  Every single OAuth provider will ask you what sort
+of information you want to have access to.  These "claims" translate into
+permissions.  The more permissions you request, the less likely the user is
+going to accept them.  Be a good net citizen and only request the information
+you are actually going to use.</p>
+</blockquote>
+<h4 id="google-authentication">Google Authentication</h4>
+<p>It should be no shock that you need a <a href="https://accounts.google.com/">Google Account</a> to get started.  If
+you don't have one already (or you want a different account for your development
+activities), create a new account now.  Then log in to the <a href="https://console.developers.google.com/iam-admin/projects">Google Developer Portal</a>.  Click on the <strong>Create Project</strong> link at the top:</p>
+<p><img alt="New Google Project" src="../img/ch2/goog-dev-1.PNG" /></p>
+<p>Enter a nice name (like mine) and click on <strong>Create</strong>.  The screen will show
+the progress and eventually the project will be listed in the <strong>All Projects</strong>
+list.  It takes about 30 seconds to create a project.  Once you have your
+Google project, click on it to see all the wonderful things you can add to
+your project:</p>
+<p><img alt="Google APIs Library" src="../img/ch2/goog-dev-2.PNG" /></p>
+<p>There is no "Google Login" that can guide you here.  The API you need to add
+is called <strong>Google+</strong> and is listed under the <strong>Social APIs</strong>.  Click on it,
+then click on <strong>Enable</strong> at the top of the screen.</p>
+<p>Just because it is enabled does not mean you automatically get to use it.  Click
+on <strong>Credentials</strong> link in the left-hand side bar.  You will also see a "Go to
+Credentials" button at the top of the screen, but it doesn't take you to the
+same screen, so don't click it.</p>
+<p>On the Crendetials screen, click on the <strong>OAuth consent screen</strong> tab:</p>
+<p><img alt="Google OAuth Credential" src="../img/ch2/goog-dev-3.PNG" /></p>
+<p>Fill in the form and click on <strong>Save</strong>.  This brings up the next step - creating
+credentials.  Click on the <strong>Create Credentials</strong> button.  This pops up a
+drop-down menu.  You want the <strong>OAuth Client ID</strong>.</p>
+<p><img alt="Google Create Credentials" src="../img/ch2/goog-dev-4.PNG" /></p>
+<p>The specific type of client ID you want is a <strong>Web Application</strong>.  The server
+flow version of the application is a web-based form authentication, which
+matches the <strong>Web Application</strong> version of the Client ID.</p>
+<p>When you select <strong>Web Application</strong>, you will get another form:</p>
+<p><img alt="Google Create Client ID" src="../img/ch2/goog-dev-5.PNG" /></p>
+<p>Enter the URL of your App Service in the <strong>Authorized JavaScript origins</strong> box,
+and the URL + <code>/.auth/login/google/callback</code> into the <strong>Authorized redirect
+URIs</strong> box, then click on <strong>Create</strong>.</p>
+<blockquote>
+<p>Google is one of those providers that requires authentication redirect URIs
+to be secure - so ensure you use the https version of your URL.</p>
+</blockquote>
+<p>At this point, Google will show you the Client ID and Client Secret for your
+app.  You can also get the Client ID and Client Secret from the interface by
+clicking on the <strong>Credentials</strong> link on the left-hand side bar.</p>
+<p>The process from here is practically the same as Facebook.  Open your App
+Service within the Azure Portal, click on <strong>All Settings</strong>, then <strong>Authentication
+/ Authorization</strong> and finally <strong>Google</strong> (assuming you have already turned on
+the authentication service).  Cut and paste the Client ID and Client Secret
+into the boxes provided.  Click on <strong>OK</strong> (at the bottom) followed by <strong>Save</strong>
+(at the top of the page).</p>
+<blockquote>
+<p>You can define multiple providers at the same time.  The code in the client
+determines what authentication mechanism gets used.</p>
+</blockquote>
+<p>You can test this just like Facebook.  Go to https://<em>yoursite</em>/.auth/login/google
+with your browser.  You should get something like the following:</p>
+<p><img alt="Confirming Google Authentication" src="../img/ch2/goog-dev-6.PNG" /></p>
+<p>Confirming here should get us to the same happy screen we achieved with
+Facebook.</p>
+<p>If you happen to mis-type the Authorized redirect URI, Google will tell you
+that the URI is wrong.  I inevitably swap http for https.  When this happens,
+it's an easy fix, but you have to wait a few minutes before the authentication
+system updates itself.</p>
+<h4 id="microsoft-account-authentication">Microsoft Account Authentication</h4>
+<p>The advantage of the Microsoft Account (or MSA, as it is known) is that you
+already have an account - you need one for Azure.  So this is the first time
+I'm not going to explicitly tell you to sign up for an account.</p>
+<p>Your first step is to go to the <a href="https://apps.dev.microsoft.com/?mkt=en-us#/appList">Microsoft Account Developer Center</a> and
+log on with your Microsoft account.  You should use the same one as you use
+for Azure, but it's not required.</p>
+<p><img alt="Microsoft Account Developer Center" src="../img/ch2/msa-dev-1.PNG" /></p>
+<p>Just to confuse us, there are two <strong>Add an App</strong> buttons. Strangely, they are
+different. Click on the one next to <strong>My applications</strong>.</p>
+<p><img alt="MSA: Create an application" src="../img/ch2/msa-dev-2.PNG" /></p>
+<p>Enter an awesome name and click on <strong>Create application</strong>.  </p>
+<p><img alt="MSA: Add a Platform" src="../img/ch2/msa-dev-3.PNG" /></p>
+<p>Click on <strong>Add Platform</strong>, followed by <strong>Web</strong>.  In the <strong>Redirect URIs</strong>, enter
+your app URL + <code>/.auth/login/microsoftaccount/callback</code>. Then click on <strong>Save</strong>.</p>
+<p><img alt="MSA: Redirect URI" src="../img/ch2/msa-dev-4.PNG" /></p>
+<p>Now click on <strong>Generate New Password</strong> under <strong>Application Secrets</strong>.</p>
+<p><img alt="MSA: New password" src="../img/ch2/msa-dev-5.PNG" /></p>
+<p>Unlike the other social providers, this is the only time you will get to see
+your client secret, so make a note of it or cut and paste it into a notepad.
+Once you have it copied somewhere, click on <strong>OK</strong>, followed by <strong>Save</strong>.</p>
+<p>You now have all the information you need to configure the Microsoft Account
+section within your App Server Authentication / Authorization.  The Client ID
+you need to enter is the Application ID and the Client Secret is the password
+you just copied somewhere.</p>
+<p><img alt="MSA: Configuration of App Service" src="../img/ch2/msa-dev-6.PNG" /></p>
+<p>Note that you have to choose claims that you want to read.  The <strong>wl.basic</strong>
+and <strong>wl.emails</strong> will give you enough information to get started with this
+tutorial.</p>
+<p>Click on <strong>OK</strong> (at the bottom), followed by <strong>Save</strong> (at the top).  You can
+test the settings by pointing your browser to https://<em>yoursite</em>.azurewebsites.net/.auth/login/microsoftaccount.  You will
+see what should be a normal claims request page:</p>
+<p><img alt="MSA: Claims Request" src="../img/ch2/msa-dev-7.PNG" /></p>
+<p>Clicking on <strong>Yes</strong> should take you to the normal success page.</p>
+<h4 id="twitter-authentication">Twitter Authentication</h4>
+<p>I hope you are seeing that all the OAuth providers take a very similar route
+to configuring their service.  The semantics of the service are slightly
+different in each case.  Twitter is no different.  As you might expect, before
+continuing, sign up for <a href="https://twitter.com/">Twitter</a>.  Once you have signed up, the
+<a href="https://apps.twitter.com/">Twitter Developers Portal</a> is your next stop.  Once there, you can click
+on <strong>Create New App</strong>:</p>
+<p><img alt="Twitter: New App" src="../img/ch2/twtr-dev-1.PNG" /></p>
+<p>Most of the fields are self-explanatory.  The <strong>Callback URL</strong> is the same
+thing that the other social providers have called the Redirect URL.  The
+appropriate value is your app URL + <code>/.auth/login/twitter/callback</code>.  There
+is a legal agreement at the bottom of the page, then you can click on
+<strong>Create your Twitter application</strong> button.</p>
+<blockquote>
+<p>All social authentication providers have some sort of legal agreement that
+governs their use.  In general, demo or PoC apps are fair use.  However, you
+should get a legal opinion before using a social authentication provider in
+a production app.</p>
+</blockquote>
+<p>Once you have created the app, you will get a tabbed display with all the
+settings.  Click on the <strong>Keys and Access Tokens</strong> tab:</p>
+<p><img alt="Twitter: Keys" src="../img/ch2/twtr-dev-2.PNG" /></p>
+<p>Note the values for the <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong> - they get entered into the Azure Portal.</p>
+<blockquote>
+<p>There is a check box in the <strong>Settings</strong> tab that says <em>Allow this application
+to be used to Sign in with Twitter</em>.  At the time of writing, this is checked
+by default.  However, if you find you can't log in for some reason, then ensure
+this checkbox is checked.</p>
+</blockquote>
+<p>Back in the Azure Portal, select your app service, then <strong>All Settings</strong>,
+<strong>Authentication / Authorization</strong>, and finally <strong>Twitter</strong> (assuming you
+have already turned Authentication on).  You can now cut and paste the
+Consumer Key and Consumer Secret into the appropriate boxes, before clicking
+on <strong>OK</strong> (at the bottom) followed by <strong>Save</strong> (at the top).</p>
+<p>As with the other providers, you should test the authentication flow by pointing
+your browser to https://<em>yoursite</em>.azurewebsites.net/.auth/login/twitter.</p>
+<p><img alt="Twitter: Authorize App" src="../img/ch2/twtr-dev-3.PNG" /></p>
+<p>Clicking on <strong>Authorize app</strong> should show you our normal successful
+authentication screen.</p>
+<p>The social authentication providers should now all be configured to handle a
+web-based or server-flow authentication request.  There are times when
+configuring a client-flow authentication is different.  We'll point those out
+when we get to them. ### Enterprise Authentication</p>
+<h3 id="enterprise-authentication">Enterprise Authentication</h3>
+<p>The Enterprise authentication configuration is perhaps the easiest one to
+configure.  However, your first step is to configure Azure Active Directory.
+If you are using a development account, then you will need to add a test
+account.  Start by going to the <a href="https://manage.windowsazure.com/">Classic Azure Portal</a>:</p>
+<p><img alt="Classic Portal" src="../img/ch2/ent-dev-1.PNG" /></p>
+<p>Click on the <strong>Default Directory</strong>, then click on <strong>USERS</strong>.  You will notice
+that your Azure-linked ID is already present.  </p>
+<p><img alt="AzureAD: Users" src="../img/ch2/ent-dev-2.PNG" /></p>
+<p>Click on <strong>Add User</strong> at the bottom of the screen.  Enter a username in the
+box provided before clicking on the arrow.  Then fill in the personal
+information and click on the arrow again.  Finally, click on <strong>create</strong>.
+Note the password, before clicking on the tick.  Now you have two users - your
+Azure ID and the one you just created.  Note the username - it will be something
+like <code>adrian@photoadrianoutlook.onmicrosoft.com</code> - it's a little unwieldy.</p>
+<blockquote>
+<p>When developing a real enterprise application, your Azure AD instance will
+be linked to your corporate Active Directory environment.  This is the same
+setup that other Microsoft enterprise properties (such as Office 365) use, so
+you can leverage the same setup.</p>
+</blockquote>
+<p>Now, switch back to the regular <a href="https://portal.azure.com/">Azure Portal</a>, find your App Service,
+click on <strong>All Settings</strong> followed by <strong>Authentication / Authorization</strong>.<br />
+Finally, select <strong>Azure Active Directory</strong>.</p>
+<p><img alt="AzureAD: Configuration" src="../img/ch2/ent-dev-3.PNG" /></p>
+<p>Click on <strong>Express</strong>.  Note that all the information is filled in for you.  All
+you have to do is click on <strong>OK</strong>, followed by <strong>Save</strong>.  </p>
+<blockquote>
+<p>Make sure you create the app service in the right directory / subscription.
+If you have access to more than one directory, you can choose the right one by
+selecting it under your account drop-down in the top-right corner.</p>
+</blockquote>
+<p>There is also an <strong>Advanced</strong> track.  This is used in client-flow situations
+and in situations where you have more than one directory.  The Express flow
+is great for getting started quickly.</p>
+<p>As before, you can walk through a server-flow authentication to test.  Point
+your browser at https://<em>yoursite</em>.azurewebsites.net/.auth/login/aad.  As
+before, eventually you will get to the authentication successful screen.</p>
+<h3 id="what-is-in-a-jwt">What is in a JWT</h3>
+<p>If you bring up the Developer Tools for your browser, you can take a look at
+the token that is being minted for the authentication session.  Take a look at
+the URL on the "successful authentication" page.  </p>
+<p><img alt="The JWT" src="../img/ch2/jwt-1.PNG" /></p>
+<p>The authentication token is clearly marked (after you strip away the URL encoding).
+You can use a <a href="http://meyerweb.com/eric/tools/dencoder/">URL Decoder / Encoder</a> - just cut and paste the entire URL
+into the box and click on <strong>Decode</strong>.  Note that the token is actually a JSON
+object.  You can now easily extract the <strong>authenticationToken</strong> field from the
+JSON object.</p>
+<p><img alt="The JWT Revealed" src="../img/ch2/jwt-2.PNG" /></p>
+<p>Technically, the authentication token is a <a href="https://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Token</a>.  This is a
+mechanism for transferring claims between two systems securely.  The JWT is
+a cryptographically signed JSON object.  You can decode the JWT using the
+<a href="https://jwt.io">jwt.io tool</a>.  Cut and paste the authentication token into the <strong>Encoded</strong>
+box and it will be decoded.</p>
+<p><img alt="The JWT Decoded" src="../img/ch2/jwt-3.PNG" /></p>
+<p>Note that the contents of the JWT are revealed even without knowing the secret.
+However, we have not supplied a secret.  The secret is kept at the resource -
+in this case, your app service.  However, we can already see the issuer and
+audience (in this case, they are both set to your app service address), the
+IdP that was used and a subject.</p>
+<p>Technically, the JWT can include any data and there are some that place just
+about everything about the user in the JWT.  App Service keeps the amount of
+data small because the client will be sending the JWT with every request.
+Imagine adding a few kilobytes to every single request that the client makes.
+The bandwidth usage will add up quickly, and your app will be known as a
+bandwidth hog.</p>
+<p>However, there are some fields that are pretty universal.  Your JWT should
+always have the following fields:</p>
+<ul>
+<li>sub = Subject (the identifier for the token)</li>
+<li>exp = Expiry (when the token expires)</li>
+<li>nbf = Not Before (the earliest point in time the token is valid)</li>
+<li>iss = Issuer (the site that issued the token)</li>
+<li>aud = Audience (who is the token for)</li>
+</ul>
+<p>The timestamps (exp and nbf) are all UNIX timestamps (i.e. the number of
+seconds since January 1, 1970).  </p>
+<p>App Service adds to this:</p>
+<ul>
+<li>stable_sid = Security Id of the user</li>
+<li>idp = the IdP that was used in the authentication request</li>
+<li>ver = the Version of the token</li>
+</ul>
+<p>App Service will be able to validate any token provided to it when presented
+in an X-ZUMO-AUTH header.  If you are using Azure Active Directory, you can
+also use the more standard Bearer Authorization header.  If the token does not
+match, then the X-ZUMO-AUTH header will be stripped from the request before
+the request is passed to your site.</p>
+<h3 id="testing-authentication-without-a-client">Testing Authentication without a Client</h3>
+<p>Testing your site without a client requires a REST client.  I use <a href="https://www.getpostman.com/">Postman</a>,
+which is based on Google Chrome.  If you use Firefox, you might want to take
+a look at <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">RESTClient</a>.  Telerik also distributes a web debugging proxy
+called <a href="http://www.telerik.com/blogs/api-testing-with-telerik-fiddler">Fiddler</a> that can do API testing.  </p>
+<p>My first request shows authentication failing:</p>
+<p><img alt="Authentication Failing" src="../img/ch2/testing-auth-failed.PNG" /></p>
+<p>Go through one of the authentication flows and copy the authentication token.<br />
+In Postman, add a new header called <code>X-ZUMO-AUTH</code> and paste the authentication
+token in.</p>
+<p><img alt="Authentication Success" src="../img/ch2/testing-auth-success.PNG" /></p>
+<p>Note that we have tested all this without touching the client.  Separating the
+backend operations from the client operations means we can be sure of where
+the inevitable bug that creeps in is located.  We have verified that we
+can do each authentication flow on the server side and that the server is
+properly rejecting unauthenticated requests, plus it is properly returning
+data when authenticated requests are issued.  </p>
+<h2 id="adding-authentication-to-a-mobile-client">Adding Authentication to a Mobile Client</h2>
+<p>Now that the backend is completely configured, we can move our attention to the
+mobile client.  I'm going to be using the same mobile client that I developed
+in the first chapter, but I'm going to now add authentication to it.<br />
+Unfortunately for us, web views are one of those items that are platform dependent.
+Fortunately for us, Xamarin has already thought of this and provided a facility
+for running platform specific code called the <a href="https://developer.xamarin.com/guides/xamarin-forms/dependency-service/">DependencyService</a>.  </p>
+<p>Firstly, we are going to define an <code>Abstractions\ILoginProvider.cs</code> interface
+within the  shared project:</p>
+<pre><code class="csharp">using Microsoft.WindowsAzure.MobileServices;
+using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    public interface ILoginProvider
+    {
+        Task LoginAsync(MobileServiceClient client);
+    }
+}
+</code></pre>
+
+<p>Next, we are going to extend our <code>Abstractions\ICloudService.cs</code> interface so
+that the main application can call the login routine:</p>
+<pre><code class="csharp">namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
+
+        Task LoginAsync();
+    }
+}
+</code></pre>
+
+<p>Note that we don't need the <code>MobileServiceClient</code> in this version - the concrete
+version of the <code>ICloudService</code> interface (<code>AzureCloudService</code>) will add this for
+us.  Finally, we are going to implement the concrete version of the login method
+within the <code>Services\AzureCloudService.cs</code> class:</p>
+<pre><code class="csharp">
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+
+namespace TaskList.Services
+{
+    public class AzureCloudService : ICloudService
+    {
+        MobileServiceClient client;
+
+        public AzureCloudService()
+        {
+            client = new MobileServiceClient(&quot;https://eb3961b4-820c-4be0-ae9e-539120358e72.azurewebsites.net&quot;);
+        }
+
+        public ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData
+        {
+            return new AzureCloudTable&lt;T&gt;(client);
+        }
+
+        public async Task LoginAsync()
+        {
+            var loginProvider = DependencyService.Get&lt;ILoginProvider&gt;();
+            loginProvider.LoginAsync(client);
+        }
+    }
+}
+</code></pre>
+
+<p>The method looks up the platform dependent version of the login provider and
+executes the login method, passing along the client (which we will need later).</p>
+<h3 id="server-flow-authentication">Server-Flow Authentication</h3>
+<p>In each platform-specific project, we are going to define a concrete
+implementation of the login provider that uses a web view to hold the actual
+authentication flow.  Here is the droid <code>Services\DroidLoginProvider.cs</code> (in the
+TaskList.Droid project):</p>
+<pre><code class="csharp"></code></pre>
+
+<p>Note that we need an extra initialization routine for Android that must be
+called prior the login provider being called to pass along the main window of
+the app (also known as the context).  This is done in the <code>MainActivity.cs</code> file
+before the Xamarin Forms initialization call:</p>
+<pre><code class="csharp"></code></pre>
+
+<p>iOS is similar, but doesn't require the initialization.  The class is in <code>Services\iOSLoginProvider.cs</code> (in the TaskList.iOS project):</p>
+<pre><code class="csharp"></code></pre>
+
+<p>Finally, here is the UWP <code>Services\UWPLoginProvider.cs</code> (in the TaskList.UWP
+project):</p>
+<pre><code class="csharp"></code></pre>
+
+<p>You can see that each platform-specific class implements the interface we
+have set up, but also registers itself with the dependency service.</p>
+<h3 id="social-authentication_1">Social Authentication</h3>
+<h3 id="enterprise-authentication_1">Enterprise Authentication</h3>
+<h2 id="custom-authentication">Custom Authentication</h2>
+<h3 id="azure-active-directory-b2c">Azure Active Directory B2C</h3>
+<h3 id="using-third-party-tokens">Using Third-Party Tokens</h3>
+<h3 id="using-an-identity-database">Using an Identity Database.</h3>
+<h2 id="authorization">Authorization</h2>
+<h2 id="refresh-tokens">Refresh Tokens</h2>
+<h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
+<h3 id="using-refresh-tokens">Using Refresh Tokens</h3>
+<h2 id="logging-out">Logging out</h2>
+<h2 id="best-practices">Best Practices</h2>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../data/" class="btn btn-neutral float-right" title="Data Access and Offline Sync">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../firstapp_mac/" class="btn btn-neutral" title="Building a Mobile App on a Mac"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../firstapp_mac/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../data/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>

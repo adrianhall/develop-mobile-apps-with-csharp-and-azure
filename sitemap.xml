@@ -4,119 +4,127 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/1_introduction/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/firstapp_pc/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/2_authentication/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/firstapp_mac/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/3_data/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/authentication/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/4_authdata/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/data/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/5_files/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/authdata/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/6_push/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/files/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/7_custom/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/push/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/8_media/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/custom/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/9_search/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/media/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/10_combined/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/search/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/11_developing/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/combined/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/12_testing/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/developing/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/13_troubleshooting/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/testing/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/14_production/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <loc>None/troubleshooting/</loc>
+     <lastmod>2016-07-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/production/</loc>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -124,7 +132,7 @@
     
     <url>
      <loc>None/references/</loc>
-     <lastmod>2016-07-20</lastmod>
+     <lastmod>2016-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
