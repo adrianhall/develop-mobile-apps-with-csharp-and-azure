@@ -665,6 +665,10 @@ Unfortunately for us, web views are one of those items that are platform depende
 Fortunately for us, Xamarin has already thought of this and provided a facility
 for running platform specific code called the [DependencyService][22].  
 
+> If you run our application right now, clicking on the "Enter the App" button
+will result in an error.  You will be able to see the Unauthorized error in the
+debug window of Visual Studio.
+
 Firstly, we are going to define an `Abstractions\ILoginProvider.cs` interface
 within the  shared project:
 
@@ -685,6 +689,8 @@ Next, we are going to extend our `Abstractions\ICloudService.cs` interface so
 that the main application can call the login routine:
 
 ```csharp
+using System.Threading.Tasks;
+
 namespace TaskList.Abstractions
 {
     public interface ICloudService
@@ -696,15 +702,17 @@ namespace TaskList.Abstractions
 }
 ```
 
-Note that we don't need the `MobileServiceClient` in this version - the concrete
-version of the `ICloudService` interface (`AzureCloudService`) will add this for
-us.  Finally, we are going to implement the concrete version of the login method
-within the `Services\AzureCloudService.cs` class:
+Our code will call `LoginAsync()` in the `ICloudService`, which will get the
+platform-specific version of the login provider and call `LoginAsync()` there,
+but with our defined mobile service client.  That is defined in the
+`Services\AzureCloudService.cs` class:
 
 ```csharp
-
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Abstractions;
+using TaskList.Helpers;
+using Xamarin.Forms;
 
 namespace TaskList.Services
 {
@@ -714,18 +722,15 @@ namespace TaskList.Services
 
         public AzureCloudService()
         {
-            client = new MobileServiceClient("https://eb3961b4-820c-4be0-ae9e-539120358e72.azurewebsites.net");
+            client = new MobileServiceClient(Locations.AppServiceUrl);
         }
 
-        public ICloudTable<T> GetTable<T>() where T : TableData
-        {
-            return new AzureCloudTable<T>(client);
-        }
+        public ICloudTable<T> GetTable<T>() where T : TableData => new AzureCloudTable<T>(client);
 
-        public async Task LoginAsync()
+        public Task LoginAsync()
         {
             var loginProvider = DependencyService.Get<ILoginProvider>();
-            loginProvider.LoginAsync(client);
+            return loginProvider.LoginAsync(client);
         }
     }
 }
@@ -742,29 +747,119 @@ authentication flow.  Here is the droid `Services\DroidLoginProvider.cs` (in the
 TaskList.Droid project):
 
 ```csharp
+using System.Threading.Tasks;
+using Android.Content;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+using TaskList.Droid.Services;
+
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        Context context;
+
+        public void Init(Context context)
+        {
+            this.context = context;
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            await client.LoginAsync(context, "google");
+        }
+    }
+}
 ```
+
+Let's take a closer look at this.  It's a fairly standard "concrete" implementation.
+We implement the interface.  The `LoginAsync()` method on the client takes the
+Android context (which is basically the main window) and a provider - you can
+pick any of "facebook", "google", "microsoftaccount", "twitter" or "aad" since
+we have defined all of them in the Azure Portal configuration for our app
+service.  The clever piece is the `Xamarin.Forms.Dependency` call at the top -
+that registers the class as a platform service so we can access it through the
+dependency service.
 
 Note that we need an extra initialization routine for Android that must be
 called prior the login provider being called to pass along the main window of
 the app (also known as the context).  This is done in the `MainActivity.cs` file
-before the Xamarin Forms initialization call:
+**after** the Xamarin Forms initialization call.  The dependency service is Note
+set up until after the Xamarin Forms library is initialized, so we won't be
+able to get the login provider reference:
 
 ```csharp
+protected override void OnCreate(Bundle bundle)
+{
+    base.OnCreate(bundle);
+
+    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+
+    var loginProvider = (DroidLoginProvider)DependencyService.Get<ILoginProvider>();
+    loginProvider.Init(this);
+
+    LoadApplication(new App());
+}
 ```
 
-iOS is similar, but doesn't require the initialization.  The class is in `Services\iOSLoginProvider.cs` (in the TaskList.iOS project):
+iOS is similar, but doesn't require the initialization.  The class is in
+`Services\iOSLoginProvider.cs` (in the TaskList.iOS project):
 
 ```csharp
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+using TaskList.iOS.Services;
+using UIKit;
+
+[assembly: Xamarin.Forms.Dependency(typeof(iOSLoginProvider))]
+namespace TaskList.iOS.Services
+{
+    public class iOSLoginProvider : ILoginProvider
+    {
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            var rootView = UIApplication.SharedApplication.KeyWindow.RootViewController;
+            await client.LoginAsync(rootView, "google");
+        }
+    }
+}
 ```
 
+Note that we are using the same pattern here for registering the concrete
+implementation with the dependency service, so we can get it the same way.
 Finally, here is the UWP `Services\UWPLoginProvider.cs` (in the TaskList.UWP
 project):
 
 ```csharp
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+using TaskList.UWP.Services;
+
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            await client.LoginAsync("google");
+        }
+    }
+}
 ```
 
-You can see that each platform-specific class implements the interface we
-have set up, but also registers itself with the dependency service.
+Now that we have all the platform-specific login routines registered, we can
+move on to adding the login routine to the UI.  We've already got a button on
+the entry page to enter the app.  It makes sense to wire up that button so
+that it logs us in as well.
+
+
+
 
 ### Social Authentication
 
