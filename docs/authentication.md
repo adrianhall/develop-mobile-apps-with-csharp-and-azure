@@ -856,12 +856,65 @@ namespace TaskList.UWP.Services
 Now that we have all the platform-specific login routines registered, we can
 move on to adding the login routine to the UI.  We've already got a button on
 the entry page to enter the app.  It makes sense to wire up that button so
-that it logs us in as well.
+that it logs us in as well. The Command for the login button is in the
+`ViewModels\EntryPageViewModel.cs`:
 
+```csharp
+async Task ExecuteLoginCommand()
+{
+    if (IsBusy)
+        return;
+    IsBusy = true;
 
+    try
+    {
+        var cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
+        await cloudService.LoginAsync();
+        Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
+    }
+    catch (Exception ex)
+    {
+        Debug.WriteLine($"[ExecuteLoginCommand] Error = {ex.Message}");
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
+```
 
+> The `ServiceLocator` class is my basic singleton handler.  It's available
+in the [Chapter2][10] project.  It returns the concrete version of the cloud
+service, just like the Singleton version we defined in Chapter1.
+
+When you run the application, clicking on the "Enter the App" button will now
+present you with an Authenticate window:
+
+![Google Authenticate][img32]
+
+Going through the authentication process will get you to the task list again.
+If the authentication process fails, then `LoginAsync()` will throw an error,
+which is caught at the ViewModel.  Right now, the `EntryPageViewModel` does
+nothing more than print a diagnostic message to the debug window of Visual
+Studio.
 
 ### Social Authentication
+
+There are a couple of other issues with server-flow authentication that are
+non-apparent when running on emulators.  Most notable of these is that you will
+always be asked for your username and password.  If, for instance, you are on
+an Android phone, you can generally authenticate to Google without prompting
+for the password. If you want to authenticate to Facebook, the app should
+switch over to your Facebook app, allow you to approve the claims, then switch
+back to your app seamlessly.
+
+In order to get that sort of functionality, you have to switch to a client-flow
+authentication.
+
+> Every single identity provider recommends that you use the identity provider
+SDK to do authentication on a mobile device.  I second that recommendation -
+when in doubt, use the SDK provided by the identity provider.
+
 
 ### Enterprise Authentication
 
