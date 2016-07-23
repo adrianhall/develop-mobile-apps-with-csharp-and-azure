@@ -10,7 +10,9 @@ what is going on while we are doing the process.  We will have practically the
 same application at the end.  The primary reason for going through this slowly
 is to ensure that all our build and run processes are set up properly.  If this
 is the first mobile app you have ever written, you will see that there are quite
-a few things that need to be set up.
+a few things that need to be set up.  This chapter covers the set up required
+for a Windows PC.  If you wish to develop your applications on a Mac, then skip
+to the [next chapter][int-firstapp-mac].
 
 The application we are going to build together is a simple task list.  The
 mobile client will have three screens - an entry screen, a task list and a task
@@ -70,14 +72,16 @@ Azure SDK.  To get started:
 
 At this point, Visual Studio will create your backend project.
 
-> It's very tempting to select **Azure Mobile Services** instead - it sounds closer to what you want.  Azure Mobile Services is the **OLD** service and is being shut down.  You should not select Azure Mobile Services for any project.
+> It's very tempting to select **Azure Mobile Services** instead - it sounds
+closer to what you want.  Azure Mobile Services is the **OLD** service and is
+being shut down.  You should not select Azure Mobile Services for any project.
 
 There are a few files of which you should take note.  The Mobile Apps SDK is
 initialized within `App_Start\Startup.MobileApp.cs` (with the call to the
 configuration routine happening within `Startup.cs`).  The default startup
 routine is reasonable but it hides what it is doing behind extension methods.
-This technique is fairly common in ASP.NET programs.  Let's expand the configuration
-routine to only include what we need:
+This technique is fairly common in ASP.NET programs.  Let's expand the
+configuration routine to only include what we need:
 
 ```csharp
 public static void ConfigureMobileApp(IAppBuilder app)
@@ -106,15 +110,15 @@ your own backend.
 
 > We refer to "seeding data" into a database.  This means that we are going to introduce some data into the database so that we aren't operating on an empty database.  The data will be there when we query the database later on.
 
-The next important file is the `DbContext` - located in `Models\MobileServiceContext.cs`.
-Azure Mobile Apps is heavily dependent on [Entity Framework v6.x][4] and the
-`DbContext` is a central part of that library.  Fortunately, we don't need
-to do anything to this file right now.
+The next important file is the `DbContext` - located in
+`Models\MobileServiceContext.cs`. Azure Mobile Apps is heavily dependent on
+[Entity Framework v6.x][4] and the `DbContext` is a central part of that
+library.  Fortunately, we don't need to do anything to this file right now.
 
-Finally, we get to the meat of the backend.  The whole point of this demonstration
-is to project a single database table - the TodoItem table - into the mobile realm
-with the aid of an opinionated [OData v3][5] feed.  To that end, we need three
-items:
+Finally, we get to the meat of the backend.  The whole point of this
+demonstration is to project a single database table - the TodoItem table - into
+the mobile realm with the aid of an opinionated [OData v3][5] feed.  To that
+end, we need three items:
 
 * A `DbSet<>` within the `DbContext`
 * A Data Transfer Object (or DTO)
@@ -205,20 +209,27 @@ made.
 
 ### Building an Azure App Service for Mobile Apps
 
-The next step in the process is to build the resources on Azure that will run
-your mobile backend.  Start by logging into the [Azure Portal][6], then follow
-these instructions:
+The next step in the process is to build the resources on Azure that will
+run your mobile backend.  Start by logging into the [Azure Portal][6], then
+follow these instructions:
 
 1. Click on the big **+ New** button in the top-left corner.
 2. Click on **Web + Mobile**, then **Mobile App**.
 3. Enter a unique name in the **App name** box.
 
-    > Since the name doesn't matter and it has to be unique, you can use [a GUID generator][7] to generate a unique name.
+    > Since the name doesn't matter and it has to be unique, you can use [a
+    GUID generator][7] to generate a unique name. GUIDs are not the best
+    names to use when you need to actually find resources, but using GUIDS
+    prevents conflicts when deploying, so I prefer them as a naming scheme.
+    You can prefix the GUID  (example: chapter1-GUID) to aid in discovery
+    later on.  Generally, the first four digits of a GUID are enough to
+    identify individual resources.
 
-4. If you have more than one subscription (for example, you have a trial and
-    an MSDN subscription), then ensure you select the right subscription in
-    the **Subscription** drop-down.
-5. Select **Create new** under resource group and enter a name for this mobile application.
+4. If you have more than one subscription (for example, you have a trial
+   and an MSDN subscription), then ensure you select the right subscription
+   in the **Subscription** drop-down.
+5. Select **Create new** under resource group and enter a name for this
+   mobile application.
 
     > Resource groups are great for grouping all the resources associated with a mobile application together.  During development, it means you can delete all the resources in one operation.  For production, it means you can see how much the service is costing you and how the resources are being used.
 
@@ -226,78 +237,100 @@ these instructions:
 
     > The App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.
 
-    I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process for creating an App Service Plan is straight forward.  You have two decisions to make.  The first decision is where is the service going to run.  In a production environment, the correct choice is "near your customers".  "Close to the developers" is a good choice during development.  Unfortunately, neither
-    of those is an option you can actually choose in the portal, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.
+    I tend to create a new App Service Plan for each mobile application.  This
+    is because the App Service Plan lives inside the Resource Group that you
+    create.  The process for creating an App Service Plan is straight forward.
+    You have two decisions to make.  The first decision is where is the service
+    going to run.  In a production environment, the correct choice is "near your
+    customers".  "Close to the developers" is a good choice during development.
+    Unfortunately, neither of those is an option you can actually choose in the
+    portal, so you will have to translate into some sort of geographic location.
+    With 16 regions to choose from, you have a lot of choice.
 
-    The second decision you have to make is what to run the service on; also known as the Pricing tier.   If you click on **View all**, you will see you have lots of choices.  F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling, automatic backups, and large amounts of storage; they differ in features: the number of sites or instances you can run on them, for example.  Finally, there is a number after the plan.  This tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.
+    The second decision you have to make is what to run the service on; also
+    known as the Pricing tier.   If you click on **View all**, you will see you
+    have lots of choices.  F1 Free and D1 Shared, for example, run on shared
+    resources and are CPU limited. You should avoid these as the service will
+    stop responding when you are over the CPU quota.  That leaves Basic,
+    Standard and Premium.  Basic has no automatic scaling and can run up to 3
+    instances - perfect for development tasks.  Standard and Premium both have
+    automatic scaling, automatic backups, and large amounts of storage; they
+    differ in features: the number of sites or instances you can run on them,
+    for example.  Finally, there is a number after the plan.  This tells you how
+    big the virtual machine is that the plan is running on.  The numbers differ
+    by number of cores and memory.
 
-    For our purposes, an F1 Free site is enough to run this small demonstration project.  More complex development projects should use something in the Basic range of pricing plans.  Production apps should be set up in Standard or Premium pricing plans.
+    For our purposes, an F1 Free site is enough to run this small demonstration
+    project.  More complex development projects should use something in the
+    Basic range of pricing plans.  Production apps should be set up in Standard
+    or Premium pricing plans.
 
 7. Once you have created your app service plan and saved it, click on **Create**.
 
-The creation of the service can take a couple of minutes.  You can monitor the process of deployment by clicking on the Notifications icon.  This is in the top bar on the right-hand side and looks like a Bell.  Clicking on a specific notification will provide more information about the activity.  Once you have created your app service, the App Service blade will open.
+The creation of the service can take a couple of minutes.  You can monitor the
+process of deployment by clicking on the Notifications icon.  This is in the top
+bar on the right-hand side and looks like a Bell.  Clicking on a specific
+notification will provide more information about the activity.  Once you have
+created your app service, the App Service blade will open.
 
-> What's the difference between a Web App, a Mobile App and an API App?  Not a lot.  The type determines which Quick start projects are available in the Quick start menu under **All settings**.  Since we selected a Mobile app, a set of starter client projects for mobile devices will be presented.
+> What's the difference between a Web App, a Mobile App and an API App?  Not a
+lot.  The type determines which Quick start projects are available in the Quick
+start menu under **All settings**.  Since we selected a Mobile app, a set of
+starter client projects for mobile devices will be presented.
 
-The next step in the process is to create a SQL Azure instance.  The ASP.NET application that we produced earlier will use this to store the data presented in the table controller.
+We will also want a place to store our data.  This role is taken on by a
+SQL Azure instance.  We could link an existing database if we had one
+defined.  However, we can also create a test database.
 
-1. Click on the **+ New** button on the left hand side of the page.
-2. Select **Data + Storage** and then **SQL Database**.
-3. Enter a unique database name (I use a GUID again) in the **Database name** box.
-4. Select **Use existing** under the **Resource group**, then select the resource group you created earlier.
-5. Select **Blank database** in the **Select source** box.
-6. Click on **Configure required settings** for the **Server**.
+> Creating a Test Database through the App Service Data Connections (as
+I describe here) allows you to create a free database.  This option is
+not normally available through other SQL database creation flows.
 
-    - Click on **Create a new server**.
-    - Enter another globally unique name for the **Server name** (I use a GUID yet again).
-    - Enter **appservice** in the **Server admin login** (or use your own name).
-    - Enter a password in the **Password** and **Confirm password** boxes.
-    - Select the same location as your App Service in the **Location** box.
-    - Click on **Select** to create the Server.
+1.  Click on **Resource groups** in the left hand side menu.
+2.  Click on the resource group you created.
+3.  Click on the App Service your created.
+4.  Click on **All settings**.
 
-7. Click on the **Pricing tier**.  The **B Basic** plan is the cheapest plan available.
-8. Click on **Create**.
+    > If you pinned your App Service to the dashboard, you can click on the
+    pinned App Service instead.  It will bring you to the same place.
 
-> There are other methods of creating a SQL Azure instance, including using
-the Data Connections blade within the App Service.
+5.  Click on **Data connections** in the **MOBILE** menu.
+6.  Click on **Add**.
 
-The SQL Azure instance takes longer to deploy than the App Service in general.
-However, it will still be available within 3-5 minutes.
+    - In the **Type** box, select **SQL Database**.
+    - Click on the unconfigured **SQL Database** link:
 
-> GUIDs are not the best names to use when you need to actually find resources, but using GUIDS 
-prevents conflicts when deploying, so I prefer them as a naming scheme.  You can prefix the GUID 
-(example: chapter1-GUID) to aid in discovery later on.  Generally, the first four digits of a 
-GUID are enough to identify individual resources.
+    ![Data Connection][img24]
 
-Finally, you will need to link your SQL Azure instance to the App Service instance:
+    - In the **Database** blade, select **Create a new database**.
+    - Enter a name for the database (like **chapter1-db**).
+    - Select a Pricing Tier (look for **F Free** at the bottom).
+    - Click on the unconfigured **Server**.
 
-1. Click on **Resource groups** in the left hand side menu.
-2. Click on the resource group you created.
-3. Click on the App Service you created.
-4. Click on **All settings**.
-5. Click on **Data connections** in the **MOBILE** menu.
-6. Click on **Add**.
+    ![SQL Server Configuration][img25]
 
-    - Click on the **Configure required settings** under **SQL Database**.
-    - Select the database you just created, then click on **Select**.
-    - Click on **Configure required settings** under **Connection string**.
-    - Enter **appservice** in the **User Name** box.
-    - Enter your chosen password in the **Password** box.
-    - watch for green tick marks to ensure the username and password are correct.
-    - Click on **OK**
-    - Click on **OK** in the **Add data connection** blade.
+    - Enter a unique name for the server (a GUID is a good idea here).
+    - Enter a username and password for the server.
+    - Click on **OK** to close the **New Server** blade.
+    - Click on **OK** to close the **New Database** blade.
+    - Click on **OK** to close the **Add Data Connection** blade.
 
-This produces another deployment step.  It doesn't take very long so you can
-switch back to your Visual Studio window.
 
-> If you want a completely free mobile backend, search for the **Mobile Apps
-Quickstart** in the Azure Marketplace.  This template does not require a
-database.  It relies on a Node backend, however, so you won't be developing a C#
-backend.
+This produces another deployment step that creates a SQL Server and a SQL
+database with your settings.  Once complete, the connection
+**MS_TableConnectionString** will be listed in Data Connections blade.
+
+![Successful Data Connection][img26]
+
+> If you want a completely free mobile backend, search for the **Mobile
+Apps Quickstart** in the Azure Marketplace.  This template does not
+require a database.  It relies on a Node backend, however, so you won't
+be developing a C# backend.
 
 ### Deploying the Azure Mobile Apps Backend
 
-Deploying to Azure as a developer can be accomplished while entirely within Visual Studio:
+Deploying to Azure as a developer can be accomplished while entirely within
+Visual Studio:
 
 1. Right-click on the **Backend** project, then select **Publish...**.
 2. Make sure you see this screen shot:
@@ -320,7 +353,7 @@ Visual Studio will open a browser.  Add `/tables/todoitem?ZUMO-API-VERSION=2.0.0
 to the end of the URL.  This will show the JSON contents of the table that we
 defined in the backend.
 
-> You will see the word ZUMO all over the SDK, including in optional HTTP headers 
+> You will see the word ZUMO all over the SDK, including in optional HTTP headers
 and throughout the SDK source code.  ZUMO was the original code name within Microsoft
 for A<b>ZU</b>re <b>MO</b>bile.
 
@@ -339,22 +372,23 @@ that I find useful.  Most notably, there is a specific template for a mobile
 cross-platform project covering the Android, iOS and UWP mobile platforms.
 
 > When you compile a Xamarin.Forms application for a specific platform, you are
-producing a true native application for that platform - whether it be iOS, Android
-or Windows.
+producing a true native application for that platform - whether it be iOS,
+Android or Windows.
 
 ### Creating a Simple Mobile Client with Xamarin
 
-Now that we have prepared your Visual Studio instance, we can create the project.
-Right-click on the solution and select **Add** -> **New Project...**.  This will
-bring up the familiar New Project dialog.  The project you want is under **Visual C#**
--> **Cross-Platform**, and is called **Xamarin.Forms (UWP/Android/iOS)**.  If you
-did not install the Xamarin Forms Template add-on, then choose the
-**Blank Xaml App (Xamarin.Forms Portable)** project.  Give the project a name,
-then click on **OK**.
+Now that we have prepared your Visual Studio instance, we can create the
+project. Right-click on the solution and select **Add** -> **New Project...**.
+This will bring up the familiar New Project dialog.  The project you want is
+under **Visual C#** -> **Cross-Platform**, and is called **Xamarin.Forms
+(UWP/Android/iOS)**.  If you did not install the Xamarin Forms Template add-on,
+then choose the **Blank Xaml App (Xamarin.Forms Portable)** project.  Give the
+project a name, then click on **OK**.
 
   ![Creating the Xamarin Forms Project][img5]
 
-> If you did not install the Xamarin Forms Templates, then you can create a **Blank Xaml App (Xamarin.Forms Portable)** project instead.
+> If you did not install the Xamarin Forms Templates, then you can create a
+**Blank Xaml App (Xamarin.Forms Portable)** project instead.
 
 Project creation will take longer than you expect, but there is a lot going on.
 If you have never created a mobile or UWP project before, you will be prompted
@@ -376,12 +410,15 @@ public, so that's a good minimum version to pick.  In general, the defaults for
 the Universal Windows Platform choice are good enough.
 
 Xamarin allows us to build iOS applications directly from Visual Studio. For
-this to work, we must have access to a Mac. This could be anything from a MacBook
-Air/Pro, to a Mac Mini in a drawer or closet in the office, or maybe even a
-[Mac in the cloud][19].  The Xamarin tools use SSH to connect to the Mac, which
-must be [configured to build iOS apps from Visual Studio][9].
+this to work, we must have access to a Mac. This could be anything from a
+MacBook Air/Pro, to a Mac Mini in a drawer or closet in the office, or maybe
+even a [Mac in the cloud][19].  The Xamarin tools use SSH to connect to the Mac,
+which must be [configured to build iOS apps from Visual Studio][9].
 
-> If you don't have a Mac and are not interested in building iOS applications, don't give up now!  You can cancel through the Mac specific project setup and continue with building a great Android and Universal Windows app.  You can delete the iOS specific project after it has been created.
+> If you don't have a Mac and are not interested in building iOS applications,
+don't give up now!  You can cancel through the Mac specific project setup and
+continue with building a great Android and Universal Windows app.  You can
+delete the iOS specific project after it has been created.
 
 When prompted about the Xamarin Mac Agent, click on **OK** to get the list of
 local mac agents:
@@ -461,8 +498,9 @@ one.  This technique allows us to mock the backend service, as we shall see
 later on.  Mocking the backend service is a great technique to rapidly iterate
 on the front end mobile client without getting tied into what the backend is doing.
 
-Let's start with the cloud service - this is defined in `Abstractions\ICloudService.cs`.
-It is basically used for initializing the connection and getting a table definition:
+Let's start with the cloud service - this is defined in
+`Abstractions\ICloudService.cs`.  It is basically used for initializing
+the connection and getting a table definition:
 
 ```csharp
 namespace TaskList.Abstractions
@@ -569,8 +607,8 @@ The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating
 with the mobile backend that we have already published.  Just swap out the
 name of your mobile backend and the rest is silently dealt with.
 
-> The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure 
-Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are 
+> The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure
+Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are
 not interchangeable with clients for Azure Mobile Apps.
 
 We also need a concrete implementation of the `ICloudTable<T>` interface (in `Services\AzureCloudTable.cs`):
@@ -694,8 +732,8 @@ Earlier, I showed the mockup for my UI.  It included three pages - an entry
 page, a list page and a detail page.  These pages have three elements - a
 XAML definition file, a (simple) code-behind file and a view model.
 
-> This book is not intending to introduce you to everything that there is to know 
-about Xamarin and UI programming with XAML.  If you wish to have that sort of introduction, 
+> This book is not intending to introduce you to everything that there is to know
+about Xamarin and UI programming with XAML.  If you wish to have that sort of introduction,
 then I recommend reading the excellent book by Charles Petzold: [Creating Mobile Apps with Xamarin.Forms][10].
 
 I tend to use MVVM (or Model-View-ViewModel) for UI development in Xamarin
@@ -1512,8 +1550,12 @@ important functionality in your app to complete the work.
 [img21]: img/ch1/ios-missing-nuget.PNG
 [img22]: img/ch1/ios-final.PNG
 [img23]: img/ch1/vs-ios-simulator-settings.PNG
+[img24]: img/ch1/dataconns-sqldb.PNG
+[img25]: img/ch1/dataconns-sqlsvr.PNG
+[img26]: img/ch1/dataconns_success.PNG
 
 [int-data]: ./data.md
+[int-firstapp-mac]: ./firstapp_mac.md
 
 [1]: https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/
 [2]: https://mockingbot.com/app/RQe0vlW0Hs8SchvHQ6d2W8995XNe8jK
