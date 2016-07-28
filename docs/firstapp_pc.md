@@ -427,7 +427,7 @@ local mac agents:
 
 Highlight your mac (in case there are multiples), then click on **Connect...**.
 If your mac is not listed or you are using a Mac in the cloud, then you can
-always enter the IP address for your mac.  
+always enter the IP address for your mac.
 
 > For more troubleshooting tips, visit  https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/troubleshooting/
 
@@ -670,8 +670,8 @@ the work for us.  In fact, we are just wrapping the basic interface here.  This
 won't normally be the case, but you can see that the majority of the code for
 dealing with the remote server is done for us.
 
-> You can use a shorthand (called a lambda expression) for methods with only one line.  
-For instance, the delete method could just as easily have been written as `public async Task<T> DeleteItemAsync(T item) => await table.DeleteAsync(item);`.  
+> You can use a shorthand (called a lambda expression) for methods with only one line.
+For instance, the delete method could just as easily have been written as `public async Task<T> DeleteItemAsync(T item) => await table.DeleteAsync(item);`.
 You may see this sort of short hand in samples.
 
 We also need to create the model that we will use for the data.  This should
@@ -1538,7 +1538,7 @@ important functionality in your app to complete the work.
 [img9]: img/ch1/xamarin-mac-login.PNG
 [img10]: img/ch1/xf-newsolution.PNG
 [img11]: img/ch1/nuget-mobileinstall.PNG
-[img12]: img/ch1/uwp-final.PNG
+[img12]: img/ch1/uwp-final.png
 [img13]: img/ch1/need-hyperv.PNG
 [img14]: img/ch1/emulator-setup-internet.PNG
 [img15]: img/ch1/avd-mac.PNG
