@@ -33,7 +33,7 @@ token is added to every single subsequent request to identify the user.
 ### Server Side vs. Client Side Authentication
 
 There are two types of authentication flow: Server-Flow and Client-Flow.  They
-are so named because of who controls the flow of the actual authentication.  
+are so named because of who controls the flow of the actual authentication.
 
 ![Authentication Flow][img1]
 
@@ -53,7 +53,7 @@ In the case of Server Flow:
 
 Client-flow authentication uses an IdP provided SDK to integrate a more native
 feel to the authentication flow.  The actual flow happens on the client,
-communicating only with the IdP.  
+communicating only with the IdP.
 
 1. The client uses the IdP SDK to communicate with the identity provider.
 2. The identity provider does the authentication, returning an identity provider token.
@@ -63,7 +63,7 @@ communicating only with the IdP.
 
 For example, if you use the Facebook SDK for authentication, your app will seamlessly
 switch over into the Facebook app and ask you to authorize your client application
-before switching you back to your client application.  
+before switching you back to your client application.
 
 It is generally recommended that you use the IdP SDK when developing an app
 that will be released on the app store.  This follows the best practice provided
@@ -226,7 +226,7 @@ namespace Backend.Controllers
 }
 ```
 
-Note that the `[Authorize]` attribute can do so much more than what is provided
+Note that the `[Authorize]` attribute can do much more than what is provided
 here.  Underneath there are various parameters that you can adjust to see if the
 user belongs to a specific group or role.  However, the token that is checked
 to see if the user is authenticated does not pull in any of the other information
@@ -274,7 +274,7 @@ corner and **Register as a Developer** before continuing.
 ![Create a new Application][img3]
 
 * If required, verify your account according to the instructions.  This usually
-involves adding a credit card number or verifying your mobile phone number.  
+involves adding a credit card number or verifying your mobile phone number.
 
 * Click on the **Get Started** button next to **Facebook Login**.
 
@@ -435,7 +435,7 @@ different. Click on the one next to **My applications**.
 
 ![MSA: Create an application][img15]
 
-Enter an awesome name and click on **Create application**.  
+Enter an awesome name and click on **Create application**.
 
 ![MSA: Add a Platform][img16]
 
@@ -524,7 +524,7 @@ web-based or server-flow authentication request.  There are times when
 configuring a client-flow authentication is different.  We'll point those out
 when we get to them. ### Enterprise Authentication
 
-### Enterprise Authentication
+### <a name="enterpriseauth"></a>Enterprise Authentication
 
 The Enterprise authentication configuration is perhaps the easiest one to
 configure.  However, your first step is to configure Azure Active Directory.
@@ -534,7 +534,7 @@ account.  Start by going to the [Classic Azure Portal][classic-portal]:
 ![Classic Portal][img24]
 
 Click on the **Default Directory**, then click on **USERS**.  You will notice
-that your Azure-linked ID is already present.  
+that your Azure-linked ID is already present.
 
 ![AzureAD: Users][img25]
 
@@ -551,13 +551,13 @@ setup that other Microsoft enterprise properties (such as Office 365) use, so
 you can leverage the same setup.
 
 Now, switch back to the regular [Azure Portal][portal], find your App Service,
-click on **All Settings** followed by **Authentication / Authorization**.  
+click on **All Settings** followed by **Authentication / Authorization**.
 Finally, select **Azure Active Directory**.
 
 ![AzureAD: Configuration][img26]
 
 Click on **Express**.  Note that all the information is filled in for you.  All
-you have to do is click on **OK**, followed by **Save**.  
+you have to do is click on **OK**, followed by **Save**.
 
 > Make sure you create the app service in the right directory / subscription.
 If you have access to more than one directory, you can choose the right one by
@@ -575,7 +575,7 @@ before, eventually you will get to the authentication successful screen.
 
 If you bring up the Developer Tools for your browser, you can take a look at
 the token that is being minted for the authentication session.  Take a look at
-the URL on the "successful authentication" page.  
+the URL on the "successful authentication" page.
 
 ![The JWT][img27]
 
@@ -618,7 +618,7 @@ always have the following fields:
 * aud = Audience (who is the token for)
 
 The timestamps (exp and nbf) are all UNIX timestamps (i.e. the number of
-seconds since January 1, 1970).  
+seconds since January 1, 1970).
 
 App Service adds to this:
 
@@ -637,13 +637,13 @@ the request is passed to your site.
 Testing your site without a client requires a REST client.  I use [Postman][19],
 which is based on Google Chrome.  If you use Firefox, you might want to take
 a look at [RESTClient][20].  Telerik also distributes a web debugging proxy
-called [Fiddler][21] that can do API testing.  
+called [Fiddler][21] that can do API testing.
 
 My first request shows authentication failing:
 
 ![Authentication Failing][img30]
 
-Go through one of the authentication flows and copy the authentication token.  
+Go through one of the authentication flows and copy the authentication token.
 In Postman, add a new header called `X-ZUMO-AUTH` and paste the authentication
 token in.
 
@@ -654,16 +654,16 @@ backend operations from the client operations means we can be sure of where
 the inevitable bug that creeps in is located.  We have verified that we
 can do each authentication flow on the server side and that the server is
 properly rejecting unauthenticated requests, plus it is properly returning
-data when authenticated requests are issued.  
+data when authenticated requests are issued.
 
 ## Adding Authentication to a Mobile Client
 
 Now that the backend is completely configured, we can move our attention to the
 mobile client.  I'm going to be using the same mobile client that I developed
-in the first chapter, but I'm going to now add authentication to it.  
+in the first chapter, but I'm going to now add authentication to it.
 Unfortunately for us, web views are one of those items that are platform dependent.
 Fortunately for us, Xamarin has already thought of this and provided a facility
-for running platform specific code called the [DependencyService][22].  
+for running platform specific code called the [DependencyService][22].
 
 > If you run our application right now, clicking on the "Enter the App" button
 will result in an error.  You will be able to see the Unauthorized error in the
@@ -898,25 +898,327 @@ which is caught at the ViewModel.  Right now, the `EntryPageViewModel` does
 nothing more than print a diagnostic message to the debug window of Visual
 Studio.
 
-### Social Authentication
+### Client-Flow Authentication
 
-There are a couple of other issues with server-flow authentication that are
-non-apparent when running on emulators.  Most notable of these is that you will
-always be asked for your username and password.  If, for instance, you are on
-an Android phone, you can generally authenticate to Google without prompting
-for the password. If you want to authenticate to Facebook, the app should
-switch over to your Facebook app, allow you to approve the claims, then switch
-back to your app seamlessly.
+The other way that you can do authentication is with a client flow.  In the client
+flow, you use the identity provider SDK to obtain a token and then submit the token
+to the Azure Mobile Apps backend, swapping it for a ZUMO token.  The end result
+is the same, but the piece responsible for the UI is different.
 
-In order to get that sort of functionality, you have to switch to a client-flow
-authentication.
+To demonstrate this, we are going to configure Azure Active Directory for client-flow
+authentication, then implement the client-side piece with ADAL - a library for
+communicating with Azure AD for identity.
 
-> Every single identity provider recommends that you use the identity provider
-SDK to do authentication on a mobile device.  I second that recommendation -
-when in doubt, use the SDK provided by the identity provider.
+#### Configuring Azure AD for Client-Flow
+
+When configuring Azure AD for client-flow, we started with a server-flow, which
+involves configuring a web application within Azure AD.  Walk through the same
+process as you did during the [Enterprise Authentication][int-entauth]
+section above.  The Express settings made that process easy.  When we configure
+client-flow, we want to configure a "Native Application":
+
+* Log on to the [Classic Portal][classic-portal].
+* Select the **Default Directory** from your list of all items.
+* Click on the **APPLICATIONS** tab.
+
+  ![Azure AD Apps][img32]
+
+* Note that our existing web application is already there.  You will see more applications,
+  depending on what you have set up.  In this example, I have Visual Studio Team Services
+  and Office 365 set up.
+* Click on the **ADD** button at the bottom of the page.
+
+  ![Azure AD Apps - Add an App][img33]
+
+* Click on **Add an application my organization is developing**.
+
+  ![Azure AD Apps - Add a Native App][img34]
+
+* Enter a name for the app registration, and select **NATIVE CLIENT APPLICATION**.
+* Click on the Next arrow.
+* Enter a valid URI - it can be anything, but it has to be valid
+
+  ![Azure AD Apps - Native App Redirect URI][img35]
+
+* Click on the tick to create the application.
+* The wizard will close, but you will be brought to the app configuration.  Click on the **CONFIGURE** tab.
+
+  ![Azure AD Apps - Native App Configuration][img36]
+
+* Add a Redirect URI of the form: `https://yoursite.azurewebsites.net/.auth/login/done`.
+
+  ![Azure AD Apps - Native App Redirect URI Added][img37]
+
+* At the bottom of the page is the **permissions to other applications** section.  Click on the
+  **Add application** button.
+
+  ![Azure AD Apps - Permissions (1)][img38]
+
+* Click on the **SHOW** drop-down and select **All Apps**, then click on the tick next to the search box.
+* Click on the web application that you set up during the server-flow configuration, then click on the
+  tick in the lower-right corner.
+
+  ![Azure AD Apps - Permissions (2)][img39]
+
+* Click on **Delegated Permissions** next to the web application.  Check the box next to **Access*, then
+  click on **Save** at the bottom of the screen.
+
+  ![Azure AD Apps - Permissions (3)][img40]
+
+At this point the application configuration will be saved.
+
+So, what did we just do there?  We created a new Azure AD app for the native application.  We
+then gave permission for the native application to access resources that are protected by
+the web application.  In our Azure App Service, we configured the service so that the
+Azure AD web application is used to protect our resources.  The net effect is that our
+native application OR our web application can access the App Service resources that are
+protected via the `[Authorize]` attribute.
+
+Before continuing, you will need the **Client ID** and the **Redirect URI** for the application.
+You can enter these into the `Helpers\Locations.cs` file in the shared project:
+
+```csharp
+namespace TaskList.Helpers
+{
+    public static class Locations
+    {
+        public static readonly string AppServiceUrl = "https://the-book.azurewebsites.net";
+
+        public static readonly string AadClientId = "b61c7d68-2086-43a1-a8c9-d93c5732cc84";
+
+        public static readonly string AadRedirectUri = "https://the-book.azurewebsites.net/.auth/login/done";
+
+        public static readonly string AadAuthority = "https://login.windows.net/photoadrianoutlook.onmicrosoft.com";
+    }
+}
+```
+
+The **AadClientId** and **AadRedirectUri** must match what you have configured in Azure AD for
+your native app.  The other piece of information you need to add is the Azure AD Authority for your
+directory.  If you click on the **DOMAINS** tab, it will generally tell you what domain you are in.
+The Authority is just a path on the `https://login.windows.net` that corresponds to your domain.
+There is also a GUID version of this domain.  You can find the GUID by looking at the **View Endpoints**
+in the **APPLICATIONS** tab.  Look at the first path section of most all the endpoints.
+
+Let's start with the **TaskList.UWP** project.   Firstly, add the **Microsoft.IdentityModel.Clients.ActiveDirectory**
+NuGet package using **Manage NuGet Packages...**.  This package contains the ADAL library as a portable
+class library:
+
+![Azure AD - Add ADAL Library][img41]
+
+Now you can add the client flow to the `Services\UWPLoginProvider.cs` file:
+
+```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.UWP.Services;
+
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+
+        /// <summary>
+        /// Login via ADAL
+        /// </summary>
+        /// <returns>(async) token from the ADAL process</returns>
+        public async Task<string> LoginADALAsync()
+        {
+            Uri returnUri = new Uri(Locations.AadRedirectUri);
+
+            var authContext = new AuthenticationContext(Locations.AadAuthority);
+            if (authContext.TokenCache.ReadItems().Count() > 0)
+            {
+                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+            }
+            var authResult = await authContext.AcquireTokenAsync(
+                Locations.AppServiceUrl, /* The resource we want to access  */
+                Locations.AadClientId,   /* The Client ID of the Native App */
+                returnUri,               /* The Return URI we configured    */
+                new PlatformParameters(PromptBehavior.Auto, false));
+            return authResult.AccessToken;
+        }
 
 
-### Enterprise Authentication
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            var accessToken = await LoginADALAsync();
+            var zumoPayload = new JObject();
+            zumoPayload["access_token"] = accessToken;
+            await client.LoginAsync("aad", zumoPayload);
+
+            // Server-Flow Version
+            // await client.LoginAsync("aad");
+        }
+    }
+}
+```
+
+The `LoginADALAsync()` method does the actual client-flow - using the ADAL library to
+authenticate the user and return the access token.  The `LoginAsync()` method initiates
+the client-flow.  It uses the token it receives from the client-flow to log in to the
+App Service, by packaging the token into a JSON object.  I've placed the client and
+server flow next to each other so you can compare the two.
+
+In the **TaskList.Droid** project, we need to deal with the `Context` again.  The client
+flow in `Services\DroidLoginProvider.cs` is remarkably similar though:
+
+```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Droid.Services;
+using TaskList.Helpers;
+
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        Context context;
+
+        public void Init(Context context)
+        {
+            this.context = context;
+        }
+
+        /// <summary>
+        /// Login via ADAL
+        /// </summary>
+        /// <returns>(async) token from the ADAL process</returns>
+        public async Task<string> LoginADALAsync()
+        {
+            Uri returnUri = new Uri(Locations.AadRedirectUri);
+
+            var authContext = new AuthenticationContext(Locations.AadAuthority);
+            if (authContext.TokenCache.ReadItems().Count() > 0)
+            {
+                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+            }
+            var authResult = await authContext.AcquireTokenAsync(
+                Locations.AppServiceUrl, /* The resource we want to access  */
+                Locations.AadClientId,   /* The Client ID of the Native App */
+                returnUri,               /* The Return URI we configured    */
+                new PlatformParameters((Activity)context));
+            return authResult.AccessToken;
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            var accessToken = await LoginADALAsync();
+            var zumoPayload = new JObject();
+            zumoPayload["access_token"] = accessToken;
+            await client.LoginAsync("aad", zumoPayload);
+
+            // Server-Flow Version
+            // await client.LoginAsync(context, "aad");
+        }
+    }
+}
+```
+
+The only real difference between this one and the Universal Windows edition is the PlatformParameters.
+We need to pass in the context of the MainActivity (which is passed in through the `Init()` call).  However,
+we must also handle the response from the ADAL library.  This is done in `MainActivity.cs`. Add the
+following method to the `MainActivity` class:
+
+```csharp
+protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+{
+    base.OnActivityResult(requestCode, resultCode, data);
+    AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
+}
+```
+
+Finally, the iOS version also requires access to the root view, so its `PlatformParameters` are also slightly
+different.  Here is `Services\iOSLoginProvider.cs`:
+
+```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.iOS.Services;
+using UIKit;
+
+[assembly: Xamarin.Forms.Dependency(typeof(iOSLoginProvider))]
+namespace TaskList.iOS.Services
+{
+    public class iOSLoginProvider : ILoginProvider
+    {
+        /// <summary>
+        /// Login via ADAL
+        /// </summary>
+        /// <returns>(async) token from the ADAL process</returns>
+        public async Task<string> LoginADALAsync(UIViewController view)
+        {
+            Uri returnUri = new Uri(Locations.AadRedirectUri);
+
+            var authContext = new AuthenticationContext(Locations.AadAuthority);
+            if (authContext.TokenCache.ReadItems().Count() > 0)
+            {
+                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+            }
+            var authResult = await authContext.AcquireTokenAsync(
+                Locations.AppServiceUrl, /* The resource we want to access  */
+                Locations.AadClientId,   /* The Client ID of the Native App */
+                returnUri,               /* The Return URI we configured    */
+                new PlatformParameters(view));
+            return authResult.AccessToken;
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            var rootView = UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+            // Client Flow
+            var accessToken = await LoginADALAsync(rootView);
+            var zumoPayload = new JObject();
+            zumoPayload["access_token"] = accessToken;
+            await client.LoginAsync("aad", zumoPayload);
+
+            // Server Flow
+            //await client.LoginAsync(rootView, "aad");
+        }
+    }
+}
+```
+
+Note that we can balance the needs of each platform by using the dependency service.  The code that
+is unique to the platform is minimized and stored with the platform.
+
+#### What about Social Providers?
+
+In each of the social providers, the identity provider SDK (provided by Facebook, Google, or Twitter) will
+need to be integrated.  In general, these use callbacks and are more complicated to integrate than those
+that already have a PCL.
+
+The reward for doing so are a more integrated experience on mobile devices.  For example, if you integrate
+the Google Play Services SDK in an Android app, the app will seamlessly authenticate itself with the connected
+Google account in the background, avoiding the need for repeatedly authenticating the client.  It may ask
+for a fingerprint instead if the app is not trusted.  If you integrate the Facebook SDK, then the app will
+automatically switch to the Facebook app and ask you to approve the authentication request there instead of
+authenticating the user through a web view.  Both of these provide a more integrated experience for the end
+user, so this work is well worth pursuing.
 
 ## Custom Authentication
 
@@ -969,8 +1271,19 @@ when in doubt, use the SDK provided by the identity provider.
 [img29]: img/ch2/jwt-3.PNG
 [img30]: img/ch2/testing-auth-failed.PNG
 [img31]: img/ch2/testing-auth-success.PNG
+[img32]: img/ch2/aad-apps-1.PNG
+[img33]: img/ch2/aad-apps-2.PNG
+[img34]: img/ch2/aad-apps-3.PNG
+[img35]: img/ch2/aad-apps-4.PNG
+[img36]: img/ch2/aad-apps-5.PNG
+[img37]: img/ch2/aad-apps-6.PNG
+[img38]: img/ch2/aad-apps-7.PNG
+[img39]: img/ch2/aad-apps-8.PNG
+[img40]: img/ch2/aad-apps-9.PNG
+[img41]: img/ch2/adal-client-1.PNG
 
 [int-intro]: firstapp_pc.md
+[int-entauth]: #enterpriseauth
 [portal]: https://portal.azure.com/
 [classic-portal]: https://manage.windowsazure.com/
 

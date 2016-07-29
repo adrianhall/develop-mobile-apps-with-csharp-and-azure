@@ -2,6 +2,14 @@
 {
     public static class Locations
     {
-        public static readonly string AppServiceUrl = "https://274e2e0e-e139-478a-beca-2f6a34560a1a.azurewebsites.net";
+        public static readonly string AppServiceUrl = "https://the-book.azurewebsites.net";
+
+        public static readonly string AadClientId = "b61c7d68-2086-43a1-a8c9-d93c5732cc84";
+
+        public static readonly string AadRedirectUri = "https://the-book.azurewebsites.net/.auth/login/done";
+
+        public static readonly string AadAuthority = "https://login.windows.net/photoadrianoutlook.onmicrosoft.com";
+
+        public static readonly string CommonAuthority = "https://login.windows.net/common";
     }
 }

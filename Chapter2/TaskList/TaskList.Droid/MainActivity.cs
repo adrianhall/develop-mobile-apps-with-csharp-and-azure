@@ -1,6 +1,9 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Runtime;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using TaskList.Abstractions;
 using TaskList.Droid.Services;
 using Xamarin.Forms;
@@ -22,6 +25,12 @@ namespace TaskList.Droid
             loginProvider.Init(this);
 
             LoadApplication(new App());
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
         }
     }
 }
