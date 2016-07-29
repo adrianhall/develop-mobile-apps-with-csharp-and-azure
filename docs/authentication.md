@@ -1000,13 +1000,13 @@ The Authority is just a path on the `https://login.windows.net` that corresponds
 There is also a GUID version of this domain.  You can find the GUID by looking at the **View Endpoints**
 in the **APPLICATIONS** tab.  Look at the first path section of most all the endpoints.
 
-Let's start with the **TaskList.UWP** project.   Firstly, add the **Microsoft.IdentityModel.Clients.ActiveDirectory**
-NuGet package using **Manage NuGet Packages...**.  This package contains the ADAL library as a portable
-class library:
+Add the **Microsoft.IdentityModel.Clients.ActiveDirectory** NuGet package using **Manage NuGet Packages...**
+to each platform project.  This package contains the ADAL library as a portable class library.
 
 ![Azure AD - Add ADAL Library][img41]
 
-Now you can add the client flow to the `Services\UWPLoginProvider.cs` file:
+Now you can add the client flow to each project.  Let's start with the login provider in the **TaskList.UWP**
+project, located in the `Services\UWPLoginProvider.cs` file:
 
 ```csharp
 using System;
@@ -1209,8 +1209,10 @@ is unique to the platform is minimized and stored with the platform.
 #### What about Social Providers?
 
 In each of the social providers, the identity provider SDK (provided by Facebook, Google, or Twitter) will
-need to be integrated.  In general, these use callbacks and are more complicated to integrate than those
-that already have a PCL.
+need to be integrated.  In general, these SDKs are provided for a native platform (Objective-C or Swift
+for iOS, Java for Android), use callbacks or delegates (as is common practice in native libraries) and are
+thus more complicated to integrate with your mobile client than those that have a C#/.NET SDK delivered
+on NuGet.
 
 The reward for doing so are a more integrated experience on mobile devices.  For example, if you integrate
 the Google Play Services SDK in an Android app, the app will seamlessly authenticate itself with the connected
@@ -1221,6 +1223,12 @@ authenticating the user through a web view.  Both of these provide a more integr
 user, so this work is well worth pursuing.
 
 ## Custom Authentication
+
+For some situations, the social or enterprise flows are not valid for the mobile client.  Perhaps you want
+the ability to provide a sign-up process with a username and password rather than using a social provider.
+Perhaps you want to use an alternate provider that is not one of the supported five providers.  Whatever
+the reason, Azure App Service provides the ability to handle all situations.  In this section, I will look
+at three methods for providing a unique set of usernames with no connection to the social authentication.
 
 ### Azure Active Directory B2C
 
