@@ -1236,6 +1236,131 @@ at three methods for providing a unique set of usernames with no connection to t
 
 ### Using an Identity Database.
 
+Finally, you can also store the usernames and passwords in the database.  This is probably the least preferable
+method I have discussed.  You will need to pay particular attention to the security of the database.  The news
+is rife with password leakage for very large organizations.  The best way to ensure you don't disclose a users
+password is to not have it in the first place.
+
+To start this version, I created a new backend project called **Backend.CustomAuth**.  This is a copy of the
+**Backend** project, but with some additional pieces.  In the `Models` directory, we can create a new `User.cs`
+file to hold information about the users:
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace Backend.CustomAuth.Models
+{
+    public class User
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+    }
+}
+```
+
+We also need to modify the `MobileServiceContext.cs` file so that the database table is included in the Entity
+Framework context:
+
+```csharp
+    public class MobileServiceContext : DbContext
+    {
+        private const string connectionStringName = "Name=MS_TableConnectionString";
+
+        public MobileServiceContext() : base(connectionStringName)
+        {
+        }
+
+        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Add(
+                new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
+                    "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
+        }
+    }
+```
+
+Finally, we want to put some seed data into the database when it is first created.  In the `Startup.MobileApp.cs`
+file, adjust the `MobileServiceInitializer`:
+
+```csharp
+        protected override void Seed(MobileServiceContext context)
+        {
+            List<TodoItem> todoItems = new List<TodoItem>
+            {
+                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
+                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false }
+            };
+
+            foreach (TodoItem todoItem in todoItems)
+            {
+                context.Set<TodoItem>().Add(todoItem);
+            }
+
+            List<User> users = new List<User>
+            {
+                new User { Id = 1, Username = "adrian", Password = "supersecret" }
+            };
+
+            foreach (User user in users)
+            {
+                context.Set<User>().Add(user);
+            }
+
+            base.Seed(context);
+        }
+```
+
+Note that we are storing the passwords in plain text.  This is most definitely frowned upon.  We should
+be using some sort of encryption.  This code is most definitely just for demonstration purposes.  Continuing
+the configuration, we need to handle the request to authenticate from the client.  We will use a custom
+API controller for this; it is located in `Controllers\CustomAuthController.cs`:
+
+```csharp
+```
+
+Finally, we need to wire the custom authentication controller so that it appears in the same place as all
+the other authenticators.  We're going to access it via the `/.auth/login/custom` endpoint.  This is done
+in the `App_Start\Startup.MobileApp.cs` file:
+
+```csharp
+        public static void ConfigureMobileApp(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+
+            new MobileAppConfiguration()
+                .AddTablesWithEntityFramework()
+                .ApplyTo(config);
+
+            // Register the Custom Authentication Controller
+            config.Routes.MapHttpRoute("CustomAuth", ".auth/login/custom", new { controller = "CustomAuth" });
+
+            // Use Entity Framework Code First to create database tables based on your DbContext
+            Database.SetInitializer(new MobileServiceInitializer());
+
+            MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            if (string.IsNullOrEmpty(settings.HostName))
+            {
+                app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
+                {
+                    SigningKey = ConfigurationManager.AppSettings["SigningKey"],
+                    ValidAudiences = new[] { ConfigurationManager.AppSettings["ValidAudience"] },
+                    ValidIssuers = new[] { ConfigurationManager.AppSettings["ValidIssuer"] },
+                    TokenHandler = config.GetAppServiceTokenHandler()
+                });
+            }
+
+            app.UseWebApi(config);
+        }
+```
+
 ## Authorization
 
 ## Refresh Tokens
