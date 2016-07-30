@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using TaskList.Abstractions;
 using TaskList.Helpers;
+using TaskList.Models;
 using Xamarin.Forms;
 
 namespace TaskList.ViewModels
@@ -12,11 +13,13 @@ namespace TaskList.ViewModels
         public EntryPageViewModel()
         {
             Title = "Task List";
+            User = new Models.User { Username = "", Password = "" };
         }
 
         Command loginCmd;
         public Command LoginCommand => loginCmd ?? (loginCmd = new Command(async () => await ExecuteLoginCommand()));
 
+        public Models.User User { get; set; }
 
         async Task ExecuteLoginCommand()
         {
@@ -27,7 +30,7 @@ namespace TaskList.ViewModels
             try
             {
                 var cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
-                await cloudService.LoginAsync();
+                await cloudService.LoginAsync(User);
                 Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
             }
             catch (Exception ex)

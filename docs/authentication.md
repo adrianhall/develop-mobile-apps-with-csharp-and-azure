@@ -1230,13 +1230,9 @@ Perhaps you want to use an alternate provider that is not one of the supported f
 the reason, Azure App Service provides the ability to handle all situations.  In this section, I will look
 at three methods for providing a unique set of usernames with no connection to the social authentication.
 
-### Azure Active Directory B2C
-
-### Using Third-Party Tokens
-
 ### Using an Identity Database.
 
-Finally, you can also store the usernames and passwords in the database.  This is probably the least preferable
+You can also store the usernames and passwords in the database.  This is probably the least preferable
 method I have discussed.  You will need to pay particular attention to the security of the database.  The news
 is rife with password leakage for very large organizations.  The best way to ensure you don't disclose a users
 password is to not have it in the first place.
@@ -1323,7 +1319,107 @@ the configuration, we need to handle the request to authenticate from the client
 API controller for this; it is located in `Controllers\CustomAuthController.cs`:
 
 ```csharp
+using System;
+using System.IdentityModel.Tokens;
+using System.Linq;
+using System.Security.Claims;
+using System.Web.Http;
+using Backend.CustomAuth.Models;
+using Microsoft.Azure.Mobile.Server.Login;
+using Newtonsoft.Json;
+
+namespace Backend.CustomAuth.Controllers
+{
+    [Route(".auth/login/custom")]
+    public class CustomAuthController : ApiController
+    {
+        private MobileServiceContext db;
+        private string signingKey, audience, issuer;
+
+        public CustomAuthController()
+        {
+            db = new MobileServiceContext();
+            signingKey = Environment.GetEnvironmentVariable("WEBSITE_AUTH_SIGNING_KEY");
+            var website = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+            audience = $"https://{website}/";
+            issuer = $"https://{website}/";
+        }
+
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] User body)
+        {
+            if (body == null || body.Username == null || body.Password == null || body.Username.Length == 0 || body.Password.Length == 0)
+            {
+                return BadRequest(); ;
+            }
+
+            if (!IsValidUser(body))
+            {
+                return Unauthorized();
+            }
+
+            var claims = new Claim[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, body.Username)
+            };
+
+            JwtSecurityToken token = AppServiceLoginHandler.CreateToken(
+                claims, signingKey, audience, issuer, TimeSpan.FromDays(30));
+            return Ok(new LoginResult()
+            {
+                AuthenticationToken = token.RawData,
+                User = new LoginResultUser { UserId = body.Username }
+            });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool IsValidUser(User user)
+        {
+            return db.Users.Count(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password)) > 0;
+        }
+    }
+
+    public class LoginResult
+    {
+        [JsonProperty(PropertyName = "authenticationToken")]
+        public string AuthenticationToken { get; set; }
+
+        [JsonProperty(PropertyName = "user")]
+        public LoginResultUser User { get; set; }
+    }
+
+    public class LoginResultUser
+    {
+        [JsonProperty(PropertyName = "userId")]
+        public string UserId { get; set; }
+    }
+}
 ```
+
+There is a lot going on here:
+
+* The constructor reads the signing key and other information that we need for constructing the JWT.  Note that
+  the signing key is only available if you have the Authentication / Authorization is turned on.
+* The `LoginResult` and `LoginResultUser` provide the response to the client, when serialized by the JSON
+  serializer.
+* The `Post()` method is where the work happens.  It verifies that you have a valid object, then checks that
+  the username and password match something in the user database.  It then constructs the JWT and returns the
+  required JSON object.
+* The `IsValidUser()` method actually validates the username and password provided in the request with the
+  users in the database.  It's fairly simplistic.  I expect your version to at least include encryption of
+  the password.
+
+> Note that you must turn on Authentication / Authorization in your App Service.  Set the **Action to take when
+request is not authenticated** to **Allow Request (no action)** and don't configure one of the supported
+authentication provider.
 
 Finally, we need to wire the custom authentication controller so that it appears in the same place as all
 the other authenticators.  We're going to access it via the `/.auth/login/custom` endpoint.  This is done
@@ -1338,8 +1434,8 @@ in the `App_Start\Startup.MobileApp.cs` file:
                 .AddTablesWithEntityFramework()
                 .ApplyTo(config);
 
-            // Register the Custom Authentication Controller
-            config.Routes.MapHttpRoute("CustomAuth", ".auth/login/custom", new { controller = "CustomAuth" });
+            // Map routes by attribute
+            config.MapHttpAttributeRoutes();
 
             // Use Entity Framework Code First to create database tables based on your DbContext
             Database.SetInitializer(new MobileServiceInitializer());
@@ -1360,6 +1456,164 @@ in the `App_Start\Startup.MobileApp.cs` file:
             app.UseWebApi(config);
         }
 ```
+
+At this point, you can deploy the backend to your App Service and send a suitably formed POST request to
+the backend.
+
+I use [Postman] for this purpose. The request:
+
+![Custom Auth - Postman Request][img42]
+
+A successful POST will return the token and user ID in the response:
+
+![Custom Auth - Postman Response][img43]
+
+Any other request (such as no body or a wrong username or password) should produce the right response.  If
+the body is correct, but the information is wrong, then a 401 Unauthorized response should be produced.  If
+the body is invalid, then a 400 Bad Request should be produced.
+
+We can now turn our attention to the mobile client.  Custom Authentication is always implemented using
+a client-flow mechanism. To implement this, we are going to adjust the entry page so that the username
+and password fields are displayed.  The gathered username and password will then be passed to a new
+ICloudService `LoginAsync()` method.  All of the UI work is done in the shared project.
+
+To start, we need a copy of the `User.cs` model from the backend project.  Unlike Data Transfer Objects,
+this model is the same:
+
+```csharp
+namespace TaskList.Models
+{
+    public class User
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}
+```
+
+The abstraction we use for the cloud service needs to be adjusted so that we can pass the user object into
+the login method.  This is the `Abstractions\ICloudService.cs` interface:
+
+```csharp
+using System.Threading.Tasks;
+using TaskList.Models;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable<T> GetTable<T>() where T : TableData;
+
+        Task LoginAsync();
+
+        Task LoginAsync(User user);
+    }
+}
+```
+
+Note that I am adding a new version of the `LoginAsync()` method.  The concrete version of this method no
+longer has to go through the dependency service since I can use shared code.  Here is the definition of
+our new `LoginAsync()` method in `Services\AzureCloudService.cs`:
+
+```csharp
+        public Task LoginAsync(User user)
+        {
+            return client.LoginAsync("custom", JObject.FromObject(user));
+        }
+```
+
+Finally, we need to update the view-model `ViewModels\EntryPageViewModel.cs` so that we can store the
+username and password in the model.  We will also update the call to the `LoginAsync()` method of the
+cloud service so it calls our new method:
+
+```csharp
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.Models;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class EntryPageViewModel : BaseViewModel
+    {
+        public EntryPageViewModel()
+        {
+            Title = "Task List";
+            User = new Models.User { Username = "", Password = "" };
+        }
+
+        Command loginCmd;
+        public Command LoginCommand => loginCmd ?? (loginCmd = new Command(async () => await ExecuteLoginCommand()));
+
+        public Models.User User { get; set; }
+
+        async Task ExecuteLoginCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                var cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
+                await cloudService.LoginAsync(User);
+                Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[ExecuteLoginCommand] Error = {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+    }
+}
+```
+
+There are three new pieces here.  Firstly, we have the User property (for holding the username and password
+in our form).  Next, the constructor initializes the user object to an empty object.  Finally, the
+call to `LoginAsync()` passes the user object to the cloud service.
+
+We also need some UI changes.  Specifically, we need a couple of fields for the username and password added
+to the `Pages\EntryPage.xaml` file:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TaskList.Pages.EntryPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center"
+                     Orientation="Vertical"
+                     VerticalOptions="Center">
+            <Label Text="Username?" />
+            <Entry Text="{Binding User.Username}" />
+            <Label Text="Password?" />
+            <Entry IsPassword="True" Text="{Binding User.Password}" />
+
+            <Button BackgroundColor="Teal"
+                    BorderRadius="10"
+                    Command="{Binding LoginCommand}"
+                    Text="Enter The App"
+                    TextColor="White" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+```
+
+There is lots to complain about in this demonstration (including lack of encryption, storage of passwords,
+and a generally bad UI).  However, it serves to demonstrate the salient points for using a (perhaps pre-existing)
+identity database for authentication of the users.
+
+### Using Azure Active Directory B2C
+
+### Using Third Party Tokens
 
 ## Authorization
 
@@ -1414,6 +1668,8 @@ in the `App_Start\Startup.MobileApp.cs` file:
 [img39]: img/ch2/aad-apps-8.PNG
 [img40]: img/ch2/aad-apps-9.PNG
 [img41]: img/ch2/adal-client-1.PNG
+[img42]: img/ch2/customauth-postman-1.PNG
+[img43]: img/ch2/customauth-postman-2.PNG
 
 [int-intro]: firstapp_pc.md
 [int-entauth]: #enterpriseauth

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Web.Http;
 using Backend.CustomAuth.Models;
 using Microsoft.Azure.Mobile.Server.Login;
+using Newtonsoft.Json;
 
 namespace Backend.CustomAuth.Controllers
 {
@@ -16,22 +17,19 @@ namespace Backend.CustomAuth.Controllers
 
         public CustomAuthController()
         {
-            System.Diagnostics.Debug.WriteLine("IN CUSTOMAUTHCONTROLLER");
             db = new MobileServiceContext();
             signingKey = Environment.GetEnvironmentVariable("WEBSITE_AUTH_SIGNING_KEY");
-            System.Diagnostics.Debug.WriteLine($"CUSTOMAUTHCONTROLLER: signingKey = {signingKey}");
             var website = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
-            System.Diagnostics.Debug.WriteLine($"CUSTOMAUTHCONTROLLER: website = {website}");
-            audience = $"https://{website}";
-            issuer = $"https://{website}";
+            audience = $"https://{website}/";
+            issuer = $"https://{website}/";
         }
 
         [HttpPost]
         public IHttpActionResult Post([FromBody] User body)
         {
-            if (!ModelState.IsValid)
+            if (body == null || body.Username == null || body.Password == null || body.Username.Length == 0 || body.Password.Length == 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest(); ;
             }
 
             if (!IsValidUser(body))
@@ -70,12 +68,16 @@ namespace Backend.CustomAuth.Controllers
 
     public class LoginResult
     {
+        [JsonProperty(PropertyName = "authenticationToken")]
         public string AuthenticationToken { get; set; }
+
+        [JsonProperty(PropertyName = "user")]
         public LoginResultUser User { get; set; }
     }
 
     public class LoginResultUser
     {
+        [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
     }
 }

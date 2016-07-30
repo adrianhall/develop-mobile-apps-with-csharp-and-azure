@@ -2,7 +2,7 @@
 {
     public static class Locations
     {
-        public static readonly string AppServiceUrl = "https://the-book.azurewebsites.net";
+        public static readonly string AppServiceUrl = "https://the-book-customauth.azurewebsites.net";
 
         public static readonly string AadClientId = "b61c7d68-2086-43a1-a8c9-d93c5732cc84";
 

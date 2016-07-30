@@ -214,6 +214,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\the-book-customauth - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\the-book-customauth.pubxml" />
   </ItemGroup>
   <PropertyGroup>
