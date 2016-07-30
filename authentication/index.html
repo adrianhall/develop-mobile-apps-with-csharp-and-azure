@@ -467,13 +467,13 @@ service.  In general, the method involves:</p>
 <strong>Backend</strong> project in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">Chapter2</a> solution is pre-configured for
 authorization. You just need to deploy it to Azure App Service.</p>
 <h4 id="facebook-authentication">Facebook Authentication</h4>
-<p>I'm going to assume you have a Facebook account already.  If you don't, go to
-<a href="https://facebook.com/">Facebook</a> and sign up.  All your friends are likely there already!  Now
-log in to the <a href="https://developers.facebook.com/">Facebook Developers</a> web site.  Let's create a new Facebook
-application:</p>
+<p>I am going to assume you have a Facebook account already.  If you do not have
+a Facebook account, go to <a href="https://facebook.com/">Facebook</a> and sign up.  All your friends are
+likely there already!  Now log in to the <a href="https://developers.facebook.com/">Facebook Developers</a> web site.
+Create a new Facebook application:</p>
 <p><img alt="Facebook Developers" src="../img/ch2/fb-dev-1.PNG" /></p>
 <p><strong>Note</strong>: Facebook updates the look and feel of their developer site on a
-regular basis.  As a result, the screen shots I've provided here may be
+regular basis.  As a result, the screen shots I have provided here may be
 different.  If in doubt, follow the bullet descriptions to find your way.</p>
 <blockquote>
 <p>If you are not already registered, click on the drop-down in the top-right
@@ -522,11 +522,11 @@ is under <strong>Features</strong>.</li>
 Request (no action)</strong>.</li>
 </ul>
 <blockquote>
-<p>It's very tempting to choose <strong>Log in with Facebook</strong>.  However, you need to
+<p>It is very tempting to choose <strong>Log in with Facebook</strong>.  However, you need to
 avoid this.  Selecting this option will mean that all requests need to be
-authenticated and you won't get the information on the back end.  Selecting
-<strong>Allow Request</strong> means your app is in charge of what gets authenticated and
-what does not require authentication.</p>
+authenticated and you will not get the information about the identity on the
+back end.  Selecting <strong>Allow Request</strong> means your app is in charge of what
+gets authenticated and what does not require authentication.</p>
 </blockquote>
 <ul>
 <li>Click on <strong>Facebook</strong> (which should show <em>Not Configured</em>).</li>
@@ -561,8 +561,9 @@ you are actually going to use.</p>
 </blockquote>
 <h4 id="google-authentication">Google Authentication</h4>
 <p>It should be no shock that you need a <a href="https://accounts.google.com/">Google Account</a> to get started.  If
-you don't have one already (or you want a different account for your development
-activities), create a new account now.  Then log in to the <a href="https://console.developers.google.com/iam-admin/projects">Google Developer Portal</a>.  Click on the <strong>Create Project</strong> link at the top:</p>
+you do not have one already (or you want a different account for your development
+activities), create a new account now.  Then log in to the <a href="https://console.developers.google.com/iam-admin/projects">Google Developer Portal</a>.
+Click on the <strong>Create Project</strong> link at the top:</p>
 <p><img alt="New Google Project" src="../img/ch2/goog-dev-1.PNG" /></p>
 <p>Enter a nice name (like mine) and click on <strong>Create</strong>.  The screen will show
 the progress and eventually the project will be listed in the <strong>All Projects</strong>
@@ -575,8 +576,8 @@ is called <strong>Google+</strong> and is listed under the <strong>Social APIs</
 then click on <strong>Enable</strong> at the top of the screen.</p>
 <p>Just because it is enabled does not mean you automatically get to use it.  Click
 on <strong>Credentials</strong> link in the left-hand side bar.  You will also see a "Go to
-Credentials" button at the top of the screen, but it doesn't take you to the
-same screen, so don't click it.</p>
+Credentials" button at the top of the screen, but it does not take you to the
+same screen, so do not click it.</p>
 <p>On the Crendetials screen, click on the <strong>OAuth consent screen</strong> tab:</p>
 <p><img alt="Google OAuth Credential" src="../img/ch2/goog-dev-3.PNG" /></p>
 <p>Fill in the form and click on <strong>Save</strong>.  This brings up the next step - creating
@@ -615,15 +616,15 @@ with your browser.  You should get something like the following:</p>
 Facebook.</p>
 <p>If you happen to mis-type the Authorized redirect URI, Google will tell you
 that the URI is wrong.  I inevitably swap http for https.  When this happens,
-it's an easy fix, but you have to wait a few minutes before the authentication
+it is an easy fix, but you have to wait a few minutes before the authentication
 system updates itself.</p>
 <h4 id="microsoft-account-authentication">Microsoft Account Authentication</h4>
 <p>The advantage of the Microsoft Account (or MSA, as it is known) is that you
 already have an account - you need one for Azure.  So this is the first time
-I'm not going to explicitly tell you to sign up for an account.</p>
+I am not going to explicitly tell you to sign up for an account.</p>
 <p>Your first step is to go to the <a href="https://apps.dev.microsoft.com/?mkt=en-us#/appList">Microsoft Account Developer Center</a> and
 log on with your Microsoft account.  You should use the same one as you use
-for Azure, but it's not required.</p>
+for Azure, but it is not required.</p>
 <p><img alt="Microsoft Account Developer Center" src="../img/ch2/msa-dev-1.PNG" /></p>
 <p>Just to confuse us, there are two <strong>Add an App</strong> buttons. Strangely, they are
 different. Click on the one next to <strong>My applications</strong>.</p>
@@ -673,11 +674,12 @@ a production app.</p>
 <p>Once you have created the app, you will get a tabbed display with all the
 settings.  Click on the <strong>Keys and Access Tokens</strong> tab:</p>
 <p><img alt="Twitter: Keys" src="../img/ch2/twtr-dev-2.PNG" /></p>
-<p>Note the values for the <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong> - they get entered into the Azure Portal.</p>
+<p>Note the values for the <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>.
+They get entered into the Azure Portal.</p>
 <blockquote>
 <p>There is a check box in the <strong>Settings</strong> tab that says <em>Allow this application
 to be used to Sign in with Twitter</em>.  At the time of writing, this is checked
-by default.  However, if you find you can't log in for some reason, then ensure
+by default.  However, if you find you can not log in for some reason, then ensure
 this checkbox is checked.</p>
 </blockquote>
 <p>Back in the Azure Portal, select your app service, then <strong>All Settings</strong>,
@@ -692,8 +694,8 @@ your browser to https://<em>yoursite</em>.azurewebsites.net/.auth/login/twitter.
 authentication screen.</p>
 <p>The social authentication providers should now all be configured to handle a
 web-based or server-flow authentication request.  There are times when
-configuring a client-flow authentication is different.  We'll point those out
-when we get to them. ### Enterprise Authentication</p>
+configuring a client-flow authentication is different.  We will point those out
+when we get to them.</p>
 <h3 id="enterprise-authentication"><a name="enterpriseauth"></a>Enterprise Authentication</h3>
 <p>The Enterprise authentication configuration is perhaps the easiest one to
 configure.  However, your first step is to configure Azure Active Directory.
@@ -708,7 +710,7 @@ box provided before clicking on the arrow.  Then fill in the personal
 information and click on the arrow again.  Finally, click on <strong>create</strong>.
 Note the password, before clicking on the tick.  Now you have two users - your
 Azure ID and the one you just created.  Note the username - it will be something
-like <code>adrian@photoadrianoutlook.onmicrosoft.com</code> - it's a little unwieldy.</p>
+like <code>adrian@photoadrianoutlook.onmicrosoft.com</code> - it is a little unwieldy.</p>
 <blockquote>
 <p>When developing a real enterprise application, your Azure AD instance will
 be linked to your corporate Active Directory environment.  This is the same
@@ -801,17 +803,17 @@ properly rejecting unauthenticated requests, plus it is properly returning
 data when authenticated requests are issued.</p>
 <h2 id="adding-authentication-to-a-mobile-client">Adding Authentication to a Mobile Client</h2>
 <p>Now that the backend is completely configured, we can move our attention to the
-mobile client.  I'm going to be using the same mobile client that I developed
-in the first chapter, but I'm going to now add authentication to it.
-Unfortunately for us, web views are one of those items that are platform dependent.
-Fortunately for us, Xamarin has already thought of this and provided a facility
-for running platform specific code called the <a href="https://developer.xamarin.com/guides/xamarin-forms/dependency-service/">DependencyService</a>.</p>
+mobile client.  We are going to be using the same mobile client that we developed
+in the first chapter, but we are now going to add authentication to it.
+Web views are one of those items that are platform dependent. Fortunately for us,
+Xamarin has already thought of this and provided a facility for running platform
+specific code called the <a href="https://developer.xamarin.com/guides/xamarin-forms/dependency-service/">DependencyService</a>.</p>
 <blockquote>
-<p>If you run our application right now, clicking on the "Enter the App" button
+<p>If we run our application right now, clicking on the "Enter the App" button
 will result in an error.  You will be able to see the Unauthorized error in the
 debug window of Visual Studio.</p>
 </blockquote>
-<p>Firstly, we are going to define an <code>Abstractions\ILoginProvider.cs</code> interface
+<p>Our first step is to define an <code>Abstractions\ILoginProvider.cs</code> interface
 within the  shared project:</p>
 <pre><code class="csharp">using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
@@ -905,20 +907,19 @@ namespace TaskList.Droid.Services
 }
 </code></pre>
 
-<p>Let's take a closer look at this.  It's a fairly standard "concrete" implementation.
-We implement the interface.  The <code>LoginAsync()</code> method on the client takes the
-Android context (which is basically the main window) and a provider - you can
-pick any of "facebook", "google", "microsoftaccount", "twitter" or "aad" since
-we have defined all of them in the Azure Portal configuration for our app
-service.  The clever piece is the <code>Xamarin.Forms.Dependency</code> call at the top -
-that registers the class as a platform service so we can access it through the
-dependency service.</p>
+<p>Let us take a closer look at this implementation.  The <code>LoginAsync()</code> method on
+the Azure Mobile Apps client object takes the Android context (which is normally
+the main window) and a provider - we can pick any of "facebook", "google",
+"microsoftaccount", "twitter" or "aad" since we have defined all of them in the
+Azure Portal configuration for our app service.  The clever piece is the
+<code>Xamarin.Forms.Dependency</code> call at the top - that registers the class as a
+platform service so we can access it through the Xamarin dependency service.</p>
 <p>Note that we need an extra initialization routine for Android that must be
 called prior the login provider being called to pass along the main window of
 the app (also known as the context).  This is done in the <code>MainActivity.cs</code> file
-<strong>after</strong> the Xamarin Forms initialization call.  The dependency service is Note
-set up until after the Xamarin Forms library is initialized, so we won't be
-able to get the login provider reference:</p>
+<strong>after</strong> the Xamarin Forms initialization call.  The dependency service is not
+set up until after the Xamarin Forms library is initialized, so we will not be
+able to get the login provider reference before that point:</p>
 <pre><code class="csharp">protected override void OnCreate(Bundle bundle)
 {
     base.OnCreate(bundle);
@@ -934,8 +935,9 @@ able to get the login provider reference:</p>
 }
 </code></pre>
 
-<p>iOS is similar, but doesn't require the initialization.  The class is in
-<code>Services\iOSLoginProvider.cs</code> (in the TaskList.iOS project):</p>
+<p>iOS is similar, but does not require the initialization step in the main startup
+class.  The login provider class is in <code>Services\iOSLoginProvider.cs</code> (in the
+<strong>TaskList.iOS</strong> project):</p>
 <pre><code class="csharp">using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Abstractions;
@@ -979,7 +981,7 @@ namespace TaskList.UWP.Services
 </code></pre>
 
 <p>Now that we have all the platform-specific login routines registered, we can
-move on to adding the login routine to the UI.  We've already got a button on
+move on to adding the login routine to the UI.  We have already got a button on
 the entry page to enter the app.  It makes sense to wire up that button so
 that it logs us in as well. The Command for the login button is in the
 <code>ViewModels\EntryPageViewModel.cs</code>:</p>
@@ -1007,7 +1009,7 @@ that it logs us in as well. The Command for the login button is in the
 </code></pre>
 
 <blockquote>
-<p>The <code>ServiceLocator</code> class is my basic singleton handler.  It's available
+<p>The <code>ServiceLocator</code> class is my basic singleton handler.  It is available
 in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">Chapter2</a> project.  It returns the concrete version of the cloud
 service, just like the Singleton version we defined in Chapter1.</p>
 </blockquote>
@@ -1114,7 +1116,7 @@ in the <strong>APPLICATIONS</strong> tab.  Look at the first path section of mos
 <p>Add the <strong>Microsoft.IdentityModel.Clients.ActiveDirectory</strong> NuGet package using <strong>Manage NuGet Packages...</strong>
 to each platform project.  This package contains the ADAL library as a portable class library.</p>
 <p><img alt="Azure AD - Add ADAL Library" src="../img/ch2/adal-client-1.PNG" /></p>
-<p>Now you can add the client flow to each project.  Let's start with the login provider in the <strong>TaskList.UWP</strong>
+<p>Now you can add the client flow to each project.  Start with the login provider in the <strong>TaskList.UWP</strong>
 project, located in the <code>Services\UWPLoginProvider.cs</code> file:</p>
 <pre><code class="csharp">using System;
 using System.Linq;
@@ -1172,7 +1174,7 @@ namespace TaskList.UWP.Services
 <p>The <code>LoginADALAsync()</code> method does the actual client-flow - using the ADAL library to
 authenticate the user and return the access token.  The <code>LoginAsync()</code> method initiates
 the client-flow.  It uses the token it receives from the client-flow to log in to the
-App Service, by packaging the token into a JSON object.  I've placed the client and
+App Service, by packaging the token into a JSON object.  I have placed the client and
 server flow next to each other so you can compare the two.</p>
 <p>In the <strong>TaskList.Droid</strong> project, we need to deal with the <code>Context</code> again.  The client
 flow in <code>Services\DroidLoginProvider.cs</code> is remarkably similar though:</p>
@@ -1324,9 +1326,362 @@ the ability to provide a sign-up process with a username and password rather tha
 Perhaps you want to use an alternate provider that is not one of the supported five providers.  Whatever
 the reason, Azure App Service provides the ability to handle all situations.  In this section, I will look
 at three methods for providing a unique set of usernames with no connection to the social authentication.</p>
-<h3 id="azure-active-directory-b2c">Azure Active Directory B2C</h3>
-<h3 id="using-third-party-tokens">Using Third-Party Tokens</h3>
 <h3 id="using-an-identity-database">Using an Identity Database.</h3>
+<p>You can also store the usernames and passwords in the database.  This is probably the least preferable
+method I have discussed.  You will need to pay particular attention to the security of the database.  The news
+is rife with password leakage for very large organizations.  The best way to ensure you do not disclose a users
+password is to not have it in the first place.</p>
+<p>To start this version, I created a new backend project called <strong>Backend.CustomAuth</strong>.  This is a copy of the
+<strong>Backend</strong> project, but with some additional pieces.  In the <code>Models</code> directory, we can create a new <code>User.cs</code>
+file to hold information about the users:</p>
+<pre><code class="csharp">using System.ComponentModel.DataAnnotations;
+
+namespace Backend.CustomAuth.Models
+{
+    public class User
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+    }
+}
+</code></pre>
+
+<p>We also need to modify the <code>MobileServiceContext.cs</code> file so that the database table is included in the Entity
+Framework context:</p>
+<pre><code class="csharp">    public class MobileServiceContext : DbContext
+    {
+        private const string connectionStringName = &quot;Name=MS_TableConnectionString&quot;;
+
+        public MobileServiceContext() : base(connectionStringName)
+        {
+        }
+
+        public DbSet&lt;TodoItem&gt; TodoItems { get; set; }
+        public DbSet&lt;User&gt; Users { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Add(
+                new AttributeToColumnAnnotationConvention&lt;TableColumnAttribute, string&gt;(
+                    &quot;ServiceTableColumn&quot;, (property, attributes) =&gt; attributes.Single().ColumnType.ToString()));
+        }
+    }
+</code></pre>
+
+<p>Finally, we want to put some seed data into the database when it is first created.  In the <code>Startup.MobileApp.cs</code>
+file, adjust the <code>MobileServiceInitializer</code>:</p>
+<pre><code class="csharp">        protected override void Seed(MobileServiceContext context)
+        {
+            List&lt;TodoItem&gt; todoItems = new List&lt;TodoItem&gt;
+            {
+                new TodoItem { Id = Guid.NewGuid().ToString(), Text = &quot;First item&quot;, Complete = false },
+                new TodoItem { Id = Guid.NewGuid().ToString(), Text = &quot;Second item&quot;, Complete = false }
+            };
+
+            foreach (TodoItem todoItem in todoItems)
+            {
+                context.Set&lt;TodoItem&gt;().Add(todoItem);
+            }
+
+            List&lt;User&gt; users = new List&lt;User&gt;
+            {
+                new User { Id = 1, Username = &quot;adrian&quot;, Password = &quot;supersecret&quot; }
+            };
+
+            foreach (User user in users)
+            {
+                context.Set&lt;User&gt;().Add(user);
+            }
+
+            base.Seed(context);
+        }
+</code></pre>
+
+<p>Note that we are storing the passwords in plain text.  This is most definitely frowned upon.  We should
+be using some sort of encryption.  This code is most definitely just for demonstration purposes.  Continuing
+the configuration, we need to handle the request to authenticate from the client.  We will use a custom
+API controller for this; it is located in <code>Controllers\CustomAuthController.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.IdentityModel.Tokens;
+using System.Linq;
+using System.Security.Claims;
+using System.Web.Http;
+using Backend.CustomAuth.Models;
+using Microsoft.Azure.Mobile.Server.Login;
+using Newtonsoft.Json;
+
+namespace Backend.CustomAuth.Controllers
+{
+    [Route(&quot;.auth/login/custom&quot;)]
+    public class CustomAuthController : ApiController
+    {
+        private MobileServiceContext db;
+        private string signingKey, audience, issuer;
+
+        public CustomAuthController()
+        {
+            db = new MobileServiceContext();
+            signingKey = Environment.GetEnvironmentVariable(&quot;WEBSITE_AUTH_SIGNING_KEY&quot;);
+            var website = Environment.GetEnvironmentVariable(&quot;WEBSITE_HOSTNAME&quot;);
+            audience = $&quot;https://{website}/&quot;;
+            issuer = $&quot;https://{website}/&quot;;
+        }
+
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] User body)
+        {
+            if (body == null || body.Username == null || body.Password == null || body.Username.Length == 0 || body.Password.Length == 0)
+            {
+                return BadRequest(); ;
+            }
+
+            if (!IsValidUser(body))
+            {
+                return Unauthorized();
+            }
+
+            var claims = new Claim[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, body.Username)
+            };
+
+            JwtSecurityToken token = AppServiceLoginHandler.CreateToken(
+                claims, signingKey, audience, issuer, TimeSpan.FromDays(30));
+            return Ok(new LoginResult()
+            {
+                AuthenticationToken = token.RawData,
+                User = new LoginResultUser { UserId = body.Username }
+            });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool IsValidUser(User user)
+        {
+            return db.Users.Count(u =&gt; u.Username.Equals(user.Username) &amp;&amp; u.Password.Equals(user.Password)) &gt; 0;
+        }
+    }
+
+    public class LoginResult
+    {
+        [JsonProperty(PropertyName = &quot;authenticationToken&quot;)]
+        public string AuthenticationToken { get; set; }
+
+        [JsonProperty(PropertyName = &quot;user&quot;)]
+        public LoginResultUser User { get; set; }
+    }
+
+    public class LoginResultUser
+    {
+        [JsonProperty(PropertyName = &quot;userId&quot;)]
+        public string UserId { get; set; }
+    }
+}
+</code></pre>
+
+<p>There is a lot going on here:</p>
+<ul>
+<li>The constructor reads the signing key and other information that we need for constructing the JWT.  Note that
+  the signing key is only available if you have the Authentication / Authorization is turned on.</li>
+<li>The <code>LoginResult</code> and <code>LoginResultUser</code> provide the response to the client, when serialized by the JSON
+  serializer.</li>
+<li>The <code>Post()</code> method is where the work happens.  It verifies that you have a valid object, then checks that
+  the username and password match something in the user database.  It then constructs the JWT and returns the
+  required JSON object.</li>
+<li>The <code>IsValidUser()</code> method actually validates the username and password provided in the request with the
+  users in the database.  This version is very simplistic.  I expect your version to at least include encryption of
+  the password.</li>
+</ul>
+<blockquote>
+<p>Note that you must turn on Authentication / Authorization in your App Service.  Set the <strong>Action to take when
+request is not authenticated</strong> to <strong>Allow Request (no action)</strong> and do not configure any of the supported
+authentication providers.</p>
+</blockquote>
+<p>Next, we need to wire the custom authentication controller so that it appears in the same place as all
+the other authenticators.  We are going to access it via the <code>/.auth/login/custom</code> endpoint.  The normal
+ASP.NET methods can be applied for this.  In this project, we can enable <a href="http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2">attribute routing</a>:</p>
+<pre><code class="csharp">        public static void ConfigureMobileApp(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+
+            new MobileAppConfiguration()
+                .AddTablesWithEntityFramework()
+                .ApplyTo(config);
+
+            // Map routes by attribute
+            config.MapHttpAttributeRoutes();
+
+            // Use Entity Framework Code First to create database tables based on your DbContext
+            Database.SetInitializer(new MobileServiceInitializer());
+
+            MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            if (string.IsNullOrEmpty(settings.HostName))
+            {
+                app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
+                {
+                    SigningKey = ConfigurationManager.AppSettings[&quot;SigningKey&quot;],
+                    ValidAudiences = new[] { ConfigurationManager.AppSettings[&quot;ValidAudience&quot;] },
+                    ValidIssuers = new[] { ConfigurationManager.AppSettings[&quot;ValidIssuer&quot;] },
+                    TokenHandler = config.GetAppServiceTokenHandler()
+                });
+            }
+
+            app.UseWebApi(config);
+        }
+</code></pre>
+
+<p>At this point, we can deploy the backend to your App Service and send a suitably formed POST request to
+the backend.  I use <a href="https://www.getpostman.com/">Postman</a> for this purpose. The request:</p>
+<p><img alt="Custom Auth - Postman Request" src="../img/ch2/customauth-postman-1.PNG" /></p>
+<p>A successful POST will return the token and user ID in the response:</p>
+<p><img alt="Custom Auth - Postman Response" src="../img/ch2/customauth-postman-2.PNG" /></p>
+<p>Any other request (such as no body or a wrong username or password) should produce the right response.  If
+the body is correct, but the information is wrong, then a 401 Unauthorized response should be produced.  If
+the body is invalid, then a 400 Bad Request should be produced.</p>
+<blockquote>
+<p>Note that the format of the response is exactly the same as the token response we saw earlier when we
+were discussing the contents of a JWT.</p>
+</blockquote>
+<p>We can now turn our attention to the mobile client.  Custom Authentication is always implemented using
+a client-flow mechanism. To implement this, we are going to adjust the entry page so that the username
+and password fields are displayed.  The gathered username and password will then be passed to a new
+ICloudService <code>LoginAsync()</code> method.  All of the UI work is done in the shared project.</p>
+<p>To start, we need a copy of the <code>User.cs</code> model from the backend project.  Unlike Data Transfer Objects,
+this model is the same:</p>
+<pre><code class="csharp">namespace TaskList.Models
+{
+    public class User
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}
+</code></pre>
+
+<p>The abstraction we use for the cloud service needs to be adjusted so that we can pass the user object into
+the login method.  This is the <code>Abstractions\ICloudService.cs</code> interface:</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+using TaskList.Models;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
+
+        Task LoginAsync();
+
+        Task LoginAsync(User user);
+    }
+}
+</code></pre>
+
+<p>Note that I am adding a new version of the <code>LoginAsync()</code> method.  The concrete version of this method no
+longer has to go through the dependency service since I can use shared code.  Here is the definition of
+our new <code>LoginAsync()</code> method in <code>Services\AzureCloudService.cs</code>:</p>
+<pre><code class="csharp">        public Task LoginAsync(User user)
+        {
+            return client.LoginAsync(&quot;custom&quot;, JObject.FromObject(user));
+        }
+</code></pre>
+
+<p>Finally, we need to update the view-model <code>ViewModels\EntryPageViewModel.cs</code> so that we can store the
+username and password in the model.  We will also update the call to the <code>LoginAsync()</code> method of the
+cloud service so it calls our new method:</p>
+<pre><code class="csharp">using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.Models;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class EntryPageViewModel : BaseViewModel
+    {
+        public EntryPageViewModel()
+        {
+            Title = &quot;Task List&quot;;
+            User = new Models.User { Username = &quot;&quot;, Password = &quot;&quot; };
+        }
+
+        Command loginCmd;
+        public Command LoginCommand =&gt; loginCmd ?? (loginCmd = new Command(async () =&gt; await ExecuteLoginCommand()));
+
+        public Models.User User { get; set; }
+
+        async Task ExecuteLoginCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                var cloudService = ServiceLocator.Instance.Resolve&lt;ICloudService&gt;();
+                await cloudService.LoginAsync(User);
+                Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;[ExecuteLoginCommand] Error = {ex.Message}&quot;);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>There are three new pieces here.  Firstly, we have the User property (for holding the username and password
+in our form).  Next, the constructor initializes the user object to an empty object.  Finally, the
+call to <code>LoginAsync()</code> passes the user object to the cloud service.</p>
+<p>We also need some UI changes.  Specifically, we need a couple of fields for the username and password added
+to the <code>Pages\EntryPage.xaml</code> file:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;ContentPage x:Class=&quot;TaskList.Pages.EntryPage&quot;
+             xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+             Title=&quot;{Binding Title}&quot;&gt;
+    &lt;ContentPage.Content&gt;
+        &lt;StackLayout HorizontalOptions=&quot;Center&quot;
+                     Orientation=&quot;Vertical&quot;
+                     VerticalOptions=&quot;Center&quot;&gt;
+            &lt;Label Text=&quot;Username?&quot; /&gt;
+            &lt;Entry Text=&quot;{Binding User.Username}&quot; /&gt;
+            &lt;Label Text=&quot;Password?&quot; /&gt;
+            &lt;Entry IsPassword=&quot;True&quot; Text=&quot;{Binding User.Password}&quot; /&gt;
+
+            &lt;Button BackgroundColor=&quot;Teal&quot;
+                    BorderRadius=&quot;10&quot;
+                    Command=&quot;{Binding LoginCommand}&quot;
+                    Text=&quot;Enter The App&quot;
+                    TextColor=&quot;White&quot; /&gt;
+        &lt;/StackLayout&gt;
+    &lt;/ContentPage.Content&gt;
+&lt;/ContentPage&gt;
+</code></pre>
+
+<p>There is lots to complain about in this demonstration (including lack of encryption, storage of passwords,
+and a generally bad UI).  However, it serves to demonstrate the salient points for using a (perhaps pre-existing)
+identity database for authentication of the users.</p>
+<h3 id="using-azure-active-directory-b2c">Using Azure Active Directory B2C</h3>
+<h3 id="using-third-party-tokens">Using Third Party Tokens</h3>
 <h2 id="authorization">Authorization</h2>
 <h2 id="refresh-tokens">Refresh Tokens</h2>
 <h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
