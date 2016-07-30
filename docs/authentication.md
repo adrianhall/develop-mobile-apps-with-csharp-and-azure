@@ -1616,6 +1616,28 @@ identity database for authentication of the users.
 
 ### Using Azure Active Directory B2C
 
+Custom authentication allows you to really customize the process, but I like to reduce the amount of code I
+write by using services or libraries.   The whole sign-in and sign-up process is ripe for this.  The code 
+needed for building the sign-in / sign-up process is boiler-plate code.  It also introduces problems that I
+have to deal with going forward.  I have to store passwords and profile information, which introduces a
+security concern.  I have to scale the database and ensure my app scales with it as my app gets popular.
+Finally, I am being fairly inflexible and causing potential privacy concerns with my users.  
+
+There are a couple of services that I can use to get around these concerns.  The first is an Azure service:
+[Azure Active Directory B2C][24].  The B2C stands for Business to Consumer.  It is a mechanism by which you
+can add a sign-in and sign-up flow to your application.  The user can enter a username or password, or, at
+your option, add on support for one or more social providers.  In addition, there is support for branding
+the sign-in process, doing email verification of sign-ups and automatic password resets via email.  The
+Azure AD B2C sign-in / sign-up process is primarily a server-flow proecss, so we will be able to add support
+in our app with just one line of code.
+
+#### The Minimal Setup of Azure AD B2C
+
+Azure AD is managed from the [Classic Azure Portal][classic-portal], so start by logging in using your
+Azure Subscription credentials.
+
+#### More things you can do with Azure AD B2C
+
 ### Using Third Party Tokens
 
 ## Authorization
@@ -1704,3 +1726,4 @@ identity database for authentication of the users.
 [21]: http://www.telerik.com/blogs/api-testing-with-telerik-fiddler
 [22]: https://developer.xamarin.com/guides/xamarin-forms/dependency-service/
 [23]: http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
+[24]: https://azure.microsoft.com/en-us/services/active-directory-b2c/

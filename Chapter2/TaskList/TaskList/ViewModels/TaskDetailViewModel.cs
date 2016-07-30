@@ -25,13 +25,15 @@ namespace TaskList.ViewModels
                 Item = new TodoItem { Text = "New Item", Complete = false };
                 Title = "New Item";
             }
+
+            SaveCommand = new Command(async () => await ExecuteSaveCommand());
+            DeleteCommand = new Command(async () => await ExecuteDeleteCommand());
         }
 
         public TodoItem Item { get; set; }
         public ICloudTable<TodoItem> Table { get; set; }
-
-        Command cmdSave;
-        public Command SaveCommand => cmdSave ?? (cmdSave = new Command(async () => await ExecuteSaveCommand()));
+        public Command SaveCommand { get; }
+        public Command DeleteCommand { get; }
 
         async Task ExecuteSaveCommand()
         {
@@ -54,16 +56,13 @@ namespace TaskList.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[TaskDetail] Save error: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Save Item Failed", ex.Message, "OK");
             }
             finally
             {
                 IsBusy = false;
             }
         }
-
-        Command cmdDelete;
-        public Command DeleteCommand => cmdDelete ?? (cmdDelete = new Command(async () => await ExecuteDeleteCommand()));
 
         async Task ExecuteDeleteCommand()
         {
@@ -82,7 +81,7 @@ namespace TaskList.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[TaskDetail] Save error: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Delete Item Failed", ex.Message, "OK");
             }
             finally
             {

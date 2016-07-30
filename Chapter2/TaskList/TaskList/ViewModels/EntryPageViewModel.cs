@@ -14,11 +14,11 @@ namespace TaskList.ViewModels
         {
             Title = "Task List";
             User = new Models.User { Username = "", Password = "" };
+
+            LoginCommand = new Command(async () => await ExecuteLoginCommand());
         }
 
-        Command loginCmd;
-        public Command LoginCommand => loginCmd ?? (loginCmd = new Command(async () => await ExecuteLoginCommand()));
-
+        public Command LoginCommand { get; } 
         public Models.User User { get; set; }
 
         async Task ExecuteLoginCommand()
@@ -35,7 +35,7 @@ namespace TaskList.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[ExecuteLoginCommand] Error = {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Login Failed", ex.Message, "OK");
             }
             finally
             {

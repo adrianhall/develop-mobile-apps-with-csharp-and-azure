@@ -18,13 +18,18 @@ namespace TaskList.ViewModels
             Table = cloudService.GetTable<TodoItem>();
 
             Title = "Task List";
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            RefreshList();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             items.CollectionChanged += this.OnCollectionChanged;
+
+            RefreshCommand = new Command(async () => await ExecuteRefreshCommand());
+            AddNewItemCommand = new Command(async () => await ExecuteAddNewItemCommand());
+
+            RefreshCommand.Execute(null);
+
         }
 
         public ICloudTable<TodoItem> Table { get; set; }
+        public Command RefreshCommand { get; }
+        public Command AddNewItemCommand { get; }
 
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -53,9 +58,6 @@ namespace TaskList.ViewModels
             }
         }
 
-        Command refreshCmd;
-        public Command RefreshCommand => refreshCmd ?? (refreshCmd = new Command(async () => await ExecuteRefreshCommand()));
-
         async Task ExecuteRefreshCommand()
         {
             if (IsBusy)
@@ -78,9 +80,6 @@ namespace TaskList.ViewModels
                 IsBusy = false;
             }
         }
-
-        Command addNewCmd;
-        public Command AddNewItemCommand => addNewCmd ?? (addNewCmd = new Command(async () => await ExecuteAddNewItemCommand()));
 
         async Task ExecuteAddNewItemCommand()
         {
