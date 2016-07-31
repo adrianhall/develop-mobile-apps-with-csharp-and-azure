@@ -1617,7 +1617,7 @@ identity database for authentication of the users.
 ### Using Azure Active Directory B2C
 
 Custom authentication allows you to really customize the process, but I like to reduce the amount of code I
-write by using services or libraries.   The whole sign-in and sign-up process is ripe for this.  The code 
+write by using services or libraries.   The whole sign-in and sign-up process is ripe for this.  The code
 needed for building the sign-in / sign-up process is boiler-plate code.  It also introduces problems that I
 have to deal with going forward.  I have to store passwords and profile information, which introduces a
 security concern.  I have to scale the database and ensure my app scales with it as my app gets popular.
@@ -1636,7 +1636,128 @@ in our app with just one line of code.
 Azure AD is managed from the [Classic Azure Portal][classic-portal], so start by logging in using your
 Azure Subscription credentials.
 
-#### More things you can do with Azure AD B2C
+* Click on the big **+ NEW** button in the bottom left of the screen.
+* Select **App Services** -> **Active Directory** -> **Directory** -> **Custom Create**.
+
+  ![AAD B2C Create Flow - Create a new resource][img44]
+
+* Choose a name for the tenant, then choose a unique domain name (which will appear in the
+  _onmicrosoft.com_ domain) and country.  Ensure you check the **This is a B2C directory.**
+
+  ![AAD B2C Create Flow - Add a Directory][img45]
+
+* Click on the tick to create the directory.  As noted, this process will take a couple of
+  minutes to complete.
+
+This creates a new tenant for you to manage.  If you go back to your [Azure Portal][portal]
+and click on your name (top right corner), you will note that there is a new DIRECTORY entry
+for your B2C tenant.  This is where you will be managing your B2C tenant.
+
+It's a good idea to pin the B2C settings blade to your dashboard or navigation
+pane so you can access it faster.  To do this:
+
+* Log in to the [Azure Portal][portal].
+* Switch to your B2C tenant by clicking on your name, then selecting the new
+  tenant in the drop-down.
+* The portal will probably ask you to confirm your ID and password.
+* Click on **Browse>** in the left-hand navigation bar.
+* Search for **B2C**.
+* Click on the empty star next to **Azure AD B2C**.
+
+  ![AAD B2C Create Flow - Favorite the B2C][img46]
+
+This will make Azure AD B2C appear in your left hand navigation bar.  To place it on the
+dashboard, click on **Azure AD B2C** in the left hand navigation bar, then click on the
+pin at the top of the **AZURE AD B2C SETTINGS** blade.
+
+The next job is to create an application registration within the B2C tenant:
+
+* Open the **Azure AD B2C** from your dashboard or the left hand navigation.
+* In the **Settings** blade, click on **Applications**.
+
+  ![AAD B2C Create Flow - Create an App Step 1][img47]
+
+* In the **New application** blade:
+  - Enter a unique name for the application.
+  - Click on **Yes** under **Include web app / web API**.
+  - In the Reply URL, enter `https://yoursite.azurewebsites.net/.auth/login/aad/callback`.
+  - Click on **Generate key** - a key will be generated (cut and paste it somewhere).
+
+  ![AAD B2C Create Flow - Create an App Step 2][img48]
+
+* Click on **Create**.
+
+There is no spinner or deployment here.  After approximately 5-10 seconds, the
+application registration will appear in the list.  Click on the application
+registration to see the **Application ID**:
+
+![AAD B2C Create Flow - Create an App Step 3][img49]
+
+You will need the Application ID and App Key (which you copied earlier) later
+on.  The next step is to create a Sign-up policy.  We'll create a policy for
+signing up with an email address and email confirmation:
+
+* In the **Settings** blade, click on **Sign-up policies**.
+* Click on the **+ Add** button.
+* Give the policy a name, like **emailPolicy**.
+* Click on **Identity providers**:
+  - Click on **Email signup / Local Account** (a tick will appear next to the row).
+  - Click on **OK**.
+* Click on **Sign-up attributes**:
+  - Click on **Email Address** and any other fields you want to gather.
+  - Click on **OK**.
+* Click on **Application claims**:
+  - Click on **Email Addresses** and any other fields you want to provide to
+    the application.
+  - Click on **OK**
+* Click on **OK** on the **Add policy** blade.
+* Click on the policy you just created.  Make a note of the **Metadata Endpoint
+  for this policy**.
+
+  ![AAD B2C Create Flow - Create a Policy][img50]
+
+Now that your B2C tenant is configured, you can switch back to your original
+tenant (by clicking on your name in the top-right corner and selecting the
+default directory).  
+
+To configure the App Service **Authentication / Authorization**.  Open up the
+**Settings** blade, then **Authentication / Authorization**.  Ensure the
+authentication service is turned on.  Click on **Azure Active Directory**.  
+This time, we are going to select the **Advanced** option.  The **Client ID**
+is the application ID of your B2C application registration, and the **Issuer Url**
+is the **Metadata Endpoint** for your sign-up policy:
+
+![AAD B2C Create Flow - Configure EasyAuth][img51]
+
+Click on **OK** to configure the authentication server flow, the **Save** to
+save the settings.  As before, you can test your server flow by pointing your
+browser to `https://yoursite.azurewebsites.net/.auth/login/aad`:
+
+![AAD B2C Login Flow][img52]
+
+If you have done everything right, you should be able to register an account,
+get the email verification code, and finally log in. to get the happy login
+page.  All that is left to do is to configure your app for Azure Active
+Directory Server Flow.
+
+#### Drawbacks of Azure Active Directory B2C
+
+Azure AD B2C is great for storing your users passwords and doing the sign-up
+and sign-in process for you.  There are a couple of reasons why you wouldn't
+want to use Azure Active Directory B2C.  
+
+The most obvious one is that this is a server-flow capability.  That means
+you won't be able to, for example, integrate the Facebook, Google and Twitter
+identity providers by utilizing their client libraries.  You also do not get
+access to the underlying identity provider token, so you are restricted from
+accessing the Graph API for the individual providers.  Finally, since the AAD
+B2C identity provider is configured with the AAD provider, you can't use both
+a B2C provider and a regular AAD provider.
+
+If you just want a sign-up / sign-in flow, then AAD B2C is probably the best
+way to go.  If, however, your plans include integration with other social
+identity providers, you should consider whether you want to do more work on
+the client to support that.
 
 ### Using Third Party Tokens
 
@@ -1697,6 +1818,15 @@ Azure Subscription credentials.
 [img41]: img/ch2/adal-client-1.PNG
 [img42]: img/ch2/customauth-postman-1.PNG
 [img43]: img/ch2/customauth-postman-2.PNG
+[img44]: img/ch2/aad-b2c-1.PNG
+[img45]: img/ch2/aad-b2c-2.PNG
+[img46]: img/ch2/aad-b2c-3.PNG
+[img47]: img/ch2/aad-b2c-4.PNG
+[img48]: img/ch2/aad-b2c-5.PNG
+[img49]: img/ch2/aad-b2c-6.PNG
+[img50]: img/ch2/aad-b2c-7.PNG
+[img51]: img/ch2/aad-b2c-8.PNG
+[img52]: img/ch2/aad-b2c-9.PNG
 
 [int-intro]: firstapp_pc.md
 [int-entauth]: #enterpriseauth
