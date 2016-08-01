@@ -1826,6 +1826,11 @@ the client to support that.
 
 ### Using Third Party Tokens
 
+The final method of authenticating a user we are going to look at is a process
+by which you use a third party authentication token.   For example, you may want
+to authenticate via [GitHub] or [miiCard] or using an authentication provider
+like [Auth0] to get some single sign-in capabilities.  
+
 ## Authorization
 
 ## Refresh Tokens
