@@ -86,6 +86,16 @@ var listView = new ListView(ListViewCachingStrategy.RecycleElement);
 There are more techniques for improving ListView performance in the
 [Xamarin documentation][3]
 
+## Installing NuGet Packages in Multiple Projects
+
+One of the common requirements we have in Xamarin Forms is to install NuGet packages
+in all the Xamarin Forms projects.  To do this, right-click on the solution and select
+**Manage NuGet Packages for Solution...**.  When you install a package here, you can
+select which projects it should be applied to, allowing you to install a package once
+across all the dependent projects.
+
+
+
 [1]: https://github.com/jamesmontemagno
 [2]: https://github.com/jamesmontemagno/mvvm-helpers/blob/35f0ddd7e739eb5daed3c90cae1334d3e674229b/MvvmHelpers/ObservableRangeCollection.cs
 [3]: https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/performance/
