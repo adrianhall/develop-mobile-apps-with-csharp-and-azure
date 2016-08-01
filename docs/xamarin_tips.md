@@ -87,6 +87,84 @@ var listView = new ListView(ListViewCachingStrategy.RecycleElement);
 There are more techniques for improving ListView performance in the
 [Xamarin documentation][3]
 
+## Building a Floating Action Button
+
+One of the things that I wanted to do to my apps was to give them a little more in the
+way of normal UI design.  My original design (which I introduced back in [Chapter ][ch1])
+had teal buttons at the bottom of the page.  These buttons scrolled off the page when
+there were more items on the page than could reasonably be fit on the page.  To fix this,
+I wanted to create a button that was always relative to the viewport.
+
+There are two steps to this.  Firstly, you need to convert the layout to a `RelativeLayout`.
+For instance, my new `ListView.xaml` file:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TaskList.Pages.TaskList"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <RelativeLayout>
+            <StackLayout RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
+```
+
+The original `StackLayout` layout renderer is placed inside the newly added `RelativeLayout`.
+The height and width constraints tell the StackLayout to consume the whole screen.
+
+At the bottom of the page, I can add my button:
+
+```xml
+            </StackLayout>
+
+            <!--  The Floating Button  -->
+            <Button BackgroundColor="Teal"
+                    Command="{Binding AddNewItemCommand}"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                      Property=Width,
+                                                                      Factor=1,
+                                                                      Constant=-60}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                      Property=Height,
+                                                                      Factor=1,
+                                                                      Constant=-60}"
+                    Text="+"
+                    TextColor="White" />
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>
+```
+
+The `StackLayout` is the end of the StackLayout I introduced in the previous listing.  Now
+I can add a button (or any other View type control, including a custom control that I may
+have downloaded from NuGet or the Xamarin Plugins site) as well.  The button will float
+above the other content since it is added later.  The constraints in this case provide
+the location of the button.
+
+There is more work to do.  For instance, you cannot click on the thing behind the button -
+the button always receives the click, which will (in this case) initiate the addition of
+a new item.  A custom control will allow you to provide iconography for the button, handle
+situations where you want to scroll behind and provide for the circular styling of the button
+which seems to be in-vogue right now.
+
+If you want to place commands that are not normally used, you may want to consider the ToolbarItem
+area of the ContentPage.  Here is a snippet:
+
+```xml
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="Refresh"
+                     Command="{Binding RefreshCommand}"
+                     Icon="refresh.png"
+                     Order="Primary"
+                     Priority="0" />
+    </ContentPage.ToolbarItems>
+```
+
+On Universal Windows (where this is actually important due to a lack of "pull-to-refresh" logic), you
+will see the familiar triple-dot on the app bar - clicking on the triple dot gives you access to
+the refresh command.
+
 ## Installing NuGet Packages in Multiple Projects
 
 One of the common requirements we have in Xamarin Forms is to install NuGet packages
@@ -95,7 +173,27 @@ in all the Xamarin Forms projects.  To do this, right-click on the solution and 
 select which projects it should be applied to, allowing you to install a package once
 across all the dependent projects.
 
+## Auto-Deploy Universal Windows Apps
 
+One of the more annoying things is that you have to **Deploy** the Universal Windows app.
+This gets in the way of the build process.  I like to build then run.  Having the extra
+Deploy step in there might not seem like much until you find yourself deploying several
+times an hour.
+
+Fortunately, there is a simple fix for this.  Set up the **Configuration Manager** to
+automatically deploy the right libraries on every successful build.  To do this:
+
+* In Visual Studio, select **Build** -> **Configuration Manager...**
+* Check the boxes you can under **Deploy**
+
+  ![Visual Studio Configuration Manager][img1]
+
+* Click on **Close**
+
+This setting is saved within the solution, so you only need to do it once per project.
+
+
+[img1]: img/tips/vs-config-mgr.PNG
 
 [1]: https://github.com/jamesmontemagno
 [2]: https://github.com/jamesmontemagno/mvvm-helpers/blob/35f0ddd7e739eb5daed3c90cae1334d3e674229b/MvvmHelpers/ObservableRangeCollection.cs
