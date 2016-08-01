@@ -16,6 +16,7 @@ pages:
 - Testing your Application: testing.md
 - Troubleshooting: troubleshooting.md
 - Going to Production: production.md
+- Xamarin Forms Tips: xamarin_tips.md
 - Android Developer Notes: android_appendix.md
 - References: references.md
 theme: readthedocs
