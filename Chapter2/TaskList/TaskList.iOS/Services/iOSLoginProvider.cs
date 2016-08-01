@@ -25,7 +25,7 @@ namespace TaskList.iOS.Services
             var zumoPayload = new JObject();
             zumoPayload["access_token"] = accessToken;
             await client.LoginAsync("aad", zumoPayload);
-            // await clinet.LoginAsync("facebook", zumoPayload);
+            // await client.LoginAsync("facebook", zumoPayload);
 
             // Server Flow
             //await client.LoginAsync(RootView, "aad");
