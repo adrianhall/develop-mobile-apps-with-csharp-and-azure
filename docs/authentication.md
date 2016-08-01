@@ -1753,10 +1753,11 @@ registration to see the **Application ID**:
 ![AAD B2C Create Flow - Create an App Step 3][img49]
 
 You will need the Application ID and App Key (which you copied earlier) later
-on.  The next step is to create a Sign-up policy.  We'll create a policy for
-signing up with an email address and email confirmation:
+on.  The next step is to create a Sign-in/Sign-up policy.  We'll create a policy for
+signing up with an email address and email confirmation, then signing in with
+that email address:
 
-* In the **Settings** blade, click on **Sign-up policies**.
+* In the **Settings** blade, click on **Sign-up or sign-in policies**.
 * Click on the **+ Add** button.
 * Give the policy a name, like **emailPolicy**.
 * Click on **Identity providers**:
@@ -1769,9 +1770,9 @@ signing up with an email address and email confirmation:
   - Click on **Email Addresses** and any other fields you want to provide to
     the application.
   - Click on **OK**
-* Click on **OK** on the **Add policy** blade.
-* Click on the policy you just created.  Make a note of the **Metadata Endpoint
-  for this policy**.
+* Click on **Create** on the **Add policy** blade.
+* Click on the policy you just created.  It will be named something like _B2C_1_emailPolicy_.
+  Make a note of the **Metadata Endpoint for this policy**.
 
   ![AAD B2C Create Flow - Create a Policy][img50]
 
@@ -1795,9 +1796,14 @@ browser to `https://yoursite.azurewebsites.net/.auth/login/aad`:
 ![AAD B2C Login Flow][img52]
 
 If you have done everything right, you should be able to register an account,
-get the email verification code, and finally log in. to get the happy login
-page.  All that is left to do is to configure your app for Azure Active
-Directory Server Flow.
+get the email verification code, and finally log in to get the happy login
+page. 
+
+![AAD B2C Sign Up Flow][img53]
+
+All that is left to do is to configure your app for Azure Active Directory 
+Server Flow.  We did that earlier when discussing the Enterprise Authentication
+flow for the mobile client.
 
 #### Drawbacks of Azure Active Directory B2C
 
@@ -1886,6 +1892,7 @@ the client to support that.
 [img50]: img/ch2/aad-b2c-7.PNG
 [img51]: img/ch2/aad-b2c-8.PNG
 [img52]: img/ch2/aad-b2c-9.PNG
+[img53]: img/ch2/aad-b2c-10.PNG
 
 [int-intro]: firstapp_pc.md
 [int-entauth]: #enterpriseauth
