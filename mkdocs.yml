@@ -19,5 +19,6 @@ pages:
 - Xamarin Forms Tips: xamarin_tips.md
 - Android Developer Notes: android_appendix.md
 - References: references.md
+- Credits: credits.md
 theme: readthedocs
 extra_css: [extra.css]
