@@ -1275,13 +1275,13 @@ The `LoginAsync()` method can now be updated like this:
 
             // Server Flow
             //await client.LoginAsync(RootView, "aad");
-        } 
+        }
 
         public UIViewController RootView => UIApplication.SharedApplication.KeyWindow.RootViewController;
 ```
 
 With this version, clicking on the login button will seamlessly switch into the Facebook application and ask the
-user to confirm the request, before switching back authenticated.  
+user to confirm the request, before switching back authenticated.
 
 ## Custom Authentication
 
@@ -1680,7 +1680,7 @@ write by using services or libraries.   The whole sign-in and sign-up process is
 needed for building the sign-in / sign-up process is boiler-plate code.  It also introduces problems that I
 have to deal with going forward.  I have to store passwords and profile information, which introduces a
 security concern.  I have to scale the database and ensure my app scales with it as my app gets popular.
-Finally, I am being fairly inflexible and causing potential privacy concerns with my users.  
+Finally, I am being fairly inflexible and causing potential privacy concerns with my users.
 
 There are a couple of services that I can use to get around these concerns.  The first is an Azure service:
 [Azure Active Directory B2C][24].  The B2C stands for Business to Consumer.  It is a mechanism by which you
@@ -1778,14 +1778,14 @@ that email address:
 
 Now that your B2C tenant is configured, you can switch back to your original
 tenant (by clicking on your name in the top-right corner and selecting the
-default directory).  
+default directory).
 
 To configure the App Service **Authentication / Authorization**.  Open up the
 **Settings** blade, then **Authentication / Authorization**.  Ensure the
-authentication service is turned on.  Click on **Azure Active Directory**.  
-This time, we are going to select the **Advanced** option.  The **Client ID**
-is the application ID of your B2C application registration, and the **Issuer Url**
-is the **Metadata Endpoint** for your sign-up policy:
+authentication service is turned on.  Click on **Azure Active Directory**. This time,
+we are going to select the **Advanced** option.  The **Client ID** is the application
+ID of your B2C application registration, and the **Issuer Url** is the
+**Metadata Endpoint** for your sign-up policy:
 
 ![AAD B2C Create Flow - Configure EasyAuth][img51]
 
@@ -1797,11 +1797,11 @@ browser to `https://yoursite.azurewebsites.net/.auth/login/aad`:
 
 If you have done everything right, you should be able to register an account,
 get the email verification code, and finally log in to get the happy login
-page. 
+page.
 
 ![AAD B2C Sign Up Flow][img53]
 
-All that is left to do is to configure your app for Azure Active Directory 
+All that is left to do is to configure your app for Azure Active Directory
 Server Flow.  We did that earlier when discussing the Enterprise Authentication
 flow for the mobile client.
 
@@ -1809,7 +1809,7 @@ flow for the mobile client.
 
 Azure AD B2C is great for storing your users passwords and doing the sign-up
 and sign-in process for you.  There are a couple of reasons why you wouldn't
-want to use Azure Active Directory B2C.  
+want to use Azure Active Directory B2C.
 
 The most obvious one is that this is a server-flow capability.  That means
 you won't be able to, for example, integrate the Facebook, Google and Twitter
