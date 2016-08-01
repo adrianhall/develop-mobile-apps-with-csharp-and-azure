@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Xamarin Forms Tips - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  <link href="../extra.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Xamarin Forms Tips";
+    var mkdocs_page_input_path = "xamarin_tips.md";
+    var mkdocs_page_url = "/xamarin_tips/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Introduction</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../firstapp_pc/">Building a Mobile App on Windows</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../firstapp_mac/">Building a Mobile App on a Mac</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../authentication/">Authentication</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../data/">Data Access and Offline Sync</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../authdata/">Authenticated Data Access</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../files/">File Management</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../push/">Push Notifications</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../custom/">Server Side Code</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../media/">Media Services</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../search/">Leveraging Search</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../combined/">Web and Mobile Apps</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../developing/">The Development Environment</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../testing/">Testing your Application</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../troubleshooting/">Troubleshooting</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../production/">Going to Production</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Xamarin Forms Tips</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#xamarin-forms-tips">Xamarin Forms Tips</a></li>
+                
+                    <li><a class="toctree-l4" href="#improve-your-listview-performance">Improve your ListView performance</a></li>
+                
+                    <li><a class="toctree-l4" href="#building-a-floating-action-button">Building a Floating Action Button</a></li>
+                
+                    <li><a class="toctree-l4" href="#installing-nuget-packages-in-multiple-projects">Installing NuGet Packages in Multiple Projects</a></li>
+                
+                    <li><a class="toctree-l4" href="#auto-deploy-universal-windows-apps">Auto-Deploy Universal Windows Apps</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../android_appendix/">Android Developer Notes</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../references/">References</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../credits/">Credits</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Xamarin Forms Tips</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="xamarin-forms-tips">Xamarin Forms Tips</h1>
+<p>Over the many months I have spent coding Xamarin Forms, a number of people
+from the community and the Xamarin team have given me little tips to improve
+my Xamarin Forms code.  I hope you find them as useful as I did.</p>
+<h2 id="improve-your-listview-performance">Improve your ListView performance</h2>
+<p>It should be no surprise that performance matters.  Little things like smooth
+scrolling and fast load times are a must.  A lot of improvement can be gained
+by the techniques we have shown in this book since most of the perceived delays
+are caused by the back end loading times.</p>
+<p>Eventually, a lot of apps generate a list.  The normal way for implementing
+this is with a <code>ListView</code> that has an <code>ObservableCollection</code>  You load your
+data into the ObservableCollection and then update that whenever the data
+changes.  That, in turn, updates the ListView.</p>
+<p>There are two problems that are inherent here.  The first is in the ObservableCollection
+and the second is in the ListView.  Let's tackle the ObservableCollection first.</p>
+<p>The problem with the ObservableCollection is that it's very hard to update.
+What normally ends up happening is code like this:</p>
+<pre><code class="csharp">// Earlier in the code
+var listContents = new ObservableCollection&lt;Model&gt;();
+
+// When updating the code
+var items = await table.ReadAllItemsAsync();
+listContents.Clear();
+for (var item in items) {
+    listContents.Add(item);
+}
+</code></pre>
+
+<p>The point of the ObservableCollection is that it emits an event whenever the
+list changes.  In the case where the table has thousands of entries, thousands
+of events will cause thousands of redraws, causing a major slow down in your
+code that you probably won't know until you have a large enough data set to
+note the problem.</p>
+<p>Fortunately, one of the top Xamarin Evangelists, <a href="https://github.com/jamesmontemagno">James Montemagno</a>, has
+created a set of helper classes that assist with this sort of problem.  The
+solution to this problem is to use the <a href="https://github.com/jamesmontemagno/mvvm-helpers/blob/35f0ddd7e739eb5daed3c90cae1334d3e674229b/MvvmHelpers/ObservableRangeCollection.cs">ObservableRangeCollection</a>, like
+this:</p>
+<pre><code class="csharp">// Earlier in the code
+var listContents = new ObservableRangeCollection&lt;Model&gt;();
+
+// When updating the code
+var items = await table.ReadAllItemsAsync();
+listContents.ReplaceRange(items);
+</code></pre>
+
+<p>With this code, Xamarin Forms gets notified once instead of thousands of times.
+There are actually several versions of this same behavior in the NuGet repository.</p>
+<p>As to the second problem.  A <code>ListView</code> with thousands of items will not be
+showing all the items at once.  A ListView will update all the items that have
+been updated, irrespective of whether they are visible or not.  The answer is
+to use a caching strategy.  There are two potential caching strategies.  with
+<code>RetainElement</code>, the ListView will generate a cell for each item in the list.
+This is the default, but it's really only good for certain situations (most
+notably when the cell has a large number of bindings).  For almost all situations,
+the <code>RecycleElement</code> caching strategy should be used.  In this caching strategy,
+the ListView will minimize the memory foot print and execution speed by only
+updating cells when they are in the viewable area.  This is good pretty much
+all the time, but explicitly when the cell has a small number of bindings or
+when each cell in the list has the same template.  All data about the cell must
+come from the binding context when using the <code>RecycleElement</code> caching strategy.</p>
+<p>You can set the caching strategy right in the XAML:</p>
+<pre><code class="xml">&lt;ListView CachingStrategy=&quot;RecycleElement&quot; ...&gt;
+</code></pre>
+
+<p>Alternatively, if you are creating a ListView in code, you can specify the
+caching strategy in the constructor:</p>
+<pre><code class="csharp">var listView = new ListView(ListViewCachingStrategy.RecycleElement);
+</code></pre>
+
+<p>There are more techniques for improving ListView performance in the
+<a href="https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/performance/">Xamarin documentation</a></p>
+<h2 id="building-a-floating-action-button">Building a Floating Action Button</h2>
+<p>One of the things that I wanted to do to my apps was to give them a little more in the
+way of normal UI design.  My original design (which I introduced back in [Chapter ][ch1])
+had teal buttons at the bottom of the page.  These buttons scrolled off the page when
+there were more items on the page than could reasonably be fit on the page.  To fix this,
+I wanted to create a button that was always relative to the viewport.</p>
+<p>There are two steps to this.  Firstly, you need to convert the layout to a <code>RelativeLayout</code>.
+For instance, my new <code>ListView.xaml</code> file:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;ContentPage x:Class=&quot;TaskList.Pages.TaskList&quot;
+             xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+             Title=&quot;{Binding Title}&quot;&gt;
+    &lt;ContentPage.Content&gt;
+        &lt;RelativeLayout&gt;
+            &lt;StackLayout RelativeLayout.HeightConstraint=&quot;{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}&quot;
+                         RelativeLayout.WidthConstraint=&quot;{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}&quot;&gt;
+</code></pre>
+
+<p>The original <code>StackLayout</code> layout renderer is placed inside the newly added <code>RelativeLayout</code>.
+The height and width constraints tell the StackLayout to consume the whole screen.</p>
+<p>At the bottom of the page, I can add my button:</p>
+<pre><code class="xml">            &lt;/StackLayout&gt;
+
+            &lt;!--  The Floating Button  --&gt;
+            &lt;Button BackgroundColor=&quot;Teal&quot;
+                    Command=&quot;{Binding AddNewItemCommand}&quot;
+                    RelativeLayout.XConstraint=&quot;{ConstraintExpression Type=RelativeToParent,
+                                                                      Property=Width,
+                                                                      Factor=1,
+                                                                      Constant=-60}&quot;
+                    RelativeLayout.YConstraint=&quot;{ConstraintExpression Type=RelativeToParent,
+                                                                      Property=Height,
+                                                                      Factor=1,
+                                                                      Constant=-60}&quot;
+                    Text=&quot;+&quot;
+                    TextColor=&quot;White&quot; /&gt;
+        &lt;/RelativeLayout&gt;
+    &lt;/ContentPage.Content&gt;
+&lt;/ContentPage&gt;
+</code></pre>
+
+<p>The <code>StackLayout</code> is the end of the StackLayout I introduced in the previous listing.  Now
+I can add a button (or any other View type control, including a custom control that I may
+have downloaded from NuGet or the Xamarin Plugins site) as well.  The button will float
+above the other content since it is added later.  The constraints in this case provide
+the location of the button.</p>
+<p>There is more work to do.  For instance, you cannot click on the thing behind the button -
+the button always receives the click, which will (in this case) initiate the addition of
+a new item.  A custom control will allow you to provide iconography for the button, handle
+situations where you want to scroll behind and provide for the circular styling of the button
+which seems to be in-vogue right now.</p>
+<p>If you want to place commands that are not normally used, you may want to consider the ToolbarItem
+area of the ContentPage.  Here is a snippet:</p>
+<pre><code class="xml">    &lt;ContentPage.ToolbarItems&gt;
+        &lt;ToolbarItem Name=&quot;Refresh&quot;
+                     Command=&quot;{Binding RefreshCommand}&quot;
+                     Icon=&quot;refresh.png&quot;
+                     Order=&quot;Primary&quot;
+                     Priority=&quot;0&quot; /&gt;
+    &lt;/ContentPage.ToolbarItems&gt;
+</code></pre>
+
+<p>On Universal Windows (where this is actually important due to a lack of "pull-to-refresh" logic), you
+will see the familiar triple-dot on the app bar - clicking on the triple dot gives you access to
+the refresh command.</p>
+<h2 id="installing-nuget-packages-in-multiple-projects">Installing NuGet Packages in Multiple Projects</h2>
+<p>One of the common requirements we have in Xamarin Forms is to install NuGet packages
+in all the Xamarin Forms projects.  To do this, right-click on the solution and select
+<strong>Manage NuGet Packages for Solution...</strong>.  When you install a package here, you can
+select which projects it should be applied to, allowing you to install a package once
+across all the dependent projects.</p>
+<h2 id="auto-deploy-universal-windows-apps">Auto-Deploy Universal Windows Apps</h2>
+<p>One of the more annoying things is that you have to <strong>Deploy</strong> the Universal Windows app.
+This gets in the way of the build process.  I like to build then run.  Having the extra
+Deploy step in there might not seem like much until you find yourself deploying several
+times an hour.</p>
+<p>Fortunately, there is a simple fix for this.  Set up the <strong>Configuration Manager</strong> to
+automatically deploy the right libraries on every successful build.  To do this:</p>
+<ul>
+<li>In Visual Studio, select <strong>Build</strong> -&gt; <strong>Configuration Manager...</strong></li>
+<li>Check the boxes you can under <strong>Deploy</strong></li>
+</ul>
+<p><img alt="Visual Studio Configuration Manager" src="../img/tips/vs-config-mgr.PNG" /></p>
+<ul>
+<li>Click on <strong>Close</strong></li>
+</ul>
+<p>This setting is saved within the solution, so you only need to do it once per project.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../android_appendix/" class="btn btn-neutral float-right" title="Android Developer Notes">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../production/" class="btn btn-neutral" title="Going to Production"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../production/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../android_appendix/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
