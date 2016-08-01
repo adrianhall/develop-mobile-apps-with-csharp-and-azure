@@ -55,6 +55,7 @@ listContents.ReplaceRange(items);
 ```
 
 With this code, Xamarin Forms gets notified once instead of thousands of times.
+There are actually several versions of this same behavior in the NuGet repository.
 
 As to the second problem.  A `ListView` with thousands of items will not be
 showing all the items at once.  A ListView will update all the items that have

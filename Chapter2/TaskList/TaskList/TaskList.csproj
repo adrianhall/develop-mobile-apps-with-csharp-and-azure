@@ -42,6 +42,7 @@
     <Compile Include="Abstractions\TableData.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Helpers\Locations.cs" />
+    <Compile Include="Helpers\ObservableRangeCollection.cs" />
     <Compile Include="Helpers\ServiceLocator.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Models\User.cs" />
@@ -71,6 +72,7 @@
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Net.Http.Extensions, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net45+win8+wpa81\System.Net.Http.Extensions.dll</HintPath>
       <Private>True</Private>

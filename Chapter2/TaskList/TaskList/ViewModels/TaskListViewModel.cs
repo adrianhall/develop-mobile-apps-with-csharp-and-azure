@@ -36,8 +36,8 @@ namespace TaskList.ViewModels
             Debug.WriteLine("[TaskList] OnCollectionChanged: Items have changed");
         }
 
-        ObservableCollection<TodoItem> items = new ObservableCollection<TodoItem>();
-        public ObservableCollection<TodoItem> Items
+        ObservableRangeCollection<TodoItem> items = new ObservableRangeCollection<TodoItem>();
+        public ObservableRangeCollection<TodoItem> Items
         {
             get { return items; }
             set { SetProperty(ref items, value, "Items"); }
@@ -67,9 +67,7 @@ namespace TaskList.ViewModels
             try
             {
                 var list = await Table.ReadAllItemsAsync();
-                Items.Clear();
-                foreach (var item in list)
-                    Items.Add(item);
+                Items.ReplaceRange(list);
             }
             catch (Exception ex)
             {
