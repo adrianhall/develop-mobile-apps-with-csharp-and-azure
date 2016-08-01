@@ -1224,6 +1224,65 @@ automatically switch to the Facebook app and ask you to approve the authenticati
 authenticating the user through a web view.  Both of these provide a more integrated experience for the end
 user, so this work is well worth pursuing.
 
+As an example, here is an implementation of the Facebook authentication using client flow.  I've implemented
+this using the `Xamarin.Facebook.iOS` library, which can be downloaded and installed into the iOS project
+from NuGet.  The `Services\iOSLoginProvider.cs` contains the following:
+
+```csharp
+        #region Facebook Client Flow
+        private TaskCompletionSource<string> fbtcs;
+
+        public async Task<string> LoginFacebookAsync()
+        {
+            fbtcs = new TaskCompletionSource<string>();
+            var loginManager = new LoginManager();
+
+            loginManager.LogInWithReadPermissions(new[] { "public_profile" }, RootView, LoginTokenHandler);
+            return await fbtcs.Task;
+        }
+
+        private void LoginTokenHandler(LoginManagerLoginResult loginResult, NSError error)
+        {
+            if (loginResult.Token != null)
+            {
+                fbtcs.TrySetResult(loginResult.Token.TokenString);
+            }
+            else
+            {
+                fbtcs.TrySetException(new Exception("Facebook Client Flow Login Failed"));
+            }
+        }
+```
+
+Note the use of a `TaskCompletionSource<>()` here.  This is used often to convert callback APIs into
+awaitable APIs.  We set off the async call with the callback, then await on the completion (which is
+signified by the `TaskCompletionSource`).  When the callback is called, it sets the value of the
+`TaskCompletionSource` (or causes an exception) and that causes the task to complete.
+
+The `LoginAsync()` method can now be updated like this:
+
+```csharp
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            //var accessToken = await LoginADALAsync();
+            var accessToken = await LoginFacebookAsync();
+
+            var zumoPayload = new JObject();
+            zumoPayload["access_token"] = accessToken;
+            // await client.LoginAsync("aad", zumoPayload);
+            await client.LoginAsync("facebook", zumoPayload);
+
+            // Server Flow
+            //await client.LoginAsync(RootView, "aad");
+        } 
+
+        public UIViewController RootView => UIApplication.SharedApplication.KeyWindow.RootViewController;
+```
+
+With this version, clicking on the login button will seamlessly switch into the Facebook application and ask the
+user to confirm the request, before switching back authenticated.  
+
 ## Custom Authentication
 
 For some situations, the social or enterprise flows are not valid for the mobile client.  Perhaps you want

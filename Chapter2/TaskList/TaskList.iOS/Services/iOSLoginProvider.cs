@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Facebook.LoginKit;
+using Foundation;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
@@ -14,11 +16,29 @@ namespace TaskList.iOS.Services
 {
     public class iOSLoginProvider : ILoginProvider
     {
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            var accessToken = await LoginADALAsync();
+            // var accessToken = await LoginFacebookAsync();
+
+            var zumoPayload = new JObject();
+            zumoPayload["access_token"] = accessToken;
+            await client.LoginAsync("aad", zumoPayload);
+            // await clinet.LoginAsync("facebook", zumoPayload);
+
+            // Server Flow
+            //await client.LoginAsync(RootView, "aad");
+        }
+
+        public UIViewController RootView => UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+        #region Azure AD Client Flow
         /// <summary>
         /// Login via ADAL
         /// </summary>
         /// <returns>(async) token from the ADAL process</returns>
-        public async Task<string> LoginADALAsync(UIViewController view)
+        public async Task<string> LoginADALAsync()
         {
             Uri returnUri = new Uri(Locations.AadRedirectUri);
 
@@ -31,22 +51,33 @@ namespace TaskList.iOS.Services
                 Locations.AppServiceUrl, /* The resource we want to access  */
                 Locations.AadClientId,   /* The Client ID of the Native App */
                 returnUri,               /* The Return URI we configured    */
-                new PlatformParameters(view));
+                new PlatformParameters(RootView));
             return authResult.AccessToken;
         }
+        #endregion
 
-        public async Task LoginAsync(MobileServiceClient client)
+        #region Facebook Client Flow
+        private TaskCompletionSource<string> fbtcs;
+
+        public async Task<string> LoginFacebookAsync()
         {
-            var rootView = UIApplication.SharedApplication.KeyWindow.RootViewController;
+            fbtcs = new TaskCompletionSource<string>();
+            var loginManager = new LoginManager();
 
-            // Client Flow
-            var accessToken = await LoginADALAsync(rootView);
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            await client.LoginAsync("aad", zumoPayload);
+            loginManager.LogInWithReadPermissions(new[] { "public_profile" }, RootView, LoginTokenHandler);
+            return await fbtcs.Task;
+        }
 
-            // Server Flow
-            //await client.LoginAsync(rootView, "aad");
+        private void LoginTokenHandler(LoginManagerLoginResult loginResult, NSError error)
+        {
+            if (loginResult.Token != null)
+            {
+                fbtcs.TrySetResult(loginResult.Token.TokenString);
+            }
+            else
+            {
+                fbtcs.TrySetException(new Exception("Facebook Client Flow Login Failed"));
+            }
         }
     }
 }
