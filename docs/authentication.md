@@ -92,7 +92,7 @@ provider.
 
 Adding authentication to an Azure Mobile Apps backend is made easier because
 Azure Mobile Apps adds authentication using the default ASP.NET identity
-framework.  However, you must add the authentication initialization code to
+framework.  However, you should add the authentication initialization code to
 your `Startup.MobileApp.cs` file:
 
 ```csharp
@@ -126,12 +126,16 @@ public static void ConfigureMobileApp(IAppBuilder app)
 }
 ```
 
-Authentication is done at one of two levels.  We can add
-authentication to an entire table controller by adding the `[Authorize]`
-attribute to the table controller.  We can also add authentication on
-individual operations by adding the `[Authorize]` attribute to individual
-methods within the table controller. For example, here is our table controller
-from the first chapter with authentication required for all operations:
+The additional code allows you to submit tokens that are signed by the Azure App Service when 
+you are debugging your code locally.  It is optional if you are always going to be running your
+code in the cloud.
+
+Authentication is done by the App Service.  Authorization (which is the determination of whether
+an authenticated user can use a specific API) happens at one of two levels.  We can add
+authorization to an entire table controller by adding the `[Authorize]` attribute to the table 
+controller.  We can also add authorization on individual operations by adding the `[Authorize]` 
+attribute to individual methods within the table controller. For example, here is our table controller
+from the first chapter with authorization required for all operations:
 
 ```csharp
 using System.Linq;
@@ -177,8 +181,7 @@ namespace Backend.Controllers
 }
 ```
 
-We could also have a version where reading was possible anonymously but
-updating the database required authentication:
+We could also have a version where reading was possible anonymously but updating the database required authentication:
 
 ```csharp
 using System.Linq;
