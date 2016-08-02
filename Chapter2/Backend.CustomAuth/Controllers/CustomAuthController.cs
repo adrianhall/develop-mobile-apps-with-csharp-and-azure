@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Web.Http;
 using Backend.CustomAuth.Models;
 using Microsoft.Azure.Mobile.Server.Login;
-using Newtonsoft.Json;
 
 namespace Backend.CustomAuth.Controllers
 {
@@ -64,20 +63,5 @@ namespace Backend.CustomAuth.Controllers
         {
             return db.Users.Count(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password)) > 0;
         }
-    }
-
-    public class LoginResult
-    {
-        [JsonProperty(PropertyName = "authenticationToken")]
-        public string AuthenticationToken { get; set; }
-
-        [JsonProperty(PropertyName = "user")]
-        public LoginResultUser User { get; set; }
-    }
-
-    public class LoginResultUser
-    {
-        [JsonProperty(PropertyName = "userId")]
-        public string UserId { get; set; }
     }
 }

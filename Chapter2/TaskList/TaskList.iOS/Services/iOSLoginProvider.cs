@@ -19,16 +19,18 @@ namespace TaskList.iOS.Services
         public async Task LoginAsync(MobileServiceClient client)
         {
             // Client Flow
-            var accessToken = await LoginADALAsync();
+            // var accessToken = await LoginADALAsync();
             // var accessToken = await LoginFacebookAsync();
+            var accessToken = await LoginAuth0Async();
 
             var zumoPayload = new JObject();
             zumoPayload["access_token"] = accessToken;
-            await client.LoginAsync("aad", zumoPayload);
+            // await client.LoginAsync("aad", zumoPayload);
             // await client.LoginAsync("facebook", zumoPayload);
+            await client.LoginAsync("auth0", zumoPayload);
 
             // Server Flow
-            //await client.LoginAsync(RootView, "aad");
+            // await client.LoginAsync(RootView, "aad");
         }
 
         public UIViewController RootView => UIApplication.SharedApplication.KeyWindow.RootViewController;
@@ -79,5 +81,17 @@ namespace TaskList.iOS.Services
                 fbtcs.TrySetException(new Exception("Facebook Client Flow Login Failed"));
             }
         }
+        #endregion
+
+        #region Auth0 Client Flow
+        public async Task<string> LoginAuth0Async()
+        {
+            var auth0 = new Auth0.SDK.Auth0Client(
+                "shellmonger.auth0.com",
+                "lmFp5jXnwPpD9lQIYwgwwPmFeofuLpYq");
+            var user = await auth0.LoginAsync(RootView, scope: "openid email name");
+            return user.IdToken;
+        }
+        #endregion
     }
 }

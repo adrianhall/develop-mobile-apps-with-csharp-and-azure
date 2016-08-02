@@ -26,6 +26,7 @@ namespace TaskList.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::Auth0.SDK.Resource.String.library_name = global::TaskList.Droid.Resource.String.library_name;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Id.agentWebView = global::TaskList.Droid.Resource.Id.agentWebView;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Layout.WebAuthenticationBroker = global::TaskList.Droid.Resource.Layout.WebAuthenticationBroker;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
@@ -3005,6 +3006,9 @@ namespace TaskList.Droid
 			
 			// aapt resource value: 0x7f080025
 			public const int character_counter_pattern = 2131230757;
+			
+			// aapt resource value: 0x7f080027
+			public const int library_name = 2131230759;
 			
 			// aapt resource value: 0x7f080000
 			public const int mr_button_content_description = 2131230720;

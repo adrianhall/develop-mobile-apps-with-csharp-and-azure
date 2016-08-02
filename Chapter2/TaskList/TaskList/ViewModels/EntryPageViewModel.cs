@@ -30,7 +30,8 @@ namespace TaskList.ViewModels
             try
             {
                 var cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
-                await cloudService.LoginAsync(User);
+                //await cloudService.LoginAsync(User);
+                await cloudService.LoginAsync();
                 Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
             }
             catch (Exception ex)
