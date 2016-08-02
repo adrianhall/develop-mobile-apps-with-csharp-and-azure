@@ -1879,7 +1879,181 @@ way to go.  If, however, your plans include integration with other social
 identity providers, you should consider whether you want to do more work on
 the client to support that.</p>
 <h3 id="using-third-party-tokens">Using Third Party Tokens</h3>
+<p>The final method of authenticating a user we are going to look at is a process
+by which you use a third party authentication token.   For example, you may want
+to authenticate via <a href="https://developer.github.com/v3/oauth/">GitHub</a> or <a href="http://www.miicard.com/for/individuals/how-it-works">miiCard</a> or using an authentication provider
+like <a href="https://www.auth0.com/">Auth0</a> to get some single sign-in capabilities.</p>
+<p>Authentication with third party tokens works remarkably similar to the custom
+authentication case.  Instead of a username and password, you pass in the token
+from the other provider.</p>
+<p>To look at this in example form, we are going to implement Auth0 as a provider. Your
+first stop should be the <a href="https://www.auth0.com/">Auth0</a> web site to sign up for a developer account.
+Once you have done that:</p>
+<ul>
+<li>Click on the <strong>+ NEW CLIENT</strong> button in the <strong>Dashboard</strong>.</li>
+<li>Give your app a name, then click on <strong>Native</strong> and then <strong>CREATE</strong>.</li>
+</ul>
+<p><img alt="Auth0 Create Flow - Step 1" src="../img/ch2/auth0-create-1.PNG" /></p>
+<ul>
+<li>Click on the <strong>Xamarin</strong> icon to get the Xamarin Quickstart.</li>
+<li>Click on <strong>Settings</strong>.</li>
+<li>Enter the callback URL in the <strong>Allowed Callback URLs</strong>.  The callback URL will be something
+  like <code>https://_youraccount_.auth0.com/mobile</code> and will be listed in the Quickstart page.</li>
+<li>Scroll down to the bottom of the page and click on <strong>SAVE CHANGES</strong>.</li>
+<li>Make a note of the Client ID of the application.  You will need it later.</li>
+<li>Click on <strong>Connections</strong>.</li>
+<li>Turn on any connections that you want to use.  For this example, ensure you turn on
+  The <strong>Username-Password-Authentication</strong> and a couple of social providers.</li>
+</ul>
+<p>Now that the Auth0 service is configured, we can turn our attention to the mobile
+client.  The Xamarin.Auth0Client is a component, so right-click on the <strong>Components</strong>
+node of a platform project and select <strong>Get More Components...</strong>.  In the dialog,
+find the <strong>Auth0 SDK</strong>, then click on <strong>Add to App</strong>.</p>
+<p>For our iOS application, we are going to integrate Auth0 into the <code>Services\iOSLoginProvider.cs</code>:</p>
+<pre><code class="csharp">        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            var accessToken = await LoginAuth0Async();
+
+            var zumoPayload = new JObject();
+            zumoPayload[&quot;access_token&quot;] = accessToken;
+            await client.LoginAsync(&quot;auth0&quot;, zumoPayload);
+        }
+
+        public UIViewController RootView =&gt; UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+        public async Task&lt;string&gt; LoginAuth0Async()
+        {
+            var auth0 = new Auth0.SDK.Auth0Client(
+                &quot;shellmonger.auth0.com&quot;,
+                &quot;lmFp5jXnwPpD9lQIYwgwwPmFeofuLpYq&quot;);
+            var user = await auth0.LoginAsync(RootView, scope: &quot;openid email&quot;);
+            return user.Auth0AccessToken;
+        }
+</code></pre>
+
+<p>The parameters for the constructor to the <code>Auth0Client</code> are your Auth0 domain and client ID.  You can
+retrieve these from the Auth0 management page for your app.  Note that I am requesting the email
+address.  This will become a part of my ZUMO token when I create it.</p>
+<p>Switching our attention to our <code>Backend.CustomAuth</code> project, we need a new custom authentication
+controller.  This is located in <code>Controllers\Auth0Controller.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.Diagnostics;
+using System.IdentityModel.Tokens;
+using System.Linq;
+using System.Security.Claims;
+using System.Web.Http;
+using Backend.CustomAuth.Models;
+using Microsoft.Azure.Mobile.Server.Login;
+
+namespace Backend.CustomAuth.Controllers
+{
+    [Route(&quot;.auth/login/auth0&quot;)]
+    public class Auth0Controller : ApiController
+    {
+        private JwtSecurityTokenHandler tokenHandler;
+        private string clientID, domain;
+        private string signingKey, audience, issuer;
+
+        public Auth0Controller()
+        {
+            // Information for the incoming Auth0 Token
+            domain = Environment.GetEnvironmentVariable(&quot;AUTH0_DOMAIN&quot;);
+            clientID = Environment.GetEnvironmentVariable(&quot;AUTH0_CLIENTID&quot;);
+
+            // Information for the outgoing ZUMO Token
+            signingKey = Environment.GetEnvironmentVariable(&quot;WEBSITE_AUTH_SIGNING_KEY&quot;);
+            var website = Environment.GetEnvironmentVariable(&quot;WEBSITE_HOSTNAME&quot;);
+            audience = $&quot;https://{website}/&quot;;
+            issuer = $&quot;https://{website}/&quot;;
+
+            // Token Handler
+            tokenHandler = new JwtSecurityTokenHandler();
+        }
+
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] Auth0User body)
+        {
+            if (body == null || body.access_token == null || body.access_token.Length == 0)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var token = (JwtSecurityToken)tokenHandler.ReadToken(body.access_token);
+                if (!IsValidUser(token))
+                {
+                    return Unauthorized();
+                }
+
+                var subject = token.Claims.FirstOrDefault(c =&gt; c.Type.Equals(&quot;sub&quot;))?.Value;
+                var email = token.Claims.FirstOrDefault(c =&gt; c.Type.Equals(&quot;email&quot;))?.Value;
+                if (subject == null || email == null)
+                {
+                    return BadRequest();
+                }
+
+                var claims = new Claim[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, subject),
+                    new Claim(JwtRegisteredClaimNames.Email, email)
+                };
+
+                JwtSecurityToken zumoToken = AppServiceLoginHandler.CreateToken(
+                    claims, signingKey, audience, issuer, TimeSpan.FromDays(30));
+                return Ok(new LoginResult()
+                {
+                    AuthenticationToken = zumoToken.RawData,
+                    User = new LoginResultUser { UserId = email }
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;Auth0 JWT Exception = {ex.Message}&quot;);
+                throw ex;
+            }
+        }
+
+        private bool IsValidUser(JwtSecurityToken token)
+        {
+            if (token == null)
+                return false;
+            var audience = token.Audiences.FirstOrDefault();
+            if (!audience.Equals(clientID))
+                return false;
+            if (!token.Issuer.Equals($&quot;https://{domain}/&quot;))
+                return false;
+            if (token.ValidTo.AddMinutes(5) &lt; DateTime.Now)
+                return false;
+            return true;
+        }
+    }
+
+    public class Auth0User
+    {
+        public string access_token { get; set; }
+    }
+}
+</code></pre>
+
+<p>Note that we are reading two new environment variables.  In the Azure App Service, you can
+read Application Settings by reading the environment variable of the same name.  We need
+to set the <strong>AUTH0_CLIENTID</strong> to the Client ID of our Auth0 application, and the
+<strong>AUTH0_DOMAIN</strong> to the domain of our account.  Both of these values need to match the
+settings in the client.  These are not "secure items".  If using the client secret (to
+validate the token), then that would be considered secure and should only appear on the
+server side.</p>
+<p>The validation is that the token passed in is valid (i.e. it has the right audience, issuer
+and expiry times).  In addition, you should check the validity of the token signature.  You
+can do this by acquiring the token secret and using <code>tokenHandler.ValidateToken()</code> instead
+of <code>tokenHandler.ReadToken()</code>.  My new token lasts for 30 days.  The ZUMO token that is
+generated in custom authentication does not have to be the same length as the original token.
+You can make it last for as long as you like.</p>
 <h2 id="authorization">Authorization</h2>
+<p>Now that we have covered all the techniques for authentication, it's time to look at
+authorization.  While authentication looked at verifying that a user is who they say
+they are, authorization looks at if a user is allowed to do a specific operation.</p>
 <h2 id="refresh-tokens">Refresh Tokens</h2>
 <h3 id="configuring-refresh-tokens">Configuring Refresh Tokens</h3>
 <h3 id="using-refresh-tokens">Using Refresh Tokens</h3>
