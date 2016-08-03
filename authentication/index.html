@@ -92,6 +92,8 @@
                 
                     <li><a class="toctree-l4" href="#custom-authentication">Custom Authentication</a></li>
                 
+                    <li><a class="toctree-l4" href="#developing-locally">Developing Locally</a></li>
+                
                     <li><a class="toctree-l4" href="#authorization">Authorization</a></li>
                 
                     <li><a class="toctree-l4" href="#refresh-tokens">Refresh Tokens</a></li>
@@ -332,7 +334,7 @@ provider.</p>
 <h2 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend</h2>
 <p>Adding authentication to an Azure Mobile Apps backend is made easier because
 Azure Mobile Apps adds authentication using the default ASP.NET identity
-framework.  However, you must add the authentication initialization code to
+framework.  However, you should add the authentication initialization code to
 your <code>Startup.MobileApp.cs</code> file:</p>
 <pre><code class="csharp">public static void ConfigureMobileApp(IAppBuilder app)
 {
@@ -364,12 +366,15 @@ your <code>Startup.MobileApp.cs</code> file:</p>
 }
 </code></pre>
 
-<p>Authentication is done at one of two levels.  We can add
-authentication to an entire table controller by adding the <code>[Authorize]</code>
-attribute to the table controller.  We can also add authentication on
-individual operations by adding the <code>[Authorize]</code> attribute to individual
-methods within the table controller. For example, here is our table controller
-from the first chapter with authentication required for all operations:</p>
+<p>The additional code allows you to submit tokens that are signed by the Azure App Service when
+you are debugging your code locally.  It is optional if you are always going to be running your
+code in the cloud.</p>
+<p>Authentication is done by the App Service.  Authorization (which is the determination of whether
+an authenticated user can use a specific API) happens at one of two levels.  We can add
+authorization to an entire table controller by adding the <code>[Authorize]</code> attribute to the table
+controller.  We can also add authorization on individual operations by adding the <code>[Authorize]</code>
+attribute to individual methods within the table controller. For example, here is our table controller
+from the first chapter with authorization required for all operations:</p>
 <pre><code class="csharp">using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -413,8 +418,7 @@ namespace Backend.Controllers
 }
 </code></pre>
 
-<p>We could also have a version where reading was possible anonymously but
-updating the database required authentication:</p>
+<p>We could also have a version where reading was possible anonymously but updating the database required authentication:</p>
 <pre><code class="csharp">using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -2050,6 +2054,139 @@ can do this by acquiring the token secret and using <code>tokenHandler.ValidateT
 of <code>tokenHandler.ReadToken()</code>.  My new token lasts for 30 days.  The ZUMO token that is
 generated in custom authentication does not have to be the same length as the original token.
 You can make it last for as long as you like.</p>
+<h2 id="developing-locally">Developing Locally</h2>
+<p>One would normally be able to run the ASP.NET backend locally and get full functionality
+without authentication.  However, authentication puts a stop to that because the redirect
+URLs, secrets and other authentication configuration settings only work with a known
+endpoint.  To alleviate that, Azure Mobile Apps allows you to run a local server while
+using an authentication endpoint in Azure App Service.  When the authentication transaction
+takes place, it is taking place against the Azure App Service.   When it is not doing
+the OAuth transaction, however, it is operating against a local server.</p>
+<p>Setting this up requires a little bit of local machine configuration and a change to
+the configuration of your client.</p>
+<h3 id="update-your-local-development-environment">Update your Local Development Environment</h3>
+<p>The first step in this process is to make your local IIS development environment look
+more like the Azure App Service, particularly in reference to the authentication settings.
+This means setting up a few app settings that should be pulled from your App Service.</p>
+<ul>
+<li>Log on to the <a href="https://portal.azure.com/">Azure Portal</a>.</li>
+<li>Select your App Service from the <strong>App Services</strong> list.</li>
+<li>Click on <strong>Tools</strong>, then <strong>Kudu</strong>, then <strong>Go</strong>.</li>
+</ul>
+<p>Kudu is the backend debug console for Azure App Service and there is a lot you can do
+here.  Of note in this instance is that you can gain access to the keys and audience
+for your App Service.</p>
+<ul>
+<li>Click on <strong>Environment</strong> in the top banner.</li>
+<li>Click on <strong>Environment variables</strong>.</li>
+<li>Scroll down to the environment variables starting with <strong>WEBSITE_AUTH</strong>.</li>
+<li>Make a note of the <strong>WEBSITE_AUTH_SIGNING_KEY</strong> and <strong>WEBSITE_AUTH_ALLOWED_AUDIENCES</strong> values.</li>
+</ul>
+<p>Add the following to your project Web.config <code>&lt;appSettings&gt;</code> section:</p>
+<pre><code class="xml">  &lt;appSettings&gt;
+    &lt;add key=&quot;PreserveLoginUrl&quot; value=&quot;true&quot; /&gt;
+    &lt;add key=&quot;MS_SigningKey&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;EMA_RuntimeUrl&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;MS_NotificationHubName&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;SigningKey&quot; value=&quot;{Your WEBSITE_AUTH_SIGNING_KEY}&quot;/&gt;
+    &lt;add key=&quot;ValidAudiences&quot; value=&quot;{Your WEBSITE_AUTH_ALLOWED_AUDIENCES}&quot;/&gt;
+    &lt;add key=&quot;ValidIssuer&quot; value=&quot;https://{Your WEBSITE_HOSTNAME}&quot;/&gt;
+  &lt;/appSettings&gt;
+</code></pre>
+
+<p>The last three keys are the keys you will need to add.  Make sure you do not have a <code>HostName</code> key
+as this is how the startup file determines if you are running locally or remote. Talking of whic,
+edit your <code>App_Start\Startup.MobileApp.cs</code> file to include the following:</p>
+<pre><code class="csharp">        public static void ConfigureMobileApp(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+
+            new MobileAppConfiguration()
+                .AddTablesWithEntityFramework()
+                .ApplyTo(config);
+
+            // Use Entity Framework Code First to create database tables based on your DbContext
+            Database.SetInitializer(new MobileServiceInitializer());
+
+            MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            if (string.IsNullOrEmpty(settings.HostName))
+            {
+                app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
+                {
+                    // This middleware is intended to be used locally for debugging. By default, HostName will
+                    // only have a value when running in an App Service application.
+                    SigningKey = ConfigurationManager.AppSettings[&quot;SigningKey&quot;],
+                    ValidAudiences = new[] { ConfigurationManager.AppSettings[&quot;ValidAudience&quot;] },
+                    ValidIssuers = new[] { ConfigurationManager.AppSettings[&quot;ValidIssuer&quot;] },
+                    TokenHandler = config.GetAppServiceTokenHandler()
+                });
+            }
+
+            app.UseWebApi(config);
+        }
+</code></pre>
+
+<p>The <code>UserAppServiceAuthentication()</code> method sets up authentication checking.  This section is not
+required when running within App Service.</p>
+<p>If you are running the server locally, you should either set up a local SQL Server instance and
+put the connection string into the <code>Web.config</code> file, or <a href="https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/">open the firewall on your SQL Azure</a>
+database so that your local development environment can connect to it, then place the connection
+string in the <code>Web.config</code>.  You can get the connection string of the SQL Azure instance by looking
+at the Connection Strings in the <strong>Application properties</strong> of your App Service.</p>
+<h3 id="update-your-mobile-client">Update your Mobile Client</h3>
+<p>For this demonstration, I have updated the <strong>TaskList.UWP</strong> application so that it is using the
+server-flow authentication for Azure Active Directory.  This means updating the <code>LoginAsync()</code>
+method in the <code>Services\UWPLoginProvider.cs</code> file to be the following:</p>
+<pre><code class="csharp">        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Server-Flow Version
+            await client.LoginAsync(&quot;aad&quot;);
+        }
+</code></pre>
+
+<p>This is because the default local IIS instance is IIS Express.  IIS Express only listens for local
+connections.  If you run a client from another device (for example, the Android emulator on a Hyper-V
+service or the iOS simulator on a Mac), then that client would be connecting via a network connection.
+You can still debug locally, but you need to <a href="https://github.com/Azure/azure-mobile-apps-net-server/wiki/Local-development-and-debugging-the-Mobile-App-.NET-server-backend">convert your environment to IIS</a> first.</p>
+<p>In the <strong>TaskList (Portable)</strong> project, update the <code>Helpers\Locations.cs</code> file:</p>
+<pre><code class="csharp">namespace TaskList.Helpers
+{
+    public static class Locations
+    {
+#if LOCAL_DEBUGGING
+        public static readonly string AppServiceUrl = &quot;http://localhost:17568/&quot;;
+        public static readonly string AlternateLoginHost = &quot;https://the-book.azurewebsites.net&quot;;
+#else
+        public static readonly string AppServiceUrl = &quot;https://the-book.azurewebsites.net&quot;;
+        public static readonly string AlternateLoginHost = null;
+#endif
+    }
+}
+</code></pre>
+
+<p>The <code>AppServiceUrl</code> is always set to the location of your backend.  In this case, I right-clicked on
+the <code>Backend</code> project and selected <strong>Properties</strong> then <strong>Web</strong>.  The correct URL for local debugging
+is listed in the <strong>Project URL</strong>.  The <code>AlternateLoginHost</code> is set to the App Service when locally
+debugging or null if not. You can specify the <code>LOCAL_DEBUGGING</code> constant in the <strong>Build</strong> tab.</p>
+<p>In the same project, update the <code>Services\AzureCloudService.cs</code> constructor to the following:</p>
+<pre><code class="csharp">        public AzureCloudService()
+        {
+            client = new MobileServiceClient(Locations.AppServiceUrl);
+            if (Locations.AlternateLoginHost != null)
+                client.AlternateLoginHost = new Uri(Locations.AlternateLoginHost);
+        }
+</code></pre>
+
+<p>With these settings, the client will contact the AlternateLoginHost listed for the authentication
+process and then contact the local server for the rest of the transaction.</p>
+<h3 id="run-the-local-server">Run the Local Server</h3>
+<p>Running the local server and the client takes a larger machine.  You need to run two instances of
+Visual Studio: one for the client and one for the server. This is really where you will appreciate
+multiple monitors (my personal favorite) or the snap action to the sides of the screens.</p>
+<p>Ensure you have your backend and clients in different solutions if you intend to run both client
+and server.  The debugger in Visual Studio will stop one to run the other when they are in the same
+solution.</p>
 <h2 id="authorization">Authorization</h2>
 <p>Now that we have covered all the techniques for authentication, it's time to look at
 authorization.  While authentication looked at verifying that a user is who they say
