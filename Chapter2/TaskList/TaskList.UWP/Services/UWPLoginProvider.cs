@@ -39,13 +39,13 @@ namespace TaskList.UWP.Services
         public async Task LoginAsync(MobileServiceClient client)
         {
             // Client Flow
-            var accessToken = await LoginADALAsync();
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            await client.LoginAsync("aad", zumoPayload);
+            //var accessToken = await LoginADALAsync();
+            //var zumoPayload = new JObject();
+            //zumoPayload["access_token"] = accessToken;
+            //await client.LoginAsync("aad", zumoPayload);
 
             // Server-Flow Version
-            // await client.LoginAsync("aad");
+            await client.LoginAsync("aad");
         }
     }
 }

@@ -126,14 +126,14 @@ public static void ConfigureMobileApp(IAppBuilder app)
 }
 ```
 
-The additional code allows you to submit tokens that are signed by the Azure App Service when 
+The additional code allows you to submit tokens that are signed by the Azure App Service when
 you are debugging your code locally.  It is optional if you are always going to be running your
 code in the cloud.
 
 Authentication is done by the App Service.  Authorization (which is the determination of whether
 an authenticated user can use a specific API) happens at one of two levels.  We can add
-authorization to an entire table controller by adding the `[Authorize]` attribute to the table 
-controller.  We can also add authorization on individual operations by adding the `[Authorize]` 
+authorization to an entire table controller by adding the `[Authorize]` attribute to the table
+controller.  We can also add authorization on individual operations by adding the `[Authorize]`
 attribute to individual methods within the table controller. For example, here is our table controller
 from the first chapter with authorization required for all operations:
 
@@ -2010,6 +2010,162 @@ of `tokenHandler.ReadToken()`.  My new token lasts for 30 days.  The ZUMO token 
 generated in custom authentication does not have to be the same length as the original token.
 You can make it last for as long as you like.
 
+## Developing Locally
+
+One would normally be able to run the ASP.NET backend locally and get full functionality
+without authentication.  However, authentication puts a stop to that because the redirect
+URLs, secrets and other authentication configuration settings only work with a known
+endpoint.  To alleviate that, Azure Mobile Apps allows you to run a local server while
+using an authentication endpoint in Azure App Service.  When the authentication transaction
+takes place, it is taking place against the Azure App Service.   When it is not doing
+the OAuth transaction, however, it is operating against a local server.
+
+Setting this up requires a little bit of local machine configuration and a change to
+the configuration of your client.
+
+### Update your Local Development Environment
+
+The first step in this process is to make your local IIS development environment look
+more like the Azure App Service, particularly in reference to the authentication settings.
+This means setting up a few app settings that should be pulled from your App Service.
+
+* Log on to the [Azure Portal][portal].
+* Select your App Service from the **App Services** list.
+* Click on **Tools**, then **Kudu**, then **Go**.
+
+Kudu is the backend debug console for Azure App Service and there is a lot you can do
+here.  Of note in this instance is that you can gain access to the keys and audience
+for your App Service.
+
+* Click on **Environment** in the top banner.
+* Click on **Environment variables**.
+* Scroll down to the environment variables starting with **WEBSITE\_AUTH**.
+* Make a note of the **WEBSITE\_AUTH\_SIGNING\_KEY** and **WEBSITE\_AUTH\_ALLOWED\_AUDIENCES** values.
+
+Add the following to your project Web.config `<appSettings>` section:
+
+```xml
+  <appSettings>
+    <add key="PreserveLoginUrl" value="true" />
+    <add key="MS_SigningKey" value="Overridden by portal settings" />
+    <add key="EMA_RuntimeUrl" value="Overridden by portal settings" />
+    <add key="MS_NotificationHubName" value="Overridden by portal settings" />
+    <add key="SigningKey" value="{Your WEBSITE_AUTH_SIGNING_KEY}"/>
+    <add key="ValidAudiences" value="{Your WEBSITE_AUTH_ALLOWED_AUDIENCES}"/>
+    <add key="ValidIssuer" value="https://{Your WEBSITE_HOSTNAME}"/>
+  </appSettings>
+```
+
+The last three keys are the keys you will need to add.  Make sure you do not have a `HostName` key
+as this is how the startup file determines if you are running locally or remote. Talking of whic,
+edit your `App_Start\Startup.MobileApp.cs` file to include the following:
+
+```csharp
+        public static void ConfigureMobileApp(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+
+            new MobileAppConfiguration()
+                .AddTablesWithEntityFramework()
+                .ApplyTo(config);
+
+            // Use Entity Framework Code First to create database tables based on your DbContext
+            Database.SetInitializer(new MobileServiceInitializer());
+
+            MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            if (string.IsNullOrEmpty(settings.HostName))
+            {
+                app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
+                {
+                    // This middleware is intended to be used locally for debugging. By default, HostName will
+                    // only have a value when running in an App Service application.
+                    SigningKey = ConfigurationManager.AppSettings["SigningKey"],
+                    ValidAudiences = new[] { ConfigurationManager.AppSettings["ValidAudience"] },
+                    ValidIssuers = new[] { ConfigurationManager.AppSettings["ValidIssuer"] },
+                    TokenHandler = config.GetAppServiceTokenHandler()
+                });
+            }
+
+            app.UseWebApi(config);
+        }
+```
+
+The `UserAppServiceAuthentication()` method sets up authentication checking.  This section is not
+required when running within App Service.
+
+If you are running the server locally, you should either set up a local SQL Server instance and
+put the connection string into the `Web.config` file, or [open the firewall on your SQL Azure][29]
+database so that your local development environment can connect to it, then place the connection
+string in the `Web.config`.  You can get the connection string of the SQL Azure instance by looking
+at the Connection Strings in the **Application properties** of your App Service.
+
+### Update your Mobile Client
+
+For this demonstration, I have updated the **TaskList.UWP** application so that it is using the
+server-flow authentication for Azure Active Directory.  This means updating the `LoginAsync()`
+method in the `Services\UWPLoginProvider.cs` file to be the following:
+
+```csharp
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Server-Flow Version
+            await client.LoginAsync("aad");
+        }
+```
+
+This is because the default local IIS instance is IIS Express.  IIS Express only listens for local
+connections.  If you run a client from another device (for example, the Android emulator on a Hyper-V
+service or the iOS simulator on a Mac), then that client would be connecting via a network connection.
+You can still debug locally, but you need to [convert your environment to IIS][28] first.
+
+In the **TaskList (Portable)** project, update the `Helpers\Locations.cs` file:
+
+```csharp
+namespace TaskList.Helpers
+{
+    public static class Locations
+    {
+#if LOCAL_DEBUGGING
+        public static readonly string AppServiceUrl = "http://localhost:17568/";
+        public static readonly string AlternateLoginHost = "https://the-book.azurewebsites.net";
+#else
+        public static readonly string AppServiceUrl = "https://the-book.azurewebsites.net";
+        public static readonly string AlternateLoginHost = null;
+#endif
+    }
+}
+```
+
+The `AppServiceUrl` is always set to the location of your backend.  In this case, I right-clicked on
+the `Backend` project and selected **Properties** then **Web**.  The correct URL for local debugging
+is listed in the **Project URL**.  The `AlternateLoginHost` is set to the App Service when locally
+debugging or null if not. You can specify the `LOCAL_DEBUGGING` constant in the **Build** tab.
+
+In the same project, update the `Services\AzureCloudService.cs` constructor to the following:
+
+```csharp
+        public AzureCloudService()
+        {
+            client = new MobileServiceClient(Locations.AppServiceUrl);
+            if (Locations.AlternateLoginHost != null)
+                client.AlternateLoginHost = new Uri(Locations.AlternateLoginHost);
+        }
+```
+
+With these settings, the client will contact the AlternateLoginHost listed for the authentication
+process and then contact the local server for the rest of the transaction.
+
+### Run the Local Server
+
+Running the local server and the client takes a larger machine.  You need to run two instances of
+Visual Studio: one for the client and one for the server. This is really where you will appreciate
+multiple monitors (my personal favorite) or the snap action to the sides of the screens.
+
+Ensure you have your backend and clients in different solutions if you intend to run both client
+and server.  The debugger in Visual Studio will stop one to run the other when they are in the same
+solution.
+
 ## Authorization
 
 Now that we have covered all the techniques for authentication, it's time to look at
@@ -2116,3 +2272,5 @@ they are, authorization looks at if a user is allowed to do a specific operation
 [25]: https://developer.github.com/v3/oauth/
 [26]: http://www.miicard.com/for/individuals/how-it-works
 [27]: https://www.auth0.com/
+[28]: https://github.com/Azure/azure-mobile-apps-net-server/wiki/Local-development-and-debugging-the-Mobile-App-.NET-server-backend
+[29]: https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/

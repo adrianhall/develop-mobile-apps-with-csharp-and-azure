@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
@@ -15,6 +16,8 @@ namespace TaskList.Services
         public AzureCloudService()
         {
             client = new MobileServiceClient(Locations.AppServiceUrl);
+            if (Locations.AlternateLoginHost != null)
+                client.AlternateLoginHost = new Uri(Locations.AlternateLoginHost);
         }
 
         public ICloudTable<T> GetTable<T>() where T : TableData => new AzureCloudTable<T>(client);
