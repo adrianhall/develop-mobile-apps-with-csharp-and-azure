@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -46,6 +47,7 @@ namespace TaskList.UWP.Services
 
             // Server-Flow Version
             await client.LoginAsync("aad");
+            Debug.WriteLine($"Token = {client.CurrentUser.MobileServiceAuthenticationToken}");
         }
     }
 }

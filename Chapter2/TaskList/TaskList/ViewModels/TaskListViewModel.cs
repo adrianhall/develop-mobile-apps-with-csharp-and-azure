@@ -71,7 +71,7 @@ namespace TaskList.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[TaskList] Error loading items: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Items Not Loaded", ex.Message, "OK");
             }
             finally
             {
@@ -91,7 +91,7 @@ namespace TaskList.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[TaskList] Error in AddNewItem: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Item Not Added", ex.Message, "OK");
             }
             finally
             {

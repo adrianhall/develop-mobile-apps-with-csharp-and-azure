@@ -2051,10 +2051,12 @@ Add the following to your project Web.config `<appSettings>` section:
     <add key="EMA_RuntimeUrl" value="Overridden by portal settings" />
     <add key="MS_NotificationHubName" value="Overridden by portal settings" />
     <add key="SigningKey" value="{Your WEBSITE_AUTH_SIGNING_KEY}"/>
-    <add key="ValidAudiences" value="{Your WEBSITE_AUTH_ALLOWED_AUDIENCES}"/>
-    <add key="ValidIssuer" value="https://{Your WEBSITE_HOSTNAME}"/>
+    <add key="ValidAudience" value="{Your WEBSITE_AUTH_ALLOWED_AUDIENCES}"/>
+    <add key="ValidIssuer" value="https://{Your WEBSITE_HOSTNAME}/"/>
   </appSettings>
 ```
+
+> **NOTE**: Both the ValidAudience and ValidIssuer will have a slash on the end and be a https URL.
 
 The last three keys are the keys you will need to add.  Make sure you do not have a `HostName` key
 as this is how the startup file determines if you are running locally or remote. Talking of whic,
@@ -2126,7 +2128,7 @@ namespace TaskList.Helpers
 {
     public static class Locations
     {
-#if LOCAL_DEBUGGING
+#if DEBUG
         public static readonly string AppServiceUrl = "http://localhost:17568/";
         public static readonly string AlternateLoginHost = "https://the-book.azurewebsites.net";
 #else
@@ -2140,7 +2142,7 @@ namespace TaskList.Helpers
 The `AppServiceUrl` is always set to the location of your backend.  In this case, I right-clicked on
 the `Backend` project and selected **Properties** then **Web**.  The correct URL for local debugging
 is listed in the **Project URL**.  The `AlternateLoginHost` is set to the App Service when locally
-debugging or null if not. You can specify the `LOCAL_DEBUGGING` constant in the **Build** tab.
+debugging or null if not. You can specify the `DEBUG` constant in the **Build** tab.
 
 In the same project, update the `Services\AzureCloudService.cs` constructor to the following:
 
@@ -2152,6 +2154,11 @@ In the same project, update the `Services\AzureCloudService.cs` constructor to t
                 client.AlternateLoginHost = new Uri(Locations.AlternateLoginHost);
         }
 ```
+
+> It's a good idea to separate the client and server into different solutions.  Although it
+doesn't hurt anything to have them in the same solution (like we have), having the client
+and server separated allows you to attach a debugger separately - which allows you to debug
+both sides of the connection at the same time.
 
 With these settings, the client will contact the AlternateLoginHost listed for the authentication
 process and then contact the local server for the rest of the transaction.
@@ -2166,6 +2173,16 @@ Ensure you have your backend and clients in different solutions if you intend to
 and server.  The debugger in Visual Studio will stop one to run the other when they are in the same
 solution.
 
+## Obtaining User Claims
+
+At some point you are going to need to deal with something other than the claims that are
+in the token passed for authentication.  Fortunately, the Authentication / Authorization feature
+has an endpoint for that at `/.auth/me`:
+
+![The /.auth/me endpoint][img57]
+
+Of course, the `/.auth/me` endpoint is not of any use if you cannot access it.
+
 ## Authorization
 
 Now that we have covered all the techniques for authentication, it's time to look at
@@ -2173,46 +2190,35 @@ authorization.  While authentication looked at verifying that a user is who they
 they are, authorization looks at if a user is allowed to do a specific operation.
 
 Authorization is handled within the server-side project by the `[Authorize]` attribute.
-Technically, this attribute can handle users and roles.  There is really only one problem
-with this.  We don't have roles and we can't easily distinguish the user ids.  To prove
-this point, let's write a very simple custom Authorize attribute that we can then use
-a break-point.  Here is the first draft of the `Attributes\AuthorizeClaimAttribute.cs`
-that I am going to use to show this:
+Our Azure Mobile Apps backend is leveraging this to provide authorization based on
+whether a user is authenticated or not.  The Authorize attribute can also check to see
+if a user is in a list of users or roles.  However, there is a problem with this.  The
+user id is not guessable and we have no roles.  To see what I mean, run the **Backend**
+project locally and set a break point on the `GetAllTodoItems()` method in the
+`TodoItemController`, then run your server and your UWP application.
 
-```csharp
-using System;
-using System.Web;
-using System.Web.Mvc;
+> Once you have built and deployed the UWP application, it will appear in your normal Application
+list.  This allows you to run the application and the server at the same time on the same
+machine.
 
-namespace Backend.Attributes
-{
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class AuthorizeClaimAttribute : AuthorizeAttribute
-    {
-        protected override bool AuthorizeCore(HttpContextBase httpContext)
-        {
-            if (!httpContext.Request.IsAuthenticated)
-                return false;
-            return true;
-        }
-    }
-}
-```
+Once you have authenticated, you will be able to set a break point to take a look at
+`this.User.Identity`:
 
-It is likely that your project does not have the System.Web.Mvc namespace.  You can add
-it by installing the **Microsoft.AspNet.Mvc** NuGet package.  This attribute will do the
-same thing as the regular Authorize attribute.  I can adjust the `Controllers\TodoItem.cs`
-file to use this attribute instead:
+![this.User.Identity output][img55]
 
-```csharp
+Note that the `Name` property is null.  This is the property that is used when you want to
+authorize individual users.  Expand the `Claims` property and then click on **Results View**:
+
+![Claims output][img56]
+
+The only claims are the ones in the token, and none of them match the `RoleClaimType`, so we
+can't use roles either.  Clearly, we are going to have to do something else.
 
 ## Refresh Tokens
 
 ### Configuring Refresh Tokens
 
 ### Using Refresh Tokens
-
-## Obtaining User Claims
 
 ## Logging out
 
@@ -2272,7 +2278,9 @@ file to use this attribute instead:
 [img52]: img/ch2/aad-b2c-9.PNG
 [img53]: img/ch2/aad-b2c-10.PNG
 [img54]: img/ch2/auth0-create-1.PNG
-
+[img55]: img/ch2/user-identity.PNG
+[img56]: img/ch2/user-claims.PNG
+[img57]: img/ch2/auth-me.PNG
 
 [int-intro]: firstapp_pc.md
 [int-entauth]: #enterpriseauth

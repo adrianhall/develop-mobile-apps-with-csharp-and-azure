@@ -14,12 +14,14 @@ namespace TaskList.ViewModels
         {
             Title = "Task List";
             User = new Models.User { Username = "", Password = "" };
+            AppService = Locations.AppServiceUrl;
 
             LoginCommand = new Command(async () => await ExecuteLoginCommand());
         }
 
         public Command LoginCommand { get; } 
         public Models.User User { get; set; }
+        public string AppService { get; set; }
 
         async Task ExecuteLoginCommand()
         {

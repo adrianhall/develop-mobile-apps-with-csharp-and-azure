@@ -2,7 +2,7 @@
 {
     public static class Locations
     {
-#if LOCAL_DEBUGGING
+#if DEBUG
         public static readonly string AppServiceUrl = "http://localhost:17568/";
         public static readonly string AlternateLoginHost = "https://the-book.azurewebsites.net";
 #else

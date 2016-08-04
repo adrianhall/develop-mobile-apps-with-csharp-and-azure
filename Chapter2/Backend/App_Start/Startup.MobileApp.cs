@@ -9,6 +9,7 @@ using Microsoft.Azure.Mobile.Server.Config;
 using Backend.DataObjects;
 using Backend.Models;
 using Owin;
+using System.Diagnostics;
 
 namespace Backend
 {
@@ -29,6 +30,10 @@ namespace Backend
 
             if (string.IsNullOrEmpty(settings.HostName))
             {
+                Debug.WriteLine($"Signing Key = {ConfigurationManager.AppSettings["SigningKey"]}");
+                Debug.WriteLine($"Valid Audiences = {ConfigurationManager.AppSettings["ValidAudience"]}");
+                Debug.WriteLine($"Valid Issuer = {ConfigurationManager.AppSettings["ValidIssuer"]}");
+
                 app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
                 {
                     // This middleware is intended to be used locally for debugging. By default, HostName will

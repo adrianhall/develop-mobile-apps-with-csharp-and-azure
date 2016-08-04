@@ -19,7 +19,11 @@ namespace Backend.Controllers
             DomainManager = new EntityDomainManager<TodoItem>(context, Request);
         }
 
-        public IQueryable<TodoItem> GetAllTodoItems() => Query();
+        public IQueryable<TodoItem> GetAllTodoItems()
+        {
+            System.Diagnostics.Debug.WriteLine("In GetAllTodoItems()");
+            return Query();
+        }
 
         public SingleResult<TodoItem> GetTodoItem(string id) => Lookup(id);
 
