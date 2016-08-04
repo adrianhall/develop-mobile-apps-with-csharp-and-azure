@@ -2172,6 +2172,40 @@ Now that we have covered all the techniques for authentication, it's time to loo
 authorization.  While authentication looked at verifying that a user is who they say
 they are, authorization looks at if a user is allowed to do a specific operation.
 
+Authorization is handled within the server-side project by the `[Authorize]` attribute.
+Technically, this attribute can handle users and roles.  There is really only one problem
+with this.  We don't have roles and we can't easily distinguish the user ids.  To prove
+this point, let's write a very simple custom Authorize attribute that we can then use
+a break-point.  Here is the first draft of the `Attributes\AuthorizeClaimAttribute.cs`
+that I am going to use to show this:
+
+```csharp
+using System;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Backend.Attributes
+{
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class AuthorizeClaimAttribute : AuthorizeAttribute
+    {
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (!httpContext.Request.IsAuthenticated)
+                return false;
+            return true;
+        }
+    }
+}
+```
+
+It is likely that your project does not have the System.Web.Mvc namespace.  You can add
+it by installing the **Microsoft.AspNet.Mvc** NuGet package.  This attribute will do the
+same thing as the regular Authorize attribute.  I can adjust the `Controllers\TodoItem.cs`
+file to use this attribute instead:
+
+```csharp
+
 ## Refresh Tokens
 
 ### Configuring Refresh Tokens
