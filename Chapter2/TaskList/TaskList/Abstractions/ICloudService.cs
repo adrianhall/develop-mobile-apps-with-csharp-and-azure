@@ -10,5 +10,7 @@ namespace TaskList.Abstractions
         Task LoginAsync();
 
         Task LoginAsync(User user);
+
+        Task<AppServiceIdentity> GetIdentityAsync();
     }
 }

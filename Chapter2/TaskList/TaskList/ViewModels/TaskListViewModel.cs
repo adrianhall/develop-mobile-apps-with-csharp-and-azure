@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using TaskList.Abstractions;
 using TaskList.Helpers;
@@ -12,9 +12,12 @@ namespace TaskList.ViewModels
 {
     public class TaskListViewModel : BaseViewModel
     {
+        ICloudService cloudService;
+
         public TaskListViewModel()
         {
-            ICloudService cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
+            Debug.WriteLine("In TaskListViewMOdel");
+            cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
             Table = cloudService.GetTable<TodoItem>();
 
             Title = "Task List";
@@ -23,8 +26,8 @@ namespace TaskList.ViewModels
             RefreshCommand = new Command(async () => await ExecuteRefreshCommand());
             AddNewItemCommand = new Command(async () => await ExecuteAddNewItemCommand());
 
+            // Execute the refresh command
             RefreshCommand.Execute(null);
-
         }
 
         public ICloudTable<TodoItem> Table { get; set; }
@@ -66,6 +69,12 @@ namespace TaskList.ViewModels
 
             try
             {
+                var identity = await cloudService.GetIdentityAsync();
+                if (identity != null)
+                {
+                    var name = identity.UserClaims.FirstOrDefault(c => c.Type.Equals("name")).Value;
+                    Title = $"Tasks for {name}";
+                }
                 var list = await Table.ReadAllItemsAsync();
                 Items.ReplaceRange(list);
             }

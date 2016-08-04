@@ -44,6 +44,7 @@
     <Compile Include="Helpers\Locations.cs" />
     <Compile Include="Helpers\ObservableRangeCollection.cs" />
     <Compile Include="Helpers\ServiceLocator.cs" />
+    <Compile Include="Models\AppServiceIdentity.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Pages\EntryPage.xaml.cs">
