@@ -20,7 +20,7 @@ file to hold information about the users:
 ```csharp
 using System.ComponentModel.DataAnnotations;
 
-namespace Backend.CustomAuth.Models
+namespace Backend.Models
 {
     public class User
     {
@@ -100,11 +100,11 @@ using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Http;
-using Backend.CustomAuth.Models;
+using Backend.Models;
 using Microsoft.Azure.Mobile.Server.Login;
 using Newtonsoft.Json;
 
-namespace Backend.CustomAuth.Controllers
+namespace Backend.Controllers
 {
     [Route(".auth/login/custom")]
     public class CustomAuthController : ApiController
@@ -603,7 +603,7 @@ The parameters for the constructor to the `Auth0Client` are your Auth0 domain an
 retrieve these from the Auth0 management page for your app.  Note that I am requesting the email
 address.  This will become a part of my ZUMO token when I create it.
 
-Switching our attention to our `Backend.CustomAuth` project, we need a new custom authentication
+Switching our attention to our `Backend` project, we need a new custom authentication
 controller.  This is located in `Controllers\Auth0Controller.cs`:
 
 ```csharp
@@ -613,10 +613,10 @@ using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Http;
-using Backend.CustomAuth.Models;
+using Backend.Models;
 using Microsoft.Azure.Mobile.Server.Login;
 
-namespace Backend.CustomAuth.Controllers
+namespace Backend.Controllers
 {
     [Route(".auth/login/auth0")]
     public class Auth0Controller : ApiController

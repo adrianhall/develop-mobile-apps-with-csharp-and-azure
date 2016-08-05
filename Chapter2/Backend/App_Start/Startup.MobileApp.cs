@@ -23,6 +23,9 @@ namespace Backend
                 .AddTablesWithEntityFramework()
                 .ApplyTo(config);
 
+            // Map routes by attribute
+            config.MapHttpAttributeRoutes();
+
             // Use Entity Framework Code First to create database tables based on your DbContext
             Database.SetInitializer(new MobileServiceInitializer());
 
