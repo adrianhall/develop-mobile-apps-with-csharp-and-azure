@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Facebook.LoginKit;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
@@ -15,13 +16,31 @@ namespace TaskList.Droid.Services
 {
     public class DroidLoginProvider : ILoginProvider
     {
-        Context context;
+        public Context Context { get; }
 
         public void Init(Context context)
         {
-            this.context = context;
+            Context = context;
         }
 
+
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            // var accessToken = await LoginADALAsync();
+            var accessToken = await LoginAuth0Async();
+
+            var zumoPayload = new JObject();
+            zumoPayload["access_token"] = accessToken;
+            // await client.LoginAsync("aad", zumoPayload);
+            await client.LoginAsync("auth0", zumoPayload);
+
+            // Server Flow
+            // await client.LoginAsync(Context, "aad");
+        }
+
+        #region Azure AD Client Flow
         /// <summary>
         /// Login via ADAL
         /// </summary>
@@ -42,17 +61,17 @@ namespace TaskList.Droid.Services
                 new PlatformParameters((Activity)context));
             return authResult.AccessToken;
         }
+        #endregion
 
-        public async Task LoginAsync(MobileServiceClient client)
+        #region Auth0 Client Flow
+        public async Task<string> LoginAuth0Async()
         {
-            // Client Flow
-            var accessToken = await LoginADALAsync();
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            await client.LoginAsync("aad", zumoPayload);
-
-            // Server-Flow Version
-            // await client.LoginAsync(context, "aad");
+            var auth0 = new Auth0.SDK.Auth0Client(
+                "shellmonger.auth0.com",
+                "lmFp5jXnwPpD9lQIYwgwwPmFeofuLpYq");
+            var user = await auth0.LoginAsync(Context, scope: "openid email name");
+            return user.IdToken;
         }
+        #endregion
     }
 }
