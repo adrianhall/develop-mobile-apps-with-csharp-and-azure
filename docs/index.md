@@ -35,7 +35,7 @@ or Android.  However, these are two very different mobile operating systems,
 with different programming models.  iOS is based on either [Swift][21] or
 Objective-C.  Android is based on [Java][22].  If you want to develop for the
 80% case (and you should), then you need to know both Swift and Java.  That's
-a tall order even for the most dedicated mobile developer.  
+a tall order even for the most dedicated mobile developer.
 
 However, there are alternatives out there.  Most notable, you can write your
 mobile application with one code-base and just write exceptions for when the
@@ -51,7 +51,7 @@ the mobile smart phone market.  It does this by leveraging the .NET framework
 and compiling your code to a native binary for each platform.
 
 Xamarin.Forms is a cross-platform framework, based on XAML and .NET, that
-allows you to use common UI pages to develop your apps.  
+allows you to use common UI pages to develop your apps.
 
 ## Why Azure Mobile Apps?
 
@@ -68,7 +68,9 @@ Azure Mobile Apps for these features because they are all included and you
 can get started with most of the features for zero cost.  Even the features
 that cannot be obtained without spending a little money are relatively cheap.
 
-> Azure Mobile Apps is a feature of Azure App Service.  Azure App Service is a collection of services that commonly are used together to develop modern Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.
+> Azure Mobile Apps is a feature of Azure App Service.  Azure App Service is
+a collection of services that commonly are used together to develop modern
+Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.
 
 ### Features of Cloud Connected Mobile Apps
 
@@ -83,7 +85,7 @@ following areas:
 
 I am going to cover each of these in great detail.  In addition, I will also
 cover some common issues and solutions that developers run into while developing
-cloud connected mobile applications such as testing and going to production.  
+cloud connected mobile applications such as testing and going to production.
 
 Aside from the actual features of mobile apps, there are other things to
 consider while developing your mobile application.  Here is my list, in no
@@ -115,7 +117,7 @@ level by utilizing cloud services.
 This book is not for the beginner.  Explicitly, I already expect you to know how
 to develop mobile applications with C# and Xamarin technologies.  If you are
 unfamiliar with the C# language, you can get started with a free course on the
-Internet.  The basics of the language can be learned at [www.learncs.org][3].  
+Internet.  The basics of the language can be learned at [www.learncs.org][3].
 Once you have the language basics under your belt, you can move on to building
 mobile applications with Xamarin. You can learn more about developing cross-platform
 mobile development with Xamarin at the [Xamarin][5] website.  Although you do
@@ -191,7 +193,7 @@ account, you already have access to free Azure resources.  You just need to log
 into your [MSDN account][15] and activate your Azure benefit.  Students may be
 able to get access to [Dreamspark][16] from school resources, but this is not
 suitable for developing mobile applications.  This is because storage costs
-money.  If you don't have MSDN, then there is a [free trial][17] available.  
+money.  If you don't have MSDN, then there is a [free trial][17] available.
 Once the trial period ends, you can move to a Pay-As-You-Go account and continue
 to use free services without incurring a charge. I'll point out when you are
 going to incur charges on your Azure account, but I will be using free resources
@@ -216,7 +218,13 @@ The terms of the accounts are changed constantly, so review the current terms
 when you sign up.  My recommendation is to defer signing up for these programs
 until you need something they offer.
 
-Now, let's get developing!
+Now, let's get developing!  Our next section is dependent on where you are developing:
+
+* On a Mac, skip ahead to the [Mac section][int-mac].
+* On a PC, the [next section][int-pc] covers Visual Studio.
+
+[int-mac]: ./chapter1/firstapp_mac.md
+[int-pc]: ./chapter1/firstapp_pc.md
 
 [1]: https://www.xamarin.com/forms
 [2]: https://aka.ms/azuremobileapps

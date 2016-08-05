@@ -12,7 +12,7 @@ is to ensure that all our build and run processes are set up properly.  If this
 is the first mobile app you have ever written, you will see that there are quite
 a few things that need to be set up.  This chapter covers the set up required
 for a Windows PC.  If you wish to develop your applications on a Mac, then skip
-to the [next chapter][int-firstapp-mac].
+to the [next section][int-firstapp-mac].
 
 The application we are going to build together is a simple task list.  The
 mobile client will have three screens - an entry screen, a task list and a task
@@ -1527,34 +1527,34 @@ jump around at this point, but be aware that we expect you to cover these topics
 If you do the data chapter before covering authentication, it's likely you will have missed
 important functionality in your app to complete the work.
 
-[img1]: img/ch1/pic1.PNG
-[img2]: img/ch1/pic2.PNG
-[img3]: img/ch1/pic3.PNG
-[img4]: img/ch1/xamarinforms-templates.PNG
-[img5]: img/ch1/new-xf-project.PNG
-[img6]: img/ch1/win10-developermode.PNG
-[img7]: img/ch1/pick-uwp-platform.PNG
-[img8]: img/ch1/xamarin-mac-agent.PNG
-[img9]: img/ch1/xamarin-mac-login.PNG
-[img10]: img/ch1/xf-newsolution.PNG
-[img11]: img/ch1/nuget-mobileinstall.PNG
-[img12]: img/ch1/uwp-final.png
-[img13]: img/ch1/need-hyperv.PNG
-[img14]: img/ch1/emulator-setup-internet.PNG
-[img15]: img/ch1/avd-mac.PNG
-[img16]: img/ch1/droid-final.PNG
-[img17]: img/ch1/ios-build-errors.PNG
-[img18]: img/ch1/xcode-add-appleid.PNG
-[img19]: img/ch1/xcode-appleid.PNG
-[img20]: img/ch1/xcode-signing-identities.PNG
-[img21]: img/ch1/ios-missing-nuget.PNG
-[img22]: img/ch1/ios-final.PNG
-[img23]: img/ch1/vs-ios-simulator-settings.PNG
-[img24]: img/ch1/dataconns-sqldb.PNG
-[img25]: img/ch1/dataconns-sqlsvr.PNG
-[img26]: img/ch1/dataconns_success.PNG
+[img1]: img/pic1.PNG
+[img2]: img/pic2.PNG
+[img3]: img/pic3.PNG
+[img4]: img/xamarinforms-templates.PNG
+[img5]: img/new-xf-project.PNG
+[img6]: img/win10-developermode.PNG
+[img7]: img/pick-uwp-platform.PNG
+[img8]: img/xamarin-mac-agent.PNG
+[img9]: img/xamarin-mac-login.PNG
+[img10]: img/xf-newsolution.PNG
+[img11]: img/nuget-mobileinstall.PNG
+[img12]: img/uwp-final.png
+[img13]: img/need-hyperv.PNG
+[img14]: img/emulator-setup-internet.PNG
+[img15]: img/avd-mac.PNG
+[img16]: img/droid-final.PNG
+[img17]: img/ios-build-errors.PNG
+[img18]: img/xcode-add-appleid.PNG
+[img19]: img/xcode-appleid.PNG
+[img20]: img/xcode-signing-identities.PNG
+[img21]: img/ios-missing-nuget.PNG
+[img22]: img/ios-final.PNG
+[img23]: img/vs-ios-simulator-settings.PNG
+[img24]: img/dataconns-sqldb.PNG
+[img25]: img/dataconns-sqlsvr.PNG
+[img26]: img/dataconns_success.PNG
 
-[int-data]: ./data.md
+[int-data]: ../data.md
 [int-firstapp-mac]: ./firstapp_mac.md
 
 [1]: https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/
