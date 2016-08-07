@@ -2,16 +2,9 @@ site_name: Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
 pages:
 - Getting Started: index.md
 - Chapter 1 - Introduction:
-  - Building a Mobile App on Windows: chapter1/firstapp_pc.md
-  - Building a Mobile App on a Mac: chapter1/firstapp_mac.md
-- Chapter 2 - Authentication:
-  - Concepts: chapter2/authentication.md
-  - Enterprise Authentication: chapter2/enterprise.md
-  - Social Authentication: chapter2/social.md
-  - Custom Authentication: chapter2/custom.md
-  - Claims and Authorization: chapter2/claims.md
-  - Refresh and Logout: chapter2/refresh.md
-  - Best Practices: chapter2/best_practices.md
+    - Your First App - PC Edition: chapter1/firstapp_pc.md
+    - Your First App - Mac Edition: chapter1/firstapp_mac.md
+- Chapter 2 - Authentication: 2_authentication.md
 - Data Access and Offline Sync: data.md
 - Authenticated Data Access: authdata.md
 - File Management: files.md
