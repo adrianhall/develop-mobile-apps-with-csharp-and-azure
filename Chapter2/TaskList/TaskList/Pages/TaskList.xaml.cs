@@ -1,6 +1,4 @@
-﻿
-using TaskList.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace TaskList.Pages
 {
@@ -9,7 +7,7 @@ namespace TaskList.Pages
         public TaskList()
         {
             InitializeComponent();
-            BindingContext = new TaskListViewModel();
+            BindingContext = new ViewModels.TaskListViewModel();
         }
     }
 }

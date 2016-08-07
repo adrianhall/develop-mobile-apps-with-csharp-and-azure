@@ -5,7 +5,6 @@ using Facebook.LoginKit;
 using Foundation;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using TaskList.Helpers;
 using TaskList.iOS.Services;
@@ -18,19 +17,29 @@ namespace TaskList.iOS.Services
     {
         public async Task LoginAsync(MobileServiceClient client)
         {
-            // Client Flow
+            #region Azure AD Client Flow
             // var accessToken = await LoginADALAsync();
-            // var accessToken = await LoginFacebookAsync();
-            var accessToken = await LoginAuth0Async();
+            //var zumoPayload = new JObject();
+            //zumoPayload["access_token"] = accessToken;
+            //await client.LoginAsync("aad", zumoPayload);
+            #endregion
 
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            // await client.LoginAsync("aad", zumoPayload);
-            // await client.LoginAsync("facebook", zumoPayload);
-            await client.LoginAsync("auth0", zumoPayload);
+            #region Auth0 Client Flow
+            // var accessToken = await LoginAuth0Async();
+            //var zumoPayload = new JObject();
+            //zumoPayload["access_token"] = accessToken;
+            //await client.LoginAsync("auth0", zumoPayload);
+            #endregion
+
+            #region Facebook Client Flow
+            // var accessToken = await LoginFacebookAsync();
+            //var zumoPayload = new JObject();
+            //zumoPayload["access_token"] = accessToken;
+            //await client.LoginAsync("facebook", zumoPayload);
+            #endregion
 
             // Server Flow
-            // await client.LoginAsync(RootView, "aad");
+            await client.LoginAsync(RootView, "aad");
         }
 
         public UIViewController RootView => UIApplication.SharedApplication.KeyWindow.RootViewController;

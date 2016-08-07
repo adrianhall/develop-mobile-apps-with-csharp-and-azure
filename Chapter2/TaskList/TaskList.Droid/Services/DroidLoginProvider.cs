@@ -3,10 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Facebook.LoginKit;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using TaskList.Droid.Services;
 using TaskList.Helpers;
@@ -16,28 +14,33 @@ namespace TaskList.Droid.Services
 {
     public class DroidLoginProvider : ILoginProvider
     {
-        public Context Context { get; }
+        public Context RootView { get; private set; }
 
         public void Init(Context context)
         {
-            Context = context;
+            RootView = context;
         }
 
 
 
         public async Task LoginAsync(MobileServiceClient client)
         {
-            // Client Flow
+            #region Azure AD Client Flow
             // var accessToken = await LoginADALAsync();
-            var accessToken = await LoginAuth0Async();
+            //var zumoPayload = new JObject();
+            //zumoPayload["access_token"] = accessToken;
+            //await client.LoginAsync("aad", zumoPayload);
+            #endregion
 
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            // await client.LoginAsync("aad", zumoPayload);
-            await client.LoginAsync("auth0", zumoPayload);
+            #region Auth0 Client Flow
+            // var accessToken = await LoginAuth0Async();
+            //var zumoPayload = new JObject();
+            //zumoPayload["access_token"] = accessToken;
+            //await client.LoginAsync("auth0", zumoPayload);
+            #endregion
 
             // Server Flow
-            // await client.LoginAsync(Context, "aad");
+            await client.LoginAsync(RootView, "aad");
         }
 
         #region Azure AD Client Flow
@@ -58,7 +61,7 @@ namespace TaskList.Droid.Services
                 Locations.AppServiceUrl, /* The resource we want to access  */
                 Locations.AadClientId,   /* The Client ID of the Native App */
                 returnUri,               /* The Return URI we configured    */
-                new PlatformParameters((Activity)context));
+                new PlatformParameters((Activity)RootView));
             return authResult.AccessToken;
         }
         #endregion
@@ -66,10 +69,8 @@ namespace TaskList.Droid.Services
         #region Auth0 Client Flow
         public async Task<string> LoginAuth0Async()
         {
-            var auth0 = new Auth0.SDK.Auth0Client(
-                "shellmonger.auth0.com",
-                "lmFp5jXnwPpD9lQIYwgwwPmFeofuLpYq");
-            var user = await auth0.LoginAsync(Context, scope: "openid email name");
+            var auth0 = new Auth0.SDK.Auth0Client("shellmonger.auth0.com", "lmFp5jXnwPpD9lQIYwgwwPmFeofuLpYq");
+            var user = await auth0.LoginAsync(RootView, scope: "openid email name");
             return user.IdToken;
         }
         #endregion

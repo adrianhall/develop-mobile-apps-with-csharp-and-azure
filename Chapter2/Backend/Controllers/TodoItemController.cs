@@ -6,6 +6,8 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using Backend.DataObjects;
 using Backend.Models;
+using System.Security.Principal;
+using Microsoft.Azure.Mobile.Server.Authentication;
 
 namespace Backend.Controllers
 {
@@ -19,11 +21,7 @@ namespace Backend.Controllers
             DomainManager = new EntityDomainManager<TodoItem>(context, Request);
         }
 
-        public IQueryable<TodoItem> GetAllTodoItems()
-        {
-            System.Diagnostics.Debug.WriteLine("In GetAllTodoItems()");
-            return Query();
-        }
+        public IQueryable<TodoItem> GetAllTodoItems() => Query();
 
         public SingleResult<TodoItem> GetTodoItem(string id) => Lookup(id);
 
@@ -31,10 +29,23 @@ namespace Backend.Controllers
 
         public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
         {
+            //if (!await IsAuthorizedAsync())
+            //{
+            //    return Unauthorized();
+            //}
             TodoItem current = await InsertAsync(item);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
         public Task DeleteTodoItem(string id) => DeleteAsync(id);
+
+        //async Task<bool> IsAuthorizedAsync()
+        //{
+        //    var identity = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request);
+        //    var countofGroups = identity.UserClaims
+        //        .Where(c => c.Type.Equals("groups") && c.Value.Equals("01f214a9-af1f-4bdd-938f-3f16749aef0e"))
+        //        .Count();
+        //    return (countofGroups > 0);
+        //}
     }
 }

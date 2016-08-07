@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web.Http;
 using Backend.CustomAuth.Models;
+using Backend.Models;
 using Microsoft.Azure.Mobile.Server.Login;
 
 namespace Backend.CustomAuth.Controllers
@@ -59,9 +60,11 @@ namespace Backend.CustomAuth.Controllers
             base.Dispose(disposing);
         }
 
+#pragma warning disable CSE0003 // Use expression-bodied members
         private bool IsValidUser(User user)
         {
             return db.Users.Count(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password)) > 0;
         }
+#pragma warning restore CSE0003 // Use expression-bodied members
     }
 }

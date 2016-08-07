@@ -398,7 +398,7 @@ async Task ExecuteLoginCommand()
 
 When you run the application, clicking on the "Enter the App" button will now present you with an Authenticate window:
 
-![AAD Authenticate][img32]
+![AAD Authenticate][img58]
 
 Going through the authentication process will get you to the task list again.  If the authentication process fails, then `LoginAsync()` will throw an error, which is caught at the ViewModel.  Right now, the `EntryPageViewModel` does nothing more than print a diagnostic message to the debug window of Visual Studio.
 
@@ -1722,77 +1722,6 @@ Note that the `Name` property is null.  This is the property that is used when y
 
 The only claims are the ones in the token, and none of them match the `RoleClaimType`, so we can't use roles either.  Clearly, we are going to have to do something else.
 
-## <a name="addlclaims"></a>Adding Group Claims to the Request
-
-There are times when you want to add something else to the token that is returned from Azure AD. The most common requirement is to add group information to the response so you can handle group-based authorization.
-
-To add security groups to the Azure AD token:
-
-1. Log into the [Classic Portal][classic-portal].
-2. Click on your directory (probably called **Default Directory**) in the **All Items** list.
-3. Click on **APPLICATIONS**, then your WEB application.
-4. Click on **MANAGE MANIFEST** (at the bottom of the page), then **Download Manifest**.
-5. Click on **Download manifest**.
-
-This will download a JSON file.  Edit the file with a text editor.  (I use Visual Studio Code).  At the top of the file is this:
-
-```json
-  "displayName": "webapp-for-the-book",
-  "errorUrl": null,
-  "groupMembershipClaims": null,
-  "homepage": "https://the-book.azurewebsites.net",
-  "identifierUris": [
-    "https://the-book.azurewebsites.net"
-  ],
-  "keyCredentials": [],
-  "knownClientApplications": [],
-```
-
-Change the **groupMembershipClaims** to "SecurityGroup":
-
-```json
-  "displayName": "webapp-for-the-book",
-  "errorUrl": null,
-  "groupMembershipClaims": "SecurityGroup",
-  "homepage": "https://the-book.azurewebsites.net",
-  "identifierUris": [
-    "https://the-book.azurewebsites.net"
-  ],
-  "keyCredentials": [],
-  "knownClientApplications": [],
-```
-
-Save the file.  You can now upload this again.  Go back to the WEB application, click on **MANAGE MANIFEST**, then click on **Upload Manifest**.  Select the file and click on the tick.
-
-![AAD - Upload Manifest][img-upload-manifest]
-
-You can now give the web application additional permissions:
-
-1. Click on the **CONFIGURE** tab.
-2. Scroll to the bottom, click on **Delegated Permissions**.
-3. Check the box for **Read directory data**.
-
-   ![AAD: Group Permissions][img-group-perms]
-
-4. Click on **Save**.
-
-Now that you have configured the application to return groups as part of the claims, you should probably add a couple of groups:
-
-1. Click on the back-arrow (at the top left) to return to the top level of your directory.
-2. Click on **GROUPS**.
-3. Click on **ADD GROUP**.
-4. Fill in the information, select **Security** as the group type, then click on the tick.
-
-   ![AAD: Add Group][img-add-group]
-
-5. Click on the new group, then click on **PROPERTIES**.
-
-   ![AAD: Group Properties][img-group-props]
-
-6. Make a note of the **OBJECT ID**.  The claims for groups are listed by the Object ID, so you will need this to refer to the group later.
-
-It's a good idea to add a couple of groups for testing purposes.  If you are using the organization directory, you will need to request the creation of a couple of groups for application roles.
-
 ## Obtaining User Claims
 
 At some point you are going to need to deal with something other than the claims that are in the token passed for authentication.  Fortunately, the Authentication / Authorization feature has an endpoint for that at `/.auth/me`:
@@ -1918,9 +1847,9 @@ The return value from the `GetIdentityAsync()` method is the first identity.  No
 
 Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific operation.
 
-Authorization is handled within the server-side project by the `[Authorize]` attribute.  Our Azure Mobile Apps backend is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id is not guessable and we have no roles.  To see what I mean, run the **Backend** project locally and set a break point on the `GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
+Authorization is handled within the server-side project by the `[Authorize]` attribute.  Our Azure Mobile Apps backend is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id is not guessable and we have no roles.  To see what I mean, run the **Backend** project and set a break point on the `GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
 
-> Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows you to run the application and the server at the same time on the same machine.
+> Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows you to run the application and the server at the same time on the same machine.  Alternatively, you can attach a Debugger to your Azure App Service within Visual Studio's Cloud Explorer.
 
 Once you have authenticated, you will be able to set a break point to take a look at `this.User.Identity`:
 
@@ -1939,6 +1868,128 @@ var identity = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredent
 There is one `Credentials` class for each supported authentication technique - Azure Active Directory, Facebook, Google, Microsoft Account and Twitter.  These are in the **Microsoft.Azure.Mobile.Server.Authentication** namespace.  They all follow the same pattern as the model we created for the client - there are Provider, UserId and UserClaims properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId is pulled out of the response for Azure AD.
 
 > You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into this more in a later Chapter.
+
+## <a name="addlclaims"></a>Adding Group Claims to the Request
+
+There are times when you want to add something else to the token that is returned from Azure AD. The most common requirement is to add group information to the response so you can handle group-based authorization.
+
+To add security groups to the Azure AD token:
+
+1. Log into the [Classic Portal][classic-portal].
+2. Click on your directory (probably called **Default Directory**) in the **All Items** list.
+3. Click on **APPLICATIONS**, then your WEB application.
+4. Click on **MANAGE MANIFEST** (at the bottom of the page), then **Download Manifest**.
+5. Click on **Download manifest**.
+
+This will download a JSON file.  Edit the file with a text editor.  (I use Visual Studio Code).  At the top of the file is this:
+
+```json
+  "displayName": "webapp-for-the-book",
+  "errorUrl": null,
+  "groupMembershipClaims": null,
+  "homepage": "https://the-book.azurewebsites.net",
+  "identifierUris": [
+    "https://the-book.azurewebsites.net"
+  ],
+  "keyCredentials": [],
+  "knownClientApplications": [],
+```
+
+Change the **groupMembershipClaims** to "SecurityGroup":
+
+```json
+  "displayName": "webapp-for-the-book",
+  "errorUrl": null,
+  "groupMembershipClaims": "SecurityGroup",
+  "homepage": "https://the-book.azurewebsites.net",
+  "identifierUris": [
+    "https://the-book.azurewebsites.net"
+  ],
+  "keyCredentials": [],
+  "knownClientApplications": [],
+```
+
+Save the file.  You can now upload this again.  Go back to the WEB application, click on **MANAGE MANIFEST**, then click on **Upload Manifest**.  Select the file and click on the tick.
+
+![AAD - Upload Manifest][img-upload-manifest]
+
+You can now give the web application additional permissions:
+
+1. Click on the **CONFIGURE** tab.
+2. Scroll to the bottom, click on **Delegated Permissions**.
+3. Check the box for **Read directory data**.
+
+   ![AAD: Group Permissions][img-group-perms]
+
+4. Click on **Save**.
+
+Now that you have configured the application to return groups as part of the claims, you should probably add a couple of groups:
+
+1. Click on the back-arrow (at the top left) to return to the top level of your directory.
+2. Click on **GROUPS**.
+3. Click on **ADD GROUP**.
+4. Fill in the information, select **Security** as the group type, then click on the tick.
+
+   ![AAD: Add Group][img-add-group]
+
+5. Click on the new group, then click on **PROPERTIES**.
+
+   ![AAD: Group Properties][img-group-props]
+
+6. Make a note of the **OBJECT ID**.  The claims for groups are listed by the Object ID, so you will need this to refer to the group later.
+
+It's a good idea to add a couple of groups for testing purposes.  If you are using the organization directory, you will need to request the creation of a couple of groups for application roles.  The view of the groups will be shown when we get the identity of
+the user using `User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request)`:
+
+![AAD: Group in Claims][img-group-claims]
+
+### Group Authorization
+
+Now that we have group claims in the claims list for the `/.auth/me` endpoint, we can move forward to do authorization based on these claims.  This can be done in a relatively basic
+manner by implementing a method to check the claims:
+
+```csharp
+async Task<bool> IsAuthorizedAsync()
+{
+    var identity = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request);
+    var countofGroups = identity.UserClaims
+        .Where(c => c.Type.Equals("groups") && c.Value.Equals("01f214a9-af1f-4bdd-938f-3f16749aef0e"))
+        .Count();
+    return (countofGroups > 0);
+}
+```
+
+The `UserClaims` object is an `IEnumerable` that contains objects with a Type and a Value.  The Type for the group claims is `groups`.  Once we have this knowledge, we can use a LINQ query to obtain a count of the claims that match the conditions we want to test.  The Value we use is the Object ID of the group.  This is available in the **PROPERTIES** tab of the group.
+
+We can prevent a new record being added by adjusting the `PostTodoItem()` method:
+
+```csharp
+public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
+{
+    if (!IsAuthorized())
+    {
+        return Unauthorized();
+    }
+    TodoItem current = await InsertAsync(item);
+    return CreatedAtRoute("Tables", new { id = current.Id }, current);
+}
+```
+
+Unfortunately, most of the table controller methods do not return an `IHttpActionResult`, so this has limited value.  What would be better would be an `[Authorize]` attribute that tests the claims for us.  For instance, we should be able to do the following:
+
+```csharp
+[AuthorizeClaims("groups", "01f214a9-af1f-4bdd-938f-3f16749aef0e")]
+public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
+{
+    TodoItem current = await InsertAsync(item);
+    return CreatedAtRoute("Tables", new { id = current.Id }, current);
+}
+```
+
+The `[AuthorizeClaims()]` attribute does not exist, so we have to provide it ourselves:
+
+```csharp
+```
 
 ## Refresh Tokens
 
@@ -2007,10 +2058,12 @@ There is one `Credentials` class for each supported authentication technique - A
 [img55]: chapter2/img/user-identity.PNG
 [img56]: chapter2/img/user-claims.PNG
 [img57]: chapter2/img/auth-me.PNG
-[img-upload-manifest]: chapter2/img/aad-upload-manifest.PNG
+[img58]: chapter2/img/aad-logon-window.PNG
+[img-upload-manifest]: chapter2/img/aad-manifest-upload.PNG
 [img-group-perms]: chapter2/img/aad-group-perms.PNG
 [img-add-group]: chapter2/img/aad-group-1.PNG
 [img-group-props]: chapter2/img/aad-group-2.PNG
+[img-group-claims]: chapter2/img/aad-groups-views.PNG
 
 [portal]: https://portal.azure.com/
 [classic-portal]: https://manage.windowsazure.com/
