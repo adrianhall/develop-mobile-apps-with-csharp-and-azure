@@ -2043,6 +2043,134 @@ We can now use this attribute for testing any claim.  For example, our claims ha
 
 ## Caching Tokens
 
+You will notice that we have to log in with every start of the application.  The token that is generated has a lifetime that is provided and controlled by the identity provider.  Some providers have a relatively short lifetime.  For example, Azure Active Directory tokens have a lifetime of 1 hour.  Others are incredibly long.  Facebook has an expiry time of 60 days.  
+
+Irrespective of the lifespan of the token, we will want to store it securely and re-use it when we can.  Xamarin has provided a nice component, [Xamarin.Auth], that provides such as secure store in a cross-platform manner.  It starts with an account store:
+
+```csharp
+var accountStore = AccountStore.Create();
+// For Android:
+// var accountStore = AccountStore.Create(Context);
+```
+
+We can then store the token with the following:
+
+```csharp
+accountStore.Save(account, "descriptor");
+```
+
+The descriptor is a string that allows us to find the token again.  The account (which is an `Account` object) is uniquely identified by a key composed of the account's Username property and the descriptor.  The Account class is provided with Xamarin.Auth.  Storage is backed by the [Keychain] on iOS and the [KeyStore] on Android.
+
+To get the token back, we use the following:
+
+```csharp
+var accounts = accountStore.FindAccountsForService("descriptor");
+```
+
+When we receive the token back from the key store, we will want to check the expiry time to ensure the token has not expired.  As a result, there is a little bit more code to caching code than one would expect.
+
+Let's start with the Android version in **TaskList.Droid**.  As with all the other login code, we are adjusting the `LoginAsync()` method in `Services\DroidLoginProvider.cs`:
+
+```csharp
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Droid.Services;
+using TaskList.Helpers;
+using Xamarin.Auth;
+
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        public Context RootView { get; private set; }
+
+        public AccountStore AccountStore { get; private set; }
+
+        public void Init(Context context)
+        {
+            RootView = context;
+            AccountStore = AccountStore.Create(context);
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Check if the token is available within the key store
+            var accounts = AccountStore.FindAccountsForService("tasklist");
+            if (accounts != null)
+            {
+                foreach (var acct in accounts)
+                {
+                    string token;
+
+                    if (acct.Properties.TryGetValue("token", out token))
+                    {
+                        if (!IsTokenExpired(token))
+                        {
+                            client.CurrentUser = new MobileServiceUser(acct.Username);
+                            client.CurrentUser.MobileServiceAuthenticationToken = token;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Server Flow
+            await client.LoginAsync(RootView, "aad");
+
+            // Store the new token within the store
+            var account = new Account(client.CurrentUser.UserId);
+            account.Properties.Add("token", client.CurrentUser.MobileServiceAuthenticationToken);
+            AccountStore.Save(account, "tasklist");
+        }
+
+        bool IsTokenExpired(string token)
+        {
+            // Get just the JWT part of the token (without the signature).
+            var jwt = token.Split(new Char[] { '.' })[1];
+
+            // Undo the URL encoding.
+            jwt = jwt.Replace('-', '+').Replace('_', '/');
+            switch (jwt.Length % 4)
+            {
+                case 0: break;
+                case 2: jwt += "=="; break;
+                case 3: jwt += "="; break;
+                default:
+                    throw new ArgumentException("The token is not a valid Base64 string.");
+            }
+
+            // Convert to a JSON String
+            var bytes = Convert.FromBase64String(jwt);
+            string jsonString = UTF8Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+
+            // Parse as JSON object and get the exp field value,
+            // which is the expiration date as a JavaScript primative date.
+            JObject jsonObj = JObject.Parse(jsonString);
+            var exp = Convert.ToDouble(jsonObj["exp"].ToString());
+
+            // Calculate the expiration by adding the exp value (in seconds) to the
+            // base date of 1/1/1970.
+            DateTime minTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var expire = minTime.AddSeconds(exp);
+            return (expire < DateTime.UtcNow);
+        }
+    }
+}
+```
+
+There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry, it will be overwritten.  Finally, there is a method called `IsTokenExpired()` whose only job is to check to see if a token is expired or not.
+
+I'm using an application specific service ID (or descriptor) for this purpose.  You could also use an identity provider-based service ID which is especially useful if your mobile client supports multiple identity providers.
+
 ## Refresh Tokens
 
 ### Configuring Refresh Tokens
@@ -2149,3 +2277,6 @@ We can now use this attribute for testing any claim.  For example, our claims ha
 [27]: https://www.auth0.com/
 [28]: https://github.com/Azure/azure-mobile-apps-net-server/wiki/Local-development-and-debugging-the-Mobile-App-.NET-server-backend
 [29]: https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/
+[30]: https://components.xamarin.com/gettingstarted/xamarin.auth
+[31]: https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html
+[32]: http://developer.android.com/reference/java/security/KeyStore.html
