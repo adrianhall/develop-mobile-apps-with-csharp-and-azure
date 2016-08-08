@@ -3,15 +3,14 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
-using Microsoft.Azure.Mobile.Server;
 using Backend.DataObjects;
+using Backend.Helpers;
 using Backend.Models;
-using System.Security.Principal;
-using Microsoft.Azure.Mobile.Server.Authentication;
+using Microsoft.Azure.Mobile.Server;
 
 namespace Backend.Controllers
 {
-    [Authorize]
+    [AuthorizeClaims("groups", "01f214a9-af1f-4bdd-938f-3f16749aef0e")]
     public class TodoItemController : TableController<TodoItem>
     {
         protected override void Initialize(HttpControllerContext controllerContext)

@@ -1966,7 +1966,7 @@ We can prevent a new record being added by adjusting the `PostTodoItem()` method
 ```csharp
 public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
 {
-    if (!IsAuthorized())
+    if (!await IsAuthorizedAsync())
     {
         return Unauthorized();
     }
@@ -1989,7 +1989,59 @@ public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
 The `[AuthorizeClaims()]` attribute does not exist, so we have to provide it ourselves:
 
 ```csharp
+using System.Linq;
+using System.Net;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
+using Microsoft.Azure.Mobile.Server.Authentication;
+
+namespace Backend.Helpers
+{
+    public class AuthorizeClaimsAttribute : AuthorizationFilterAttribute
+    {
+        string Type { get; }
+        string Value { get; }
+
+        public AuthorizeClaimsAttribute(string type, string value)
+        {
+            Type = type;
+            Value = value;
+        }
+
+        public override async Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+        {
+            var request = actionContext.Request;
+            var user = actionContext.RequestContext.Principal;
+            if (user != null)
+            {
+                var identity = await user.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(request);
+                var countOfMatchingClaims = identity.UserClaims
+                    .Where(c => c.Type.Equals(Type) && c.Value.Equals(Value))
+                    .Count();
+                if (countOfMatchingClaims > 0) return;
+
+            }
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        }
+    }
+}
 ```
+
+This is the same type of authorization filter attribute that the officially provided `AuthorizeAttribute` is based on.  However, the AuthorizeAttribute is synchronous.  We require an asynchronous version of the attribute, so we cannot use a sub-class of the AuthorizeAttribute.  Aside from that note, this uses virtually the same code that we used in the `IsAythorizedAsync()` method we developped earlier.
+
+We can now use this attribute for testing any claim.  For example, our claims has the identity provider as a claim.  We can use the following:
+
+```csharp
+[AuthorizeClaims("http://schemas.microsoft.com/identity/claims/identityprovider", "live.com")]
+```
+
+> If you want to test other claims that are not provided, you can enable the **Read Directory Data** permission in the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about caching results if this is the case.
+
+## Caching Tokens
 
 ## Refresh Tokens
 

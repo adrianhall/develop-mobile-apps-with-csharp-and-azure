@@ -192,6 +192,7 @@
     <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="DataObjects\User.cs" />
+    <Compile Include="Helpers\AuthorizeClaimsAttribute.cs" />
     <Compile Include="Models\LoginResult.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Models\User.cs" />
