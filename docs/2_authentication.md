@@ -1700,7 +1700,7 @@ namespace Backend.Controllers
 }
 ```
 
-Note that we are reading two new environment variables.  In the Azure App Service, you can read Application Settings by reading the environment variable of the same name.  We need to set the **AUTH0_CLIENTID** to the Client ID of our Auth0 application, and the **AUTH0_DOMAIN** to the domain of our account.  Both of these values need to match the settings in the client.  These are not "secure items".  If using the client secret (to validate the token), then that would be considered secure and should only appear on the server side.
+Note that we are reading two new environment variables.  In the Azure App Service, you can read Application Settings by reading the environment variable of the same name.  We need to set the **AUTH0\_CLIENTID** to the Client ID of our Auth0 application, and the **AUTH0\_DOMAIN** to the domain of our account.  Both of these values need to match the settings in the client.  These are not "secure items".  If using the client secret (to validate the token), then that would be considered secure and should only appear on the server side.
 
 The validation is that the token passed in is valid (i.e. it has the right audience, issuer and expiry times).  In addition, you should check the validity of the token signature.  You can do this by acquiring the token secret and using `tokenHandler.ValidateToken()` instead of `tokenHandler.ReadToken()`.  My new token lasts for 30 days.  The ZUMO token that is generated in custom authentication does not have to be the same length as the original token. You can make it last for as long as you like.
 
@@ -2167,7 +2167,7 @@ namespace TaskList.Droid.Services
 }
 ```
 
-There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry, it will be overwritten.  Finally, there is a method called `IsTokenExpired()` whose only job is to check to see if a token is expired or not.
+There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry, it will be overwritten.  Finally, there is a method called `IsTokenExpired()` whose only job is to check to see if a token is expired or not.  This same code can be used in the `Services/iOSLoginProvider.cs`.  The only difference is in the `AccountStore.Create()` call (as discussed earlier).
 
 I'm using an application specific service ID (or descriptor) for this purpose.  You could also use an identity provider-based service ID which is especially useful if your mobile client supports multiple identity providers.
 
