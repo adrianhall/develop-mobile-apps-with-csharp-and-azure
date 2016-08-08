@@ -2171,6 +2171,67 @@ There are three new pieces to this code.  The first piece is to check to see if 
 
 I'm using an application specific service ID (or descriptor) for this purpose.  You could also use an identity provider-based service ID which is especially useful if your mobile client supports multiple identity providers.
 
+Xamarin.Auth only support iOS and Android.  We need to turn to an alternate library for token caching on Universal Windows.  The standard library has a package called [PasswordVault][33] that can be used identically to the [KeyStore] and [Keychain] libraries.  Here is the Universal Windows version of the same code in `Services\UWPLoginProvider.cs`:
+
+```csharp
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.UWP.Services;
+using Windows.Security.Credentials;
+
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+        public PasswordVault PasswordVault { get; private set; }
+
+        public UWPLoginProvider()
+        {
+            PasswordVault = new PasswordVault();
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Check if the token is available within the password vault
+            var acct = PasswordVault.FindAllByResource("tasklist").FirstOrDefault();
+            if (acct != null)
+            {
+                var token = PasswordVault.Retrieve("tasklist", acct.UserName).Password;
+                if (token != null && token.Length > 0 && !IsTokenExpired(token))
+                {
+                    client.CurrentUser = new MobileServiceUser(acct.UserName);
+                    client.CurrentUser.MobileServiceAuthenticationToken = token;
+                    return;
+                }
+            }
+
+            // Server-Flow Version
+            await client.LoginAsync("aad");
+
+            // Store the token in the password vault
+            PasswordVault.Add(new PasswordCredential("tasklist",
+                client.CurrentUser.UserId,
+                client.CurrentUser.MobileServiceAuthenticationToken));
+        }
+
+        bool IsTokenExpired(string token)
+        {
+            /* Copy code from DroidLoginProvider */
+        }
+    }
+}
+```
+
+The PasswordVault replaces the KeyStore (Android) and Keychain (iOS), but the concepts are the same.  All three mechanisms provide the basic functionality of storing client secrets securely. 
+
 ## Refresh Tokens
 
 ### Configuring Refresh Tokens
@@ -2278,5 +2339,6 @@ I'm using an application specific service ID (or descriptor) for this purpose.  
 [28]: https://github.com/Azure/azure-mobile-apps-net-server/wiki/Local-development-and-debugging-the-Mobile-App-.NET-server-backend
 [29]: https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/
 [30]: https://components.xamarin.com/gettingstarted/xamarin.auth
-[31]: https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html
-[32]: http://developer.android.com/reference/java/security/KeyStore.html
+[Keychain]: https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html
+[KeyStore]: http://developer.android.com/reference/java/security/KeyStore.html
+[33]: https://msdn.microsoft.com/library/windows/apps/windows.security.credentials.passwordvault.aspx
