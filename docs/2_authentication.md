@@ -2045,7 +2045,7 @@ We can now use this attribute for testing any claim.  For example, our claims ha
 
 ## Caching Tokens
 
-You will notice that we have to log in with every start of the application.  The token that is generated has a lifetime that is provided and controlled by the identity provider.  Some providers have a relatively short lifetime.  For example, Azure Active Directory tokens have a lifetime of 1 hour.  Others are incredibly long.  Facebook has an expiry time of 60 days.  
+You will notice that we have to log in with every start of the application.  The token that is generated has a lifetime that is provided and controlled by the identity provider.  Some providers have a relatively short lifetime.  For example, Azure Active Directory tokens have a lifetime of 1 hour.  Others are incredibly long.  Facebook has an expiry time of 60 days.
 
 Irrespective of the lifespan of the token, we will want to store it securely and re-use it when we can.  Xamarin has provided a nice component, [Xamarin.Auth], that provides such as secure store in a cross-platform manner.  It starts with an account store:
 
@@ -2232,7 +2232,7 @@ namespace TaskList.UWP.Services
 }
 ```
 
-The PasswordVault replaces the KeyStore (Android) and Keychain (iOS), but the concepts are the same.  All three mechanisms provide the basic functionality of storing client secrets securely. 
+The PasswordVault replaces the KeyStore (Android) and Keychain (iOS), but the concepts are the same.  All three mechanisms provide the basic functionality of storing client secrets securely.
 
 ## Refresh Tokens
 
@@ -2250,13 +2250,13 @@ Facebook and Twitter do not provider refresh tokens.  Once you have the refresh 
 
 ### Configuring Refresh Tokens
 
-Azure Active Directory is perhaps the trickiest to configure.  
+Azure Active Directory is perhaps the trickiest to configure.
 
 * Log on to the [Classic Portal][classic-portal].
 * Navigate to your Azure Active Directory.
 * Go to **APPLICATIONS** and then your WEB application.
 * Go to the **CONFIGURE** tab.
-* Scroll down to the **Keys** section.  
+* Scroll down to the **Keys** section.
 
   ![AAD: Add a Key][img59]
 
@@ -2278,6 +2278,10 @@ Azure Active Directory is perhaps the trickiest to configure.
 The next time the user logs into our web app side, there will be a one-time prompt to consent to graph API access.  Once granted, the App Service Authentication / Authorization service will start requesting and receiving refresh tokens.
 
 ### Using Refresh Tokens
+
+The Azure Mobile Apps Client SDK has a built in method for refreshing tokens for you.  It assumes that you are using a supported identity provider (Azure Active Directory, Google or Microsoft Account), and have configured the identity provider to generate the refresh token.
+
+> Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is shared among all instances of the backend within the same App Service Plan).  The token store is located at `D:\\home\\data\\.auth\\tokens` on the backend.  The tokens are encrypted and stored in a per-user encrypted file.
 
 ## Logging out
 
