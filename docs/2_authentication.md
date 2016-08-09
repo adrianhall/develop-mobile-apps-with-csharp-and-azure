@@ -1730,6 +1730,8 @@ At some point you are going to need to deal with something other than the claims
 
 Of course, the `/.auth/me` endpoint is not of any use if you cannot access it.  The most use of this information is gained during authorization on the server and we will cover this use later on.  However, there are reasons to pull this information on the client as well.  For example, we may want to make the List View title be our name instead of "Tasks".
 
+> You can't use the /.auth/me endpoint when using custom authentication.
+
 Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can decode the JSON object, we need to define the models.  This is done in the shared **TaskList** project.  I've defined this in `Models\AppServiceIdentity.cs`.
 
 ```csharp
@@ -2234,7 +2236,46 @@ The PasswordVault replaces the KeyStore (Android) and Keychain (iOS), but the co
 
 ## Refresh Tokens
 
+Our token cache checks the token to see if it is expired and prompts the user if the token is no longer valid.  Since the life of a token is inevitably short (maybe 1 hour), this will still mean that the user is prompted for new credentials most of the time.  In addition, we have an issue when the app is running for a long time.  What happens if the user leaves the app running for 2 hours?  The token we received at the start of the session will be invalid halfway through the session and we will have to restart the app in order to continue.  Both of these situations are undesirable from the point of view of the user.  Access tokens eventually expire and we need to explicitly deal with this situation.
+
+The first part of the solution is to request a _Refresh Token_.  This is something the identity provider issues when the scope of the request includes an offline scope.  Only certain identity providers include the ability to request refresh tokens.  For server-flow:
+
+* Google: Append the "access_type=offline" to the request.
+* Microsoft Account: Select the wl.offline_access scope in the Azure management portal.
+* Azure AD: Configure Azure AD to support access to the Graph API.
+
+Facebook and Twitter do not provider refresh tokens.  Once you have the refresh tokens, you can simply call the refresh API in the Azure Mobile Apps SDK to refresh the token.
+
+> Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.
+
 ### Configuring Refresh Tokens
+
+Azure Active Directory is perhaps the trickiest to configure.  
+
+* Log on to the [Classic Portal][classic-portal].
+* Navigate to your Azure Active Directory.
+* Go to **APPLICATIONS** and then your WEB application.
+* Go to the **CONFIGURE** tab.
+* Scroll down to the **Keys** section.  
+
+  ![AAD: Add a Key][img59]
+
+* In the **Select duration** drop-down, select _2 Years_.
+* Click on **SAVE**.  The key will be generated for you.  Copy the key (you will need it below).
+* Go back to the [Azure Portal][portal].
+* Go to **App Services**, then your App Service.
+* Click on **Tools**, then **Resource explorer**, then **Go**.
+* In the Resource Explorer, expand **config** and select **authsettings**.
+* Click on **Edit**.
+* Set the clientSecret to the key you copied from above.
+* Set the additionalLoginParams to `["response_type=code id_token"]`.
+
+  ![AAD: Resource Explorer View][img60]
+
+* Click the **Read/Write** toggle button at the top of the page.
+* Click the **PUT** button.
+
+The next time the user logs into our web app side, there will be a one-time prompt to consent to graph API access.  Once granted, the App Service Authentication / Authorization service will start requesting and receiving refresh tokens.
 
 ### Using Refresh Tokens
 
@@ -2305,6 +2346,8 @@ The PasswordVault replaces the KeyStore (Android) and Keychain (iOS), but the co
 [img-add-group]: chapter2/img/aad-group-1.PNG
 [img-group-props]: chapter2/img/aad-group-2.PNG
 [img-group-claims]: chapter2/img/aad-groups-views.PNG
+[img59]: chapter2/img/aad-add-key.PNG
+[img60]: chapter2/img/aad-resource-explorer.PNG
 
 [portal]: https://portal.azure.com/
 [classic-portal]: https://manage.windowsazure.com/
