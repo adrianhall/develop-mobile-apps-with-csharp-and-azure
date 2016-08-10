@@ -1,25 +1,38 @@
 site_name: Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
 pages:
-- Getting Started: index.md
-- Chapter 1 - Introduction:
-    - Your First App - PC Edition: chapter1/firstapp_pc.md
-    - Your First App - Mac Edition: chapter1/firstapp_mac.md
-- Chapter 2 - Authentication: 2_authentication.md
-- Data Access and Offline Sync: data.md
-- Authenticated Data Access: authdata.md
-- File Management: files.md
-- Push Notifications: push.md
-- Server Side Code: custom.md
-- Media Services: media.md
-- Leveraging Search: search.md
-- Web and Mobile Apps: combined.md
-- The Development Environment: developing.md
-- Testing your Application: testing.md
-- Troubleshooting: troubleshooting.md
-- Going to Production: production.md
-- Xamarin Forms Tips: xamarin_tips.md
-- Android Developer Notes: android_appendix.md
-- References: references.md
-- Credits: credits.md
-theme: readthedocs
-extra_css: [extra.css]
+    - Getting Started: index.md
+    - Chapter 1 - Introduction:
+        - Your First App - PC Edition: chapter1/firstapp_pc.md
+        - Your First App - Mac Edition: chapter1/firstapp_mac.md
+    - Chapter 2 - Authentication:
+        - Concepts: chapter2/concepts.md
+        - Authentication in the Backend: chapter2/backend.md
+        - Enterprise Authentication: chapter2/enterprise.md
+        - Social Authentication: chapter2/social.md
+        - Debugging Authentication: chapter2/debugging.md
+        - Custom Authentication: chapter2/custom.md
+        - Claims and Authorization: chapter2/authorization.md
+        - Tokens in Real Apps: chapter2/realworld.md
+        - Backup Content: 2_authentication.md
+    - Data Access and Offline Sync: data.md
+    - Authenticated Data Access: authdata.md
+    - File Management: files.md
+    - Push Notifications: push.md
+    - Server Side Code: custom.md
+    - Media Services: media.md
+    - Leveraging Search: search.md
+    - Web and Mobile Apps: combined.md
+    - The Development Environment: developing.md
+    - Testing your Application: testing.md
+    - Troubleshooting: troubleshooting.md
+    - Going to Production: production.md
+    - Xamarin Forms Tips: xamarin_tips.md
+    - Android Developer Notes: android_appendix.md
+    - References: references.md
+    - Credits: credits.md
+theme: material
+markdown_extensions:
+    - toc:
+        permalink: True
+extra_css:
+  - extra.css
