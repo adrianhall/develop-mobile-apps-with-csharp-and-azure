@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Tokens in Real Apps - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 2 - Authentication <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Tokens in Real Apps
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Tokens in Real Apps" href="./">
+      Tokens in Real Apps
+    </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Caching Tokens" href="#caching-tokens">
+                Caching Tokens
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Refresh Tokens" href="#refresh-tokens">
+                Refresh Tokens
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Backup Content" href="../../2_authentication/">
+      Backup Content
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Data Access and Offline Sync" href="../../data/">
+      Data Access and Offline Sync
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Authenticated Data Access" href="../../authdata/">
+      Authenticated Data Access
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="File Management" href="../../files/">
+      File Management
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Push Notifications" href="../../push/">
+      Push Notifications
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Server Side Code" href="../../custom/">
+      Server Side Code
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Media Services" href="../../media/">
+      Media Services
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Leveraging Search" href="../../search/">
+      Leveraging Search
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Web and Mobile Apps" href="../../combined/">
+      Web and Mobile Apps
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="The Development Environment" href="../../developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Testing your Application" href="../../testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Troubleshooting" href="../../troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Going to Production" href="../../production/">
+      Going to Production
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+            <h1>Tokens in Real Apps</h1>
+          
+          <h2 id="caching-tokens">Caching Tokens<a class="headerlink" href="#caching-tokens" title="Permanent link">&para;</a></h2>
+<p>You will notice that we have to log in with every start of the application.  The token that is generated has a lifetime
+that is provided and controlled by the identity provider.  Some providers have a relatively short lifetime.  For example,
+Azure Active Directory tokens have a lifetime of 1 hour.  Others are incredibly long.  Facebook has an expiry time of
+60 days.</p>
+<p>Irrespective of the lifespan of the token, we will want to store it securely and re-use it when we can.  Xamarin has
+provided a nice component, <a href="https://components.xamarin.com/gettingstarted/xamarin.auth">Xamarin.Auth</a>, that provides such as secure store in a cross-platform manner.  It starts
+with an account store:</p>
+<pre><code class="csharp">// For iOS:
+var accountStore = AccountStore.Create();
+// For Android:
+var accountStore = AccountStore.Create(Context);
+</code></pre>
+
+<p>We can then store the token with the following:</p>
+<pre><code class="csharp">accountStore.Save(account, &quot;descriptor&quot;);
+</code></pre>
+
+<p>The descriptor is a string that allows us to find the token again.  The account (which is an <code>Account</code> object) is
+uniquely identified by a key composed of the account's Username property and the descriptor.  The Account class is
+provided with Xamarin.Auth.  Storage is backed by the <a href="https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html">Keychain</a> on iOS and the <a href="http://developer.android.com/reference/java/security/KeyStore.html">KeyStore</a> on Android.</p>
+<p>To get the token back, we use the following:</p>
+<pre><code class="csharp">var accounts = accountStore.FindAccountsForService(&quot;descriptor&quot;);
+</code></pre>
+
+<p>When we receive the token back from the key store, we will want to check the expiry time to ensure the token has not
+expired.  As a result, there is a little bit more code to caching code than one would expect.</p>
+<p>Let's start with the Android version in <strong>TaskList.Droid</strong>.  As with all the other login code, we are adjusting the
+<code>LoginAsync()</code> method in <code>Services\DroidLoginProvider.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Droid.Services;
+using TaskList.Helpers;
+using Xamarin.Auth;
+
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        public Context RootView { get; private set; }
+
+        public AccountStore AccountStore { get; private set; }
+
+        public void Init(Context context)
+        {
+            RootView = context;
+            AccountStore = AccountStore.Create(context);
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Check if the token is available within the key store
+            var accounts = AccountStore.FindAccountsForService(&quot;tasklist&quot;);
+            if (accounts != null)
+            {
+                foreach (var acct in accounts)
+                {
+                    string token;
+
+                    if (acct.Properties.TryGetValue(&quot;token&quot;, out token))
+                    {
+                        if (!IsTokenExpired(token))
+                        {
+                            client.CurrentUser = new MobileServiceUser(acct.Username);
+                            client.CurrentUser.MobileServiceAuthenticationToken = token;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Server Flow
+            await client.LoginAsync(RootView, &quot;aad&quot;);
+
+            // Store the new token within the store
+            var account = new Account(client.CurrentUser.UserId);
+            account.Properties.Add(&quot;token&quot;, client.CurrentUser.MobileServiceAuthenticationToken);
+            AccountStore.Save(account, &quot;tasklist&quot;);
+        }
+
+        bool IsTokenExpired(string token)
+        {
+            // Get just the JWT part of the token (without the signature).
+            var jwt = token.Split(new Char[] { '.' })[1];
+
+            // Undo the URL encoding.
+            jwt = jwt.Replace('-', '+').Replace('_', '/');
+            switch (jwt.Length % 4)
+            {
+                case 0: break;
+                case 2: jwt += &quot;==&quot;; break;
+                case 3: jwt += &quot;=&quot;; break;
+                default:
+                    throw new ArgumentException(&quot;The token is not a valid Base64 string.&quot;);
+            }
+
+            // Convert to a JSON String
+            var bytes = Convert.FromBase64String(jwt);
+            string jsonString = UTF8Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+
+            // Parse as JSON object and get the exp field value,
+            // which is the expiration date as a JavaScript primative date.
+            JObject jsonObj = JObject.Parse(jsonString);
+            var exp = Convert.ToDouble(jsonObj[&quot;exp&quot;].ToString());
+
+            // Calculate the expiration by adding the exp value (in seconds) to the
+            // base date of 1/1/1970.
+            DateTime minTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var expire = minTime.AddSeconds(exp);
+            return (expire &lt; DateTime.UtcNow);
+        }
+    }
+}
+</code></pre>
+
+<p>There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the
+KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and
+token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is
+successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry,
+it will be overwritten.  Finally, there is a method called <code>IsTokenExpired()</code> whose only job is to check to see if a
+token is expired or not.  This same code can be used in the <code>Services/iOSLoginProvider.cs</code>.  The only difference is
+in the <code>AccountStore.Create()</code> call (as discussed earlier).</p>
+<p>I'm using an application specific service ID (or descriptor) for this purpose.  You could also use an identity
+provider-based service ID which is especially useful if your mobile client supports multiple identity providers.</p>
+<p>Xamarin.Auth only support iOS and Android.  We need to turn to an alternate library for token caching on Universal
+Windows.  The standard library has a package called <a href="https://msdn.microsoft.com/library/windows/apps/windows.security.credentials.passwordvault.aspx">PasswordVault</a> that can be used identically to the
+<a href="http://developer.android.com/reference/java/security/KeyStore.html">KeyStore</a> and <a href="https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html">Keychain</a> libraries.  Here is the Universal Windows version of the same code in
+<code>Services\UWPLoginProvider.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.UWP.Services;
+using Windows.Security.Credentials;
+
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+        public PasswordVault PasswordVault { get; private set; }
+
+        public UWPLoginProvider()
+        {
+            PasswordVault = new PasswordVault();
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Check if the token is available within the password vault
+            var acct = PasswordVault.FindAllByResource(&quot;tasklist&quot;).FirstOrDefault();
+            if (acct != null)
+            {
+                var token = PasswordVault.Retrieve(&quot;tasklist&quot;, acct.UserName).Password;
+                if (token != null &amp;&amp; token.Length &gt; 0 &amp;&amp; !IsTokenExpired(token))
+                {
+                    client.CurrentUser = new MobileServiceUser(acct.UserName);
+                    client.CurrentUser.MobileServiceAuthenticationToken = token;
+                    return;
+                }
+            }
+
+            // Server-Flow Version
+            await client.LoginAsync(&quot;aad&quot;);
+
+            // Store the token in the password vault
+            PasswordVault.Add(new PasswordCredential(&quot;tasklist&quot;,
+                client.CurrentUser.UserId,
+                client.CurrentUser.MobileServiceAuthenticationToken));
+        }
+
+        bool IsTokenExpired(string token)
+        {
+            /* Copy code from DroidLoginProvider */
+        }
+    }
+}
+</code></pre>
+
+<p>The PasswordVault replaces the KeyStore (Android) and Keychain (iOS), but the concepts are the same.  All three
+mechanisms provide the basic functionality of storing client secrets securely.</p>
+<h2 id="refresh-tokens">Refresh Tokens<a class="headerlink" href="#refresh-tokens" title="Permanent link">&para;</a></h2>
+<p>Our token cache checks the token to see if it is expired and prompts the user if the token is no longer valid.  Since
+the life of a token is inevitably short (maybe 1 hour), this will still mean that the user is prompted for new
+credentials most of the time.  In addition, we have an issue when the app is running for a long time.  What happens
+if the user leaves the app running for 2 hours?  The token we received at the start of the session will be invalid
+halfway through the session and we will have to restart the app in order to continue.  Both of these situations are
+undesirable from the point of view of the user.  Access tokens eventually expire and we need to explicitly deal with
+this situation.</p>
+<p>The first part of the solution is to request a <em>Refresh Token</em>.  This is something the identity provider issues when
+the scope of the request includes an offline scope.  Only certain identity providers include the ability to request
+refresh tokens.  For server-flow:</p>
+<ul>
+<li>Google: Append the "access_type=offline" to the request.</li>
+<li>Microsoft Account: Select the wl.offline_access scope in the Azure management portal.</li>
+<li>Azure AD: Configure Azure AD to support access to the Graph API.</li>
+</ul>
+<p>Facebook and Twitter do not provider refresh tokens.  Once you have the refresh tokens, you can simply call the
+refresh API in the Azure Mobile Apps SDK to refresh the token.</p>
+<blockquote>
+<p>Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with
+the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.</p>
+</blockquote>
+<h3 id="configuring-refresh-tokens">Configuring Refresh Tokens<a class="headerlink" href="#configuring-refresh-tokens" title="Permanent link">&para;</a></h3>
+<p>Azure Active Directory is perhaps the trickiest to configure.</p>
+<ul>
+<li>Log on to the <a href="https://manage.windowsazure.com/">Classic Portal</a>.</li>
+<li>Navigate to your Azure Active Directory.</li>
+<li>Go to <strong>APPLICATIONS</strong> and then your WEB application.</li>
+<li>Go to the <strong>CONFIGURE</strong> tab.</li>
+<li>Scroll down to the <strong>Keys</strong> section.</li>
+</ul>
+<p><img alt="AAD: Add a Key" src="../img/aad-add-key.PNG" /></p>
+<ul>
+<li>In the <strong>Select duration</strong> drop-down, select <em>2 Years</em>.</li>
+<li>Click on <strong>SAVE</strong>.  The key will be generated for you.  Copy the key (you will need it below).</li>
+<li>Go back to the <a href="https://portal.azure.com/">Azure Portal</a>.</li>
+<li>Go to <strong>App Services</strong>, then your App Service.</li>
+<li>Click on <strong>Tools</strong>, then <strong>Resource explorer</strong>, then <strong>Go</strong>.</li>
+<li>In the Resource Explorer, expand <strong>config</strong> and select <strong>authsettings</strong>.</li>
+<li>Click on <strong>Edit</strong>.</li>
+<li>Set the clientSecret to the key you copied from above.</li>
+<li>Set the additionalLoginParams to <code>["response_type=code id_token"]</code>.</li>
+</ul>
+<p><img alt="AAD: Resource Explorer View" src="../img/aad-resource-explorer.PNG" /></p>
+<ul>
+<li>Click the <strong>Read/Write</strong> toggle button at the top of the page.</li>
+<li>Click the <strong>PUT</strong> button.</li>
+</ul>
+<p>The next time the user logs into our web app side, there will be a one-time prompt to consent to graph API access.
+Once granted, the App Service Authentication / Authorization service will start requesting and receiving refresh
+tokens.</p>
+<h3 id="using-refresh-tokens">Using Refresh Tokens<a class="headerlink" href="#using-refresh-tokens" title="Permanent link">&para;</a></h3>
+<p>The Azure Mobile Apps Client SDK has a built in method for refreshing tokens for you.  It assumes that you are using
+a supported identity provider (Azure Active Directory, Google or Microsoft Account), and have configured the identity
+provider to generate the refresh token.</p>
+<blockquote>
+<p>Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is
+shared among all instances of the backend within the same App Service Plan).  The token store is located at
+<code>D:\\home\\data\\.auth\\tokens</code> on the backend.  The tokens are encrypted and stored in a per-user encrypted file.</p>
+</blockquote>
+<!-- Images -->
+
+<!-- Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../authorization/" title="Claims and Authorization">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Claims and Authorization
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../../2_authentication/" title="Backup Content">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Backup Content
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>

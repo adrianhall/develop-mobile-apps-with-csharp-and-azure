@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Claims and Authorization - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 2 - Authentication <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Claims and Authorization
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Claims and Authorization" href="./">
+      Claims and Authorization
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Obtaining User Claims" href="#obtaining-user-claims">
+                Obtaining User Claims
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Authorization" href="#authorization">
+                Authorization
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Adding Group Claims to the Request" href="#adding-group-claims-to-the-request">
+                Adding Group Claims to the Request
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Backup Content" href="../../2_authentication/">
+      Backup Content
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Data Access and Offline Sync" href="../../data/">
+      Data Access and Offline Sync
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Authenticated Data Access" href="../../authdata/">
+      Authenticated Data Access
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="File Management" href="../../files/">
+      File Management
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Push Notifications" href="../../push/">
+      Push Notifications
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Server Side Code" href="../../custom/">
+      Server Side Code
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Media Services" href="../../media/">
+      Media Services
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Leveraging Search" href="../../search/">
+      Leveraging Search
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Web and Mobile Apps" href="../../combined/">
+      Web and Mobile Apps
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="The Development Environment" href="../../developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Testing your Application" href="../../testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Troubleshooting" href="../../troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Going to Production" href="../../production/">
+      Going to Production
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="claims-and-authorization">Claims and Authorization<a class="headerlink" href="#claims-and-authorization" title="Permanent link">&para;</a></h1>
+<p>Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication
+looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific
+operation.</p>
+<p>Authorization is handled within the server-side project by the <code>[Authorize]</code> attribute.  Our Azure Mobile Apps backend
+is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute
+can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id
+is not guessable and we have no roles.  To see what I mean, run the <strong>Backend</strong> project locally and set a break point
+on the <code>GetAllTodoItems()</code> method in the <code>TodoItemController</code>, then run your server and your UWP application.</p>
+<blockquote>
+<p>Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
+you to run the application and the server at the same time on the same machine.</p>
+</blockquote>
+<p>Once you have authenticated, you will be able to set a break point to take a look at <code>this.User.Identity</code>:</p>
+<p><img alt="this.User.Identity output" src="../img/user-identity.PNG" /></p>
+<p>Note that the <code>Name</code> property is null.  This is the property that is used when you want to authorize individual users.
+Expand the <code>Claims</code> property and then click on <strong>Results View</strong>:</p>
+<p><img alt="Claims output" src="../img/user-claims.PNG" /></p>
+<p>The only claims are the ones in the token, and none of them match the <code>RoleClaimType</code>, so we can't use roles either.
+Clearly, we are going to have to do something else.</p>
+<h2 id="obtaining-user-claims">Obtaining User Claims<a class="headerlink" href="#obtaining-user-claims" title="Permanent link">&para;</a></h2>
+<p>At some point you are going to need to deal with something other than the claims that are in the token passed for
+authentication.  Fortunately, the Authentication / Authorization feature has an endpoint for that at <code>/.auth/me</code>:</p>
+<p><img alt="The /.auth/me endpoint" src="../img/auth-me.PNG" /></p>
+<p>Of course, the <code>/.auth/me</code> endpoint is not of any use if you cannot access it.  The most use of this information is
+gained during authorization on the server and we will cover this use later on.  However, there are reasons to pull
+this information on the client as well.  For example, we may want to make the List View title be our name instead of
+"Tasks".</p>
+<blockquote>
+<p>You can't use the /.auth/me endpoint when using custom authentication.</p>
+</blockquote>
+<p>Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can
+decode the JSON object, we need to define the models.  This is done in the shared <strong>TaskList</strong> project.  I've defined
+this in <code>Models\AppServiceIdentity.cs</code>.</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace TaskList.Models
+{
+    public class AppServiceIdentity
+    {
+        [JsonProperty(PropertyName = &quot;id_token&quot;)]
+        public string IdToken { get; set; }
+
+        [JsonProperty(PropertyName = &quot;provider_name&quot;)]
+        public string ProviderName { get; set; }
+
+        [JsonProperty(PropertyName = &quot;user_id&quot;)]
+        public string UserId { get; set; }
+
+        [JsonProperty(PropertyName = &quot;user_claims&quot;)]
+        public List&lt;UserClaim&gt; UserClaims { get; set; }
+    }
+
+    public class UserClaim
+    {
+        [JsonProperty(PropertyName = &quot;typ&quot;)]
+        public string Type { get; set; }
+
+        [JsonProperty(PropertyName = &quot;val&quot;)]
+        public string Value { get; set; }
+    }
+}
+</code></pre>
+
+<p>This matches the JSON format from the <code>/.auth/me</code> call we did earlier.   This is going to be a part of the
+ICloudService as follows:</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+using TaskList.Models;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
+
+        Task LoginAsync();
+
+        Task LoginAsync(User user);
+
+        Task&lt;AppServiceIdentity&gt; GetIdentityAsync();
+    }
+}
+</code></pre>
+
+<p>Finally, we need to actually implement the concrete version in <code>AzureCloudService.cs</code>:</p>
+<pre><code class="csharp">List&lt;AppServiceIdentity&gt; identities = null;
+
+public async Task&lt;AppServiceIdentity&gt; GetIdentityAsync()
+{
+    if (client.CurrentUser == null || client.CurrentUser?.MobileServiceAuthenticationToken == null)
+    {
+        throw new InvalidOperationException(&quot;Not Authenticated&quot;);
+    }
+
+    if (identities == null)
+    {
+        identities = await client.InvokeApiAsync&lt;List&lt;AppServiceIdentity&gt;&gt;(&quot;/.auth/me&quot;);
+    }
+
+    if (identities.Count &gt; 0)
+        return identities[0];
+    return null;
+}
+</code></pre>
+
+<p>Note that there is no reason to instantiate your own <code>HttpClient()</code>.  The Azure Mobile Apps SDK has a method for
+invoking custom API calls (as we shall see later on).  However, if you prefix the path with a slash, it will execute
+a HTTP GET for any API with any authentication that is currently in force.  We can leverage this to call the
+<code>/.auth/me</code> endpoint and decode the response in one line of code.  Adjust the <code>ExecuteRefreshCommand()</code> method in
+the <code>ViewModels\TaskListViewModel.cs</code> file to take advantage of this:</p>
+<pre><code class="csharp">async Task ExecuteRefreshCommand()
+{
+    if (IsBusy)
+        return;
+    IsBusy = true;
+
+    try
+    {
+        var identity = await cloudService.GetIdentityAsync();
+        if (identity != null)
+        {
+            var name = identity.UserClaims.FirstOrDefault(c =&gt; c.Type.Equals(&quot;name&quot;)).Value;
+            Title = $&quot;Tasks for {name}&quot;;
+        }
+        var list = await Table.ReadAllItemsAsync();
+        Items.ReplaceRange(list);
+    }
+    catch (Exception ex)
+    {
+        await Application.Current.MainPage.DisplayAlert(&quot;Items Not Loaded&quot;, ex.Message, &quot;OK&quot;);
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
+</code></pre>
+
+<p>The return value from the <code>GetIdentityAsync()</code> method is the first identity.  Normally, a user would only authenticate
+once, so this is fairly safe.  The number of claims returned depends on the identity provider and could easily number
+in the hundreds.  Even the default configuration for Azure Active Directory returns 18 claims.  These are easily handled
+using LINQ, however.  The <code>Type</code> property holds the type.  This could be a short (common) name.  It could also be a
+schema name, which looks more like a URI.  The only way to know what claims are coming back for sure is to look at
+the <code>/.auth/me</code> result with something like Postman.</p>
+<blockquote>
+<p><strong>Note</strong>: If you are using Custom Authentication (e.g. username/password or a third-party token), then the <code>/.auth/me</code>
+endpoint is not available to you.  You can still produce a custom API in your backend to provide this information to
+your client, but you are responsible for the code - it's custom, after all!</p>
+</blockquote>
+<h2 id="authorization">Authorization<a class="headerlink" href="#authorization" title="Permanent link">&para;</a></h2>
+<p>Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication
+looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific
+operation.</p>
+<p>Authorization is handled within the server-side project by the <code>[Authorize]</code> attribute.  Our Azure Mobile Apps backend
+is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute
+can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id
+is not guessable and we have no roles.  To see what I mean, run the <strong>Backend</strong> project and set a break point on the
+<code>GetAllTodoItems()</code> method in the <code>TodoItemController</code>, then run your server and your UWP application.</p>
+<blockquote>
+<p>Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
+you to run the application and the server at the same time on the same machine.  Alternatively, you can attach a
+Debugger to your Azure App Service within Visual Studio's Cloud Explorer.</p>
+</blockquote>
+<p>Once you have authenticated, you will be able to set a break point to take a look at <code>this.User.Identity</code>:</p>
+<p><img alt="this.User.Identity output" src="../img/user-identity.PNG" /></p>
+<p>Note that the <code>Name</code> property is null.  This is the property that is used when you want to authorize individual users.
+Expand the <code>Claims</code> property and then click on <strong>Results View</strong>:</p>
+<p><img alt="Claims output" src="../img/user-claims.PNG" /></p>
+<p>The only claims are the ones in the token, and none of them match the <code>RoleClaimType</code>, so we can't use roles either.
+Clearly, we are going to have to do something else.  Fortunately, we already know that we can get some information
+about the identity provider claims from the <code>/.auth/me</code> endpoint.  To get the extra information, we need to query
+the <code>User</code> object:</p>
+<pre><code class="csharp">var identity = await User.GetAppServiceIdentityAsync&lt;AzureActiveDirectoryCredentials&gt;(Request);
+</code></pre>
+
+<p>There is one <code>Credentials</code> class for each supported authentication technique - Azure Active Directory, Facebook,
+Google, Microsoft Account and Twitter.  These are in the <strong>Microsoft.Azure.Mobile.Server.Authentication</strong> namespace.
+They all follow the same pattern as the model we created for the client - there are Provider, UserId and UserClaims
+properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId
+is pulled out of the response for Azure AD.</p>
+<blockquote>
+<p>You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into
+this more in a later Chapter.</p>
+</blockquote>
+<h2 id="adding-group-claims-to-the-request">Adding Group Claims to the Request<a class="headerlink" href="#adding-group-claims-to-the-request" title="Permanent link">&para;</a></h2>
+<p>There are times when you want to add something else to the token that is returned from Azure AD. The most common
+requirement is to add group information to the response so you can handle group-based authorization.</p>
+<p>To add security groups to the Azure AD token:</p>
+<ol>
+<li>Log into the <a href="https://manage.windowsazure.com/">Classic Portal</a>.</li>
+<li>Click on your directory (probably called <strong>Default Directory</strong>) in the <strong>All Items</strong> list.</li>
+<li>Click on <strong>APPLICATIONS</strong>, then your WEB application.</li>
+<li>Click on <strong>MANAGE MANIFEST</strong> (at the bottom of the page), then <strong>Download Manifest</strong>.</li>
+<li>Click on <strong>Download manifest</strong>.</li>
+</ol>
+<p>This will download a JSON file.  Edit the file with a text editor.  (I use Visual Studio Code).  At the top of the
+file is this:</p>
+<pre><code class="json">  &quot;displayName&quot;: &quot;webapp-for-the-book&quot;,
+  &quot;errorUrl&quot;: null,
+  &quot;groupMembershipClaims&quot;: null,
+  &quot;homepage&quot;: &quot;https://the-book.azurewebsites.net&quot;,
+  &quot;identifierUris&quot;: [
+    &quot;https://the-book.azurewebsites.net&quot;
+  ],
+  &quot;keyCredentials&quot;: [],
+  &quot;knownClientApplications&quot;: [],
+</code></pre>
+
+<p>Change the <strong>groupMembershipClaims</strong> to "SecurityGroup":</p>
+<pre><code class="json">  &quot;displayName&quot;: &quot;webapp-for-the-book&quot;,
+  &quot;errorUrl&quot;: null,
+  &quot;groupMembershipClaims&quot;: &quot;SecurityGroup&quot;,
+  &quot;homepage&quot;: &quot;https://the-book.azurewebsites.net&quot;,
+  &quot;identifierUris&quot;: [
+    &quot;https://the-book.azurewebsites.net&quot;
+  ],
+  &quot;keyCredentials&quot;: [],
+  &quot;knownClientApplications&quot;: [],
+</code></pre>
+
+<p>Save the file.  You can now upload this again.  Go back to the WEB application, click on <strong>MANAGE MANIFEST</strong>, then
+click on <strong>Upload Manifest</strong>.  Select the file and click on the tick.</p>
+<p><img alt="AAD - Upload Manifest" src="../img/aad-manifest-upload.PNG" /></p>
+<p>You can now give the web application additional permissions:</p>
+<ol>
+<li>Click on the <strong>CONFIGURE</strong> tab.</li>
+<li>Scroll to the bottom, click on <strong>Delegated Permissions</strong>.</li>
+<li>Check the box for <strong>Read directory data</strong>.</li>
+</ol>
+<p><img alt="AAD: Group Permissions" src="../img/aad-group-perms.PNG" /></p>
+<ol>
+<li>Click on <strong>Save</strong>.</li>
+</ol>
+<p>Now that you have configured the application to return groups as part of the claims, you should probably add a
+couple of groups:</p>
+<ol>
+<li>Click on the back-arrow (at the top left) to return to the top level of your directory.</li>
+<li>Click on <strong>GROUPS</strong>.</li>
+<li>Click on <strong>ADD GROUP</strong>.</li>
+<li>Fill in the information, select <strong>Security</strong> as the group type, then click on the tick.</li>
+</ol>
+<p><img alt="AAD: Add Group" src="../img/aad-group-1.PNG" /></p>
+<ol>
+<li>Click on the new group, then click on <strong>PROPERTIES</strong>.</li>
+</ol>
+<p><img alt="AAD: Group Properties" src="../img/aad-group-2.PNG" /></p>
+<ol>
+<li>Make a note of the <strong>OBJECT ID</strong>.  The claims for groups are listed by the Object ID, so you will need this to
+   refer to the group later.</li>
+</ol>
+<p>It's a good idea to add a couple of groups for testing purposes.  If you are using the organization directory, you
+will need to request the creation of a couple of groups for application roles.  The view of the groups will be shown
+when we get the identity of the user using <code>User.GetAppServiceIdentityAsync&lt;AzureActiveDirectoryCredentials&gt;(Request)</code>:</p>
+<p><img alt="AAD: Group in Claims" src="../img/aad-groups-views.PNG" /></p>
+<h3 id="group-authorization">Group Authorization<a class="headerlink" href="#group-authorization" title="Permanent link">&para;</a></h3>
+<p>Now that we have group claims in the claims list for the <code>/.auth/me</code> endpoint, we can move forward to do authorization
+based on these claims.  This can be done in a relatively basic manner by implementing a method to check the claims:</p>
+<pre><code class="csharp">async Task&lt;bool&gt; IsAuthorizedAsync()
+{
+    var identity = await User.GetAppServiceIdentityAsync&lt;AzureActiveDirectoryCredentials&gt;(Request);
+    var countofGroups = identity.UserClaims
+        .Where(c =&gt; c.Type.Equals(&quot;groups&quot;) &amp;&amp; c.Value.Equals(&quot;01f214a9-af1f-4bdd-938f-3f16749aef0e&quot;))
+        .Count();
+    return (countofGroups &gt; 0);
+}
+</code></pre>
+
+<p>The <code>UserClaims</code> object is an <code>IEnumerable</code> that contains objects with a Type and a Value.  The Type for the group
+claims is <code>groups</code>.  Once we have this knowledge, we can use a LINQ query to obtain a count of the claims that match
+the conditions we want to test.  The Value we use is the Object ID of the group.  This is available in the
+<strong>PROPERTIES</strong> tab of the group.</p>
+<p>We can prevent a new record being added by adjusting the <code>PostTodoItem()</code> method:</p>
+<pre><code class="csharp">public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+{
+    if (!await IsAuthorizedAsync())
+    {
+        return Unauthorized();
+    }
+    TodoItem current = await InsertAsync(item);
+    return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+}
+</code></pre>
+
+<p>Unfortunately, most of the table controller methods do not return an <code>IHttpActionResult</code>, so this has limited value.
+What would be better would be an <code>[Authorize]</code> attribute that tests the claims for us.  For instance, we should be
+able to do the following:</p>
+<pre><code class="csharp">[AuthorizeClaims(&quot;groups&quot;, &quot;01f214a9-af1f-4bdd-938f-3f16749aef0e&quot;)]
+public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+{
+    TodoItem current = await InsertAsync(item);
+    return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+}
+</code></pre>
+
+<p>The <code>[AuthorizeClaims()]</code> attribute does not exist, so we have to provide it ourselves:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Net;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
+using Microsoft.Azure.Mobile.Server.Authentication;
+
+namespace Backend.Helpers
+{
+    public class AuthorizeClaimsAttribute : AuthorizationFilterAttribute
+    {
+        string Type { get; }
+        string Value { get; }
+
+        public AuthorizeClaimsAttribute(string type, string value)
+        {
+            Type = type;
+            Value = value;
+        }
+
+        public override async Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+        {
+            var request = actionContext.Request;
+            var user = actionContext.RequestContext.Principal;
+            if (user != null)
+            {
+                var identity = await user.GetAppServiceIdentityAsync&lt;AzureActiveDirectoryCredentials&gt;(request);
+                var countOfMatchingClaims = identity.UserClaims
+                    .Where(c =&gt; c.Type.Equals(Type) &amp;&amp; c.Value.Equals(Value))
+                    .Count();
+                if (countOfMatchingClaims &gt; 0) return;
+
+            }
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        }
+    }
+}
+</code></pre>
+
+<p>This is the same type of authorization filter attribute that the officially provided <code>AuthorizeAttribute</code> is based
+on.  However, the AuthorizeAttribute is synchronous.  We require an asynchronous version of the attribute, so we
+cannot use a sub-class of the AuthorizeAttribute.  Aside from that note, this uses virtually the same code that we
+used in the <code>IsAythorizedAsync()</code> method we developped earlier.</p>
+<p>We can now use this attribute for testing any claim.  For example, our claims has the identity provider as a claim.
+We can use the following:</p>
+<pre><code class="csharp">[AuthorizeClaims(&quot;http://schemas.microsoft.com/identity/claims/identityprovider&quot;, &quot;live.com&quot;)]
+</code></pre>
+
+<blockquote>
+<p>If you want to test other claims that are not provided, you can enable the <strong>Read Directory Data</strong> permission in
+the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about
+caching results or minting a new ZUMO token (just like we did in the custom authentication case) for
+performance reasons.</p>
+</blockquote>
+<!-- Images -->
+
+<!-- Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../custom/" title="Custom Authentication">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Custom Authentication
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../realworld/" title="Tokens in Real Apps">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Tokens in Real Apps
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>

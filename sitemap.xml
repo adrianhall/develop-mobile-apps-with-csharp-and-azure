@@ -26,11 +26,61 @@
     
 
     
+        
+    <url>
+     <loc>None/chapter2/concepts/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter2/backend/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter2/enterprise/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter2/social/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter2/debugging/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter2/custom/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter2/authorization/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter2/realworld/</loc>
+     <lastmod>2016-08-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     <url>
      <loc>None/2_authentication/</loc>
      <lastmod>2016-08-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
+        
     
 
     

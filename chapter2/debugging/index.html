@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Debugging Authentication - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 2 - Authentication <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Debugging Authentication
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Debugging Authentication" href="./">
+      Debugging Authentication
+    </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="What is in a JWT" href="#what-is-in-a-jwt">
+                What is in a JWT
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Testing Authentication without a Client" href="#testing-authentication-without-a-client">
+                Testing Authentication without a Client
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Developing Locally" href="#developing-locally">
+                Developing Locally
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Backup Content" href="../../2_authentication/">
+      Backup Content
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Data Access and Offline Sync" href="../../data/">
+      Data Access and Offline Sync
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Authenticated Data Access" href="../../authdata/">
+      Authenticated Data Access
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="File Management" href="../../files/">
+      File Management
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Push Notifications" href="../../push/">
+      Push Notifications
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Server Side Code" href="../../custom/">
+      Server Side Code
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Media Services" href="../../media/">
+      Media Services
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Leveraging Search" href="../../search/">
+      Leveraging Search
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Web and Mobile Apps" href="../../combined/">
+      Web and Mobile Apps
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="The Development Environment" href="../../developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Testing your Application" href="../../testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Troubleshooting" href="../../troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Going to Production" href="../../production/">
+      Going to Production
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+            <h1>Debugging Authentication</h1>
+          
+          <h2 id="what-is-in-a-jwt">What is in a JWT<a class="headerlink" href="#what-is-in-a-jwt" title="Permanent link">&para;</a></h2>
+<p>At this point you will have the "Authentication Success" screen - perhaps several times.  If you bring up the
+Developer Tools for your browser, you can take a look at the token that is being minted for the authentication
+session.  Take a look at the URL on the "successful authentication" page.</p>
+<p><img alt="The JWT" src="../img/jwt-1.PNG" /></p>
+<p>The authentication token is clearly marked (after you strip away the URL encoding).  You can use a
+[URL Decoder / Encoder][16] - just cut and paste the entire URL into the box and click on <strong>Decode</strong>.  Note that
+the token is actually a JSON object.  You can now easily extract the <strong>authenticationToken</strong> field from the JSON
+object.</p>
+<p><img alt="The JWT Revealed" src="../img/jwt-2.PNG" /></p>
+<p>Technically, the authentication token is a <a href="https://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Token</a>.  This is a mechanism for transferring claims
+between two systems securely.  The JWT is a cryptographically signed JSON object.  You can decode the JWT using
+the <a href="https://jwt.io">jwt.io tool</a>.  Cut and paste the authentication token into the <strong>Encoded</strong> box and it will be decoded.</p>
+<p><img alt="The JWT Decoded" src="../img/jwt-3.PNG" /></p>
+<p>Note that the contents of the JWT are revealed even without knowing the secret.  However, we have not supplied
+a secret.  The secret is kept at the resource - in this case, your app service.  However, we can already see the
+issuer and audience (in this case, they are both set to your app service address), the identity provider that was
+used and a subject.</p>
+<p>Technically, the JWT can include any data and there are some that place just about everything about the user in
+the JWT.  App Service keeps the amount of data small because the client will be sending the JWT with every request.
+Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth usage will add up
+quickly, and your app will be known as a bandwidth hog.</p>
+<p>However, there are some fields that are pretty universal.  Your JWT should always have the following fields:</p>
+<ul>
+<li>sub = Subject (the identifier for the token)</li>
+<li>exp = Expiry (when the token expires)</li>
+<li>nbf = Not Before (the earliest point in time the token is valid)</li>
+<li>iss = Issuer (the site that issued the token)</li>
+<li>aud = Audience (who is the token for)</li>
+</ul>
+<p>The timestamps (exp and nbf) are all UNIX timestamps (i.e. the number of seconds since January 1, 1970).</p>
+<p>App Service adds to this:</p>
+<ul>
+<li>stable_sid = Security Id of the user</li>
+<li>idp = the IdP that was used in the authentication request</li>
+<li>ver = the Version of the token</li>
+</ul>
+<p>App Service will be able to validate any token provided to it when presented in an X-ZUMO-AUTH header.  If you are
+using Azure Active Directory, you can also use the more standard Bearer Authorization header.  If the token does
+not match, then the X-ZUMO-AUTH header will be stripped from the request before the request is passed to your site.</p>
+<h2 id="testing-authentication-without-a-client">Testing Authentication without a Client<a class="headerlink" href="#testing-authentication-without-a-client" title="Permanent link">&para;</a></h2>
+<p>Testing your site without a client requires a REST client.  I use <a href="https://www.getpostman.com/">Postman</a>, which is based on Google Chrome.
+If you use Firefox, you might want to take a look at <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">RESTClient</a>.  Telerik also distributes a web debugging
+proxy called <a href="http://www.telerik.com/blogs/api-testing-with-telerik-fiddler">Fiddler</a> that can do API testing.  To test the server, we will need a token.  We can get one by
+testing authentication configuration by pointing the browser to <code>/.auth/login/aad</code>.  The return URL will contain
+a token.</p>
+<blockquote>
+<p>You can test any of the supported identity providers by replacing <em>aad</em> with the authentication provider name:
+facebook, google, microsoftaccount and twitter are possibilities here.</p>
+</blockquote>
+<p>We can then do a request to <code>/tables/todoitem</code> to try and obtain the list of current tasks.  We will need to add
+two headers:</p>
+<ul>
+<li><code>ZUMO-API-VERSION</code> should contain a value of <code>2.0.0</code>.</li>
+<li><code>X-ZUMO-AUTH</code> should contain the token you received.</li>
+</ul>
+<p>My first request shows authentication failing:</p>
+<p><img alt="Authentication Failing" src="../img/testing-auth-failed.PNG" /></p>
+<p>Go through one of the authentication flows and copy the authentication token.  In Postman, add a new header called
+<code>X-ZUMO-AUTH</code> and paste the authentication token in.</p>
+<p><img alt="Authentication Success" src="../img/testing-auth-success.PNG" /></p>
+<p>Note that we have tested all this without touching the client.  Separating the backend operations from the client
+operations means we can be sure of where the inevitable bug that creeps in is located.  We have verified that we
+can do each authentication flow on the server side and that the server is properly rejecting unauthenticated requests,
+plus it is properly returning data when authenticated requests are issued.</p>
+<h2 id="developing-locally">Developing Locally<a class="headerlink" href="#developing-locally" title="Permanent link">&para;</a></h2>
+<p>One would normally be able to run the ASP.NET backend locally and get full functionality without authentication.
+However, authentication puts a stop to that because the redirect URLs, secrets and other authentication configuration
+settings only work with a known endpoint.  To alleviate that, Azure Mobile Apps allows you to run a local server while
+using an authentication endpoint in Azure App Service.  When the authentication transaction takes place, it is taking
+place against the Azure App Service.   When it is not doing the OAuth transaction, however, it is operating against a
+local server.</p>
+<p>Setting this up requires a little bit of local machine configuration and a change to the configuration of your client.</p>
+<h3 id="update-your-local-development-environment">Update your Local Development Environment<a class="headerlink" href="#update-your-local-development-environment" title="Permanent link">&para;</a></h3>
+<p>The first step in this process is to make your local IIS development environment look more like the Azure App Service,
+particularly in reference to the authentication settings.  This means setting up a few app settings that should be
+pulled from your App Service.</p>
+<ul>
+<li>Log on to the <a href="https://portal.azure.com/">Azure Portal</a>.</li>
+<li>Select your App Service from the <strong>App Services</strong> list.</li>
+<li>Click on <strong>Tools</strong>, then <strong>Kudu</strong>, then <strong>Go</strong>.</li>
+</ul>
+<p>Kudu is the backend debug console for Azure App Service and there is a lot you can do here.  Of note in this instance
+is that you can gain access to the keys and audience for your App Service.</p>
+<ul>
+<li>Click on <strong>Environment</strong> in the top banner.</li>
+<li>Click on <strong>Environment variables</strong>.</li>
+<li>Scroll down to the environment variables starting with <strong>WEBSITE_AUTH</strong>.</li>
+<li>Make a note of the <strong>WEBSITE_AUTH_SIGNING_KEY</strong> and <strong>WEBSITE_AUTH_ALLOWED_AUDIENCES</strong> values.</li>
+</ul>
+<p>Add the following to your project Web.config <code>&lt;appSettings&gt;</code> section:</p>
+<pre><code class="xml">  &lt;appSettings&gt;
+    &lt;add key=&quot;PreserveLoginUrl&quot; value=&quot;true&quot; /&gt;
+    &lt;add key=&quot;MS_SigningKey&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;EMA_RuntimeUrl&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;MS_NotificationHubName&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;SigningKey&quot; value=&quot;{Your WEBSITE_AUTH_SIGNING_KEY}&quot;/&gt;
+    &lt;add key=&quot;ValidAudience&quot; value=&quot;{Your WEBSITE_AUTH_ALLOWED_AUDIENCES}&quot;/&gt;
+    &lt;add key=&quot;ValidIssuer&quot; value=&quot;https://{Your WEBSITE_HOSTNAME}/&quot;/&gt;
+  &lt;/appSettings&gt;
+</code></pre>
+
+<blockquote>
+<p><strong>NOTE</strong>: Both the ValidAudience and ValidIssuer will have a slash on the end and be a https URL.</p>
+</blockquote>
+<p>The last three keys are the keys you will need to add.  Make sure you do not have a <code>HostName</code> key as this is how
+the startup file determines if you are running locally or remote. Talking of which, edit your
+<code>App_Start\Startup.MobileApp.cs</code> file to include the following:</p>
+<pre><code class="csharp">        public static void ConfigureMobileApp(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+
+            new MobileAppConfiguration()
+                .AddTablesWithEntityFramework()
+                .ApplyTo(config);
+
+            // Use Entity Framework Code First to create database tables based on your DbContext
+            Database.SetInitializer(new MobileServiceInitializer());
+
+            MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            if (string.IsNullOrEmpty(settings.HostName))
+            {
+                app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
+                {
+                    SigningKey = ConfigurationManager.AppSettings[&quot;SigningKey&quot;],
+                    ValidAudiences = new[] { ConfigurationManager.AppSettings[&quot;ValidAudience&quot;] },
+                    ValidIssuers = new[] { ConfigurationManager.AppSettings[&quot;ValidIssuer&quot;] },
+                    TokenHandler = config.GetAppServiceTokenHandler()
+                });
+            }
+
+            app.UseWebApi(config);
+        }
+</code></pre>
+
+<p>The <code>UserAppServiceAuthentication()</code> method sets up authentication checking.  This section is not required when running
+within App Service.</p>
+<p>If you are running the server locally, you should either set up a local SQL Server instance and put the connection
+string into the <code>Web.config</code> file, or <a href="https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/">open the firewall on your SQL Azure</a> database so that your local development
+environment can connect to it, then place the connection string in the <code>Web.config</code>.  You can get the connection string
+of the SQL Azure instance by looking at the Connection Strings in the <strong>Application properties</strong> of your App Service.</p>
+<h3 id="update-your-mobile-client">Update your Mobile Client<a class="headerlink" href="#update-your-mobile-client" title="Permanent link">&para;</a></h3>
+<p>For this demonstration, I have updated the <strong>TaskList.UWP</strong> application so that it is using the server-flow
+authentication for Azure Active Directory.  This means updating the <code>LoginAsync()</code> method in the
+<code>Services\UWPLoginProvider.cs</code> file to be the following:</p>
+<pre><code class="csharp">        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Server-Flow Version
+            await client.LoginAsync(&quot;aad&quot;);
+        }
+</code></pre>
+
+<p>This is because the default local IIS instance is IIS Express.  IIS Express only listens for local connections.  If
+you run a client from another device (for example, the Android emulator on a Hyper-V service or the iOS simulator
+on a Mac), then that client would be connecting via a network connection.  You can still debug locally, but you need
+to <a href="https://github.com/Azure/azure-mobile-apps-net-server/wiki/Local-development-and-debugging-the-Mobile-App-.NET-server-backend">convert your environment to IIS</a> first.</p>
+<p>In the <strong>TaskList (Portable)</strong> project, update the <code>Helpers\Locations.cs</code> file:</p>
+<pre><code class="csharp">namespace TaskList.Helpers
+{
+    public static class Locations
+    {
+#if DEBUG
+        public static readonly string AppServiceUrl = &quot;http://localhost:17568/&quot;;
+        public static readonly string AlternateLoginHost = &quot;https://the-book.azurewebsites.net&quot;;
+#else
+        public static readonly string AppServiceUrl = &quot;https://the-book.azurewebsites.net&quot;;
+        public static readonly string AlternateLoginHost = null;
+#endif
+    }
+}
+</code></pre>
+
+<p>The <code>AppServiceUrl</code> is always set to the location of your backend.  In this case, I right-clicked on the <code>Backend</code>
+project and selected <strong>Properties</strong> then <strong>Web</strong>.  The correct URL for local debugging is listed in the
+<strong>Project URL</strong>.  The <code>AlternateLoginHost</code> is set to the App Service when locally debugging or null if not. You can
+specify the <code>DEBUG</code> constant in the <strong>Build</strong> tab.</p>
+<p>In the same project, update the <code>Services\AzureCloudService.cs</code> constructor to the following:</p>
+<pre><code class="csharp">        public AzureCloudService()
+        {
+            client = new MobileServiceClient(Locations.AppServiceUrl);
+            if (Locations.AlternateLoginHost != null)
+                client.AlternateLoginHost = new Uri(Locations.AlternateLoginHost);
+        }
+</code></pre>
+
+<blockquote>
+<p>It's a good idea to separate the client and server into different solutions.  Although it doesn't hurt anything to
+have them in the same solution (like we have), having the client and server separated allows you to attach a debugger
+separately - which allows you to debug both sides of the connection at the same time.</p>
+</blockquote>
+<p>With these settings, the client will contact the AlternateLoginHost listed for the authentication process and then
+contact the local server for the rest of the transaction.</p>
+<h3 id="run-the-local-server">Run the Local Server<a class="headerlink" href="#run-the-local-server" title="Permanent link">&para;</a></h3>
+<p>Running the local server and the client takes a larger machine.  You need to run two instances of Visual Studio: one
+for the client and one for the server. This is really where you will appreciate multiple monitors (my personal favorite)
+or the snap action to the sides of the screens.</p>
+<p>Ensure you have your backend and clients in different solutions if you intend to run both client and server.  The
+debugger in Visual Studio will stop one to run the other when they are in the same solution.</p>
+<!-- Images -->
+
+<!-- External Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../social/" title="Social Authentication">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Social Authentication
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../custom/" title="Custom Authentication">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Custom Authentication
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>

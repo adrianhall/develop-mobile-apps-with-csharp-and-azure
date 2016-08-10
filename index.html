@@ -1,258 +1,463 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  
-  
-  <title>Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
-  
-
-  <link rel="shortcut icon" href="./img/favicon.ico">
-
-  
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="./css/highlight.css">
-  <link href="./extra.css" rel="stylesheet">
-
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "None";
-    var mkdocs_page_input_path = "index.md";
-    var mkdocs_page_url = "/";
-  </script>
-  
-  <script src="./js/jquery-2.1.1.min.js"></script>
-  <script src="./js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="./js/highlight.pack.js"></script>
-  <script src="./js/theme.js"></script> 
-
-  
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-  <div class="wy-grid-for-nav">
-
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-      <div class="wy-side-nav-search">
-        <a href="." class="icon icon-home"> Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-  </form>
-</div>
+      
+        <title>Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="None/./">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('./assets/fonts/icon.eot?52m981');
+      	src: url('./assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('./assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('./assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('./assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="./extra.css">
+    
+    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+          </span>
+        
+        Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
       </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        <ul class="current">
-          
-            <li>
-    <li class="toctree-l1 current">
-        <a class="current" href=".">Getting Started</a>
-        
-            <ul>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
             
-                <li class="toctree-l3"><a href="#introduction">Introduction</a></li>
-                
-                    <li><a class="toctree-l4" href="#what-are-cloud-connected-mobile-apps">What are Cloud Connected Mobile Apps?</a></li>
-                
-                    <li><a class="toctree-l4" href="#why-cross-platform-native-development-is-important">Why Cross-Platform Native Development is important?</a></li>
-                
-                    <li><a class="toctree-l4" href="#why-azure-mobile-apps">Why Azure Mobile Apps?</a></li>
-                
-                    <li><a class="toctree-l4" href="#who-is-this-book-for">Who is This Book For?</a></li>
-                
-                    <li><a class="toctree-l4" href="#what-you-will-need">What You Will Need</a></li>
-                
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
             
-            </ul>
+  <li>
+    <a class="current" title="Getting Started" href=".">
+      Getting Started
+    </a>
+    
+      
         
-    </li>
-<li>
+      
+      
+        <ul>
           
-            <li>
-    <ul class="subnav">
-    <li><span>Chapter 1 - Introduction</span></li>
-
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="chapter1/firstapp_pc/">Your First App - PC Edition</a>
-        
-    </li>
-
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="chapter1/firstapp_mac/">Your First App - Mac Edition</a>
-        
-    </li>
-
-        
-    </ul>
-<li>
+            <li class="anchor">
+              <a title="What are Cloud Connected Mobile Apps?" href="#what-are-cloud-connected-mobile-apps">
+                What are Cloud Connected Mobile Apps?
+              </a>
+            </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="2_authentication/">Chapter 2 - Authentication</a>
-        
-    </li>
-<li>
+            <li class="anchor">
+              <a title="Why Cross-Platform Native Development is important?" href="#why-cross-platform-native-development-is-important">
+                Why Cross-Platform Native Development is important?
+              </a>
+            </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="data/">Data Access and Offline Sync</a>
-        
-    </li>
-<li>
+            <li class="anchor">
+              <a title="Why Azure Mobile Apps?" href="#why-azure-mobile-apps">
+                Why Azure Mobile Apps?
+              </a>
+            </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="authdata/">Authenticated Data Access</a>
-        
-    </li>
-<li>
+            <li class="anchor">
+              <a title="Who is This Book For?" href="#who-is-this-book-for">
+                Who is This Book For?
+              </a>
+            </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="files/">File Management</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="push/">Push Notifications</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="custom/">Server Side Code</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="media/">Media Services</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="search/">Leveraging Search</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="combined/">Web and Mobile Apps</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="developing/">The Development Environment</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="testing/">Testing your Application</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="troubleshooting/">Troubleshooting</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="production/">Going to Production</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="xamarin_tips/">Xamarin Forms Tips</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="android_appendix/">Android Developer Notes</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="references/">References</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="credits/">Credits</a>
-        
-    </li>
-<li>
+            <li class="anchor">
+              <a title="What You Will Need" href="#what-you-will-need">
+                What You Will Need
+              </a>
+            </li>
           
         </ul>
+      
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="chapter2/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Backup Content" href="2_authentication/">
+      Backup Content
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Data Access and Offline Sync" href="data/">
+      Data Access and Offline Sync
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Authenticated Data Access" href="authdata/">
+      Authenticated Data Access
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="File Management" href="files/">
+      File Management
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Push Notifications" href="push/">
+      Push Notifications
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Server Side Code" href="custom/">
+      Server Side Code
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Media Services" href="media/">
+      Media Services
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Leveraging Search" href="search/">
+      Leveraging Search
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Web and Mobile Apps" href="combined/">
+      Web and Mobile Apps
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="The Development Environment" href="developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Testing your Application" href="testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Troubleshooting" href="troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Going to Production" href="production/">
+      Going to Production
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
       </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href=".">Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</a>
-      </nav>
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href=".">Docs</a> &raquo;</li>
-    
-      
-    
-    <li>Getting Started</li>
-    <li class="wy-breadcrumbs-aside">
-      
-    </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            <div class="section">
-              
-                <h1 id="introduction">Introduction</h1>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
 <p>Welcome to my first book.  It's free, it's open source, and it's comprehensive.
 Those attributes also describe two of my favorite technologies, and I'm basing
 my first book on them.  The first is <a href="https://www.xamarin.com/forms">Xamarin Forms</a> , a technology that
@@ -263,7 +468,7 @@ connected mobile applications such as table data, authentication, and push
 notifications.</p>
 <p>This book does not tell you everything there is to know about either topic.  It
 focuses on the topics necessary to get your mobile apps connected to the cloud.</p>
-<h2 id="what-are-cloud-connected-mobile-apps">What are Cloud Connected Mobile Apps?</h2>
+<h2 id="what-are-cloud-connected-mobile-apps">What are Cloud Connected Mobile Apps?<a class="headerlink" href="#what-are-cloud-connected-mobile-apps" title="Permanent link">&para;</a></h2>
 <p>I guess I should define some of the terminology that I am going to use.  When I
 refer to a <strong>mobile application</strong> or <strong>mobile app</strong>, I mean every piece of
 software that is related to the application you want to use.  This includes, for
@@ -275,7 +480,7 @@ mobile backend for shared services.  Quite a few of the apps on your phone are
 cloud connected already.  For example, Instagram uses the cloud for photo
 storage, and Facebook uses the cloud to store the news feeds of you and your
 friends.</p>
-<h2 id="why-cross-platform-native-development-is-important">Why Cross-Platform Native Development is important?</h2>
+<h2 id="why-cross-platform-native-development-is-important">Why Cross-Platform Native Development is important?<a class="headerlink" href="#why-cross-platform-native-development-is-important" title="Permanent link">&para;</a></h2>
 <p>It should come as no surprise that Apple and Google have pretty much won the
 mobile OS wars.  Over 90% of the smart phones being sold today run either iOS
 or Android.  However, these are two very different mobile operating systems,
@@ -296,7 +501,7 @@ the mobile smart phone market.  It does this by leveraging the .NET framework
 and compiling your code to a native binary for each platform.</p>
 <p>Xamarin.Forms is a cross-platform framework, based on XAML and .NET, that
 allows you to use common UI pages to develop your apps.</p>
-<h2 id="why-azure-mobile-apps">Why Azure Mobile Apps?</h2>
+<h2 id="why-azure-mobile-apps">Why Azure Mobile Apps?<a class="headerlink" href="#why-azure-mobile-apps" title="Permanent link">&para;</a></h2>
 <p>When you think about the major apps in the marketplace for each mobile
 platform, the thing that they have in common is that they have some sort
 of cloud infrastructure driving them.  It might be as simple as storing
@@ -313,7 +518,7 @@ that cannot be obtained without spending a little money are relatively cheap.</p
 a collection of services that commonly are used together to develop modern
 Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.</p>
 </blockquote>
-<h3 id="features-of-cloud-connected-mobile-apps">Features of Cloud Connected Mobile Apps</h3>
+<h3 id="features-of-cloud-connected-mobile-apps">Features of Cloud Connected Mobile Apps<a class="headerlink" href="#features-of-cloud-connected-mobile-apps" title="Permanent link">&para;</a></h3>
 <p>A cloud connected mobile application will use one or more services in the
 following areas:</p>
 <ul>
@@ -345,7 +550,7 @@ handle the load when my app is successful, and I want things to be backed up
 (since bad things inevitably happen when I am least prepared).</p>
 <p>All of these features are available in Azure App Service, and the Mobile Apps
 SDK that I will use throughout the book is supported only on Azure App Service.</p>
-<h2 id="who-is-this-book-for">Who is This Book For?</h2>
+<h2 id="who-is-this-book-for">Who is This Book For?<a class="headerlink" href="#who-is-this-book-for" title="Permanent link">&para;</a></h2>
 <p>This book is for intermediate to experienced C# developers who have already
 built a mobile app with Xamarin and want to take their mobile apps to the next
 level by utilizing cloud services.</p>
@@ -359,7 +564,7 @@ mobile development with Xamarin at the <a href="https://developer.xamarin.com/">
 not need to understand ASP.NET to get value out of this book, be aware that the
 mobile back ends that I will be covering are written in C# and ASP.NET.  A good
 understanding of ASP.NET will assist you.</p>
-<h3 id="things-you-should-know">Things You Should Know!</h3>
+<h3 id="things-you-should-know">Things You Should Know!<a class="headerlink" href="#things-you-should-know" title="Permanent link">&para;</a></h3>
 <p>Before you get started with development, spend some time learning the tools of
 the trade.  The command prompt on the Mac is <a href="http://guide.bash.academy/">bash</a> and the command prompt
 on the PC is <a href="https://mva.microsoft.com/en-us/training-courses/getting-started-with-powershell-3-0-jump-start-8276">PowerShell</a>.  You should be proficient in the shell on the
@@ -367,11 +572,11 @@ platforms that you use.</p>
 <p>Additionally, you should become familiar with the source code control system
 that you will use.  For most, this means becoming familiar with
 <a href="https://try.github.io/levels/1/challenges/1">git</a>.  Don't even think of developing without using source control.</p>
-<h2 id="what-you-will-need">What You Will Need</h2>
+<h2 id="what-you-will-need">What You Will Need<a class="headerlink" href="#what-you-will-need" title="Permanent link">&para;</a></h2>
 <p>The list of hardware and software for mobile development is longer than your
 typical development projects.  It is still, thankfully, relatively short and
 easy to acquire.</p>
-<h3 id="hardware">Hardware</h3>
+<h3 id="hardware">Hardware<a class="headerlink" href="#hardware" title="Permanent link">&para;</a></h3>
 <p>You will want a computer on which to develop code.  If you develop iOS
 applications, then you <strong>MUST</strong> have a Mac running the latest version of Mac
 OSX.  If you develop Universal Windows applications, then you <strong>MUST</strong> have a
@@ -382,10 +587,10 @@ better on a PC running Windows 10.  Thus, my hardware choice is a rather beefy
 <a href="http://www.intel.com/content/www/us/en/nuc/change-the-game-with-nuc.html">Windows 10 PC</a> for my main development system.  In addition, I have a
 <a href="http://www.apple.com/shop/buy-mac/mac-mini?product=MGEQ2LL/A&amp;step=config#">Mac Mini</a> underneath my desk that I use to build the iOS portions of the
 applications.</p>
-<h3 id="software">Software</h3>
+<h3 id="software">Software<a class="headerlink" href="#software" title="Permanent link">&para;</a></h3>
 <p>All of the following software are freely available.  You should install each
 package and update it (if appropriate) so that it is fully patched.</p>
-<h4 id="on-your-mac">On your Mac</h4>
+<h4 id="on-your-mac">On your Mac<a class="headerlink" href="#on-your-mac" title="Permanent link">&para;</a></h4>
 <ul>
 <li><a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12">XCode</a> (available on the Mac App Store)</li>
 <li><a href="https://www.xamarin.com/platform">Xamarin Studio</a></li>
@@ -393,7 +598,7 @@ package and update it (if appropriate) so that it is fully patched.</p>
 </ul>
 <p>You must run XCode at least once after installation so that you can accept the
 license agreement.</p>
-<h4 id="on-your-windows-pc">On your Windows PC</h4>
+<h4 id="on-your-windows-pc">On your Windows PC<a class="headerlink" href="#on-your-windows-pc" title="Permanent link">&para;</a></h4>
 <ul>
 <li><a href="https://developer.android.com/">Android Studio and Tools</a></li>
 <li><a href="https://www.visualstudio.com/products/visual-studio-community-vs">Visual Studio Community</a></li>
@@ -408,7 +613,7 @@ again to add the components.</p>
 restricted link, you may want to download the installers onto a thumb drive for
 local installation.</p>
 </blockquote>
-<h3 id="cloud-services">Cloud Services</h3>
+<h3 id="cloud-services">Cloud Services<a class="headerlink" href="#cloud-services" title="Permanent link">&para;</a></h3>
 <p>You will need an Azure account to complete most of the tutorials in this book.
 In fact, you won't be able to get very far without one. If you have an MSDN
 account, you already have access to free Azure resources.  You just need to log
@@ -442,50 +647,63 @@ until you need something they offer.</p>
 <li>On a Mac, skip ahead to the <a href="chapter1/firstapp_mac/">Mac section</a>.</li>
 <li>On a PC, the <a href="chapter1/firstapp_pc/">next section</a> covers Visual Studio.</li>
 </ul>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
               
-            </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="chapter1/firstapp_pc/" class="btn btn-neutral float-right" title="Your First App - PC Edition">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
       
     </div>
-  
+    <div class="next">
+      
+        <a href="chapter1/firstapp_pc/" title="Your First App - PC Edition">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Your First App - PC Edition
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
 
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-    
-  </div>
-
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
-	  
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
         </div>
       </div>
-
-    </section>
-
-  </div>
-
-<div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-      
-        <span style="margin-left: 15px"><a href="chapter1/firstapp_pc/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
-</div>
-
-</body>
+    </main>
+    <script>
+      var base_url = '.';
+      var repo_id  = '';
+    </script>
+    <script src="./assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
 </html>
-
-<!--
-MkDocs version : 0.15.3
-Build Date UTC : 2016-08-10 08:29:57.033882
--->
