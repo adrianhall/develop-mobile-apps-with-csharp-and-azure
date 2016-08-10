@@ -57,7 +57,7 @@
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href=".">Introduction</a>
+        <a class="current" href=".">Getting Started</a>
         
             <ul>
             
@@ -80,22 +80,30 @@
 <li>
           
             <li>
+    <ul class="subnav">
+    <li><span>Chapter 1 - Introduction</span></li>
+
+        
+            
     <li class="toctree-l1 ">
-        <a class="" href="firstapp_pc/">Building a Mobile App on Windows</a>
+        <a class="" href="chapter1/firstapp_pc/">Your First App - PC Edition</a>
         
     </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="chapter1/firstapp_mac/">Your First App - Mac Edition</a>
+        
+    </li>
+
+        
+    </ul>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="firstapp_mac/">Building a Mobile App on a Mac</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="authentication/">Authentication</a>
+        <a class="" href="2_authentication/">Chapter 2 - Authentication</a>
         
     </li>
 <li>
@@ -234,7 +242,7 @@
     
       
     
-    <li>Introduction</li>
+    <li>Getting Started</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -274,7 +282,7 @@ or Android.  However, these are two very different mobile operating systems,
 with different programming models.  iOS is based on either <a href="https://developer.apple.com/swift/">Swift</a> or
 Objective-C.  Android is based on <a href="https://developer.android.com/training/index.html">Java</a>.  If you want to develop for the
 80% case (and you should), then you need to know both Swift and Java.  That's
-a tall order even for the most dedicated mobile developer.  </p>
+a tall order even for the most dedicated mobile developer.</p>
 <p>However, there are alternatives out there.  Most notable, you can write your
 mobile application with one code-base and just write exceptions for when the
 platforms diverge.  You have to pick a single language and a tool set that
@@ -287,7 +295,7 @@ platforms - iOS, Android and Windows - to gain greater than 95% coverage of
 the mobile smart phone market.  It does this by leveraging the .NET framework
 and compiling your code to a native binary for each platform.</p>
 <p>Xamarin.Forms is a cross-platform framework, based on XAML and .NET, that
-allows you to use common UI pages to develop your apps.  </p>
+allows you to use common UI pages to develop your apps.</p>
 <h2 id="why-azure-mobile-apps">Why Azure Mobile Apps?</h2>
 <p>When you think about the major apps in the marketplace for each mobile
 platform, the thing that they have in common is that they have some sort
@@ -301,7 +309,9 @@ Azure Mobile Apps for these features because they are all included and you
 can get started with most of the features for zero cost.  Even the features
 that cannot be obtained without spending a little money are relatively cheap.</p>
 <blockquote>
-<p>Azure Mobile Apps is a feature of Azure App Service.  Azure App Service is a collection of services that commonly are used together to develop modern Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.</p>
+<p>Azure Mobile Apps is a feature of Azure App Service.  Azure App Service is
+a collection of services that commonly are used together to develop modern
+Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.</p>
 </blockquote>
 <h3 id="features-of-cloud-connected-mobile-apps">Features of Cloud Connected Mobile Apps</h3>
 <p>A cloud connected mobile application will use one or more services in the
@@ -315,7 +325,7 @@ following areas:</p>
 </ul>
 <p>I am going to cover each of these in great detail.  In addition, I will also
 cover some common issues and solutions that developers run into while developing
-cloud connected mobile applications such as testing and going to production.  </p>
+cloud connected mobile applications such as testing and going to production.</p>
 <p>Aside from the actual features of mobile apps, there are other things to
 consider while developing your mobile application.  Here is my list, in no
 particular order:</p>
@@ -342,7 +352,7 @@ level by utilizing cloud services.</p>
 <p>This book is not for the beginner.  Explicitly, I already expect you to know how
 to develop mobile applications with C# and Xamarin technologies.  If you are
 unfamiliar with the C# language, you can get started with a free course on the
-Internet.  The basics of the language can be learned at <a href="http://www.learncs.org/">www.learncs.org</a>.<br />
+Internet.  The basics of the language can be learned at <a href="http://www.learncs.org/">www.learncs.org</a>.
 Once you have the language basics under your belt, you can move on to building
 mobile applications with Xamarin. You can learn more about developing cross-platform
 mobile development with Xamarin at the <a href="https://developer.xamarin.com/">Xamarin</a> website.  Although you do
@@ -405,7 +415,7 @@ account, you already have access to free Azure resources.  You just need to log
 into your <a href="https://msdn.microsoft.com/en-us/default.aspx">MSDN account</a> and activate your Azure benefit.  Students may be
 able to get access to <a href="https://www.dreamspark.com/Product/Product.aspx?productid=99">Dreamspark</a> from school resources, but this is not
 suitable for developing mobile applications.  This is because storage costs
-money.  If you don't have MSDN, then there is a <a href="https://azure.microsoft.com/en-us/free/">free trial</a> available.<br />
+money.  If you don't have MSDN, then there is a <a href="https://azure.microsoft.com/en-us/free/">free trial</a> available.
 Once the trial period ends, you can move to a Pay-As-You-Go account and continue
 to use free services without incurring a charge. I'll point out when you are
 going to incur charges on your Azure account, but I will be using free resources
@@ -427,7 +437,11 @@ distribute iOS apps, then you need an <a href="https://developer.apple.com/progr
 The terms of the accounts are changed constantly, so review the current terms
 when you sign up.  My recommendation is to defer signing up for these programs
 until you need something they offer.</p>
-<p>Now, let's get developing!</p>
+<p>Now, let's get developing!  Our next section is dependent on where you are developing:</p>
+<ul>
+<li>On a Mac, skip ahead to the <a href="chapter1/firstapp_mac/">Mac section</a>.</li>
+<li>On a PC, the <a href="chapter1/firstapp_pc/">next section</a> covers Visual Studio.</li>
+</ul>
               
             </div>
           </div>
@@ -435,7 +449,7 @@ until you need something they offer.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="firstapp_pc/" class="btn btn-neutral float-right" title="Building a Mobile App on Windows">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="chapter1/firstapp_pc/" class="btn btn-neutral float-right" title="Your First App - PC Edition">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
     </div>
@@ -463,7 +477,7 @@ until you need something they offer.</p>
       
       
       
-        <span style="margin-left: 15px"><a href="firstapp_pc/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="chapter1/firstapp_pc/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
@@ -473,5 +487,5 @@ until you need something they offer.</p>
 
 <!--
 MkDocs version : 0.15.3
-Build Date UTC : 2016-08-03 05:14:15.144332
+Build Date UTC : 2016-08-10 08:29:57.033882
 -->
