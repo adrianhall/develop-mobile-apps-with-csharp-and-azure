@@ -236,6 +236,15 @@ the /.auth/me endpoint, you are on your own when it comes to handling token expi
 
 ### Configuring Refresh Tokens
 
+You can add the additional information to a Google request with the following code snippet:
+
+```csharp
+client.LoginAsync("google", new Dictionary<string, string>
+{
+    { "access_type", "offline" }  
+});
+```
+
 Azure Active Directory is perhaps the trickiest to configure.
 
 * Log on to the [Classic Portal][classic-portal].
@@ -265,19 +274,34 @@ The next time the user logs into our web app side, there will be a one-time prom
 Once granted, the App Service Authentication / Authorization service will start requesting and receiving refresh
 tokens.
 
+Once you go through this process and re-authenticate, you will be able to see the refresh token in the output of
+the `/.auth/me` endpoint:
+
+![AAD: Refresh Tokens][img61]
+
+Refresh tokens have a different expiry time to the identity token.  The refresh token theoretically lives forever,
+but there are "non-use expiry" times. This varies by identity provider.
+
+* Google: 6 months
+* Microsoft Account: 24 hours
+* Azure Active Directory: 90 days
+
+In addition, there may be other reasons why a token can be invalidated.  For instance, Google provides 25 refresh
+tokens per user.  If the user requests more than the limit, the oldest token is invalidated.  You should refer
+to the OAuth documentation for the identity provider.
+
 ### Using Refresh Tokens
 
 The Azure Mobile Apps Client SDK has a built in method for refreshing tokens for you.  It assumes that you are using
 a supported identity provider (Azure Active Directory, Google or Microsoft Account), and have configured the identity
 provider to generate the refresh token.
 
-> Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is
-shared among all instances of the backend within the same App Service Plan).  The token store is located at
-`D:\\home\\data\\.auth\\tokens` on the backend.  The tokens are encrypted and stored in a per-user encrypted file.
+
 
 <!-- Images -->
 [img59]: img/aad-add-key.PNG
 [img60]: img/aad-resource-explorer.PNG
+[img61]: img/aad-refresh-token.PNG
 
 <!-- Links -->
 [30]: https://components.xamarin.com/gettingstarted/xamarin.auth

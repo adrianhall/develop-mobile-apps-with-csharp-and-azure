@@ -515,15 +515,15 @@ discussing the Enterprise Authentication flow for the mobile client.
 Azure AD B2C is great for storing your users passwords and doing the sign-up and sign-in process for you.  There
 are a couple of reasons why you wouldn't want to use Azure Active Directory B2C.
 
-The most obvious one is that this is a server-flow capability.  That means you won't be able to, for example,
+The most obvious one is that this is built on Azure Active Directory.  That means you won't be able to, for example,
 integrate the Facebook, Google and Twitter identity providers by utilizing their client libraries.  You also do
 not get access to the underlying identity provider token, so you are restricted from accessing the Graph API for
 the individual providers.  Finally, since the AAD B2C identity provider is configured with the AAD provider, you
 can't use both a B2C provider and a regular AAD provider.
 
 If you just want a sign-up / sign-in flow, then AAD B2C is probably the best way to go.  If, however, your plans
-include integration with other social identity providers, you should consider whether you want to do more work
-on the client to support that.
+include integration with other social identity providers, you should consider using the identity providers
+directly or via separate configuration with the Azure App Service Authentication / Authorization.
 
 ## Using Third Party Tokens
 

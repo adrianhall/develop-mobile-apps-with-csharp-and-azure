@@ -69,6 +69,10 @@ Azure Mobile Apps supports five identity providers natively:
 * Microsoft (MSA)
 * Twitter
 
+> Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is
+shared among all instances of the backend within the same App Service Plan).  The token store is located at
+`D:\\home\\data\\.auth\\tokens` on the backend.  The tokens are encrypted and stored in a per-user encrypted file.
+
 In addition, you can set up client-flow custom authentication that allows you to mint a ZUMO token to your
 specifications for any provider using a client-flow.  For example, you could use authentication providers
 like [Azure AD B2C][7], [LinkedIn][4] or [GitHub][5], a third-party authentication provider like  [Auth0][6],

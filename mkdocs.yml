@@ -13,7 +13,7 @@ pages:
         - Custom Authentication: chapter2/custom.md
         - Claims and Authorization: chapter2/authorization.md
         - Tokens in Real Apps: chapter2/realworld.md
-        - Backup Content: 2_authentication.md
+        - Best Practices: chapter2/bestpractices.md
     - Data Access and Offline Sync: data.md
     - Authenticated Data Access: authdata.md
     - File Management: files.md
