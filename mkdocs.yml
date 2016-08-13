@@ -15,7 +15,6 @@ pages:
         - Tokens in Real Apps: chapter2/realworld.md
         - Best Practices: chapter2/bestpractices.md
     - Data Access and Offline Sync: data.md
-    - Authenticated Data Access: authdata.md
     - File Management: files.md
     - Push Notifications: push.md
     - Server Side Code: custom.md
