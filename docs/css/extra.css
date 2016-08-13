@@ -1,0 +1,13 @@
+.article h1 {
+    padding: 24px 0 8px;
+}
+
+.article pre code {
+    background-color: #f2f2f2;
+}
+
+@media only screen and (min-width: 720px)
+{
+    .article pre {
+        padding: 8px 1.5rem;
+    }

@@ -33,5 +33,9 @@ theme: material
 markdown_extensions:
     - toc:
         permalink: True
+    - fenced_code
 extra_css:
-  - extra.css
+  - css/extra.css
+  - css/vs.css
+extra_javascript:
+  - js/highlight.pack.js
