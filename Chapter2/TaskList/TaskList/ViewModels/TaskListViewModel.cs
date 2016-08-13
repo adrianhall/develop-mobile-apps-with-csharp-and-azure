@@ -109,6 +109,7 @@ namespace TaskList.ViewModels
                 IsBusy = false;
             }
         }
+
         async Task ExecuteLogoutCommand()
         {
             if (IsBusy)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
@@ -69,9 +70,18 @@ namespace TaskList.Services
 
         public async Task LogoutAsync()
         {
-            // Log out of the identity provider
+            if (client.CurrentUser == null || client.CurrentUser.MobileServiceAuthenticationToken == null)
+                return;
+
+            // Log out of the identity provider (if required)
 
             // Invalidate the token on the mobile backend
+            var authUri = new Uri($"{client.MobileAppUri}/.auth/logout");
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("X-ZUMO-AUTH", client.CurrentUser.MobileServiceAuthenticationToken);
+                await httpClient.GetAsync(authUri);
+            }
 
             // Remove the token from the cache
             DependencyService.Get<ILoginProvider>().RemoveTokenFromSecureStore();

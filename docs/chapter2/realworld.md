@@ -649,12 +649,31 @@ So, how do you log out?  You should:
 
 ### Invalidating the token on the mobile backend.
 
+Calling the `/.auth/logout` endpoint on the Azure App Service mobile backend will remove the entry
+on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted,
+will still authorize the user.  Note, however, that the refresh token is stored in the token store.
+The user submitting the token will be unable to refresh the token.  Once the ZUMO token has expired
+(which happens an hour after it was created), the logout is complete.
+
+We need to do a HTTP client call for this purpose:
+
+```csharp
+// Invalidate the token on the mobile backend
+var authUri = new Uri($"{client.MobileAppUri}/.auth/logout");
+using (var httpClient = new HttpClient())
+{
+    httpClient.DefaultRequestHeaders.Add("X-ZUMO-AUTH", client.CurrentUser.MobileServiceAuthenticationToken);
+    await httpClient.GetAsync(authUri);
+}
+```
+
+
 ### Removing the token from the local secure cache store.
 
 For this part of the process, I added a new method to the `ILoginProvider.cs` interface:
 
 ```csharp
-        void RemoveTokenFromSecureStore();
+void RemoveTokenFromSecureStore();
 ```
 
 For Android and iOS, the concrete implementation looks like this:
@@ -694,6 +713,48 @@ public void RemoveTokenFromSecureStore()
 }
 ```
 
+### Implementing a LogoutAsync() method.
+
+I've added the following to the `ICloudService` interface:
+
+```csharp
+Task LogoutAsync();
+```
+
+This has a concrete implementation in `Services\AzureCloudService.cs`:
+
+```csharp
+public async Task LogoutAsync()
+{
+    if (client.CurrentUser == null || client.CurrentUser.MobileServiceAuthenticationToken == null)
+        return;
+
+    // Log out of the identity provider (if required)
+
+    // Invalidate the token on the mobile backend
+    var authUri = new Uri($"{client.MobileAppUri}/.auth/logout");
+    using (var httpClient = new HttpClient())
+    {
+        httpClient.DefaultRequestHeaders.Add("X-ZUMO-AUTH", client.CurrentUser.MobileServiceAuthenticationToken);
+        await httpClient.GetAsync(authUri);
+    }
+
+    // Remove the token from the cache
+    DependencyService.Get<ILoginProvider>().RemoveTokenFromSecureStore();
+
+    // Remove the token from the MobileServiceClient
+    await client.LogoutAsync();
+}
+```
+
+This does three of the four providers.  If your identity provider supports an app-level logout, then you
+should call that where indicated.  This is probably going to be platform-specific code, so you will want
+to add a method to the `ILoginProvider.cs` interface and add a concrete implementation to each platform
+project.
+
+I've also added a logout button to my `Pages\TaskList.xaml` ([view code][36]) and added the event handler
+for the logout button to the `ViewModels\EntryPageViewModel.cs` ([view code][37]).
+
 <!-- Images -->
 [img59]: img/aad-add-key.PNG
 [img60]: img/aad-resource-explorer.PNG
@@ -708,3 +769,5 @@ public void RemoveTokenFromSecureStore()
 [classic-portal]: https://manage.windowsazure.com/
 [34]: http://stackoverflow.com/questions/25044166/how-to-clone-a-httprequestmessage-when-the-original-request-has-content
 [35]: https://github.com/Azure/azure-mobile-apps-net-client/blob/master/src/Microsoft.WindowsAzure.MobileServices/MobileServiceClient.cs
+[36]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/Pages/TaskList.xaml#L12
+[37]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/ViewModels/TaskListViewModel.cs#L112
