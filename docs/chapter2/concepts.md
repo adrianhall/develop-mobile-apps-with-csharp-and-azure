@@ -1,7 +1,8 @@
-One of the very first things you will want to do is to provide users with a unique experience.  For our example
-task list application, this could be as simple as providing a task list for the user who is logged in.  In more
-complex applications, this is the gateway to role-based access controls, group rules, and sharing with your
-friends.  In all these cases, properly identifying the user using the phone is the starting point.
+One of the very first things you want to do when developing a mobile app is to provide users with a unique
+experience.  For our example task list application, this could be as simple as providing a task list for the
+user who is logged in.  In more complex applications, this is the gateway to role-based access controls, group
+rules, and sharing with your friends.  In all these cases, properly identifying the user using the phone is the
+starting point.
 
 Authentication provides a process by which the user that is using the mobile device can be identified securely.
 This is generally done by entering a username and password.  However, modern systems can also provide
@@ -19,23 +20,28 @@ actors in the OAuth protocol:
 * The **Resource** is the mobile backend that the client is attempting to access.
 * The **Identity Provider** (or IdP) is the service that is responsible for authenticating the client.
 
-At the end of the process, a cryptographically signed token is minted.  This token is added to every single
-subsequent request to identify the user.
+At the end of the process, a cryptographically signed token is minted.  This token is added to every request
+made by the client to the resource to securely identify the user.
 
 ## Server Side vs. Client Side
 
-There are two types of authentication flow: Server-Flow and Client-Flow.  They are so named because of who
+There are two types of authentication flow: Server-flow and Client-flow.  They are so named because of who
 controls the flow of the actual authentication.
 
 ![Authentication Flow][img1]
 
-Server-flow is named because the authentication flow is managed by the server through a web connection.  It
-is generally used in two cases:
+Server-flow is named because the authentication flow is managed by the Azure App Service (the server) through a
+webview-based work flow.  It is generally used in two cases:
 
 * You want a simple placeholder for authentication in your mobile app while you are developing other code.
-* You are developing a web app.
+* You are developing a traditional web app.
 
-In the case of Server Flow:
+> If you are developing a single-page application (SPA), then client-flow is the more appropriate model for
+authentication.  The SPA looks more like a mobile client than a traditional web app.  In particular, you will
+be redirected away from your single page and returned to the app at a specific entry point, removing any
+context from the app.
+
+In the case of server-flow:
 
 1. The client brings up a web view and asks for the login page from the resource.
 2. The resource redirects the client to the identity provider.
@@ -45,9 +51,16 @@ In the case of Server Flow:
 5. Finally, the resource mints a new resource token that it returns to the client.
 
 Client-flow authentication uses an IdP provided SDK to integrate a more native feel to the authentication
-flow.  The actual flow happens on the client, communicating only with the IdP.
+flow.  The actual flow happens on the client, communicating only with the identity provider.  It is used
+is most cases:
 
-1. The client uses the IdP SDK to communicate with the identity provider.
+* You want a more integrated experience for your users.
+* You want the most native feel to your authentication flow.
+* You are developing a single-page web application.
+
+A client-flow feels similar to the server-flow, but using a native SDK instead of a web view.
+
+1. The client uses the identity provider SDK to communicate with the identity provider.
 2. The identity provider authenticates the user, returning an identity provider token.
 3. The client presents the identity provider token to the resource.
 4. The resource validates the identity provider token with the identity provider.
@@ -56,8 +69,11 @@ flow.  The actual flow happens on the client, communicating only with the IdP.
 For example, if you use the Facebook SDK for authentication, your app will seamlessly switch over into the
 Facebook app and ask you to authorize your client application before switching you back to your client application.
 
-You should use the IdP SDK when developing an app that will be released on the app store.  The identity providers
-will advise you to use their SDK and it provides the best experience for your end users.
+You should use the identity provider SDK when developing an app that will be released on the app store.  The
+identity providers will advise you to use their SDK and it provides the best experience for your end users.
+
+> The Azure App Service Authentication / Authorization service works with any App Service, including web apps
+and API apps.  It's not just for Mobile Apps.
 
 ## Authentication Providers
 

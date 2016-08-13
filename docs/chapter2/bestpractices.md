@@ -57,6 +57,18 @@ up a security hole that a determined hacker can exploit.  We can have convenienc
 security by utilizing the secure stores that each platform provides to store secrets like the access
 token.
 
+### Use https only
+
+This should go without saying.  Always use https communication.  Most security professionals start off
+their security career with learning "Security at Rest & Security in Transit".  In practical terms, storing
+secrets (like tokens) securely and using HTTPS as a transport mechanism satisfies both claims.
+
+Don't stop with security there though.  HTTPS is just a medium through which secure communications can
+take place.  There are a wide range of protocols and ciphers that can be used to encrypt the traffic.
+Some are  considered less secure and not to be used.  Azure App Service provides a default set of protocols
+and ciphers to support backwards compatibility with older browsers.  You can adjust the ciphers in use
+by your App Service.  For information on this, refer to the [Azure Documentation][10].
+
 ### Handle Expiring Tokens
 
 Unless you are using an identity provider that doesn't support refresh tokens (like Facebook or Twitter),
@@ -102,3 +114,4 @@ must monetize your app, then there are ways to do it, and we will discuss those 
 [7]: http://www.telerik.com/fiddler
 [8]: https://aurir.wordpress.com/2010/03/22/tutorial-getting-android-emulator-working-with-fiddler-http-proxy-tool/
 [9]: https://www.charlesproxy.com/documentation/faqs/using-charles-from-an-iphone/
+[10]: https://azure.microsoft.com/en-us/documentation/articles/app-service-app-service-environment-custom-settings/

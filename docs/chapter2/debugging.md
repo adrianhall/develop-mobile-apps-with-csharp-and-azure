@@ -19,15 +19,27 @@ the [jwt.io tool][18].  Cut and paste the authentication token into the **Encode
 
 ![The JWT Decoded][img29]
 
-Note that the contents of the JWT are revealed even without knowing the secret.  However, we have not supplied
-a secret.  The secret is kept at the resource - in this case, your app service.  However, we can already see the
-issuer and audience (in this case, they are both set to your app service address), the identity provider that was
-used and a subject.
+Note that the contents of the JWT are revealed even without knowing the secret.  The client secret is generated
+(or entered as part of a configuration) at the identity provider and is used to cryptographically sign the token.
+You will need the client secret to verify the signature of the token.  The client secret is copied from the identity
+provider to the resource (in this case, the App Service).
 
-Technically, the JWT can include any data and there are some that place just about everything about the user in
-the JWT.  App Service keeps the amount of data small because the client will be sending the JWT with every request.
-Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth usage will add up
-quickly, and your app will be known as a bandwidth hog.
+We can see other items within the token.  The _Issuer_ is the place that issued the token.  This is generally a URI.
+The _Audience_ is an identifier for who the token is for.  In this case, we have a token minted by the Azure App
+Service for use accessing that same App Service, so the issuer and audience are both the URI.  If you look at an
+Auth0 token, you will see that the issuer is the Auth0 domain and the audience is the Client ID of the Auth0 tenant.
+
+Each token will also have a number of claims.  The most common claim is the _Subject_ of the token.  This is generally
+a security ID, but could be any unique user ID.
+
+> Azure App Service sets the subject to a stable SID.  The stable SID is unique to the identity provider that is
+used for the authentication and guaranteed not to change, even if the user changes their email address or username
+on the underlying identity provider.
+
+Technically, the JWT can include any data and there are some identity providers that place just about everything
+about the user in the JWT.  App Service keeps the amount of data small because the client will be sending the JWT
+with every request. Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth
+usage will add up quickly, and your app will be known as a bandwidth hog.
 
 However, there are some fields that are pretty universal.  Your JWT should always have the following fields:
 
@@ -51,11 +63,11 @@ not match, then the X-ZUMO-AUTH header will be stripped from the request before 
 
 ## Testing Authentication without a Client
 
-Testing your site without a client requires a REST client.  I use [Postman][19], which is based on Google Chrome.
-If you use Firefox, you might want to take a look at [RESTClient][20].  Telerik also distributes a web debugging
-proxy called [Fiddler][21] that can do API testing.  To test the server, we will need a token.  We can get one by
-testing authentication configuration by pointing the browser to `/.auth/login/aad`.  The return URL will contain
-a token.
+Testing authentication against your App Service without a client requires a REST client.  I use [Postman][19],
+which is based on Google Chrome.  If you use Firefox, you might want to take a look at [RESTClient][20].  Telerik
+also distributes a web debugging proxy called [Fiddler][21] that can do API testing.  To test the server, we will
+need a token.  We can get one by testing authentication configuration by pointing the browser to `/.auth/login/aad`.
+The return URL will contain a token in the query string and as [a secure cookie][30].
 
 > You can test any of the supported identity providers by replacing _aad_ with the authentication provider name:
 facebook, google, microsoftaccount and twitter are possibilities here.
@@ -251,3 +263,4 @@ debugger in Visual Studio will stop one to run the other when they are in the sa
 [21]: http://www.telerik.com/blogs/api-testing-with-telerik-fiddler
 [28]: https://github.com/Azure/azure-mobile-apps-net-server/wiki/Local-development-and-debugging-the-Mobile-App-.NET-server-backend
 [29]: https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/
+[30]: https://en.wikipedia.org/wiki/HTTP_cookie#Secure_cookie
