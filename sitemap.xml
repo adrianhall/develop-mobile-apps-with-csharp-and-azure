@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,13 +13,13 @@
         
     <url>
      <loc>None/chapter1/firstapp_pc/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter1/firstapp_mac/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -29,55 +29,55 @@
         
     <url>
      <loc>None/chapter2/concepts/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter2/backend/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter2/enterprise/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter2/social/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter2/debugging/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter2/custom/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter2/authorization/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/chapter2/realworld/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/2_authentication/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <loc>None/chapter2/bestpractices/</loc>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -86,7 +86,7 @@
     
     <url>
      <loc>None/data/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -94,7 +94,7 @@
     
     <url>
      <loc>None/authdata/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -102,7 +102,7 @@
     
     <url>
      <loc>None/files/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -110,7 +110,7 @@
     
     <url>
      <loc>None/push/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -118,7 +118,7 @@
     
     <url>
      <loc>None/custom/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -126,7 +126,7 @@
     
     <url>
      <loc>None/media/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -134,7 +134,7 @@
     
     <url>
      <loc>None/search/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -142,7 +142,7 @@
     
     <url>
      <loc>None/combined/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -150,7 +150,7 @@
     
     <url>
      <loc>None/developing/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -158,7 +158,7 @@
     
     <url>
      <loc>None/testing/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -166,7 +166,7 @@
     
     <url>
      <loc>None/troubleshooting/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -174,7 +174,7 @@
     
     <url>
      <loc>None/production/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -182,7 +182,7 @@
     
     <url>
      <loc>None/xamarin_tips/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -190,7 +190,7 @@
     
     <url>
      <loc>None/android_appendix/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -198,7 +198,7 @@
     
     <url>
      <loc>None/references/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -206,7 +206,7 @@
     
     <url>
      <loc>None/credits/</loc>
-     <lastmod>2016-08-10</lastmod>
+     <lastmod>2016-08-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     

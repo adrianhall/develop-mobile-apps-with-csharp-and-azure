@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Authentication in the Backend - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+        <title>Best Practices - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
       
       
       
@@ -93,7 +93,7 @@
             
           </span>
         
-        Authentication in the Backend
+        Best Practices
       </div>
     </div>
     
@@ -194,14 +194,9 @@
       
         
   <li>
-    <a class="current" title="Authentication in the Backend" href="./">
+    <a class="" title="Authentication in the Backend" href="../backend/">
       Authentication in the Backend
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
@@ -262,9 +257,28 @@
       
         
   <li>
-    <a class="" title="Best Practices" href="../bestpractices/">
+    <a class="current" title="Best Practices" href="./">
       Best Practices
     </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Best Practices" href="#best-practices">
+                Best Practices
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Authenticating Your App" href="#authenticating-your-app">
+                Authenticating Your App
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
@@ -427,121 +441,83 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend<a class="headerlink" href="#adding-authentication-to-a-mobile-backend" title="Permanent link">&para;</a></h1>
-<p>The Azure App Service Authentication / Authorization service integrates seamlessly into an Azure Mobile Apps
-backend as a piece of middleware that fills in the Identity information for ASP.NET.  That means the only
-thing we have to worry about is authorization.  The authentication piece (determining that a user is who they
-say they are) is already taken care of.</p>
-<p>Authorization (which is the determination of whether an authenticated user can use a specific API) can happen
-at either the controller level or an individual operation level.  We can add authorization to an entire table
-controller by adding the <code>[Authorize]</code> attribute to the table controller.  For example, here is our table
-controller from the first chapter with authorization required for all operations:</p>
-<pre><code class="csharp">using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.OData;
-using Backend.DataObjects;
-using Backend.Models;
-using Microsoft.Azure.Mobile.Server;
-
-namespace Backend.Controllers
-{
-    [Authorize]
-    public class TodoItemController : TableController&lt;TodoItem&gt;
-    {
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
-        }
-
-        // GET tables/TodoItem
-        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
-
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
-
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
-
-        // POST tables/TodoItem
-        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
-        {
-            TodoItem current = await InsertAsync(item);
-            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
-        }
-
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
-    }
-}
-</code></pre>
-
-<p>Authorization can also happen on a per-operation basis by adding the <code>[Authorize]</code> attribute to a single method
-within the table controller.  For example, instead of requiring authorization on the entire table, we want a
-version where reading was possible anonymously but updating the database required authentication:</p>
-<pre><code class="csharp">using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.OData;
-using Backend.DataObjects;
-using Backend.Models;
-using Microsoft.Azure.Mobile.Server;
-
-namespace Backend.Controllers
-{
-    public class TodoItemController : TableController&lt;TodoItem&gt;
-    {
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
-        }
-
-        // GET tables/TodoItem
-        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
-
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
-
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [Authorize]
-        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
-
-        // POST tables/TodoItem
-        [Authorize]
-        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
-        {
-            TodoItem current = await InsertAsync(item);
-            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
-        }
-
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [Authorize]
-        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
-    }
-}
-</code></pre>
-
-<p>Note that the <code>[Authorize]</code> attribute can do much more than what is provided here.  Underneath there are various
-parameters that you can adjust to see if the user belongs to a specific group or role.  However, the token that
-is checked to see if the user is authenticated does not pull in any of the other information that is normally
-needed for such authorization tasks.  As a result, the <code>[Authorize]</code> tags is really only checking whether a
-request requires authentication or not.</p>
-<h1 id="configuring-an-authentication-provider">Configuring an Authentication Provider<a class="headerlink" href="#configuring-an-authentication-provider" title="Permanent link">&para;</a></h1>
-<p>Configuration of the identity provider is very dependent on the identity provider and whether the client is using
-a client-flow or server-flow.  Choose one of the several options for authentication:</p>
-<ul>
-<li><a href="../enterprise/">Enterprise Authentication</a> covers Azure Active Directory.</li>
-<li><a href="../social/">Social Authentication</a> covers Facebook, Google, Microsoft and Twitter.</li>
-</ul>
-<p>We can also configure authentication using custom routes.  This allows us to use other (non-supported) services
-or to completely customize our flow (for example, to use an existing identity database).  We will cover custom
-authentication later on.</p>
+            <h1>Best Practices</h1>
+          
+          <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<p>We've covered a lot of ground with authentication and authorization, so I wanted to cover some of the
+best practices that I generally advise when thinking about this topic.</p>
+<h3 id="dont-store-passwords">Don't store passwords<a class="headerlink" href="#dont-store-passwords" title="Permanent link">&para;</a></h3>
+<p>I can't really advise on which identity provider is best for your mobile application.  However, I can
+clearly say that delegating the security of the identity database to someone who has that as their full
+time job is an excellent idea.</p>
+<p>Choosing an identity provider is not easy.  Here are my choices:</p>
+<ol>
+<li>If you need enterprise authentication, use <strong>Azure Active Directory</strong>.</li>
+<li>If you need a specific social identity provider (for example, Facebook or Google), use that.</li>
+<li>If you need multiple social identity providers, <strong>Auth0</strong> is an excellent choice.</li>
+<li>If you need usernames and password, use <strong>Azure Active Directory B2C</strong>.</li>
+</ol>
+<p>Storing usernames and passwords in your own database is a bad idea and should be avoided.</p>
+<h3 id="use-the-client-sdk-provided-by-the-identity-provider">Use the client SDK provided by the Identity Provider<a class="headerlink" href="#use-the-client-sdk-provided-by-the-identity-provider" title="Permanent link">&para;</a></h3>
+<p>Your first step should be getting an access token from the identity provider itself.  You will see the
+most integrated experience if you use their SDK.</p>
+<ol>
+<li>For <strong>Azure Active Directory</strong>, that SDK is <a href="https://www.nuget.org/packages/Microsoft.IdentityModel.Clients.ActiveDirectory/">ADAL</a>.</li>
+<li>For <strong>Facebook</strong>, check out <a href="https://www.nuget.org/packages/Xamarin.Facebook.iOS/">Xamarin.Facebook.iOS</a> or <a href="https://www.nuget.org/packages/Xamarin.Facebook.Android/">Xamarin.Facebook.Android</a>.</li>
+<li>For <strong>Google</strong>, check out <a href="https://www.nuget.org/packages/Google.Apis.Core/">Google APIs Core Client Library</a>.</li>
+<li>For <strong>Auth0</strong>, check out the <a href="https://components.xamarin.com/view/auth0client">Auth0 Xamarin Component</a>.</li>
+<li>For <strong>Azure Active Directory B2C</strong>, use <a href="https://www.nuget.org/packages/Microsoft.IdentityModel.Clients.ActiveDirectory/">ADAL</a>.</li>
+</ol>
+<h3 id="swap-the-identity-provider-access-token-for-a-zumo-token">Swap the Identity Provider access token for a ZUMO token.<a class="headerlink" href="#swap-the-identity-provider-access-token-for-a-zumo-token" title="Permanent link">&para;</a></h3>
+<p>Never use the token provided by the identity provider for anything other than requesting access to
+the resource.  Use a short lived token (an hour is the standard) that is minted just for the purpose
+of providing that access.  If you are not using an identity provider that is explicitly supported
+by Azure App Service, use a custom authentication provider to mint your own token.</p>
+<h3 id="enforce-security-at-the-server">Enforce Security at the Server<a class="headerlink" href="#enforce-security-at-the-server" title="Permanent link">&para;</a></h3>
+<p>There is no easy way to say this.  There are bad guys out there, and they are after your data.  You
+should not assume that someone is using your client.  It could just be someone with a REST client.
+Ensure you enforce security on your server.  You can do this easily by using the <code>[Authorize]</code>
+attribute, the <code>[AuthorizeClaims()]</code> attribute we developed in the Authorization section or your
+own custom authorization attribute.</p>
+<p>Monitoring the server is just as important as enforcing security.  The Azure App Service Authentication
+service outputs quite a bit of logging about who is logging in (and who is denied), so you can get some
+good intelligence out of the logs when you mine them properly.</p>
+<h3 id="securely-store-tokens">Securely Store Tokens<a class="headerlink" href="#securely-store-tokens" title="Permanent link">&para;</a></h3>
+<p>The decisions we make are always a trade-off between convenience and security.  One such decision is
+if we should store tokens with the app.  On the one hand, it's convenient to allow the app to remember
+the login and to not ask us to log in again with each app start.  On the other hand, that fact opens
+up a security hole that a determined hacker can exploit.  We can have convenience while still having
+security by utilizing the secure stores that each platform provides to store secrets like the access
+token.</p>
+<h3 id="handle-expiring-tokens">Handle Expiring Tokens<a class="headerlink" href="#handle-expiring-tokens" title="Permanent link">&para;</a></h3>
+<p>Unless you are using an identity provider that doesn't support refresh tokens (like Facebook or Twitter),
+you should handle refresh tokens by silently calling the refresh action.  Tokens are going to expire.
+This is a fact of the token specifications.  You need to deal with expiring tokens and act accordingly.</p>
+<p>If you do need to use an identity provider that does not support refresh tokens, you are going to have
+to ask for credentials whenever the token expires.  You don't get out of determining the user experience
+when tokens expire just because you are using Facebook or Twitter.</p>
+<h2 id="authenticating-your-app">Authenticating Your App<a class="headerlink" href="#authenticating-your-app" title="Permanent link">&para;</a></h2>
+<p>My final word on authentication has to do with authenticating your app.  I get the same request every
+week.  How do I implement an API key for my app?  When I probe a little, I get a few reasons for this
+request:</p>
+<ol>
+<li>I want to ensure my app is the only one accessing my backend because the data is important.</li>
+<li>I don't want my users to log in as it is inconvenient.</li>
+<li>I want to monetize my app, and I can't do that if anyone can copy it.</li>
+</ol>
+<p>API keys are used by multi-tenant systems to route requests for data to the appropriate data store.  For
+example, the very popular <a href="https://github.com/ParsePlatform/parse-server">Parse Server</a> used to have an API key because all clients connected to the
+same <code>parse.com</code> service.  Once the <a href="https://github.com/ParsePlatform/parse-server">Parse Server</a> was open-sourced, the API key went away.  It was no
+longer needed to route the request.  In the same way, the Azure App Service has a unique name - the URL
+of the service, so it doesn't need an API key to route the information.</p>
+<p>An API key does not prevent a rogue client from accessing your data.  If you did use an API key for security,
+you can easily get the API key for the app by putting together a "man in the middle proxy".  One such proxy
+is <a href="http://www.telerik.com/fiddler">Telerik Fiddler</a>.  One of its features is "Security Testing" which amounts to a man-in-the-middle
+decryption technique.  This <a href="https://aurir.wordpress.com/2010/03/22/tutorial-getting-android-emulator-working-with-fiddler-http-proxy-tool/">works with the Android emulator</a> as well.  For iOS, you can use <a href="https://www.charlesproxy.com/documentation/faqs/using-charles-from-an-iphone/">Charles</a>.</p>
+<p>So, how do you authenticate your app?  Step back a moment.  What are you monetizing or protecting?  It's
+likely the data within the mobile backend.  Protect that data by authenticating your users.   If you absolutely
+must monetize your app, then there are ways to do it, and we will discuss those later in the book.</p>
+<!-- Links -->
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -558,7 +534,7 @@ authentication later on.</p>
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../concepts/" title="Concepts">
+        <a href="../realworld/" title="Tokens in Real Apps">
           <span class="direction">
             Previous
           </span>
@@ -568,7 +544,7 @@ authentication later on.</p>
             </div>
             <div class="stretch">
               <div class="title">
-                Concepts
+                Tokens in Real Apps
               </div>
             </div>
           </div>
@@ -577,14 +553,14 @@ authentication later on.</p>
     </div>
     <div class="next">
       
-        <a href="../enterprise/" title="Enterprise Authentication">
+        <a href="../../data/" title="Data Access and Offline Sync">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Enterprise Authentication
+                Data Access and Offline Sync
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

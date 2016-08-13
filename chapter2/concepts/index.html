@@ -282,8 +282,8 @@
       
         
   <li>
-    <a class="" title="Backup Content" href="../../2_authentication/">
-      Backup Content
+    <a class="" title="Best Practices" href="../bestpractices/">
+      Best Practices
     </a>
     
   </li>
@@ -510,6 +510,11 @@ will advise you to use their SDK and it provides the best experience for your en
 <li>Microsoft (MSA)</li>
 <li>Twitter</li>
 </ul>
+<blockquote>
+<p>Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is
+shared among all instances of the backend within the same App Service Plan).  The token store is located at
+<code>D:\\home\\data\\.auth\\tokens</code> on the backend.  The tokens are encrypted and stored in a per-user encrypted file.</p>
+</blockquote>
 <p>In addition, you can set up client-flow custom authentication that allows you to mint a ZUMO token to your
 specifications for any provider using a client-flow.  For example, you could use authentication providers
 like <a href="https://azure.microsoft.com/en-us/services/active-directory-b2c/">Azure AD B2C</a>, <a href="https://developer.linkedin.com/docs/oauth2">LinkedIn</a> or <a href="https://developer.github.com/v3/oauth/">GitHub</a>, a third-party authentication provider like  <a href="https://auth0.com/">Auth0</a>,
