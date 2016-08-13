@@ -25,6 +25,7 @@ namespace TaskList.ViewModels
 
             RefreshCommand = new Command(async () => await ExecuteRefreshCommand());
             AddNewItemCommand = new Command(async () => await ExecuteAddNewItemCommand());
+            LogoutCommand = new Command(async () => await ExecuteLogoutCommand());
 
             // Execute the refresh command
             RefreshCommand.Execute(null);
@@ -33,6 +34,7 @@ namespace TaskList.ViewModels
         public ICloudTable<TodoItem> Table { get; set; }
         public Command RefreshCommand { get; }
         public Command AddNewItemCommand { get; }
+        public Command LogoutCommand { get; }
 
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -101,6 +103,27 @@ namespace TaskList.ViewModels
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Item Not Added", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        async Task ExecuteLogoutCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                var cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
+                await cloudService.LogoutAsync();
+                Application.Current.MainPage = new NavigationPage(new Pages.EntryPage());
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Logout Failed", ex.Message, "OK");
             }
             finally
             {

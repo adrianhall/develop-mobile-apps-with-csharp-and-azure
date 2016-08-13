@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Models;
 
 namespace TaskList.Abstractions
@@ -7,7 +8,9 @@ namespace TaskList.Abstractions
     {
         ICloudTable<T> GetTable<T>() where T : TableData;
 
-        Task LoginAsync();
+        Task<MobileServiceUser> LoginAsync();
+
+        Task LogoutAsync();
 
         Task LoginAsync(User user);
 

@@ -8,10 +8,13 @@
                      Orientation="Vertical"
                      VerticalOptions="Center">
             <Label Text="{Binding AppService}" />
+            <!--  Added for Username / Password (LoginUserAsync()) purposes  -->
+            <!--
             <Label Text="Username?" />
             <Entry Text="{Binding User.Username}" />
             <Label Text="Password?" />
             <Entry IsPassword="True" Text="{Binding User.Password}" />
+            -->
 
             <Button BackgroundColor="Teal"
                     BorderRadius="10"

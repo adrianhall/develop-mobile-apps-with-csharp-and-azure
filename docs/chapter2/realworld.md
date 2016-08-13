@@ -241,7 +241,7 @@ You can add the additional information to a Google request with the following co
 ```csharp
 client.LoginAsync("google", new Dictionary<string, string>
 {
-    { "access_type", "offline" }  
+    { "access_type", "offline" }
 });
 ```
 
@@ -294,9 +294,405 @@ to the OAuth documentation for the identity provider.
 
 The Azure Mobile Apps Client SDK has a built in method for refreshing tokens for you.  It assumes that you are using
 a supported identity provider (Azure Active Directory, Google or Microsoft Account), and have configured the identity
-provider to generate the refresh token.
+provider to generate the refresh token.  To refresh a token, use:
+
+```csharp
+client.RefreshUserAsync();
+```
+
+We can easily add this to the login process in the platform-specific provider.  Rather than provide the same logic
+over and over, we can extend the `ILoginProvider` to do the base operations for us then implement the logic once
+in the `AzureCloudService`.  The `Abstractions\ILoginProvider.cs` interface now looks like this:
+
+```csharp
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+
+namespace TaskList.Abstractions
+{
+    public interface ILoginProvider
+    {
+        MobileServiceUser RetrieveTokenFromSecureStore();
+
+        void StoreTokenInSecureStore(MobileServiceUser user);
+
+        Task<MobileServiceUser> LoginAsync(MobileServiceClient client);
+    }
+}
+```
+
+Since the `RefreshUserAsync()` method is purely contained within the Azure Mobile Apps Client SDK and requires
+no changes between platforms, we don't need a special platform-specific version.  Each method of the interface
+is one of the primitives we have already discussed.  For example, the Android version in  `Services\DroidLoginProvider.cs`
+now looks like this:
+
+```csharp
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        #region ILoginProvider Interface
+        public MobileServiceUser RetrieveTokenFromSecureStore()
+        {
+            var accounts = AccountStore.FindAccountsForService("tasklist");
+            if (accounts != null)
+            {
+                foreach (var acct in accounts)
+                {
+                    string token;
+
+                    if (acct.Properties.TryGetValue("token", out token))
+                    {
+                        return new MobileServiceUser(acct.Username)
+                        {
+                            MobileServiceAuthenticationToken = token
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void StoreTokenInSecureStore(MobileServiceUser user)
+        {
+            var account = new Account(user.UserId);
+            account.Properties.Add("token", user.MobileServiceAuthenticationToken);
+            AccountStore.Save(account, "tasklist");
+        }
+
+        public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
+        {
+            // Server Flow
+            return await client.LoginAsync(RootView, "aad");
+        }
+        #endregion
+
+        public Context RootView { get; private set; }
+
+        public AccountStore AccountStore { get; private set; }
+
+        public void Init(Context context)
+        {
+            RootView = context;
+            AccountStore = AccountStore.Create(context);
+        }
+    }
+}
+```
+
+The iOS version is practically the same because we are using the common Xamarin.Auth portable library.  The
+difference is in the methods outside of the ILoginProvider interface:
+
+```csharp
+public UIViewController RootView => UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+public AccountStore AccountStore { get; private set; }
+
+public iOSLoginProvider()
+{
+    AccountStore = AccountStore.Create();
+}
+```
+
+Finally, the Universal Windows version (in `Services\UWPLoginProvider.cs`) is significantly different in the
+secure store implementation:
+
+```csharp
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+        public PasswordVault PasswordVault { get; private set; }
+
+        public UWPLoginProvider()
+        {
+            PasswordVault = new PasswordVault();
+        }
+
+        #region ILoginProvider Interface
+        public MobileServiceUser RetrieveTokenFromSecureStore()
+        {
+            try
+            {
+                // Check if the token is available within the password vault
+                var acct = PasswordVault.FindAllByResource("tasklist").FirstOrDefault();
+                if (acct != null)
+                {
+                    var token = PasswordVault.Retrieve("tasklist", acct.UserName).Password;
+                    if (token != null && token.Length > 0)
+                    {
+                        return new MobileServiceUser(acct.UserName)
+                        {
+                            MobileServiceAuthenticationToken = token
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error retrieving existing token: {ex.Message}");
+            }
+            return null;
+        }
+
+        public void StoreTokenInSecureStore(MobileServiceUser user)
+        {
+            PasswordVault.Add(new PasswordCredential("tasklist", user.UserId, user.MobileServiceAuthenticationToken));
+        }
+
+        public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
+        {
+            // Server-Flow Version
+            return await client.LoginAsync("aad");
+        }
+        #endregion
+    }
+}
+```
+
+We can swap out the server-flow Azure Active Directory login method with any of the client-flow, server-flow or
+custom flows that we have been discussing thus far across all three platform-specific implementations.
+
+The common flow handles all the logic for us.  This is the `LoginAsync()` method in the `Services\AzureCloudService.cs`
+class:
+
+```csharp
+public async Task<MobileServiceUser> LoginAsync()
+{
+    var loginProvider = DependencyService.Get<ILoginProvider>();
+
+    client.CurrentUser = loginProvider.RetrieveTokenFromSecureStore();
+    if (client.CurrentUser != null)
+    {
+        // User has previously been authenticated - try to Refresh the token
+        try
+        {
+            var refreshed = await client.RefreshUserAsync();
+            if (refreshed != null)
+            {
+                loginProvider.StoreTokenInSecureStore(refreshed);
+                return refreshed;
+            }
+        }
+        catch (Exception refreshException)
+        {
+            Debug.WriteLine($"Could not refresh token: {refreshException.Message}");
+        }
+    }
+
+    if (client.CurrentUser != null && !IsTokenExpired(client.CurrentUser.MobileServiceAuthenticationToken))
+    {
+        // User has previously been authenticated, no refresh is required
+        return client.CurrentUser;
+    }
+
+    // We need to ask for credentials at this point
+    await loginProvider.LoginAsync(client);
+    if (client.CurrentUser != null)
+    {
+        // We were able to successfully log in
+        loginProvider.StoreTokenInSecureStore(client.CurrentUser);
+    }
+    return client.CurrentUser;
+}
+```
+
+For full disclosure, I've also moved the `IsTokenExpired()` method from the platform-specific code to the
+shared project, and updated the `ICloudService.cs` to match the new signature of `LoginAsync()`.  The process
+follows the best practices:
+
+* Check for a stored token - if one exists, try to refresh it.
+* If the token (that potentially just got refreshed) is not expired, continue using it.
+* If not, ask the user for credentials.
+* If we get a valid token back, store it in the secure store for next time.
+
+There is another place that we must consider refresh tokens.  During a HTTP request to our mobile backend, it is
+possible that the token has expired since our last request.  The request will return a 401 Unauthorized response
+in this case.  We need to trap that and perform a login request.  The login request will either refresh the
+token or prompt the user for new credentials.  We can then continue with the request as before.
+
+The Azure Mobile Apps SDK contains a mechanism for hooking into the HTTP workflow using a `DelegatingHandler`. A
+delegating handler is a base type for a HTTP handler that allows us to process the request and response from the
+HTTP client object before (and after) it finally get processed.  It's used for adding additional headers to the
+request or logging the request and response, for example.  We are going to use it to validate the response and
+re-submit the request (after login) if the request comes back as a 401 Unauthorized.
+
+We start with the adjustment to the `Services\AzureCloudService.cs` constructor:
+
+```csharp
+public AzureCloudService()
+{
+    client = new MobileServiceClient(Locations.AppServiceUrl, new AuthenticationDelegatingHandler());
+
+    if (Locations.AlternateLoginHost != null)
+        client.AlternateLoginHost = new Uri(Locations.AlternateLoginHost);
+}
+```
+
+The `AuthenticationDelegatingHandler()` is the new piece here.  This is the delegating handler that we are going
+to implement to handle the re-try logic.  I've placed the code in `Helpers\AuthenticationDelegatingHandler.cs`:
+
+```csharp
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+
+namespace TaskList.Helpers
+{
+    class AuthenticationDelegatingHandler : DelegatingHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            // Clone the request, in case we need to re-issue it
+            var clone = await CloneHttpRequestMessageAsync(request);
+            // Now do the request
+            var response = await base.SendAsync(request, cancellationToken);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                // The request resulted in a 401 Unauthorized.  We need to do a LoginAsync,
+                // which will do the Refresh if appropriate, or ask for credentials if not.
+                var user = await ServiceLocator.Instance.Resolve<ICloudService>().LoginAsync();
+
+                // Now, retry the request with the cloned request.  The only thing we have
+                // to do is replace the X-ZUMO-AUTH header with the new auth token.
+                clone.Headers.Remove("X-ZUMO-AUTH");
+                clone.Headers.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
+                response = await base.SendAsync(clone, cancellationToken);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Clone a HttpRequestMessage
+        /// Credit: http://stackoverflow.com/questions/25044166/how-to-clone-a-httprequestmessage-when-the-original-request-has-content
+        /// </summary>
+        /// <param name="req">The request</param>
+        /// <returns>A copy of the request</returns>
+        public static async Task<HttpRequestMessage> CloneHttpRequestMessageAsync(HttpRequestMessage req)
+        {
+            HttpRequestMessage clone = new HttpRequestMessage(req.Method, req.RequestUri);
+
+            // Copy the request's content (via a MemoryStream) into the cloned object
+            var ms = new MemoryStream();
+            if (req.Content != null)
+            {
+                await req.Content.CopyToAsync(ms).ConfigureAwait(false);
+                ms.Position = 0;
+                clone.Content = new StreamContent(ms);
+
+                // Copy the content headers
+                if (req.Content.Headers != null)
+                    foreach (var h in req.Content.Headers)
+                        clone.Content.Headers.Add(h.Key, h.Value);
+            }
 
 
+            clone.Version = req.Version;
+
+            foreach (KeyValuePair<string, object> prop in req.Properties)
+                clone.Properties.Add(prop);
+
+            foreach (KeyValuePair<string, IEnumerable<string>> header in req.Headers)
+                clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
+
+            return clone;
+        }
+    }
+}
+```
+
+There is no in-built method for cloning a `HttpRequestMessage` object.  Fortunately [Stack Overflow][34] provided
+an answer that seems to work.  Running this code will now pass every single non-login request through the delegating
+handler.  If we get an Unauthorized at any point, the login flow (which includes an implicit refresh token) will
+be triggered.
+
+> There are two HTTPClient objects created inside of the `MobileServiceClient` object. One is for all the non-login
+flows and it supports the delegating handlers.  However there is another one for login flows.  The one for login
+flows does not support delegating handlers.  This means you don't have to worry about cyclical references within the
+delegating handler (where a login flow triggers another login flow).
+
+## Logging out
+
+There is a dirty little secret within the Azure Mobile Apps Client SDK.  Calling `LogoutAsync()` does not actually
+invalidate the token you are using.  It simply removes it from the `MobileServiceClient` context.  Don't believe
+me?  Here is [the code][35]:
+
+```csharp
+        /// <summary>
+        /// Log a user out.
+        /// </summary>
+        public Task LogoutAsync()
+        {
+            this.CurrentUser = null;
+            return Task.FromResult(0);
+        }
+```
+
+When you actually think about it, this makes sense.  You can get logged in via five different supported identity
+providers via a web-flow.  In this case, you are logging your **browser** out of the identity provider.  Do you
+really want to log out of Facebook when you log out of your app?
+
+So, how do you log out?  You should:
+
+* Call the identity provider logout method (if appropriate).  Many identity providers don't provide this.
+* Invalidate the token on the mobile backend.
+* Remove the token from the local secure cache store.
+* Finally, call the `LogoutAsync()` method on the `MobileServiceClient`.
+
+### Invalidating the token on the mobile backend.
+
+### Removing the token from the local secure cache store.
+
+For this part of the process, I added a new method to the `ILoginProvider.cs` interface:
+
+```csharp
+        void RemoveTokenFromSecureStore();
+```
+
+For Android and iOS, the concrete implementation looks like this:
+
+```csharp
+public void RemoveTokenFromSecureStore()
+{
+    var accounts = AccountStore.FindAccountsForService("tasklist");
+    if (accounts != null)
+    {
+        foreach (var acct in accounts)
+        {
+            AccountStore.Delete(acct, "tasklist");
+        }
+    }
+}
+```
+
+For Universal Windows, the concrete implementation is a bit different:
+
+```csharp
+public void RemoveTokenFromSecureStore()
+{
+    try
+    {
+        // Check if the token is available within the password vault
+        var acct = PasswordVault.FindAllByResource("tasklist").FirstOrDefault();
+        if (acct != null)
+        {
+            PasswordVault.Remove(acct);
+        }
+    }
+    catch (Exception ex)
+    {
+        Debug.WriteLine($"Error retrieving existing token: {ex.Message}");
+    }
+}
+```
 
 <!-- Images -->
 [img59]: img/aad-add-key.PNG
@@ -310,3 +706,5 @@ provider to generate the refresh token.
 [33]: https://msdn.microsoft.com/library/windows/apps/windows.security.credentials.passwordvault.aspx
 [portal]: https://portal.azure.com/
 [classic-portal]: https://manage.windowsazure.com/
+[34]: http://stackoverflow.com/questions/25044166/how-to-clone-a-httprequestmessage-when-the-original-request-has-content
+[35]: https://github.com/Azure/azure-mobile-apps-net-client/blob/master/src/Microsoft.WindowsAzure.MobileServices/MobileServiceClient.cs

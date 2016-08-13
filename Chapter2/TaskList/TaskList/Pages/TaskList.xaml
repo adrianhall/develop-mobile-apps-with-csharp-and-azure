@@ -9,6 +9,11 @@
                      Icon="refresh.png"
                      Order="Primary"
                      Priority="0" />
+        <ToolbarItem Name="Logout"
+                     Command="{Binding LogoutCommand}"
+                     Icon="logout.png"
+                     Order="Primary"
+                     Priority="0" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <RelativeLayout>
