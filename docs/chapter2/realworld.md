@@ -300,6 +300,11 @@ provider to generate the refresh token.  To refresh a token, use:
 client.RefreshUserAsync();
 ```
 
+> If you get the error "You do not have permission to view this directory or page" when accessing the refresh
+endpoint, there are no refresh tokens for your user in the token store.  This could be because the user has
+yet to re-authenticate (causing a new refresh token to be generated), the provider is not set up to generate
+refresh tokens or the provider does not support refresh tokens.
+
 We can easily add this to the login process in the platform-specific provider.  Rather than provide the same logic
 over and over, we can extend the `ILoginProvider` to do the base operations for us then implement the logic once
 in the `AzureCloudService`.  The `Abstractions\ILoginProvider.cs` interface now looks like this:
