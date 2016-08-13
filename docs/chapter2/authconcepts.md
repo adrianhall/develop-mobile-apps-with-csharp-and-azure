@@ -1,3 +1,5 @@
+# Authentication Concepts
+
 One of the very first things you want to do when developing a mobile app is to provide users with a unique
 experience.  For our example task list application, this could be as simple as providing a task list for the
 user who is logged in.  In more complex applications, this is the gateway to role-based access controls, group

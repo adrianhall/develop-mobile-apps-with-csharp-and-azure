@@ -7,13 +7,13 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B75171EC-99BB-4774-B849-B27E48BDD58A}</ProjectGuid>
+    <ProjectGuid>{382E90E8-D63B-4A83-BF71-45F2E9B04CC8}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Backend</RootNamespace>
-    <AssemblyName>Backend</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Chapter3</RootNamespace>
+    <AssemblyName>Chapter3</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -205,7 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\book-chapter3 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\eb3961b4-820c-4be0-ae9e-539120358e72 - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -223,9 +222,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>39428</DevelopmentServerPort>
+          <DevelopmentServerPort>38365</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:39428/</IISUrl>
+          <IISUrl>http://localhost:38365/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

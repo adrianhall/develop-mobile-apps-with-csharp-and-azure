@@ -5,7 +5,7 @@ pages:
         - Your First App - PC Edition: chapter1/firstapp_pc.md
         - Your First App - Mac Edition: chapter1/firstapp_mac.md
     - Chapter 2 - Authentication:
-        - Concepts: chapter2/concepts.md
+        - Concepts: chapter2/authconcepts.md
         - Authentication in the Backend: chapter2/backend.md
         - Enterprise Authentication: chapter2/enterprise.md
         - Social Authentication: chapter2/social.md
@@ -14,7 +14,9 @@ pages:
         - Claims and Authorization: chapter2/authorization.md
         - Tokens in Real Apps: chapter2/realworld.md
         - Best Practices: chapter2/bestpractices.md
-    - Data Access and Offline Sync: data.md
+    - Chapter 3 - Data Access and Offline Sync:
+        - Concepts: chapter3/dataconcepts.md
+        - data.md
     - File Management: files.md
     - Push Notifications: push.md
     - Server Side Code: custom.md
