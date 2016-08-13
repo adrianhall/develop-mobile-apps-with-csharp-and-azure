@@ -1,0 +1,30 @@
+.article h1 {
+    padding: 24px 0 8px;
+}
+
+.article blockquote {
+    border: 2px solid rgba(54,117,136,1.0);
+    color: teal;
+    background-color: rgba(54,117,136,0.1);
+    margin-top: 22px;
+    padding: 4px;
+}
+
+.article blockquote p:first-child {
+    margin-top: 0;
+}
+
+.article pre code {
+    background-color: #f2f2f2;
+}
+
+@media only screen and (min-width: 720px)
+{
+    .article pre {
+        padding: 8px 1.5rem;
+    }
+}
+
+img {
+    border: 1px solid #404040;
+}
