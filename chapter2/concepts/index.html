@@ -442,10 +442,11 @@
           
             <h1>Concepts</h1>
           
-          <p>One of the very first things you will want to do is to provide users with a unique experience.  For our example
-task list application, this could be as simple as providing a task list for the user who is logged in.  In more
-complex applications, this is the gateway to role-based access controls, group rules, and sharing with your
-friends.  In all these cases, properly identifying the user using the phone is the starting point.</p>
+          <p>One of the very first things you want to do when developing a mobile app is to provide users with a unique
+experience.  For our example task list application, this could be as simple as providing a task list for the
+user who is logged in.  In more complex applications, this is the gateway to role-based access controls, group
+rules, and sharing with your friends.  In all these cases, properly identifying the user using the phone is the
+starting point.</p>
 <p>Authentication provides a process by which the user that is using the mobile device can be identified securely.
 This is generally done by entering a username and password.  However, modern systems can also provide
 <a href="https://en.wikipedia.org/wiki/Multi-factor_authentication">multi-factor authentication</a>, send you a text message to a registered device, or <a href="https://support.apple.com/en-us/HT201371">use your fingerprint</a>
@@ -460,19 +461,25 @@ actors in the OAuth protocol:</p>
 <li>The <strong>Resource</strong> is the mobile backend that the client is attempting to access.</li>
 <li>The <strong>Identity Provider</strong> (or IdP) is the service that is responsible for authenticating the client.</li>
 </ul>
-<p>At the end of the process, a cryptographically signed token is minted.  This token is added to every single
-subsequent request to identify the user.</p>
+<p>At the end of the process, a cryptographically signed token is minted.  This token is added to every request
+made by the client to the resource to securely identify the user.</p>
 <h2 id="server-side-vs-client-side">Server Side vs. Client Side<a class="headerlink" href="#server-side-vs-client-side" title="Permanent link">&para;</a></h2>
-<p>There are two types of authentication flow: Server-Flow and Client-Flow.  They are so named because of who
+<p>There are two types of authentication flow: Server-flow and Client-flow.  They are so named because of who
 controls the flow of the actual authentication.</p>
 <p><img alt="Authentication Flow" src="../img/auth-flow.PNG" /></p>
-<p>Server-flow is named because the authentication flow is managed by the server through a web connection.  It
-is generally used in two cases:</p>
+<p>Server-flow is named because the authentication flow is managed by the Azure App Service (the server) through a
+webview-based work flow.  It is generally used in two cases:</p>
 <ul>
 <li>You want a simple placeholder for authentication in your mobile app while you are developing other code.</li>
-<li>You are developing a web app.</li>
+<li>You are developing a traditional web app.</li>
 </ul>
-<p>In the case of Server Flow:</p>
+<blockquote>
+<p>If you are developing a single-page application (SPA), then client-flow is the more appropriate model for
+authentication.  The SPA looks more like a mobile client than a traditional web app.  In particular, you will
+be redirected away from your single page and returned to the app at a specific entry point, removing any
+context from the app.</p>
+</blockquote>
+<p>In the case of server-flow:</p>
 <ol>
 <li>The client brings up a web view and asks for the login page from the resource.</li>
 <li>The resource redirects the client to the identity provider.</li>
@@ -482,9 +489,16 @@ is generally used in two cases:</p>
 <li>Finally, the resource mints a new resource token that it returns to the client.</li>
 </ol>
 <p>Client-flow authentication uses an IdP provided SDK to integrate a more native feel to the authentication
-flow.  The actual flow happens on the client, communicating only with the IdP.</p>
+flow.  The actual flow happens on the client, communicating only with the identity provider.  It is used
+is most cases:</p>
+<ul>
+<li>You want a more integrated experience for your users.</li>
+<li>You want the most native feel to your authentication flow.</li>
+<li>You are developing a single-page web application.</li>
+</ul>
+<p>A client-flow feels similar to the server-flow, but using a native SDK instead of a web view.</p>
 <ol>
-<li>The client uses the IdP SDK to communicate with the identity provider.</li>
+<li>The client uses the identity provider SDK to communicate with the identity provider.</li>
 <li>The identity provider authenticates the user, returning an identity provider token.</li>
 <li>The client presents the identity provider token to the resource.</li>
 <li>The resource validates the identity provider token with the identity provider.</li>
@@ -492,8 +506,12 @@ flow.  The actual flow happens on the client, communicating only with the IdP.</
 </ol>
 <p>For example, if you use the Facebook SDK for authentication, your app will seamlessly switch over into the
 Facebook app and ask you to authorize your client application before switching you back to your client application.</p>
-<p>You should use the IdP SDK when developing an app that will be released on the app store.  The identity providers
-will advise you to use their SDK and it provides the best experience for your end users.</p>
+<p>You should use the identity provider SDK when developing an app that will be released on the app store.  The
+identity providers will advise you to use their SDK and it provides the best experience for your end users.</p>
+<blockquote>
+<p>The Azure App Service Authentication / Authorization service works with any App Service, including web apps
+and API apps.  It's not just for Mobile Apps.</p>
+</blockquote>
 <h2 id="authentication-providers">Authentication Providers<a class="headerlink" href="#authentication-providers" title="Permanent link">&para;</a></h2>
 <p>Azure Mobile Apps supports five identity providers natively:</p>
 <ul>

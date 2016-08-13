@@ -456,14 +456,25 @@ object.</p>
 between two systems securely.  The JWT is a cryptographically signed JSON object.  You can decode the JWT using
 the <a href="https://jwt.io">jwt.io tool</a>.  Cut and paste the authentication token into the <strong>Encoded</strong> box and it will be decoded.</p>
 <p><img alt="The JWT Decoded" src="../img/jwt-3.PNG" /></p>
-<p>Note that the contents of the JWT are revealed even without knowing the secret.  However, we have not supplied
-a secret.  The secret is kept at the resource - in this case, your app service.  However, we can already see the
-issuer and audience (in this case, they are both set to your app service address), the identity provider that was
-used and a subject.</p>
-<p>Technically, the JWT can include any data and there are some that place just about everything about the user in
-the JWT.  App Service keeps the amount of data small because the client will be sending the JWT with every request.
-Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth usage will add up
-quickly, and your app will be known as a bandwidth hog.</p>
+<p>Note that the contents of the JWT are revealed even without knowing the secret.  The client secret is generated
+(or entered as part of a configuration) at the identity provider and is used to cryptographically sign the token.
+You will need the client secret to verify the signature of the token.  The client secret is copied from the identity
+provider to the resource (in this case, the App Service).</p>
+<p>We can see other items within the token.  The <em>Issuer</em> is the place that issued the token.  This is generally a URI.
+The <em>Audience</em> is an identifier for who the token is for.  In this case, we have a token minted by the Azure App
+Service for use accessing that same App Service, so the issuer and audience are both the URI.  If you look at an
+Auth0 token, you will see that the issuer is the Auth0 domain and the audience is the Client ID of the Auth0 tenant.</p>
+<p>Each token will also have a number of claims.  The most common claim is the <em>Subject</em> of the token.  This is generally
+a security ID, but could be any unique user ID.</p>
+<blockquote>
+<p>Azure App Service sets the subject to a stable SID.  The stable SID is unique to the identity provider that is
+used for the authentication and guaranteed not to change, even if the user changes their email address or username
+on the underlying identity provider.</p>
+</blockquote>
+<p>Technically, the JWT can include any data and there are some identity providers that place just about everything
+about the user in the JWT.  App Service keeps the amount of data small because the client will be sending the JWT
+with every request. Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth
+usage will add up quickly, and your app will be known as a bandwidth hog.</p>
 <p>However, there are some fields that are pretty universal.  Your JWT should always have the following fields:</p>
 <ul>
 <li>sub = Subject (the identifier for the token)</li>
@@ -483,11 +494,11 @@ quickly, and your app will be known as a bandwidth hog.</p>
 using Azure Active Directory, you can also use the more standard Bearer Authorization header.  If the token does
 not match, then the X-ZUMO-AUTH header will be stripped from the request before the request is passed to your site.</p>
 <h2 id="testing-authentication-without-a-client">Testing Authentication without a Client<a class="headerlink" href="#testing-authentication-without-a-client" title="Permanent link">&para;</a></h2>
-<p>Testing your site without a client requires a REST client.  I use <a href="https://www.getpostman.com/">Postman</a>, which is based on Google Chrome.
-If you use Firefox, you might want to take a look at <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">RESTClient</a>.  Telerik also distributes a web debugging
-proxy called <a href="http://www.telerik.com/blogs/api-testing-with-telerik-fiddler">Fiddler</a> that can do API testing.  To test the server, we will need a token.  We can get one by
-testing authentication configuration by pointing the browser to <code>/.auth/login/aad</code>.  The return URL will contain
-a token.</p>
+<p>Testing authentication against your App Service without a client requires a REST client.  I use <a href="https://www.getpostman.com/">Postman</a>,
+which is based on Google Chrome.  If you use Firefox, you might want to take a look at <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">RESTClient</a>.  Telerik
+also distributes a web debugging proxy called <a href="http://www.telerik.com/blogs/api-testing-with-telerik-fiddler">Fiddler</a> that can do API testing.  To test the server, we will
+need a token.  We can get one by testing authentication configuration by pointing the browser to <code>/.auth/login/aad</code>.
+The return URL will contain a token in the query string and as <a href="https://en.wikipedia.org/wiki/HTTP_cookie#Secure_cookie">a secure cookie</a>.</p>
 <blockquote>
 <p>You can test any of the supported identity providers by replacing <em>aad</em> with the authentication provider name:
 facebook, google, microsoftaccount and twitter are possibilities here.</p>
