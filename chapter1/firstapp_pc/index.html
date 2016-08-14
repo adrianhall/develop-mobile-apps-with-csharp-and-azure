@@ -322,8 +322,35 @@
       
         
   <li>
-    <a class="" title="Data" href="../../data/">
-      Data
+    <a class="" title="Data Projection and Queries" href="../../chapter3/projection/">
+      Data Projection and Queries
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Mobile Client" href="../../chapter3/client/">
+      The Mobile Client
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types and Relationships" href="../../chapter3/complextypes/">
+      Complex Types and Relationships
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
+      The Domain Manager
     </a>
     
   </li>
@@ -609,7 +636,7 @@ namespace Backend.DataObjects
 
 <p>Note that the model uses <code>EntityData</code> as a base class.  The <code>EntityData</code> class
 adds five additional properties to the class - we'll discuss those in more
-details during the <a href="../../data/">Data Access and Offline Sync</a> chapter.</p>
+details during the <a href="../../chapter3/dataconcepts/">Data Access and Offline Sync</a> chapter.</p>
 <p>Finally, let's look at the table controller for the example TodoItem table.  This
 is located in <code>Controllers\TodoItemController.cs</code>:</p>
 <pre><code class="csharp">using System.Linq;
@@ -1001,7 +1028,7 @@ namespace TaskList.Abstractions
 }
 </code></pre>
 
-<p>As we will learn when we deal with <a href="../../data/">table data</a>, these fields need to
+<p>As we will learn when we deal with <a href="../../chapter3/dataconcepts/">table data</a>, these fields need to
 be defined with the same name and semantics as on the server.  Our model on
 the server was sub-classed from <code>EntityData</code> and the <code>EntityData</code> class on the
 server defines these fields.</p>
