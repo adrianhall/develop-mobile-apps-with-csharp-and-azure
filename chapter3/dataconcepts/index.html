@@ -586,13 +586,47 @@ query the server, the deleted records are not shown unless you explicitly ask fo
 of the offline sync process.</p>
 <h2 id="the-data-access-protocol">The Data Access Protocol<a class="headerlink" href="#the-data-access-protocol" title="Permanent link">&para;</a></h2>
 <p>Given any particular table, there are a few endpoints that are important.  Given our TodoItem table from Chapter 1:</p>
-<p>| Operation | Endpoint | Description |
-| GET | /tables/todoitem | Query the table |
-| GET | /tables/todoitem/<em>id</em> | Retrieve a single entity |
-| POST | /tables/todoitem | Add a new entity |
-| PATCH | /tables/todoitem/<em>id</em> | Update an existing entity |
-| DELETE | /tables/todoitem/<em>id</em> | Deletes an existing entity |
-| POST | /tables/todoitem/<em>id</em> | Undelete a previously deleted entity |</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/tables/todoitem</td>
+<td>Query the table</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Retrieve a single entity</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/tables/todoitem</td>
+<td>Add a new entity</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Update an existing entity</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Deletes an existing entity</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Undelete a previously deleted entity</td>
+</tr>
+</tbody>
+</table>
 <p>We can take a look at each of these in turn with the Azure App Service.  These can be done with Postman easily.</p>
 <blockquote>
 <p>The first request to a new Azure App Service will take some time, especially if the site has to set up the database.</p>
