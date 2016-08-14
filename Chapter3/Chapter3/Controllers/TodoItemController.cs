@@ -9,6 +9,7 @@ using Chapter3.Models;
 
 namespace Chapter3.Controllers
 {
+    [EnableQuery(PageSize=10)]
     public class TodoItemController : TableController<TodoItem>
     {
         protected override void Initialize(HttpControllerContext controllerContext)

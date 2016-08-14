@@ -238,13 +238,104 @@ We can now undelete that record by POSTing to the _Id_ endpoint:
 A success results in a `201 Created` response, with a failure resulting in a `404 Not Found` response (assuming the
 failure is because the Id does not exist in the table).
 
-### Searches with Data Access Protocol
+## Filtering Data
 
-### Paging Results
+If you have followed along, we have three entities in our table now.  We can do searches by utilizing the OData
+`$filter` operator as a query:
 
-## How Offline Sync Works
+![][table-srch-1]
 
-## Tools
+The `$filter` parameter takes an [OData filter] and returns the list of entities that match the search.  The Azure
+Mobile Apps SDK supports quite a bit of the OData v3 specification that is supported by the [Microsoft.Data.OData]
+package, but not everything.  There are features of the OData package that are explicitly disabled because they
+do not work in an offline context.  OData was defined as a method of transferring data between client and server
+in an online context so we can expect some things to work differently.
+
+We can also select specific fields by using the `$select` clause:
+
+![][table-srch-2]
+
+
+## Paging Results
+
+At some point, we are going to bump into an in-built limit of the server.  You can clearly see this by inserting
+a lot of entities then querying the results.  Once the number of entities gets above 50, paging will occur.  You
+can adjust the paging size on the server by adding an `[EnableQuery()]` attribute to the class.  For example, the
+following will set the page size at 10:
+
+```csharp
+namespace Chapter3.Controllers
+{
+    [EnableQuery(PageSize=10)]
+    public class TodoItemController : TableController<TodoItem>
+    {
+```
+
+You cannot make the page size infinite, so you should always implement paging controls in your mobile client.
+
+We can always receive the number of records that would have been sent if paging had not been in place by including
+`$inlinecount=allpages` with the query.  The query response turns into an object with two properties - the `results`
+property contains the array of results.  This is the same response as we received before.  There is now another
+property called `count` that contains the count of the records:
+
+![][table-srch-3]
+
+We can implement paging by using `$top` and `$skip` parameters. The `$top` parameter tells the server how many
+entities you want to return.  The `$skip` parameter tells the server how many entities to skip before it starts
+counting.
+
+For example, let's say you wanted to receive individual entities.  You could request:
+
+* `/tables/todoitem?$top=1&$skip=0`
+* `/tables/todoitem?$top=1&$skip=1`
+* `/tables/todoitem?$top=1&$skip=2`
+* `/tables/todoitem?$top=1&$skip=3`
+
+At this point, no entities would be returned and you would know you are at the end.
+
+> Although it is tempting to suggest removing the limit on the number of entities that can be returned (so you
+can receive all entities in one shot), it's better to implement paging.  The Azure App Service will run in a
+smaller App Service Plan because it won't require as much memory.  You will be able to support more users and
+your code will be more resilient to network issues that occur during transmission.
+
+## Offline synchronization
+
+One of the many reasons that developers choose the Azure Mobile Apps SDK is that it natively supports offline
+sync.  Offline sync provides a number of benefits.  It improves app responsiveness by caching server data
+locally on the device.  It allows the app to survive network issues including little or no connectivity, and it
+allows the developer to decide when to synchronize, thus allowing the deferral of large updates to when there
+is wifi available, for example.  The Azure Mobile Apps SDKs provide incremental sync (thereby ensuring the minimal
+amount of mobile data is used), optimistic concurrency and conflict resolution.
+
+To do this, Azure Mobile Apps provides a SQLite based backing store for data persistence on the mobile client.  You
+don't have to use SQLite, but it's built in and there are very few reasons to not use it.  If you are using iOS,
+the implementation is based on Core Data (which is itself based on SQLite).
+
+When you perform changes to an offline table, a _Sync Context_ is created along side the offline table. One of the
+elements of this sync context is an _Operation Queue_.  This is an ordered list of Create, Update and Delete
+operations against the offline table.  When you _PUSH_ the Sync Context, the list of creates, updates and Deletes
+are sent one by one to the Azure App Service, which then executes them as if they were done online.  Nothing is
+sent to the Azure App Service until your call to _PUSH_.
+
+To retrieve entities, your mobile client will perform a _PULL_ against a query.  The query is based on the filter
+that we reviewed earlier.  By default, all properties of all entities are pulled down.  An _Implicit Push_ happens
+if there are entities in the operation queue at the time of a pull request.  If you specify a query name (which is
+just a text string) to the `PullAsync()` method, the mobile client will do an _Incremental Sync_.  In this case,
+the latest `UpdatedAt` timestamp that the mobile client saw is recorded in the _Sync Context_ (and associated with
+the query name).  This allows the pull operation to pick up where it left off.
+
+> The query name must be unique within a Sync Context for incremental sync to work.
+
+The sync process implements _Optimistic Concurrency_.  With optimistic concurrency, the mobile client assumes that
+its change is valid.  Conflicts are handled only on push operations.  If the mobile client submits a record with
+a `version` field that does not match the server version field, the server will return a 409 or 412 response code.
+
+> What's the difference between 409 and 412?  Most of the time, you will see 412 Precondition Failed.  This means
+the ETag of the request did not match.  The ETag is a header that is equivalent to the version value.  409 Conflict
+occurs when you don't submit an ETag but do submit a version field in the update.
+
+If no version field (or ETag header) is submitted, the client entity is used for the create or update irrespective
+of the value on the server.
 
 <!-- Images -->
 [img1]: img/id-reason.PNG
@@ -258,8 +349,13 @@ failure is because the Id does not exist in the table).
 [table-ops-7]: img/table-ops-7.PNG
 [table-ops-8]: img/table-ops-8.PNG
 [table-ops-9]: img/table-ops-9.PNG
+[table-srch-1]: img/table-srch-1.PNG
+[table-srch-2]: img/table-srch-2.PNG
+[table-srch-3]: img/table-srch-3.PNG
 
 <!-- Links -->
 [OData v3]: http://www.odata.org/documentation/odata-version-3-0/
 [GUID]: https://msdn.microsoft.com/en-us/library/system.guid(v=vs.110).aspx
 [update the firewall]: https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/
+[OData filter]: http://www.odata.org/documentation/odata-version-3-0/url-conventions/#url5
+[Microsoft.Data.OData]: https://www.nuget.org/packages/Microsoft.Data.OData/

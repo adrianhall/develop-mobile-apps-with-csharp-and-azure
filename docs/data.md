@@ -1,13 +1,5 @@
 # Data Access and Offline Sync
 
-## Data Access Concepts
-
-### Data Access Protocol
-
-### How Offline Sync Works
-
-### Testing Data Access
-
 ## Adding a SQL Table Controller
 
 ### Using an Existing SQL Table

@@ -34,5 +34,7 @@ namespace Chapter3.Models
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
+
+        public System.Data.Entity.DbSet<Chapter3.DataObjects.Example> Examples { get; set; }
     }
 }

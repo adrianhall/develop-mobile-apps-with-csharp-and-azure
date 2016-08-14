@@ -16,6 +16,7 @@ pages:
         - Best Practices: chapter2/bestpractices.md
     - Chapter 3 - Data Access and Offline Sync:
         - Concepts: chapter3/dataconcepts.md
+        - Implementing Table Controllers: chapter3/server.md
         - data.md
     - File Management: files.md
     - Push Notifications: push.md
