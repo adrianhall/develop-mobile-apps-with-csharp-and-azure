@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Concepts - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 3 - Data Access and Offline Sync <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Concepts
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
+      Best Practices
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 3 - Data Access and Offline Sync</span>
+    <ul>
+      
+        
+  <li>
+    <a class="current" title="Concepts" href="./">
+      Concepts
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Tables, Entities and Properties" href="#tables-entities-and-properties">
+                Tables, Entities and Properties
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="The Data Access Protocol" href="#the-data-access-protocol">
+                The Data Access Protocol
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Filtering Data" href="#filtering-data">
+                Filtering Data
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Paging Results" href="#paging-results">
+                Paging Results
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Offline synchronization" href="#offline-synchronization">
+                Offline synchronization
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Implementing Table Controllers" href="../server/">
+      Implementing Table Controllers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data" href="../../data/">
+      Data
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="File Management" href="../../files/">
+      File Management
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Push Notifications" href="../../push/">
+      Push Notifications
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Server Side Code" href="../../custom/">
+      Server Side Code
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Media Services" href="../../media/">
+      Media Services
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Leveraging Search" href="../../search/">
+      Leveraging Search
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Web and Mobile Apps" href="../../combined/">
+      Web and Mobile Apps
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="The Development Environment" href="../../developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Testing your Application" href="../../testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Troubleshooting" href="../../troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Going to Production" href="../../production/">
+      Going to Production
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="data-access-concepts">Data Access Concepts<a class="headerlink" href="#data-access-concepts" title="Permanent link">&para;</a></h1>
+<p>At some point in the development of your application, you are going to want to store or retrieve data.  This could be
+as simple as a key-value store for storing personal settings, or as complex as a multi-table customer relationship
+database.  The key ingredient to all these scenarios is structured data.  I say <em>structured</em> here deliberately.  It
+is an important concept.  Most applications you write will require data in some sort of form that your application
+understands.</p>
+<p>It's very tempting to use an unstructured data source (like NoSQL).  I'm a big fan of NoSQL stores since they free
+me up to concentrate on the mobile client without worrying about the data format. After all, you can store whatever
+entities you want in a NoSQL data source.  However, this is really just an example of sloppy programming.  Most
+developers that use NoSQL are storing structured data in that NoSQL store to get around the problem that you actually
+have to decide what data you want to store in the database.  For this reason, I prefer a SQL database.  It ensures
+that I am thinking about the data format up front.  It also helps to ensure that a bad actor is not going to store
+data I don't expect in my store.</p>
+<p>This isn't to say that NoSQL doesn't have its place.  There are times when you need to store structured data where
+the data format varies between each entity that you are storing.  This tends to be an outlier situation though.</p>
+<h2 id="tables-entities-and-properties">Tables, Entities and Properties<a class="headerlink" href="#tables-entities-and-properties" title="Permanent link">&para;</a></h2>
+<p>When we talk about data, we tend to talk in terms of <em>Tables</em>, <em>Entities</em> and <em>Properties</em>.  These have equivalents
+in the SQL world (tables, rows and fields).  A <em>Table</em> is a collection of <em>Entities</em> that share a common format.  That
+format is described in terms of <em>Properties</em>.  Properties are basic types (like strings, numbers, booleans and dates).</p>
+<p>We create a <em>Table Controller</em> to expose the tables to a mobile client.  A <em>Table Controller</em> is a REST endpoint
+that implements an <a href="http://www.odata.org/documentation/odata-version-3-0/">OData v3</a> interface.  OData is a standard interface to table data that allows the client to
+perform CRUD (create, read, update and delete) operations on the data.  In addition, it provides for a standard
+way for querying the data.  More normally, the <em>Table Controller</em> is accessed through the Azure Mobile Apps Client
+SDK.  We saw an example of this in Chapter 1 when we first introduced the mobile client.</p>
+<p>Azure Mobile Apps also deals with tables in a manner that enables offline synchronization of the data.  That means
+it must be opinionated about the data format.  Specifically,</p>
+<ul>
+<li>There are four system properties on each entity.</li>
+<li>There are limitations on relationships between tables.</li>
+<li>Complex types need special handling.</li>
+</ul>
+<p>Let's take each of these in turn.  We implemented this <em>Model</em> within the mobile client in Chapter 1:</p>
+<pre><code class="csharp">using TaskList.Abstractions;
+
+namespace TaskList.Models
+{
+    public class TodoItem : TableData
+    {
+        public string Text { get; set; }
+
+        public bool Complete { get; set; }
+    }
+}
+</code></pre>
+
+<p>It's a fairly basic model class.  Note the <code>TableData</code> base class.  I often say that Azure Mobile Apps implements
+an opinionated version of OData. What I mean by that is that the protocol expects certain system fields to be present
+during the transfer.  The <code>TableData</code> class is a base class that implements that specification. It looks like this:</p>
+<pre><code class="csharp">using System;
+
+namespace TaskList.Abstractions
+{
+    public abstract class TableData
+    {
+        public string Id { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public byte[] Version { get; set; }
+    }
+}
+</code></pre>
+
+<p>The server side version adds another field - the <code>Deleted</code> boolean.  This is described in the <code>ITableData</code> interface
+that is provided with the Azure Mobile Apps Server SDK.</p>
+<blockquote>
+<p>The Azure Mobile Apps SDK uses <code>DateTimeOffset</code> instead of <code>DateTime</code>.  A DateTime object is time zone aware, and
+time zone definitions change over time.  The DateTimeOffset does not know anything about time zones.  The DateTime
+representation can change depending on where you are.  The DateTimeOffset will never change.  This makes it a better
+choice for these things.  You will see dates stored in UTC in your database as a result of this.</p>
+</blockquote>
+<p>Each element of the TableData (and ITableData) has a purpose, nominally to deal with situations with Offline Sync.</p>
+<h3 id="the-id-field">The Id field<a class="headerlink" href="#the-id-field" title="Permanent link">&para;</a></h3>
+<p>One of the common questions is this:  Can I use an auto-incrementing integer as an Id field?  Let's take a look at
+a simple situation.  You have two clients writing to the same table.  It might look something like this:</p>
+<p><img alt="" src="../img/id-reason.PNG" /></p>
+<p>Device A inserts a new record in to the database, with ID 1.  Device B is also inserting and decides to do ID 1
+as well.  This causes an immediate conflict that must be resolved.  We could fix this by requiring that new inserts
+do not insert an ID.  However, this can cause problems in offline cases, where you may be inserting many records
+and have to refer back to them during your offline state.</p>
+<p>The compromise here is to use a globally unique ID.  The <a href="https://msdn.microsoft.com/en-us/library/system.guid(v=vs.110).aspx">GUID</a> is a well-known algorithm and easily generated in
+offline scenarios.  This is stored as a string during transfer.</p>
+<h3 id="the-updatedat-field">The UpdatedAt field<a class="headerlink" href="#the-updatedat-field" title="Permanent link">&para;</a></h3>
+<p>One of the concepts that is always top of mind is ensuring that we are a good mobile citizen.  This means that we
+care about bandwidth utilization.  Reducing transfer size is good for your users.  They use less of their data
+allowance and save time by transferring less.  One of the key components to reduce bandwidth utilization is <em>Incremental
+Sync</em>.  With each record, we record the date it was last updated.  This is generally done for us as a database
+trigger, so we never have to worry about setting this value.  When we synchronize our table, only the records
+that have been updated since the last synchronization are requested.</p>
+<h3 id="the-version-field">The Version field<a class="headerlink" href="#the-version-field" title="Permanent link">&para;</a></h3>
+<p>The version field is all about conflict detection.  Let's take two devices requesting the same table again:</p>
+<p><img alt="" src="../img/version-reason.PNG" /></p>
+<p>In this diagram, Device A submits the first version of the entity.  Device B then updates the entity and posts
+it back.  This is accepted because Device B is sending the same version, so the server knows that this is an
+update to the latest version.  The server will send back a response with the updated version so that Device B
+knows that it has the latest version.</p>
+<p>Later on, Device A sends an update to the same entity.  It, however, still has version 1 of the entity.  The
+server will reject that because of a version mismatch.</p>
+<h3 id="the-deleted-field">The Deleted field<a class="headerlink" href="#the-deleted-field" title="Permanent link">&para;</a></h3>
+<p>When you are operating a service with an offline scope, you can't just delete entities.  If an entity is deleted
+on Device A, it is then removed from the server.  The server does not know to send an update to that entity
+to Device B because it no longer exists.  For this reason, we never delete entities.  We use <em>Soft Delete</em>.
+Soft Delete is a feature whereby entities are marked as deleted by setting the Deleted flag to true.  When you
+query the server, the deleted records are not shown unless you explicitly ask for them.  This is done as part
+of the offline sync process.</p>
+<h2 id="the-data-access-protocol">The Data Access Protocol<a class="headerlink" href="#the-data-access-protocol" title="Permanent link">&para;</a></h2>
+<p>Given any particular table, there are a few endpoints that are important.  Given our TodoItem table from Chapter 1:</p>
+<p>| Operation | Endpoint | Description |
+| GET | /tables/todoitem | Query the table |
+| GET | /tables/todoitem/<em>id</em> | Retrieve a single entity |
+| POST | /tables/todoitem | Add a new entity |
+| PATCH | /tables/todoitem/<em>id</em> | Update an existing entity |
+| DELETE | /tables/todoitem/<em>id</em> | Deletes an existing entity |
+| POST | /tables/todoitem/<em>id</em> | Undelete a previously deleted entity |</p>
+<p>We can take a look at each of these in turn with the Azure App Service.  These can be done with Postman easily.</p>
+<blockquote>
+<p>The first request to a new Azure App Service will take some time, especially if the site has to set up the database.</p>
+</blockquote>
+<p>Let's start with a basic Query operation:</p>
+<p><img alt="" src="../img/table-ops-1.PNG" /></p>
+<p>We always get an array of elements back.  These contain five system properties.  We didn't mention createdAt
+earlier - it's optional and will be maintained for you if you don't use it.  In addition, we have the fields
+that were in our model.  If there are no elements in a table, we get an empty array.  If the table does not
+exist, we will get a <code>404 Not Found</code> error.</p>
+<blockquote>
+<p>Any operation can also return a <code>401 Unauthorized</code> if you are not allowed to do the operation with the current
+authentication, <code>400 Bad Request</code> if you supplied bad data and <code>500 Internal Server Error</code> if the server crashed.</p>
+</blockquote>
+<p>We can also do a GET for an Id:</p>
+<p><img alt="" src="../img/table-ops-2.PNG" /></p>
+<p>The return is the entity serialized as an object.  If the Id does not exist, then a <code>404 Not Found</code> is
+returned.</p>
+<p>Adding an item requires a POST:</p>
+<p><img alt="" src="../img/table-ops-3.PNG" /></p>
+<p>Note that you do not need to provide all the fields.  In particular, the system fields will be automatically
+filled in for you.  Any fields with a default value will be similarly auto-created.  It is fairly easy to
+generate a <code>400 Bad Request</code> when updating or inserting data.  For example, if you submit a string when a number
+is expected or submit a malformed date, you can expect a <code>400 Bad Request</code>.  On success, the response has a
+Location field in the headers:</p>
+<p><img alt="" src="../img/table-ops-4.PNG" /></p>
+<p>This is the URI of the entity.  You can do a GET on this location to get the entity again.  Updating an entity
+involves sending the updated fields to the <em>Id</em> endpoint with the changed properties:</p>
+<p><img alt="" src="../img/table-ops-5.PNG" /></p>
+<p>Note that you do not need to send the entire entity - just the properties that are changed.  The new entity is
+returned on success.  As with the insert operation, data format errors will result in a <code>400 Bad Request</code>.  Note,
+however, that if you do not submit a <code>version</code> field, no conflict handling is done and the server just accepts
+the record.  We can fix this with server code later on by requiring a version field on updates.</p>
+<p>Deletion is fairly straight forward.  The main different is that it returns a <code>204 No Content</code>.</p>
+<p><img alt="" src="../img/table-ops-6.PNG" /></p>
+<p>The table controller does not support soft delete out of the box.  If you have followed the sequence, the
+record we just deleted is gone.  You can verify this using a SQL Browser.  To enable soft delete, you need
+to adjust the domain manager in the TodoItemController:</p>
+<pre><code class="csharp">protected override void Initialize(HttpControllerContext controllerContext)
+{
+    base.Initialize(controllerContext);
+    MobileServiceContext context = new MobileServiceContext();
+    DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request, enableSoftDelete: true);
+}
+</code></pre>
+
+<p>Adding the <code>enableSoftDelete</code> parameter and setting it to true will enable the appropriate logic in the
+domain manager.</p>
+<blockquote>
+<p>We haven't introduced the <strong>Domain Manager</strong> yet.  Azure Mobile Apps doesn't really care what sort of data store
+you are using on the backend.  It proxies all requests through a class that implements the <code>IDomainManager</code>
+interface.  Azure Mobile Apps Server SDK supplies one such domain manager - the <code>EntityDomainManager</code> uses
+Entity Framework underneath for this purpose.</p>
+</blockquote>
+<p>Go through the same process of adding and deleting an entity.  You can see the entity by using the SQL Server Object
+Explorer in Visual Studio:</p>
+<ul>
+<li>Go to <strong>Server Explorer</strong>.</li>
+<li>Expand <strong>Azure</strong> and <strong>SQL Databases</strong>.</li>
+<li>Select your database, then right-click and select <strong>Open in SQL Server Object Explorer</strong>.</li>
+<li>You will be prompted for your username and password.  Enter them, then click <strong>OK</strong>.</li>
+<li>You may be prompted to update the firewall for SQL access.  Select <strong>My Client IP</strong>, then <strong>OK</strong>.</li>
+<li>Expand your database node, then <strong>Tables</strong>.</li>
+<li>Right-click on <strong>dbo.TodoItems</strong> and select <strong>View Data</strong>.</li>
+</ul>
+<p>I find the SQL Server Object Explorer to be relatively slow when it comes to database options.  However, it doesn't
+require any additional installs.  You can also use SQL Server Management Studio if you have it installed.  You will
+need to <a href="https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/">update the firewall</a> for access (something the SQL Server Object Explorer will do for you).</p>
+<p><img alt="" src="../img/table-ops-7.PNG" /></p>
+<p>Note the third record has the Deleted column set to true.  We will not see that record when we do a query.  We can
+see the deleted records only if we use the parameter <code>__includeDeleted=true</code>:</p>
+<p><img alt="" src="../img/table-ops-8.PNG" /></p>
+<p>We can now undelete that record by POSTing to the <em>Id</em> endpoint:</p>
+<p><img alt="" src="../img/table-ops-9.PNG" /></p>
+<p>A success results in a <code>201 Created</code> response, with a failure resulting in a <code>404 Not Found</code> response (assuming the
+failure is because the Id does not exist in the table).</p>
+<h2 id="filtering-data">Filtering Data<a class="headerlink" href="#filtering-data" title="Permanent link">&para;</a></h2>
+<p>If you have followed along, we have three entities in our table now.  We can do searches by utilizing the OData
+<code>$filter</code> operator as a query:</p>
+<p><img alt="" src="../img/table-srch-1.PNG" /></p>
+<p>The <code>$filter</code> parameter takes an <a href="http://www.odata.org/documentation/odata-version-3-0/url-conventions/#url5">OData filter</a> and returns the list of entities that match the search.  The Azure
+Mobile Apps SDK supports quite a bit of the OData v3 specification that is supported by the <a href="https://www.nuget.org/packages/Microsoft.Data.OData/">Microsoft.Data.OData</a>
+package, but not everything.  There are features of the OData package that are explicitly disabled because they
+do not work in an offline context.  OData was defined as a method of transferring data between client and server
+in an online context so we can expect some things to work differently.</p>
+<p>We can also select specific fields by using the <code>$select</code> clause:</p>
+<p><img alt="" src="../img/table-srch-2.PNG" /></p>
+<h2 id="paging-results">Paging Results<a class="headerlink" href="#paging-results" title="Permanent link">&para;</a></h2>
+<p>At some point, we are going to bump into an in-built limit of the server.  You can clearly see this by inserting
+a lot of entities then querying the results.  Once the number of entities gets above 50, paging will occur.  You
+can adjust the paging size on the server by adding an <code>[EnableQuery()]</code> attribute to the class.  For example, the
+following will set the page size at 10:</p>
+<pre><code class="csharp">namespace Chapter3.Controllers
+{
+    [EnableQuery(PageSize=10)]
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+</code></pre>
+
+<p>You cannot make the page size infinite, so you should always implement paging controls in your mobile client.</p>
+<p>We can always receive the number of records that would have been sent if paging had not been in place by including
+<code>$inlinecount=allpages</code> with the query.  The query response turns into an object with two properties - the <code>results</code>
+property contains the array of results.  This is the same response as we received before.  There is now another
+property called <code>count</code> that contains the count of the records:</p>
+<p><img alt="" src="../img/table-srch-3.PNG" /></p>
+<p>We can implement paging by using <code>$top</code> and <code>$skip</code> parameters. The <code>$top</code> parameter tells the server how many
+entities you want to return.  The <code>$skip</code> parameter tells the server how many entities to skip before it starts
+counting.</p>
+<p>For example, let's say you wanted to receive individual entities.  You could request:</p>
+<ul>
+<li><code>/tables/todoitem?$top=1&amp;$skip=0</code></li>
+<li><code>/tables/todoitem?$top=1&amp;$skip=1</code></li>
+<li><code>/tables/todoitem?$top=1&amp;$skip=2</code></li>
+<li><code>/tables/todoitem?$top=1&amp;$skip=3</code></li>
+</ul>
+<p>At this point, no entities would be returned and you would know you are at the end.</p>
+<blockquote>
+<p>Although it is tempting to suggest removing the limit on the number of entities that can be returned (so you
+can receive all entities in one shot), it's better to implement paging.  The Azure App Service will run in a
+smaller App Service Plan because it won't require as much memory.  You will be able to support more users and
+your code will be more resilient to network issues that occur during transmission.</p>
+</blockquote>
+<h2 id="offline-synchronization">Offline synchronization<a class="headerlink" href="#offline-synchronization" title="Permanent link">&para;</a></h2>
+<p>One of the many reasons that developers choose the Azure Mobile Apps SDK is that it natively supports offline
+sync.  Offline sync provides a number of benefits.  It improves app responsiveness by caching server data
+locally on the device.  It allows the app to survive network issues including little or no connectivity, and it
+allows the developer to decide when to synchronize, thus allowing the deferral of large updates to when there
+is wifi available, for example.  The Azure Mobile Apps SDKs provide incremental sync (thereby ensuring the minimal
+amount of mobile data is used), optimistic concurrency and conflict resolution.</p>
+<p>To do this, Azure Mobile Apps provides a SQLite based backing store for data persistence on the mobile client.  You
+don't have to use SQLite, but it's built in and there are very few reasons to not use it.  If you are using iOS,
+the implementation is based on Core Data (which is itself based on SQLite).</p>
+<p>When you perform changes to an offline table, a <em>Sync Context</em> is created along side the offline table. One of the
+elements of this sync context is an <em>Operation Queue</em>.  This is an ordered list of Create, Update and Delete
+operations against the offline table.  When you <em>PUSH</em> the Sync Context, the list of creates, updates and Deletes
+are sent one by one to the Azure App Service, which then executes them as if they were done online.  Nothing is
+sent to the Azure App Service until your call to <em>PUSH</em>.</p>
+<p>To retrieve entities, your mobile client will perform a <em>PULL</em> against a query.  The query is based on the filter
+that we reviewed earlier.  By default, all properties of all entities are pulled down.  An <em>Implicit Push</em> happens
+if there are entities in the operation queue at the time of a pull request.  If you specify a query name (which is
+just a text string) to the <code>PullAsync()</code> method, the mobile client will do an <em>Incremental Sync</em>.  In this case,
+the latest <code>UpdatedAt</code> timestamp that the mobile client saw is recorded in the <em>Sync Context</em> (and associated with
+the query name).  This allows the pull operation to pick up where it left off.</p>
+<blockquote>
+<p>The query name must be unique within a Sync Context for incremental sync to work.</p>
+</blockquote>
+<p>The sync process implements <em>Optimistic Concurrency</em>.  With optimistic concurrency, the mobile client assumes that
+its change is valid.  Conflicts are handled only on push operations.  If the mobile client submits a record with
+a <code>version</code> field that does not match the server version field, the server will return a 409 or 412 response code.</p>
+<blockquote>
+<p>What's the difference between 409 and 412?  Most of the time, you will see 412 Precondition Failed.  This means
+the ETag of the request did not match.  The ETag is a header that is equivalent to the version value.  409 Conflict
+occurs when you don't submit an ETag but do submit a version field in the update.</p>
+</blockquote>
+<p>If no version field (or ETag header) is submitted, the client entity is used for the create or update irrespective
+of the value on the server.</p>
+<!-- Images -->
+
+<!-- Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../../chapter2/bestpractices/" title="Best Practices">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Best Practices
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../server/" title="Implementing Table Controllers">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Implementing Table Controllers
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="../../js/highlight.pack.js"></script>
+    
+    
+  </body>
+</html>

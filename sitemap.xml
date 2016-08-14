@@ -28,7 +28,7 @@
     
         
     <url>
-     <loc>None/chapter2/concepts/</loc>
+     <loc>None/chapter2/authconcepts/</loc>
      <lastmod>2016-08-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -84,11 +84,25 @@
     
 
     
+        
+    <url>
+     <loc>None/chapter3/dataconcepts/</loc>
+     <lastmod>2016-08-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/chapter3/server/</loc>
+     <lastmod>2016-08-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     <url>
      <loc>None/data/</loc>
      <lastmod>2016-08-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
+        
     
 
     

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Implementing Table Controllers - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 3 - Data Access and Offline Sync <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Implementing Table Controllers
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
+      Best Practices
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 3 - Data Access and Offline Sync</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../dataconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Implementing Table Controllers" href="./">
+      Implementing Table Controllers
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Implementing Code First Migrations" href="#implementing-code-first-migrations">
+                Implementing Code First Migrations
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Adding a SQL Table Controller" href="#adding-a-sql-table-controller">
+                Adding a SQL Table Controller
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Using an existing SQL Table" href="#using-an-existing-sql-table">
+                Using an existing SQL Table
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data" href="../../data/">
+      Data
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="File Management" href="../../files/">
+      File Management
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Push Notifications" href="../../push/">
+      Push Notifications
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Server Side Code" href="../../custom/">
+      Server Side Code
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Media Services" href="../../media/">
+      Media Services
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Leveraging Search" href="../../search/">
+      Leveraging Search
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Web and Mobile Apps" href="../../combined/">
+      Web and Mobile Apps
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="The Development Environment" href="../../developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Testing your Application" href="../../testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Troubleshooting" href="../../troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Going to Production" href="../../production/">
+      Going to Production
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="implementing-table-controllers">Implementing Table Controllers<a class="headerlink" href="#implementing-table-controllers" title="Permanent link">&para;</a></h1>
+<p>The central component for providing a table endpoint on the Azure App Service side of things occurs in your
+backend project.  You must implement a Table Controller.  This is a specialized version of an ApiController
+that has some similarities with an ODataController.  However, it has its own base class and the Azure Mobile
+Apps SDK simplifies the process of making them.</p>
+<h2 id="implementing-code-first-migrations">Implementing Code First Migrations<a class="headerlink" href="#implementing-code-first-migrations" title="Permanent link">&para;</a></h2>
+<p>Before we can get started with adding another table controller, we have to deal with modifications to our
+database schema.  The default code for Azure Mobile Apps will deploy the configured schema <strong>only if the
+database is empty</strong>.  If the database is not empty, you have to do extra work.</p>
+<p>Nothing causes more headaches in an Azure Mobile Apps backend than <a href="https://msdn.microsoft.com/en-us/data/jj591621">code-first migrations</a>.  A code-first
+migration is simply a set of configuration commands that updates the database to support the new
+database model.  If you try to publish this application, you will see an <code>InvalidOperationException</code>
+and your service will likely crash.  If you manage to trap the error, it will say <em>The model backing
+the 'MobileServiceContext' context has changed since the database was created. Consider using Code First
+Migrations to update the database.</em>  That's fairly specific and is common to all applications based
+on Entity Framework that use code-first models.</p>
+<blockquote>
+<p>There is an alternative here called <strong>Database First Models</strong>.  In this alternative, you create the
+database first then create the models to match.  However, Azure Mobile Apps requires specific configuration
+of mobile tables that you will need to take care of.  See the section on using existing SQL tables later
+on for details.</p>
+</blockquote>
+<p>The first step is to enable migrations.  Go to <strong>View</strong> -&gt; <strong>Other Windows</strong> -&gt; <strong>Package Manager Console</strong>.
+This window will generally appear in the same place as your Output and Error List windows at the bottom
+of the screen.  Type <code>enable-migrations</code> in it:</p>
+<p><img alt="" src="../img/enable-migrations.PNG" /></p>
+<p>This creates a <code>Migrations</code> folder to hold the code-first migrations.  An initial <code>Configuration.cs</code> object
+will be added as well.  We also need to apply an Initial migration.  We can do this with the command
+<code>add-migration Initial</code>.</p>
+<p><img alt="" src="../img/add-initial-migration.PNG" /></p>
+<p>This will add a few files into the <code>Migrations</code> folder that represent the current state of affairs for
+the database.</p>
+<p>Code First Migrations can be applied manually or automatically.  I personally prefer the automatic method.
+To implement automated Code First Migrations, edit the <code>App_Start\Startup.MobileApp.cs</code> file:</p>
+<pre><code class="csharp">public static void ConfigureMobileApp(IAppBuilder app)
+{
+    var httpConfig = new HttpConfiguration();
+    var mobileConfig = new MobileAppConfiguration();
+
+    mobileConfig
+        .AddTablesWithEntityFramework()
+        .ApplyTo(httpConfig);
+
+    // Automatic Code First Migrations
+    var migrator = new DbMigrator(new Migrations.Configuration());
+    migrator.Update();
+
+    app.UseWebApi(httpConfig);
+}
+</code></pre>
+
+<p>We have replaced the <code>DbInitializer()</code> (which was the method that created the database for us) with the
+automatic database migrator code.</p>
+<p>There is one issue that will cause some problems.  We are no longer using a database initializer.  This
+means that the special system columns will no longer be wired up to update their values automatically.
+We can fix that by configuring the SqlGenerator in <code>Migrations\Configuration.cs</code>:</p>
+<pre><code class="csharp">public Configuration()
+{
+    AutomaticMigrationsEnabled = false;
+    SetSqlGenerator(&quot;System.Data.SqlClient&quot;, new EntityTableSqlGenerator());
+}
+</code></pre>
+
+<p>Since we are not using a database initializer, our seed data has also gone.  You may as well delete the
+<code>MobileServiceInitializer</code> class in the <code>App_Start\Startup.MobileApp.cs</code> as it isn't doing anything
+any more.  You can move the seed data to the <code>Migrations\Configuration.cs</code> file though:</p>
+<pre><code class="csharp">namespace Chapter3.Migrations
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity.Migrations;
+    using DataObjects;
+    using Microsoft.Azure.Mobile.Server.Tables;
+
+    internal sealed class Configuration : DbMigrationsConfiguration&lt;Chapter3.Models.MobileServiceContext&gt;
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+            SetSqlGenerator(&quot;System.Data.SqlClient&quot;, new EntityTableSqlGenerator());
+        }
+
+        protected override void Seed(Chapter3.Models.MobileServiceContext context)
+        {
+            List&lt;TodoItem&gt; todoItems = new List&lt;TodoItem&gt;
+            {
+                new TodoItem { Id = Guid.NewGuid().ToString(), Text = &quot;First item&quot;, Complete = false },
+                new TodoItem { Id = Guid.NewGuid().ToString(), Text = &quot;Second item&quot;, Complete = false }
+            };
+
+            foreach (TodoItem todoItem in todoItems)
+            {
+                context.Set&lt;TodoItem&gt;().Add(todoItem);
+            }
+
+            base.Seed(context);
+        }
+    }
+}
+</code></pre>
+
+<p>The contents of the <code>Seed</code> method are a cut-and-paste from the <code>MobileServiceInitializer</code> version.</p>
+<p>If all goes well, you can clear your database (or delete it and re-create it), then publish this project
+and do a GET of the <code>/tables/todoitem</code> endpoint.  You should still see your data.  You should do a little
+more investigation however.</p>
+<ul>
+<li>Open the database in the <strong>SQL Server Object Explorer</strong>.</li>
+<li>Expand the <strong>Tables</strong> node.</li>
+<li>Right-click on the <strong>dbo.__MigrationHistory</strong> table and select <strong>View Data</strong>.</li>
+</ul>
+<p><img alt="" src="../img/initial-migration-applied.PNG" /></p>
+<p>There should be one row with a name that indicates it is the initial migration.</p>
+<p>The final step is to apply the migration to the local system.  In the Package Manager Console, enter
+the command <code>update-database</code> to apply the existing migration.</p>
+<h2 id="adding-a-sql-table-controller">Adding a SQL Table Controller<a class="headerlink" href="#adding-a-sql-table-controller" title="Permanent link">&para;</a></h2>
+<p>Before we can use a table controller, we need to add one.  This has three steps:</p>
+<ul>
+<li>Create a Data Transfer Object (DTO)</li>
+<li>Create a Table Controller</li>
+<li>Create a Code-First Migration</li>
+</ul>
+<h3 id="creating-a-data-transfer-object">Creating a Data Transfer Object<a class="headerlink" href="#creating-a-data-transfer-object" title="Permanent link">&para;</a></h3>
+<p>A Data Transfer Object (or DTO as it is commonly known) is the wire representation of the model for your
+table.  It must inherit from a concrete implementation of <code>ITableData</code>.  The Azure Mobile Apps SDK includes
+<code>EntityData</code> for this reason.  EntityData is a concrete implementation that works with Entity Framework.</p>
+<blockquote>
+<p>You can't just assume EntityData will work with other data stores.  There are Entity Framework specific
+attributes decorating the properties for EntityData that will likely be different for other stores.</p>
+</blockquote>
+<p>The default Azure Mobile Apps project that is supplied with the Azure SDK provides a folder for storing
+DTOs called <code>DataObjects</code>.  Let's create a DTO by right-clicking on the <strong>DataObjects</strong> folder, then
+using <strong>Add</strong> -&gt; <strong>Class...</strong>:</p>
+<pre><code class="csharp">using System;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class Example : EntityData
+    {
+        public string StringField { get; set; }
+        public int IntField { get; set; }
+        public double DoubleField { get; set; }
+        public DateTimeOffset DateTimeField { get; set; }
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>Don't call your model <code>SomethingDTO</code>.  This ends up as a <code>/tables/somethingDTO</code> endpoint and a <code>SomethingDTO</code>
+table in your database.  Just call it <code>Something</code>.  All the names will then line up properly.</p>
+</blockquote>
+<p>I've included several field types, including a complex type.  The basic requirement for a field is that it
+must be serialized into a simple JSON type during transfer between the server and the mobile client.  Complex
+types (that is, any type that can be serialized to an object or array) will always require special handling
+and may not be able to be used at all.</p>
+<h3 id="create-a-table-controller">Create a Table Controller<a class="headerlink" href="#create-a-table-controller" title="Permanent link">&para;</a></h3>
+<p>Visual Studio with the Azure SDK provides some help in creating a table controller.  Right-click on the
+<strong>Controllers</strong> node and select <strong>Add</strong> -&gt; <strong>Controller...</strong>.</p>
+<p><img alt="" src="../img/new-controller-1.PNG" /></p>
+<p>The Azure SDK provides scaffolding for a new table controller.  Select it and then click on <strong>Add</strong>.</p>
+<p><img alt="" src="../img/new-controller-2.PNG" /></p>
+<p>The dialog asks for the model (which is actually a DTO) and the data context (which is already created).
+Once you select the model, the controller name is created for you.  You can change it if you like, but
+it's common practice to not do this.</p>
+<p>Once the scaffolding is finished, you can look at your newly created table controller.  We do want to
+do one change.  We want to enable soft delete so that our table controller supports offline sync
+scenarios properly.  To do this, go into the <code>Initialize()</code> method and change the constructor of the
+<code>EntityDomainManager</code>:</p>
+<pre><code class="csharp">protected override void Initialize(HttpControllerContext controllerContext)
+{
+    base.Initialize(controllerContext);
+    MobileServiceContext context = new MobileServiceContext();
+    DomainManager = new EntityDomainManager&lt;Example&gt;(context, Request, enableSoftDelete: true);
+}
+</code></pre>
+
+<h3 id="creating-a-code-first-migration">Creating a Code-First Migration<a class="headerlink" href="#creating-a-code-first-migration" title="Permanent link">&para;</a></h3>
+<p>You must add a code first migration to update the database when it is published. Use the <code>add-migration</code>
+command in the Package Manager Console.  The <code>add-migration</code> command will request a name - it just has
+to be unique, but it's a good idea to make the name descriptive:</p>
+<p><img alt="" src="../img/add-migration.PNG" /></p>
+<p>You should also use <code>update-database</code> to apply the change to the local database (if any):</p>
+<p><img alt="" src="../img/update-database.PNG" /></p>
+<p>Once this is done, you can publish the project.  Right-click on the project and select <strong>Publish...</strong>.  Once
+the project is published, you should be able to send a query to the <code>/tables/example</code> endpoint using Postman
+and get an empty array.  You should also be able to insert, update and delete entities as you can with the
+<code>TodoItem</code> table.</p>
+<h3 id="handling-publish-failures">Handling Publish Failures<a class="headerlink" href="#handling-publish-failures" title="Permanent link">&para;</a></h3>
+<p>Sometimes, the publish fails.  It seems that whenever I start with code-first migrations, my publish fails.
+I get a nice error screen, but no actual error.  At least half the time, the problem is not my code-first
+migration, but something else.  For instance, one of the things I tend to do is update my NuGet packages.
+This inevitably breaks something.</p>
+<p>Fortunately, once the error message is known, it's generally trivial to correct the error.  You can turn
+custom error messages off (and thus expose the original error message) by editing the Web.config file.
+Locate the <code>&lt;system.web&gt;</code> section and add the <code>&lt;customErrors mode="Off"/&gt;</code> line:</p>
+<pre><code class="xml">  &lt;system.web&gt;
+    &lt;httpRuntime targetFramework=&quot;4.6&quot; /&gt;
+    &lt;compilation debug=&quot;true&quot; targetFramework=&quot;4.6&quot; /&gt;
+    &lt;customErrors mode=&quot;Off&quot; /&gt;
+  &lt;/system.web&gt;
+</code></pre>
+
+<p>Then republish your project and the response from the server is much more informative.</p>
+<h3 id="turning-on-diagnostic-logs">Turning on Diagnostic Logs<a class="headerlink" href="#turning-on-diagnostic-logs" title="Permanent link">&para;</a></h3>
+<p>You can log all the SQL statements that Entity Framework executes on your behalf by adding a Database
+Log.  Edit the <code>Models\MobileServiceContext.cs</code> file:</p>
+<pre><code class="csharp">public class MobileServiceContext : DbContext
+{
+    private const string connectionStringName = &quot;Name=MS_TableConnectionString&quot;;
+
+    public MobileServiceContext() : base(connectionStringName)
+    {
+        Database.Log = s =&gt; WriteLog(s);
+    }
+
+    public void WriteLog(string msg)
+    {
+        System.Diagnostics.Debug.WriteLine(msg);
+    }
+
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+        modelBuilder.Conventions.Add(
+            new AttributeToColumnAnnotationConvention&lt;TableColumnAttribute, string&gt;(
+                &quot;ServiceTableColumn&quot;, (property, attributes) =&gt; attributes.Single().ColumnType.ToString()));
+    }
+
+    public DbSet&lt;DataObjects.TodoItem&gt; TodoItems { get; set; }
+    public DbSet&lt;DataObjects.Example&gt; Examples { get; set; }
+}
+</code></pre>
+
+<p>You have to use a real method.  System.Diagnostics.Debug is removed from the context when DEBUG is not
+defined, so you can't just use it directly.   Using an interim method works around that problem. Azure App
+Service captures the output from the console and places it into the log viewer for you.</p>
+<p>To turn on diagnostic logging:</p>
+<ul>
+<li>Log in to the <a href="https://portal.azure.com">Azure Portal</a>.</li>
+<li>Click on <strong>App Services</strong> then your App Service.</li>
+<li>Find <strong>Diagnostic Logs</strong> in the list of settings (you can use the search box).</li>
+<li>Turn on <strong>Application Logging (Filesystem)</strong> with a level of <strong>Verbose</strong>.</li>
+<li>Click on <strong>Save</strong>.</li>
+</ul>
+<p>To view the diagnostic logs in the portal, find <strong>Log Stream</strong> in the list of settings (again, you can
+use the search box).  You can also get the diagnostic logs within Visual Studio.</p>
+<ul>
+<li>Open the <strong>Server Explorer</strong>.</li>
+<li>Expand <strong>Azure</strong>, <strong>App Service</strong>, your resource group.</li>
+<li>Right-click on the your App Service and select <strong>View Streaming Logs</strong>.</li>
+</ul>
+<p><img alt="" src="../img/debug-logging.PNG" /></p>
+<h2 id="using-an-existing-sql-table">Using an existing SQL Table<a class="headerlink" href="#using-an-existing-sql-table" title="Permanent link">&para;</a></h2>
+<!-- Images -->
+
+<!-- Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../dataconcepts/" title="Concepts">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Concepts
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../../data/" title="Data">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Data
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="../../js/highlight.pack.js"></script>
+    
+    
+  </body>
+</html>
