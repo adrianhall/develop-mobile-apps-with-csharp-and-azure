@@ -1,9 +1,5 @@
 # Data Access and Offline Sync
 
-## Adding a SQL Table Controller
-
-### Using an Existing SQL Table
-
 ## Using Code Behind
 
 ### Why use Code Behind?

@@ -9,9 +9,15 @@ Apps SDK simplifies the process of making them.
 
 Before we can get started with adding another table controller, we have to deal with modifications to our
 database schema.  The default code for Azure Mobile Apps will deploy the configured schema **only if the
-database is empty**.  If the database is not empty, you have to do extra work.
+database is empty**.  If the database is not empty, you have to do extra work.  This extra work involves
+updating the schema of your database.
 
-Nothing causes more headaches in an Azure Mobile Apps backend than [code-first migrations].  A code-first
+There are two methods of doing this.  The first we will consider is Code First Migrations.  With code first
+migrations, we construct a code file whenever we need to change the database.  Don't worry - it's done for
+us.  Later on, we will consider Database First.  With database first, we adjust the database schema
+manually, then write C# models to reflect that change.
+
+Nothing causes more headaches in an Azure Mobile Apps backend than [code first migrations].  A code-first
 migration is simply a set of configuration commands that updates the database to support the new
 database model.  If you try to publish this application, you will see an `InvalidOperationException`
 and your service will likely crash.  If you manage to trap the error, it will say _The model backing
@@ -30,17 +36,17 @@ of the screen.  Type `enable-migrations` in it:
 
 ![][enable-migrations]
 
-This creates a `Migrations` folder to hold the code-first migrations.  An initial `Configuration.cs` object
-will be added as well.  We also need to apply an Initial migration.  We can do this with the command
-`add-migration Initial`.
+Check out the `Migrations` folder that has just been created to hold the code-first migrations.  An initial
+`Configuration.cs` object will be added to this folder that describes the basic configuration.  We also need
+to create an Initial migration that represents the current state of the database.  We can do this with the
+command `add-migration Initial`.
 
 ![][add-initial-migration]
 
-This will add a few files into the `Migrations` folder that represent the current state of affairs for
-the database.
-
-Code First Migrations can be applied manually or automatically.  I personally prefer the automatic method.
-To implement automated Code First Migrations, edit the `App_Start\Startup.MobileApp.cs` file:
+The initial migration creates a few files in the `Migrations` folder that represent the current state of
+affairs for the database. These easily recognized by a combination of the current date and the name of the
+migration.  Code First Migrations can be applied manually or automatically.  I personally prefer the automatic
+method.  To implement automated Code First Migrations, edit the `App_Start\Startup.MobileApp.cs` file:
 
 ```csharp
 public static void ConfigureMobileApp(IAppBuilder app)
@@ -61,11 +67,11 @@ public static void ConfigureMobileApp(IAppBuilder app)
 ```
 
 We have replaced the `DbInitializer()` (which was the method that created the database for us) with the
-automatic database migrator code.
-
-There is one issue that will cause some problems.  We are no longer using a database initializer.  This
-means that the special system columns will no longer be wired up to update their values automatically.
-We can fix that by configuring the SqlGenerator in `Migrations\Configuration.cs`:
+automatic database migrator code.  There is one issue that will cause some problems.  We are no longer using
+a database initializer.  The database initializer is the single line of code we just replaced that creates
+the database tables with the appropriate triggers. This means that the special system columns will no longer
+be wired up to update their values automatically. We can fix that by configuring the SqlGenerator in
+`Migrations\Configuration.cs`:
 
 ```csharp
 public Configuration()
@@ -299,6 +305,372 @@ use the search box).  You can also get the diagnostic logs within Visual Studio.
 
 ## Using an existing SQL Table
 
+There are times when a "Database First" approach is needed.  If you are trying to expose an existing
+SQL database table, for example, you want to use a "Database First" approach.  You may also like the
+separation of the database table from the mobile system columns.
+
+> The Database First and Code First approaches to Entity Framework are mutually exclusive.  You need
+to decide which one you want to use and stick with it.
+
+To use "Database First", you first set up the database.  Then you create a Model and update the DbContext
+object.  For example, out `Example` model from before can be represented by the following database
+schema:
+
+```sql
+CREATE TABLE [dbo].[Examples] (
+    -- This must be a string suitable for a GUID
+    [Id]            NVARCHAR (128)     NOT NULL,
+
+    -- These are the system properties
+    [Version]       ROWVERSION         NOT NULL,
+    [CreatedAt]     DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedAt]     DATETIMEOFFSET (7) NULL,
+    [Deleted]       BIT                NOT NULL
+
+    -- These are the properties of our DTO not included in EntityFramework
+    [StringField]   NVARCHAR (MAX)     NULL,
+    [IntField]      INT                NOT NULL,
+    [DoubleField]   FLOAT (53)         NOT NULL,
+    [DateTimeField] DATETIMEOFFSET (7) NOT NULL,
+);
+
+CREATE CLUSTERED INDEX [IX_CreatedAt]
+    ON [dbo].[Examples]([CreatedAt] ASC);
+
+ALTER TABLE [dbo].[Examples]
+    ADD CONSTRAINT [PK_dbo.Examples] PRIMARY KEY NONCLUSTERED ([Id] ASC);
+
+CREATE TRIGGER [TR_dbo_Examples_InsertUpdateDelete] ON [dbo].[Examples]
+    AFTER INSERT, UPDATE, DELETE AS
+    BEGIN
+        UPDATE [dbo].[Examples]
+            SET [dbo].[Examples].[UpdatedAt] = CONVERT(DATETIMEOFFSET, SYSUTCDATETIME())
+            FROM INSERTED WHERE inserted.[Id] = [dbo].[Examples].[Id]
+    END;
+```
+
+The system properties are added to the schema.  We can (and do) use a trigger to update the UpdatedAt
+column when the data is updated.  Placing this logic within the SQL Server schema definition means
+we can use this SQL table outside of the mobile context and it will still work for the mobile application.
+
+> We use the CreatedAt field to create a clustered index.  In older versions of SQL Server, this was
+required to increase performance on the table as a whole.  It may not be required now and may be removed
+in future versions of Azure Mobile Apps.
+
+If you can update an existing table to match this schema, then you should do so.
+
+> Note that the Id field is not set by default.  If you want to set a default, set it to `NEWID()`:
+
+```sql
+ALTER TABLE [dbo].[Examples]
+    ALTER COLUMN [Id] SET DEFAULT CONVERT(NVARCHAR(128), NEWID());
+```
+
+Once you have set up the database and created the models, you must also turn off the database initializer.
+This is done in `App_Start\Startup.MobileApp.cs`:
+
+```csharp
+public static void ConfigureMobileApp(IAppBuilder app)
+{
+    var httpConfig = new HttpConfiguration();
+    var mobileConfig = new MobileAppConfiguration();
+
+    mobileConfig
+        .AddTablesWithEntityFramework()
+        .ApplyTo(httpConfig);
+
+    // Automatic Code First Migrations
+    // var migrator = new DbMigrator(new Migrations.Configuration());
+    // migrator.Update();
+
+    // Database First
+    Database.SetInitializer<MobileDbContext>(null);
+
+    app.UseWebApi(httpConfig);
+}
+```
+
+There are a lot of times when the existing table is not suitable for this sort of schema adjustment.  The
+primary reason will be that the existing table has an auto-incrementing integer Id column and you can't
+change that.  Quite often, I see developers needing to integrate the SQL schema of an existing application
+like a Customer Relationship Management system with this constraint, for example.
+
+Let's take an example.  Suppose you have a table called [dbo].[TodoItems].  This is fairly basic and
+defined like this:
+
+```sql
+CREATE TABLE [dbo].[TodoItems] (
+  [id]       BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  [UserId]   NVARCHAR(255) NOT NULL,
+  [Title]    NVARCHAR(255) NOT NULL,
+  [Complete] BIT
+);
+```
+
+This is the sort of SQL table that is very common within existing web applications, for instance.  We have
+an auto-incrementing id column and some fields.  It isn't complex (no relationships, for example), so we
+don't have to worry about [referential integrity] of the table.
+
+> I recommend placing the "mobile views" that we will discuss below in a separate schema (for example,
+`[mobile]`) so that they don't interfere with your existing database schema.
+
+Let's take a look at creating a VIEW of the data that is "mobile ready".  This is an Entity Relationship
+Diagram of what we are going to do:
+
+![][erd-diagram]
+
+we are going to create a separate table for the system properties, called `[mobile].[SysProps_TodoItems]`.
+This will hold the five fields that Azure Mobile Apps requires, plus a reference to the TodoItem id:
+
+```sql
+CREATE TABLE [mobile].[SysProps_TodoItems] (
+  [Id]        NVARCHAR(128) CONSTRAINT [DF_todoitem_id] DEFAULT (CONVERT([NVARCHAR](255),NEWID(),(0))) NOT NULL,
+  [CreatedAt] DATETIMEOFFSET(7) CONSTRAINT [DF_todoitem_createdAt] DEFAULT (CONVERT([DATETIMEOFFSET](7),SYSUTCDATETIME(),(0))) NOT NULL,
+  [UpdatedAt] DATETIMEOFFSET(7) NULL,
+  [Version]   ROWVERSION NOT NULL,
+  [Deleted]   BIT DEFAULT ((0)) NOT NULL,
+  [Item_Id]   BIGINT NOT NULL
+  PRIMARY KEY NONCLUSTERED ([id] ASC)
+);
+```
+
+Then we will create a SQL VIEW that maps to this:
+
+```sql
+CREATE VIEW [mobile].[TodoItems] AS
+SELECT
+    [mobile].[SysProps_TodoItems].[Id],
+    [mobile].[SysProps_TodoItems].[CreatedAt],
+    [mobile].[SysProps_TodoItems].[UpdatedAt],
+    [mobile].[SysProps_TodoItems].[Version],
+    [mobile].[SysProps_TodoItems].[Deleted],
+    [mobile].[SysProps_TodoItems].[Item_Id],
+    [dbo].[TodoItems].[UserId],
+    [dbo].[TodoItems].[Title],
+    [dbo].[TodoItems].[Complete]
+FROM
+    [dbo].[TodoItems],
+    [mobile].[SysProps_TodoItems]
+WHERE
+    [dbo].[TodoItems].[id] = [mobile].[SysProps_TodoItems].[Item_Id];
+```
+
+This view is still only a combination of the two tables.  I want specific logic so that when a row
+is changed (inserted, updated or deleted) in the `[dbo].[TodoItems]` table, a similar change is made
+to the `[mobile].[SysProps_TodoItems]` table.  This is achieved through the use of triggers:
+
+```sql
+CREATE TRIGGER
+    [dbo].[TRG_TodoItem_Insert]
+ON
+    [dbo].[TodoItems]
+AFTER
+    INSERT
+AS BEGIN
+    DECLARE @itemid AS BIGINT
+    SELECT @itemid = inserted.id FROM inserted
+    INSERT INTO [mobile].[SysProps_TodoItems] ([Item_Id], [UpdatedAt])
+        VALUES (@itemid, CONVERT(DATETIMEOFFSET(7), SYSUTCDATETIME()));
+END
+GO
+
+CREATE TRIGGER
+    [dbo].[TRG_TodoItem_Update]
+ON
+    [dbo].[TodoItems]
+AFTER
+    UPDATE
+AS BEGIN
+    UPDATE
+        [mobile].[SysProps_TodoItems]
+    SET
+        [UpdatedAt] = CONVERT(DATETIMEOFFSET(7), SYSUTCDATETIME())
+    FROM
+        INSERTED
+    WHERE
+        INSERTED.id = [mobile].[SysProps_TodoItems].[Item_Id]
+END
+GO
+
+CREATE TRIGGER
+    [dbo].[TRG_TodoItem_Delete]
+ON
+    [dbo].[TodoItems]
+AFTER
+    DELETE
+AS BEGIN
+    DECLARE @itemid AS BIGINT
+    SELECT @itemid = deleted.id from deleted
+    DELETE FROM [mobile].[SysProps_TodoItems] WHERE [Item_Id] = @itemid
+END
+GO
+```
+
+> You may want to set the `Deleted` flag to 1 (or true) in the Delete trigger.  This will enable soft
+delete on the system properties table, ensuring that mobile clients remove the row from their offline
+cache.
+
+Similarly, when changes are made by the mobile backend to the VIEW, we need to propagate those changes
+to the underlying tables.  This is also done with triggers:
+
+```sql
+CREATE TRIGGER
+    [mobile].[TRG_Mobile_TodoItem_Insert]
+ON
+    [mobile].[TodoItems]
+INSTEAD OF
+    INSERT
+AS BEGIN
+    DECLARE @userid AS NVARCHAR(255)
+    SELECT @userid = inserted.UserId FROM inserted
+    DECLARE @title AS NVARCHAR(255)
+    SELECT @title = inserted.Title FROM inserted
+    DECLARE @complete AS BIT
+    SELECT @complete = inserted.Complete FROM inserted
+
+
+    INSERT INTO
+        [dbo].[TodoItems] ([UserId], [Title], [Complete])
+    VALUES
+        (@userid, @title, @complete)
+
+    IF UPDATE(Id) BEGIN
+        DECLARE @itemid AS BIGINT
+        SELECT @itemid = @@identity
+        DECLARE @id AS NVARCHAR(255)
+        SELECT @id = inserted.Id FROM inserted
+        UPDATE [mobile].[SysProps_TodoItems] SET [Id] = @id WHERE [item_id] = @itemid
+    END
+END;
+GO
+
+CREATE TRIGGER
+    [mobile].[TRG_Mobile_TodoItem_Update]
+ON
+    [mobile].[TodoItems]
+INSTEAD OF
+    UPDATE
+AS BEGIN
+    DECLARE @id AS NVARCHAR(255)
+    SELECT @id = inserted.id FROM inserted
+    DECLARE @itemid AS BIGINT
+    SELECT @itemid = [item_id] FROM [mobile].[SysProps_TodoItems] WHERE [id] = @id
+
+    IF UPDATE(UserId) BEGIN
+        DECLARE @userid AS NVARCHAR(255)
+        SELECT @userid = inserted.UserId FROM inserted
+        UPDATE [dbo].[TodoItems] SET [UserId] = @userid WHERE [id] = @itemid
+    END
+    IF UPDATE(Title) BEGIN
+        DECLARE @title AS NVARCHAR(255)
+        SELECT @title = inserted.Title FROM inserted
+        UPDATE [dbo].[TodoItems] SET [Title] = @title WHERE [id] = @itemid
+    END
+    IF UPDATE(Complete) BEGIN
+        DECLARE @complete AS BIT
+        SELECT @complete = inserted.Complete FROM inserted
+        UPDATE [dbo].[TodoItems] SET [Complete] = @complete WHERE [id] = @itemid
+    END
+    IF UPDATE(deleted) BEGIN
+        DECLARE @deleted AS BIT
+        SELECT @deleted = inserted.deleted FROM inserted
+        UPDATE [mobile].[SysProps_TodoItems] SET [deleted] = @deleted WHERE [item_id] = @itemid
+    END
+END
+GO
+
+CREATE TRIGGER
+    [mobile].[TRG_Mobile_TodoItem_Delete]
+ON
+    [mobile].[TodoItems]
+INSTEAD OF
+    DELETE
+AS BEGIN
+    DECLARE @id AS NVARCHAR(255)
+    SELECT @id = deleted.id FROM deleted
+    DECLARE @itemid AS BIGINT
+    SELECT @itemid = [item_id] FROM [mobile].[SysProps_TodoItems] WHERE [id] = @id
+
+    DELETE FROM [dbo].[TodoItems] WHERE [id] = @itemid
+    DELETE FROM [mobile].[SysProps_TodoItems] WHERE [id] = @id
+END
+GO
+```
+
+A standard SQL view is read-only.  We made the view read/write by using triggers to trap the
+call and replace it with two calls instead.
+
+> Note that this version does not support soft delete.  If you wish to support soft delete, set the
+`Deleted` flag in the `[mobile].[SysProps_TodoItems] table instead of deleting the row.
+
+### Changing the Mobile Schema
+
+We stored our mobile representation of the table in a different schema.  Azure Mobile Apps looks
+for tables (and views) in the `[dbo]` schema by default.  There are two places you can modify the
+schema that Entity Framework uses to access the database.  The first is by changing the default
+schema that Entity Framework uses.  This will affect all the tables that we are exposing via a
+table controller.  This is done in the `Models\MobileDbContext.cs` class:
+
+```csharp
+protected override void OnModelCreating(DbModelBuilder modelBuilder)
+{
+    modelBuilder.HasDefaultSchema("mobile");
+    modelBuilder.Conventions.Add(
+        new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
+            "ServiceTableColumn",
+            (property, attributes) => attributes.Single().ColumnType.ToString()
+        )
+    );
+}
+```
+
+We can also do this on the model as an annotation.  For example, here is the TodoItem model suitably
+adjusted:
+
+```csharp
+using Microsoft.Azure.Mobile.Server;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Backend.DataObjects
+{
+    [Table("TodoItems", Schema="mobile")]
+    public class TodoItem : EntityData
+    {
+        public string UserId { get; set; }
+
+        public string Title { get; set; }
+
+        public bool Complete { get; set; }
+    }
+}
+```
+
+> Note that Entity Framework adds an `s` onto the end of the model to create the table name.  If you
+have a model named `TodoItem`, the table is called `TodoItems` in the database.  You can use this
+same annotation to adjust the table name if it is not to your liking.
+
+## Best Practices
+
+Here is a summary of what I consider best practices for table controllers:
+
+* Use Code First when you are in a green-field database situation.
+* Use Database First when you have to integrate an existing database.
+* Only expose the data that you need for the mobile client.
+* Set up Automatic Code First Migrations as early as possible.
+* Think about what happens to existing clients when you update the schema.
+
+This last point is an important one.  Let's say you have a v1 mobile client of your awesome mobile
+application.  This works with v1 mobile backend.  You've set up the schema and ensured that everything
+works.  Then you want to release v2 mobile client.  It has a new feature and needs some extra data.
+So you update to v2 mobile backend that provides that data.
+
+You need to ensure that the schema changes provided by the v2 mobile backend are optional.  In other
+words, the v1 mobile client can continue to work against the v2 mobile backend.  You should test this
+case.  Users do not upgrade instantly.  In fact, many users don't upgrade at all.  At every release
+of your app, you are going to have to ensure that ALL versions of your mobile client work against
+your mobile backend.
+
 <!-- Images -->
 [new-controller-1]: img/new-controller-1.PNG
 [new-controller-2]: img/new-controller-2.PNG
@@ -308,7 +680,10 @@ use the search box).  You can also get the diagnostic logs within Visual Studio.
 [initial-migration-applied]: img/initial-migration-applied.PNG
 [update-database]: img/update-database.PNG
 [debug-logging]: img/debug-logging.PNG
+[erd-diagram]: img/erd-diagram.PNG
 
 <!-- Links -->
 [code-first migrations]: https://msdn.microsoft.com/en-us/data/jj591621
 [Azure Portal]: https://portal.azure.com
+[referential integrity]: https://msdn.microsoft.com/en-us/library/aa292166(v=vs.71).aspx
+
