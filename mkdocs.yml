@@ -17,7 +17,10 @@ pages:
     - Chapter 3 - Data Access and Offline Sync:
         - Concepts: chapter3/dataconcepts.md
         - Implementing Table Controllers: chapter3/server.md
-        - data.md
+        - Data Projection and Queries: chapter3/projection.md
+        - The Mobile Client: chapter3/client.md
+        - Complex Types and Relationships: chapter3/complextypes.md
+        - The Domain Manager: chapter3/domainmgr.md
     - File Management: files.md
     - Push Notifications: push.md
     - Server Side Code: custom.md

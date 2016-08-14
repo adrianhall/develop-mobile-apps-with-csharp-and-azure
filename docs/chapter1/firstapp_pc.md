@@ -1554,7 +1554,7 @@ important functionality in your app to complete the work.
 [img25]: img/dataconns-sqlsvr.PNG
 [img26]: img/dataconns_success.PNG
 
-[int-data]: ../data.md
+[int-data]: ../chapter3/dataconcepts.md
 [int-firstapp-mac]: ./firstapp_mac.md
 
 [1]: https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/
