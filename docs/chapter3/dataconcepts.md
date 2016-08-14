@@ -132,6 +132,7 @@ of the offline sync process.
 Given any particular table, there are a few endpoints that are important.  Given our TodoItem table from Chapter 1:
 
 | Operation | Endpoint | Description |
+| --------- | -------- | ----------- |
 | GET | /tables/todoitem | Query the table |
 | GET | /tables/todoitem/_id_ | Retrieve a single entity |
 | POST | /tables/todoitem | Add a new entity |
