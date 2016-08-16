@@ -183,6 +183,7 @@
     <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="DataObjects\Example.cs" />
     <Compile Include="DataObjects\TodoItem.cs" />
+    <Compile Include="Extensions\TodoItemExtensions.cs" />
     <Compile Include="Migrations\201608140142065_Initial.cs" />
     <Compile Include="Migrations\201608140142065_Initial.Designer.cs">
       <DependentUpon>201608140142065_Initial.cs</DependentUpon>
