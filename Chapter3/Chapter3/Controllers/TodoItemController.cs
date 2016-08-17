@@ -12,7 +12,7 @@ using Chapter3.Extensions;
 
 namespace Chapter3.Controllers
 {
-    [EnableQuery(PageSize=10)]
+    [Authorize]
     public class TodoItemController : TableController<TodoItem>
     {
         protected override void Initialize(HttpControllerContext controllerContext)
@@ -22,14 +22,7 @@ namespace Chapter3.Controllers
             DomainManager = new EntityDomainManager<TodoItem>(context, Request, enableSoftDelete: true);
         }
 
-        public string UserId
-        {
-            get
-            {
-                var principal = this.User as ClaimsPrincipal;
-                return principal.FindFirst(ClaimTypes.NameIdentifier).Value;
-            }
-        }
+        public string UserId => ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
 
         public void ValidateOwner(string id)
         {

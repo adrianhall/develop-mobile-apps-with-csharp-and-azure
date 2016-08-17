@@ -192,6 +192,10 @@
     <Compile Include="Migrations\201608140206437_AddExampleTable.Designer.cs">
       <DependentUpon>201608140206437_AddExampleTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608170524580_TodoWithUsers.cs" />
+    <Compile Include="Migrations\201608170524580_TodoWithUsers.Designer.cs">
+      <DependentUpon>201608170524580_TodoWithUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -221,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608140206437_AddExampleTable.resx">
       <DependentUpon>201608140206437_AddExampleTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608170524580_TodoWithUsers.resx">
+      <DependentUpon>201608170524580_TodoWithUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
