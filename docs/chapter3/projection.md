@@ -370,11 +370,7 @@ authenticated at this point.  The user is not being exposed by the response.
 
 There is no transform in this recipe as the group ID is being sent on each update request.
 
--->
-
 ### Friends Data
-
-### Subscribing to a New Feed
 
 ## Best Practices
 
