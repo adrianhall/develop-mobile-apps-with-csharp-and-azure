@@ -676,12 +676,58 @@ it's common practice to not do this.</p>
 <p>Once the scaffolding is finished, you can look at your newly created table controller.  We do want to
 do one change.  We want to enable soft delete so that our table controller supports offline sync
 scenarios properly.  To do this, go into the <code>Initialize()</code> method and change the constructor of the
-<code>EntityDomainManager</code>:</p>
-<pre><code class="csharp">protected override void Initialize(HttpControllerContext controllerContext)
+<code>EntityDomainManager</code>.  The completed table controller looks like this:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Microsoft.Azure.Mobile.Server;
+using Chapter3.DataObjects;
+using Chapter3.Models;
+
+namespace Chapter3.Controllers
 {
-    base.Initialize(controllerContext);
-    MobileServiceContext context = new MobileServiceContext();
-    DomainManager = new EntityDomainManager&lt;Example&gt;(context, Request, enableSoftDelete: true);
+    public class ExampleController : TableController&lt;Example&gt;
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager&lt;Example&gt;(context, Request, enableSoftDelete: true);
+        }
+
+        // GET tables/Example
+        public IQueryable&lt;Example&gt; GetAllExample()
+        {
+            return Query();
+        }
+
+        // GET tables/Example/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult&lt;Example&gt; GetExample(string id)
+        {
+            return Lookup(id);
+        }
+
+        // PATCH tables/Example/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task&lt;Example&gt; PatchExample(string id, Delta&lt;Example&gt; patch)
+        {
+             return UpdateAsync(id, patch);
+        }
+
+        // POST tables/Example
+        public async Task&lt;IHttpActionResult&gt; PostExample(Example item)
+        {
+            Example current = await InsertAsync(item);
+            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+        }
+
+        // DELETE tables/Example/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task DeleteExample(string id)
+        {
+             return DeleteAsync(id);
+        }
+    }
 }
 </code></pre>
 

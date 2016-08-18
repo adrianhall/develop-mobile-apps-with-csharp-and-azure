@@ -497,13 +497,331 @@
         <div class="wrapper">
           
           <h1 id="projecting-a-data-set">Projecting a Data Set<a class="headerlink" href="#projecting-a-data-set" title="Permanent link">&para;</a></h1>
+<p>We have thus far looked at what it takes to project a whole SQL database table into the mobile world.  We
+can easily do both pre-existing and greenfield databases with code-first and database-first methodologies.
+The next logical thing is to see what we can do to adjust the transfer of data.  How do we filter and
+transform the data as requests are sent to the server.</p>
+<p>There are two places where adjustment of the transfer is accomplished.  I recommend spending time on the
+server adjusting the table controller so that security policies are assured.  The set of data that a
+mobile client can see should be the complete set of data that the user of that mobile device is allowed
+to see.  We can then adjust the view of that data at the client.</p>
+<p>For example, let's say that the user is a sales person.  They are allowed to see the information for
+their accounts, but only wants to see the records for the accounts that have planned to visit within
+the next week.  We would place the limitation on what records they can see on the server, but place
+the date range manipulation on the client.</p>
+<p>In this section, we will look at all the things one can do on in the table controller on the server.</p>
 <h2 id="basics-of-projection">Basics of Projection<a class="headerlink" href="#basics-of-projection" title="Permanent link">&para;</a></h2>
+<p>There are four basic things we will want to do with table controllers:</p>
+<p><strong>Filters</strong> adjust the data that the requesting user can see.  We would normally apply a filter to all
+methods EXCEPT the <code>Create</code> or <code>Insert</code> method.  This is the most common adjustment that is coded in
+the table controller as filtering is the key to enforcing security policy.</p>
+<p><strong>Transforms</strong> adjust the data that is being sent to the table controller before it is stored.  It is
+used in two areas.  First, it is used to automatically inject necessary fields for ensuring the security
+filters can be applied.  For instance, if we wish to have a per-user data store (where a user can only
+see their own records), then we will need to store the user ID of the requesting user.  Secondly, it is
+used to insert point-in-time lookups into a record.  For instance, if we wish to record the current price
+of an item at the time the record was inserted into the table, we would do this with a transform.</p>
+<p><strong>Validations</strong> do not adjust the data.  Validations ensure that the data is correct according to the
+server model.  Your data may, for example, store an age indirectly by storing the year of birth.  It's
+highly unlikely that you will want to support the entire range of possible years.  You definitely don't
+want to support years in the future.</p>
+<p>Finally, <strong>Hooks</strong> allow another piece of code to be triggered either before or after the request has been
+processed.  For example, we may wish to send a push notification on a valid insert, or kick off an order
+processing work flow when a record is updated with an approval to ship.  We won't be covering hooks in
+this chapter as we have a whole chapter on <a href="../../custom/">customized requests</a> later on.</p>
 <h2 id="projection-recipes">Projection Recipes<a class="headerlink" href="#projection-recipes" title="Permanent link">&para;</a></h2>
+<p>There are a few "standard" projects we see all the time and these are great ways to learn how to do
+projections.</p>
 <h3 id="per-user-data">Per-User Data<a class="headerlink" href="#per-user-data" title="Permanent link">&para;</a></h3>
+<p>The first projection that pretty much everyone implements is the <strong>Per-User Data</strong> projection.  In this
+recipe, we want the user to only see records that they have inserted.  For example, let's update our
+TodoItem table to support per-user data.  This involves three parts:</p>
+<ul>
+<li>A <strong>Filter</strong> that limits data to only the logged in user.</li>
+<li>A <strong>Transform</strong> that updates an inserted record with the logged in user.</li>
+<li>A <strong>Validation</strong> that ensures an updated or deleted record is owned by the user.</li>
+</ul>
+<p>The logged in user is available as the User object, but you have to cast it to a <a href="https://msdn.microsoft.com/en-us/library/system.security.claims.claimsprincipal(v=vs.110).aspx">ClaimsPrinicipal</a> to
+access the claims that are sent inside the identity token.  I tend to use a public property as an
+implementation:</p>
+<pre><code class="csharp">public string UserId
+{
+    get
+    {
+        var principal = this.User as ClaimsPrincipal;
+        return principal.FindFirst(ClaimTypes.NameIdentifier).Value;
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>It's generally a good idea to use the SID as the user ID for the authenticated user in security
+applications.  The user can change the email address or username associated with the account, but
+the SID never changes.</p>
+</blockquote>
+<p>We need an extra property in the <code>DataObjects\TodoItem.cs</code> class (in the <strong>Backend</strong> project) to hold
+the extra security claim that we will be adding later:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class TodoItem : EntityData
+    {
+        public string UserId { get; set; }
+
+        public string Text { get; set; }
+
+        public bool Complete { get; set; }
+    }
+}
+</code></pre>
+
+<p>Remember to do a code-first migration if you are doing this on an existing service.  Let's take a look
+at the <code>PostTodoItem()</code> first.  This requires the <strong>Transform</strong> to ensure the UserId field is filled
+in.  We've already defined the <code>UserId</code> field, so we can inject that in the inbound object:</p>
+<pre><code class="csharp">// POST tables/TodoItem
+public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+{
+    item.UserId = UserId;
+    TodoItem current = await InsertAsync(item);
+    return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+}
+</code></pre>
+
+<p>Transforms tend to be short.  This is deliberate.  We don't want any of our code in a table controller
+to do too much work.  The heavy lifting is done by the database, with the ASP.NET table controller being
+a conduit for translating requests into responses.  This allows us to support more users on less virtual
+hardware.</p>
+<p>The <strong>Filter</strong> is a relatively simple affair in this case.  We ensure that the only records returned
+are those that belong to the user.  For example, here is a simplistic filter applied to the <code>GetAll</code>
+method:</p>
+<pre><code class="csharp">// GET tables/TodoItem
+public IQueryable&lt;TodoItem&gt; GetAllTodoItems()
+{
+    return Query().Where(item =&gt; item.UserId.Equals(UserId));
+}
+</code></pre>
+
+<p>The <code>Query()</code> and <code>Lookup(id).Queryable</code> methods return <a href="https://msdn.microsoft.com/en-us/library/bb351562(v=vs.110).aspx">IQueryable</a> objects.  The IQueryable is used
+to represent a query, so we can alter it with LINQ.  A filter is merely a LINQ expression to limit the
+records being returned.  There might be another filter sent by the client, in which case this filter will
+be tacked on the end of the request.  For instance, let's say that the client requests only records where
+<code>Complete == False</code>.  When this comes through the <code>GetAllTodoItems()</code> method, the resulting SQL code will
+look something like this:</p>
+<pre><code class="sql">SELECT * FROM [dbo].[TodoItems]
+    WHERE (Complete = false) AND (UserId = @0);
+</code></pre>
+
+<p>The <code>@0</code> parameter will be replaced by the users SID.</p>
+<blockquote>
+<p>If a user is not logged in (i.e. you forgot to add the <code>[Authorize]</code> attribute), the User object will
+be null and the server will produce a 500 Internal Server Error back to the client.</p>
+</blockquote>
+<p>This can get a little unwieldy for complex filters, however.  Since the filters are applied in two
+different places (and are generally used for validation as well), I like to abstract them into a
+<a href="https://www.simple-talk.com/dotnet/net-framework/giving-clarity-to-linq-queries-by-extending-expressions/">LINQ extension method</a>.  Create a class in <code>Extensions\TodoItemExtensions.cs</code> (you will have to create
+the <code>Extensions</code> directory) with the following contents:</p>
+<pre><code class="csharp">using System.Linq;
+using Chapter3.DataObjects;
+
+namespace Chapter3.Extensions
+{
+    public static class TodoItemExtensions
+    {
+        public static IQueryable&lt;TodoItem&gt; PerUserFilter(this IQueryable&lt;TodoItem&gt; query, string userid)
+        {
+            return query.Where(item =&gt; item.UserId.Equals(userid));
+        }
+    }
+}
+</code></pre>
+
+<p>We can use this to simplify our filters and make them more readable:</p>
+<pre><code class="csharp">// GET tables/TodoItem
+public IQueryable&lt;TodoItem&gt; GetAllTodoItems()
+{
+    return Query().PerUserFilter(UserId);
+}
+
+// GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public SingleResult&lt;TodoItem&gt; GetTodoItem(string id)
+{
+    return new SingleResult&lt;TodoItem&gt;(Lookup(id).Queryable.PerUserFilter(UserId));
+}
+</code></pre>
+
+<p>Note that we need to apply the filter we have written to both the Get methods.</p>
+<p>When we look at the <code>Delete</code> and <code>Patch</code> methods, we only have to validate that the UserId owns the
+id we are updating.  For that, I write a custom validation method.  This method is in the table controller:</p>
+<pre><code class="csharp">public void ValidateOwner(string id)
+{
+    var result = Lookup(id).Queryable.PerUserFilter(UserId).FirstOrDefault&lt;TodoItem&gt;();
+    if (result == null)
+    {
+        throw new HttpResponseException(HttpStatusCode.NotFound);
+    }
+}
+</code></pre>
+
+<p>The validation method must throw an appropriate <code>HttpResponseException</code> if the validation fails.  It's common
+to return a 404 Not Found error rather than a 403 Forbidden error for security reasons.  Returning a
+403 Forbidden error confirms that the Id exists, which is a data leakage.  Returning a 404 Not Found
+error means that a rogue client cannot tell the difference between "I can't access the record" and
+"the record doesn't exist".  We can use this validation method in each method that requires it:</p>
+<pre><code class="csharp">// PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch)
+{
+    ValidateOwner(id);
+    return UpdateAsync(id, patch);
+}
+
+// DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public Task DeleteTodoItem(string id)
+{
+    ValidateOwner(id);
+    return DeleteAsync(id);
+}
+</code></pre>
+
+<p>Although this is a very basic example of a filtered table, we can see three different techniques:</p>
+<ul>
+<li>A <strong>Filter</strong> implemented as a LINQ query in an <code>IQueryable</code> extension method, applied to both <code>Get</code> methods.</li>
+<li>A <strong>Transform</strong> implemented inside the <code>Post</code> method.</li>
+<li>A <strong>Validation</strong> implemented using the filter as a method in the table controller, applied to <code>Patch</code> and <code>Delete</code> methods.</li>
+</ul>
+<p>I set up a copy of the TaskList from Chapter 2 with Azure Active Directory Client Flow for authentication.
+We can look at the SQL table contents after we log in with this client and add a new task:</p>
+<p><img alt="" src="../img/per-user-data.PNG" /></p>
+<p>Note that the UserId is the security ID of the authenticated user.  The security ID is a stable ID for
+the user.  The security ID does not change if the user changes their username or email address.</p>
 <h3 id="per-group-data">Per-Group Data<a class="headerlink" href="#per-group-data" title="Permanent link">&para;</a></h3>
+<p>Let's say we have a mobile client that a sales person uses to enter data about sales.  He might be able
+to pick from a list of industries that the account is in.  The enterprise may further organize those
+industries as groups, with several people within the organization able to view the accounts associated
+with a specific industry.</p>
+<p>In this case:</p>
+<ul>
+<li>We want to limit the mobile client to only view accounts for groups to which he belongs.</li>
+<li>We want to allow the mobile client to submit new accounts for any group to which he belongs.</li>
+<li>Updates and Deletes should not adjust the group field.</li>
+</ul>
+<p>The limit will be implemented as a filter.  The update and insert methods will require a
+validation method (comparing the submitted group with the list of groups to which the user
+belongs).</p>
+<p>We have another table in <code>DataObjects\Example.cs</code>.  Let's extend it to support a GroupId:</p>
+<pre><code class="csharp">using System;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class Example : EntityData
+    {
+        public string GroupId { get; set; }
+        public string StringField { get; set; }
+        public int IntField { get; set; }
+        public double DoubleField { get; set; }
+        public DateTimeOffset DateTimeField { get; set; }
+    }
+}
+</code></pre>
+
+<p>We'll store the group ID in the additional field.  Don't forget to use a code-first migration to update the database.
+Each of the validations and filters requires a list of the groups the user belongs to.  This can be achieved using
+a claim lookup:</p>
+<pre><code class="csharp">/// &lt;summary&gt;
+/// Get the list of groups from the claims
+/// &lt;/summary&gt;
+/// &lt;returns&gt;The list of groups&lt;/returns&gt;
+public async Task&lt;List&lt;string&gt;&gt; GetGroups()
+{
+    var creds = await User.GetAppServiceIdentityAsync&lt;AzureActiveDirectoryCredentials&gt;(Request);
+    return creds.UserClaims
+        .Where(claim =&gt; claim.Type.Equals(&quot;groups&quot;))
+        .Select(claim =&gt; claim.Value)
+        .ToList();
+}
+</code></pre>
+
+<blockquote>
+<p>If you are using claims as part of your security model, you should add the claims that you are
+using to the identity token that is used for authentication.  You can do this with custom authentication
+by calling LoginAsync() twice - once for the standard login method and the second time to adjust the
+token through the custom auth.</p>
+</blockquote>
+<p>Our filter is defined as a LINQ extension (just like in the per-user filter) in <code>Extensions\ExampleExtensions.cs</code>:</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using System.Linq;
+using Chapter3.DataObjects;
+
+namespace Chapter3.Extensions
+{
+    public static class ExampleExtensions
+    {
+        public static IQueryable&lt;Example&gt; PerGroupFilter(this IQueryable&lt;Example&gt; query, List&lt;string&gt; groups)
+        {
+            return query.Where(item =&gt; groups.Contains(item.GroupId));
+        }
+    }
+}
+</code></pre>
+
+<p>We can use this LINQ extension on the retrieval methods:</p>
+<pre><code class="csharp">// GET tables/Example
+public async Task&lt;IQueryable&lt;Example&gt;&gt; GetAllExample()
+{
+    var groups = await GetGroups();
+    return Query().PerGroupFilter(groups);
+}
+
+// GET tables/Example/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public async Task&lt;SingleResult&lt;Example&gt;&gt; GetExample(string id)
+{
+    var groups = await GetGroups();
+    return new SingleResult&lt;Example&gt;(Lookup(id).Queryable.PerGroupFilter(groups));
+}
+</code></pre>
+
+<p>We have to convert each of the methods to a async method so that we can check the groups.  Retrieving the group
+list for a user is an async method and this trickles down to the method being called.</p>
+<p>The validation method is also an async method (for the same reason).  The Post and Patch methods look like
+this:</p>
+<pre><code class="csharp">/// &lt;summary&gt;
+/// Validator to determine if the provided group is in the list of groups
+/// &lt;/summary&gt;
+/// &lt;param name=&quot;group&quot;&gt;The group name&lt;/param&gt;
+public async Task ValidateGroup(string group)
+{
+    var groups = await GetGroups();
+    if (!groups.Contains(group))
+    {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+    }
+}
+
+// PATCH tables/Example/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public async Task&lt;Example&gt; PatchExample(string id, Delta&lt;Example&gt; patch)
+{
+    await ValidateGroup(patch.GetEntity().GroupId);
+    return await UpdateAsync(id, patch);
+}
+
+// POST tables/Example
+public async Task&lt;IHttpActionResult&gt; PostExample(Example item)
+{
+    await ValidateGroup(item.GroupId);
+    Example current = await InsertAsync(item);
+    return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+}
+</code></pre>
+
+<p>It's appropriate to throw a 400 Bad Request for a validation error in this case as the user is
+authenticated at this point.  The user is not being exposed by the response.</p>
+<p>There is no transform in this recipe as the group ID is being sent on each update request.</p>
 <h3 id="friends-data">Friends Data<a class="headerlink" href="#friends-data" title="Permanent link">&para;</a></h3>
-<h3 id="subscribing-to-a-new-feed">Subscribing to a New Feed<a class="headerlink" href="#subscribing-to-a-new-feed" title="Permanent link">&para;</a></h3>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<!-- Images -->
+
+<!-- Links -->
           <aside class="copyright" role="note">
             
             Documentation built with
