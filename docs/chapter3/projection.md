@@ -224,7 +224,13 @@ Although this is a very basic example of a filtered table, we can see three diff
 * A **Transform** implemented inside the `Post` method.
 * A **Validation** implemented using the filter as a method in the table controller, applied to `Patch` and `Delete` methods.
 
-This turns out to be a very common pattern, as we shall see.
+I set up a copy of the TaskList from Chapter 2 with Azure Active Directory Client Flow for authentication.
+We can look at the SQL table contents after we log in with this client and add a new task:
+
+![][per-user-data]
+
+Note that the UserId is the security ID of the authenticated user.  The security ID is a stable ID for
+the user.  The security ID does not change if the user changes their username or email address.
 
 ### Per-Group Data
 
@@ -239,28 +245,130 @@ In this case:
 * We want to allow the mobile client to submit new accounts for any group to which he belongs.
 * Updates and Deletes should not adjust the group field.
 
-The limit will be implemented as a filter.  The post will require a validation method (comparing the submitted
-group with the list of groups to which the user belongs).  The updates and deletes will require a transform
-to adjust the incoming request.
+The limit will be implemented as a filter.  The update and insert methods will require a
+validation method (comparing the submitted group with the list of groups to which the user
+belongs).
 
-Let's define our model first (in `DataObjects\Account.cs`):
-
-<!--
-
-You can find additional claims for the user using the `User.GetAppServiceIdentityAsync() method:
+We have another table in `DataObjects\Example.cs`.  Let's extend it to support a GroupId:
 
 ```csharp
-var creds = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request);
-var email = creds.UserClaims
-    .Where(claim => claim.Type.EndsWith("/emailaddress"))
-    .First<Claim>()
-    .Value;
+using System;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class Example : EntityData
+    {
+        public string GroupId { get; set; }
+        public string StringField { get; set; }
+        public int IntField { get; set; }
+        public double DoubleField { get; set; }
+        public DateTimeOffset DateTimeField { get; set; }
+    }
+}
+```
+
+We'll store the group ID in the additional field.  Don't forget to use a code-first migration to update the database.
+Each of the validations and filters requires a list of the groups the user belongs to.  This can be achieved using
+a claim lookup:
+
+```csharp
+/// <summary>
+/// Get the list of groups from the claims
+/// </summary>
+/// <returns>The list of groups</returns>
+public async Task<List<string>> GetGroups()
+{
+    var creds = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request);
+    return creds.UserClaims
+        .Where(claim => claim.Type.Equals("groups"))
+        .Select(claim => claim.Value)
+        .ToList();
+}
 ```
 
 > If you are using claims as part of your security model, you should add the claims that you are
 using to the identity token that is used for authentication.  You can do this with custom authentication
 by calling LoginAsync() twice - once for the standard login method and the second time to adjust the
 token through the custom auth.
+
+Our filter is defined as a LINQ extension (just like in the per-user filter) in `Extensions\ExampleExtensions.cs`:
+
+```csharp
+using System.Collections.Generic;
+using System.Linq;
+using Chapter3.DataObjects;
+
+namespace Chapter3.Extensions
+{
+    public static class ExampleExtensions
+    {
+        public static IQueryable<Example> PerGroupFilter(this IQueryable<Example> query, List<string> groups)
+        {
+            return query.Where(item => groups.Contains(item.GroupId));
+        }
+    }
+}
+```
+
+We can use this LINQ extension on the retrieval methods:
+
+```csharp
+// GET tables/Example
+public async Task<IQueryable<Example>> GetAllExample()
+{
+    var groups = await GetGroups();
+    return Query().PerGroupFilter(groups);
+}
+
+// GET tables/Example/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public async Task<SingleResult<Example>> GetExample(string id)
+{
+    var groups = await GetGroups();
+    return new SingleResult<Example>(Lookup(id).Queryable.PerGroupFilter(groups));
+}
+```
+
+We have to convert each of the methods to a async method so that we can check the groups.  Retrieving the group
+list for a user is an async method and this trickles down to the method being called.
+
+The validation method is also an async method (for the same reason).  The Post and Patch methods look like
+this:
+
+```csharp
+/// <summary>
+/// Validator to determine if the provided group is in the list of groups
+/// </summary>
+/// <param name="group">The group name</param>
+public async Task ValidateGroup(string group)
+{
+    var groups = await GetGroups();
+    if (!groups.Contains(group))
+    {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+    }
+}
+
+// PATCH tables/Example/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public async Task<Example> PatchExample(string id, Delta<Example> patch)
+{
+    await ValidateGroup(patch.GetEntity().GroupId);
+    return await UpdateAsync(id, patch);
+}
+
+// POST tables/Example
+public async Task<IHttpActionResult> PostExample(Example item)
+{
+    await ValidateGroup(item.GroupId);
+    Example current = await InsertAsync(item);
+    return CreatedAtRoute("Tables", new { id = current.Id }, current);
+}
+```
+
+It's appropriate to throw a 400 Bad Request for a validation error in this case as the user is
+authenticated at this point.  The user is not being exposed by the response.
+
+There is no transform in this recipe as the group ID is being sent on each update request.
 
 -->
 
@@ -269,6 +377,9 @@ token through the custom auth.
 ### Subscribing to a New Feed
 
 ## Best Practices
+
+<!-- Images -->
+[per-user-data]: img/per-user-data.PNG
 
 <!-- Links -->
 [i-custom]: ../custom.md
