@@ -3,7 +3,7 @@
 
     
     <url>
-     <loc>None/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -12,71 +12,13 @@
     
         
     <url>
-     <loc>None/chapter1/firstapp_pc/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter1/firstapp_pc/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/chapter1/firstapp_mac/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    
-
-    
-        
-    <url>
-     <loc>None/chapter2/authconcepts/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/backend/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/enterprise/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/social/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/debugging/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/custom/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/authorization/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/realworld/</loc>
-     <lastmod>2016-08-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/chapter2/bestpractices/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter1/firstapp_mac/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -86,37 +28,95 @@
     
         
     <url>
-     <loc>None/chapter3/dataconcepts/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/authconcepts/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/chapter3/server/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/backend/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/chapter3/projection/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/enterprise/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/chapter3/client/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/social/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/chapter3/complextypes/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/debugging/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/chapter3/domainmgr/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/custom/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/authorization/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/realworld/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter2/bestpractices/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter3/dataconcepts/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter3/server/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter3/projection/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter3/client/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter3/complextypes/</loc>
+     <lastmod>2016-08-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//chapter3/domainmgr/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -125,7 +125,7 @@
 
     
     <url>
-     <loc>None/files/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//files/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -133,7 +133,7 @@
 
     
     <url>
-     <loc>None/push/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//push/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -141,7 +141,7 @@
 
     
     <url>
-     <loc>None/custom/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//custom/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -149,7 +149,7 @@
 
     
     <url>
-     <loc>None/media/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//media/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -157,7 +157,7 @@
 
     
     <url>
-     <loc>None/search/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//search/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -165,7 +165,7 @@
 
     
     <url>
-     <loc>None/combined/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//combined/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -173,7 +173,7 @@
 
     
     <url>
-     <loc>None/developing/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//developing/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -181,7 +181,7 @@
 
     
     <url>
-     <loc>None/testing/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//testing/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -189,7 +189,7 @@
 
     
     <url>
-     <loc>None/troubleshooting/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//troubleshooting/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -197,7 +197,7 @@
 
     
     <url>
-     <loc>None/production/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//production/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -205,7 +205,7 @@
 
     
     <url>
-     <loc>None/xamarin_tips/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//xamarin_tips/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -213,7 +213,7 @@
 
     
     <url>
-     <loc>None/android_appendix/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//android_appendix/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -221,7 +221,7 @@
 
     
     <url>
-     <loc>None/references/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//references/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -229,7 +229,7 @@
 
     
     <url>
-     <loc>None/credits/</loc>
+     <loc>https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure//credits/</loc>
      <lastmod>2016-08-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
