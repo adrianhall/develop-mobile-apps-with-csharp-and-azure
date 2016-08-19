@@ -2,6 +2,10 @@
     padding: 24px 0 8px;
 }
 
+.project > .banner {
+  display: none;
+}
+
 .article blockquote {
     background-color: rgba(54,117,136,0.1);
     border: 2px solid rgba(54,117,136,1.0);

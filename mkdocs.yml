@@ -1,4 +1,8 @@
 site_name: Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+site_url: https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/
+repo_url: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure
+repo_name: GitHub
+site_author: Adrian Hall
 pages:
     - Getting Started: index.md
     - Chapter 1 - Introduction:
@@ -36,10 +40,15 @@ pages:
     - References: references.md
     - Credits: credits.md
 theme: material
+extra:
+    author:
+      github: 'adrianhall'
+      twitter: 'FizzyInTheHall'
 markdown_extensions:
     - toc:
         permalink: True
     - fenced_code
+    - admonition
 extra_css:
   - css/extra.css
   - css/vs.css
