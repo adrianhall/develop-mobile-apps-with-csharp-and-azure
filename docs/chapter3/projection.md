@@ -651,7 +651,7 @@ should be able to see two messages and user "fabio" should be able to see just o
 value of the `user` variable, I can test the query I am writing.  I don't need to set up a database (although
 LINQPad supports that as well).
 
-![][linqpad]
+![][linqpad-friends]
 
 ## Best Practices
 
@@ -700,7 +700,7 @@ of the second method.
 
 <!-- Images -->
 [per-user-data]: img/per-user-data.PNG
-[linqpad]: img/linqpad.PNG
+[linqpad-friends]: img/linqpad.PNG
 
 <!-- Links -->
 [i-custom]: ../custom.md
