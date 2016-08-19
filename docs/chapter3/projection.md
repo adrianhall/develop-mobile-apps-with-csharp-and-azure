@@ -696,8 +696,6 @@ public IQueryable<Message> GetAllMessage()
 The first recipe makes the intent of the filter very clear.  I have to work at understanding the specific implementation
 of the second method.
 
-
-
 <!-- Images -->
 [per-user-data]: img/per-user-data.PNG
 [linqpad-friends]: img/linqpad.PNG

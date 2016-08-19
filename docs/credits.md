@@ -5,6 +5,8 @@ particular order):
 
 - Chris Gillum
 - Chris Risner
+- Donna Malayeri
+- Fabio Cavalcante
 - James Montemagno
 - Mike James
 - Pierce Boggan
