@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using TaskList.Helpers;
@@ -36,7 +37,7 @@ namespace TaskList.Services
         public AzureCloudService()
         {
             Client = new MobileServiceClient(
-                Locations.AppServiceUrl, 
+                Locations.AppServiceUrl,
                 new AuthenticationDelegatingHandler());
 
             if (Locations.AlternateLoginHost != null)
@@ -135,7 +136,7 @@ namespace TaskList.Services
                     if (refreshedUser != null)
                     {
                         PlatformProvider.StoreTokenInSecureStore(refreshedUser);
-                        return refreshedUser;
+                        return await UpdateUserAsync(refreshedUser);
                     }
                 }
                 catch (Exception refreshException)
@@ -143,10 +144,10 @@ namespace TaskList.Services
                     Debug.WriteLine($"Could not refresh token: {refreshException.Message}");
                 }
             }
-            
+
             if (Client.CurrentUser != null && !IsTokenExpired(Client.CurrentUser.MobileServiceAuthenticationToken))
             {
-                return Client.CurrentUser;
+                return await UpdateUserAsync(Client.CurrentUser);
             }
 
             await PlatformProvider.LoginAsync(Client);
@@ -154,6 +155,19 @@ namespace TaskList.Services
             {
                 PlatformProvider.StoreTokenInSecureStore(Client.CurrentUser);
             }
+            return await UpdateUserAsync(Client.CurrentUser);
+        }
+
+        /// <summary>
+        /// Swap the original token for a new token
+        /// </summary>
+        /// <param name="user">The user object</param>
+        /// <returns>The new user object</returns>
+        public async Task<MobileServiceUser> UpdateUserAsync(MobileServiceUser user)
+        {
+            var loginResult = await Client.InvokeApiAsync<LoginResult>("/auth/login/custom", HttpMethod.Get, null);
+            Client.CurrentUser.MobileServiceAuthenticationToken = loginResult.AuthenticationToken;
+            Client.CurrentUser.UserId = loginResult.UserId;
             return Client.CurrentUser;
         }
 
@@ -185,5 +199,14 @@ namespace TaskList.Services
             await Client.LogoutAsync();
         }
         #endregion
+    }
+
+    public class LoginResult
+    {
+        [JsonProperty(PropertyName = "authenticationToken")]
+        public string AuthenticationToken { get; set; }
+
+        [JsonProperty(PropertyName = "user_id")]
+        public string UserId { get; set; }
     }
 }

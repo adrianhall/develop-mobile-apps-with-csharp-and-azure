@@ -372,6 +372,62 @@ There is no transform in this recipe as the group ID is being sent on each updat
 
 ### Friends Data
 
+One of the common social patterns is a "friends feed". We can post to our feed and we can see
+both our messages and our friends messages. In this recipe, we will have three tables.  The first
+is a `Messages` table with the following model:
+
+```csharp
+using System;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class Message : EntityData
+    {
+        public string UserId { get; set; }
+        public string Message { get; set; }
+    }
+}
+```
+
+Our second table is a `Friends` table with the following model:
+
+```csharp
+using System;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class Friend : EntityData
+    {
+        public string UserId { get; set; }
+        public string FriendId { get; set; }
+    }
+}
+```
+
+Finally, we will insert our current data into a `Users` table:
+
+```csharp
+using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class User : EntityData
+    {
+        public string EmailAddress { get; set; }
+        public string Name { get; set; }
+    }
+}
+```
+
+In our application, we will update the `Users` table via a [custom authentication controller].
+After we have logged in via Azure Active Directory, we call the `InvokeApiAsync()` method
+to call the custom authentication controller and get a new token with some extra information
+in it.  We'll cover custom authentication controllers in a later chapter.
+
+
+
 ## Best Practices
 
 <!-- Images -->
@@ -382,3 +438,4 @@ There is no transform in this recipe as the group ID is being sent on each updat
 [ClaimsPrinicipal]: https://msdn.microsoft.com/en-us/library/system.security.claims.claimsprincipal(v=vs.110).aspx
 [IQueryable]: https://msdn.microsoft.com/en-us/library/bb351562(v=vs.110).aspx
 [LINQ extension method]: https://www.simple-talk.com/dotnet/net-framework/giving-clarity-to-linq-queries-by-extending-expressions/
+[custom authentication controller]: ../chapter2/custom.md

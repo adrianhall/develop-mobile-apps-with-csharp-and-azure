@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
+﻿using System.Data.Entity.Migrations;
 using System.Web.Http;
-using Chapter3.DataObjects;
-using Chapter3.Models;
 using Microsoft.Azure.Mobile.Server.Config;
 using Owin;
 
@@ -20,6 +15,9 @@ namespace Chapter3
             mobileConfig
                 .AddTablesWithEntityFramework()
                 .ApplyTo(httpConfig);
+
+            // Map Routes via attribute
+            httpConfig.MapHttpAttributeRoutes();
 
             // Automatic Code First Migrations
             var migrator = new DbMigrator(new Migrations.Configuration());

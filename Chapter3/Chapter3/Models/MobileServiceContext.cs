@@ -1,4 +1,3 @@
-using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
@@ -29,5 +28,6 @@ namespace Chapter3.Models
 
         public DbSet<DataObjects.TodoItem> TodoItems { get; set; }
         public DbSet<DataObjects.Example> Examples { get; set; }
+        public DbSet<DataObjects.User> Users { get; set; }
     }
 }
