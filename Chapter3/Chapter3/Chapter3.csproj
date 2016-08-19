@@ -193,6 +193,7 @@
     <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="Extensions\ExampleExtensions.cs" />
+    <Compile Include="Extensions\MessageExtensions.cs" />
     <Compile Include="Extensions\TodoItemExtensions.cs" />
     <Compile Include="Migrations\201608140142065_Initial.cs" />
     <Compile Include="Migrations\201608140142065_Initial.Designer.cs">
