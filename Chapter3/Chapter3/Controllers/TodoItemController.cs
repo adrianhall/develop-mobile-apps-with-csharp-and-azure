@@ -35,7 +35,7 @@ namespace Chapter3.Controllers
 
         // GET tables/TodoItem
         public IQueryable<TodoItem> GetAllTodoItems()
-        { 
+        {
             return Query().PerUserFilter(UserId);
         }
 

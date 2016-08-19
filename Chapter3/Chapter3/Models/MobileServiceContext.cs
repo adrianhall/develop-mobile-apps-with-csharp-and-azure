@@ -29,5 +29,7 @@ namespace Chapter3.Models
         public DbSet<DataObjects.TodoItem> TodoItems { get; set; }
         public DbSet<DataObjects.Example> Examples { get; set; }
         public DbSet<DataObjects.User> Users { get; set; }
+        public DbSet<DataObjects.Friend> Friends { get; set; }
+        public DbSet<DataObjects.Message> Messages { get; set; }
     }
 }
