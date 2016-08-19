@@ -818,7 +818,304 @@ public async Task&lt;IHttpActionResult&gt; PostExample(Example item)
 authenticated at this point.  The user is not being exposed by the response.</p>
 <p>There is no transform in this recipe as the group ID is being sent on each update request.</p>
 <h3 id="friends-data">Friends Data<a class="headerlink" href="#friends-data" title="Permanent link">&para;</a></h3>
+<p>One of the common social patterns is a "friends feed". We can post to our feed and we can see
+both our messages and our friends messages. In this recipe, we will have three tables.  The
+first is the <code>Users</code> table with the following model:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class User : EntityData
+    {
+        public string EmailAddress { get; set; }
+        public string Name { get; set; }
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>Don't forget to add a <code>DbSet&lt;&gt;</code> for each table to the <code>MobileServiceContext</code> to add the
+table.</p>
+</blockquote>
+<p>In our application, we will update the <code>Users</code> table via a <a href="../../chapter2/custom/">custom authentication controller</a>.
+After we have logged in via Azure Active Directory, we call the <code>InvokeApiAsync()</code> method
+to call the custom authentication controller and get a new token with some extra information
+in it.  We'll cover custom authentication controllers in a later chapter.  </p>
+<pre><code class="csharp">using System;
+using System.Data.Entity.Migrations;
+using System.IdentityModel.Tokens;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using System.Web.Http;
+using Chapter3.DataObjects;
+using Chapter3.Models;
+using Microsoft.Azure.Mobile.Server.Authentication;
+using Microsoft.Azure.Mobile.Server.Login;
+using Newtonsoft.Json;
+
+namespace Chapter3.Controllers
+{
+    [Authorize]
+    [Route(&quot;auth/login/custom&quot;)]
+    public class CustomAuthController : ApiController
+    {
+        MobileServiceContext dbContext;
+
+        public CustomAuthController()
+        {
+            dbContext = new MobileServiceContext();
+
+            string website = Environment.GetEnvironmentVariable(&quot;WEBSITE_HOSTNAME&quot;);
+            Audience = $&quot;https://{website}/&quot;;
+            Issuer = $&quot;https://{website}/&quot;;
+            SigningKey = Environment.GetEnvironmentVariable(&quot;WEBSITE_AUTH_SIGNING_KEY&quot;);
+        }
+
+        public string Audience { get; set; }
+        public string Issuer { get; set; }
+        public string SigningKey { get; set; }
+
+        [HttpPost]
+        public async Task&lt;IHttpActionResult&gt; Post()
+        {
+            var creds = await User.GetAppServiceIdentityAsync&lt;AzureActiveDirectoryCredentials&gt;(Request);
+            var sid = ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
+            var email = creds.UserClaims
+                .FirstOrDefault(claim =&gt; claim.Type.EndsWith(&quot;emailaddress&quot;))
+                .Value;
+            var name = creds.UserClaims
+                .FirstOrDefault(claim =&gt; claim.Type.EndsWith(&quot;name&quot;))
+                .Value;
+
+            // Insert the record information into the database
+            User user = new User()
+            {
+                Id = sid,
+                Name = name,
+                EmailAddress = email
+            };
+            dbContext.Users.AddOrUpdate(user);
+            dbContext.SaveChanges();
+
+            // Mind a new token based on the old one plus the new information
+            var newClaims = new Claim[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, sid),
+                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(&quot;name&quot;, name)
+            };
+            JwtSecurityToken token = AppServiceLoginHandler.CreateToken(
+                newClaims, SigningKey, Audience, Issuer, TimeSpan.FromDays(30));
+
+            // Return the token and user ID to the client
+            return Ok(new LoginResult()
+            {
+                AuthenticationToken = token.RawData,
+                UserId = sid
+            });
+        }
+    }
+
+    public class LoginResult
+    {
+        [JsonProperty(PropertyName = &quot;authenticationToken&quot;)]
+        public string AuthenticationToken { get; set; }
+
+        [JsonProperty(PropertyName = &quot;user_id&quot;)]
+        public string UserId { get; set; }
+    }
+}
+</code></pre>
+
+<p>The actual database update is done by Entity Framework.  The ASP.NET service is just
+a regular ASP.NET service using Entity Framework, so all the same facilities are
+available as that configuration.  In this case, we take the provided token (which
+is the same token that Azure Active Directory client-flow returns) and return a
+modified token that includes a couple of extra fields.  During this process, we
+update the database by adding or inserting (also known as upserting) a record with
+the Id field set to the security ID and the additional fields we need.</p>
+<p>I need a table to implement the "friends" relationship.  My friends are not stored
+in Azure Active Directory.  If I were using a social provider, I could use the
+friends feed from that social provider by doing a Graph API lookup.  In this case,
+I'm going to use the following model:</p>
+<pre><code class="csharp">namespace Chapter3.DataObjects
+{
+    public class Friend
+    {
+        public string UserId { get; set; }
+        public string FriendId { get; set; }
+    }
+}
+</code></pre>
+
+<p>This is not based on <code>EntityData</code> because I am not going to expose this table to the
+mobile client.  It's purely for determining what records I am going to show to the
+mobile client.  In this example, I will maintain the data in this table manually.
+A "real" application would have some sort of custom workflow to add friends and get
+the friends to approve the connection.</p>
+<p>To get the list of "friends I can see", I will request a list of the <code>FriendId</code> field
+where the <code>UserId</code> is my UserId.</p>
+<p>The final table in the trio is the <code>Messages</code> table.  This will be downloaded to the
+mobile client so it has to be based on the <code>EntityData</code> base class.  In addition, the
+inserts for this table are going to look a lot like a per-user table.  I need the
+<code>UserId</code> field to properly maintain the security model.</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
+
+namespace Chapter3.DataObjects
+{
+    public class Message : EntityData
+    {
+        public string UserId { get; set; }
+        public string Text { get; set; }
+    }
+}
+</code></pre>
+
+<p>Let's think about the security model we want to implement in the <code>Messages</code> table controller:</p>
+<ul>
+<li>A <strong>filter</strong> will allow the viewing of the users own data or any data that has an association in the Friends table.</li>
+<li>A <strong>transform</strong> will set the owner of the record to my UserId</li>
+<li>We will remove the ability to update or delete records since this is a write-once read-many table.</li>
+</ul>
+<p>Let's look at the <code>PostMessage()</code> method for the <code>MessageController</code> first.  This is
+practically identical to the <code>PostTodoItem()</code> method in the per-user recipe:</p>
+<pre><code class="csharp">public string UserId =&gt; ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
+
+// POST tables/Message
+public async Task&lt;IHttpActionResult&gt; PostMessage(Message item)
+{
+    item.UserId = UserId;
+    Message current = await InsertAsync(item);
+    return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+}
+</code></pre>
+
+<p>The filter is a little harder.  We are going to use the <a href="https://msdn.microsoft.com/en-us/library/bb397676.aspx"><em>Fluent Syntax</em></a> for LINQ to provide the right logic.
+The Fluent Syntax is also known as "Query Syntax" or the "declarative syntax", depending on the author.  The extension
+method looks like this:</p>
+<pre><code class="csharp">using Chapter3.DataObjects;
+using System.Data.Entity;
+using System.Linq;
+
+namespace Chapter3.Extensions
+{
+    public static class MessageExtensions
+    {
+        public static IQueryable&lt;Message&gt; OwnedByFriends(this IQueryable&lt;Message&gt; query, DbSet&lt;Friend&gt; friends, string userId)
+        {
+            var myPosts = from m in query
+                          let fr = (from f in friends where f.FriendId == userId select f.UserId)
+                          where m.UserId == userId || fr.Contains(m.UserId)
+                          select m;
+            return myPosts;
+        }
+    }
+}
+</code></pre>
+
+<p>The LINQ query selects the messages from the <code>Messages</code> table where the author is either the mobile client user or the mobile client
+user is listed as a friend of the author.  My query methods in the table controller now look similar to the per-user data:</p>
+<pre><code class="csharp">public string UserId =&gt; ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
+
+// GET tables/Message
+public IQueryable&lt;Message&gt; GetAllMessage()
+{
+    return Query().OwnedByFriends(context.Friends, UserId);
+}
+
+// GET tables/Message/48D68C86-6EA6-4C25-AA33-223FC9A27959
+public SingleResult&lt;Message&gt; GetMessage(string id)
+{
+    return new SingleResult&lt;Message&gt;(Lookup(id).Queryable.OwnedByFriends(context.Friends, UserId));
+}
+</code></pre>
+
+<h3 id="using-linqpad-to-test-linq-queries">Using LINQPad to test LINQ Queries<a class="headerlink" href="#using-linqpad-to-test-linq-queries" title="Permanent link">&para;</a></h3>
+<p>I tend to struggle with LINQ queries.  Fortunately, there are a plethora of blogs, tutorials and tools out there to assist.  One
+of my favorite tools is <a href="https://www.linqpad.net/">LINQPad</a>.  LINQPad gives you an interactive playground for testing your LINQ queries.  In this case, I
+created a new query with the following contents:</p>
+<pre><code class="csharp">public class Message {
+   public string UserId;
+   public string Text;
+}
+
+public class Friend {
+   public string UserId;
+   public string FollowerId;
+}
+
+void Main()
+{
+
+
+List&lt;Friend&gt; friends = new List&lt;Friend&gt;() {
+   new Friend() { UserId = &quot;adrian&quot;, FollowerId = &quot;donna&quot; },
+   new Friend() { UserId = &quot;fabio&quot;, FollowerId = &quot;donna&quot; },
+   new Friend() { UserId = &quot;fabio&quot;, FollowerId = &quot;adrian&quot; }
+};
+
+List&lt;Message&gt; messages = new List&lt;Message&gt;() {
+   new Message() { UserId = &quot;adrian&quot;, Text = &quot;message 1&quot; },
+   new Message() { UserId = &quot;donna&quot;, Text = &quot;message 2&quot; },
+   new Message() { UserId = &quot;fabio&quot;, Text = &quot;message 3&quot; }
+};
+var user = &quot;fabio&quot;;
+
+var q = from m in messages
+        let fr = (from f in friends where f.FollowerId == user select f.UserId)
+        where m.UserId == user || fr.Contains(m.UserId)
+        select m;
+
+q.Dump();
+
+}
+</code></pre>
+
+<p>I have a friends table and a messages table.  User "donna" should be able to see three messages, user "adrian"
+should be able to see two messages and user "fabio" should be able to see just one message.  By changing the
+value of the <code>user</code> variable, I can test the query I am writing.  I don't need to set up a database (although
+LINQPad supports that as well).</p>
+<p><img alt="" src="https://www.linqpad.net/" /></p>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<p>There are a number of best practices that I think are important in developing table controllers:</p>
+<ul>
+<li><strong>Optimize Operations</strong>:</li>
+</ul>
+<p>You should always optimize the CRUD operations that are implemented in a table controller.  This means limiting
+the code so that only <strong>filters</strong>, <strong>transforms</strong> and <strong>validators</strong> are used.  You can use <strong>hooks</strong> as an
+asynchronous way to handle custom code if something else needs to happen when a mobile client inserts, updates
+or deletes a record.  (We will be delving into hooks during the custom code chapter later on).</p>
+<p>You should <strong>NOT</strong> insert custom code into a table controller that runs synchronously.</p>
+<ul>
+<li><strong>Implement Security Policy with Filters</strong>:</li>
+</ul>
+<p>The mobile backend should be concerned with security.  What can the connecting user see?  Use <strong>filters</strong> to
+ensure that the connecting user can only see the data that they are allowed to see.  There are several examples
+of bad filters.  For example, if a user normally wants to see the last 7 days worth of messages, but is allowed
+to see all messages.  I would implement this particular case as a client-side filter as it has nothing to do
+with security.</p>
+<ul>
+<li><strong>Use LINQ Extension Methods</strong>:</li>
+</ul>
+<p>LINQ extension methods can be used to great effect to make your CRUD methods more readable.  I love readable
+code.  For example, consider the following two code snippets from the last recipe:</p>
+<pre><code class="csharp">public IQueryable&lt;Message&gt; GetAllMessage()
+{
+  // Recipe #1
+  return Query().OwnedByFriends(context.Friends, UserId);
+
+  // Recipe #2
+  return from m in Query()
+    let fr = (from f in context.Friends where f.FriendId == UserId select f.UserId)
+    where m.UserId == UserId || fr.Contains(m.UserId)
+    select m;
+}
+</code></pre>
+
+<p>The first recipe makes the intent of the filter very clear.  I have to work at understanding the specific implementation
+of the second method.</p>
 <!-- Images -->
 
 <!-- Links -->
