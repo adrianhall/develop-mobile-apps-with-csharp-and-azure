@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201608170524580_TodoWithUsers.Designer.cs">
       <DependentUpon>201608170524580_TodoWithUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608201815206_chapter3-updates.cs" />
+    <Compile Include="Migrations\201608201815206_chapter3-updates.Designer.cs">
+      <DependentUpon>201608201815206_chapter3-updates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -239,6 +243,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608170524580_TodoWithUsers.resx">
       <DependentUpon>201608170524580_TodoWithUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608201815206_chapter3-updates.resx">
+      <DependentUpon>201608201815206_chapter3-updates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,8 +1,3 @@
-# Complex Types and Relationships
+# Complex Types
 
-## Complex Types
-
-## Relationships
-
-## Best Practices
 

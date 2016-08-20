@@ -43,6 +43,10 @@ command `add-migration Initial`.
 
 ![][add-initial-migration]
 
+> If you have multiple projects in your solution, you may need to add `-Project _projectname_`.  For example,
+`add-migration -project Chapter3 Initial`.  This applies to all the migration commands you execute in the
+Package Manager Console.
+
 The initial migration creates a few files in the `Migrations` folder that represent the current state of
 affairs for the database. These easily recognized by a combination of the current date and the name of the
 migration.  Code First Migrations can be applied manually or automatically.  I personally prefer the automatic

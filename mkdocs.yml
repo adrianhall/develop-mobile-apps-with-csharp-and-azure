@@ -23,7 +23,8 @@ pages:
         - Implementing Table Controllers: chapter3/server.md
         - Data Projection and Queries: chapter3/projection.md
         - The Mobile Client: chapter3/client.md
-        - Complex Types and Relationships: chapter3/complextypes.md
+        - Complex Types: chapter3/complextypes.md
+        - Relationships: chapter3/relationships.md
         - The Domain Manager: chapter3/domainmgr.md
     - File Management: files.md
     - Push Notifications: push.md
