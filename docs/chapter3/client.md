@@ -94,9 +94,32 @@ This is the `AzureCloudTable` class that our task list has been using thus far. 
 over them.
 
 Probably the most egregious bug is that the `ReadAllItemsAsync()` method does not handle paging.  If you have more than 50 items,
-then the ToListAsync() method will do a single GET operation and then return the results.  To test this, insert over 50 records
-into the TodoItem table in your database.
+then the `ToListAsync()` method will do a single GET operation and then return the results.  The Azure Mobile Apps Server SDK implements
+enforced paging.  This protects two things.  Firstly, the client cannot tie up the UI thread and cause a significant delay in the
+responsiveness of the app.  More importantly, a rogue client cannot tie up the server for a long period thus helping with dealing
+with denial of service attacks.  Paging is a good thing.
+
+To test this:
+
+* Insert over 50 records into the `TodoItems` table in your database using a SQL client.
+* Put a break point at the `Items.ReplaceRange(list);` (line 78 approximately) in `ViewModels\TaskListViewModel.cs`.
+* Run the UWP project.
+
+![][not-paging]
+
+Note that even though there are more than 50 records, you will only see 50 records in the list.  There are multiple ways to fix
+this and it depends on your final expectation.  In the class of "probably not what we want", we can keep on reading records until
+there are no more records to read. This is the simplest to implement.  In the `Services\AzureCloudTable.cs` file, replace the
+`ReadAllItemsAsync()` method with the following:
+
+```csharp
+```
+
+
 
 ## An Offline Client
 
 ## Query Management
+
+<!-- Images -->
+[not-paging]: img/not-paging.PNG

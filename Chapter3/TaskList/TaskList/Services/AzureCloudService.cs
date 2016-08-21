@@ -130,11 +130,13 @@ namespace TaskList.Services
             Client.CurrentUser = PlatformProvider.RetrieveTokenFromSecureStore();
             if (Client.CurrentUser != null)
             {
+                Debug.WriteLine($"LoginAsync: user = {Client.CurrentUser.UserId}");
                 try
                 {
                     var refreshedUser = await Client.RefreshUserAsync();
                     if (refreshedUser != null)
                     {
+                        Debug.WriteLine($"LoginAsync: User Refreshed!  Token = {refreshedUser.MobileServiceAuthenticationToken}");
                         PlatformProvider.StoreTokenInSecureStore(refreshedUser);
                         return await UpdateUserAsync(refreshedUser);
                     }
@@ -150,12 +152,16 @@ namespace TaskList.Services
                 return await UpdateUserAsync(Client.CurrentUser);
             }
 
+            Debug.WriteLine($"LoginAsync: Need to authenticate user");
             await PlatformProvider.LoginAsync(Client);
             if (Client.CurrentUser != null)
             {
                 PlatformProvider.StoreTokenInSecureStore(Client.CurrentUser);
+                return await UpdateUserAsync(Client.CurrentUser);
             }
-            return await UpdateUserAsync(Client.CurrentUser);
+
+            PlatformProvider.RemoveTokenFromSecureStore();
+            return null;
         }
 
         /// <summary>
@@ -165,9 +171,19 @@ namespace TaskList.Services
         /// <returns>The new user object</returns>
         public async Task<MobileServiceUser> UpdateUserAsync(MobileServiceUser user)
         {
-            var loginResult = await Client.InvokeApiAsync<LoginResult>("/auth/login/custom", HttpMethod.Get, null);
-            Client.CurrentUser.MobileServiceAuthenticationToken = loginResult.AuthenticationToken;
-            Client.CurrentUser.UserId = loginResult.UserId;
+            Debug.WriteLine($"Updating user {user.UserId} # {user.MobileServiceAuthenticationToken}");
+            try
+            {
+                var loginResult = await Client.InvokeApiAsync<LoginResult>("/auth/login/custom", HttpMethod.Get, null);
+                Client.CurrentUser.MobileServiceAuthenticationToken = loginResult.AuthenticationToken;
+                Client.CurrentUser.UserId = loginResult.UserId;
+            }
+            catch (Exception ex)
+            {
+                PlatformProvider.RemoveTokenFromSecureStore();
+                Debug.WriteLine($"Updating User Failed: {ex.Message}");
+                throw ex;
+            }
             return Client.CurrentUser;
         }
 

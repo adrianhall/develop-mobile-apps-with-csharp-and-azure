@@ -31,8 +31,26 @@ namespace TaskList.Services
         public async Task DeleteItemAsync(T item) 
             => await table.DeleteAsync(item);
 
-        public async Task<ICollection<T>> ReadAllItemsAsync() 
-            => await table.ToListAsync();
+        public async Task<ICollection<T>> ReadAllItemsAsync()
+        {
+            List<T> allItems = new List<T>();
+
+            var pageSize = 50;
+            var hasMore = true;
+            while (hasMore)
+            {
+                var pageOfItems = await table.Skip(allItems.Count).Take(pageSize).ToListAsync();
+                if (pageOfItems.Count > 0)
+                {
+                    allItems.AddRange(pageOfItems);
+                }
+                else
+                {
+                    hasMore = false;
+                }
+            }
+            return allItems;
+        }
 
         public async Task<T> ReadItemAsync(string id) 
             => await table.LookupAsync(id);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.IdentityModel.Tokens;
 using System.Linq;
@@ -34,27 +35,38 @@ namespace Chapter3.Controllers
         public string Issuer { get; set; }
         public string SigningKey { get; set; }
 
-        [HttpPost]
-        public async Task<IHttpActionResult> Post()
+        [HttpGet]
+        public async Task<IHttpActionResult> Get()
         {
             var creds = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request);
             var sid = ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
-            var email = creds.UserClaims
-                .FirstOrDefault(claim => claim.Type.EndsWith("emailaddress"))
-                .Value;
-            var name = creds.UserClaims
-                .FirstOrDefault(claim => claim.Type.EndsWith("name"))
-                .Value;
 
-            // Insert the record information into the database
-            User user = new User()
+            string name, email;
+            try
             {
-                Id = sid,
-                Name = name,
-                EmailAddress = email
-            };
-            dbContext.Users.AddOrUpdate(user);
-            dbContext.SaveChanges();
+                email = creds.UserId;
+                name = creds.UserClaims.FirstOrDefault(claim => claim.Type.Equals("name")).Value;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Email or Name is not present");
+            }
+
+            try
+            {
+                // Insert the record information into the database
+                User user = new User()
+                {
+                    Id = sid,
+                    Name = name,
+                    EmailAddress = email
+                };
+                dbContext.Users.AddOrUpdate(user);
+                dbContext.SaveChanges();
+            } catch (DbUpdateException ex)
+            {
+                return InternalServerError(ex);
+            }
 
             // Mind a new token based on the old one plus the new information
             var newClaims = new Claim[]

@@ -73,10 +73,15 @@ namespace TaskList.UWP.Services
 
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
+            Debug.WriteLine($"PlatformProvider: LoginAsync()");
             var accessToken = await LoginADALAsync();
+            Debug.WriteLine($"PlatformProvider: LoginADALAsync() returns {accessToken}");
             var zumoPayload = new JObject();
             zumoPayload["access_token"] = accessToken;
-            return await client.LoginAsync("aad", zumoPayload);
+            Debug.WriteLine($"PlatformProvider: Logging in to the ZUMO Endpoint");
+            var user = await client.LoginAsync("aad", zumoPayload);
+            Debug.WriteLine($"PlatformProvider: ZUMO User = {user.UserId}, token = {user.MobileServiceAuthenticationToken}");
+            return user;
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
