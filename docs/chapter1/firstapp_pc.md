@@ -507,7 +507,7 @@ namespace TaskList.Abstractions
 {
     public interface ICloudService
     {
-        public ICloudTable<T> GetTable<T>() where T : TableData;
+        ICloudTable<T> GetTable<T>() where T : TableData;
     }
 }
 ```
