@@ -479,6 +479,10 @@ integrated.  In general, these SDKs are provided for a native platform (Objectiv
 use callbacks or delegates (as is common practice in native libraries) and are thus more complicated to integrate with
 your mobile client than those that have a C#/.NET SDK delivered on NuGet.
 
+> Testing Client Flow for social providers requires that the social app be installed on the device.  You cannot install
+other apps on the iOS simulator and there may be restrictions on the Android Emulator.  This means that you need to
+test client flow for social providers on an actual device.
+
 The reward for doing so are a more integrated experience on mobile devices.  For example, if you integrate the Google
 Play Services SDK in an Android app, the app will seamlessly authenticate itself with the connected Google account in
 the background, avoiding the need for repeatedly authenticating the client.  It may ask for a fingerprint instead if
