@@ -528,7 +528,7 @@ namespace TaskList.Abstractions
         Task<T> UpdateItemAsync(T item);
         Task DeleteItemAsync(T item);
 
-        Task<ICollection<T>> ReadAllItemsAsync() where T : TableData;
+        Task<ICollection<T>> ReadAllItemsAsync();
     }
 }
 ```
