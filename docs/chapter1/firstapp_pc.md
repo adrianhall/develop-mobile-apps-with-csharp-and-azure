@@ -640,7 +640,7 @@ namespace TaskList.Services
             return item;
         }
 
-        public async Task<T> DeleteItemAsync(T item)
+        public async Task DeleteItemAsync(T item)
         {
             await table.DeleteAsync(item);
         }
@@ -671,7 +671,7 @@ won't normally be the case, but you can see that the majority of the code for
 dealing with the remote server is done for us.
 
 > You can use a shorthand (called a lambda expression) for methods with only one line.
-For instance, the delete method could just as easily have been written as `public async Task<T> DeleteItemAsync(T item) => await table.DeleteAsync(item);`.
+For instance, the delete method could just as easily have been written as `public async Task DeleteItemAsync(T item) => await table.DeleteAsync(item);`.
 You may see this sort of short hand in samples.
 
 We also need to create the model that we will use for the data.  This should
