@@ -382,8 +382,17 @@
       
         
   <li>
-    <a class="" title="Complex Types and Relationships" href="../complextypes/">
-      Complex Types and Relationships
+    <a class="" title="Complex Types" href="../complextypes/">
+      Complex Types
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Relationships" href="../relationships/">
+      Relationships
     </a>
     
   </li>
@@ -595,6 +604,11 @@ of the screen.  Type <code>enable-migrations</code> in it:</p>
 to create an Initial migration that represents the current state of the database.  We can do this with the
 command <code>add-migration Initial</code>.</p>
 <p><img alt="" src="../img/add-initial-migration.PNG" /></p>
+<blockquote>
+<p>If you have multiple projects in your solution, you may need to add <code>-Project _projectname_</code>.  For example,
+<code>add-migration -project Chapter3 Initial</code>.  This applies to all the migration commands you execute in the
+Package Manager Console.</p>
+</blockquote>
 <p>The initial migration creates a few files in the <code>Migrations</code> folder that represent the current state of
 affairs for the database. These easily recognized by a combination of the current date and the name of the
 migration.  Code First Migrations can be applied manually or automatically.  I personally prefer the automatic

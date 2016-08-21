@@ -376,8 +376,17 @@
       
         
   <li>
-    <a class="" title="Complex Types and Relationships" href="../../chapter3/complextypes/">
-      Complex Types and Relationships
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Relationships" href="../../chapter3/relationships/">
+      Relationships
     </a>
     
   </li>
@@ -1037,7 +1046,7 @@ the connection and getting a table definition:</p>
 {
     public interface ICloudService
     {
-        public ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
+        ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
     }
 }
 </code></pre>
@@ -1056,7 +1065,7 @@ namespace TaskList.Abstractions
         Task&lt;T&gt; UpdateItemAsync(T item);
         Task DeleteItemAsync(T item);
 
-        Task&lt;ICollection&lt;T&gt;&gt; ReadAllItemsAsync() where T : TableData;
+        Task&lt;ICollection&lt;T&gt;&gt; ReadAllItemsAsync();
     }
 }
 </code></pre>
@@ -1158,7 +1167,7 @@ namespace TaskList.Services
             return item;
         }
 
-        public async Task&lt;T&gt; DeleteItemAsync(T item)
+        public async Task DeleteItemAsync(T item)
         {
             await table.DeleteAsync(item);
         }
@@ -1189,7 +1198,7 @@ won't normally be the case, but you can see that the majority of the code for
 dealing with the remote server is done for us.</p>
 <blockquote>
 <p>You can use a shorthand (called a lambda expression) for methods with only one line.
-For instance, the delete method could just as easily have been written as <code>public async Task&lt;T&gt; DeleteItemAsync(T item) =&gt; await table.DeleteAsync(item);</code>.
+For instance, the delete method could just as easily have been written as <code>public async Task DeleteItemAsync(T item) =&gt; await table.DeleteAsync(item);</code>.
 You may see this sort of short hand in samples.</p>
 </blockquote>
 <p>We also need to create the model that we will use for the data.  This should
