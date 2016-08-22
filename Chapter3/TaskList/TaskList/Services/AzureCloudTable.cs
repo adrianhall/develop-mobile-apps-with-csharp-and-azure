@@ -55,6 +55,11 @@ namespace TaskList.Services
         public async Task<T> ReadItemAsync(string id) 
             => await table.LookupAsync(id);
 
+        public async Task<ICollection<T>> ReadItemsAsync(int start, int count)
+        {
+            return await table.Skip(start).Take(count).ToListAsync();
+        }
+
         public async Task<T> UpdateItemAsync(T item)
         {
             await table.UpdateAsync(item);

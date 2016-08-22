@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TaskList.Abstractions;
 using TaskList.Helpers;
 using TaskList.Models;
@@ -20,6 +21,7 @@ namespace TaskList.ViewModels
             RefreshCommand = new Command(async () => await Refresh());
             AddNewItemCommand = new Command(async () => await AddNewItem());
             LogoutCommand = new Command(async () => await Logout());
+            LoadMoreCommand = new Command<TodoItem> (async (TodoItem item) => await LoadMore(item));
 
             // Subscribe to events from the Task Detail Page
             MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) =>
@@ -34,9 +36,10 @@ namespace TaskList.ViewModels
         public ICloudService CloudService => ServiceLocator.Get<ICloudService>();
         public IPlatform PlatformProvider => DependencyService.Get<IPlatform>();
         public ICloudTable<TodoItem> CloudTable { get; set; }
-        public Command RefreshCommand { get; }
-        public Command AddNewItemCommand { get; }
-        public Command LogoutCommand { get; }
+        public ICommand RefreshCommand { get; }
+        public ICommand AddNewItemCommand { get; }
+        public ICommand LogoutCommand { get; }
+        public ICommand LoadMoreCommand { get; }
 
         ObservableRangeCollection<TodoItem> items = new ObservableRangeCollection<TodoItem>();
         public ObservableRangeCollection<TodoItem> Items
@@ -74,7 +77,7 @@ namespace TaskList.ViewModels
                     var name = identity.UserClaims.FirstOrDefault(c => c.Type.Equals("name")).Value;
                     Title = $"Tasks for {name}";
                 }
-                var list = await CloudTable.ReadAllItemsAsync();
+                var list = await CloudTable.ReadItemsAsync(0, 20);
                 Items.ReplaceRange(list);
             }
             catch (Exception ex)
@@ -121,6 +124,30 @@ namespace TaskList.ViewModels
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Logout Failed", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        async Task LoadMore(TodoItem item)
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                var list = await CloudTable.ReadItemsAsync(Items.Count, 20);
+                if (list.Count > 0)
+                {
+                    Items.AddRange(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("LoadMore Failed", ex.Message, "OK");
             }
             finally
             {

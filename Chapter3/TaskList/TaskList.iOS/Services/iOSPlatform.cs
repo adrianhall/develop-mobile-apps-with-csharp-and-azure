@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using TaskList.iOS.Services;
 using UIKit;
@@ -67,11 +63,7 @@ namespace TaskList.iOS.Services
 
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
-            var accessToken = await LoginADALAsync();
-
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            return await client.LoginAsync("aad", zumoPayload);
+            return await client.LoginAsync(RootView, "aad");
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -80,29 +72,5 @@ namespace TaskList.iOS.Services
         {
             // Do nothing
         }
-
-        #region Azure AD Client Flow
-        /// <summary>
-        /// Login via ADAL
-        /// </summary>
-        /// <returns>(async) token from the ADAL process</returns>
-        public async Task<string> LoginADALAsync()
-        {
-            Uri returnUri = new Uri(Locations.AadRedirectUri);
-
-            var authContext = new AuthenticationContext(Locations.AadAuthority);
-            if (authContext.TokenCache.ReadItems().Count() > 0)
-            {
-                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
-            }
-
-            var authResult = await authContext.AcquireTokenAsync(
-                Locations.AppServiceUrl, /* The resource we want to access  */
-                Locations.AadClientId,   /* The Client ID of the Native App */
-                returnUri,               /* The Return URI we configured    */
-                new PlatformParameters(RootView));
-            return authResult.AccessToken;
-        }
-        #endregion
     }
 }

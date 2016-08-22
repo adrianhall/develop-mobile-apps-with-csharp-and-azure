@@ -1,5 +1,7 @@
-﻿using System.Data.Entity.Migrations;
+﻿using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Web.Http;
+using Chapter3.Models;
 using Microsoft.Azure.Mobile.Server.Config;
 using Owin;
 
@@ -19,11 +21,17 @@ namespace Chapter3
             // Map Routes via attribute
             httpConfig.MapHttpAttributeRoutes();
 
-            // Automatic Code First Migrations
-            //var migrator = new DbMigrator(new Migrations.Configuration());
-            //migrator.Update();
+            Database.SetInitializer(new MobileServiceInitializer());
 
             app.UseWebApi(httpConfig);
+        }
+
+        public class MobileServiceInitializer : CreateDatabaseIfNotExists<MobileServiceContext>
+        {
+            protected override void Seed(MobileServiceContext context)
+            {
+                base.Seed(context);
+            }
         }
     }
 }

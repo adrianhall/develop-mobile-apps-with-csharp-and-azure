@@ -2,7 +2,13 @@
 <ContentPage x:Class="TaskList.Pages.TaskList"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TaskList;assembly=TaskList"
              Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:Converters.ItemVisibilityConverter x:Key="ItemVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="Refresh"
                      Command="{Binding RefreshCommand}"
@@ -27,6 +33,11 @@
                           RowHeight="50"
                           SelectedItem="{Binding SelectedItem,
                                                  Mode=TwoWay}">
+                    <ListView.Behaviors>
+                        <local:Behaviors.EventToCommandBehavior Command="{Binding LoadMoreCommand}"
+                                                                Converter="{StaticResource ItemVisibilityConverter"
+                                                                EventName="ItemAppearing" />
+                    </ListView.Behaviors>
                     <ListView.BackgroundColor>
                         <OnPlatform x:TypeArguments="Color"
                                     Android="#2E2F30"

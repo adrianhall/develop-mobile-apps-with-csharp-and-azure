@@ -113,6 +113,210 @@ there are no more records to read. This is the simplest to implement.  In the `S
 `ReadAllItemsAsync()` method with the following:
 
 ```csharp
+public async Task<ICollection<T>> ReadAllItemsAsync()
+{
+    List<T> allItems = new List<T>();
+
+    var pageSize = 50;
+    var hasMore = true;
+    while (hasMore)
+    {
+        var pageOfItems = await table.Skip(allItems.Count).Take(pageSize).ToListAsync();
+        if (pageOfItems.Count > 0)
+        {
+            allItems.AddRange(pageOfItems);
+        }
+        else
+        {
+            hasMore = false;
+        }
+    }
+    return allItems;
+}
+```
+
+This code could be simplified quite a bit.  The reason I am not doing so is that this is not how you would want to do the transfer
+of items in a real application.  Doing this will tie up the UI thread of your application for quite a while as the `AzureCloudTable`
+downloads all the data.  Consider if there were thousands of entries?  This method would be problematic very quickly.
+
+The alternative is to incrementally load the data as it is needed.  This means that your UI thread will pause as the data is loaded,
+but the resulting UI will be less memory hungry and overall more responsive.  We start by adjusting our `Abstractions\ICloudTable.cs`
+to add a method signature for returning paged data:
+
+```csharp
+public interface ICloudTable<T> where T : TableData
+{
+    Task<T> CreateItemAsync(T item);
+    Task<T> ReadItemAsync(string id);
+    Task<T> UpdateItemAsync(T item);
+    Task<T> UpsertItemAsync(T item);
+    Task DeleteItemAsync(T item);
+    Task<ICollection<T>> ReadAllItemsAsync();
+    Task<ICollection<T>> ReadItemsAsync(int start, int count);
+}
+```
+
+The `ReadItemsAsync()` method is our new method here.  The concrete implementation usese `.Skip()` and `.Take()` to return just the
+data that is required:
+
+```csharp
+public async Task<ICollection<T>> ReadItemsAsync(int start, int count)
+{
+    return await table.Skip(start).Take(count).ToListAsync();
+}
+```
+
+Now that we have a method for paging through the contents of our table, we need to be able to wire that up to our `ListView`.  Xamarin Forms
+has a concept called [Behaviors][1] that lets us add functionality to user interface controls without having to completely re-write them or
+sub-class them.  We can use a behavior to implement a reusable paging control for a ListView.  Xamarin provides a sample for this called
+[EventToCommandBehavior][2] (along with an [explanation][3]). We are going to be using the [ItemAppearing][4] event and that event uses the
+[ItemVisibilityEventArgs][5] as a parameter.  We need a converter for the EventToCommandBehavior class (in `Converters\ItemVisibilityConverter.cs`):
+
+```csharp
+using System;
+using System.Globalization;
+using Xamarin.Forms;
+
+namespace TaskList.Converters
+{
+    public class ItemVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var eventArgs = value as ItemVisibilityEventArgs;
+            return eventArgs.Item;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+```
+
+This is wired up with some XAML code in `Pages\TaskList.xaml.cs`.  There are two pieces.  Firstly, we must define the ItemVisibilityConverter
+that we just wrote.  This is done at the top of the file:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TaskList.Pages.TaskList"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TaskList;assembly=TaskList"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:Converters.ItemVisibilityConverter x:Key="ItemVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+```
+
+Next, we must define the behavior for the ListView:
+
+```xml
+<ListView CachingStrategy="RecycleElement"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsBusy,
+                                    Mode=OneWay}"
+            ItemsSource="{Binding Items}"
+            RefreshCommand="{Binding RefreshCommand}"
+            RowHeight="50"
+            SelectedItem="{Binding SelectedItem,
+                                    Mode=TwoWay}">
+    <ListView.Behaviors>
+        <local:Behaviors.EventToCommandBehavior Command="{Binding LoadMoreCommand}"
+                                                Converter="{StaticResource ItemVisibilityConverter"
+                                                EventName="ItemAppearing" />
+    </ListView.Behaviors>
+```
+
+Finally, we need to add a new command to our `TaskListViewModel` to load more items.  This involves
+firstly defining the new command:
+
+```csharp
+public TaskListViewModel()
+{
+    CloudTable = CloudService.GetTable<TodoItem>();
+
+    Title = "Task List";
+
+    RefreshCommand = new Command(async () => await Refresh());
+    AddNewItemCommand = new Command(async () => await AddNewItem());
+    LogoutCommand = new Command(async () => await Logout());
+    LoadMoreCommand = new Command<TodoItem> (async (TodoItem item) => await LoadMore(item));
+
+    // Subscribe to events from the Task Detail Page
+    MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) =>
+    {
+        await Refresh();
+    });
+
+    // Execute the refresh command
+    RefreshCommand.Execute(null);
+}
+
+public ICommand LoadMoreCommand { get; }
+```
+
+We also need to define the actual command code:
+
+```csharp
+async Task LoadMore(TodoItem item)
+{
+    if (IsBusy)
+        return;
+    IsBusy = true;
+
+    try
+    {
+        var list = await CloudTable.ReadItemsAsync(Items.Count, 20);
+        if (list.Count > 0)
+        {
+            Items.AddRange(list);
+        }
+    }
+    catch (Exception ex)
+    {
+        await Application.Current.MainPage.DisplayAlert("LoadMore Failed", ex.Message, "OK");
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
+```
+
+Finally, our current implementation of the `Refresh()` method loads all the items.  We need to adjust it
+to only load the first page:
+
+```csharp
+async Task Refresh()
+{
+    if (IsBusy)
+        return;
+    IsBusy = true;
+
+    try
+    {
+        var identity = await CloudService.GetIdentityAsync();
+        if (identity != null)
+        {
+            var name = identity.UserClaims.FirstOrDefault(c => c.Type.Equals("name")).Value;
+            Title = $"Tasks for {name}";
+        }
+        var list = await CloudTable.ReadItemsAsync(0, 20);
+        Items.ReplaceRange(list);
+    }
+    catch (Exception ex)
+    {
+        await Application.Current.MainPage.DisplayAlert("Items Not Loaded", ex.Message, "OK");
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
 ```
 
 
@@ -123,3 +327,10 @@ there are no more records to read. This is the simplest to implement.  In the `S
 
 <!-- Images -->
 [not-paging]: img/not-paging.PNG
+
+<!-- Links -->
+[1]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/introduction/
+[2]: https://developer.xamarin.com/samples/xamarin-forms/behaviors/eventtocommandbehavior/
+[3]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/reusable/event-to-command-behavior/
+[4]: https://developer.xamarin.com/api/event/Xamarin.Forms.ListView.ItemAppearing/
+[5]: https://developer.xamarin.com/api/type/Xamarin.Forms.ItemVisibilityEventArgs/

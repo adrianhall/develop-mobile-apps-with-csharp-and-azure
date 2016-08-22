@@ -41,6 +41,9 @@
     <Compile Include="Abstractions\IPlatform.cs" />
     <Compile Include="Abstractions\TableData.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Behaviors\BehaviorBase.cs" />
+    <Compile Include="Behaviors\EventToCommandBehavior.cs" />
+    <Compile Include="Converters\ItemVisibilityConverter.cs" />
     <Compile Include="Helpers\AuthenticationDelegatingHandler.cs" />
     <Compile Include="Helpers\ObservableRangeCollection.cs" />
     <Compile Include="Helpers\ServiceLocator.cs" />

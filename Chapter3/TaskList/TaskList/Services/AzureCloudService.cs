@@ -138,7 +138,7 @@ namespace TaskList.Services
                     {
                         Debug.WriteLine($"LoginAsync: User Refreshed!  Token = {refreshedUser.MobileServiceAuthenticationToken}");
                         PlatformProvider.StoreTokenInSecureStore(refreshedUser);
-                        return await UpdateUserAsync(refreshedUser);
+                        return Client.CurrentUser;
                     }
                 }
                 catch (Exception refreshException)
@@ -149,7 +149,7 @@ namespace TaskList.Services
 
             if (Client.CurrentUser != null && !IsTokenExpired(Client.CurrentUser.MobileServiceAuthenticationToken))
             {
-                return await UpdateUserAsync(Client.CurrentUser);
+                return Client.CurrentUser;
             }
 
             Debug.WriteLine($"LoginAsync: Need to authenticate user");
@@ -157,7 +157,7 @@ namespace TaskList.Services
             if (Client.CurrentUser != null)
             {
                 PlatformProvider.StoreTokenInSecureStore(Client.CurrentUser);
-                return await UpdateUserAsync(Client.CurrentUser);
+                return Client.CurrentUser;
             }
 
             PlatformProvider.RemoveTokenFromSecureStore();

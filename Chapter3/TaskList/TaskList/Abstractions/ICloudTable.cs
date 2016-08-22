@@ -11,5 +11,6 @@ namespace TaskList.Abstractions
         Task<T> UpsertItemAsync(T item);
         Task DeleteItemAsync(T item);
         Task<ICollection<T>> ReadAllItemsAsync();
+        Task<ICollection<T>> ReadItemsAsync(int start, int count);
     }
 }
