@@ -1,9 +1,11 @@
-﻿using Microsoft.Azure.Mobile.Server;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Chapter3.DataObjects
 {
     public class User : EntityData
     {
+        [Key]
+        public string Id { get; set; }
         public string EmailAddress { get; set; }
         public string Name { get; set; }
     }

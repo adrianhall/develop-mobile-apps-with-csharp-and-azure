@@ -195,23 +195,6 @@
     <Compile Include="Extensions\ExampleExtensions.cs" />
     <Compile Include="Extensions\MessageExtensions.cs" />
     <Compile Include="Extensions\TodoItemExtensions.cs" />
-    <Compile Include="Migrations\201608140142065_Initial.cs" />
-    <Compile Include="Migrations\201608140142065_Initial.Designer.cs">
-      <DependentUpon>201608140142065_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608140206437_AddExampleTable.cs" />
-    <Compile Include="Migrations\201608140206437_AddExampleTable.Designer.cs">
-      <DependentUpon>201608140206437_AddExampleTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608170524580_TodoWithUsers.cs" />
-    <Compile Include="Migrations\201608170524580_TodoWithUsers.Designer.cs">
-      <DependentUpon>201608170524580_TodoWithUsers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608201815206_chapter3-updates.cs" />
-    <Compile Include="Migrations\201608201815206_chapter3-updates.Designer.cs">
-      <DependentUpon>201608201815206_chapter3-updates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -227,26 +210,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\book-chapter3 - Web Deploy.pubxml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608140142065_Initial.resx">
-      <DependentUpon>201608140142065_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608140206437_AddExampleTable.resx">
-      <DependentUpon>201608140206437_AddExampleTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608170524580_TodoWithUsers.resx">
-      <DependentUpon>201608170524580_TodoWithUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608201815206_chapter3-updates.resx">
-      <DependentUpon>201608201815206_chapter3-updates.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
