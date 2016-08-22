@@ -20,8 +20,8 @@ namespace Chapter3
             httpConfig.MapHttpAttributeRoutes();
 
             // Automatic Code First Migrations
-            var migrator = new DbMigrator(new Migrations.Configuration());
-            migrator.Update();
+            //var migrator = new DbMigrator(new Migrations.Configuration());
+            //migrator.Update();
 
             app.UseWebApi(httpConfig);
         }

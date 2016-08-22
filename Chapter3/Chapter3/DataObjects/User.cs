@@ -2,7 +2,7 @@
 
 namespace Chapter3.DataObjects
 {
-    public class User : EntityData
+    public class User
     {
         [Key]
         public string Id { get; set; }
