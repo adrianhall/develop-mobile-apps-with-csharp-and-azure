@@ -203,11 +203,13 @@ that we just wrote.  This is done at the top of the file:
 <ContentPage x:Class="TaskList.Pages.TaskList"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:TaskList;assembly=TaskList"
+             xmlns:behaviors="clr-namespace:TaskList.Behaviors;assembly=TaskList"
+             xmlns:converters="clr-namespace:TaskList.Converters;assembly=TaskList"
              Title="{Binding Title}">
+
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:Converters.ItemVisibilityConverter x:Key="ItemVisibilityConverter" />
+            <converters:ItemVisibilityConverter x:Key="ItemVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 ```
@@ -225,7 +227,7 @@ Next, we must define the behavior for the ListView:
             SelectedItem="{Binding SelectedItem,
                                     Mode=TwoWay}">
     <ListView.Behaviors>
-        <local:Behaviors.EventToCommandBehavior Command="{Binding LoadMoreCommand}"
+        <behaviors:EventToCommandBehavior Command="{Binding LoadMoreCommand}"
                                                 Converter="{StaticResource ItemVisibilityConverter"
                                                 EventName="ItemAppearing" />
     </ListView.Behaviors>
@@ -262,18 +264,43 @@ public ICommand LoadMoreCommand { get; }
 We also need to define the actual command code:
 
 ```csharp
+bool hasMoreItems = true;
+
 async Task LoadMore(TodoItem item)
 {
     if (IsBusy)
+    {
+        Debug.WriteLine($"LoadMore: bailing because IsBusy = true");
         return;
-    IsBusy = true;
+    }
 
+    // If we are not displaying the last one in the list, then return.
+    if (!Items.Last().Id.Equals(item.Id))
+    {
+        Debug.WriteLine($"LoadMore: bailing because this id is not the last id in the list");
+        return;
+    }
+
+    // If we don't have more items, return
+    if (!hasMoreItems)
+    {
+        Debug.WriteLine($"LoadMore: bailing because we don't have any more items");
+        return;
+    }
+
+    IsBusy = true;
     try
     {
         var list = await CloudTable.ReadItemsAsync(Items.Count, 20);
         if (list.Count > 0)
         {
+            Debug.WriteLine($"LoadMore: got {list.Count} more items");
             Items.AddRange(list);
+        }
+        else
+        {
+            Debug.WriteLine($"LoadMore: no more items: setting hasMoreItems= false");
+            hasMoreItems = false;
         }
     }
     catch (Exception ex)
@@ -286,6 +313,13 @@ async Task LoadMore(TodoItem item)
     }
 }
 ```
+
+I've added a whole bunch of debug output because this command is called a lot, so I can scroll back through the
+output window instead of setting a breakpoint and clicking Continue a lot.
+
+As the UI displays each cell, it calls our command.  The command figures out if the record being displayed is the
+last one in the list.  If it is, it asks for more records.  Once no more records are available, it sets the
+flag `hasMoreItems` to false so it can short-circuit the network request.
 
 Finally, our current implementation of the `Refresh()` method loads all the items.  We need to adjust it
 to only load the first page:
@@ -307,6 +341,7 @@ async Task Refresh()
         }
         var list = await CloudTable.ReadItemsAsync(0, 20);
         Items.ReplaceRange(list);
+        hasMoreItems = true;
     }
     catch (Exception ex)
     {
@@ -319,9 +354,15 @@ async Task Refresh()
 }
 ```
 
+We've done two things here.
+
+* We have altered the first request so that only the first 20 records are retrieved.
+* We have set `hasMoreItems` to true so that the `LoadMore()` command will do network requests again.
 
 
 ## An Offline Client
+
+
 
 ## Query Management
 

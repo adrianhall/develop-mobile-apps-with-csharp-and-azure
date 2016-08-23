@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ namespace TaskList.ViewModels
 {
     public class TaskListViewModel : BaseViewModel
     {
+        bool hasMoreItems = true;
 
         public TaskListViewModel()
         {
@@ -79,6 +81,7 @@ namespace TaskList.ViewModels
                 }
                 var list = await CloudTable.ReadItemsAsync(0, 20);
                 Items.ReplaceRange(list);
+                hasMoreItems = true; // Reset for refresh
             }
             catch (Exception ex)
             {
@@ -134,15 +137,38 @@ namespace TaskList.ViewModels
         async Task LoadMore(TodoItem item)
         {
             if (IsBusy)
+            {
+                Debug.WriteLine($"LoadMore: bailing because IsBusy = true");
                 return;
-            IsBusy = true;
+            }
 
+            // If we are not displaying the last one in the list, then return.
+            if (!Items.Last().Id.Equals(item.Id))
+            {
+                Debug.WriteLine($"LoadMore: bailing because this id is not the last id in the list");
+                return;
+            }
+
+            // If we don't have more items, return
+            if (!hasMoreItems)
+            {
+                Debug.WriteLine($"LoadMore: bailing because we don't have any more items");
+                return;
+            }
+
+            IsBusy = true;
             try
             {
                 var list = await CloudTable.ReadItemsAsync(Items.Count, 20);
                 if (list.Count > 0)
                 {
+                    Debug.WriteLine($"LoadMore: got {list.Count} more items");
                     Items.AddRange(list);
+                }
+                else
+                {
+                    Debug.WriteLine($"LoadMore: no more items: setting hasMoreItems= false");
+                    hasMoreItems = false;
                 }
             }
             catch (Exception ex)

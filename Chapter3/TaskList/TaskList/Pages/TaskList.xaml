@@ -2,13 +2,10 @@
 <ContentPage x:Class="TaskList.Pages.TaskList"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:TaskList;assembly=TaskList"
+             xmlns:behaviors="clr-namespace:TaskList.Behaviors;assembly=TaskList"
+             xmlns:converters="clr-namespace:TaskList.Converters;assembly=TaskList"
              Title="{Binding Title}">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:Converters.ItemVisibilityConverter x:Key="ItemVisibilityConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="Refresh"
                      Command="{Binding RefreshCommand}"
@@ -21,6 +18,13 @@
                      Order="Primary"
                      Priority="0" />
     </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ItemVisibilityConverter x:Key="ItemVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <RelativeLayout>
             <StackLayout RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
@@ -34,9 +38,9 @@
                           SelectedItem="{Binding SelectedItem,
                                                  Mode=TwoWay}">
                     <ListView.Behaviors>
-                        <local:Behaviors.EventToCommandBehavior Command="{Binding LoadMoreCommand}"
-                                                                Converter="{StaticResource ItemVisibilityConverter"
-                                                                EventName="ItemAppearing" />
+                        <behaviors:EventToCommandBehavior Command="{Binding LoadMoreCommand}"
+                                                          Converter="{StaticResource ItemVisibilityConverter}"
+                                                          EventName="ItemAppearing" />
                     </ListView.Behaviors>
                     <ListView.BackgroundColor>
                         <OnPlatform x:TypeArguments="Color"
@@ -90,4 +94,5 @@
                     TextColor="White" />
         </RelativeLayout>
     </ContentPage.Content>
+
 </ContentPage>
