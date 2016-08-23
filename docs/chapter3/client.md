@@ -26,12 +26,12 @@ there is no other way of achieving whatever operation you need.
 
 All tables implement the `IMobileServiceTable` interface:
 
-> **ReadAsync()** performs reads against the table.
-> **LookupAsync()** reads a single record in the table, identified by its id.
-> **InsertAsync()** inserts a new record into the table.
-> **UpdateAsync()** updates an existing record in the table.
-> **DeleteAsync()** deletes a record in the table.
-> **UndeleteAsync()** un-deletes a deleted record (if soft-delete is turned on).
+* **ReadAsync()** performs reads against the table.
+* **LookupAsync()** reads a single record in the table, identified by its id.
+* **InsertAsync()** inserts a new record into the table.
+* **UpdateAsync()** updates an existing record in the table.
+* **DeleteAsync()** deletes a record in the table.
+* **UndeleteAsync()** un-deletes a deleted record (if soft-delete is turned on).
 
 When developing my interface, I tend to wrap my table interface into another class.  This isn't because I like wrapping classes.  Rather it is
 because the return values from many of the methods are not compatible with the general patterns used when working with a UI.  For instance, the
@@ -359,6 +359,33 @@ We've done two things here.
 * We have altered the first request so that only the first 20 records are retrieved.
 * We have set `hasMoreItems` to true so that the `LoadMore()` command will do network requests again.
 
+### Query Support in Online Clients
+
+When using an online client, you can also use an OData query to look for records.  The following code
+snippet, for example, will only return records that are incomplete:
+
+```csharp
+return await table
+    .Where(item => item.Complete == false)
+    .ToListAsync()
+```
+
+This is a standard LINQ query.  Just as the LINQ query was used to adjust the SQL that is generated in
+the server-side code, the LINQ query here is used to adjust the OData query that is generated to call
+the server.  This particular query will generate the follow HTTP call:
+
+```
+GET /tables/todoitem?$filter=(complete+eq+false) HTTP/1.1
+```
+
+LINQ queries are very useful in dealing with online data.  In general they should take a specific forms
+
+```csharp
+table                           // start with the table reference
+    .Where(filter)              // filter the results
+    .Skip(start).Take(count)    // paging support
+    .ToListAsync()              // convert to something we can use
+```
 
 ## An Offline Client
 
