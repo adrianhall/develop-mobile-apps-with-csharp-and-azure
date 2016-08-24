@@ -99,12 +99,14 @@ HTTP client like Postman, you will see the following:
 Note that the Location field is not mentioned at all in the output.  The Azure Mobile Apps Server SDK squashes
 the complex types before transmitting them on the wire.  They are treated as not even there.  
 
-> The reason that dates are handled already is because the JSON.NET serializer converts them to ISO-8601 format,
-and that is a string.
+## Geospatial Data
 
-To properly represent a complex type on the wire, we have to store it as something that can be handled - a string,
-number or boolean.  Our complex type could be represented, for example, by the string `POSITION:{long=1.0,lat=1.0}`.  
-This conversion provides all the necessary data to re-constitute the object on the other end.
+Geospatial data is difficult to handle.  This is because there are actually two problems to solve.
+
+1. The storage of Geospatial points and areas.
+2. The searching of records "near" a geospatial point or "within" a geospatial area.
+
+In addition, we have to handle both "online" and "offline" situations for searching and storage.  
 
 <!-- Images -->
 [complex-1]: img/complex-1.PNG

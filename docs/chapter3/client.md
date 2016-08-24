@@ -383,13 +383,32 @@ LINQ queries are very useful in dealing with online data.  In general they shoul
 ```csharp
 table                           // start with the table reference
     .Where(filter)              // filter the results
+    .Select(filter)             // Only return certain fields
     .Skip(start).Take(count)    // paging support
     .ToListAsync()              // convert to something we can use
 ```
 
+This format allows you to be very specific about what you want to return from the server, thus allowing
+you to balance the optimization of bandwidth with the responsiveness of the UI.
+
 ## An Offline Client
 
+Another method of optimizing bandwidth utilization with an added benefit of providing a resilient data
+connection is to use an offline sync database.   The Azure Mobile Apps Client SDK has a built-in offline
+mode that allows for the common requirements of bandwidth optimization, connection resliency, and 
+performance optimization.
 
+> An offline capable table uses _Incremental Sync_ to only bring down new records from the server.
+> Connection detection allows you to defer requests until after a connection is available.
+> In-built _Conflict Resolution_ provides a robust mechanism for handling changes while your client was offline.
+> Since the data is always local, the UI will be much more responsive to changes.
+
+All of this comes at a cost.  We need to maintain an offline sync database for the tables you wish
+to provide offline, which takes up memory.  It may result in large data transfers (especially in the 
+cases of the first sync operation and rapidly changing tables).  Finally, there is more complexity.  We
+have to deal with the offline table maintenance and conflict resolution patterns.
+
+## Conflict Resolution
 
 ## Query Management
 

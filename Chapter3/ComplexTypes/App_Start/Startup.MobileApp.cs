@@ -1,17 +1,17 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Web.Http;
+using ComplexTypes.DataObjects;
+using ComplexTypes.Models;
+using ComplexTypes.Types;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Authentication;
 using Microsoft.Azure.Mobile.Server.Config;
-using ComplexTypes.Models;
-using Owin;
-using System.Collections.Generic;
-using ComplexTypes.DataObjects;
-using ComplexTypes.Types;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System;
+using Owin;
 
 namespace ComplexTypes
 {
@@ -63,9 +63,6 @@ namespace ComplexTypes
                 }
             };
             context.Set<Track>().AddRange(tracks);
-
-            string json = JsonConvert.SerializeObject(tracks);
-            Debug.WriteLine($"JSON Serialization: {json}");
 
             base.Seed(context);
         }
