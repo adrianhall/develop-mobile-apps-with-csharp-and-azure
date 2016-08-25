@@ -1,20 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.Sync;
 using TaskList.Abstractions;
 
 namespace TaskList.Services
 {
     public class AzureCloudTable<T> : ICloudTable<T> where T : TableData
     {
-        IMobileServiceTable<T> table;
+        IMobileServiceSyncTable<T> table;
 
         public AzureCloudTable(MobileServiceClient client)
         {
-            this.table = client.GetTable<T>();
+            table = client.GetSyncTable<T>();
         }
 
         #region ICloudTable interface
+        public async Task PullAsync()
+        {
+            string queryName = $"incsync_{typeof(T).Name}";
+            await table.PullAsync(queryName, table.CreateQuery());
+        }
+
         public async Task<T> CreateItemAsync(T item)
         {
             await table.InsertAsync(item);

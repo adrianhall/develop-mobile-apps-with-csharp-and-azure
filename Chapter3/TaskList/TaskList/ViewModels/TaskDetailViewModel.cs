@@ -12,7 +12,6 @@ namespace TaskList.ViewModels
     {
         public TaskDetailViewModel(TodoItem item = null)
         {
-            CloudTable = CloudService.GetTable<TodoItem>();
             SaveCommand = new Command(async () => await Save());
             DeleteCommand = new Command(async () => await Delete());
 
@@ -31,7 +30,6 @@ namespace TaskList.ViewModels
 
         public ICloudService CloudService => ServiceLocator.Get<ICloudService>();
         public IPlatform PlatformProvider => DependencyService.Get<IPlatform>();
-        public ICloudTable<TodoItem> CloudTable { get; set; }
         public Command SaveCommand { get; }
         public Command DeleteCommand { get; }
 
@@ -45,7 +43,9 @@ namespace TaskList.ViewModels
 
             try
             {
-                await CloudTable.UpsertItemAsync(Item);
+                var table = await CloudService.GetTableAsync<TodoItem>();
+                await table.UpsertItemAsync(Item);
+                await CloudService.SyncOfflineCacheAsync();
                 MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
@@ -69,7 +69,9 @@ namespace TaskList.ViewModels
             {
                 if (Item.Id != null)
                 {
-                    await CloudTable.DeleteItemAsync(Item);
+                    var table = await CloudService.GetTableAsync<TodoItem>();
+                    await table.DeleteItemAsync(Item);
+                    await CloudService.SyncOfflineCacheAsync();
                     MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
                 }
                 await Application.Current.MainPage.Navigation.PopAsync();

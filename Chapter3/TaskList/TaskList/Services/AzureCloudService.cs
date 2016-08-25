@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
@@ -51,6 +52,35 @@ namespace TaskList.Services
                 throw new InvalidOperationException("No Platform Provider");
             }
         }
+
+        #region Offline Sync
+        async Task InitializeAsync()
+        {
+            // Short circuit - local database is already initialized
+            if (!Client.SyncContext.IsInitialized)
+                return;
+
+            // Create a reference to the local sqlite store
+            var store = new MobileServiceSQLiteStore("tasklist.db");
+
+            // Define the database schema
+            store.DefineTable<TodoItem>();
+
+            // Actually create the store and update the schema
+            await Client.SyncContext.InitializeAsync(store);
+        }
+
+        public async Task SyncOfflineCacheAsync()
+        {
+            await InitializeAsync();
+
+            // Push the Operations Queue to the mobile backend
+            await Client.SyncContext.PushAsync();
+
+            // Pull each sync table
+            var taskTable = await GetTableAsync<TodoItem>(); await taskTable.PullAsync();
+        }
+        #endregion
 
         /// <summary>
         /// Determine if the JWT token provided is expired or not.
@@ -116,8 +146,9 @@ namespace TaskList.Services
         /// </summary>
         /// <typeparam name="T">The model</typeparam>
         /// <returns>The table reference</returns>
-        public ICloudTable<T> GetTable<T>() where T : TableData
+        public async Task<ICloudTable<T>> GetTableAsync<T>() where T : TableData
         {
+            await InitializeAsync();
             return new AzureCloudTable<T>(Client);
         }
 

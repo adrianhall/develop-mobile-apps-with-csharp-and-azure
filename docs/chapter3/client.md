@@ -398,17 +398,211 @@ connection is to use an offline sync database.   The Azure Mobile Apps Client SD
 mode that allows for the common requirements of bandwidth optimization, connection resliency, and 
 performance optimization.
 
-> An offline capable table uses _Incremental Sync_ to only bring down new records from the server.
-> Connection detection allows you to defer requests until after a connection is available.
-> In-built _Conflict Resolution_ provides a robust mechanism for handling changes while your client was offline.
-> Since the data is always local, the UI will be much more responsive to changes.
+* An offline capable table uses _Incremental Sync_ to only bring down new records from the server.
+* Connection detection allows you to defer requests until after a connection is available.
+* In-built _Conflict Resolution_ provides a robust mechanism for handling changes while your client was offline.
+* Since the data is always local, the UI will be much more responsive to changes.
 
 All of this comes at a cost.  We need to maintain an offline sync database for the tables you wish
 to provide offline, which takes up memory.  It may result in large data transfers (especially in the 
 cases of the first sync operation and rapidly changing tables).  Finally, there is more complexity.  We
 have to deal with the offline table maintenance and conflict resolution patterns.
 
-## Conflict Resolution
+!!! important "Install SQLite for Universal Windows"
+    Before you get started with this section, install SQLite for Universal Windows from the **Extensions and Updates**
+    in Visual Studio.  Android and iOS do not need a SQLite package (it is integrated into the platform).  However,
+    SQLite is not natively provided on the Universal Windows platform.
+
+There are three stages to using an offline client:
+
+1. Initialize the local SQLite database before use.
+2. Set up push / pull logic to maintain the contents of the SQLite database.
+3. Configure appropriate conflict resolution.
+
+The actual code for your mobile client that deals with tables remains identical to the online case.
+
+To effect the offline sync, the Azure Mobile Apps client SDK keeps a table in the local SQLite database called
+the _Operations Queue_.  An entry is placed in the operations queue whenever a modification is done to a sync
+table.  These modifications are collapsed.  Later modifications to the same record in a sync table will be collapsed
+into a single update when transmitted to the mobile backend.
+
+### Configuring the Local SQLite database
+
+We must initialize the local database before we can use it.  This happens on start up and the Azure Mobile
+Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the
+database is deceptively simple.  Install the `Mirosoft.Azure.Mobile.Client.SQLiteStore` package to all the
+client projects.  
+
+!!! warn "SQLitePCL and Android N"
+    The SQLiteStore package relies on another package for implementing a SQLite portable class library called
+    `SQLitePCL`.  This package is not compatible with Android "N" at this time.  An update to the SQLiteStore
+    is being developed to change the dependent package to one that is compatible.
+
+In the `Services\AzureCloudService.cs` file, add the following method:
+
+```csharp
+    #region Offline Sync Initialization
+    async Task InitializeAsync()
+    {
+        // Short circuit - local database is already initialized
+        if (!Client.SyncContext.IsInitialized)
+            return;
+
+        // Create a reference to the local sqlite store
+        var store = new MobileServiceSQLiteStore("tasklist.db");
+
+        // Define the database schema
+        store.DefineTable<TodoItem>();
+
+        // Actually create the store and update the schema
+        await Client.SyncContext.InitializeAsync(store);
+    }
+    #endregion
+```
+
+We also need to ensure the initialization is carried out before we use the local database. We do that by adjusting
+the `GetTable<>` method:
+
+```csharp
+    /// <summary>
+    /// Returns a link to the specific table.
+    /// </summary>
+    /// <typeparam name="T">The model</typeparam>
+    /// <returns>The table reference</returns>
+    public async Task<ICloudTable<T>> GetTableAsync<T>() where T : TableData
+    {
+        await InitializeAsync();
+        return new AzureCloudTable<T>(Client);
+    }
+```
+
+Note that we made the routine async during this process.  Adjust the `ICloudService` interface and the calls to
+`GetTable<>` in the rest of the code to compensate for this.  
+
+### Updating the Sync tables
+
+We also need to add some routines to our `ICloudTable<>` and `AzureCloudTable<>` classes to effect a synchronization.
+The first method is added to the  `ICloudTable<>` interface and pulls data from the mobile backend:
+
+```csharp
+    public interface ICloudTable<T> where T : TableData
+    {
+        Task<T> CreateItemAsync(T item);
+        Task<T> ReadItemAsync(string id);
+        Task<T> UpdateItemAsync(T item);
+        Task<T> UpsertItemAsync(T item);
+        Task DeleteItemAsync(T item);
+        Task<ICollection<T>> ReadAllItemsAsync();
+        Task<ICollection<T>> ReadItemsAsync(int start, int count);
+        Task PullAsync();
+    }
+```
+
+The new method is `PullAsync()` which will do the "pull data from the server" operation.  The `AzureCloudTable<>`
+class has the concrete implementation:
+
+```csharp
+        IMobileServiceSyncTable<T> table;
+
+        public AzureCloudTable(MobileServiceClient client)
+        {
+            table = client.GetSyncTable<T>();
+        }
+
+        public async Task PullAsync()
+        {
+            string queryName = $"incsync_{typeof(T).Name}";
+            await table.PullAsync(queryName, table.CreateQuery());
+        }
+```
+
+Note that we have changed the call to get the table reference.  It's now a `SyncTable`.  You can test to see if the
+sync table has been defined with the following:
+
+```csharp
+if (client.IsSyncTable(typeof(T).Name)) {
+    // There is a sync table defined
+}
+```
+
+This can be used to have a single `AzureCloudTable` implementation for both the online and offline capabilities.  The
+concrete implementation of the `PullAsync()` method implements incremental sync.  If we set the queryName to `null`,
+then the entire table is pulled across each time.  By setting a queryName, the last updated time for the table is stored
+and associated with the queryName.  The last updated time is used to request only records that have changed since the
+last updated time when doing the pull from the backend.
+
+The push of the operations queue up to the mobile backend is handled by a single call in the `AzureCloudService` class:
+
+```csharp
+    public async Task SyncOfflineCacheAsync()
+    {
+        await InitializeAsync();
+
+        // Push the Operations Queue to the mobile backend
+        await Client.SyncContext.PushAsync();
+
+        // Pull each sync table
+        var taskTable = await GetTableAsync<TodoItem>(); await taskTable.PullAsync();
+    }
+```
+
+note that if the mobile client tries to pull data while there are pending operations in the operations quuee, the Azure
+Mobile Apps client SDK will perform an implicit push.  You can check the state of the operations queue with:
+
+```csharp
+if (Clinet.SyncContent.PendingOperations > 0) {
+    // There are pending operations
+}
+
+The only thing left to do now is to decide when to synchronize the local database on the mobile device.  In my example,
+I am going to synchronize the database during the refresh command of the `TaskListViewModel` and on saving or deleting
+an item in the `TaskDetailViewModel`.  Each synchronization will be called with the following:
+
+```csharp
+await CloudService.SyncOfflineCacheAsync();
+```
+
+### Detecting Connection State
+
+Xamarin has a rather cool plugin called the Connectivity Plugin for testing connectivity state.  We can install it by
+installing the `Xam.Plugin.Connectivity` NuGet package.  Once that is installed, we can update our `SyncOfflineCacheAsync()`
+method to use it:
+
+```csharp
+    public async Task SyncOfflineCacheAsync()
+    {
+        await InitializeAsync();
+
+        if (!(await CrossConnectivity.Current.IsRemoteReachable(Client.MobileAppUri.Host, 443)))
+        {
+            Debug.WriteLine($"Cannot connect to {Client.MobileAppUri} right now - offline");
+            return;
+        }
+
+        // Push the Operations Queue to the mobile backend
+        await Client.SyncContext.PushAsync();
+
+        // Pull each sync table
+        var taskTable = await GetTableAsync<TodoItem>(); await taskTable.PullAsync();
+    }
+```
+
+The Connectivity Plugin (which is accessible through `CrossConnectivity.Current`) has other parameters that allow the mobile
+client to test for specific types of connectivity.  For example, let's say you only wanted to pull one of the tables over
+wifi.  You could do this as follows:
+
+```csharp
+var connections = CrossConnectivity.Current.ConnectionTypes;
+if (connections.Contains(ConnectionType.Wifi)) {
+    var largeTable = await GetTableAsync<LargeModel>();
+    largeTable.PullAsync();
+}
+```
+
+The Connectivity plugin when paired with the Azure Mobile Apps Client SDK gives you a lot of flexibility in deciding what to 
+sync and over what type of connection you should sync.
+
+### Handling Conflict Resolution
 
 ## Query Management
 

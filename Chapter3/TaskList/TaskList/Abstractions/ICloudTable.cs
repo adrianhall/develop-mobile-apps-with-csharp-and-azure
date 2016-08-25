@@ -12,5 +12,6 @@ namespace TaskList.Abstractions
         Task DeleteItemAsync(T item);
         Task<ICollection<T>> ReadAllItemsAsync();
         Task<ICollection<T>> ReadItemsAsync(int start, int count);
+        Task PullAsync();
     }
 }

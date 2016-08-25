@@ -16,8 +16,6 @@ namespace TaskList.ViewModels
 
         public TaskListViewModel()
         {
-            CloudTable = CloudService.GetTable<TodoItem>();
-
             Title = "Task List";
 
             RefreshCommand = new Command(async () => await Refresh());
@@ -37,7 +35,6 @@ namespace TaskList.ViewModels
 
         public ICloudService CloudService => ServiceLocator.Get<ICloudService>();
         public IPlatform PlatformProvider => DependencyService.Get<IPlatform>();
-        public ICloudTable<TodoItem> CloudTable { get; set; }
         public ICommand RefreshCommand { get; }
         public ICommand AddNewItemCommand { get; }
         public ICommand LogoutCommand { get; }
@@ -73,13 +70,15 @@ namespace TaskList.ViewModels
 
             try
             {
+                await CloudService.SyncOfflineCacheAsync();
                 var identity = await CloudService.GetIdentityAsync();
                 if (identity != null)
                 {
                     var name = identity.UserClaims.FirstOrDefault(c => c.Type.Equals("name")).Value;
                     Title = $"Tasks for {name}";
                 }
-                var list = await CloudTable.ReadItemsAsync(0, 20);
+                var table = await CloudService.GetTableAsync<TodoItem>();
+                var list = await table.ReadItemsAsync(0, 20);
                 Items.ReplaceRange(list);
                 hasMoreItems = true; // Reset for refresh
             }
@@ -157,9 +156,10 @@ namespace TaskList.ViewModels
             }
 
             IsBusy = true;
+            var table = await CloudService.GetTableAsync<TodoItem>();
             try
             {
-                var list = await CloudTable.ReadItemsAsync(Items.Count, 20);
+                var list = await table.ReadItemsAsync(Items.Count, 20);
                 if (list.Count > 0)
                 {
                     Debug.WriteLine($"LoadMore: got {list.Count} more items");
