@@ -604,7 +604,178 @@ sync and over what type of connection you should sync.
 
 ### Handling Conflict Resolution
 
+When the mobile client submits a modification to the mobile backend, it's generally done as a two-step process:
+
+1. A "pre-condition check" is done, comparing the Version to the ETag of the record (which is derived from the Version of the record).
+2. The actual request is done, where the Version of the mobile client is compared to the Version of the record on the mobile backend.
+
+If the version of the record being submitted is different from the version on the server, the test will fail.  In the case of the first 
+check, a _412 Precondition Failed_ will be returned for the modification.  If the second test fails, a _409 Conflict_ response is 
+returned.  Normally, you will see the _412 Precondition Failed_ response, but you should be prepared for either response.
+
+Both responses indicate a conflict that needs to be resolved before continuing.  Programatically, when doing a modification in
+an online table (such as an Insert, Update, Delete), you should be capture the `MobileServicePreconditionFailedException<>` Exception
+to handle the conflict.  In an offline sync table, you should capture the `MobileServicePushFailedException` during the 
+`PushAsync()` operation.  This will potentially have an array of conflicts for you to deal with.
+
+For the online case, the code would look like this:
+
+```csharp
+try 
+{
+    await CloudService.InsertAsync(item);
+} 
+catch (MobileServicePreconditionFailedException<TodoItem> ex)
+{
+    await ResolveConflictAsync(item, ex.Item);
+}
+```
+
+For the offline case, the code would look like this:
+
+```csharp
+try
+{
+    await CloudService.PushAsync();
+}
+catch (MobileServicePushFailedException ex)
+{
+    if (ex.PushResult != null)
+    {
+        foreach (var error in ex.PushResult.Errors)
+        {
+            await ResolveConflictAsync(error);
+        }
+    }
+}
+```
+
+In both cases, the `ResolveConflictAsync()` method is called for each conflict in turn.  Resolving the conflict involves
+deciding between the two options or making corrections to the item.  
+
+1. If you wish to keep the client copy, set the client Version property to the server Version value and re-submit.
+2. If you wish to keep the server copy, discard the update.
+3. If you wish to do something else, create a new copy of the record, set the Version to be the same as the server Version, then re-submit.
+
+> If the model on your mobile client does not have a Version field, the policy is "last write wins".
+
+The online case is relatively simple as you are going to be ignoring the old request and creating a new request.  Here is
+some template code that implements both client-wins and server-wins strategies for the offline case:
+
+```csharp
+sync Task ResolveConflictAsync(MobileServiceTableOperationError error)
+{
+    var serverItem = error.Result.ToObject<T>();
+    var localItem = error.Item.ToObject<T>();
+
+    // Note that you need to implement the public override Equals(TodoItem item)
+    // method in the Model for this to work
+    if (serverItem.Equals(localItem))
+    {
+        // Items are the same, so ignore the conflict
+        await error.CancelAndDiscardItemAsync();
+        return;
+    }
+
+    // Client Always Wins
+    localItem.Version = serverItem.Version;
+    await error.UpdateOperationAsync(JObject.FromObject(localItem));
+
+    // Server Always Wins
+    // await error.CancelAndDiscardItemAsync();
+}
+```
+
+You could also ask the user as an option.  Finally, you could do some processing.  For example, let's say that you wanted
+to keep the local version of the Text, but keep the server version of Complete:
+
+```
+localItem.Complete = serverItem.Complete;
+localItem.Version = serverItem.Version;
+await error.UpdateOperationAsync(JObject.FromObject(serverItem));
+```
+
+There are many ways to resolve a conflict.  You should consider your requirements carefully.  Asking the user should
+always be the last resort for conflict resolution.  In the majority of applications, most users will click the 
+"keep my version" button to resolve conflicts, so the UI for resolving conflicts should do more than just ask the
+user to decide between a server and a client version.
+
 ## Query Management
+
+I mentioned in the last section that the record selection is based on two factors:
+
+1. Security policy is enforced at the server.
+2. User preference is enabled at the client.
+
+We've already discussed security policy in depth in the last section.  We've also discussed user queries for online
+usage.  We just use LINQ to affect a change in the query sent to the server.  However, what about offline cases?
+There are situations where you want to keep a smaller subset of the data that you are allowed to see for offline
+usage.  A common request, for example, is to have the last X days of records available offline.
+
+In our `PullAsync()` call for the table, we use `table.CreateQuery()` to create a query that is designed to get
+all the records available to the user from the server.  This is not always appropriate.  Let's adjust it to only
+obtain the records for our TodoItem table where either of the following conditions apply:
+
+1. The record has been updated within the last day.
+2. The task is incomplete.
+
+Once the task is marked completed, it will remain in the cache for 1 day, then be removed automatically.  You can
+still obtain the task while online.   This is done by adjusting the query that is generated.  The `table.CreateQuery()`
+method produces an `IMobileServiceTableQuery<>` object.  This can be dealt with via LINQ:
+
+```csharp
+var queryName = $"incsync:r:{typeof(T).Name}";
+var query = table.CreateQuery()
+    .Where(r => !r.Complete || r.UpdatedAt < DateTimeOffset.Now.AddDays(-1));
+await table.PullAsync(queryName, query);
+```
+
+Note that I am using a different query name in this case.  The maximum value of UpdatedAt for the records is stored
+and associated with the query name.  If the same query name is used, then only the records updated since the stored
+date will be retrieved.  If you change the query, then change the query name.
+
+Another common request is to restrict the properties that are in the local cache.  For instance, maybe you have
+a particularly large text blob that you want to make available online, but not offline:
+
+```csharp
+var queryName = $"incsync:s:{typeof(T).Name}";
+var query = table.CreateQuery()
+    .Select(r => new { r.Text, r.Complete, r.UpdatedAt, r.Version });
+await table.PullAsync(queryName, query);
+```
+
+You can also use the Fluent syntax:
+
+```csharp
+var query = 
+    from r in table.CreateQuery()
+    select new { r.Text, r.Complete, r.UpdatedAt, r.Version };
+```
+
+> You should always construct the object including the UpdatedAt and Version properties.  UpdatedAt is used
+for incremental sync and Version is used for conflict resolution.
+
+Both of these cases use standard LINQ syntax to adjust the query being sent to the mobile backend in exactly the
+same way that we adjusted the query when we were doing online searches.  An offline "pull" is exactly the same
+as an online "query".
+
+### Dealing with Historical Data
+
+Let's continue our example with a small extension.  Let's say you want to have the last 7 days worth of records
+available offline, but you still want the ability to do a historical search.  In this case, you can create two
+table references to the same table - one online for historical searches and one offline for the normal use case:
+
+```csharp
+var table = client.GetSyncTable<Message>();
+var historicalTable = client.GetTable<Message>();
+```
+
+In this case, the `table` reference is used to access the offline data.   However, you could implement a search
+capability that does a query against the `historicalTable` instead.  They both point to the same table.  However,
+in one case, the server is referenced (and hence only available online) and in the other, the local cache is
+referenced (and hence available offline).
+
+## Purging the Local Cache
 
 <!-- Images -->
 [not-paging]: img/not-paging.PNG
