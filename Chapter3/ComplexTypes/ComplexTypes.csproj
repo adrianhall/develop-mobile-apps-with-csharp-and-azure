@@ -184,6 +184,7 @@
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\TrackController.cs" />
     <Compile Include="DataObjects\Track.cs" />
+    <Compile Include="Helpers\AutoExpandPropertyAttribute.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
