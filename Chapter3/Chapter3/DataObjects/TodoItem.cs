@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Mobile.Server;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.Azure.Mobile.Server;
 
 namespace Chapter3.DataObjects
 {
@@ -9,5 +10,10 @@ namespace Chapter3.DataObjects
         public string Text { get; set; }
 
         public bool Complete { get; set; }
+
+        public string TagId { get; set; }
+
+        [ForeignKey("TagId")]
+        public Tag Tag { get; set; }
     }
 }

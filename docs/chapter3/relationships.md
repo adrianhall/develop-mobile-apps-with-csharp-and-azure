@@ -94,6 +94,7 @@ namespace TaskList.Models
     public class TodoItem : TableData
     {
         public string Text { get; set; }
+
         public bool Complete { get; set; }
  
         public string TagId { get; set; }
@@ -107,16 +108,13 @@ One can easily retrieve the tag information with a LINQ query on the Tag table:
 var tag = tagTable.FirstOrDefault(tag => tag.Id.Equals(task.TagId)).Value;
 ```
 
-You have to ensure that you create a tag before associating that tag with a task.  Once that is done, the natural ordering
-within the operations table will ensure the tag is created on the mobile backend prior to being used.  At that point, the 
-linkage between the tag table and the task table will be established.
+There are a couple of rules you must follow within your client code:
 
-!!! note "Using Relationships in Existing Databases"
-    There are a lot of instances where 2-way relationships were established in the past, generally as part of an 
-    existing application.  When we project these tables into the mobile offline realm, things break.  We have two
-    options here.  Firstly, we can adjust the application and underlying database to use 1-way relationships.  
-    Alternatively, we can use a custom API to do the transaction for us in an online manner.  
+> You need to ensure that you create a tag before associating that tag with a task.
+> You need to store the TagId with the task, not the `Tag` object (as you would normally do within Entity Framework).
 
+
+# 1:Many Relationships
 
 <!-- Images -->
 [relationships-1]: img/relationships-1.PNG

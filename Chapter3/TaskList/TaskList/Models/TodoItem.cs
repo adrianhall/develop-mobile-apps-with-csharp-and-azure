@@ -7,5 +7,7 @@ namespace TaskList.Models
         public string Text { get; set; }
 
         public bool Complete { get; set; }
+
+        public string TagId { get; set; }
     }
 }

@@ -190,6 +190,7 @@
     <Compile Include="DataObjects\Example.cs" />
     <Compile Include="DataObjects\Friend.cs" />
     <Compile Include="DataObjects\Message.cs" />
+    <Compile Include="DataObjects\Tag.cs" />
     <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="Extensions\ExampleExtensions.cs" />

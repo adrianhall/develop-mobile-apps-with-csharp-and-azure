@@ -49,6 +49,7 @@
     <Compile Include="Helpers\ServiceLocator.cs" />
     <Compile Include="Locations.cs" />
     <Compile Include="Models\AppServiceIdentity.cs" />
+    <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Pages\EntryPage.xaml.cs">
       <DependentUpon>EntryPage.xaml</DependentUpon>
