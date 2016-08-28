@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="TaskList.Pages.TaskList"
+<ContentPage x:Class="TaskList.Pages.TagsList"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:TaskList.Behaviors;assembly=TaskList"
@@ -7,9 +7,9 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="Tags"
-                     Command="{Binding TagsCommand}"
-                     Icon="tags.png"
+        <ToolbarItem Name="Tasks"
+                     Command="{Binding TasksCommand}"
+                     Icon="tasks.png"
                      Order="Primary"
                      Priority="0" />
         <ToolbarItem Name="Refresh"
@@ -67,7 +67,7 @@
                                                     iOS="White" />
                                     </StackLayout.BackgroundColor>
                                     <Label HorizontalOptions="FillAndExpand"
-                                           Text="{Binding Text}"
+                                           Text="{Binding TagName}"
                                            TextColor="#272832">
                                         <Label.TextColor>
                                             <OnPlatform x:TypeArguments="Color"
@@ -76,7 +76,6 @@
                                                         iOS="#272832" />
                                         </Label.TextColor>
                                     </Label>
-                                    <Switch IsEnabled="False" IsToggled="{Binding Complete, Mode=OneWay}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

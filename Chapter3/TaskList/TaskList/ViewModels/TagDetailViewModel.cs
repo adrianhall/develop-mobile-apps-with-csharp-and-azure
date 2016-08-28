@@ -7,9 +7,9 @@ using Xamarin.Forms;
 
 namespace TaskList.ViewModels
 {
-    public class TaskDetailViewModel : BaseViewModel
+    public class TagDetailViewModel : BaseViewModel
     {
-        public TaskDetailViewModel(TodoItem item = null)
+        public TagDetailViewModel(Tag item = null)
         {
             SaveCommand = new Command(async () => await Save());
             DeleteCommand = new Command(async () => await Delete());
@@ -17,12 +17,12 @@ namespace TaskList.ViewModels
             if (item != null)
             {
                 Item = item;
-                Title = item.Text;
+                Title = item.TagName;
             }
             else
             {
-                Item = new TodoItem { Text = "New Item", Complete = false };
-                Title = "New Item";
+                Item = new Tag { TagName = "Tag" };
+                Title = "New Tag";
             }
 
         }
@@ -32,7 +32,7 @@ namespace TaskList.ViewModels
         public Command SaveCommand { get; }
         public Command DeleteCommand { get; }
 
-        public TodoItem Item { get; set; }
+        public Tag Item { get; set; }
 
         async Task Save()
         {
@@ -42,10 +42,10 @@ namespace TaskList.ViewModels
 
             try
             {
-                var table = await CloudService.GetTableAsync<TodoItem>();
+                var table = await CloudService.GetTableAsync<Tag>();
                 await table.UpsertItemAsync(Item);
                 await CloudService.SyncOfflineCacheAsync();
-                MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
+                MessagingCenter.Send<TagDetailViewModel>(this, "ItemsChanged");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
             catch (Exception ex)
@@ -68,10 +68,10 @@ namespace TaskList.ViewModels
             {
                 if (Item.Id != null)
                 {
-                    var table = await CloudService.GetTableAsync<TodoItem>();
+                    var table = await CloudService.GetTableAsync<Tag>();
                     await table.DeleteItemAsync(Item);
                     await CloudService.SyncOfflineCacheAsync();
-                    MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
+                    MessagingCenter.Send<TagDetailViewModel>(this, "ItemsChanged");
                 }
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
@@ -86,3 +86,4 @@ namespace TaskList.ViewModels
         }
     }
 }
+

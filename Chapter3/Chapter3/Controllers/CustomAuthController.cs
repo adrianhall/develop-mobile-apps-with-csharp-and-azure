@@ -47,7 +47,7 @@ namespace Chapter3.Controllers
                 email = creds.UserId;
                 name = creds.UserClaims.FirstOrDefault(claim => claim.Type.Equals("name")).Value;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest("Email or Name is not present");
             }

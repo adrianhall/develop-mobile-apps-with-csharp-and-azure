@@ -54,6 +54,12 @@
     <Compile Include="Pages\EntryPage.xaml.cs">
       <DependentUpon>EntryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TagDetail.xaml.cs">
+      <DependentUpon>TagDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TagsList.xaml.cs">
+      <DependentUpon>TagsList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TaskDetail.xaml.cs">
       <DependentUpon>TaskDetail.xaml</DependentUpon>
     </Compile>
@@ -64,6 +70,8 @@
     <Compile Include="Services\AzureCloudService.cs" />
     <Compile Include="Services\AzureCloudTable.cs" />
     <Compile Include="ViewModels\EntryPageViewModel.cs" />
+    <Compile Include="ViewModels\TagDetailViewModel.cs" />
+    <Compile Include="ViewModels\TagsListViewModel.cs" />
     <Compile Include="ViewModels\TaskDetailViewModel.cs" />
     <Compile Include="ViewModels\TaskListViewModel.cs" />
   </ItemGroup>
@@ -131,6 +139,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\TaskList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\TagsList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\TagDetail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

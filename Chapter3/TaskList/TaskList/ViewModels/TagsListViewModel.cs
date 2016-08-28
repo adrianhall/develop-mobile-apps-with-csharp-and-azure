@@ -10,22 +10,22 @@ using Xamarin.Forms;
 
 namespace TaskList.ViewModels
 {
-    public class TaskListViewModel : BaseViewModel
+    public class TagsListViewModel : BaseViewModel
     {
         bool hasMoreItems = true;
 
-        public TaskListViewModel()
+        public TagsListViewModel()
         {
-            Title = "Task List";
+            Title = "Tags";
 
             RefreshCommand = new Command(async () => await Refresh());
             AddNewItemCommand = new Command(async () => await AddNewItem());
             LogoutCommand = new Command(async () => await Logout());
-            TagsCommand = new Command(async () => await NavigateToTags());
-            LoadMoreCommand = new Command<TodoItem> (async (TodoItem item) => await LoadMore(item));
+            TasksCommand = new Command(async () => await NavigateToTasks());
+            LoadMoreCommand = new Command<Tag>(async (Tag item) => await LoadMore(item));
 
             // Subscribe to events from the Task Detail Page
-            MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) =>
+            MessagingCenter.Subscribe<TagDetailViewModel>(this, "ItemsChanged", async (sender) =>
             {
                 await Refresh();
             });
@@ -34,9 +34,9 @@ namespace TaskList.ViewModels
             RefreshCommand.Execute(null);
         }
 
-        private async Task NavigateToTags()
+        private async Task NavigateToTasks()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new Pages.TagsList());
+            await Application.Current.MainPage.Navigation.PushAsync(new Pages.TaskList());
         }
 
         public ICloudService CloudService => ServiceLocator.Get<ICloudService>();
@@ -45,17 +45,17 @@ namespace TaskList.ViewModels
         public ICommand AddNewItemCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand LoadMoreCommand { get; }
-        public ICommand TagsCommand { get; }
+        public ICommand TasksCommand { get; }
 
-        ObservableRangeCollection<TodoItem> items = new ObservableRangeCollection<TodoItem>();
-        public ObservableRangeCollection<TodoItem> Items
+        ObservableRangeCollection<Tag> items = new ObservableRangeCollection<Tag>();
+        public ObservableRangeCollection<Tag> Items
         {
             get { return items; }
             set { SetProperty(ref items, value, "Items"); }
         }
 
-        TodoItem selectedItem;
-        public TodoItem SelectedItem
+        Tag selectedItem;
+        public Tag SelectedItem
         {
             get { return selectedItem; }
             set
@@ -63,7 +63,7 @@ namespace TaskList.ViewModels
                 SetProperty(ref selectedItem, value, "SelectedItem");
                 if (selectedItem != null)
                 {
-                    Application.Current.MainPage.Navigation.PushAsync(new Pages.TaskDetail(selectedItem));
+                    Application.Current.MainPage.Navigation.PushAsync(new Pages.TagDetail(selectedItem));
                     SelectedItem = null;
                 }
             }
@@ -78,13 +78,7 @@ namespace TaskList.ViewModels
             try
             {
                 await CloudService.SyncOfflineCacheAsync();
-                var identity = await CloudService.GetIdentityAsync();
-                if (identity != null)
-                {
-                    var name = identity.UserClaims.FirstOrDefault(c => c.Type.Equals("name")).Value;
-                    Title = $"Tasks for {name}";
-                }
-                var table = await CloudService.GetTableAsync<TodoItem>();
+                var table = await CloudService.GetTableAsync<Tag>();
                 var list = await table.ReadItemsAsync(0, 20);
                 Items.ReplaceRange(list);
                 hasMoreItems = true; // Reset for refresh
@@ -107,7 +101,7 @@ namespace TaskList.ViewModels
 
             try
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new Pages.TaskDetail());
+                await Application.Current.MainPage.Navigation.PushAsync(new Pages.TagDetail());
             }
             catch (Exception ex)
             {
@@ -140,7 +134,7 @@ namespace TaskList.ViewModels
             }
         }
 
-        async Task LoadMore(TodoItem item)
+        async Task LoadMore(Tag item)
         {
             if (IsBusy)
             {
@@ -163,7 +157,7 @@ namespace TaskList.ViewModels
             }
 
             IsBusy = true;
-            var table = await CloudService.GetTableAsync<TodoItem>();
+            var table = await CloudService.GetTableAsync<Tag>();
             try
             {
                 var list = await table.ReadItemsAsync(Items.Count, 20);
@@ -189,3 +183,4 @@ namespace TaskList.ViewModels
         }
     }
 }
+
