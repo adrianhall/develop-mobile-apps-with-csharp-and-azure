@@ -216,6 +216,24 @@
   <ItemGroup>
     <BundleResource Include="Resources\refresh%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tags.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tags%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tags%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tasks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tasks%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tasks%403x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
