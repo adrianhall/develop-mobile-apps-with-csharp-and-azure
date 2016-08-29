@@ -31,5 +31,7 @@ namespace Chapter3.Models
         public DbSet<DataObjects.User> Users { get; set; }
         public DbSet<DataObjects.Friend> Friends { get; set; }
         public DbSet<DataObjects.Message> Messages { get; set; }
+
+        public System.Data.Entity.DbSet<Chapter3.DataObjects.Tag> Tags { get; set; }
     }
 }

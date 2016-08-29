@@ -445,7 +445,7 @@ In the `Services\AzureCloudService.cs` file, add the following method:
     async Task InitializeAsync()
     {
         // Short circuit - local database is already initialized
-        if (!Client.SyncContext.IsInitialized)
+        if (Client.SyncContext.IsInitialized)
             return;
 
         // Create a reference to the local sqlite store
@@ -561,6 +561,17 @@ an item in the `TaskDetailViewModel`.  Each synchronization will be called with 
 ```csharp
 await CloudService.SyncOfflineCacheAsync();
 ```
+
+!!! note "Additional Steps on Universal Windows"
+    If you are compiling the Universal Windows (UWP) project, there is an extra step.  You must Add a reference for SQLite
+    to the project.  Open the **TaskList.UWP** project, then right-click on the **References** node and select **Add Reference**.
+    Select **Universal Windows** -> **Extensions** and place a check mark next to the **SQLite for Universal Windows** and
+    **Visual C++ 2015 Runtime for Universal Windows** components.
+
+    ![][add-uwp-reference]
+
+    If you don't do this, you will get the rather cryptic error message "Unable to set temporary directory" when running the
+    application.
 
 ### Detecting Connection State
 
@@ -779,6 +790,7 @@ referenced (and hence available offline).
 
 <!-- Images -->
 [not-paging]: img/not-paging.PNG
+[add-uwp-reference]: img/add-uwp-reference.PNG
 
 <!-- Links -->
 [1]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/introduction/

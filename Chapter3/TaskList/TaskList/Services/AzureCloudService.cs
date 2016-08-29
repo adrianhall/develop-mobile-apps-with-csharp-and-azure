@@ -57,27 +57,44 @@ namespace TaskList.Services
         async Task InitializeAsync()
         {
             // Short circuit - local database is already initialized
-            if (!Client.SyncContext.IsInitialized)
+            if (Client.SyncContext.IsInitialized)
+            {
+                Debug.WriteLine("InitializeAsync: Short Circuit");
                 return;
+            }
 
             // Create a reference to the local sqlite store
+            Debug.WriteLine("InitializeAsync: Initializing store");
             var store = new MobileServiceSQLiteStore("tasklist.db");
 
             // Define the database schema
+            Debug.WriteLine("InitializeAsync: Defining Datastore");
+            store.DefineTable<Tag>();
             store.DefineTable<TodoItem>();
 
             // Actually create the store and update the schema
+            Debug.WriteLine("InitializeAsync: Initializing SyncContext");
             await Client.SyncContext.InitializeAsync(store);
+
+            // Do the sync
+            Debug.WriteLine("InitializeAsync: Syncing Offline Cache");
+            await SyncOfflineCacheAsync();
         }
 
         public async Task SyncOfflineCacheAsync()
         {
+            Debug.WriteLine("SyncOfflineCacheAsync: Initializing...");
             await InitializeAsync();
 
             // Push the Operations Queue to the mobile backend
+            Debug.WriteLine("SyncOfflineCacheAsync: Pushing Changes");
             await Client.SyncContext.PushAsync();
 
             // Pull each sync table
+            Debug.WriteLine("SyncOfflineCacheAsync: Pulling tags table");
+            var tagTable = await GetTableAsync<Tag>(); await tagTable.PullAsync();
+
+            Debug.WriteLine("SyncOfflineCacheAsync: Pulling tasks table");
             var taskTable = await GetTableAsync<TodoItem>(); await taskTable.PullAsync();
         }
         #endregion

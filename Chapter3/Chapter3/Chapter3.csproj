@@ -186,6 +186,7 @@
     <Compile Include="Controllers\CustomAuthController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="DataObjects\Example.cs" />
     <Compile Include="DataObjects\Friend.cs" />

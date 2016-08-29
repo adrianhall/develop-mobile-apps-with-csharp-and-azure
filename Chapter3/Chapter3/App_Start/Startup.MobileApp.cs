@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Web.Http;
 using Chapter3.Models;
 using Microsoft.Azure.Mobile.Server.Config;
