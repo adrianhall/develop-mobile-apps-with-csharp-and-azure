@@ -788,11 +788,87 @@ referenced (and hence available offline).
 
 ## Purging the Local Cache
 
+It will be inevitable that you will want to clear the local cache at some point.  
+
+* You have just changed the model and underlying data and need to re-establish a baseline.
+* You only cache newer data and want to remove historical data.
+* Things got corrupt for some reason and you need to refresh everything.
+
+Whatever the reason, clearing the cache is one of those infrequent things that is going to be a necessity.  There
+are three forms of this operation:
+
+### Deleting the backing store
+
+The major requirement during development is that you want to delete the SQLite file that backs the offline cache.
+It's likely that the model evolves over time during development.  Add test data that can sometimes cause things
+to go wrong and you have a recipe for bugs that are only there because you are developing.  If you suspect bad
+data in the offline cache, the first thing you want to do is start afresh.
+
+Each platform stores the offline cache in a different place and the mechanism for removing it is different in each
+case.  For Universal Windows projects, the offline cache is stored in the Local AppData folder for the application.
+This is a dedicated area that each Universal Windows app has access to for anything from temporary files to settings
+and cache files.  To find the location of the file, open the **TaskList.UWP** project and open the **Package.appxmanifest**
+file.  Go to the **Packaging** tab.
+
+![][appxmanifest-packageid]
+
+Note the long **Package family name** field.  Your backing file is in your home directory under `AppData\Local\Packages\_family\_name_\LocalState`.
+You specified the name of the file when you created the store.
+
+You need to find the **Package Name** for Android.  Right-click on the **TaskList.Droid** project and select **Properties**,
+then select the **Android Manifest** tab.
+
+![][droid-manifest-packagename]
+
+The database will be located in `/data/data/_package\_name_/databases` directory.  Getting to that directory can be a bit
+tricky since the Visual Studio Emulator for Android uses a disk image file.  However, Google provided utilities for handling
+developer connections to devices.  In this case, we can use the `adb` utility.  First, start your emulator of choice through
+the **Tools** -> **Visual Studio Emulator for Android** menu option.  Click on the **Play** button next to the emulator
+that you have been using.  Ensure the emulator is fully started before continuing.  The `adb` utility can be accessed through
+a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows, this is 
+`C:\Program Files (x86)\Android\android-sdk\platform-tools`.  It's a good idea to add this to your PATH.
+
+Start at your Visual Studio Emulator for Android.  Click on the **Tools** button (it looks like a pair of right-facing
+chevrons) and select the **Network** tab.
+
+![][android-emulator-network]
+
+You want the network address of the **Windows Phone Emulator Internal Switch**.  In this case, it's 169.254.138.177.  The
+169.254 address range is a private switch between the host computer (the one you are developing on) and the emulators. 
+Open up a shell prompt and type:
+
+```bash
+adb connect 169.254.138.177:5555
+adb shell
+```
+
+This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around. You can remove
+the entire private data area for your package using the following:
+
+```bash
+**root@donatello:/#** rm -rf /data/data/_package\_name_
+```
+
+Use `exit` to close the shell prompt on the Android device.  Each disk image file is independent.  You must remove the database
+file on each emulator individually.
+
+The iOS Simulator does not use an image files.  Instead, it stores files on your Mac disk in `~/Library/Developer/CoreSimulator/Devices`.
+You can easily use the normal Finder utilities to search for and remove the database file for your app.
+
+<!-- XXX:TODO Where is the file! -->
+
+### Purging Reords from the Offline Cache
+
+
+
 <!-- Images -->
 [not-paging]: img/not-paging.PNG
 [add-uwp-reference]: img/add-uwp-reference.PNG
+[appxmanifest-packageid]: img/appxmanifest-packageid.PNG
+[droid-manifest-packagename]: img/droid-manifest-packagename.PNG
+[android-emulator-network]: img/android-emulator-network.PNG
 
-<!-- Links -->
+<!-- Links -
 [1]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/introduction/
 [2]: https://developer.xamarin.com/samples/xamarin-forms/behaviors/eventtocommandbehavior/
 [3]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/reusable/event-to-command-behavior/

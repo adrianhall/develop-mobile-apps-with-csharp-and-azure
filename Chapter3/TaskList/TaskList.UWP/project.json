@@ -5,6 +5,7 @@
     "Microsoft.IdentityModel.Clients.ActiveDirectory": "3.13.4",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Newtonsoft.Json": "9.0.1",
+    "System.Text.RegularExpressions": "4.1.0",
     "Xam.Plugin.Connectivity": "2.2.12",
     "Xamarin.Forms": "2.3.1.114"
   },
