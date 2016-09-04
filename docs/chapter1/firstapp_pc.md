@@ -18,7 +18,7 @@ The application we are going to build together is a simple task list.  The
 mobile client will have three screens - an entry screen, a task list and a task
 details page.  I have mocked these pages up using [MockingBot][2].
 
-!!! tip "Mock Your App"
+!!! tip
     Mocking your screens before you start coding is a great habit to get into.
     There are some great tools available including free tools like [MockingBot][3].
     Doing mockups before you start coding is a good way to prevent wasted time later
@@ -26,11 +26,11 @@ details page.  I have mocked these pages up using [MockingBot][2].
 
 ![Application Mockups for the Task List][img1]
 
-> Why include a back button?  If you are using iOS, then you may want to remove
-the back button as the style guides suggest you don't need one.  Other platforms
-will need it though, so it's best to start with the least common denominator.
-It's the same reason I add a refresh button even though it's only valid on
-Windows Phone!
+!!! tip
+    If you are using iOS, then you may want to remove the back button as the style
+    guides suggest you don't need one.  Other platforms will need it though, so it's
+    best to start with the least common denominator.  It's the same reason I add a
+    refresh button even though it's only valid on Windows Phone!
 
 My ideas for this app include:
 
@@ -73,7 +73,7 @@ Azure SDK.  To get started:
 
 At this point, Visual Studio will create your backend project.
 
-!!! warn "Don't use Azure Mobile Services libraries"
+!!! warn
     It's very tempting to select **Azure Mobile Services** instead - it sounds
     closer to what you want.  Azure Mobile Services is the **OLD** service and is
     being shut down.  You should not select Azure Mobile Services for any project.
@@ -110,10 +110,10 @@ seeding data into the database for us.  We can leave that alone for now, but
 remember it is there in case you need to seed data into a new database for
 your own backend.
 
-!!! info "Seeding Data"
-    We refer to "seeding data" into a database.  This means that we are going to 
-    introduce some data into the database so that we aren't operating on an empty database.  
-    The data will be there when we query the database later on.
+!!! info
+    We refer to "seeding data" into a database.  This means that we are going to introduce
+    some data into the database so that we aren't operating on an empty database. The data
+    will be there when we query the database later on.
 
 The next important file is the `DbContext` - located in
 `Models\MobileServiceContext.cs`. Azure Mobile Apps is heavily dependent on
@@ -203,19 +203,15 @@ The `TableController` is the central processing for the database access layer.
 It handles all the OData capabilities for us and exposes these as REST endpoints
 within our WebAPI.  This means that the actual code for this controller is tiny - just 12 lines of code.
 
-!!! info "What is OData?"
-    [OData][5] is a specification for accessing table data on the Internet.  It provides 
-    a mechanism for querying and manipulating data within a table.  Entity Framework is a 
+!!! info
+    [OData][5] is a specification for accessing table data on the Internet.  It provides
+    a mechanism for querying and manipulating data within a table.  Entity Framework is a
     common data access layer for ASP.NET applications.
 
 We can build the project at this point.  If Visual Studio hasn't done so already,
 the missing NuGet packages for Azure Mobile Apps will be downloaded.  There
 should not be any errors.  If there are, check the typing for any changes you
 made.
-
-!!! info
-    You can delete or ignore the `Controllers\ValuesController.cs` file if you like - it 
-    isn't important for this walkthrough.
 
 ### Building an Azure App Service for Mobile Apps
 
@@ -227,13 +223,14 @@ follow these instructions:
 2. Click on **Web + Mobile**, then **Mobile App**.
 3. Enter a unique name in the **App name** box.
 
-    > Since the name doesn't matter and it has to be unique, you can use [a
-    GUID generator][7] to generate a unique name. GUIDs are not the best
-    names to use when you need to actually find resources, but using GUIDS
-    prevents conflicts when deploying, so I prefer them as a naming scheme.
-    You can prefix the GUID  (example: chapter1-GUID) to aid in discovery
-    later on.  Generally, the first four digits of a GUID are enough to
-    identify individual resources.
+    !!! tip
+        Since the name doesn't matter and it has to be unique, you can use [a
+        GUID generator][7] to generate a unique name. GUIDs are not the best
+        names to use when you need to actually find resources, but using GUIDS
+        prevents conflicts when deploying, so I prefer them as a naming scheme.
+        You can prefix the GUID  (example: chapter1-GUID) to aid in discovery
+        later on.  Generally, the first four digits of a GUID are enough to
+        identify individual resources.
 
 4. If you have more than one subscription (for example, you have a trial
    and an MSDN subscription), then ensure you select the right subscription
@@ -242,16 +239,16 @@ follow these instructions:
    mobile application.
 
     !!! info "Resource Groups"
-        Resource groups are great for grouping all the resources associated with a 
-        mobile application together.  During development, it means you can delete 
-        all the resources in one operation.  For production, it means you can see how 
+        Resource groups are great for grouping all the resources associated with a
+        mobile application together.  During development, it means you can delete
+        all the resources in one operation.  For production, it means you can see how
         much the service is costing you and how the resources are being used.
 
 6. Finally, select or create a new **App Service Plan**.
 
     !!! info "App Service Plan"
-        The App Service Plan is the thing that actually bills you - not the web or 
-        mobile backend.  You can run a number of web or mobile backends on the same 
+        The App Service Plan is the thing that actually bills you - not the web or
+        mobile backend.  You can run a number of web or mobile backends on the same
         App Service Plan.
 
     I tend to create a new App Service Plan for each mobile application.  This
@@ -290,8 +287,8 @@ bar on the right-hand side and looks like a Bell.  Clicking on a specific
 notification will provide more information about the activity.  Once you have
 created your app service, the App Service blade will open.
 
-!!! tip "What's the difference between app types?"
-    What's the difference between a Web App, a Mobile App and an API App?  Not a 
+!!! info
+    What's the difference between a Web App, a Mobile App and an API App?  Not a
     lot.  The type determines which Quick start projects are available in the Quick
     start menu under **All settings**.  Since we selected a Mobile app, a set of
     starter client projects for mobile devices will be presented.
@@ -410,8 +407,7 @@ project a name, then click on **OK**.
 
   ![Creating the Xamarin Forms Project][img5]
 
-!!! tip
-    If you did not install the Xamarin Forms Templates, then you can create a
+    > If you did not install the Xamarin Forms Templates, then you can create a
     **Blank Xaml App (Xamarin.Forms Portable)** project instead.
 
 Project creation will take longer than you expect, but there is a lot going on.
@@ -439,7 +435,7 @@ MacBook Air/Pro, to a Mac Mini in a drawer or closet in the office, or maybe
 even a [Mac in the cloud][19].  The Xamarin tools use SSH to connect to the Mac,
 which must be [configured to build iOS apps from Visual Studio][9].
 
-!!! tip "No Mac?  No Problem!"
+!!! tip
     If you don't have a Mac and are not interested in building iOS applications,
     don't give up now!  You can cancel through the Mac specific project setup and
     continue with building a great Android and Universal Windows app.  You can
@@ -456,7 +452,7 @@ always enter the IP address for your mac.
 
 !!! tip
     For more troubleshooting tips, visit [The Xamarin Troubleshooting Site][20].
-    
+
 You will be prompted for your username and password:
 
   ![Xamarin Mac Agent - Login][img9]
@@ -464,9 +460,9 @@ You will be prompted for your username and password:
 Just enter the username and password that you use to log in to your mac and click
 on **Login**.
 
-!!! tip "What's my username?"  
-    Apple tries very hard to hide the real username of your account from you.  The 
-    easiest way to find your mac username is to open up the Finder.  The name next 
+!!! tip
+    Apple tries very hard to hide the real username of your account from you.  The
+    easiest way to find your mac username is to open up the Finder.  The name next
     to your home icon is the name of your account.
 
 If the connection has successed, you will see a green icon in the Xamarin Visual
@@ -494,7 +490,7 @@ we also will want to add the following NuGet packages:
 *  Microsoft.Azure.Mobile.Client v2.0.0 or later
 *  Newtonsoft.Json v6.0.3 or later
 
-!!! warn "Version Warning!"
+!!! warn
     Although it is tempting, do not include a v1.x version of the Mobile Client.
     This is for the earlier Azure Mobile Services.  There are many differences between
     the wire protocols of the two products.
@@ -508,7 +504,7 @@ You must install the updates and the new NuGet packages on all four projects.
 This involves repeating the same process for each client project in your
 solution.
 
-!!! tip
+!!! info
     Android generally has more updates than the other platforms.  Ensure that you
     update the main Xamarin.Forms package and then refresh the update list.  This will
     ensure the right list of packages is updated.
@@ -700,10 +696,14 @@ the work for us.  In fact, we are just wrapping the basic interface here.  This
 won't normally be the case, but you can see that the majority of the code for
 dealing with the remote server is done for us.
 
-!!! tip "Use Lambda Expressions"
+!!! tip
     You can use a shorthand (called a lambda expression) for methods with only one line.
-    For instance, the delete method could just as easily have been written as 
-    `public async Task DeleteItemAsync(T item) => await table.DeleteAsync(item);`.
+    For instance, the delete method could just as easily have been written as:
+
+    ```
+    public async Task DeleteItemAsync(T item) => await table.DeleteAsync(item);
+    ```
+
     You may see this sort of short hand in samples.
 
 We also need to create the model that we will use for the data.  This should
@@ -1394,9 +1394,9 @@ connection.  My laptop required a reboot before this would work, however.  In
 addition, the process may request elevated privileges.
 
 !!! tip
-    If you want to run additional Android profiles before starting, run the 
-    **Visual Studio Emulator for Android** and download any additional profiles.  
-    For example, if you wish to emulate something similar to a Samsung Galaxy S6, 
+    If you want to run additional Android profiles before starting, run the
+    **Visual Studio Emulator for Android** and download any additional profiles.
+    For example, if you wish to emulate something similar to a Samsung Galaxy S6,
     then download the profile for a 5.1" Marshmallow (6.0.0) XXHDPI Phone.
 
 Finally the Visual Studio Emulator for Android starts when you click on the Run
@@ -1405,10 +1405,10 @@ machine.  The Visual Studio Emulator for Android is also a superior emulator
 to the standard Android Emulator, so this process is well worth going through.
 
 !!! tip
-    When testing the mobile client manually through the Visual Studio Emulator for 
-    Android, you are likely to need to rebuild the application.  You do not have to 
-    shut down the emulator between runs.  You can leave it running.  The application 
-    will be stopped and replaced before starting again.  This can significantly speed 
+    When testing the mobile client manually through the Visual Studio Emulator for
+    Android, you are likely to need to rebuild the application.  You do not have to
+    shut down the emulator between runs.  You can leave it running.  The application
+    will be stopped and replaced before starting again.  This can significantly speed
     up the debug cycle since you are not waiting for the emulator to start each time.
 
 Watch the Output window.  If the debugger won't connect or the application
@@ -1416,11 +1416,11 @@ won't start, you may need to restart your computer again to get the network
 working.
 
 !!! tip
-    If your computer doesn't run Hyper-V well (or at all), then the emulator won't run 
-    well (or at all) either.  I find laptops to be particularly prone to this problem.  
-    If this happens, you can always run the Google Emulator instead.  Build the application 
-    as normal.  You will find the APK file to install in `...\TaskList.Droid\bin\Debug`. 
-    Fortunately, there are lots of resources that show how to do this.  You can find the 
+    If your computer doesn't run Hyper-V well (or at all), then the emulator won't run
+    well (or at all) either.  I find laptops to be particularly prone to this problem.
+    If this happens, you can always run the Google Emulator instead.  Build the application
+    as normal.  You will find the APK file to install in `...\TaskList.Droid\bin\Debug`.
+    Fortunately, there are lots of resources that show how to do this.  You can find the
     answer on [Stack Overflow][13]
 
 If everything is working, you should see the Visual Studio Emulator for Android
@@ -1428,10 +1428,10 @@ display your mobile client:
 
 ![Visual Studio Emulator for Android Final][img16]
 
-!!! info
-    You can also build the Android version on a mac with Xamarin Studio.  However, I find 
-    that version mismatches between Mono (which is used on the mac) and Visual Studio - particularly 
-    in reference to the version of the .NET framework - cause issues when swapping between the 
+!!! warn
+    You can also build the Android version on a mac with Xamarin Studio.  However, I find
+    that version mismatches between Mono (which is used on the mac) and Visual Studio - particularly
+    in reference to the version of the .NET framework - cause issues when swapping between the
     two environments.  For best results, stay in one environment.
 
 Note that the task list view is a "light" style and the rest of the app is a
@@ -1465,9 +1465,9 @@ about _Build Action 'EmbeddedResource' is not supported_ is an annoying one.
 The fix is to do the following:
 
 1. Set the iOS project as the StartUp project.
-2. Go through each project, expand the **References** node and ensure that there are 
-   no references with a warning (a little yellow triangle).  If there are - fix those 
-   first.  Generally, this is fixed by either using the **Restore NuGet Packages** option 
+2. Go through each project, expand the **References** node and ensure that there are
+   no references with a warning (a little yellow triangle).  If there are - fix those
+   first.  Generally, this is fixed by either using the **Restore NuGet Packages** option
    or removing the reference and then adding it again from NuGet.
 3. Close the solution.
 4. Re-open the solution.  You don't need to close Visual Studio to do this.
@@ -1490,9 +1490,9 @@ Apple ID and secondly for signing up for the Apple Developer program).  Once
 you have gone through this process, you are registered as an Apple Developer.
 
 !!! info
-    If you want to distribute your apps on the Apple App Store, run on real devices or 
-    get access to the beta bits, then you might consider signing up for the Apple Developer 
-    Program.  The Apple Developer Program is an additional cost and is not required for 
+    If you want to distribute your apps on the Apple App Store, run on real devices or
+    get access to the beta bits, then you might consider signing up for the Apple Developer
+    Program.  The Apple Developer Program is an additional cost and is not required for
     developing iOS apps that are only run on the iOS simulator.
 
 Once you have created your account and enabled it as a developer account, open
@@ -1518,9 +1518,9 @@ within Visual Studio, right-click on the **TaskList.iOS** project and select **R
 This will (finally!) build the application for you.
 
 !!! tip
-    Getting an error about _Provisioning Profiles_ not being available?  This is because 
-    you are building for a real device instead of the simulator.  In order to build for a 
-    real device, you must have a linked Apple Developer Program.  To get around this, select 
+    Getting an error about _Provisioning Profiles_ not being available?  This is because
+    you are building for a real device instead of the simulator.  In order to build for a
+    real device, you must have a linked Apple Developer Program.  To get around this, select
     a Simulator before building.
 
 The **Run** button has received a **Device** label, but there are several simulator options.

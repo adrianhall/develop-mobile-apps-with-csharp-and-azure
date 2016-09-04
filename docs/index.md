@@ -68,9 +68,10 @@ Azure Mobile Apps for these features because they are all included and you
 can get started with most of the features for zero cost.  Even the features
 that cannot be obtained without spending a little money are relatively cheap.
 
-> Azure Mobile Apps is a feature of Azure App Service.  Azure App Service is
-a collection of services that commonly are used together to develop modern
-Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.
+!!! info
+    **Azure Mobile Apps** is a feature of Azure App Service.  Azure App Service
+    is a collection of services that commonly are used together to develop modern
+    Internet Apps.  This includes web hosting, API hosting and Mobile SDKs.
 
 ### Features of Cloud Connected Mobile Apps
 
@@ -181,9 +182,10 @@ Web applications and Cross-platform Mobile development.  If you have already
 installed Visual Studio and did not install these components, run the installer
 again to add the components.
 
-> Development Tools are big, multi-gigabyte installers.  If you are on a slow or
-restricted link, you may want to download the installers onto a thumb drive for
-local installation.
+!!! tip
+    Development Tools are big, multi-gigabyte installers.  If you are on a slow or
+    restricted link, you may want to download the installers onto a thumb drive for
+    local installation.
 
 ### Cloud Services
 
