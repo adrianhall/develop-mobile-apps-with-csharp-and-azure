@@ -865,7 +865,7 @@ You can easily use the normal Finder utilities to search for and remove the data
 
 <!-- XXX:TODO Where is the file! -->
 
-### Purging Reords from the Offline Cache
+### Purging Records from the Offline Cache
 
 
 

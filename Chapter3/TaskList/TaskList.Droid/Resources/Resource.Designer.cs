@@ -54,6 +54,12 @@ namespace TaskList.Droid
 			// aapt resource value: 0x7f020002
 			public const int refresh = 2130837506;
 			
+			// aapt resource value: 0x7f020003
+			public const int tags = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int tasks = 2130837508;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
