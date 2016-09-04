@@ -854,7 +854,7 @@ This opens up a Linux-like shell onto the Android device.  You can use normal Li
 the entire private data area for your package using the following:
 
 ```bash
-**root@donatello:/#** rm -rf /data/data/_package\_name_
+**root@donatello:/#** rm /data/data/_package\_name_/databases/tasklist.db
 ```
 
 Use `exit` to close the shell prompt on the Android device.  Each disk image file is independent.  You must remove the database
