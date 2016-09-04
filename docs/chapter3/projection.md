@@ -72,9 +72,10 @@ public string UserId
 }
 ```
 
-> It's generally a good idea to use the SID as the user ID for the authenticated user in security
-applications.  The user can change the email address or username associated with the account, but
-the SID never changes.
+!!! tip
+    It's generally a good idea to use the SID as the user ID for the authenticated user in security
+    applications.  The user can change the email address or username associated with the account, but
+    the SID never changes.
 
 We need an extra property in the `DataObjects\TodoItem.cs` class (in the **Backend** project) to hold
 the extra security claim that we will be adding later:
@@ -140,8 +141,9 @@ SELECT * FROM [dbo].[TodoItems]
 
 The `@0` parameter will be replaced by the users SID.
 
-> If a user is not logged in (i.e. you forgot to add the `[Authorize]` attribute), the User object will
-be null and the server will produce a 500 Internal Server Error back to the client.
+!!! warn
+    If a user is not logged in (i.e. you forgot to add the `[Authorize]` attribute), the User object will
+    be null and the server will produce a 500 Internal Server Error back to the client.
 
 This can get a little unwieldy for complex filters, however.  Since the filters are applied in two
 different places (and are generally used for validation as well), I like to abstract them into a
@@ -287,10 +289,11 @@ public async Task<List<string>> GetGroups()
 }
 ```
 
-> If you are using claims as part of your security model, you should add the claims that you are
-using to the identity token that is used for authentication.  You can do this with custom authentication
-by calling LoginAsync() twice - once for the standard login method and the second time to adjust the
-token through the custom auth.
+!!! tip
+    If you are using claims as part of your security model, you should add the claims that you are
+    using to the identity token that is used for authentication.  You can do this with custom authentication
+    by calling LoginAsync() twice - once for the standard login method and the second time to adjust the
+    token through the custom auth.
 
 Our filter is defined as a LINQ extension (just like in the per-user filter) in `Extensions\ExampleExtensions.cs`:
 
@@ -389,13 +392,13 @@ namespace Chapter3.DataObjects
 }
 ```
 
-> Don't forget to add a `DbSet<>` for each table to the `MobileServiceContext` to add the
-table.
+!!! tip
+    Don't forget to add a `DbSet<>` for each table to the `MobileServiceContext` to add the table.
 
 In our application, we will update the `Users` table via a [custom authentication controller].
 After we have logged in via Azure Active Directory, we call the `InvokeApiAsync()` method
 to call the custom authentication controller and get a new token with some extra information
-in it.  We'll cover custom authentication controllers in a later chapter.  
+in it.  We'll cover custom authentication controllers in a later chapter.
 
 ```csharp
 using System;

@@ -25,10 +25,11 @@ the 'MobileServiceContext' context has changed since the database was created. C
 Migrations to update the database._  That's fairly specific and is common to all applications based
 on Entity Framework that use code-first models.
 
-> There is an alternative here called **Database First Models**.  In this alternative, you create the
-database first then create the models to match.  However, Azure Mobile Apps requires specific configuration
-of mobile tables that you will need to take care of.  See the section on using existing SQL tables later
-on for details.
+!!! tip
+    There is an alternative here called **Database First Models**.  In this alternative, you create the
+    database first then create the models to match.  However, Azure Mobile Apps requires specific configuration
+    of mobile tables that you will need to take care of.  See [the section](#using-an-existing-sql-table) on
+    [using existing SQL tables](#using-an-existing-sql-table) later on for details.
 
 The first step is to enable migrations.  Go to **View** -> **Other Windows** -> **Package Manager Console**.
 This window will generally appear in the same place as your Output and Error List windows at the bottom
@@ -43,9 +44,10 @@ command `add-migration Initial`.
 
 ![][add-initial-migration]
 
-> If you have multiple projects in your solution, you may need to add `-Project _projectname_`.  For example,
-`add-migration -project Chapter3 Initial`.  This applies to all the migration commands you execute in the
-Package Manager Console.
+!!! tip
+    If you have multiple projects in your solution, you may need to add `-Project _projectname_`.  For example,
+    `add-migration -project Chapter3 Initial`.  This applies to all the migration commands you execute in the
+    Package Manager Console.
 
 The initial migration creates a few files in the `Migrations` folder that represent the current state of
 affairs for the database. These easily recognized by a combination of the current date and the name of the
@@ -156,8 +158,9 @@ A Data Transfer Object (or DTO as it is commonly known) is the wire representati
 table.  It must inherit from a concrete implementation of `ITableData`.  The Azure Mobile Apps SDK includes
 `EntityData` for this reason.  EntityData is a concrete implementation that works with Entity Framework.
 
-> You can't just assume EntityData will work with other data stores.  There are Entity Framework specific
-attributes decorating the properties for EntityData that will likely be different for other stores.
+!!! warn
+    You can't just assume EntityData will work with other data stores.  There are Entity Framework specific
+    attributes decorating the properties for EntityData that will likely be different for other stores.
 
 The default Azure Mobile Apps project that is supplied with the Azure SDK provides a folder for storing
 DTOs called `DataObjects`.  Let's create a DTO by right-clicking on the **DataObjects** folder, then
@@ -179,8 +182,9 @@ namespace Chapter3.DataObjects
 }
 ```
 
-> Don't call your model `SomethingDTO`.  This ends up as a `/tables/somethingDTO` endpoint and a `SomethingDTO`
-table in your database.  Just call it `Something`.  All the names will then line up properly.
+!!! tip
+    Don't call your model `SomethingDTO`.  This ends up as a `/tables/somethingDTO` endpoint and a `SomethingDTO`
+    table in your database.  Just call it `Something`.  All the names will then line up properly.
 
 I've included several field types, including a complex type.  The basic requirement for a field is that it
 must be serialized into a simple JSON type during transfer between the server and the mobile client.  Complex
@@ -359,8 +363,9 @@ There are times when a "Database First" approach is needed.  If you are trying t
 SQL database table, for example, you want to use a "Database First" approach.  You may also like the
 separation of the database table from the mobile system columns.
 
-> The Database First and Code First approaches to Entity Framework are mutually exclusive.  You need
-to decide which one you want to use and stick with it.
+!!! warn
+    The Database First and Code First approaches to Entity Framework are mutually exclusive.  You need
+    to decide which one you want to use and stick with it.
 
 To use "Database First", you first set up the database.  Then you create a Model and update the DbContext
 object.  For example, out `Example` model from before can be represented by the following database
@@ -403,13 +408,13 @@ The system properties are added to the schema.  We can (and do) use a trigger to
 column when the data is updated.  Placing this logic within the SQL Server schema definition means
 we can use this SQL table outside of the mobile context and it will still work for the mobile application.
 
-> We use the CreatedAt field to create a clustered index.  In older versions of SQL Server, this was
-required to increase performance on the table as a whole.  It may not be required now and may be removed
-in future versions of Azure Mobile Apps.
+!!! info
+    We use the CreatedAt field to create a clustered index.  In older versions of SQL Server, this was
+    required to increase performance on the table as a whole.  It may not be required now and may be removed
+    in future versions of Azure Mobile Apps.
 
-If you can update an existing table to match this schema, then you should do so.
-
-> Note that the Id field is not set by default.  If you want to set a default, set it to `NEWID()`:
+If you can update an existing table to match this schema, then you should do so.  Note that the Id field is
+not set by default.  If you want to set a default, set it to `NEWID()`:
 
 ```sql
 ALTER TABLE [dbo].[Examples]
@@ -461,8 +466,9 @@ This is the sort of SQL table that is very common within existing web applicatio
 an auto-incrementing id column and some fields.  It isn't complex (no relationships, for example), so we
 don't have to worry about [referential integrity] of the table.
 
-> I recommend placing the "mobile views" that we will discuss below in a separate schema (for example,
-`[mobile]`) so that they don't interfere with your existing database schema.
+!!! tip
+    I recommend placing the "mobile views" that we will discuss below in a separate schema (for example,
+    `[mobile]`) so that they don't interfere with your existing database schema.
 
 Let's take a look at creating a VIEW of the data that is "mobile ready".  This is an Entity Relationship
 Diagram of what we are going to do:
@@ -556,9 +562,10 @@ END
 GO
 ```
 
-> You may want to set the `Deleted` flag to 1 (or true) in the Delete trigger.  This will enable soft
-delete on the system properties table, ensuring that mobile clients remove the row from their offline
-cache.
+!!! tip
+    You may want to set the `Deleted` flag to 1 (or true) in the Delete trigger.  This will enable soft
+    delete on the system properties table, ensuring that mobile clients remove the row from their offline
+    cache.
 
 Similarly, when changes are made by the mobile backend to the VIEW, we need to propagate those changes
 to the underlying tables.  This is also done with triggers:
@@ -650,8 +657,9 @@ GO
 A standard SQL view is read-only.  We made the view read/write by using triggers to trap the
 call and replace it with two calls instead.
 
-> Note that this version does not support soft delete.  If you wish to support soft delete, set the
-`Deleted` flag in the `[mobile].[SysProps_TodoItems] table instead of deleting the row.
+!!! warn
+    This version does not support soft delete.  If you wish to support soft delete, set the
+    `Deleted` flag in the `[mobile].[SysProps_TodoItems] table instead of deleting the row.
 
 ### Changing the Mobile Schema
 
@@ -696,9 +704,10 @@ namespace Backend.DataObjects
 }
 ```
 
-> Note that Entity Framework adds an `s` onto the end of the model to create the table name.  If you
-have a model named `TodoItem`, the table is called `TodoItems` in the database.  You can use this
-same annotation to adjust the table name if it is not to your liking.
+!!! info
+    Entity Framework adds an `s` onto the end of the model to create the table name.  If you
+    have a model named `TodoItem`, the table is called `TodoItems` in the database.  You can use this
+    same annotation to adjust the table name if it is not to your liking.
 
 ## Best Practices
 

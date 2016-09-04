@@ -395,7 +395,7 @@ you to balance the optimization of bandwidth with the responsiveness of the UI.
 
 Another method of optimizing bandwidth utilization with an added benefit of providing a resilient data
 connection is to use an offline sync database.   The Azure Mobile Apps Client SDK has a built-in offline
-mode that allows for the common requirements of bandwidth optimization, connection resliency, and 
+mode that allows for the common requirements of bandwidth optimization, connection resliency, and
 performance optimization.
 
 * An offline capable table uses _Incremental Sync_ to only bring down new records from the server.
@@ -404,7 +404,7 @@ performance optimization.
 * Since the data is always local, the UI will be much more responsive to changes.
 
 All of this comes at a cost.  We need to maintain an offline sync database for the tables you wish
-to provide offline, which takes up memory.  It may result in large data transfers (especially in the 
+to provide offline, which takes up memory.  It may result in large data transfers (especially in the
 cases of the first sync operation and rapidly changing tables).  Finally, there is more complexity.  We
 have to deal with the offline table maintenance and conflict resolution patterns.
 
@@ -431,7 +431,7 @@ into a single update when transmitted to the mobile backend.
 We must initialize the local database before we can use it.  This happens on start up and the Azure Mobile
 Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the
 database is deceptively simple.  Install the `Mirosoft.Azure.Mobile.Client.SQLiteStore` package to all the
-client projects.  
+client projects.
 
 !!! warn "SQLitePCL and Android N"
     The SQLiteStore package relies on another package for implementing a SQLite portable class library called
@@ -477,7 +477,7 @@ the `GetTable<>` method:
 ```
 
 Note that we made the routine async during this process.  Adjust the `ICloudService` interface and the calls to
-`GetTable<>` in the rest of the code to compensate for this.  
+`GetTable<>` in the rest of the code to compensate for this.
 
 ### Updating the Sync tables
 
@@ -550,11 +550,11 @@ note that if the mobile client tries to pull data while there are pending operat
 Mobile Apps client SDK will perform an implicit push.  You can check the state of the operations queue with:
 
 ```csharp
-if (Clinet.SyncContent.PendingOperations > 0) {
+if (Client.SyncContext.PendingOperations > 0) {
     // There are pending operations
 }
 
-The only thing left to do now is to decide when to synchronize the local database on the mobile device.  In my example,
+The only thing left to do now is to decide when to synchronize the local database on the mobile device.  In this example,
 I am going to synchronize the database during the refresh command of the `TaskListViewModel` and on saving or deleting
 an item in the `TaskDetailViewModel`.  Each synchronization will be called with the following:
 
@@ -562,16 +562,17 @@ an item in the `TaskDetailViewModel`.  Each synchronization will be called with 
 await CloudService.SyncOfflineCacheAsync();
 ```
 
-!!! note "Additional Steps on Universal Windows"
-    If you are compiling the Universal Windows (UWP) project, there is an extra step.  You must Add a reference for SQLite
-    to the project.  Open the **TaskList.UWP** project, then right-click on the **References** node and select **Add Reference**.
-    Select **Universal Windows** -> **Extensions** and place a check mark next to the **SQLite for Universal Windows** and
-    **Visual C++ 2015 Runtime for Universal Windows** components.
+### Additional Steps on Universal Windows
 
-    ![][add-uwp-reference]
+If you are compiling the Universal Windows (UWP) project, there is an extra step.  You must Add a reference for SQLite
+to the project.  Open the **TaskList.UWP** project, then right-click on the **References** node and select **Add Reference**.
+Select **Universal Windows** -> **Extensions** and place a check mark next to the **SQLite for Universal Windows** and
+**Visual C++ 2015 Runtime for Universal Windows** components.
 
-    If you don't do this, you will get the rather cryptic error message "Unable to set temporary directory" when running the
-    application.
+![][add-uwp-reference]
+
+If you don't do this, you will get the rather cryptic error message "Unable to set temporary directory" when running the
+application.
 
 ### Detecting Connection State
 
@@ -610,7 +611,7 @@ if (connections.Contains(ConnectionType.Wifi)) {
 }
 ```
 
-The Connectivity plugin when paired with the Azure Mobile Apps Client SDK gives you a lot of flexibility in deciding what to 
+The Connectivity plugin when paired with the Azure Mobile Apps Client SDK gives you a lot of flexibility in deciding what to
 sync and over what type of connection you should sync.
 
 ### Handling Conflict Resolution
@@ -620,22 +621,22 @@ When the mobile client submits a modification to the mobile backend, it's genera
 1. A "pre-condition check" is done, comparing the Version to the ETag of the record (which is derived from the Version of the record).
 2. The actual request is done, where the Version of the mobile client is compared to the Version of the record on the mobile backend.
 
-If the version of the record being submitted is different from the version on the server, the test will fail.  In the case of the first 
-check, a _412 Precondition Failed_ will be returned for the modification.  If the second test fails, a _409 Conflict_ response is 
+If the version of the record being submitted is different from the version on the server, the test will fail.  In the case of the first
+check, a _412 Precondition Failed_ will be returned for the modification.  If the second test fails, a _409 Conflict_ response is
 returned.  Normally, you will see the _412 Precondition Failed_ response, but you should be prepared for either response.
 
 Both responses indicate a conflict that needs to be resolved before continuing.  Programatically, when doing a modification in
 an online table (such as an Insert, Update, Delete), you should be capture the `MobileServicePreconditionFailedException<>` Exception
-to handle the conflict.  In an offline sync table, you should capture the `MobileServicePushFailedException` during the 
+to handle the conflict.  In an offline sync table, you should capture the `MobileServicePushFailedException` during the
 `PushAsync()` operation.  This will potentially have an array of conflicts for you to deal with.
 
 For the online case, the code would look like this:
 
 ```csharp
-try 
+try
 {
     await CloudService.InsertAsync(item);
-} 
+}
 catch (MobileServicePreconditionFailedException<TodoItem> ex)
 {
     await ResolveConflictAsync(item, ex.Item);
@@ -662,13 +663,14 @@ catch (MobileServicePushFailedException ex)
 ```
 
 In both cases, the `ResolveConflictAsync()` method is called for each conflict in turn.  Resolving the conflict involves
-deciding between the two options or making corrections to the item.  
+deciding between the two options or making corrections to the item.
 
 1. If you wish to keep the client copy, set the client Version property to the server Version value and re-submit.
 2. If you wish to keep the server copy, discard the update.
 3. If you wish to do something else, create a new copy of the record, set the Version to be the same as the server Version, then re-submit.
 
-> If the model on your mobile client does not have a Version field, the policy is "last write wins".
+!!! info
+    If the model on your mobile client does not have a Version field, the policy is "last write wins".
 
 The online case is relatively simple as you are going to be ignoring the old request and creating a new request.  Here is
 some template code that implements both client-wins and server-wins strategies for the offline case:
@@ -707,32 +709,33 @@ await error.UpdateOperationAsync(JObject.FromObject(serverItem));
 ```
 
 There are many ways to resolve a conflict.  You should consider your requirements carefully.  Asking the user should
-always be the last resort for conflict resolution.  In the majority of applications, most users will click the 
+always be the last resort for conflict resolution.  In the majority of applications, most users will click the
 "keep my version" button to resolve conflicts, so the UI for resolving conflicts should do more than just ask the
 user to decide between a server and a client version.
 
 ## Query Management
 
-I mentioned in the last section that the record selection is based on two factors:
+Record selection is based on two factors:
 
 1. Security policy is enforced at the server.
 2. User preference is enabled at the client.
 
-We've already discussed security policy in depth in the last section.  We've also discussed user queries for online
-usage.  We just use LINQ to affect a change in the query sent to the server.  However, what about offline cases?
-There are situations where you want to keep a smaller subset of the data that you are allowed to see for offline
-usage.  A common request, for example, is to have the last X days of records available offline.
+We've already discussed security policy in depth in [the last section](projections.md).  We've also discussed
+user queries for online usage.  We just use LINQ to affect a change in the query sent to the server.  However,
+what about offline cases? There are situations where you want to keep a smaller subset of the data that you are
+allowed to see for offline usage.  A common request, for example, is to have the last X days of records available
+offline.
 
 In our `PullAsync()` call for the table, we use `table.CreateQuery()` to create a query that is designed to get
-all the records available to the user from the server.  This is not always appropriate.  Let's adjust it to only
-obtain the records for our TodoItem table where either of the following conditions apply:
+all the records available to the user from the server.  This is not always appropriate and can be adjusted.  Let's
+adjust it to only obtain the records for our TodoItem table where either of the following conditions apply:
 
 1. The record has been updated within the last day.
 2. The task is incomplete.
 
 Once the task is marked completed, it will remain in the cache for 1 day, then be removed automatically.  You can
-still obtain the task while online.   This is done by adjusting the query that is generated.  The `table.CreateQuery()`
-method produces an `IMobileServiceTableQuery<>` object.  This can be dealt with via LINQ:
+still obtain the task while online.  The `table.CreateQuery()` method produces an `IMobileServiceTableQuery<>`
+object.  This can be dealt with via LINQ:
 
 ```csharp
 var queryName = $"incsync:r:{typeof(T).Name}";
@@ -758,17 +761,22 @@ await table.PullAsync(queryName, query);
 You can also use the Fluent syntax:
 
 ```csharp
-var query = 
+var query =
     from r in table.CreateQuery()
     select new { r.Text, r.Complete, r.UpdatedAt, r.Version };
 ```
 
-> You should always construct the object including the UpdatedAt and Version properties.  UpdatedAt is used
-for incremental sync and Version is used for conflict resolution.
+You should always construct the object including the `UpdatedAt` and `Version` properties.  `UpdatedAt` is used
+for incremental sync and `Version` is used for conflict resolution.
 
 Both of these cases use standard LINQ syntax to adjust the query being sent to the mobile backend in exactly the
 same way that we adjusted the query when we were doing online searches.  An offline "pull" is exactly the same
 as an online "query".
+
+!!! tip
+    There are times when you want to download two different queries.  Avoid this if at all possible as it will
+    cause additional requests to the backend that are un-necessary.  Construct your query such that all records
+    that you want to download to the offline cache are requested at once.
 
 ### Dealing with Historical Data
 
@@ -782,13 +790,13 @@ var historicalTable = client.GetTable<Message>();
 ```
 
 In this case, the `table` reference is used to access the offline data.   However, you could implement a search
-capability that does a query against the `historicalTable` instead.  They both point to the same table.  However,
-in one case, the server is referenced (and hence only available online) and in the other, the local cache is
-referenced (and hence available offline).
+capability that does a query against the `historicalTable` instead.  They both point to the same table.  In one
+case, the server is referenced (and only available online) and in the other, the local cache is referenced
+(and available offline).
 
 ## Purging the Local Cache
 
-It will be inevitable that you will want to clear the local cache at some point.  
+It will be inevitable that you will want to clear the local cache at some point.
 
 * You have just changed the model and underlying data and need to re-establish a baseline.
 * You only cache newer data and want to remove historical data.
@@ -825,7 +833,7 @@ tricky since the Visual Studio Emulator for Android uses a disk image file.  How
 developer connections to devices.  In this case, we can use the `adb` utility.  First, start your emulator of choice through
 the **Tools** -> **Visual Studio Emulator for Android** menu option.  Click on the **Play** button next to the emulator
 that you have been using.  Ensure the emulator is fully started before continuing.  The `adb` utility can be accessed through
-a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows, this is 
+a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows, this is
 `C:\Program Files (x86)\Android\android-sdk\platform-tools`.  It's a good idea to add this to your PATH.
 
 Start at your Visual Studio Emulator for Android.  Click on the **Tools** button (it looks like a pair of right-facing
@@ -834,7 +842,7 @@ chevrons) and select the **Network** tab.
 ![][android-emulator-network]
 
 You want the network address of the **Windows Phone Emulator Internal Switch**.  In this case, it's 169.254.138.177.  The
-169.254 address range is a private switch between the host computer (the one you are developing on) and the emulators. 
+169.254 address range is a private switch between the host computer (the one you are developing on) and the emulators.
 Open up a shell prompt and type:
 
 ```bash
@@ -868,7 +876,7 @@ You can easily use the normal Finder utilities to search for and remove the data
 [droid-manifest-packagename]: img/droid-manifest-packagename.PNG
 [android-emulator-network]: img/android-emulator-network.PNG
 
-<!-- Links -
+<!-- Links -->
 [1]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/introduction/
 [2]: https://developer.xamarin.com/samples/xamarin-forms/behaviors/eventtocommandbehavior/
 [3]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/reusable/event-to-command-behavior/

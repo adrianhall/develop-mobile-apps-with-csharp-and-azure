@@ -73,10 +73,12 @@ namespace TaskList.Abstractions
 The server side version adds another field - the `Deleted` boolean.  This is described in the `ITableData` interface
 that is provided with the Azure Mobile Apps Server SDK.
 
-> The Azure Mobile Apps SDK uses `DateTimeOffset` instead of `DateTime`.  A DateTime object is time zone aware, and
-time zone definitions change over time.  The DateTimeOffset does not know anything about time zones.  The DateTime
-representation can change depending on where you are.  The DateTimeOffset will never change.  This makes it a better
-choice for these things.  You will see dates stored in UTC in your database as a result of this.
+!!! info
+    The Azure Mobile Apps SDK uses `DateTimeOffset` instead of `DateTime`.  A DateTime object is time
+    zone aware, and time zone definitions change over time.  The DateTimeOffset does not know anything
+    about time zones.  The DateTime representation can change depending on where you are.  The DateTimeOffset
+    will never change.  This makes it a better choice for these things.  You will see dates stored in UTC in
+    your database as a result of this.
 
 Each element of the TableData (and ITableData) has a purpose, nominally to deal with situations with Offline Sync.
 
@@ -142,7 +144,8 @@ Given any particular table, there are a few endpoints that are important.  Given
 
 We can take a look at each of these in turn with the Azure App Service.  These can be done with Postman easily.
 
-> The first request to a new Azure App Service will take some time, especially if the site has to set up the database.
+!!! info
+    The first request to a new Azure App Service will take some time, especially if the site has to set up the database.
 
 Let's start with a basic Query operation:
 
@@ -153,8 +156,10 @@ earlier - it's optional and will be maintained for you if you don't use it.  In 
 that were in our model.  If there are no elements in a table, we get an empty array.  If the table does not
 exist, we will get a `404 Not Found` error.
 
-> Any operation can also return a `401 Unauthorized` if you are not allowed to do the operation with the current
-authentication, `400 Bad Request` if you supplied bad data and `500 Internal Server Error` if the server crashed.
+!!! info
+    Any operation can also return a `401 Unauthorized` if you are not allowed to do the operation with the
+    current authentication, `400 Bad Request` if you supplied bad data and `500 Internal Server Error` if
+    the server crashed.
 
 We can also do a GET for an Id:
 
@@ -205,10 +210,11 @@ protected override void Initialize(HttpControllerContext controllerContext)
 Adding the `enableSoftDelete` parameter and setting it to true will enable the appropriate logic in the
 domain manager.
 
-> We haven't introduced the **Domain Manager** yet.  Azure Mobile Apps doesn't really care what sort of data store
-you are using on the backend.  It proxies all requests through a class that implements the `IDomainManager`
-interface.  Azure Mobile Apps Server SDK supplies one such domain manager - the `EntityDomainManager` uses
-Entity Framework underneath for this purpose.
+!!! info
+    We haven't introduced the **Domain Manager** yet.  Azure Mobile Apps doesn't really care what sort of
+    data store you are using on the backend.  It proxies all requests through a class that implements the
+    `IDomainManager` interface.  Azure Mobile Apps Server SDK supplies one such domain manager - the
+    `EntityDomainManager` uses Entity Framework underneath for this purpose.
 
 Go through the same process of adding and deleting an entity.  You can see the entity by using the SQL Server Object
 Explorer in Visual Studio:
@@ -256,7 +262,6 @@ We can also select specific fields by using the `$select` clause:
 
 ![][table-srch-2]
 
-
 ## Paging Results
 
 At some point, we are going to bump into an in-built limit of the server.  You can clearly see this by inserting
@@ -294,10 +299,11 @@ For example, let's say you wanted to receive individual entities.  You could req
 
 At this point, no entities would be returned and you would know you are at the end.
 
-> Although it is tempting to suggest removing the limit on the number of entities that can be returned (so you
-can receive all entities in one shot), it's better to implement paging.  The Azure App Service will run in a
-smaller App Service Plan because it won't require as much memory.  You will be able to support more users and
-your code will be more resilient to network issues that occur during transmission.
+!!! warn
+    Although it is tempting to suggest removing the limit on the number of entities that can be returned (so you
+    can receive all entities in one shot), it's better to implement paging.  The Azure App Service will run in a
+    smaller App Service Plan because it won't require as much memory.  You will be able to support more users and
+    your code will be more resilient to network issues that occur during transmission.
 
 ## Offline synchronization
 
@@ -325,15 +331,17 @@ just a text string) to the `PullAsync()` method, the mobile client will do an _I
 the latest `UpdatedAt` timestamp that the mobile client saw is recorded in the _Sync Context_ (and associated with
 the query name).  This allows the pull operation to pick up where it left off.
 
-> The query name must be unique within a Sync Context for incremental sync to work.
+!!! tip
+    The query name must be unique within a Sync Context for incremental sync to work.
 
 The sync process implements _Optimistic Concurrency_.  With optimistic concurrency, the mobile client assumes that
 its change is valid.  Conflicts are handled only on push operations.  If the mobile client submits a record with
 a `version` field that does not match the server version field, the server will return a 409 or 412 response code.
 
-> What's the difference between 409 and 412?  Most of the time, you will see 412 Precondition Failed.  This means
-the ETag of the request did not match.  The ETag is a header that is equivalent to the version value.  409 Conflict
-occurs when you don't submit an ETag but do submit a version field in the update.
+!!! info
+    What's the difference between 409 and 412?  Most of the time, you will see 412 Precondition Failed.  This
+    means the ETag of the request did not match.  The ETag is a header that is equivalent to the version value.
+    409 Conflict occurs when you don't submit an ETag but do submit a version field in the update.
 
 If no version field (or ETag header) is submitted, the client entity is used for the create or update irrespective
 of the value on the server.
