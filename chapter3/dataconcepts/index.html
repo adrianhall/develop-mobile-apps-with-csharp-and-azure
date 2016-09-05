@@ -388,15 +388,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../relationships/">
       Relationships
     </a>
@@ -408,6 +399,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -637,12 +637,14 @@ namespace TaskList.Abstractions
 
 <p>The server side version adds another field - the <code>Deleted</code> boolean.  This is described in the <code>ITableData</code> interface
 that is provided with the Azure Mobile Apps Server SDK.</p>
-<blockquote>
-<p>The Azure Mobile Apps SDK uses <code>DateTimeOffset</code> instead of <code>DateTime</code>.  A DateTime object is time zone aware, and
-time zone definitions change over time.  The DateTimeOffset does not know anything about time zones.  The DateTime
-representation can change depending on where you are.  The DateTimeOffset will never change.  This makes it a better
-choice for these things.  You will see dates stored in UTC in your database as a result of this.</p>
-</blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The Azure Mobile Apps SDK uses <code>DateTimeOffset</code> instead of <code>DateTime</code>.  A DateTime object is time
+zone aware, and time zone definitions change over time.  The DateTimeOffset does not know anything
+about time zones.  The DateTime representation can change depending on where you are.  The DateTimeOffset
+will never change.  This makes it a better choice for these things.  You will see dates stored in UTC in
+your database as a result of this.</p>
+</div>
 <p>Each element of the TableData (and ITableData) has a purpose, nominally to deal with situations with Offline Sync.</p>
 <h3 id="the-id-field">The Id field<a class="headerlink" href="#the-id-field" title="Permanent link">&para;</a></h3>
 <p>One of the common questions is this:  Can I use an auto-incrementing integer as an Id field?  Let's take a look at
@@ -721,19 +723,22 @@ of the offline sync process.</p>
 </tbody>
 </table>
 <p>We can take a look at each of these in turn with the Azure App Service.  These can be done with Postman easily.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>The first request to a new Azure App Service will take some time, especially if the site has to set up the database.</p>
-</blockquote>
+</div>
 <p>Let's start with a basic Query operation:</p>
 <p><img alt="" src="../img/table-ops-1.PNG" /></p>
 <p>We always get an array of elements back.  These contain five system properties.  We didn't mention createdAt
 earlier - it's optional and will be maintained for you if you don't use it.  In addition, we have the fields
 that were in our model.  If there are no elements in a table, we get an empty array.  If the table does not
 exist, we will get a <code>404 Not Found</code> error.</p>
-<blockquote>
-<p>Any operation can also return a <code>401 Unauthorized</code> if you are not allowed to do the operation with the current
-authentication, <code>400 Bad Request</code> if you supplied bad data and <code>500 Internal Server Error</code> if the server crashed.</p>
-</blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Any operation can also return a <code>401 Unauthorized</code> if you are not allowed to do the operation with the
+current authentication, <code>400 Bad Request</code> if you supplied bad data and <code>500 Internal Server Error</code> if
+the server crashed.</p>
+</div>
 <p>We can also do a GET for an Id:</p>
 <p><img alt="" src="../img/table-ops-2.PNG" /></p>
 <p>The return is the entity serialized as an object.  If the Id does not exist, then a <code>404 Not Found</code> is
@@ -768,12 +773,13 @@ to adjust the domain manager in the TodoItemController:</p>
 
 <p>Adding the <code>enableSoftDelete</code> parameter and setting it to true will enable the appropriate logic in the
 domain manager.</p>
-<blockquote>
-<p>We haven't introduced the <strong>Domain Manager</strong> yet.  Azure Mobile Apps doesn't really care what sort of data store
-you are using on the backend.  It proxies all requests through a class that implements the <code>IDomainManager</code>
-interface.  Azure Mobile Apps Server SDK supplies one such domain manager - the <code>EntityDomainManager</code> uses
-Entity Framework underneath for this purpose.</p>
-</blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>We haven't introduced the <strong>Domain Manager</strong> yet.  Azure Mobile Apps doesn't really care what sort of
+data store you are using on the backend.  It proxies all requests through a class that implements the
+<code>IDomainManager</code> interface.  Azure Mobile Apps Server SDK supplies one such domain manager - the
+<code>EntityDomainManager</code> uses Entity Framework underneath for this purpose.</p>
+</div>
 <p>Go through the same process of adding and deleting an entity.  You can see the entity by using the SQL Server Object
 Explorer in Visual Studio:</p>
 <ul>
@@ -836,12 +842,13 @@ counting.</p>
 <li><code>/tables/todoitem?$top=1&amp;$skip=3</code></li>
 </ul>
 <p>At this point, no entities would be returned and you would know you are at the end.</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>Although it is tempting to suggest removing the limit on the number of entities that can be returned (so you
 can receive all entities in one shot), it's better to implement paging.  The Azure App Service will run in a
 smaller App Service Plan because it won't require as much memory.  You will be able to support more users and
 your code will be more resilient to network issues that occur during transmission.</p>
-</blockquote>
+</div>
 <h2 id="offline-synchronization">Offline synchronization<a class="headerlink" href="#offline-synchronization" title="Permanent link">&para;</a></h2>
 <p>One of the many reasons that developers choose the Azure Mobile Apps SDK is that it natively supports offline
 sync.  Offline sync provides a number of benefits.  It improves app responsiveness by caching server data
@@ -863,17 +870,19 @@ if there are entities in the operation queue at the time of a pull request.  If 
 just a text string) to the <code>PullAsync()</code> method, the mobile client will do an <em>Incremental Sync</em>.  In this case,
 the latest <code>UpdatedAt</code> timestamp that the mobile client saw is recorded in the <em>Sync Context</em> (and associated with
 the query name).  This allows the pull operation to pick up where it left off.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>The query name must be unique within a Sync Context for incremental sync to work.</p>
-</blockquote>
+</div>
 <p>The sync process implements <em>Optimistic Concurrency</em>.  With optimistic concurrency, the mobile client assumes that
 its change is valid.  Conflicts are handled only on push operations.  If the mobile client submits a record with
 a <code>version</code> field that does not match the server version field, the server will return a 409 or 412 response code.</p>
-<blockquote>
-<p>What's the difference between 409 and 412?  Most of the time, you will see 412 Precondition Failed.  This means
-the ETag of the request did not match.  The ETag is a header that is equivalent to the version value.  409 Conflict
-occurs when you don't submit an ETag but do submit a version field in the update.</p>
-</blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>What's the difference between 409 and 412?  Most of the time, you will see 412 Precondition Failed.  This
+means the ETag of the request did not match.  The ETag is a header that is equivalent to the version value.
+409 Conflict occurs when you don't submit an ETag but do submit a version field in the update.</p>
+</div>
 <p>If no version field (or ETag header) is submitted, the client entity is used for the create or update irrespective
 of the value on the server.</p>
 <!-- Images -->

@@ -374,15 +374,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../../chapter3/relationships/">
       Relationships
     </a>
@@ -394,6 +385,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -586,11 +586,12 @@ Service for use accessing that same App Service, so the issuer and audience are 
 Auth0 token, you will see that the issuer is the Auth0 domain and the audience is the Client ID of the Auth0 tenant.</p>
 <p>Each token will also have a number of claims.  The most common claim is the <em>Subject</em> of the token.  This is generally
 a security ID, but could be any unique user ID.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>Azure App Service sets the subject to a stable SID.  The stable SID is unique to the identity provider that is
 used for the authentication and guaranteed not to change, even if the user changes their email address or username
 on the underlying identity provider.</p>
-</blockquote>
+</div>
 <p>Technically, the JWT can include any data and there are some identity providers that place just about everything
 about the user in the JWT.  App Service keeps the amount of data small because the client will be sending the JWT
 with every request. Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth
@@ -619,10 +620,11 @@ which is based on Google Chrome.  If you use Firefox, you might want to take a l
 also distributes a web debugging proxy called <a href="http://www.telerik.com/blogs/api-testing-with-telerik-fiddler">Fiddler</a> that can do API testing.  To test the server, we will
 need a token.  We can get one by testing authentication configuration by pointing the browser to <code>/.auth/login/aad</code>.
 The return URL will contain a token in the query string and as <a href="https://en.wikipedia.org/wiki/HTTP_cookie#Secure_cookie">a secure cookie</a>.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>You can test any of the supported identity providers by replacing <em>aad</em> with the authentication provider name:
-facebook, google, microsoftaccount and twitter are possibilities here.</p>
-</blockquote>
+<strong>facebook</strong>, <strong>google</strong>, <strong>microsoftaccount</strong> and <strong>twitter</strong> are possibilities here.</p>
+</div>
 <p>We can then do a request to <code>/tables/todoitem</code> to try and obtain the list of current tasks.  We will need to add
 two headers:</p>
 <ul>
@@ -675,9 +677,10 @@ is that you can gain access to the keys and audience for your App Service.</p>
   &lt;/appSettings&gt;
 </code></pre>
 
-<blockquote>
-<p><strong>NOTE</strong>: Both the ValidAudience and ValidIssuer will have a slash on the end and be a https URL.</p>
-</blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Both the ValidAudience and ValidIssuer will have a slash on the end and be a https URL.</p>
+</div>
 <p>The last three keys are the keys you will need to add.  Make sure you do not have a <code>HostName</code> key as this is how
 the startup file determines if you are running locally or remote. Talking of which, edit your
 <code>App_Start\Startup.MobileApp.cs</code> file to include the following:</p>
@@ -759,11 +762,12 @@ specify the <code>DEBUG</code> constant in the <strong>Build</strong> tab.</p>
         }
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>It's a good idea to separate the client and server into different solutions.  Although it doesn't hurt anything to
 have them in the same solution (like we have), having the client and server separated allows you to attach a debugger
 separately - which allows you to debug both sides of the connection at the same time.</p>
-</blockquote>
+</div>
 <p>With these settings, the client will contact the AlternateLoginHost listed for the authentication process and then
 contact the local server for the rest of the transaction.</p>
 <h3 id="run-the-local-server">Run the Local Server<a class="headerlink" href="#run-the-local-server" title="Permanent link">&para;</a></h3>

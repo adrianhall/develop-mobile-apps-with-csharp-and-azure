@@ -398,15 +398,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../../chapter3/relationships/">
       Relationships
     </a>
@@ -418,6 +409,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -607,10 +607,11 @@ a new Facebook application:</p>
 <p><img alt="Facebook Developers" src="../img/fb-dev-1.PNG" /></p>
 <p><strong>Note</strong>: Facebook updates the look and feel of their developer site on a regular basis.  As a result, the screen shots
 I have provided here may be different.  If in doubt, follow the bullet descriptions to find your way.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>If you are not already registered, click on the drop-down in the top-right corner and <strong>Register as a Developer</strong>
 before continuing.</p>
-</blockquote>
+</div>
 <ul>
 <li>Click on the <strong>My Apps</strong> link in the top right corner of the screen.</li>
 <li>Click on <strong>Create a New App</strong>.</li>
@@ -644,21 +645,23 @@ or verifying your mobile phone number.</p>
 <li>Turn <strong>App Service Authentication</strong> to <strong>On</strong>.</li>
 <li>In the <strong>Action to take when request is not authenticated</strong>, select <strong>Allow Request (no action)</strong>.</li>
 </ul>
-<blockquote>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
 <p>It is very tempting to choose <strong>Log in with Facebook</strong>.  However, you need to avoid this.  Selecting this option
 will mean that all requests need to be authenticated and you will not get the information about the identity on the
 back end.  Selecting <strong>Allow Request</strong> means your app is in charge of what gets authenticated and what does not
 require authentication.</p>
-</blockquote>
+</div>
 <ul>
 <li>Click on <strong>Facebook</strong> (which should show <em>Not Configured</em>).</li>
 <li>Cut and Paste the <strong>App ID</strong> and <strong>App Secret</strong> into the boxes provided.</li>
 <li>Select <strong>public_profile</strong> and <strong>email</strong> for Scopes.</li>
 </ul>
-<blockquote>
-<p>Note that if you request anything but public_profile, user_friends, and email, your app will need further review by
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>If you request anything but public_profile, user_friends, and email, your app will need further review by
 Facebook, which will take time.  This process is not worth it for test apps like this one.</p>
-</blockquote>
+</div>
 <ul>
 <li>Click on <strong>OK</strong> (at the bottom of the blade) to close the Facebook configuration blade.</li>
 <li>Click on <strong>Save</strong> (at the top of the blade) to save your Authentication changes.</li>
@@ -670,11 +673,12 @@ into the mobile client.</p>
 <p>If you are not logged in to facebook already, you will be prompted for your facebook credentials first.  Finally,
 here is your happy page - the page that signifies you have done everything right:</p>
 <p><img alt="Authentication Succeeded" src="../img/auth-success.PNG" /></p>
-<blockquote>
-<p><strong>Minimal Permissions</strong>  Every single OAuth provider will ask you what sort of information you want to have access
-to.  These "claims" translate into permissions.  The more permissions you request, the less likely the user is going
-to accept them.  Be a good net citizen and only request the information you are actually going to use.</p>
-</blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Every single OAuth provider will ask you what sort of information you want to have access to.  These "claims" 
+translate into permissions.  The more permissions you request, the less likely the user is going to accept 
+them.  Be a good net citizen and only request the information you are actually going to use.</p>
+</div>
 <h2 id="google-configuration">Google Configuration<a class="headerlink" href="#google-configuration" title="Permanent link">&para;</a></h2>
 <p>It should be no shock that you need a <a href="https://accounts.google.com/">Google Account</a> to get started.  If you do not have one already (or you
 want a different account for your development activities), create a new account now.  Then log in to the
@@ -700,20 +704,22 @@ a web-based form authentication, which matches the <strong>Web Application</stro
 <p><img alt="Google Create Client ID" src="../img/goog-dev-5.PNG" /></p>
 <p>Enter the URL of your App Service in the <strong>Authorized JavaScript origins</strong> box, and the URL +
 <code>/.auth/login/google/callback</code> into the <strong>Authorized redirect URIs</strong> box, then click on <strong>Create</strong>.</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>Google is one of those providers that requires authentication redirect URIs to be secure - so ensure you use the
 https version of your URL.</p>
-</blockquote>
+</div>
 <p>At this point, Google will show you the Client ID and Client Secret for your app.  You can also get the Client ID and
 Client Secret from the interface by clicking on the <strong>Credentials</strong> link on the left-hand side bar.</p>
 <p>The process from here is practically the same as Facebook.  Open your App Service within the Azure Portal, click on
 <strong>All Settings</strong>, then <strong>Authentication / Authorization</strong> and finally <strong>Google</strong> (assuming you have already turned
 on the authentication service).  Cut and paste the Client ID and Client Secret into the boxes provided.  Click on
 <strong>OK</strong> (at the bottom) followed by <strong>Save</strong> (at the top of the page).</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>You can define multiple providers at the same time.  The code in the client determines what authentication mechanism
 gets used.</p>
-</blockquote>
+</div>
 <p>You can test this just like Facebook.  Go to https://<em>yoursite</em>/.auth/login/google with your browser.  You should get
 something like the following:</p>
 <p><img alt="Confirming Google Authentication" src="../img/goog-dev-6.PNG" /></p>
@@ -759,21 +765,23 @@ Once there, you can click on <strong>Create New App</strong>:</p>
 <p>Most of the fields are self-explanatory.  The <strong>Callback URL</strong> is the same thing that the other social providers have
 called the Redirect URL.  The appropriate value is your app URL + <code>/.auth/login/twitter/callback</code>.  There is a legal
 agreement at the bottom of the page, then you can click on <strong>Create your Twitter application</strong> button.</p>
-<blockquote>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
 <p>All social authentication providers have some sort of legal agreement that governs their use.  In general, demo or
 PoC apps are fair use.  However, you should get a legal opinion before using a social authentication provider in a
 production app.</p>
-</blockquote>
+</div>
 <p>Once you have created the app, you will get a tabbed display with all the settings.  Click on the <strong>Keys and Access
 Tokens</strong> tab:</p>
 <p><img alt="Twitter: Keys" src="../img/twtr-dev-2.PNG" /></p>
 <p>Note the values for the <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>.  They get entered into the
 Azure Portal.</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>There is a check box in the <strong>Settings</strong> tab that says <em>Allow this application to be used to Sign in with Twitter</em>.
 At the time of writing, this is checked by default.  However, if you find you can not log in for some reason, then
 ensure this checkbox is checked.</p>
-</blockquote>
+</div>
 <p>Back in the Azure Portal, select your app service, then <strong>All Settings</strong>, <strong>Authentication / Authorization</strong>, and
 finally <strong>Twitter</strong> (assuming you have already turned Authentication on).  You can now cut and paste the Consumer
 Key and Consumer Secret into the appropriate boxes, before clicking on <strong>OK</strong> (at the bottom) followed by <strong>Save</strong>
@@ -790,13 +798,14 @@ get to them.</p>
 using the same mobile client that we developed in the first chapter, but we are now going to add authentication to
 it.  Web views are one of those items that are platform dependent. Fortunately for us, Xamarin has already thought
 of this and provided a facility for running platform specific code called the <a href="https://developer.xamarin.com/guides/xamarin-forms/dependency-service/">DependencyService</a>.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>If you have already implemented authentication during the Enterprise Authentication section, this code is the
 same.  You just have to alter the provider name.</p>
+</div>
 <p>If we run our application right now, clicking on the "Enter the App" button will result in an error.  You will be
-able to see the Unauthorized error in the debug window of Visual Studio.</p>
-</blockquote>
-<p>Our first step is to define an <code>Abstractions\ILoginProvider.cs</code> interface within the  shared project:</p>
+able to see the Unauthorized error in the debug window of Visual Studio.  Our first step is to define an 
+<code>Abstractions\ILoginProvider.cs</code> interface within the shared project:</p>
 <pre><code class="csharp">using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 
@@ -809,8 +818,7 @@ namespace TaskList.Abstractions
 }
 </code></pre>
 
-<p>Next, we are going to extend our <code>Abstractions\ICloudService.cs</code> interface so that the main application can call
-the login routine:</p>
+<p>Next, we extend our <code>Abstractions\ICloudService.cs</code> interface so that the main application can call the login routine:</p>
 <pre><code class="csharp">using System.Threading.Tasks;
 
 namespace TaskList.Abstractions
@@ -886,9 +894,10 @@ namespace TaskList.Droid.Services
 }
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>Replace "facebook" with "google", "microsoftaccount" or "twitter", depending on your identity provider.</p>
-</blockquote>
+</div>
 <p>Let us take a closer look at this implementation.  The <code>LoginAsync()</code> method on the Azure Mobile Apps client object
 takes the Android context (which is normally the main window) and a provider - we can pick any of "facebook",
 "google", "microsoftaccount", "twitter" or "aad" depending on what we have defined in the Azure App Service.  The
@@ -981,10 +990,11 @@ that it logs us in as well. The Command for the login button is in the <code>Vie
 }
 </code></pre>
 
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>The <code>ServiceLocator</code> class is my basic singleton handler.  It is available in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">Chapter2</a> project.  It
 returns the concrete version of the cloud service, just like the Singleton version we defined in Chapter1.</p>
-</blockquote>
+</div>
 <p>When you run the application, clicking on the "Enter the App" button will now present you with an Authenticate window:</p>
 <p>![AAD Authenticate][img58]</p>
 <p>Going through the authentication process will get you to the task list again.  If the authentication process fails,
@@ -995,11 +1005,12 @@ does nothing more than print a diagnostic message to the debug window of Visual 
 integrated.  In general, these SDKs are provided for a native platform (Objective-C or Swift for iOS, Java for Android),
 use callbacks or delegates (as is common practice in native libraries) and are thus more complicated to integrate with
 your mobile client than those that have a C#/.NET SDK delivered on NuGet.</p>
-<blockquote>
-<p>Testing Client Flow for social providers requires that the social app be installed on the device.  You cannot install
-other apps on the iOS simulator and there may be restrictions on the Android Emulator.  This means that you need to
-test client flow for social providers on an actual device.</p>
-</blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Testing Client Flow for social providers requires that the social app be installed on the device.  You cannot 
+install other apps on the iOS simulator and there may be restrictions on the Android Emulator.  This means that 
+you need to test client flow for social providers on an actual device.</p>
+</div>
 <p>The reward for doing so are a more integrated experience on mobile devices.  For example, if you integrate the Google
 Play Services SDK in an Android app, the app will seamlessly authenticate itself with the connected Google account in
 the background, avoiding the need for repeatedly authenticating the client.  It may ask for a fingerprint instead if

@@ -382,15 +382,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../relationships/">
       Relationships
     </a>
@@ -402,6 +393,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -589,12 +589,13 @@ and your service will likely crash.  If you manage to trap the error, it will sa
 the 'MobileServiceContext' context has changed since the database was created. Consider using Code First
 Migrations to update the database.</em>  That's fairly specific and is common to all applications based
 on Entity Framework that use code-first models.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>There is an alternative here called <strong>Database First Models</strong>.  In this alternative, you create the
 database first then create the models to match.  However, Azure Mobile Apps requires specific configuration
-of mobile tables that you will need to take care of.  See the section on using existing SQL tables later
-on for details.</p>
-</blockquote>
+of mobile tables that you will need to take care of.  See <a href="#using-an-existing-sql-table">the section</a> on
+<a href="#using-an-existing-sql-table">using existing SQL tables</a> later on for details.</p>
+</div>
 <p>The first step is to enable migrations.  Go to <strong>View</strong> -&gt; <strong>Other Windows</strong> -&gt; <strong>Package Manager Console</strong>.
 This window will generally appear in the same place as your Output and Error List windows at the bottom
 of the screen.  Type <code>enable-migrations</code> in it:</p>
@@ -604,11 +605,12 @@ of the screen.  Type <code>enable-migrations</code> in it:</p>
 to create an Initial migration that represents the current state of the database.  We can do this with the
 command <code>add-migration Initial</code>.</p>
 <p><img alt="" src="../img/add-initial-migration.PNG" /></p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>If you have multiple projects in your solution, you may need to add <code>-Project _projectname_</code>.  For example,
 <code>add-migration -project Chapter3 Initial</code>.  This applies to all the migration commands you execute in the
 Package Manager Console.</p>
-</blockquote>
+</div>
 <p>The initial migration creates a few files in the <code>Migrations</code> folder that represent the current state of
 affairs for the database. These easily recognized by a combination of the current date and the name of the
 migration.  Code First Migrations can be applied manually or automatically.  I personally prefer the automatic
@@ -705,10 +707,11 @@ the command <code>update-database</code> to apply the existing migration.</p>
 <p>A Data Transfer Object (or DTO as it is commonly known) is the wire representation of the model for your
 table.  It must inherit from a concrete implementation of <code>ITableData</code>.  The Azure Mobile Apps SDK includes
 <code>EntityData</code> for this reason.  EntityData is a concrete implementation that works with Entity Framework.</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>You can't just assume EntityData will work with other data stores.  There are Entity Framework specific
 attributes decorating the properties for EntityData that will likely be different for other stores.</p>
-</blockquote>
+</div>
 <p>The default Azure Mobile Apps project that is supplied with the Azure SDK provides a folder for storing
 DTOs called <code>DataObjects</code>.  Let's create a DTO by right-clicking on the <strong>DataObjects</strong> folder, then
 using <strong>Add</strong> -&gt; <strong>Class...</strong>:</p>
@@ -727,10 +730,11 @@ namespace Chapter3.DataObjects
 }
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>Don't call your model <code>SomethingDTO</code>.  This ends up as a <code>/tables/somethingDTO</code> endpoint and a <code>SomethingDTO</code>
 table in your database.  Just call it <code>Something</code>.  All the names will then line up properly.</p>
-</blockquote>
+</div>
 <p>I've included several field types, including a complex type.  The basic requirement for a field is that it
 must be serialized into a simple JSON type during transfer between the server and the mobile client.  Complex
 types (that is, any type that can be serialized to an object or array) will always require special handling
@@ -881,10 +885,11 @@ use the search box).  You can also get the diagnostic logs within Visual Studio.
 <p>There are times when a "Database First" approach is needed.  If you are trying to expose an existing
 SQL database table, for example, you want to use a "Database First" approach.  You may also like the
 separation of the database table from the mobile system columns.</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>The Database First and Code First approaches to Entity Framework are mutually exclusive.  You need
 to decide which one you want to use and stick with it.</p>
-</blockquote>
+</div>
 <p>To use "Database First", you first set up the database.  Then you create a Model and update the DbContext
 object.  For example, out <code>Example</code> model from before can be represented by the following database
 schema:</p>
@@ -923,15 +928,14 @@ CREATE TRIGGER [TR_dbo_Examples_InsertUpdateDelete] ON [dbo].[Examples]
 <p>The system properties are added to the schema.  We can (and do) use a trigger to update the UpdatedAt
 column when the data is updated.  Placing this logic within the SQL Server schema definition means
 we can use this SQL table outside of the mobile context and it will still work for the mobile application.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>We use the CreatedAt field to create a clustered index.  In older versions of SQL Server, this was
 required to increase performance on the table as a whole.  It may not be required now and may be removed
 in future versions of Azure Mobile Apps.</p>
-</blockquote>
-<p>If you can update an existing table to match this schema, then you should do so.</p>
-<blockquote>
-<p>Note that the Id field is not set by default.  If you want to set a default, set it to <code>NEWID()</code>:</p>
-</blockquote>
+</div>
+<p>If you can update an existing table to match this schema, then you should do so.  Note that the Id field is
+not set by default.  If you want to set a default, set it to <code>NEWID()</code>:</p>
 <pre><code class="sql">ALTER TABLE [dbo].[Examples]
     ALTER COLUMN [Id] SET DEFAULT CONVERT(NVARCHAR(128), NEWID());
 </code></pre>
@@ -975,10 +979,11 @@ defined like this:</p>
 <p>This is the sort of SQL table that is very common within existing web applications, for instance.  We have
 an auto-incrementing id column and some fields.  It isn't complex (no relationships, for example), so we
 don't have to worry about <a href="https://msdn.microsoft.com/en-us/library/aa292166(v=vs.71).aspx">referential integrity</a> of the table.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>I recommend placing the "mobile views" that we will discuss below in a separate schema (for example,
 <code>[mobile]</code>) so that they don't interfere with your existing database schema.</p>
-</blockquote>
+</div>
 <p>Let's take a look at creating a VIEW of the data that is "mobile ready".  This is an Entity Relationship
 Diagram of what we are going to do:</p>
 <p><img alt="" src="../img/erd-diagram.PNG" /></p>
@@ -1063,11 +1068,12 @@ END
 GO
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>You may want to set the <code>Deleted</code> flag to 1 (or true) in the Delete trigger.  This will enable soft
 delete on the system properties table, ensuring that mobile clients remove the row from their offline
 cache.</p>
-</blockquote>
+</div>
 <p>Similarly, when changes are made by the mobile backend to the VIEW, we need to propagate those changes
 to the underlying tables.  This is also done with triggers:</p>
 <pre><code class="sql">CREATE TRIGGER
@@ -1155,10 +1161,11 @@ GO
 
 <p>A standard SQL view is read-only.  We made the view read/write by using triggers to trap the
 call and replace it with two calls instead.</p>
-<blockquote>
-<p>Note that this version does not support soft delete.  If you wish to support soft delete, set the
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>This version does not support soft delete.  If you wish to support soft delete, set the
 <code>Deleted</code> flag in the `[mobile].[SysProps_TodoItems] table instead of deleting the row.</p>
-</blockquote>
+</div>
 <h3 id="changing-the-mobile-schema">Changing the Mobile Schema<a class="headerlink" href="#changing-the-mobile-schema" title="Permanent link">&para;</a></h3>
 <p>We stored our mobile representation of the table in a different schema.  Azure Mobile Apps looks
 for tables (and views) in the <code>[dbo]</code> schema by default.  There are two places you can modify the
@@ -1197,11 +1204,12 @@ namespace Backend.DataObjects
 }
 </code></pre>
 
-<blockquote>
-<p>Note that Entity Framework adds an <code>s</code> onto the end of the model to create the table name.  If you
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Entity Framework adds an <code>s</code> onto the end of the model to create the table name.  If you
 have a model named <code>TodoItem</code>, the table is called <code>TodoItems</code> in the database.  You can use this
 same annotation to adjust the table name if it is not to your liking.</p>
-</blockquote>
+</div>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <p>Here is a summary of what I consider best practices for table controllers:</p>
 <ul>

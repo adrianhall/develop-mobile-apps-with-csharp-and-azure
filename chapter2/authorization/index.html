@@ -376,15 +376,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../../chapter3/relationships/">
       Relationships
     </a>
@@ -396,6 +387,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -571,10 +571,11 @@ is leveraging this to provide authorization based on whether a user is authentic
 can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id
 is not guessable and we have no roles.  To see what I mean, run the <strong>Backend</strong> project locally and set a break point
 on the <code>GetAllTodoItems()</code> method in the <code>TodoItemController</code>, then run your server and your UWP application.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
 you to run the application and the server at the same time on the same machine.</p>
-</blockquote>
+</div>
 <p>Once you have authenticated, you will be able to set a break point to take a look at <code>this.User.Identity</code>:</p>
 <p><img alt="this.User.Identity output" src="../img/user-identity.PNG" /></p>
 <p>Note that the <code>Name</code> property is null.  This is the property that is used when you want to authorize individual users.
@@ -590,9 +591,10 @@ authentication.  Fortunately, the Authentication / Authorization feature has an 
 gained during authorization on the server and we will cover this use later on.  However, there are reasons to pull
 this information on the client as well.  For example, we may want to make the List View title be our name instead of
 "Tasks".</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>You can't use the /.auth/me endpoint when using custom authentication.</p>
-</blockquote>
+</div>
 <p>Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can
 decode the JSON object, we need to define the models.  This is done in the shared <strong>TaskList</strong> project.  I've defined
 this in <code>Models\AppServiceIdentity.cs</code>.</p>
@@ -707,11 +709,12 @@ in the hundreds.  Even the default configuration for Azure Active Directory retu
 using LINQ, however.  The <code>Type</code> property holds the type.  This could be a short (common) name.  It could also be a
 schema name, which looks more like a URI.  The only way to know what claims are coming back for sure is to look at
 the <code>/.auth/me</code> result with something like Postman.</p>
-<blockquote>
-<p><strong>Note</strong>: If you are using Custom Authentication (e.g. username/password or a third-party token), then the <code>/.auth/me</code>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>If you are using Custom Authentication (e.g. username/password or a third-party token), then the <code>/.auth/me</code>
 endpoint is not available to you.  You can still produce a custom API in your backend to provide this information to
 your client, but you are responsible for the code - it's custom, after all!</p>
-</blockquote>
+</div>
 <h2 id="authorization">Authorization<a class="headerlink" href="#authorization" title="Permanent link">&para;</a></h2>
 <p>Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication
 looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific
@@ -721,11 +724,12 @@ is leveraging this to provide authorization based on whether a user is authentic
 can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id
 is not guessable and we have no roles.  To see what I mean, run the <strong>Backend</strong> project and set a break point on the
 <code>GetAllTodoItems()</code> method in the <code>TodoItemController</code>, then run your server and your UWP application.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
 you to run the application and the server at the same time on the same machine.  Alternatively, you can attach a
 Debugger to your Azure App Service within Visual Studio's Cloud Explorer.</p>
-</blockquote>
+</div>
 <p>Once you have authenticated, you will be able to set a break point to take a look at <code>this.User.Identity</code>:</p>
 <p><img alt="this.User.Identity output" src="../img/user-identity.PNG" /></p>
 <p>Note that the <code>Name</code> property is null.  This is the property that is used when you want to authorize individual users.
@@ -743,10 +747,11 @@ Google, Microsoft Account and Twitter.  These are in the <strong>Microsoft.Azure
 They all follow the same pattern as the model we created for the client - there are Provider, UserId and UserClaims
 properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId
 is pulled out of the response for Azure AD.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into
-this more in a later Chapter.</p>
-</blockquote>
+this more in a later chapter.</p>
+</div>
 <h2 id="adding-group-claims-to-the-request">Adding Group Claims to the Request<a class="headerlink" href="#adding-group-claims-to-the-request" title="Permanent link">&para;</a></h2>
 <p>There are times when you want to add something else to the token that is returned from Azure AD. The most common
 requirement is to add group information to the response so you can handle group-based authorization.</p>
@@ -909,12 +914,13 @@ We can use the following:</p>
 <pre><code class="csharp">[AuthorizeClaims(&quot;http://schemas.microsoft.com/identity/claims/identityprovider&quot;, &quot;live.com&quot;)]
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>If you want to test other claims that are not provided, you can enable the <strong>Read Directory Data</strong> permission in
 the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about
 caching results or minting a new ZUMO token (just like we did in the custom authentication case) for
 performance reasons.</p>
-</blockquote>
+</div>
 <!-- Images -->
 
 <!-- Links -->

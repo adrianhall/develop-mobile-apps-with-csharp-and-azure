@@ -380,15 +380,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../../chapter3/relationships/">
       Relationships
     </a>
@@ -400,6 +391,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -579,9 +579,10 @@ corporate directory, then you are likely to have to get your IT department invol
 <h2 id="azure-active-directory-server-flow-setup">Azure Active Directory: Server-Flow setup<a class="headerlink" href="#azure-active-directory-server-flow-setup" title="Permanent link">&para;</a></h2>
 <p>The Azure Active Directory server-flow is perhaps the easiest of all the authentication methods to configure.  No
 matter if you are doing a client flow or server flow, you need to set up the server flow first.</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>We recommend that you implement Client Flow in any non-trivial application.</p>
-</blockquote>
+</div>
 <p>If you are using your default directory and you want to add a couple of test users, you will need to set those up
 first.   Start by going to the <a href="https://manage.windowsazure.com/">Classic Azure Portal</a>:</p>
 <p><img alt="Classic Portal" src="../img/ent-dev-1.PNG" /></p>
@@ -597,10 +598,11 @@ Note the username.  It is based on the tenant, so it will be something like <cod
 <p><img alt="AzureAD: Configuration" src="../img/ent-dev-3.PNG" /></p>
 <p>Click on <strong>Express</strong>.  Note that all the information is filled in for you.  All you have to do is click on <strong>OK</strong>,
 followed by <strong>Save</strong>.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>Make sure you create the app service in the right directory / subscription.  If you have access to more than one
- directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.</p>
-</blockquote>
+directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.</p>
+</div>
 <p>There is also an <strong>Advanced</strong> track.  This is used in client-flow situations and in situations where you have more
 than one directory.  The Express flow is great for getting started quickly.</p>
 <p>You can walk through a server-flow authentication to test that you have all the settings correct.  Point your browser
@@ -612,10 +614,11 @@ before giving you a successful authentication image:</p>
 using the same mobile client that we developed in the first chapter, but we are now going to add authentication to
 it.  Web views are one of those items that are platform dependent. Fortunately for us, Xamarin has already thought
 of this and provided a facility for running platform specific code called the <a href="https://developer.xamarin.com/guides/xamarin-forms/dependency-service/">DependencyService</a>.</p>
-<blockquote>
-<p>If we run our application right now, clicking on the "Enter the App" button will result in an error.  You will be
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If we run our application right now, clicking on the "Enter the App" button will result in an error.  We will be
 able to see the Unauthorized error in the debug window of Visual Studio.</p>
-</blockquote>
+</div>
 <p>Our first step is to define an <code>Abstractions\ILoginProvider.cs</code> interface within the  shared project:</p>
 <pre><code class="csharp">using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
@@ -798,10 +801,11 @@ that it logs us in as well. The Command for the login button is in the <code>Vie
 }
 </code></pre>
 
-<blockquote>
-<p>The <code>ServiceLocator</code> class is my basic singleton handler.  It is available in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">Chapter2</a> project.  It
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>ServiceLocator</code> class is a basic singleton handler.  It is available in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">Chapter2</a> project.  It
 returns the concrete version of the cloud service, just like the Singleton version we defined in Chapter1.</p>
-</blockquote>
+</div>
 <p>When you run the application, clicking on the "Enter the App" button will now present you with an Authenticate window:</p>
 <p><img alt="AAD Authenticate" src="../img/aad-logon-window.PNG" /></p>
 <p>Going through the authentication process will get you to the task list again.  If the authentication process fails,

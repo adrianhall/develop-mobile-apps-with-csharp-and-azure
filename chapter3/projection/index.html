@@ -376,15 +376,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../relationships/">
       Relationships
     </a>
@@ -396,6 +387,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -620,11 +620,12 @@ implementation:</p>
 }
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>It's generally a good idea to use the SID as the user ID for the authenticated user in security
 applications.  The user can change the email address or username associated with the account, but
 the SID never changes.</p>
-</blockquote>
+</div>
 <p>We need an extra property in the <code>DataObjects\TodoItem.cs</code> class (in the <strong>Backend</strong> project) to hold
 the extra security claim that we will be adding later:</p>
 <pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
@@ -679,10 +680,11 @@ look something like this:</p>
 </code></pre>
 
 <p>The <code>@0</code> parameter will be replaced by the users SID.</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>If a user is not logged in (i.e. you forgot to add the <code>[Authorize]</code> attribute), the User object will
 be null and the server will produce a 500 Internal Server Error back to the client.</p>
-</blockquote>
+</div>
 <p>This can get a little unwieldy for complex filters, however.  Since the filters are applied in two
 different places (and are generally used for validation as well), I like to abstract them into a
 <a href="https://www.simple-talk.com/dotnet/net-framework/giving-clarity-to-linq-queries-by-extending-expressions/">LINQ extension method</a>.  Create a class in <code>Extensions\TodoItemExtensions.cs</code> (you will have to create
@@ -808,12 +810,13 @@ public async Task&lt;List&lt;string&gt;&gt; GetGroups()
 }
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>If you are using claims as part of your security model, you should add the claims that you are
 using to the identity token that is used for authentication.  You can do this with custom authentication
 by calling LoginAsync() twice - once for the standard login method and the second time to adjust the
 token through the custom auth.</p>
-</blockquote>
+</div>
 <p>Our filter is defined as a LINQ extension (just like in the per-user filter) in <code>Extensions\ExampleExtensions.cs</code>:</p>
 <pre><code class="csharp">using System.Collections.Generic;
 using System.Linq;
@@ -899,14 +902,14 @@ namespace Chapter3.DataObjects
 }
 </code></pre>
 
-<blockquote>
-<p>Don't forget to add a <code>DbSet&lt;&gt;</code> for each table to the <code>MobileServiceContext</code> to add the
-table.</p>
-</blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Don't forget to add a <code>DbSet&lt;&gt;</code> for each table to the <code>MobileServiceContext</code> to add the table.</p>
+</div>
 <p>In our application, we will update the <code>Users</code> table via a <a href="../../chapter2/custom/">custom authentication controller</a>.
 After we have logged in via Azure Active Directory, we call the <code>InvokeApiAsync()</code> method
 to call the custom authentication controller and get a new token with some extra information
-in it.  We'll cover custom authentication controllers in a later chapter.  </p>
+in it.  We'll cover custom authentication controllers in a later chapter.</p>
 <pre><code class="csharp">using System;
 using System.Data.Entity.Migrations;
 using System.IdentityModel.Tokens;
@@ -1147,26 +1150,26 @@ LINQPad supports that as well).</p>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <p>There are a number of best practices that I think are important in developing table controllers:</p>
 <ul>
-<li><strong>Optimize Operations</strong>:</li>
+<li><strong>Optimize Operations</strong></li>
 </ul>
 <p>You should always optimize the CRUD operations that are implemented in a table controller.  This means limiting
-the code so that only <strong>filters</strong>, <strong>transforms</strong> and <strong>validators</strong> are used.  You can use <strong>hooks</strong> as an
-asynchronous way to handle custom code if something else needs to happen when a mobile client inserts, updates
-or deletes a record.  (We will be delving into hooks during the custom code chapter later on).</p>
+  the code so that only <strong>filters</strong>, <strong>transforms</strong> and <strong>validators</strong> are used.  You can use <strong>hooks</strong> as an
+  asynchronous way to handle custom code if something else needs to happen when a mobile client inserts, updates
+  or deletes a record.  (We will be delving into hooks during the custom code chapter later on).</p>
 <p>You should <strong>NOT</strong> insert custom code into a table controller that runs synchronously.</p>
 <ul>
-<li><strong>Implement Security Policy with Filters</strong>:</li>
+<li><strong>Implement Security Policy with Filters</strong></li>
 </ul>
 <p>The mobile backend should be concerned with security.  What can the connecting user see?  Use <strong>filters</strong> to
-ensure that the connecting user can only see the data that they are allowed to see.  There are several examples
-of bad filters.  For example, if a user normally wants to see the last 7 days worth of messages, but is allowed
-to see all messages.  I would implement this particular case as a client-side filter as it has nothing to do
-with security.</p>
+  ensure that the connecting user can only see the data that they are allowed to see.  There are several examples
+  of bad filters.  For example, if a user normally wants to see the last 7 days worth of messages, but is allowed
+  to see all messages.  I would implement this particular case as a client-side filter as it has nothing to do
+  with security.</p>
 <ul>
-<li><strong>Use LINQ Extension Methods</strong>:</li>
+<li><strong>Use LINQ Extension Methods</strong></li>
 </ul>
 <p>LINQ extension methods can be used to great effect to make your CRUD methods more readable.  I love readable
-code.  For example, consider the following two code snippets from the last recipe:</p>
+  code.  For example, consider the following two code snippets from the last recipe:</p>
 <pre><code class="csharp">public IQueryable&lt;Message&gt; GetAllMessage()
 {
   // Recipe #1
@@ -1181,7 +1184,7 @@ code.  For example, consider the following two code snippets from the last recip
 </code></pre>
 
 <p>The first recipe makes the intent of the filter very clear.  I have to work at understanding the specific implementation
-of the second method.</p>
+  of the second method.</p>
 <!-- Images -->
 
 <!-- Links -->

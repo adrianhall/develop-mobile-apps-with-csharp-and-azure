@@ -374,15 +374,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../../chapter3/relationships/">
       Relationships
     </a>
@@ -394,6 +385,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -775,10 +775,11 @@ refresh tokens.  For server-flow:</p>
 </ul>
 <p>Facebook and Twitter do not provider refresh tokens.  Once you have the refresh tokens, you can simply call the
 refresh API in the Azure Mobile Apps SDK to refresh the token.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with
 the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.</p>
-</blockquote>
+</div>
 <h3 id="configuring-refresh-tokens">Configuring Refresh Tokens<a class="headerlink" href="#configuring-refresh-tokens" title="Permanent link">&para;</a></h3>
 <p>You can add the additional information to a Google request with the following code snippet:</p>
 <pre><code class="csharp">client.LoginAsync(&quot;google&quot;, new Dictionary&lt;string, string&gt;
@@ -835,12 +836,13 @@ provider to generate the refresh token.  To refresh a token, use:</p>
 <pre><code class="csharp">client.RefreshUserAsync();
 </code></pre>
 
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>If you get the error "You do not have permission to view this directory or page" when accessing the refresh
 endpoint, there are no refresh tokens for your user in the token store.  This could be because the user has
 yet to re-authenticate (causing a new refresh token to be generated), the provider is not set up to generate
 refresh tokens or the provider does not support refresh tokens.</p>
-</blockquote>
+</div>
 <p>We can easily add this to the login process in the platform-specific provider.  Rather than provide the same logic
 over and over, we can extend the <code>ILoginProvider</code> to do the base operations for us then implement the logic once
 in the <code>AzureCloudService</code>.  The <code>Abstractions\ILoginProvider.cs</code> interface now looks like this:</p>
@@ -1137,12 +1139,13 @@ namespace TaskList.Helpers
 an answer that seems to work.  Running this code will now pass every single non-login request through the delegating
 handler.  If we get an Unauthorized at any point, the login flow (which includes an implicit refresh token) will
 be triggered.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>There are two HTTPClient objects created inside of the <code>MobileServiceClient</code> object. One is for all the non-login
 flows and it supports the delegating handlers.  However there is another one for login flows.  The one for login
 flows does not support delegating handlers.  This means you don't have to worry about cyclical references within the
 delegating handler (where a login flow triggers another login flow).</p>
-</blockquote>
+</div>
 <h2 id="logging-out">Logging out<a class="headerlink" href="#logging-out" title="Permanent link">&para;</a></h2>
 <p>There is a dirty little secret within the Azure Mobile Apps Client SDK.  Calling <code>LogoutAsync()</code> does not actually
 invalidate the token you are using.  It simply removes it from the <code>MobileServiceClient</code> context.  Don't believe
@@ -1170,9 +1173,9 @@ really want to log out of Facebook when you log out of your app?</p>
 <h3 id="invalidating-the-token-on-the-mobile-backend">Invalidating the token on the mobile backend.<a class="headerlink" href="#invalidating-the-token-on-the-mobile-backend" title="Permanent link">&para;</a></h3>
 <p>Calling the <code>/.auth/logout</code> endpoint on the Azure App Service mobile backend will remove the entry
 on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted,
-will still authorize the user.  Note, however, that the refresh token is stored in the token store.
-The user submitting the token will be unable to refresh the token.  Once the ZUMO token has expired
-(which happens an hour after it was created), the logout is complete.</p>
+will still authorize the user.  The refresh token is stored in the token store. The user submitting the 
+token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after 
+it was created), the logout is complete.</p>
 <p>We need to do a HTTP client call for this purpose:</p>
 <pre><code class="csharp">// Invalidate the token on the mobile backend
 var authUri = new Uri($&quot;{client.MobileAppUri}/.auth/logout&quot;);
@@ -1184,7 +1187,7 @@ using (var httpClient = new HttpClient())
 </code></pre>
 
 <h3 id="removing-the-token-from-the-local-secure-cache-store">Removing the token from the local secure cache store.<a class="headerlink" href="#removing-the-token-from-the-local-secure-cache-store" title="Permanent link">&para;</a></h3>
-<p>For this part of the process, I added a new method to the <code>ILoginProvider.cs</code> interface:</p>
+<p>For this part of the process, We can add a new method to the <code>ILoginProvider.cs</code> interface:</p>
 <pre><code class="csharp">void RemoveTokenFromSecureStore();
 </code></pre>
 

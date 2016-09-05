@@ -374,15 +374,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../../chapter3/relationships/">
       Relationships
     </a>
@@ -394,6 +385,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -573,11 +573,11 @@ usernames with no connection to the social or enterprise authentication.</p>
 already have a database of usernames and password.  However, it's probably the least desirable option because of the
 security concerns that come along with this technique.  The news is rife with password leakage for very large
 organizations.  The best way to ensure you do not disclose a users password is to not have it in the first place.</p>
-<blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
 <p>I'm not going to cover the sign-up case here.  This would be an additional process and would use a regular Web API
-to insert data into the database after validation (and probably verification via email
-or text message).</p>
-</blockquote>
+to insert data into the database after validation (and probably verification via email or text message).</p>
+</div>
 <p>The first thing we need to add to our project is a model for the user object.  I created the following in the <code>Models</code>
 folder of the <strong>Backend</strong> project:</p>
 <pre><code class="csharp">using System.ComponentModel.DataAnnotations;
@@ -649,8 +649,8 @@ Adjust the <code>MobileServiceInitializer</code> in the <code>Startup.MobileApp.
 
 <p>Note that we are storing the passwords in plain text.  This is most definitely frowned upon.  We should be using some
 sort of encryption.  This code is most definitely just for demonstration purposes.  Continuing the code on the backend,
- we need to handle the request to authenticate from the client.  We will use a custom API controller for this; it is
- located in <code>Controllers\CustomAuthController.cs</code>:</p>
+we need to handle the request to authenticate from the client.  We will use a custom API controller for this; it is
+located in <code>Controllers\CustomAuthController.cs</code>:</p>
 <pre><code class="csharp">using System;
 using System.IdentityModel.Tokens;
 using System.Linq;
@@ -748,10 +748,12 @@ namespace Backend.Controllers
 <li>The <code>IsValidUser()</code> method actually validates the username and password provided in the request with the users in
   the database.  This version is very simplistic.  I expect your version to at least include encryption of the password.</li>
 </ul>
-<blockquote>
-<p>Note that you must turn on Authentication / Authorization in your App Service.  Set the <strong>Action to take when request
-is not authenticated</strong> to <strong>Allow Request (no action)</strong> and do not configure any of the supported authentication providers.</p>
-</blockquote>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>You must turn on Authentication / Authorization in your App Service.  Set the <strong>Action to take when request
+is not authenticated</strong> to <strong>Allow Request (no action)</strong> and do not configure any of the supported authentication 
+providers.</p>
+</div>
 <p>Next, we need to wire the custom authentication controller so that it appears in the same place as all the other
 authenticators.  We are going to access it via the <code>/.auth/login/custom</code> endpoint.  The normal ASP.NET methods can be
 applied for this.  In this project, we can enable <a href="http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2">attribute routing</a>:</p>
@@ -794,14 +796,15 @@ the backend.  I use [Postman][19] for this purpose. The request:</p>
 <p>Any other request (such as no body or a wrong username or password) should produce the right response.  If the body is
 correct, but the information is wrong, then a 401 Unauthorized response should be produced.  If the body is invalid, then
 400 Bad Request should be produced.</p>
-<blockquote>
-<p>Note that the format of the response is exactly the same as the token response we saw earlier when we were discussing
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The format of the response is exactly the same as the token response we saw earlier when we were discussing
 the contents of a JWT.</p>
-</blockquote>
+</div>
 <p>We can now turn our attention to the mobile client.  Custom Authentication is always implemented using a client-flow
- mechanism. To implement this, we are going to adjust the entry page so that the username and password fields are
- displayed.  The gathered username and password will then be passed to a new ICloudService <code>LoginAsync()</code> method.
- All of the UI work is done in the shared project.</p>
+mechanism. To implement this, we are going to adjust the entry page so that the username and password fields are
+displayed.  The gathered username and password will then be passed to a new ICloudService <code>LoginAsync()</code> method.
+All of the UI work is done in the shared project.</p>
 <p>To start, we need a copy of the <code>User.cs</code> model from the backend project.  Unlike Data Transfer Objects, this model is
 the same:</p>
 <pre><code class="csharp">namespace TaskList.Models
@@ -832,8 +835,8 @@ namespace TaskList.Abstractions
 }
 </code></pre>
 
-<p>Note that I am adding a new version of the <code>LoginAsync()</code> method.  The concrete version of this method no longer has
-to go through the dependency service since I can use shared code.  Here is the definition of our new <code>LoginAsync()</code>
+<p>I am adding a new version of the <code>LoginAsync()</code> method.  The concrete version of this method no longer has to go 
+through the dependency service since I can use shared code.  Here is the definition of our new <code>LoginAsync()</code>
 method in <code>Services\AzureCloudService.cs</code>:</p>
 <pre><code class="csharp">        public Task LoginAsync(User user)
         {

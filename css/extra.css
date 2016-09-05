@@ -33,3 +33,32 @@
 img {
     border: 1px solid #404040;
 }
+
+.admonition.warn {
+    background: #f0ad4e;
+}
+
+.admonition.info {
+    background: #5bc0de;
+}
+
+.adminition.tip {
+    background: #5cb85c;
+}
+
+.admonition.danger {
+    background: #d9534f;
+}
+
+.article ol li .admonition p {
+    display: block;
+}
+
+.admonition code {
+    background: transparent;
+    color: #808080;
+}
+
+.admonition p {
+    margin-top: 0.5rem;
+}

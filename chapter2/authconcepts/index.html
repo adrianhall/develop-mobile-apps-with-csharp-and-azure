@@ -376,15 +376,6 @@
       
         
   <li>
-    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Relationships" href="../../chapter3/relationships/">
       Relationships
     </a>
@@ -396,6 +387,15 @@
   <li>
     <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
       The Domain Manager
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Complex Types" href="../../chapter3/complextypes/">
+      Complex Types
     </a>
     
   </li>
@@ -594,12 +594,13 @@ webview-based work flow.  It is generally used in two cases:</p>
 <li>You want a simple placeholder for authentication in your mobile app while you are developing other code.</li>
 <li>You are developing a traditional web app.</li>
 </ul>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>If you are developing a single-page application (SPA), then client-flow is the more appropriate model for
 authentication.  The SPA looks more like a mobile client than a traditional web app.  In particular, you will
 be redirected away from your single page and returned to the app at a specific entry point, removing any
 context from the app.</p>
-</blockquote>
+</div>
 <p>In the case of server-flow:</p>
 <ol>
 <li>The client brings up a web view and asks for the login page from the resource.</li>
@@ -629,10 +630,11 @@ is most cases:</p>
 Facebook app and ask you to authorize your client application before switching you back to your client application.</p>
 <p>You should use the identity provider SDK when developing an app that will be released on the app store.  The
 identity providers will advise you to use their SDK and it provides the best experience for your end users.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>The Azure App Service Authentication / Authorization service works with any App Service, including web apps
 and API apps.  It's not just for Mobile Apps.</p>
-</blockquote>
+</div>
 <h2 id="authentication-providers">Authentication Providers<a class="headerlink" href="#authentication-providers" title="Permanent link">&para;</a></h2>
 <p>Azure Mobile Apps supports five identity providers natively:</p>
 <ul>
@@ -642,11 +644,12 @@ and API apps.  It's not just for Mobile Apps.</p>
 <li>Microsoft (MSA)</li>
 <li>Twitter</li>
 </ul>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is
 shared among all instances of the backend within the same App Service Plan).  The token store is located at
 <code>D:\\home\\data\\.auth\\tokens</code> on the backend.  The tokens are encrypted and stored in a per-user encrypted file.</p>
-</blockquote>
+</div>
 <p>In addition, you can set up client-flow custom authentication that allows you to mint a ZUMO token to your
 specifications for any provider using a client-flow.  For example, you could use authentication providers
 like <a href="https://azure.microsoft.com/en-us/services/active-directory-b2c/">Azure AD B2C</a>, <a href="https://developer.linkedin.com/docs/oauth2">LinkedIn</a> or <a href="https://developer.github.com/v3/oauth/">GitHub</a>, a third-party authentication provider like  <a href="https://auth0.com/">Auth0</a>,
