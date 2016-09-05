@@ -13,9 +13,9 @@ already have a database of usernames and password.  However, it's probably the l
 security concerns that come along with this technique.  The news is rife with password leakage for very large
 organizations.  The best way to ensure you do not disclose a users password is to not have it in the first place.
 
-> I'm not going to cover the sign-up case here.  This would be an additional process and would use a regular Web API
-to insert data into the database after validation (and probably verification via email
-or text message).
+!!! warn
+    I'm not going to cover the sign-up case here.  This would be an additional process and would use a regular Web API
+    to insert data into the database after validation (and probably verification via email or text message).
 
 The first thing we need to add to our project is a model for the user object.  I created the following in the `Models`
 folder of the **Backend** project:
@@ -94,8 +94,8 @@ Adjust the `MobileServiceInitializer` in the `Startup.MobileApp.cs` file:
 
 Note that we are storing the passwords in plain text.  This is most definitely frowned upon.  We should be using some
 sort of encryption.  This code is most definitely just for demonstration purposes.  Continuing the code on the backend,
- we need to handle the request to authenticate from the client.  We will use a custom API controller for this; it is
- located in `Controllers\CustomAuthController.cs`:
+we need to handle the request to authenticate from the client.  We will use a custom API controller for this; it is
+located in `Controllers\CustomAuthController.cs`:
 
 ```csharp
 using System;
@@ -195,8 +195,10 @@ There is a lot going on here:
 * The `IsValidUser()` method actually validates the username and password provided in the request with the users in
   the database.  This version is very simplistic.  I expect your version to at least include encryption of the password.
 
-> Note that you must turn on Authentication / Authorization in your App Service.  Set the **Action to take when request
-is not authenticated** to **Allow Request (no action)** and do not configure any of the supported authentication providers.
+!!! warn
+    You must turn on Authentication / Authorization in your App Service.  Set the **Action to take when request
+    is not authenticated** to **Allow Request (no action)** and do not configure any of the supported authentication 
+    providers.
 
 Next, we need to wire the custom authentication controller so that it appears in the same place as all the other
 authenticators.  We are going to access it via the `/.auth/login/custom` endpoint.  The normal ASP.NET methods can be
@@ -247,13 +249,14 @@ Any other request (such as no body or a wrong username or password) should produ
 correct, but the information is wrong, then a 401 Unauthorized response should be produced.  If the body is invalid, then
 400 Bad Request should be produced.
 
-> Note that the format of the response is exactly the same as the token response we saw earlier when we were discussing
-the contents of a JWT.
+!!! info
+    The format of the response is exactly the same as the token response we saw earlier when we were discussing
+    the contents of a JWT.
 
 We can now turn our attention to the mobile client.  Custom Authentication is always implemented using a client-flow
- mechanism. To implement this, we are going to adjust the entry page so that the username and password fields are
- displayed.  The gathered username and password will then be passed to a new ICloudService `LoginAsync()` method.
- All of the UI work is done in the shared project.
+mechanism. To implement this, we are going to adjust the entry page so that the username and password fields are
+displayed.  The gathered username and password will then be passed to a new ICloudService `LoginAsync()` method.
+All of the UI work is done in the shared project.
 
 To start, we need a copy of the `User.cs` model from the backend project.  Unlike Data Transfer Objects, this model is
 the same:
@@ -289,8 +292,8 @@ namespace TaskList.Abstractions
 }
 ```
 
-Note that I am adding a new version of the `LoginAsync()` method.  The concrete version of this method no longer has
-to go through the dependency service since I can use shared code.  Here is the definition of our new `LoginAsync()`
+I am adding a new version of the `LoginAsync()` method.  The concrete version of this method no longer has to go 
+through the dependency service since I can use shared code.  Here is the definition of our new `LoginAsync()`
 method in `Services\AzureCloudService.cs`:
 
 ```csharp

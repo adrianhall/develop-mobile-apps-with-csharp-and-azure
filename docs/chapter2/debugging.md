@@ -32,9 +32,10 @@ Auth0 token, you will see that the issuer is the Auth0 domain and the audience i
 Each token will also have a number of claims.  The most common claim is the _Subject_ of the token.  This is generally
 a security ID, but could be any unique user ID.
 
-> Azure App Service sets the subject to a stable SID.  The stable SID is unique to the identity provider that is
-used for the authentication and guaranteed not to change, even if the user changes their email address or username
-on the underlying identity provider.
+!!! info
+    Azure App Service sets the subject to a stable SID.  The stable SID is unique to the identity provider that is
+    used for the authentication and guaranteed not to change, even if the user changes their email address or username
+    on the underlying identity provider.
 
 Technically, the JWT can include any data and there are some identity providers that place just about everything
 about the user in the JWT.  App Service keeps the amount of data small because the client will be sending the JWT
@@ -69,8 +70,9 @@ also distributes a web debugging proxy called [Fiddler][21] that can do API test
 need a token.  We can get one by testing authentication configuration by pointing the browser to `/.auth/login/aad`.
 The return URL will contain a token in the query string and as [a secure cookie][30].
 
-> You can test any of the supported identity providers by replacing _aad_ with the authentication provider name:
-facebook, google, microsoftaccount and twitter are possibilities here.
+!!! tip
+    You can test any of the supported identity providers by replacing _aad_ with the authentication provider name:
+    **facebook**, **google**, **microsoftaccount** and **twitter** are possibilities here.
 
 We can then do a request to `/tables/todoitem` to try and obtain the list of current tasks.  We will need to add
 two headers:
@@ -135,7 +137,8 @@ Add the following to your project Web.config `<appSettings>` section:
   </appSettings>
 ```
 
-> **NOTE**: Both the ValidAudience and ValidIssuer will have a slash on the end and be a https URL.
+!!! tip
+    Both the ValidAudience and ValidIssuer will have a slash on the end and be a https URL.
 
 The last three keys are the keys you will need to add.  Make sure you do not have a `HostName` key as this is how
 the startup file determines if you are running locally or remote. Talking of which, edit your
@@ -231,9 +234,10 @@ In the same project, update the `Services\AzureCloudService.cs` constructor to t
         }
 ```
 
-> It's a good idea to separate the client and server into different solutions.  Although it doesn't hurt anything to
-have them in the same solution (like we have), having the client and server separated allows you to attach a debugger
-separately - which allows you to debug both sides of the connection at the same time.
+!!! tip
+    It's a good idea to separate the client and server into different solutions.  Although it doesn't hurt anything to
+    have them in the same solution (like we have), having the client and server separated allows you to attach a debugger
+    separately - which allows you to debug both sides of the connection at the same time.
 
 With these settings, the client will contact the AlternateLoginHost listed for the authentication process and then
 contact the local server for the rest of the transaction.

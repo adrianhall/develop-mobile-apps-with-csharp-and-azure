@@ -10,8 +10,9 @@ can also check to see if a user is in a list of users or roles.  However, there 
 is not guessable and we have no roles.  To see what I mean, run the **Backend** project locally and set a break point
 on the `GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
 
-> Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
-you to run the application and the server at the same time on the same machine.
+!!! tip
+    Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
+    you to run the application and the server at the same time on the same machine.
 
 Once you have authenticated, you will be able to set a break point to take a look at `this.User.Identity`:
 
@@ -37,7 +38,8 @@ gained during authorization on the server and we will cover this use later on.  
 this information on the client as well.  For example, we may want to make the List View title be our name instead of
 "Tasks".
 
-> You can't use the /.auth/me endpoint when using custom authentication.
+!!! warn
+    You can't use the /.auth/me endpoint when using custom authentication.
 
 Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can
 decode the JSON object, we need to define the models.  This is done in the shared **TaskList** project.  I've defined
@@ -162,9 +164,10 @@ using LINQ, however.  The `Type` property holds the type.  This could be a short
 schema name, which looks more like a URI.  The only way to know what claims are coming back for sure is to look at
 the `/.auth/me` result with something like Postman.
 
-> **Note**: If you are using Custom Authentication (e.g. username/password or a third-party token), then the `/.auth/me`
-endpoint is not available to you.  You can still produce a custom API in your backend to provide this information to
-your client, but you are responsible for the code - it's custom, after all!
+!!! warn
+    If you are using Custom Authentication (e.g. username/password or a third-party token), then the `/.auth/me`
+    endpoint is not available to you.  You can still produce a custom API in your backend to provide this information to
+    your client, but you are responsible for the code - it's custom, after all!
 
 ## Authorization
 
@@ -178,9 +181,10 @@ can also check to see if a user is in a list of users or roles.  However, there 
 is not guessable and we have no roles.  To see what I mean, run the **Backend** project and set a break point on the
 `GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
 
-> Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
-you to run the application and the server at the same time on the same machine.  Alternatively, you can attach a
-Debugger to your Azure App Service within Visual Studio's Cloud Explorer.
+!!! tip
+    Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
+    you to run the application and the server at the same time on the same machine.  Alternatively, you can attach a
+    Debugger to your Azure App Service within Visual Studio's Cloud Explorer.
 
 Once you have authenticated, you will be able to set a break point to take a look at `this.User.Identity`:
 
@@ -206,8 +210,9 @@ They all follow the same pattern as the model we created for the client - there 
 properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId
 is pulled out of the response for Azure AD.
 
-> You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into
-this more in a later Chapter.
+!!! tip
+    You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into
+    this more in a later chapter.
 
 ## Adding Group Claims to the Request
 
@@ -394,10 +399,11 @@ We can use the following:
 [AuthorizeClaims("http://schemas.microsoft.com/identity/claims/identityprovider", "live.com")]
 ```
 
-> If you want to test other claims that are not provided, you can enable the **Read Directory Data** permission in
-the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about
-caching results or minting a new ZUMO token (just like we did in the custom authentication case) for
-performance reasons.
+!!! tip
+    If you want to test other claims that are not provided, you can enable the **Read Directory Data** permission in
+    the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about
+    caching results or minting a new ZUMO token (just like we did in the custom authentication case) for
+    performance reasons.
 
 <!-- Images -->
 [img55]: img/user-identity.PNG

@@ -38,10 +38,11 @@ webview-based work flow.  It is generally used in two cases:
 * You want a simple placeholder for authentication in your mobile app while you are developing other code.
 * You are developing a traditional web app.
 
-> If you are developing a single-page application (SPA), then client-flow is the more appropriate model for
-authentication.  The SPA looks more like a mobile client than a traditional web app.  In particular, you will
-be redirected away from your single page and returned to the app at a specific entry point, removing any
-context from the app.
+!!! tip
+    If you are developing a single-page application (SPA), then client-flow is the more appropriate model for
+    authentication.  The SPA looks more like a mobile client than a traditional web app.  In particular, you will
+    be redirected away from your single page and returned to the app at a specific entry point, removing any
+    context from the app.
 
 In the case of server-flow:
 
@@ -74,8 +75,9 @@ Facebook app and ask you to authorize your client application before switching y
 You should use the identity provider SDK when developing an app that will be released on the app store.  The
 identity providers will advise you to use their SDK and it provides the best experience for your end users.
 
-> The Azure App Service Authentication / Authorization service works with any App Service, including web apps
-and API apps.  It's not just for Mobile Apps.
+!!! info
+    The Azure App Service Authentication / Authorization service works with any App Service, including web apps
+    and API apps.  It's not just for Mobile Apps.
 
 ## Authentication Providers
 
@@ -87,9 +89,10 @@ Azure Mobile Apps supports five identity providers natively:
 * Microsoft (MSA)
 * Twitter
 
-> Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is
-shared among all instances of the backend within the same App Service Plan).  The token store is located at
-`D:\\home\\data\\.auth\\tokens` on the backend.  The tokens are encrypted and stored in a per-user encrypted file.
+!!! info
+    Azure App Service Authentication / Authorization maintains a token store in the XDrive (which is the drive that is
+    shared among all instances of the backend within the same App Service Plan).  The token store is located at
+    `D:\\home\\data\\.auth\\tokens` on the backend.  The tokens are encrypted and stored in a per-user encrypted file.
 
 In addition, you can set up client-flow custom authentication that allows you to mint a ZUMO token to your
 specifications for any provider using a client-flow.  For example, you could use authentication providers

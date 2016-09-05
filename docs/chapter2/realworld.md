@@ -231,8 +231,9 @@ refresh tokens.  For server-flow:
 Facebook and Twitter do not provider refresh tokens.  Once you have the refresh tokens, you can simply call the
 refresh API in the Azure Mobile Apps SDK to refresh the token.
 
-> Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with
-the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.
+!!! info
+    Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with
+    the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.
 
 ### Configuring Refresh Tokens
 
@@ -300,10 +301,11 @@ provider to generate the refresh token.  To refresh a token, use:
 client.RefreshUserAsync();
 ```
 
-> If you get the error "You do not have permission to view this directory or page" when accessing the refresh
-endpoint, there are no refresh tokens for your user in the token store.  This could be because the user has
-yet to re-authenticate (causing a new refresh token to be generated), the provider is not set up to generate
-refresh tokens or the provider does not support refresh tokens.
+!!! tip
+    If you get the error "You do not have permission to view this directory or page" when accessing the refresh
+    endpoint, there are no refresh tokens for your user in the token store.  This could be because the user has
+    yet to re-authenticate (causing a new refresh token to be generated), the provider is not set up to generate
+    refresh tokens or the provider does not support refresh tokens.
 
 We can easily add this to the login process in the platform-specific provider.  Rather than provide the same logic
 over and over, we can extend the `ILoginProvider` to do the base operations for us then implement the logic once
@@ -619,10 +621,11 @@ an answer that seems to work.  Running this code will now pass every single non-
 handler.  If we get an Unauthorized at any point, the login flow (which includes an implicit refresh token) will
 be triggered.
 
-> There are two HTTPClient objects created inside of the `MobileServiceClient` object. One is for all the non-login
-flows and it supports the delegating handlers.  However there is another one for login flows.  The one for login
-flows does not support delegating handlers.  This means you don't have to worry about cyclical references within the
-delegating handler (where a login flow triggers another login flow).
+!!! info
+    There are two HTTPClient objects created inside of the `MobileServiceClient` object. One is for all the non-login
+    flows and it supports the delegating handlers.  However there is another one for login flows.  The one for login
+    flows does not support delegating handlers.  This means you don't have to worry about cyclical references within the
+    delegating handler (where a login flow triggers another login flow).
 
 ## Logging out
 
@@ -656,9 +659,9 @@ So, how do you log out?  You should:
 
 Calling the `/.auth/logout` endpoint on the Azure App Service mobile backend will remove the entry
 on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted,
-will still authorize the user.  Note, however, that the refresh token is stored in the token store.
-The user submitting the token will be unable to refresh the token.  Once the ZUMO token has expired
-(which happens an hour after it was created), the logout is complete.
+will still authorize the user.  The refresh token is stored in the token store. The user submitting the 
+token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after 
+it was created), the logout is complete.
 
 We need to do a HTTP client call for this purpose:
 
@@ -672,10 +675,9 @@ using (var httpClient = new HttpClient())
 }
 ```
 
-
 ### Removing the token from the local secure cache store.
 
-For this part of the process, I added a new method to the `ILoginProvider.cs` interface:
+For this part of the process, We can add a new method to the `ILoginProvider.cs` interface:
 
 ```csharp
 void RemoveTokenFromSecureStore();

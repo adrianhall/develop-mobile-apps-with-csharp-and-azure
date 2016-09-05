@@ -14,7 +14,8 @@ corporate directory, then you are likely to have to get your IT department invol
 The Azure Active Directory server-flow is perhaps the easiest of all the authentication methods to configure.  No
 matter if you are doing a client flow or server flow, you need to set up the server flow first.
 
-> We recommend that you implement Client Flow in any non-trivial application.
+!!! tip
+    We recommend that you implement Client Flow in any non-trivial application.
 
 If you are using your default directory and you want to add a couple of test users, you will need to set those up
 first.   Start by going to the [Classic Azure Portal][classic-portal]:
@@ -39,8 +40,9 @@ To configure your app, switch back to the regular [Azure Portal][portal], find y
 Click on **Express**.  Note that all the information is filled in for you.  All you have to do is click on **OK**,
 followed by **Save**.
 
-> Make sure you create the app service in the right directory / subscription.  If you have access to more than one
- directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.
+!!! info
+    Make sure you create the app service in the right directory / subscription.  If you have access to more than one
+    directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.
 
 There is also an **Advanced** track.  This is used in client-flow situations and in situations where you have more
 than one directory.  The Express flow is great for getting started quickly.
@@ -58,8 +60,9 @@ using the same mobile client that we developed in the first chapter, but we are 
 it.  Web views are one of those items that are platform dependent. Fortunately for us, Xamarin has already thought
 of this and provided a facility for running platform specific code called the [DependencyService][22].
 
-> If we run our application right now, clicking on the "Enter the App" button will result in an error.  You will be
-able to see the Unauthorized error in the debug window of Visual Studio.
+!!! info 
+    If we run our application right now, clicking on the "Enter the App" button will result in an error.  We will be
+    able to see the Unauthorized error in the debug window of Visual Studio.
 
 Our first step is to define an `Abstractions\ILoginProvider.cs` interface within the  shared project:
 
@@ -261,8 +264,9 @@ async Task ExecuteLoginCommand()
 }
 ```
 
-> The `ServiceLocator` class is my basic singleton handler.  It is available in the [Chapter2][10] project.  It
-returns the concrete version of the cloud service, just like the Singleton version we defined in Chapter1.
+!!! info
+    The `ServiceLocator` class is a basic singleton handler.  It is available in the [Chapter2][10] project.  It
+    returns the concrete version of the cloud service, just like the Singleton version we defined in Chapter1.
 
 When you run the application, clicking on the "Enter the App" button will now present you with an Authenticate window:
 
