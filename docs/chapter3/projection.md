@@ -660,27 +660,27 @@ LINQPad supports that as well).
 
 There are a number of best practices that I think are important in developing table controllers:
 
-* **Optimize Operations**:
+* **Optimize Operations**
 
-You should always optimize the CRUD operations that are implemented in a table controller.  This means limiting
-the code so that only **filters**, **transforms** and **validators** are used.  You can use **hooks** as an
-asynchronous way to handle custom code if something else needs to happen when a mobile client inserts, updates
-or deletes a record.  (We will be delving into hooks during the custom code chapter later on).
+  You should always optimize the CRUD operations that are implemented in a table controller.  This means limiting
+  the code so that only **filters**, **transforms** and **validators** are used.  You can use **hooks** as an
+  asynchronous way to handle custom code if something else needs to happen when a mobile client inserts, updates
+  or deletes a record.  (We will be delving into hooks during the custom code chapter later on).
 
-You should **NOT** insert custom code into a table controller that runs synchronously.
+  You should **NOT** insert custom code into a table controller that runs synchronously.
 
-* **Implement Security Policy with Filters**:
+* **Implement Security Policy with Filters**
 
-The mobile backend should be concerned with security.  What can the connecting user see?  Use **filters** to
-ensure that the connecting user can only see the data that they are allowed to see.  There are several examples
-of bad filters.  For example, if a user normally wants to see the last 7 days worth of messages, but is allowed
-to see all messages.  I would implement this particular case as a client-side filter as it has nothing to do
-with security.
+  The mobile backend should be concerned with security.  What can the connecting user see?  Use **filters** to
+  ensure that the connecting user can only see the data that they are allowed to see.  There are several examples
+  of bad filters.  For example, if a user normally wants to see the last 7 days worth of messages, but is allowed
+  to see all messages.  I would implement this particular case as a client-side filter as it has nothing to do
+  with security.
 
-* **Use LINQ Extension Methods**:
+* **Use LINQ Extension Methods**
 
-LINQ extension methods can be used to great effect to make your CRUD methods more readable.  I love readable
-code.  For example, consider the following two code snippets from the last recipe:
+  LINQ extension methods can be used to great effect to make your CRUD methods more readable.  I love readable
+  code.  For example, consider the following two code snippets from the last recipe:
 
 ```csharp
 public IQueryable<Message> GetAllMessage()
@@ -696,8 +696,8 @@ public IQueryable<Message> GetAllMessage()
 }
 ```
 
-The first recipe makes the intent of the filter very clear.  I have to work at understanding the specific implementation
-of the second method.
+  The first recipe makes the intent of the filter very clear.  I have to work at understanding the specific implementation
+  of the second method.
 
 <!-- Images -->
 [per-user-data]: img/per-user-data.PNG
