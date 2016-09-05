@@ -720,7 +720,7 @@ Record selection is based on two factors:
 1. Security policy is enforced at the server.
 2. User preference is enabled at the client.
 
-We've already discussed security policy in depth in [the last section](projections.md).  We've also discussed
+We've already discussed security policy in depth in [the last section](projection.md).  We've also discussed
 user queries for online usage.  We just use LINQ to affect a change in the query sent to the server.  However,
 what about offline cases? There are situations where you want to keep a smaller subset of the data that you are
 allowed to see for offline usage.  A common request, for example, is to have the last X days of records available
