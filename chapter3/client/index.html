@@ -1290,13 +1290,12 @@ You specified the name of the file when you created the store.</p>
 <p>You need to find the <strong>Package Name</strong> for Android.  Right-click on the <strong>TaskList.Droid</strong> project and select <strong>Properties</strong>,
 then select the <strong>Android Manifest</strong> tab.</p>
 <p><img alt="" src="../img/droid-manifest-packagename.PNG" /></p>
-<p>The database will be located in <code>/data/data/_package\_name_/databases</code> directory.  Getting to that directory can be a bit
-tricky since the Visual Studio Emulator for Android uses a disk image file.  However, Google provided utilities for handling
-developer connections to devices.  In this case, we can use the <code>adb</code> utility.  First, start your emulator of choice through
-the <strong>Tools</strong> -&gt; <strong>Visual Studio Emulator for Android</strong> menu option.  Click on the <strong>Play</strong> button next to the emulator
-that you have been using.  Ensure the emulator is fully started before continuing.  The <code>adb</code> utility can be accessed through
-a shell prompt (I use PowerShell normally) and it is located in <code>$ANDROID_SDK/platform-tools</code>.  On Windows, this is
-<code>C:\Program Files (x86)\Android\android-sdk\platform-tools</code>.  It's a good idea to add this to your PATH.</p>
+<p>The database will be located in <code>/data/data/_package\_name_/files</code> directory on the emulator.  Google has provided utilities 
+for handling developer connections to devices (including emulators).  In this case, we can use the <code>adb</code> utility.  First, start 
+your emulator of choice through the <strong>Tools</strong> -&gt; <strong>Visual Studio Emulator for Android</strong> menu option.  Click on the <strong>Play</strong> 
+button next to the emulator that you have been using.  Ensure the emulator is fully started before continuing.  The <code>adb</code> utility 
+can be accessed through a shell prompt (I use PowerShell normally) and it is located in <code>$ANDROID_SDK/platform-tools</code>.  On Windows, 
+this is probably <code>C:\Program Files (x86)\Android\android-sdk\platform-tools</code>.  It's a good idea to add this to your PATH.</p>
 <p>Start at your Visual Studio Emulator for Android.  Click on the <strong>Tools</strong> button (it looks like a pair of right-facing
 chevrons) and select the <strong>Network</strong> tab.</p>
 <p><img alt="" src="../img/android-emulator-network.PNG" /></p>
@@ -1307,17 +1306,53 @@ Open up a shell prompt and type:</p>
 adb shell
 </code></pre>
 
-<p>This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around. You can remove
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you are only running one emulator and have no connected real devices, you don't need the <code>adb connect</code> command.  Visual
+Studio will have already set up the connection for you.  Use <code>adb devices</code> to determine if you need to connect.</p>
+</div>
+<p>This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around.   You can remove
 the entire private data area for your package using the following:</p>
-<pre><code class="bash">**root@donatello:/#** rm /data/data/_package\_name_/databases/tasklist.db
+<pre><code class="bash">**root@donatello:/#** cd /data/data/_package\_name_
+**root@donatollo:/#** find . -name tasklist.db -print | xargs rm
 </code></pre>
 
-<p>Use <code>exit</code> to close the shell prompt on the Android device.  Each disk image file is independent.  You must remove the database
-file on each emulator individually.</p>
+<p>The database will normally be in the <code>files</code> directory.  Use <code>exit</code> to close the shell prompt on the Android device.  Each disk 
+image file is independent.  You must remove the database file on each emulator individually.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can use the same <code>adb</code> commands to connect to a real Android device connected via USB.  Ensure <em>USB Debugging</em> is
+enabled on the device.  Use <code>adb devices</code> to find the device.  For more information, see <a href="https://developer.android.com/studio/command-line/adb.html">the Android documentation</a>.</p>
+</div>
 <p>The iOS Simulator does not use an image files.  Instead, it stores files on your Mac disk in <code>~/Library/Developer/CoreSimulator/Devices</code>.
-You can easily use the normal Finder utilities to search for and remove the database file for your app.</p>
-<!-- XXX:TODO Where is the file! -->
+There is a file called <code>device_set.plist</code> that contains the list of devices that are defined and their location.  It is most easy to find
+a specific device.  For example, if you are testing on the iPhone 6x simulator:</p>
+<pre><code class="bash">$ grep -B 1 'iPhone-6s&lt;' device_set.plist
+&lt;string&gt;A3536AA4-0678-43CC-BA21-DD997B89778A&lt;/string&gt;
+&lt;key&gt;com.apple.CoreSimulator.SimDeviceType.iPhone-6s&lt;/key&gt;
+--
+&lt;string&gt;83D08BC0-2F9A-4479-ABBD-A69858819E93&lt;/string&gt;
+&lt;key&gt;com.apple.CoreSimulator.SimDeviceType.iPhone-6s&lt;/key&gt;
+--
+&lt;string&gt;ECAE441D-93F8-4D7A-BF14-7FA2D11BC152&lt;/string&gt;
+&lt;key&gt;com.apple.CoreSimulator.SimDeviceType.iPhone-6s&lt;/key&gt;
+</code></pre>
 
+<p>Each one of these corresponds to a different OS version.  You can find the ordering like this:</p>
+<pre><code class="bash">$ grep SimRuntime.iOS device_set.plist
+&lt;key&gt;com.apple.CoreSimulator.SimRuntime.iOS-9-1&lt;/key&gt;
+&lt;key&gt;com.apple.CoreSimulator.SimRuntime.iOS-9-2&lt;/key&gt;
+&lt;key&gt;com.apple.CoreSimulator.SimRuntime.iOS-9-3&lt;/key&gt;
+</code></pre>
+
+<p>My simulator is an iPhone 6s running iOS 9.3, so I can see the GUID is the third one: <code>ECAE441D-93F8-4D7A-BF14-7FA2D11BC152</code>.  This
+GUID is a directory in the same directory as the <code>device_set.plist</code> file.  You can use normal UNIX style commands to
+remove the backing store:</p>
+<pre><code class="bash">$ cd ECAE441D-93F8-4D7A-BF14-7FA2D11BC152
+$ find . -name 'tasklist.db' -print | xargs rm
+</code></pre>
+
+<p>You can also use the normal Finder utilities to search for and remove the database file for your app.</p>
 <h3 id="purging-records-from-the-offline-cache">Purging Records from the Offline Cache<a class="headerlink" href="#purging-records-from-the-offline-cache" title="Permanent link">&para;</a></h3>
 <!-- Images -->
 

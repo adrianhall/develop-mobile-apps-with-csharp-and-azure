@@ -491,6 +491,18 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="Missing libaot-mscorlib.dll.so" href="#missing-libaot-mscorlibdllso">
+                Missing libaot-mscorlib.dll.so
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Fixing Errors with the Visual Studio Emulator for Android" href="#fixing-errors-with-the-visual-studio-emulator-for-android">
+                Fixing Errors with the Visual Studio Emulator for Android
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -551,6 +563,32 @@
 with Xamarin Forms on the Android platform.  I hope they are useful to you.</p>
 <h2 id="handling-callbacks-with-an-android-sdk">Handling Callbacks with an Android SDK<a class="headerlink" href="#handling-callbacks-with-an-android-sdk" title="Permanent link">&para;</a></h2>
 <h3 id="dissecting-the-google-plus-login-process">Dissecting the Google Plus Login Process<a class="headerlink" href="#dissecting-the-google-plus-login-process" title="Permanent link">&para;</a></h3>
+<h2 id="missing-libaot-mscorlibdllso">Missing libaot-mscorlib.dll.so<a class="headerlink" href="#missing-libaot-mscorlibdllso" title="Permanent link">&para;</a></h2>
+<p>When running an application is debug mode, I sometimes saw the following deployment issue:</p>
+<pre><code class="bash">D/Mono    ( 1366): AOT module 'mscorlib.dll.so' not found: dlopen failed: library &quot;/data/app-lib/TaskList.Droid-2/libaot-mscorlib.dll.so&quot; not found
+</code></pre>
+
+<p>To fix this:</p>
+<ul>
+<li>Right-click on the <strong>Droid</strong> project and select <strong>Properties</strong>.</li>
+<li>Select the <strong>Android Options</strong> tab.</li>
+<li>Uncheck the <strong>Use Fast Deployment</strong> option.</li>
+<li>Save the properties sheet.</li>
+<li>Redeploy the application.</li>
+</ul>
+<h2 id="fixing-errors-with-the-visual-studio-emulator-for-android">Fixing Errors with the Visual Studio Emulator for Android<a class="headerlink" href="#fixing-errors-with-the-visual-studio-emulator-for-android" title="Permanent link">&para;</a></h2>
+<p>One of the issues I found while running on the Visual Studio Emulator for Android involved debugging.  The Android app 
+starts, then immediately closes and debugging stops.  In the output window, you see <code>Could not connect to the debugger</code>.
+To fix this:</p>
+<ul>
+<li>Close the Android Emulator window.</li>
+<li>Open the <strong>Hyper-V Manager</strong>.</li>
+<li>Right-click the emulator you are trying to use and select <strong>Settings...</strong>.</li>
+<li>Expand the <strong>Processor</strong> node and select <strong>Compatibility</strong>.</li>
+<li>Check the <strong>Migrate to a physical computer with a different processor version</strong> box.</li>
+<li>Click on <strong>OK</strong>.</li>
+</ul>
+<p>It's a good idea to do this on all the emulators.  When you start the emulator, this error should be gone.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
