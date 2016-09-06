@@ -850,15 +850,16 @@ adb connect 169.254.138.177:5555
 adb shell
 ```
 
-This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around. You can remove
+This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around.   You can remove
 the entire private data area for your package using the following:
 
 ```bash
-**root@donatello:/#** rm /data/data/_package\_name_/databases/tasklist.db
+**root@donatello:/#** cd /data/data/_package\_name_
+**root@donatollo:/#** find . -name tasklist.db -print | xargs rm
 ```
 
-Use `exit` to close the shell prompt on the Android device.  Each disk image file is independent.  You must remove the database
-file on each emulator individually.
+The database will normally be in the `files` directory.  Use `exit` to close the shell prompt on the Android device.  Each disk 
+image file is independent.  You must remove the database file on each emulator individually.
 
 !!! tip
     You can use the same `adb` commands to connect to a real Android device connected via USB.  Ensure _USB Debugging_ is
