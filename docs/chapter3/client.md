@@ -828,13 +828,12 @@ then select the **Android Manifest** tab.
 
 ![][droid-manifest-packagename]
 
-The database will be located in `/data/data/_package\_name_/databases` directory.  Getting to that directory can be a bit
-tricky since the Visual Studio Emulator for Android uses a disk image file.  However, Google provided utilities for handling
-developer connections to devices.  In this case, we can use the `adb` utility.  First, start your emulator of choice through
-the **Tools** -> **Visual Studio Emulator for Android** menu option.  Click on the **Play** button next to the emulator
-that you have been using.  Ensure the emulator is fully started before continuing.  The `adb` utility can be accessed through
-a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows, this is
-`C:\Program Files (x86)\Android\android-sdk\platform-tools`.  It's a good idea to add this to your PATH.
+The database will be located in `/data/data/_package\_name_/files` directory on the emulator.  Google has provided utilities 
+for handling developer connections to devices (including emulators).  In this case, we can use the `adb` utility.  First, start 
+your emulator of choice through the **Tools** -> **Visual Studio Emulator for Android** menu option.  Click on the **Play** 
+button next to the emulator that you have been using.  Ensure the emulator is fully started before continuing.  The `adb` utility 
+can be accessed through a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows, 
+this is probably `C:\Program Files (x86)\Android\android-sdk\platform-tools`.  It's a good idea to add this to your PATH.
 
 Start at your Visual Studio Emulator for Android.  Click on the **Tools** button (it looks like a pair of right-facing
 chevrons) and select the **Network** tab.
@@ -850,6 +849,10 @@ adb connect 169.254.138.177:5555
 adb shell
 ```
 
+!!! tip
+    If you are only running one emulator and have no connected real devices, you don't need the `adb connect` command.  Visual
+    Studio will have already set up the connection for you.  Use `adb devices` to determine if you need to connect.
+    
 This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around.   You can remove
 the entire private data area for your package using the following:
 
