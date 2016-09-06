@@ -479,10 +479,6 @@ the `GetTable<>` method:
 Note that we made the routine async during this process.  Adjust the `ICloudService` interface and the calls to
 `GetTable<>` in the rest of the code to compensate for this.
 
-!!! warn
-    The SQLitePCL library may require other libraries as well, as libraries change over time.  If you need additional
-    libraries, the build output will let you know by complaining about _Unresolved assembly_ errors.
-
 ### Updating the Sync tables
 
 We also need to add some routines to our `ICloudTable<>` and `AzureCloudTable<>` classes to effect a synchronization.
