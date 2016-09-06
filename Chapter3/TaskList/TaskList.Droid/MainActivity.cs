@@ -21,7 +21,7 @@ namespace TaskList.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            var loginProvider = (DroidLoginProvider)DependencyService.Get<ILoginProvider>();
+            var loginProvider = (DroidPlatform)DependencyService.Get<IPlatform>();
             loginProvider.Init(this);
 
             LoadApplication(new App());

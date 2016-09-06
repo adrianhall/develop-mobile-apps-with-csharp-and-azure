@@ -479,6 +479,10 @@ the `GetTable<>` method:
 Note that we made the routine async during this process.  Adjust the `ICloudService` interface and the calls to
 `GetTable<>` in the rest of the code to compensate for this.
 
+!!! warn
+    The SQLitePCL library may require other libraries as well, as libraries change over time.  If you need additional
+    libraries, the build output will let you know by complaining about _Unresolved assembly_ errors.
+
 ### Updating the Sync tables
 
 We also need to add some routines to our `ICloudTable<>` and `AzureCloudTable<>` classes to effect a synchronization.
@@ -860,6 +864,10 @@ the entire private data area for your package using the following:
 Use `exit` to close the shell prompt on the Android device.  Each disk image file is independent.  You must remove the database
 file on each emulator individually.
 
+!!! tip
+    You can use the same `adb` commands to connect to a real Android device connected via USB.  Ensure _USB Debugging_ is
+    enabled on the device.  Use `adb devices` to find the device.  For more information, see [the Android documentation][6].
+
 The iOS Simulator does not use an image files.  Instead, it stores files on your Mac disk in `~/Library/Developer/CoreSimulator/Devices`.
 There is a file called `device_set.plist` that contains the list of devices that are defined and their location.  It is most easy to find
 a specific device.  For example, if you are testing on the iPhone 6x simulator:
@@ -913,3 +921,4 @@ You can also use the normal Finder utilities to search for and remove the databa
 [3]: https://developer.xamarin.com/guides/xamarin-forms/behaviors/reusable/event-to-command-behavior/
 [4]: https://developer.xamarin.com/api/event/Xamarin.Forms.ListView.ItemAppearing/
 [5]: https://developer.xamarin.com/api/type/Xamarin.Forms.ItemVisibilityEventArgs/
+[6]: https://developer.android.com/studio/command-line/adb.html
