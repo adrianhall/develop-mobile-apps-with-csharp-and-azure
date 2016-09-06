@@ -861,9 +861,40 @@ Use `exit` to close the shell prompt on the Android device.  Each disk image fil
 file on each emulator individually.
 
 The iOS Simulator does not use an image files.  Instead, it stores files on your Mac disk in `~/Library/Developer/CoreSimulator/Devices`.
-You can easily use the normal Finder utilities to search for and remove the database file for your app.
+There is a file called `device_set.plist` that contains the list of devices that are defined and their location.  It is most easy to find
+a specific device.  For example, if you are testing on the iPhone 6x simulator:
 
-<!-- XXX:TODO Where is the file! -->
+```bash
+$ grep -B 1 'iPhone-6s<' device_set.plist
+<string>A3536AA4-0678-43CC-BA21-DD997B89778A</string>
+<key>com.apple.CoreSimulator.SimDeviceType.iPhone-6s</key>
+--
+<string>83D08BC0-2F9A-4479-ABBD-A69858819E93</string>
+<key>com.apple.CoreSimulator.SimDeviceType.iPhone-6s</key>
+--
+<string>ECAE441D-93F8-4D7A-BF14-7FA2D11BC152</string>
+<key>com.apple.CoreSimulator.SimDeviceType.iPhone-6s</key>
+```
+
+Each one of these corresponds to a different OS version.  You can find the ordering like this:
+
+```bash
+$ grep SimRuntime.iOS device_set.plist
+<key>com.apple.CoreSimulator.SimRuntime.iOS-9-1</key>
+<key>com.apple.CoreSimulator.SimRuntime.iOS-9-2</key>
+<key>com.apple.CoreSimulator.SimRuntime.iOS-9-3</key>
+```
+
+My simulator is an iPhone 6s running iOS 9.3, so I can see the GUID is the third one: `ECAE441D-93F8-4D7A-BF14-7FA2D11BC152`.  This
+GUID is a directory in the same directory as the `device_set.plist` file.  You can use normal UNIX style commands to
+remove the backing store:
+
+```bash
+$ cd ECAE441D-93F8-4D7A-BF14-7FA2D11BC152
+$ find . -name 'tasklist.db' -print | xargs rm
+```
+
+You can also use the normal Finder utilities to search for and remove the database file for your app.
 
 ### Purging Records from the Offline Cache
 
