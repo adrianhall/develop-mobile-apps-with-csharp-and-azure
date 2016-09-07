@@ -566,10 +566,11 @@ The push process that offline sync uses has major ramifications for how relation
 only 1-way relationships will work in an offline sync world.</p>
 <div class="admonition note">
 <p class="admonition-title">1-Way Relationships</p>
-<p>You can define relationships in Entity Framework with or without a virtual back-reference.  Relationships without
-the virtual back-reference are known as 2-way relationships (because you can get back to the original model).<br />
-Relationships with only a forward reference (and no knowledge of the original model) are said to have a 1-way
-relationship.  A database model with only 1-way relationships can generally be represented with a tree structure.</p>
+<p>You can define relationships in Entity Framework with or without a virtual back-reference.  Relationships 
+without the virtual back-reference are known as 2-way relationships (because you can get back to the original 
+model).  Relationships with only a forward reference (and no knowledge of the original model) are said to have 
+a 1-way relationship.  A database model with only 1-way relationships can generally be represented with a tree 
+structure.</p>
 </div>
 <p>Let's take a quick example.  We've been using the "task list" scenario for our testing thus far.  Let's say that each
 task could be assigned a tag from a list of tags.   We can use a 1-way 1:1 relationship between the tasks and the tags.
@@ -616,10 +617,11 @@ the tables is lost when going from the backend to the offline client.  We have t
 why the "1-way" relationship is necessary.  In a 2-way relationship, a tag and task would have to be created at the same
 time as part of an SQL transaction.  In a 1-way relationship, the tag can be created THEN the task that has the relationship
 is created</p>
-<blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>When you think of all the mobile applications you own, you will realize that 1-way relationships are the normal state of
-affairs.  Very few relationships actually have to have the two-way relationship.</p>
-</blockquote>
+affairs.  Very few data models for mobile apps actually require a two-way relationship.</p>
+</div>
 <p>When you are developing the mobile client, the <code>Tag</code> is removed from the model:</p>
 <pre><code class="csharp">using TaskList.Helpers;
 
@@ -646,10 +648,10 @@ namespace TaskList.Models
 </code></pre>
 
 <p>There are a couple of rules you must follow within your client code:</p>
-<blockquote>
-<p>You need to ensure that you create a tag before associating that tag with a task.
-You need to store the TagId with the task, not the <code>Tag</code> object (as you would normally do within Entity Framework).</p>
-</blockquote>
+<ul>
+<li>You need to ensure that you create a tag before associating that tag with a task.</li>
+<li>You need to store the TagId with the task, not the <code>Tag</code> object (as you would normally do within Entity Framework).</li>
+</ul>
 <h1 id="1many-relationships">1:Many Relationships<a class="headerlink" href="#1many-relationships" title="Permanent link">&para;</a></h1>
 <!-- Images -->
           <aside class="copyright" role="note">

@@ -1354,6 +1354,34 @@ $ find . -name 'tasklist.db' -print | xargs rm
 
 <p>You can also use the normal Finder utilities to search for and remove the database file for your app.</p>
 <h3 id="purging-records-from-the-offline-cache">Purging Records from the Offline Cache<a class="headerlink" href="#purging-records-from-the-offline-cache" title="Permanent link">&para;</a></h3>
+<p>The <code>IMobileServiceSyncTable</code> interface also includes a capability for purging records that are stored in the offline sync by query.  This 
+is done in code like this:</p>
+<pre><code class="csharp">var lowerBound = DateTimeOffset.Now.AddDays(-7);
+var query = syncTable.CreateQuery().Where(item =&gt; item.UpdatedAt &lt; lowerBound);
+var force = true;
+await syncTable.PurgeAsync(&quot;incsync_Tag&quot;, query, force);
+</code></pre>
+
+<p>There are four parameters for the <code>PurgeAsync</code> call:</p>
+<ul>
+<li>A query name.</li>
+<li>An OData query.</li>
+<li>A boolean for forcing the operation.</li>
+<li>A cancellation token (for the async operation).</li>
+</ul>
+<p>Each incremental sync query has a unique name that is specified during the <code>PullAsync()</code> method call.  If you use the same name during the
+<code>PurgeAsync()</code> call, then the date associated with the incremental sync query is reset, causing a full refresh of the data.  This allows
+you to do a "purge and refresh" operation.  If you don't want this to happen, set the query name to null.</p>
+<p>The OData query is a similar query format to the incremental sync query that we used with <code>PullAsync()</code>.  In this case, it selects the
+records that should be purged from the offline sync cache.  If we wished to purge everything, we could just use <code>syncTable.CreateQuery()</code>.<br />
+If we want to purge only certain records, then we can adjust the query with a <code>.Where()</code> LINQ query.  In the example above, records that 
+have not been updated within the last 7 days are purged.</p>
+<p>Finally, the <code>PurgeAsync()</code> call will fail (and generate an exception) if there are any operations pending in the operations queue.  If we
+specify <code>force = true</code>, then the operations queue check is bypassed and pending operations in the operations queue are flushed without being
+uploaded.  It is important that this option is used only when absolutely required.  You can leave your database in an inconsistent
+state if you expect referential integrity between different tables.  Use <code>SyncContext.PushAsync()</code> to push the operations queue
+to the remote server before calling <code>PurgeAsync()</code>.   If you use <code>force = true</code>, then also specify a query name to reset the incremental 
+sync state.</p>
 <!-- Images -->
 
 <!-- Links -->
