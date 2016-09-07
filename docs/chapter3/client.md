@@ -906,7 +906,38 @@ You can also use the normal Finder utilities to search for and remove the databa
 
 ### Purging Records from the Offline Cache
 
+The `IMobileServiceSyncTable` interface also includes a capability for purging records that are stored in the offline sync by query.  This 
+is done in code like this:
 
+```csharp
+var lowerBound = DateTimeOffset.Now.AddDays(-7);
+var query = syncTable.CreateQuery().Where(item => item.UpdatedAt < lowerBound);
+var force = true;
+await syncTable.PurgeAsync("incsync_Tag", query, force);
+```
+
+There are four parameters for the `PurgeAsync` call:
+
+* A query name.
+* An OData query.
+* A boolean for forcing the operation.
+* A cancellation token (for the async operation).
+
+Each incremental sync query has a unique name that is specified during the `PullAsync()` method call.  If you use the same name during the
+`PurgeAsync()` call, then the date associated with the incremental sync query is reset, causing a full refresh of the data.  This allows
+you to do a "purge and refresh" operation.  If you don't want this to happen, set the query name to null.
+
+The OData query is a similar query format to the incremental sync query that we used with `PullAsync()`.  In this case, it selects the
+records that should be purged from the offline sync cache.  If we wished to purge everything, we could just use `syncTable.CreateQuery()`.  
+If we want to purge only certain records, then we can adjust the query with a `.Where()` LINQ query.  In the example above, records that 
+have not been updated within the last 7 days are purged.
+
+Finally, the `PurgeAsync()` call will fail (and generate an exception) if there are any operations pending in the operations queue.  If we
+specify `force = true`, then the operations queue check is bypassed and pending operations in the operations queue are flushed without being
+uploaded.  It is important that this option is used only when absolutely required.  You can leave your database in an inconsistent
+state if you expect referential integrity between different tables.  Use `SyncContext.PushAsync()` to push the operations queue
+to the remote server before calling `PurgeAsync()`.   If you use `force = true`, then also specify a query name to reset the incremental 
+sync state.
 
 <!-- Images -->
 [not-paging]: img/not-paging.PNG

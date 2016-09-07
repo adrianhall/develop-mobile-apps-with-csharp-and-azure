@@ -17,10 +17,11 @@ The push process that offline sync uses has major ramifications for how relation
 only 1-way relationships will work in an offline sync world.
 
 !!! note "1-Way Relationships"
-    You can define relationships in Entity Framework with or without a virtual back-reference.  Relationships without
-    the virtual back-reference are known as 2-way relationships (because you can get back to the original model).  
-    Relationships with only a forward reference (and no knowledge of the original model) are said to have a 1-way
-    relationship.  A database model with only 1-way relationships can generally be represented with a tree structure.
+    You can define relationships in Entity Framework with or without a virtual back-reference.  Relationships 
+    without the virtual back-reference are known as 2-way relationships (because you can get back to the original 
+    model).  Relationships with only a forward reference (and no knowledge of the original model) are said to have 
+    a 1-way relationship.  A database model with only 1-way relationships can generally be represented with a tree 
+    structure.
 
 Let's take a quick example.  We've been using the "task list" scenario for our testing thus far.  Let's say that each
 task could be assigned a tag from a list of tags.   We can use a 1-way 1:1 relationship between the tasks and the tags.
@@ -76,8 +77,9 @@ why the "1-way" relationship is necessary.  In a 2-way relationship, a tag and t
 time as part of an SQL transaction.  In a 1-way relationship, the tag can be created THEN the task that has the relationship
 is created
 
-> When you think of all the mobile applications you own, you will realize that 1-way relationships are the normal state of
-affairs.  Very few relationships actually have to have the two-way relationship.
+!!! tip
+    When you think of all the mobile applications you own, you will realize that 1-way relationships are the normal state of
+    affairs.  Very few data models for mobile apps actually require a two-way relationship.
 
 When you are developing the mobile client, the `Tag` is removed from the model:
 
@@ -110,9 +112,8 @@ var tag = tagTable.FirstOrDefault(tag => tag.Id.Equals(task.TagId)).Value;
 
 There are a couple of rules you must follow within your client code:
 
-> You need to ensure that you create a tag before associating that tag with a task.
-> You need to store the TagId with the task, not the `Tag` object (as you would normally do within Entity Framework).
-
+* You need to ensure that you create a tag before associating that tag with a task.
+* You need to store the TagId with the task, not the `Tag` object (as you would normally do within Entity Framework).
 
 # 1:Many Relationships
 
