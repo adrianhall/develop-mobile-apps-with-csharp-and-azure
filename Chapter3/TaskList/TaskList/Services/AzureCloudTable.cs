@@ -35,7 +35,7 @@ namespace TaskList.Services
                 await UpdateItemAsync(item);
         }
 
-        public async Task DeleteItemAsync(T item) 
+        public async Task DeleteItemAsync(T item)
             => await table.DeleteAsync(item);
 
         public async Task<ICollection<T>> ReadAllItemsAsync()
@@ -59,7 +59,7 @@ namespace TaskList.Services
             return allItems;
         }
 
-        public async Task<T> ReadItemAsync(string id) 
+        public async Task<T> ReadItemAsync(string id)
             => await table.LookupAsync(id);
 
         public async Task<ICollection<T>> ReadItemsAsync(int start, int count)

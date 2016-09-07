@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="ba2d87dc-2d49-4ae4-8463-e5d1c86da467" Publisher="CN=adrianha" Version="1.0.0.0" />
+  <Identity Name="ba2d87dc-2d49-4ae4-8463-e5d1c86da467" Publisher="CN=photo" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="ba2d87dc-2d49-4ae4-8463-e5d1c86da467" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>TaskList.UWP</DisplayName>

@@ -21,7 +21,7 @@ namespace Chapter3.Controllers
         // GET tables/Tag
         public IQueryable<Tag> GetAllTag()
         {
-            return Query(); 
+            return Query();
         }
 
         // GET tables/Tag/48D68C86-6EA6-4C25-AA33-223FC9A27959
