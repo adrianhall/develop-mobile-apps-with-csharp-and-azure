@@ -87,8 +87,8 @@ here is your happy page - the page that signifies you have done everything right
 ![Authentication Succeeded][img7]
 
 !!! warn
-    Every single OAuth provider will ask you what sort of information you want to have access to.  These "claims" 
-    translate into permissions.  The more permissions you request, the less likely the user is going to accept 
+    Every single OAuth provider will ask you what sort of information you want to have access to.  These "claims"
+    translate into permissions.  The more permissions you request, the less likely the user is going to accept
     them.  Be a good net citizen and only request the information you are actually going to use.
 
 ## Google Configuration
@@ -112,7 +112,7 @@ Just because it is enabled does not mean you automatically get to use it.  Click
 left-hand side bar.  You will also see a "Go to Credentials" button at the top of the screen, but it does not take
 you to the same screen, so do not click it.
 
-On the Crendetials screen, click on the **OAuth consent screen** tab:
+On the Credentials screen, click on the **OAuth consent screen** tab:
 
 ![Google OAuth Credential][img10]
 
@@ -157,6 +157,10 @@ Confirming here should get us to the same happy screen we achieved with Facebook
 If you happen to mis-type the Authorized redirect URI, Google will tell you that the URI is wrong.  I inevitably swap
 http for https.  When this happens, it is an easy fix, but you have to wait a few minutes before the authentication
 system updates itself.
+
+!!! warn
+    Google is turning off the ability to use "Server Flow" authentication with its service.  If you wish to use Google
+    authentication, you must use "Client Flow" and their SDK.
 
 ## Microsoft Account Configuration
 
@@ -265,7 +269,7 @@ of this and provided a facility for running platform specific code called the [D
     same.  You just have to alter the provider name.
 
 If we run our application right now, clicking on the "Enter the App" button will result in an error.  You will be
-able to see the Unauthorized error in the debug window of Visual Studio.  Our first step is to define an 
+able to see the Unauthorized error in the debug window of Visual Studio.  Our first step is to define an
 `Abstractions\ILoginProvider.cs` interface within the shared project:
 
 ```csharp
@@ -488,9 +492,9 @@ integrated.  In general, these SDKs are provided for a native platform (Objectiv
 use callbacks or delegates (as is common practice in native libraries) and are thus more complicated to integrate with
 your mobile client than those that have a C#/.NET SDK delivered on NuGet.
 
-!!! warn 
-    Testing Client Flow for social providers requires that the social app be installed on the device.  You cannot 
-    install other apps on the iOS simulator and there may be restrictions on the Android Emulator.  This means that 
+!!! warn
+    Testing Client Flow for social providers requires that the social app be installed on the device.  You cannot
+    install other apps on the iOS simulator and there may be restrictions on the Android Emulator.  This means that
     you need to test client flow for social providers on an actual device.
 
 The reward for doing so are a more integrated experience on mobile devices.  For example, if you integrate the Google
@@ -499,6 +503,10 @@ the background, avoiding the need for repeatedly authenticating the client.  It 
 the app is not trusted.  If you integrate the Facebook SDK, then the app will automatically switch to the Facebook app
 and ask you to approve the authentication request there instead of authenticating the user through a web view.  Both
 of these provide a more integrated experience for the end user, so this work is well worth pursuing.
+
+!!! warn
+    Google is turning off WebView flows, which are required for "Server Flow" authentication.  This means that you
+    must use a client flow with the Google+ SDK if you wish to authenticate users using a Google ID.
 
 As an example, here is the client flow for Facebook.  I've implemented this using the `Xamarin.Facebook.iOS` library,
 which can be downloaded and installed into the iOS project from NuGet.  The `Services\iOSLoginProvider.cs` contains
