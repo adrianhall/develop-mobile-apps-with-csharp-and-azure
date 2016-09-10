@@ -9,6 +9,8 @@
             <Entry Text="{Binding Item.Text}" />
             <Label Text="Completed?" />
             <Switch IsToggled="{Binding Item.Complete}" />
+            <Label Text="Tag" />
+            <Picker x:Name="tagPicker" />
             <StackLayout VerticalOptions="CenterAndExpand" />
             <StackLayout Orientation="Vertical" VerticalOptions="End">
                 <StackLayout HorizontalOptions="Center" Orientation="Horizontal">

@@ -12,7 +12,7 @@ namespace TaskList.UWP.Services
 {
     public class UWPPlatform : IPlatform
     {
-        const string ServiceIdentifier = "chapter3-tasklist";
+        private const string ServiceIdentifier = "chapter3-tasklist";
 
         public PasswordVault PasswordVault { get; private set; }
 

@@ -197,6 +197,7 @@ namespace TaskList.Services
 
             if (Client.CurrentUser != null && !IsTokenExpired(Client.CurrentUser.MobileServiceAuthenticationToken))
             {
+                Debug.WriteLine($"LoginAsync: From Store: Token = {Client.CurrentUser.MobileServiceAuthenticationToken}");
                 return Client.CurrentUser;
             }
 
@@ -205,6 +206,7 @@ namespace TaskList.Services
             if (Client.CurrentUser != null)
             {
                 PlatformProvider.StoreTokenInSecureStore(Client.CurrentUser);
+                Debug.WriteLine($"LoginAsync: From Login: Token = {Client.CurrentUser.MobileServiceAuthenticationToken}");
                 return Client.CurrentUser;
             }
 
