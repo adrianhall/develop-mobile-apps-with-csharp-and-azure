@@ -5,12 +5,19 @@
              Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout Padding="10" Spacing="10">
-            <Label Text="What should I be doing?" />
-            <Entry Text="{Binding Item.Text}" />
-            <Label Text="Completed?" />
-            <Switch IsToggled="{Binding Item.Complete}" />
-            <Label Text="Tag" />
-            <Picker x:Name="tagPicker" />
+            <Entry Placeholder="What should I be doing?"
+                   Text="{Binding CurrentTask.Text}"
+                   TextColor="Black" />
+            <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
+                <Label HorizontalOptions="StartAndExpand" Text="Completed?" />
+                <Switch HorizontalOptions="End" IsToggled="{Binding CurrentTask.Complete}" />
+            </StackLayout>
+            <StackLayout HorizontalOptions="Fill"
+                         Orientation="Horizontal"
+                         Padding="10,0,0,0">
+                <Label HorizontalOptions="Start" Text="Tag" />
+                <Picker x:Name="tagPicker" />
+            </StackLayout>
             <StackLayout VerticalOptions="CenterAndExpand" />
             <StackLayout Orientation="Vertical" VerticalOptions="End">
                 <StackLayout HorizontalOptions="Center" Orientation="Horizontal">

@@ -1,32 +1,27 @@
-﻿using System.Threading.Tasks;
-using TaskList.Abstractions;
-using TaskList.Helpers;
-using TaskList.Models;
+﻿using TaskList.ViewModels;
 using Xamarin.Forms;
 
 namespace TaskList.Pages
 {
     public partial class TaskDetail : ContentPage
     {
-        public ICloudService CloudService => ServiceLocator.Get<ICloudService>();
-
         public TaskDetail(Models.TodoItem item = null)
         {
             InitializeComponent();
-            BindingContext = new ViewModels.TaskDetailViewModel(item);
-
-            var RefreshCommand = new Command(async () => await RefreshAsync());
-            RefreshCommand.Execute(null);
+            var context = new TaskDetailViewModel(item);
+            BindingContext = context;
         }
 
-        public async Task RefreshAsync()
+        protected override void OnBindingContextChanged()
         {
-            var table = await CloudService.GetTableAsync<Tag>();
-            var items = await table.ReadAllItemsAsync();
+            base.OnBindingContextChanged();
 
-            tagPicker.Items.AddRange(items);
-
-
+            TaskDetailViewModel vm = BindingContext as TaskDetailViewModel;
+            if (vm != null)
+            {
+                vm.TagPicker = tagPicker;
+                vm.RefreshCommand.Execute(null);
+            }
         }
     }
 }

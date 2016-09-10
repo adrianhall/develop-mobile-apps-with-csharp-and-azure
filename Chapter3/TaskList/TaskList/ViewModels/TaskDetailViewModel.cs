@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using TaskList.Abstractions;
 using TaskList.Helpers;
@@ -9,32 +11,68 @@ namespace TaskList.ViewModels
 {
     public class TaskDetailViewModel : BaseViewModel
     {
+
         public TaskDetailViewModel(TodoItem item = null)
         {
-            SaveCommand = new Command(async () => await Save());
-            DeleteCommand = new Command(async () => await Delete());
-
+            SaveCommand = new Command(async () => await SaveAsync());
+            DeleteCommand = new Command(async () => await DeleteAsync());
+            RefreshCommand = new Command(async () => await RefreshAsync());
             if (item != null)
             {
-                Item = item;
+                CurrentTask = item;
                 Title = item.Text;
             }
             else
             {
-                Item = new TodoItem { Text = "New Item", Complete = false };
+                CurrentTask = new TodoItem { Text = "New Item", Complete = false };
                 Title = "New Item";
             }
-
         }
 
         public ICloudService CloudService => ServiceLocator.Get<ICloudService>();
         public IPlatform PlatformProvider => DependencyService.Get<IPlatform>();
+        public Picker TagPicker { get; set; }
         public Command SaveCommand { get; }
         public Command DeleteCommand { get; }
+        public Command RefreshCommand { get; }
 
-        public TodoItem Item { get; set; }
+        TodoItem currentTask;
+        public TodoItem CurrentTask
+        {
+            get { return currentTask; }
+            set { SetProperty(ref currentTask, value, "CurrentTask"); }
+        }
 
-        async Task Save()
+
+        public string Text
+        {
+            get
+            {
+                return CurrentTask.Text;
+            }
+            set
+            {
+                var cText = CurrentTask.Text;
+                SetProperty(ref cText, value, "Text");
+                CurrentTask.Text = cText;
+            }
+        }
+
+        public bool Complete
+        {
+            get
+            {
+                return CurrentTask.Complete;
+            }
+            set
+            {
+                var cComplete = CurrentTask.Complete;
+                SetProperty(ref cComplete, value, "Complete");
+                CurrentTask.Complete = cComplete;
+            }
+        }
+
+        async Task SaveAsync()
         {
             if (IsBusy)
                 return;
@@ -42,8 +80,14 @@ namespace TaskList.ViewModels
 
             try
             {
+                if (TagPicker.SelectedIndex > 0)
+                {
+                    var tagTable = await CloudService.GetTableAsync<Tag>();
+                    var tagList = await tagTable.ReadAllItemsAsync();
+                    CurrentTask.TagId = tagList.FirstOrDefault(tag => tag.TagName.Equals(TagPicker.Items[TagPicker.SelectedIndex])).Id;
+                }
                 var table = await CloudService.GetTableAsync<TodoItem>();
-                await table.UpsertItemAsync(Item);
+                await table.UpsertItemAsync(CurrentTask);
                 await CloudService.SyncOfflineCacheAsync();
                 MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
                 await Application.Current.MainPage.Navigation.PopAsync();
@@ -58,7 +102,7 @@ namespace TaskList.ViewModels
             }
         }
 
-        async Task Delete()
+        async Task DeleteAsync()
         {
             if (IsBusy)
                 return;
@@ -66,10 +110,10 @@ namespace TaskList.ViewModels
 
             try
             {
-                if (Item.Id != null)
+                if (CurrentTask.Id != null)
                 {
                     var table = await CloudService.GetTableAsync<TodoItem>();
-                    await table.DeleteItemAsync(Item);
+                    await table.DeleteItemAsync(CurrentTask);
                     await CloudService.SyncOfflineCacheAsync();
                     MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
                 }
@@ -82,6 +126,29 @@ namespace TaskList.ViewModels
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        async Task RefreshAsync()
+        {
+            Debug.WriteLine($"RefreshAsync: Entry");
+
+            if (TagPicker.Items.Count == 0)
+            {
+                var tagTable = await CloudService.GetTableAsync<Tag>();
+                var tags = await tagTable.ReadAllItemsAsync();
+                Debug.WriteLine($"RefreshAsync: Returned {tags.Count} items");
+                TagPicker.Items.Add("-");
+                Debug.WriteLine($"RefreshAsync: Added Tag: -");
+                foreach (var tag in tags)
+                {
+                    TagPicker.Items.Add(tag.TagName);
+                    Debug.WriteLine($"RefreshAsync: Added Tag: {tag.TagName}");
+                    if (tag.Id.Equals(CurrentTask.TagId))
+                    {
+                        TagPicker.SelectedIndex = TagPicker.Items.Count - 1;
+                    }
+                }
             }
         }
     }
