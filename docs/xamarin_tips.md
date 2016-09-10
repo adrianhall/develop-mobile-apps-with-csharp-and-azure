@@ -87,7 +87,7 @@ var listView = new ListView(ListViewCachingStrategy.RecycleElement);
 There are more techniques for improving ListView performance in the
 [Xamarin documentation][3]
 
-## Building a Floating Action Button
+## Build a Floating Action Button
 
 One of the things that I wanted to do to my apps was to give them a little more in the
 way of normal UI design.  My original design (which I introduced back in [Chapter ][ch1])
@@ -165,7 +165,66 @@ On Universal Windows (where this is actually important due to a lack of "pull-to
 will see the familiar triple-dot on the app bar - clicking on the triple dot gives you access to
 the refresh command.
 
-## Installing NuGet Packages in Multiple Projects
+## Work with a Picker in a ViewModel
+
+There are some controls that do not work well with a `BindingContext`.  One of these is the `Picker`.
+It has a number of Items that indicate the elements in the drop-down.   However, the Items are not
+bindable, which means that they cannot be accessed via a ViewModel.
+
+Let's say you wish to use the drop-down Picker from a view model and use an async command to update
+the elements in the Picker.  In the XAML file, give your picker a name:
+
+```xml
+<Picker x:Name="myPicker" />
+```
+
+This makes `myPicker` a private variable in the generated class.  You can use this in the XAML 
+code-behind file to pass the picker to your view-model by overriding the `OnBindingContextChanged`
+method:
+
+```csharp
+protected override void OnBindingContextChanged()
+{
+    base.OnBindingContextChanged();
+
+    MyViewModel vm = BindingContext as MyViewModel;
+    if (vm != null)
+    {
+        vm.MyPicker = myPicker;
+        vm.RefreshPickerCommand.Execute(null);
+    }
+}
+```
+
+In your view-model, you can create a standard async command:
+
+```csharp
+async Task RefreshPickerAsync()
+{
+    if (MyPicker.Items.Count == 0)
+    {
+        /* This section gets the list of items in the picker */
+        var table = await CloudService.GetTableAsync<Tag>();
+        var tags = await tagTable.ReadAllItemsAsync();
+
+        /* This section updates MyPicker with the items */
+        foreach (var item in tags)
+        {
+            MyPicker.Items.Add(item.TagName);
+            // You may want to do a test for something in your item
+            // here and set SelectedIndex to the index if it matches
+        }
+    }
+}
+```
+
+The `RefreshPickerAsync()` command gets executed when the binding context is updated, which means the
+XAML has been executed and bound (thus the myPicker variable is set to the picker).  
+
+Another way to accomplish this would be to encapsulate a picker in a custom control that does have a
+bindable Items element.  This has been discussed on the [Xamarin Forums][4].
+
+## Install NuGet Packages in Multiple Projects
 
 One of the common requirements we have in Xamarin Forms is to install NuGet packages
 in all the Xamarin Forms projects.  To do this, right-click on the solution and select
@@ -198,3 +257,4 @@ This setting is saved within the solution, so you only need to do it once per pr
 [1]: https://github.com/jamesmontemagno
 [2]: https://github.com/jamesmontemagno/mvvm-helpers/blob/35f0ddd7e739eb5daed3c90cae1334d3e674229b/MvvmHelpers/ObservableRangeCollection.cs
 [3]: https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/performance/
+[4]: https://forums.xamarin.com/discussion/30801/xamarin-forms-bindable-picker

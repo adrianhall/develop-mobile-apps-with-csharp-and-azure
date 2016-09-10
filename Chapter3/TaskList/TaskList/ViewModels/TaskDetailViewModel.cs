@@ -86,6 +86,11 @@ namespace TaskList.ViewModels
                     var tagList = await tagTable.ReadAllItemsAsync();
                     CurrentTask.TagId = tagList.FirstOrDefault(tag => tag.TagName.Equals(TagPicker.Items[TagPicker.SelectedIndex])).Id;
                 }
+                else
+                {
+                    CurrentTask.TagId = null;
+                }
+
                 var table = await CloudService.GetTableAsync<TodoItem>();
                 await table.UpsertItemAsync(CurrentTask);
                 await CloudService.SyncOfflineCacheAsync();
@@ -131,19 +136,14 @@ namespace TaskList.ViewModels
 
         async Task RefreshAsync()
         {
-            Debug.WriteLine($"RefreshAsync: Entry");
-
             if (TagPicker.Items.Count == 0)
             {
                 var tagTable = await CloudService.GetTableAsync<Tag>();
                 var tags = await tagTable.ReadAllItemsAsync();
-                Debug.WriteLine($"RefreshAsync: Returned {tags.Count} items");
                 TagPicker.Items.Add("-");
-                Debug.WriteLine($"RefreshAsync: Added Tag: -");
                 foreach (var tag in tags)
                 {
                     TagPicker.Items.Add(tag.TagName);
-                    Debug.WriteLine($"RefreshAsync: Added Tag: {tag.TagName}");
                     if (tag.Id.Equals(CurrentTask.TagId))
                     {
                         TagPicker.SelectedIndex = TagPicker.Items.Count - 1;

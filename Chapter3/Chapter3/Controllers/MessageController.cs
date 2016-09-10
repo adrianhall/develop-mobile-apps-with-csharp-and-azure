@@ -12,7 +12,7 @@ namespace Chapter3.Controllers
 {
     public class MessageController : TableController<Message>
     {
-        MobileServiceContext context;
+        private MobileServiceContext context;
 
         protected override void Initialize(HttpControllerContext controllerContext)
         {
@@ -26,17 +26,19 @@ namespace Chapter3.Controllers
         // GET tables/Message
         public IQueryable<Message> GetAllMessage()
         {
-            return Query().OwnedByFriends(context.Friends, UserId);
+            return Query();
+            //return Query().OwnedByFriends(context.Friends, UserId);
         }
 
         // GET tables/Message/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public SingleResult<Message> GetMessage(string id)
         {
-            return new SingleResult<Message>(Lookup(id).Queryable.OwnedByFriends(context.Friends, UserId));
+            return new SingleResult<Message>(Lookup(id).Queryable);
+            //return new SingleResult<Message>(Lookup(id).Queryable.OwnedByFriends(context.Friends, UserId));
         }
 
         // POST tables/Message
-        public async Task<IHttpActionResult> PostMessage(Message item)
+        public async Task<IHttpActionResult> PostMessageAsync(Message item)
         {
             item.UserId = UserId;
             Message current = await InsertAsync(item);
