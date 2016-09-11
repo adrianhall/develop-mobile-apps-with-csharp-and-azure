@@ -440,9 +440,251 @@ the SQL server only and hence must be dealt with by the mobile backend.
 
 ## NoSQL Storage with the StorageDomainManager
 
-## Implementing A Domain Manager
+What if you don't want to use a SQL backend for your service?  Relationships between entities are not that important in the mobile
+client and Azure Table Storage costs significantly less than SQL Azure.  There are always trade-offs between various storage
+providers.  A Domain Manager enables you to swap out the storage for one of your own choosing.  Azure Mobile Apps provides 
+a domain manager for Azure Table Storage.  Azure Table Storage is Microsoft's NOSQL key/attribute store.  It has a schemaless
+design, which (at least theoretically) enables you to adapt your data models as the application evolves without having to worry
+about the schema.
+
+To see this in action, let's rework the existing data store (which has tags and todoitems as tables) to use Table Storage.  First
+up, we need to set up a suitable environment.  This involves:
+
+1. Create a Resource Group
+2. Create an Azure App Service
+3. Set up authentication on the Azure App Service
+4. Create a Storage Account
+5. Link the Storage Account to the Azure App Service.
+
+We've already covered the first three items in previous chapters.  The important element here is that we do not create a SQL
+database.  We are going to be using Table Storage instead so we don't need it.  To create a Storage Account:
+
+* Log on to the [Azure Portal].
+* Click on the big **+ NEW** button in the top left corner.
+* Click on **Data + Storage**, then **Storage account**.
+* Fill in the form:
+    * The name can only contain letters and numbers and must be unique.  A GUID without the dashes is a good choice.
+    * The **Deployment model** should be set to **Resource manager**.
+    * The **Account kind** should be set to **General purpose**.
+    * The **Performance** should be set to **Standard** for this example.
+    * The **Replication** should be set to **Locally-redundant storage (LRS)**.
+    * Set the **Resource group** to your existing resource group.
+    * Set the **Location** to the same location as your App Service.
+* Click on **Create**.
+
+Just like SQL Azure, Azure Storage has some great scalability and redundancy features if your backend takes advantage of them.
+We have selected the slowest performance and least redundant options here to keep the cost down on your service.
+
+!!! warn
+    There is no "free" option for Azure Storage.  You pay by the kilobyte depending on the performance and redundancy selected.
+
+Once the Azure Storage account is deployed, you can link the storage account to your App Service:
+
+* Open your App Service in the [Azure Portal].
+* Click on  **Data Connections** under the **MOBILE** section in the settings menu.
+* Click on **+ ADD**
+* In the **Add data connection** blade:
+    * Set the Type to **Storage**.
+    * Click on the **Storage** link.
+    * In the **Storage Account** selector, click on the storage account you just created.
+    * Click on the **Connection string**.
+    * In the **Connection string** selector, make a note of the **Name** field.
+    * Click on **OK**.
+    * Click on **OK** to close the **Add data connection** blade.
+
+Click on the **Application Settings** menu option, then scroll down to the **Connection Strings** section.  Note that the portal
+has created the connection string as an App Setting for you with the right value:
+
+```bash
+DefaultEndpointsProtocol=https;AccountName=thebook;AccountKey=<key1>
+```
+
+The key is the access key for the storage.  When a storage account is created, two keys are also created.  If you re-generate the
+storage access keys, remember to update your connection string.  By default, the connection string is called `MS_AzureStorageAccountConnectionString`
+and we will use that throughout.
+
+Now that our resources are set up, let's look at the Backend project.  This started off as a standard Azure Mobile Apps template.
+The template assumes you are going to use SQL Azure, so there is quite a bit of work to convert the provided template to use
+Azure Table Storage.  Let's start with the `App_Start\Startup.MobileApp.cs` file.  There is no Entity Framework, so that needs to
+be stripped out:
+
+```csharp
+using System.Configuration;
+using System.Web.Http;
+using Microsoft.Azure.Mobile.Server;
+using Microsoft.Azure.Mobile.Server.Authentication;
+using Microsoft.Azure.Mobile.Server.Config;
+using Owin;
+
+namespace Backend
+{
+    public partial class Startup
+    {
+        public static void ConfigureMobileApp(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+
+            new MobileAppConfiguration()
+                .AddTables()
+                .ApplyTo(config);
+
+            app.UseWebApi(config);
+        }
+    }
+}
+
+We've made three changes:
+
+1. We've removed the database seeding.
+2. We've removed the database initializer.
+3. We've changed `AddTablesWithEntityFramework()` to `AddTables()`.
+
+There is extra work needed with Entity Framework.  Since we aren't using it, we don't need the additional work.  We do, however,
+need to create the ASP.NET routes to the table controllers.
+
+!!! tip
+    You must add the `Microsoft.Azure.Mobile.Server.Storage` package from NuGet. 
+
+Let's move onto the DataObjects.  These are very similar:
+
+```csharp
+namespace Backend.DataObjects
+{
+    public class TodoItem : StorageData
+    {
+        public string Text { get; set; }
+        public bool Complete { get; set; }
+    }
+}
+```
+
+Each storage implementation will likely need their own implementation of the `ITableData` interface.  The `StorageData` class 
+performs the same duties as the `EntityData` class for Entity Framework based backends.
+
+!!! tip
+    You can remove the `Models` directory and the `DbContext` for the project.  These are only needed when working with Entity Framework.
+
+The Azure Table Storage SDK is completely async driven.  Fortunately, the domain manager specification (codified in the definition
+of `IDomainManager`) allows both async and synchronous usage.  This does require a change to our controller:
+
+```csharp
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using System.Web.Http.OData.Query;
+using Backend.DataObjects;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.Controllers
+{
+    public class TodoItemController : TableController<TodoItem>
+    {
+        const string connectionString = "MS_AzureStorageAccountConnectionString";
+        const string tableName = "TodoItem";
+
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            DomainManager = new StorageDomainManager<TodoItem>(connectionString, tableName, Request, enableSoftDelete: true);
+        }
+
+        // GET tables/TodoItem
+        public async Task<IEnumerable<TodoItem>> GetAllTodoItemsAsync(ODataQueryOptions query)
+        {
+            return await QueryAsync(query);
+        }
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public async Task<SingleResult<TodoItem>> GetTodoItemAsync(string id)
+        {
+            return await LookupAsync(id);
+        }
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public async Task<TodoItem> PatchTodoItemAsync(string id, Delta<TodoItem> patch)
+        {
+            return await UpdateAsync(id, patch);
+        }
+
+        // POST tables/TodoItem
+        public async Task<IHttpActionResult> PostTodoItemAsync(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public async Task DeleteTodoItemAsync(string id)
+        {
+            await DeleteAsync(id);
+        }
+    }
+}
+```
+
+Note how we instantiate the storage domain controller.  This requires a connection string and the name of the table.  We
+have created the connection string in the portal, but we have not exposed that connection string to our ASP.NET application.
+We need to edit the `Web.config` file as well:
+
+```xml
+<connectionStrings>
+    <add name="MS_AzureStorageAccountConnectionString" connectionString="UseDevelopmentStorage=true"/>
+</connectionStrings>
+```
+
+This will be overwritten by the connection string in the portal.  If you are running the service locally, you can use this
+setting with the Azure Storage Emulator.  If you don't add this line to the `Web.config`, you will not be able to run this
+server locally.
+
+This backend can now be published and we can work with Postman to test it out.  For instance, let's try adding a simple test
+of getting some data:
+
+![][storage-1]
+
+This is exactly the same response as we got when we don't have any data from the Entity Framework version.  Let's add a 
+record:
+
+![][storage-2]
+
+There are a couple of things to note here.  Firstly, the Id must be specified.  It also must be of a specific form.  There
+are two numbers.  The first is a partition key and the second is a row key.  Tables are partitioned to support load balancing
+across storage notes.  It can be anything you wish it to be.  Similarly, the row key is unique within a partition.  We can
+use this information to generate a suitable Id if one is not provided:
+
+```csharp
+// POST tables/TodoItem
+public async Task<IHttpActionResult> PostTodoItemAsync(TodoItem item)
+{
+    if (item.Id == null)
+    {
+        item.Id = GenerateUniqueId();
+    }
+    TodoItem current = await InsertAsync(item);
+    return CreatedAtRoute("Tables", new { id = current.Id }, current);
+}
+
+private string GenerateUniqueId()
+{
+    var partitionId = "1";
+    var rowId = Guid.NewGuid().ToString("N");
+    return $"'{partitionId}','{rowId}'";
+}
+```
+
+You will need a copy of the `GenerateUniqueId()` method if you generate unique identifiers for your records within your mobile client.
+The partition key and row key are returned as part of the record.  You will also note that the version and eTag information are different
+from the Entity Framework format as well.  This clarifies why it is important to treat these values as opaque features.  
+
+
+
+<!-- Images -->
+[storage-1]: img/storage-1.PNG
 
 <!-- Links -->
+[Azure Portal]: https://portal.azure.com/
+
 [1]: http://automapper.org/
 [2]: http://www.entityframeworktutorial.net/code-first/configure-one-to-one-relationship-in-code-first.aspx
 [3]: https://github.com/Azure/azure-mobile-apps-net-server/blob/cc0c591e7a852f95cb3682b57b729e3876343338/src/Microsoft.Azure.Mobile.Server.Entity/MappedEntityDomainManager.cs
