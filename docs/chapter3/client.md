@@ -939,6 +939,100 @@ state if you expect referential integrity between different tables.  Use `SyncCo
 to the remote server before calling `PurgeAsync()`.   If you use `force = true`, then also specify a query name to reset the incremental 
 sync state.
 
+## Debugging the Offline Cache
+
+One of the most difficult parts of the offline cache is that it is opaque - you can't really see what is going on.  Fortunately, the
+`SQLiteStore` that is used is relatively straight forward to sub-class so we can add logging to it.  The following helper method can 
+be substituted for a `SQLiteStore` in any code.
+
+```csharp
+public class MobileServiceSQLiteStoreWithLogging : MobileServiceSQLiteStore
+{
+    private bool logResults;
+    private bool logParameters;
+
+    public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false) 
+        : base(fileName) 
+    {
+        this.logResults = logResults;
+        this.logParameters = logParameters;
+    }
+
+    protected override IList<Newtonsoft.Json.Linq.JObject> ExecuteQuery(string tableName, string sql, IDictionary<string, object> parameters)
+    {
+        Console.WriteLine (sql);   
+
+        if(logParameters)
+            PrintDictionary (parameters);
+
+        var result = base.ExecuteQuery(tableName, sql, parameters);
+
+        if (logResults && result != null) 
+        {
+            foreach (var token in result)
+                Console.WriteLine (token);
+        }
+
+        return result;
+    }
+
+    protected override void ExecuteNonQuery(string sql, IDictionary<string, object> parameters)
+    {
+        Console.WriteLine (sql);
+
+        if(logParameters)
+            PrintDictionary (parameters);
+
+        base.ExecuteNonQuery(sql, parameters);
+    }
+
+    private void PrintDictionary(IDictionary<string,object> dictionary)
+    {
+        if (dictionary == null)
+            return;
+
+        foreach (var pair in dictionary)
+            Console.WriteLine ("{0}:{1}", pair.Key, pair.Value);
+    }
+}
+
+public class LoggingHandler : DelegatingHandler
+{
+    private bool logRequestResponseBody;
+
+    public LoggingHandler(bool logRequestResponseBody = false)
+    {
+        this.logRequestResponseBody = logRequestResponseBody;
+    }
+
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+    {
+        Console.WriteLine("Request: {0} {1}", request.Method, request.RequestUri.ToString());
+
+        if (logRequestResponseBody && request.Content != null) 
+        {
+            var requestContent = await request.Content.ReadAsStringAsync ();
+            Console.WriteLine (requestContent);
+        }
+
+        var response = await base.SendAsync(request, cancellationToken);
+
+        Console.WriteLine ("Response: {0}", response.StatusCode);
+
+        if (logRequestResponseBody) 
+        {
+            var responseContent = await response.Content.ReadAsStringAsync ();
+            Console.WriteLine (responseContent);
+        }
+
+        return response;
+    }
+} 
+```
+
+Using this class will print all the SQL commands that are executed against the SQLite store.  Ensure you are capturing the console somewhere 
+so that you can see the debug messages as you are running your application. 
+
 <!-- Images -->
 [not-paging]: img/not-paging.PNG
 [add-uwp-reference]: img/add-uwp-reference.PNG
