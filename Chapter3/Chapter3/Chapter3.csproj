@@ -195,6 +195,7 @@
     <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="Extensions\ExampleExtensions.cs" />
+    <Compile Include="Extensions\ExpandPropertyAttribute.cs" />
     <Compile Include="Extensions\MessageExtensions.cs" />
     <Compile Include="Extensions\TodoItemExtensions.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />

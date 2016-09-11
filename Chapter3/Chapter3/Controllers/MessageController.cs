@@ -24,6 +24,7 @@ namespace Chapter3.Controllers
         public string UserId => ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
 
         // GET tables/Message
+        [ExpandProperty("tags")]
         public IQueryable<Message> GetAllMessage()
         {
             return Query();
@@ -31,6 +32,7 @@ namespace Chapter3.Controllers
         }
 
         // GET tables/Message/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [ExpandProperty("tags")]
         public SingleResult<Message> GetMessage(string id)
         {
             return new SingleResult<Message>(Lookup(id).Queryable);
