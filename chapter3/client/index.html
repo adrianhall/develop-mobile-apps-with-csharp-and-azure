@@ -374,6 +374,12 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="Debugging the Offline Cache" href="#debugging-the-offline-cache">
+                Debugging the Offline Cache
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -393,15 +399,6 @@
   <li>
     <a class="" title="The Domain Manager" href="../domainmgr/">
       The Domain Manager
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="Complex Types" href="../complextypes/">
-      Complex Types
     </a>
     
   </li>
@@ -1382,6 +1379,96 @@ uploaded.  It is important that this option is used only when absolutely require
 state if you expect referential integrity between different tables.  Use <code>SyncContext.PushAsync()</code> to push the operations queue
 to the remote server before calling <code>PurgeAsync()</code>.   If you use <code>force = true</code>, then also specify a query name to reset the incremental 
 sync state.</p>
+<h2 id="debugging-the-offline-cache">Debugging the Offline Cache<a class="headerlink" href="#debugging-the-offline-cache" title="Permanent link">&para;</a></h2>
+<p>One of the most difficult parts of the offline cache is that it is opaque - you can't really see what is going on.  Fortunately, the
+<code>SQLiteStore</code> that is used is relatively straight forward to sub-class so we can add logging to it.  The following helper method can 
+be substituted for a <code>SQLiteStore</code> in any code.</p>
+<pre><code class="csharp">public class MobileServiceSQLiteStoreWithLogging : MobileServiceSQLiteStore
+{
+    private bool logResults;
+    private bool logParameters;
+
+    public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false) 
+        : base(fileName) 
+    {
+        this.logResults = logResults;
+        this.logParameters = logParameters;
+    }
+
+    protected override IList&lt;Newtonsoft.Json.Linq.JObject&gt; ExecuteQuery(string tableName, string sql, IDictionary&lt;string, object&gt; parameters)
+    {
+        Console.WriteLine (sql);   
+
+        if(logParameters)
+            PrintDictionary (parameters);
+
+        var result = base.ExecuteQuery(tableName, sql, parameters);
+
+        if (logResults &amp;&amp; result != null) 
+        {
+            foreach (var token in result)
+                Console.WriteLine (token);
+        }
+
+        return result;
+    }
+
+    protected override void ExecuteNonQuery(string sql, IDictionary&lt;string, object&gt; parameters)
+    {
+        Console.WriteLine (sql);
+
+        if(logParameters)
+            PrintDictionary (parameters);
+
+        base.ExecuteNonQuery(sql, parameters);
+    }
+
+    private void PrintDictionary(IDictionary&lt;string,object&gt; dictionary)
+    {
+        if (dictionary == null)
+            return;
+
+        foreach (var pair in dictionary)
+            Console.WriteLine (&quot;{0}:{1}&quot;, pair.Key, pair.Value);
+    }
+}
+
+public class LoggingHandler : DelegatingHandler
+{
+    private bool logRequestResponseBody;
+
+    public LoggingHandler(bool logRequestResponseBody = false)
+    {
+        this.logRequestResponseBody = logRequestResponseBody;
+    }
+
+    protected override async Task&lt;HttpResponseMessage&gt; SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+    {
+        Console.WriteLine(&quot;Request: {0} {1}&quot;, request.Method, request.RequestUri.ToString());
+
+        if (logRequestResponseBody &amp;&amp; request.Content != null) 
+        {
+            var requestContent = await request.Content.ReadAsStringAsync ();
+            Console.WriteLine (requestContent);
+        }
+
+        var response = await base.SendAsync(request, cancellationToken);
+
+        Console.WriteLine (&quot;Response: {0}&quot;, response.StatusCode);
+
+        if (logRequestResponseBody) 
+        {
+            var responseContent = await response.Content.ReadAsStringAsync ();
+            Console.WriteLine (responseContent);
+        }
+
+        return response;
+    }
+} 
+</code></pre>
+
+<p>Using this class will print all the SQL commands that are executed against the SQLite store.  Ensure you are capturing the console somewhere 
+so that you can see the debug messages as you are running your application. </p>
 <!-- Images -->
 
 <!-- Links -->

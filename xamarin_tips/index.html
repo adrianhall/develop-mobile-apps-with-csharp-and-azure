@@ -361,15 +361,6 @@
   </li>
 
       
-        
-  <li>
-    <a class="" title="Complex Types" href="../chapter3/complextypes/">
-      Complex Types
-    </a>
-    
-  </li>
-
-      
     </ul>
   </li>
 
@@ -483,14 +474,20 @@
             </li>
           
             <li class="anchor">
-              <a title="Building a Floating Action Button" href="#building-a-floating-action-button">
-                Building a Floating Action Button
+              <a title="Build a Floating Action Button" href="#build-a-floating-action-button">
+                Build a Floating Action Button
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Installing NuGet Packages in Multiple Projects" href="#installing-nuget-packages-in-multiple-projects">
-                Installing NuGet Packages in Multiple Projects
+              <a title="Work with a Picker in a ViewModel" href="#work-with-a-picker-in-a-viewmodel">
+                Work with a Picker in a ViewModel
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Install NuGet Packages in Multiple Projects" href="#install-nuget-packages-in-multiple-projects">
+                Install NuGet Packages in Multiple Projects
               </a>
             </li>
           
@@ -635,7 +632,7 @@ caching strategy in the constructor:</p>
 
 <p>There are more techniques for improving ListView performance in the
 <a href="https://developer.xamarin.com/guides/xamarin-forms/user-interface/listview/performance/">Xamarin documentation</a></p>
-<h2 id="building-a-floating-action-button">Building a Floating Action Button<a class="headerlink" href="#building-a-floating-action-button" title="Permanent link">&para;</a></h2>
+<h2 id="build-a-floating-action-button">Build a Floating Action Button<a class="headerlink" href="#build-a-floating-action-button" title="Permanent link">&para;</a></h2>
 <p>One of the things that I wanted to do to my apps was to give them a little more in the
 way of normal UI design.  My original design (which I introduced back in [Chapter ][ch1])
 had teal buttons at the bottom of the page.  These buttons scrolled off the page when
@@ -701,7 +698,56 @@ area of the ContentPage.  Here is a snippet:</p>
 <p>On Universal Windows (where this is actually important due to a lack of "pull-to-refresh" logic), you
 will see the familiar triple-dot on the app bar - clicking on the triple dot gives you access to
 the refresh command.</p>
-<h2 id="installing-nuget-packages-in-multiple-projects">Installing NuGet Packages in Multiple Projects<a class="headerlink" href="#installing-nuget-packages-in-multiple-projects" title="Permanent link">&para;</a></h2>
+<h2 id="work-with-a-picker-in-a-viewmodel">Work with a Picker in a ViewModel<a class="headerlink" href="#work-with-a-picker-in-a-viewmodel" title="Permanent link">&para;</a></h2>
+<p>There are some controls that do not work well with a <code>BindingContext</code>.  One of these is the <code>Picker</code>.
+It has a number of Items that indicate the elements in the drop-down.   However, the Items are not
+bindable, which means that they cannot be accessed via a ViewModel.</p>
+<p>Let's say you wish to use the drop-down Picker from a view model and use an async command to update
+the elements in the Picker.  In the XAML file, give your picker a name:</p>
+<pre><code class="xml">&lt;Picker x:Name=&quot;myPicker&quot; /&gt;
+</code></pre>
+
+<p>This makes <code>myPicker</code> a private variable in the generated class.  You can use this in the XAML 
+code-behind file to pass the picker to your view-model by overriding the <code>OnBindingContextChanged</code>
+method:</p>
+<pre><code class="csharp">protected override void OnBindingContextChanged()
+{
+    base.OnBindingContextChanged();
+
+    MyViewModel vm = BindingContext as MyViewModel;
+    if (vm != null)
+    {
+        vm.MyPicker = myPicker;
+        vm.RefreshPickerCommand.Execute(null);
+    }
+}
+</code></pre>
+
+<p>In your view-model, you can create a standard async command:</p>
+<pre><code class="csharp">async Task RefreshPickerAsync()
+{
+    if (MyPicker.Items.Count == 0)
+    {
+        /* This section gets the list of items in the picker */
+        var table = await CloudService.GetTableAsync&lt;Tag&gt;();
+        var tags = await tagTable.ReadAllItemsAsync();
+
+        /* This section updates MyPicker with the items */
+        foreach (var item in tags)
+        {
+            MyPicker.Items.Add(item.TagName);
+            // You may want to do a test for something in your item
+            // here and set SelectedIndex to the index if it matches
+        }
+    }
+}
+</code></pre>
+
+<p>The <code>RefreshPickerAsync()</code> command gets executed when the binding context is updated, which means the
+XAML has been executed and bound (thus the myPicker variable is set to the picker).  </p>
+<p>Another way to accomplish this would be to encapsulate a picker in a custom control that does have a
+bindable Items element.  This has been discussed on the <a href="https://forums.xamarin.com/discussion/30801/xamarin-forms-bindable-picker">Xamarin Forums</a>.</p>
+<h2 id="install-nuget-packages-in-multiple-projects">Install NuGet Packages in Multiple Projects<a class="headerlink" href="#install-nuget-packages-in-multiple-projects" title="Permanent link">&para;</a></h2>
 <p>One of the common requirements we have in Xamarin Forms is to install NuGet packages
 in all the Xamarin Forms projects.  To do this, right-click on the solution and select
 <strong>Manage NuGet Packages for Solution...</strong>.  When you install a package here, you can

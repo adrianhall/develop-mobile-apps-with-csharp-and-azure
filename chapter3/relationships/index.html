@@ -365,6 +365,12 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="1:Many Relationships" href="#1many-relationships">
+                1:Many Relationships
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -375,15 +381,6 @@
   <li>
     <a class="" title="The Domain Manager" href="../domainmgr/">
       The Domain Manager
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="Complex Types" href="../complextypes/">
-      Complex Types
     </a>
     
   </li>
@@ -652,7 +649,215 @@ namespace TaskList.Models
 <li>You need to ensure that you create a tag before associating that tag with a task.</li>
 <li>You need to store the TagId with the task, not the <code>Tag</code> object (as you would normally do within Entity Framework).</li>
 </ul>
-<h1 id="1many-relationships">1:Many Relationships<a class="headerlink" href="#1many-relationships" title="Permanent link">&para;</a></h1>
+<p>The former is generally handled for you.  If you <code>InsertAsync</code> a tag in offline mode, it will be placed into the
+operations queue prior to anything that uses it.  Since the operations queue is processed in order, the tag will
+be sent to the backend prior to any record updates that would use it.</p>
+<h2 id="1many-relationships">1:Many Relationships<a class="headerlink" href="#1many-relationships" title="Permanent link">&para;</a></h2>
+<p>What if we had a list of messages and wanted to assign more than one tag to each record?  In this case, we would
+need a 1:Many relationship.  Setting up a 1:Many relationship on the backend again relies on Entity Framework syntax:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
+using System.Collections.Generic;
+
+namespace TaskList.Models
+{
+    public class Tag : EntityData
+    {
+        public string TagName { get; set; }
+    }
+
+    public class Message : EntityData
+    {
+        public string UserId { get; set; }
+        public string Text { get; set; }
+        public virtual ICollection&lt;Tag&gt; Tags { get; set; }
+    }
+}
+</code></pre>
+
+<p>We can seed some information into this database to simulate relationships with a standard initializer:</p>
+<pre><code class="csharp">public class MobileServiceInitializer : CreateDatabaseIfNotExists&lt;MobileServiceContext&gt;
+{
+    protected override void Seed(MobileServiceContext context)
+    {
+        List&lt;Tag&gt; tags = new List&lt;Tag&gt;
+        {
+            new Tag { Id = NewGuid(), TagName = &quot;Tag-1&quot; },
+            new Tag { Id = NewGuid(), TagName = &quot;Tag-2&quot; },
+            new Tag { Id = NewGuid(), TagName = &quot;Tag-3&quot; }
+        };
+        context.Set&lt;Tag&gt;().AddRange(tags);
+
+        List&lt;Message&gt; messages = new List&lt;Message&gt;
+        {
+            new Message { Id = NewGuid(), Text = &quot;Message-1&quot;, Tags = tags },
+            new Message { Id = NewGuid(), Text = &quot;message-2&quot;, Tags = new List&lt;Tag&gt;() }
+        };
+        context.Set&lt;Message&gt;().AddRange(messages);
+
+        base.Seed(context);
+    }
+
+    private string NewGuid()
+    {
+        return Guid.NewGuid().ToString();
+    }
+}
+</code></pre>
+
+<p>If we use Postman to do a GET /tables/Message, we get the following:</p>
+<p><img alt="" src="../img/relationships-2.PNG" /></p>
+<p>Note that the <code>tags</code> field is not even produced.  The Azure Mobile Apps Server SDK depends on multiple frameworks.  It
+uses Entity Framework for data access, for instance.  It also uses the standard Microsoft OData server to translate
+OData queries into results.  This has a side effect that the rules of the Microsoft OData server must be followed.<br />
+Specifically, this means that collections, such as the list of tags, will not be produced unless you explicitly expand
+them.  You can do this on the URL by using the <code>$expand</code> parameter:</p>
+<pre><code class="bash">GET /tables/Message?$expand=tags
+</code></pre>
+
+<p>This will result in the following output:</p>
+<p><img alt="" src="../img/relationships-3.PNG" /></p>
+<p>Note that the tags are fully expanded and embedded in the object.  This has some serious consequences that must be
+considered:</p>
+<ul>
+<li>The table becomes read-only through the controller.  Inserts, Updates and Deletes must have special code handling.</li>
+<li>The data takes up more space on the client as the tags will be duplicated whenever used.</li>
+<li>You cannot use offline sync since the data model is no longer flat.</li>
+</ul>
+<p>In addition to these three points, you need to be able to add the <code>$expand</code> property to the request.  This is not done
+by the SDK.  You can automatically add the <code>$expand</code> property on the server-side by using an attribute for the purpose:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
+
+namespace Chapter3.Extensions
+{
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class ExpandPropertyAttribute : ActionFilterAttribute
+    {
+        string propertyName;
+
+        public ExpandPropertyAttribute(string propertyName)
+        {
+            this.propertyName = propertyName;
+        }
+
+        public override void OnActionExecuting(HttpActionContext actionContext)
+        {
+            base.OnActionExecuting(actionContext);
+            var uriBuilder = new UriBuilder(actionContext.Request.RequestUri);
+            var queryParams = uriBuilder.Query.TrimStart('?').Split(new[] { '&amp;' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            int expandIndex = -1;
+            for (var i = 0; i &lt; queryParams.Count; i++)
+            {
+                if (queryParams[i].StartsWith(&quot;$expand&quot;, StringComparison.Ordinal))
+                {
+                    expandIndex = i;
+                    break;
+                }
+            }
+
+            if (expandIndex &lt; 0)
+            {
+                queryParams.Add(&quot;$expand=&quot; + this.propertyName);
+            }
+            else
+            {
+                queryParams[expandIndex] = queryParams[expandIndex] + &quot;,&quot; + propertyName;
+            }
+
+            uriBuilder.Query = string.Join(&quot;&amp;&quot;, queryParams);
+            actionContext.Request.RequestUri = uriBuilder.Uri;
+        }
+    }
+}
+</code></pre>
+
+<p>This is used in the controller:</p>
+<pre><code class="csharp">public class MessageController : TableController&lt;Message&gt;
+{
+    private MobileServiceContext context;
+
+    protected override void Initialize(HttpControllerContext controllerContext)
+    {
+        base.Initialize(controllerContext);
+        context = new MobileServiceContext();
+        DomainManager = new EntityDomainManager&lt;Message&gt;(context, Request);
+    }
+
+    public string UserId =&gt; ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
+
+    // GET tables/Message
+    [ExpandProperty(&quot;tags&quot;)]
+    public IQueryable&lt;Message&gt; GetAllMessage()
+    {
+        return Query();
+        //return Query().OwnedByFriends(context.Friends, UserId);
+    }
+
+    // GET tables/Message/48D68C86-6EA6-4C25-AA33-223FC9A27959
+    [ExpandProperty(&quot;tags&quot;)]
+    public SingleResult&lt;Message&gt; GetMessage(string id)
+    {
+        return new SingleResult&lt;Message&gt;(Lookup(id).Queryable);
+        //return new SingleResult&lt;Message&gt;(Lookup(id).Queryable.OwnedByFriends(context.Friends, UserId));
+    }
+
+    // POST tables/Message
+    public async Task&lt;IHttpActionResult&gt; PostMessageAsync(Message item)
+    {
+        item.UserId = UserId;
+        Message current = await InsertAsync(item);
+        return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+    }
+}
+</code></pre>
+
+<p>Given this is not recommended, what are the alternatives?  There are two alternatives. The first alternative is to
+use a third table that joins the Messages and Tags together in a loose manner:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
+using System.Collections.Generic;
+
+namespace TaskList.Models
+{
+    public class Tag : EntityData
+    {
+        public string TagName { get; set; }
+    }
+
+    public class Message : EntityData
+    {
+        public string UserId { get; set; }
+        public string Text { get; set; }
+    }
+
+    public class MessageTag : EntityData
+    {
+        public string MessageId { get; set; }
+        public string TagId { get; set; }
+    }
+}
+</code></pre>
+
+<p>We can now create a <code>MessageTagController</code> to retrieve the information.  This data can be stored offline since the model
+is now flat.  Obtaining the list of tags for a message is a single LINQ query:</p>
+<pre><code class="csharp">var tags = from tag in tagTable
+           let tl = (from mt in messageTags where mt.MessageId == messageId select mt.TagId)
+           where tl.Contains(tag.Id)
+           select tag;
+</code></pre>
+
+<p>You may recognize this LINQ query as it is very similar to the LINQ query used for the friends filter.  A similar query
+can be used to find the messages associated with a tag:</p>
+<pre><code class="csharp">var msgs = from message in messageTable
+           let tl = (from mt in messageTags where mt.TagId == tagId select mt.MessageId)
+           where tl.Contains(message.Id)
+           orderby message.CreatedAtRoute
+           select message;
+</code></pre>
+
+<p>The second alternative is to use an alternative DomainManager that implements the relationships for you.  We will cover this
+in the next section.</p>
 <!-- Images -->
           <aside class="copyright" role="note">
             
