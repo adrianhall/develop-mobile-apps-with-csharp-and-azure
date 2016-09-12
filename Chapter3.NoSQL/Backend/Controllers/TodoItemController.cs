@@ -18,7 +18,37 @@ namespace Backend.Controllers
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            DomainManager = new StorageDomainManager<TodoItem>(connectionString, tableName, Request, enableSoftDelete: true);
+
+            ODataValidationSettings validationSettings = new ODataValidationSettings()
+            {
+                AllowedArithmeticOperators = AllowedArithmeticOperators.None,
+                AllowedFunctions = AllowedFunctions.None,
+                AllowedQueryOptions = AllowedQueryOptions.Filter
+                    | AllowedQueryOptions.Top
+                    | AllowedQueryOptions.Select,
+                AllowedLogicalOperators = AllowedLogicalOperators.Equal
+                    | AllowedLogicalOperators.And
+                    | AllowedLogicalOperators.Or
+                    | AllowedLogicalOperators.Not
+                    | AllowedLogicalOperators.GreaterThan
+                    | AllowedLogicalOperators.GreaterThanOrEqual
+                    | AllowedLogicalOperators.LessThan
+                    | AllowedLogicalOperators.LessThanOrEqual
+                    | AllowedLogicalOperators.NotEqual
+            };
+
+            ODataQuerySettings querySettings = new ODataQuerySettings()
+            {
+                PageSize = 50
+            };
+
+            DomainManager = new StorageDomainManager<TodoItem>(
+                connectionString,
+                tableName,
+                Request,
+                validationSettings,
+                querySettings,
+                enableSoftDelete: true);
         }
 
         // GET tables/TodoItem
@@ -48,7 +78,7 @@ namespace Backend.Controllers
         // POST tables/TodoItem
         public async Task<IHttpActionResult> PostTodoItemAsync(TodoItem item)
         {
-            if (item.Id == null)
+            if (item.Id == null || item.Id.Equals("'',''"))
             {
                 item.Id = GenerateUniqueId();
             }

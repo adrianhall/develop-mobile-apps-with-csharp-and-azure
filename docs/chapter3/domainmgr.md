@@ -657,7 +657,7 @@ use this information to generate a suitable Id if one is not provided:
 // POST tables/TodoItem
 public async Task<IHttpActionResult> PostTodoItemAsync(TodoItem item)
 {
-    if (item.Id == null)
+    if (item.Id == null || item.Id == "'',''")
     {
         item.Id = GenerateUniqueId();
     }
@@ -673,14 +673,69 @@ private string GenerateUniqueId()
 }
 ```
 
-You will need a copy of the `GenerateUniqueId()` method if you generate unique identifiers for your records within your mobile client.
-The partition key and row key are returned as part of the record.  You will also note that the version and eTag information are different
-from the Entity Framework format as well.  This clarifies why it is important to treat these values as opaque features.  
+The value `'',''` is the default value of the Id column.  However, that is not good enough to get a successful store.  This code
+generates a unique identifier in the right format.  A single partition is reasonable for most applications.  If you intend on
+storing massive amounts of data, the data partitioning scheme will require some consideration (just like any other NoSQL application).
 
+!!! tip
+    You will need a copy of the `GenerateUniqueId()` method if you generate unique identifiers for your records within 
+    your mobile client.  The partition key and row key are returned as part of the record.  
 
+You can use the **Cloud Explorer** if you wish to see the data stored in Azure Table Storage.  Expand the **Storage Accounts** node,
+then expand the appropriate nodes: your storage account, **Tables**, **TodoItem**.  You can open the table editor or delete the table
+from there.  
+
+![][storage-3]
+
+Within the table editor, you can right-click on any row to delete or edit values.  This will update the time stamp and etag, ensuring
+that your mobile clients are updated as well.
+
+There are, of course, caveats to working in Azure Mobile Apps with Azure Table Storage.   There are three major caveats that you should
+be aware of.
+
+1. There are no relationships possible with Azure Table Storage.
+2. Only `$filter`, `$top` and `$select` are supported in the URI.
+3. Offline sync only supports flat objects.
+
+Let's take a look at each in turn.
+
+### 1. There are no relationhips
+
+You have to work at relationships and relationships between entities are severely restricted in Entity Framework.  However, they are
+possible.  Not so with Azure Table Storage.  The NoSQL store has no concept of a relationship of any description.  This is not a major
+caveat since your mobile client similarly has no notion of relationships.  Just treat every table as distinct.
+
+### 2. Limited support for OData query options
+
+Only `$filter`, `$top` and `$select` are [supported by the OData interface][4].  Since the Azure Table Storage Domain Manager passes the 
+incoming OData query to the Storage driver intact, this limitation is passed on to the OData interface for Azure Mobile Apps.  Specifically, 
+this means paging is handled differently.  With the `EntityDomainManager`, paging was accomplished by using `$skip` and `$top` to get more
+records until zero records were returned.  With the `StorageDomainManager`, a `Link` header is returned when there are more records.
+
+![][storage-4]
+
+The `Link` header contains the URI that you need to retrieve to get the next page of the results.  This has implications for how you 
+receive more than 50 records.
+
+### 3. Offline sync only supports "flat" objects.
+
+One of the common reasons for usign NoSQL stores is that you can store pretty much any document you wish.  You just have to have a JSON
+representation of the object cross the wire.  If you have complex objects stored in Azure Table Storage, they won't be able to be stored
+in the offline cache.  The offline cache is based on SQLite and inherits the limitations of that resource.  In particular, this means no
+complex types.
+
+Using a NoSQL store seems like a great idea.  However, the limitations of the platform make Azure Table Storage a poor choice for this
+particular function.
+
+One of the great uses of the Azure Table Storage Domain Manager is to see how you can write your own domain manager.  The [code][5] for
+the domain manager (and the ITableData interface) is relatively simple since it passes through the OData query to Azure Storage.  This
+allows you to see what is truly involved in writing a domain manager.
 
 <!-- Images -->
 [storage-1]: img/storage-1.PNG
+[storage-2]: img/storage-2.PNG
+[storage-3]: img/storage-3.PNG
+[storage-4]: img/storage-4.PNG
 
 <!-- Links -->
 [Azure Portal]: https://portal.azure.com/
@@ -688,3 +743,5 @@ from the Entity Framework format as well.  This clarifies why it is important to
 [1]: http://automapper.org/
 [2]: http://www.entityframeworktutorial.net/code-first/configure-one-to-one-relationship-in-code-first.aspx
 [3]: https://github.com/Azure/azure-mobile-apps-net-server/blob/cc0c591e7a852f95cb3682b57b729e3876343338/src/Microsoft.Azure.Mobile.Server.Entity/MappedEntityDomainManager.cs
+[4]:
+[5]: https://github.com/Azure/azure-mobile-apps-net-server/blob/master/src/Microsoft.Azure.Mobile.Server.Storage/StorageDomainManager.cs

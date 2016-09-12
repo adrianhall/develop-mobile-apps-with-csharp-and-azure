@@ -25,7 +25,6 @@ pages:
         - The Mobile Client: chapter3/client.md
         - Relationships: chapter3/relationships.md
         - The Domain Manager: chapter3/domainmgr.md
-        - Complex Types: chapter3/complextypes.md
     - File Management: files.md
     - Push Notifications: push.md
     - Server Side Code: custom.md
