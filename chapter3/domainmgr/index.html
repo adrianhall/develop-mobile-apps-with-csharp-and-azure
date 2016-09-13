@@ -369,8 +369,8 @@
         <ul>
           
             <li class="anchor">
-              <a title="Relationships with the MappedEntityDomainManager" href="#relationships-with-the-mappedentitydomainmanager">
-                Relationships with the MappedEntityDomainManager
+              <a title="Existing Table Relationships with the MappedEntityDomainManager" href="#existing-table-relationships-with-the-mappedentitydomainmanager">
+                Existing Table Relationships with the MappedEntityDomainManager
               </a>
             </li>
           
@@ -574,19 +574,22 @@ interface:</p>
 <p>This looks deceptively simple.  Just 8 methods.  In reality, this is anything but simple.  The major issue
 that a prospective domain manager implementor has to grapple with is the translation of an <code>IQueryable</code> into
 something that the backend data source can understand.</p>
-<p>Before we get into implementing a domain manager, let's look at a couple of implementations that are provided
-by the Azure Mobile team.</p>
-<h2 id="relationships-with-the-mappedentitydomainmanager">Relationships with the MappedEntityDomainManager<a class="headerlink" href="#relationships-with-the-mappedentitydomainmanager" title="Permanent link">&para;</a></h2>
-<p>One of the key areas that is weak when using the default <code>EntityDomainManager</code> is relationships.  Relationships
-are core to the SQL database world and we want to project those relationships into the mobile client, allowing
-the backend to preserve any relationships that have been configured while still using the standard offline client
-capabilities.  To handle this case, one can use the <code>MappedEntityDomainManager</code>.  </p>
-<p>The <code>MappedEntityDomainManager</code> is an <code>IDomainManager</code> implementation targetting SQL as the backend store where
-there is not a 1:1 mapping between the data object (DTO) exposed through the TableController and the domain
-model managed by Entity Framework.  If there is a 1:1 mapping, use <code>EntityDomainManager</code>.  The 
-<code>MappedEntityDomainManager</code> uses <a href="http://automapper.org/">AutoMapper</a> to map between the DTO and the domain model.  It assumes
-that AutoMapper has already been initialized with appropriate mappings that map from DTO to domain model
-and from the domain model to the DTO.</p>
+<p>Let's take a look at a couple of domain managers that solve specific problems that crop up from time to time
+during development.  It should be noted that <strong>NEITHER</strong> of these domain managers are recommended as a generalized
+solution.  They both have significant caveats to their use and you should understand those caveats before
+embarking on integrating them.</p>
+<h2 id="existing-table-relationships-with-the-mappedentitydomainmanager">Existing Table Relationships with the MappedEntityDomainManager<a class="headerlink" href="#existing-table-relationships-with-the-mappedentitydomainmanager" title="Permanent link">&para;</a></h2>
+<p>One of the key areas that is weak when using the default <code>EntityDomainManager</code> is handling existing tables.  The
+generally accepted method of dealing with relationships is through loose coupling and manual relationship management
+in the client. Relationships are core to the SQL database world and we sometimes want to project those relationships 
+into the mobile client, allowing the backend to preserve any relationships that have been configured while still 
+using the standard offline client capabilities.  If you have existing SQL relationships, you can use a combination
+of AutoMattper and the <code>MappedEntityDomainManager</code>.  </p>
+<p>The <code>MappedEntityDomainManager</code> is an abstract <code>IDomainManager</code> implementation targetting SQL as the backend store where
+there is not a 1:1 mapping between the data object (DTO) exposed through the TableController and the domain model managed 
+by Entity Framework.  If there is a 1:1 mapping, use <code>EntityDomainManager</code>.  The <code>MappedEntityDomainManager</code> uses 
+<a href="http://automapper.org/">AutoMapper</a> to map between the DTO and the domain model.  It assumes that AutoMapper has already been initialized with 
+appropriate mappings that map from DTO to domain model and from the domain model to the DTO.</p>
 <p>Let's take a small example.  If I am producing an enterprise mobile app that field engineers can use - the ones
 that, for example, visit your house to install cable.  I can define an Entity Framework model map as follows:</p>
 <pre><code class="csharp">[Table(&quot;Customers&quot;)]
@@ -729,10 +732,10 @@ requires.  We can wire up the relationships in the normal <a href="http://www.en
 
 <p>We can see the relationship (a Many:Many relationship) at the end of the <code>modelBuilder</code> within
 the DbContext.  The 1:Many and 1:1 relationships are handled within the models themselves, per the
-normal Entity Framework methods.  Thus far, this is pure Entity Framework - we have defined the
+normal Entity Framework methods. This is pure Entity Framework thus far - we have defined the
 structure of the database.</p>
-<p>Moving on to the data that the client expects, we need to define the Data Transfer Objects (DTOs) 
-for these elements:</p>
+<p>To translate this into a mobile client, we need to define Data Transfer Objects.  These don't
+have to be the same shape as the models that Entity Framework is using.  For example:</p>
 <pre><code class="csharp">public class CustomerDTO
 {
     public string FullName { get; set; }
@@ -862,9 +865,10 @@ namespace FieldEngineer.Service
 </code></pre>
 
 <p>We are using <code>[ExpandProperty]</code> to expand the Customer and Equipment data so that it is transferred with the Job object.
-We also have to use a sub-classed version of the MappedEntityDomainManager to do some of the work.  The <code>MappedEntityDomainManager</code>
-does not deal with replacements nor optimistic concurrency - features we want.  We can sub-class to <code>DefaultMappedEntityDomainManager</code>
-to handle this for us:</p>
+The <code>MappedEntityDomainManager</code> is an abstract type, so we have to create a concrete implementation.  Fortunately, most
+of the work is done for us.  There are already concrete versions of most of the methods we require (like insert, delete
+and lookup). The <code>MappedEntityDomainManager</code> needs help to deal with replacements nor optimistic concurrency - features 
+we want.  We can use the <code>DefaultMappedEntityDomainManager</code>to handle this for us:</p>
 <pre><code class="csharp">namespace FieldEngineerLite.Service.Helpers
 {
     public class DefaultMappedEntityDomainManager&lt;TData, TModel&gt;
@@ -953,9 +957,12 @@ public class Job
 <p>You can use <code>GetSyncTable&lt;Job&gt;()</code> to get a reference to the table and deal with it as you normally would.  I'd expect in this
 case that the Customer and Equipment would be handled elsewhere - maybe a separate web application that customer service
 agents use, for example.</p>
-<p>It is well worth getting to grips with the <a href="https://github.com/Azure/azure-mobile-apps-net-server/blob/cc0c591e7a852f95cb3682b57b729e3876343338/src/Microsoft.Azure.Mobile.Server.Entity/MappedEntityDomainManager.cs">MappedEntityDomainManager</a> if you intend to do any serious work with relationships.
-However, it is equally important to note that the Mobile Client does not support relationships.  Relationships are available within
-the SQL server only and hence must be dealt with by the mobile backend.</p>
+<p>So, what are the caveats?  The first is that the Job, Customer and Equipment data all comes down as one record.  This has a 
+side effect of ensuring that the Customer and Equipment data is read-only.  You can only update the information in the Job
+table.  This is also a very time consuming process to set up properly.  Automapper is known as a fairly picky piece of 
+software to integrate, so extra time must be allotted to make it work correctly.</p>
+<p>In the end, I prefer handling tables individually and handling relationship management on the mobile client manually.  This
+causes more code on the mobile client but makes the server much simpler by avoiding most of the complexity of relationships.</p>
 <h2 id="nosql-storage-with-the-storagedomainmanager">NoSQL Storage with the StorageDomainManager<a class="headerlink" href="#nosql-storage-with-the-storagedomainmanager" title="Permanent link">&para;</a></h2>
 <p>What if you don't want to use a SQL backend for your service?  Relationships between entities are not that important in the mobile
 client and Azure Table Storage costs significantly less than SQL Azure.  There are always trade-offs between various storage
@@ -975,9 +982,9 @@ up, we need to set up a suitable environment.  This involves:</p>
 <p>We've already covered the first three items in previous chapters.  The important element here is that we do not create a SQL
 database.  We are going to be using Table Storage instead so we don't need it.  To create a Storage Account:</p>
 <ul>
-<li>Log on to the <a href="https://portal.azure.com/">Azure Portal</a>.</li>
-<li>Click on the big <strong>+ NEW</strong> button in the top left corner.</li>
-<li>Click on <strong>Data + Storage</strong>, then <strong>Storage account</strong>.</li>
+<li>Log on to the <a href="https://portal.azure.com/">Azure portal</a>.</li>
+<li>Click the big <strong>+ NEW</strong> button in the top left corner.</li>
+<li>Click <strong>Data + Storage</strong>, then <strong>Storage account</strong>.</li>
 <li>Fill in the form:<ul>
 <li>The name can only contain letters and numbers and must be unique.  A GUID without the dashes is a good choice.</li>
 <li>The <strong>Deployment model</strong> should be set to <strong>Resource manager</strong>.</li>
@@ -988,7 +995,7 @@ database.  We are going to be using Table Storage instead so we don't need it.  
 <li>Set the <strong>Location</strong> to the same location as your App Service.</li>
 </ul>
 </li>
-<li>Click on <strong>Create</strong>.</li>
+<li>Click <strong>Create</strong>.</li>
 </ul>
 <p>Just like SQL Azure, Azure Storage has some great scalability and redundancy features if your backend takes advantage of them.
 We have selected the slowest performance and least redundant options here to keep the cost down on your service.</p>
@@ -998,17 +1005,17 @@ We have selected the slowest performance and least redundant options here to kee
 </div>
 <p>Once the Azure Storage account is deployed, you can link the storage account to your App Service:</p>
 <ul>
-<li>Open your App Service in the <a href="https://portal.azure.com/">Azure Portal</a>.</li>
-<li>Click on  <strong>Data Connections</strong> under the <strong>MOBILE</strong> section in the settings menu.</li>
-<li>Click on <strong>+ ADD</strong></li>
+<li>Open your App Service in the <a href="https://portal.azure.com/">Azure portal</a>.</li>
+<li>Click  <strong>Data Connections</strong> under the <strong>MOBILE</strong> section in the settings menu.</li>
+<li>Click <strong>+ ADD</strong></li>
 <li>In the <strong>Add data connection</strong> blade:<ul>
 <li>Set the Type to <strong>Storage</strong>.</li>
-<li>Click on the <strong>Storage</strong> link.</li>
-<li>In the <strong>Storage Account</strong> selector, click on the storage account you just created.</li>
-<li>Click on the <strong>Connection string</strong>.</li>
+<li>Click the <strong>Storage</strong> link.</li>
+<li>In the <strong>Storage Account</strong> selector, click the storage account you just created.</li>
+<li>Click the <strong>Connection string</strong>.</li>
 <li>In the <strong>Connection string</strong> selector, make a note of the <strong>Name</strong> field.</li>
-<li>Click on <strong>OK</strong>.</li>
-<li>Click on <strong>OK</strong> to close the <strong>Add data connection</strong> blade.</li>
+<li>Click <strong>OK</strong>.</li>
+<li>Click <strong>OK</strong> to close the <strong>Add data connection</strong> blade.</li>
 </ul>
 </li>
 </ul>
@@ -1204,20 +1211,20 @@ be aware of.</p>
 possible.  Not so with Azure Table Storage.  The NoSQL store has no concept of a relationship of any description.  This is not a major
 caveat since your mobile client similarly has no notion of relationships.  Just treat every table as distinct.</p>
 <h3 id="2-limited-support-for-odata-query-options">2. Limited support for OData query options<a class="headerlink" href="#2-limited-support-for-odata-query-options" title="Permanent link">&para;</a></h3>
-<p>Only <code>$filter</code>, <code>$top</code> and <code>$select</code> are <a href="">supported by the OData interface</a>.  Since the Azure Table Storage Domain Manager passes the 
+<p>Only <code>$filter</code>, <code>$top</code> and <code>$select</code> are <a href="https://msdn.microsoft.com/en-us/library/azure/dd894031.aspx">supported by the OData interface</a>.  Since the Azure Table Storage Domain Manager passes the 
 incoming OData query to the Storage driver intact, this limitation is passed on to the OData interface for Azure Mobile Apps.  Specifically, 
 this means paging is handled differently.  With the <code>EntityDomainManager</code>, paging was accomplished by using <code>$skip</code> and <code>$top</code> to get more
 records until zero records were returned.  With the <code>StorageDomainManager</code>, a <code>Link</code> header is returned when there are more records.</p>
 <p><img alt="" src="../img/storage-4.PNG" /></p>
 <p>The <code>Link</code> header contains the URI that you need to retrieve to get the next page of the results.  This has implications for how you 
 receive more than 50 records.</p>
-<h3 id="3-offline-sync-only-supports-flat-objects">3. Offline sync only supports "flat" objects.<a class="headerlink" href="#3-offline-sync-only-supports-flat-objects" title="Permanent link">&para;</a></h3>
-<p>One of the common reasons for usign NoSQL stores is that you can store pretty much any document you wish.  You just have to have a JSON
+<h3 id="3-offline-sync-only-supports-flat-objects">3. Offline sync only supports "flat" objects<a class="headerlink" href="#3-offline-sync-only-supports-flat-objects" title="Permanent link">&para;</a></h3>
+<p>One of the common reasons for using NoSQL stores is that you can store pretty much any document you wish.  You just have to have a JSON
 representation of the object cross the wire.  If you have complex objects stored in Azure Table Storage, they won't be able to be stored
 in the offline cache.  The offline cache is based on SQLite and inherits the limitations of that resource.  In particular, this means no
 complex types.</p>
 <p>Using a NoSQL store seems like a great idea.  However, the limitations of the platform make Azure Table Storage a poor choice for this
-particular function.</p>
+particular function.  The Azure Table Storage is ill-suited to the demands of a mobile client backend.</p>
 <p>One of the great uses of the Azure Table Storage Domain Manager is to see how you can write your own domain manager.  The <a href="https://github.com/Azure/azure-mobile-apps-net-server/blob/master/src/Microsoft.Azure.Mobile.Server.Storage/StorageDomainManager.cs">code</a> for
 the domain manager (and the ITableData interface) is relatively simple since it passes through the OData query to Azure Storage.  This
 allows you to see what is truly involved in writing a domain manager.</p>
