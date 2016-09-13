@@ -135,55 +135,51 @@ namespace Backend.DomainManagers
             Client = new DocumentClient(ServiceEndpoint, AuthKey);
 
             // Create the reference for the database
-            Database = Client.CreateDatabaseQuery().FirstOrDefault(db => db.Id == DatabaseName);
-            if (Database == null)
+            try
             {
-                // We need to create the database and it has to happen synchronously.  Handle errors by
-                // changing them into ArgumentExceptions since they inevitably mean something is wrong with
-                // the DatabaseName field.
-                try
+                Database = Client.CreateDatabaseQuery().Where(db => db.Id == DatabaseName).AsEnumerable().FirstOrDefault();
+                if (Database == null)
                 {
-                    Database = Client.CreateDatabaseAsync(new Database { Id = DatabaseName }).Result.Resource;
+                    Database = Client.CreateDatabaseAsync(new Database { Id = DatabaseName }).Result;
                 }
-                catch (DocumentClientException dbCreationResult)
+            }
+            catch (DocumentClientException dbCreationResult)
+            {
+                if (dbCreationResult.StatusCode == HttpStatusCode.Conflict)
                 {
-                    if (dbCreationResult.StatusCode == HttpStatusCode.Conflict)
-                    {
-                        throw new ArgumentException($"Database {DatabaseName} exists, but cannot be read", databaseName);
-                    }
-                    if (dbCreationResult.StatusCode == HttpStatusCode.BadRequest)
-                    {
-                        throw new ArgumentException($"Database {DatabaseName} is invalid (check Validator)", databaseName);
-                    }
-                    throw new ArgumentException($"Database Creation for {DatabaseName} failed", databaseName, dbCreationResult);
+                    throw new ArgumentException($"Database {DatabaseName} exists, but cannot be read", databaseName);
                 }
+                if (dbCreationResult.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    throw new ArgumentException($"Database {DatabaseName} is invalid (check Validator)", databaseName);
+                }
+                throw new ArgumentException($"Database Creation for {DatabaseName} failed", databaseName, dbCreationResult);
             }
 
             // Create the reference for the collection
-            Collection = Client.CreateDocumentCollectionQuery(Database.SelfLink).FirstOrDefault(coll => coll.Id == CollectionName);
-            if (Collection == null)
+            try
             {
-                // Just like the database, we need to create it and it has to happen synchronously.
-                try
+                Collection = Client.CreateDocumentCollectionQuery(Database.SelfLink).Where(coll => coll.Id == CollectionName).AsEnumerable().FirstOrDefault();
+                if (Collection == null)
                 {
-                    Collection = Client.CreateDocumentCollectionAsync(Database.SelfLink, new DocumentCollection { Id = CollectionName }).Result.Resource;
+                    Collection = Client.CreateDocumentCollectionAsync(Database.SelfLink, new DocumentCollection { Id = CollectionName }).Result;
                 }
-                catch (DocumentClientException collCreationResult)
+            }
+            catch (DocumentClientException collCreationResult)
+            {
+                if (collCreationResult.StatusCode == HttpStatusCode.Conflict)
                 {
-                    if (collCreationResult.StatusCode == HttpStatusCode.Conflict)
-                    {
-                        throw new ArgumentException($"Collection {CollectionName} exists, but cannot be read", collectionName);
-                    }
-                    if (collCreationResult.StatusCode == HttpStatusCode.Forbidden)
-                    {
-                        throw new ArgumentException($"Collection {CollectionName} could not be created - quota exceeded", collectionName);
-                    }
-                    if (collCreationResult.StatusCode == HttpStatusCode.BadRequest)
-                    {
-                        throw new ArgumentException($"Collection {CollectionName} is invalid (check Validator)", collectionName);
-                    }
-                    throw new ArgumentException($"Collection Creation for {CollectionName} failed", collectionName, collCreationResult);
+                    throw new ArgumentException($"Collection {CollectionName} exists, but cannot be read", collectionName);
                 }
+                if (collCreationResult.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    throw new ArgumentException($"Collection {CollectionName} could not be created - quota exceeded", collectionName);
+                }
+                if (collCreationResult.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    throw new ArgumentException($"Collection {CollectionName} is invalid (check Validator)", collectionName);
+                }
+                throw new ArgumentException($"Collection Creation for {CollectionName} failed", collectionName, collCreationResult);
             }
         }
         #endregion
@@ -257,7 +253,7 @@ namespace Backend.DomainManagers
         /// <param name="id">The id to return</param>
         /// <returns>The Document with the id</returns>
         private Document GetDocumentById(string id)
-            => Client.CreateDocumentQuery<Document>(Collection.DocumentsLink).FirstOrDefault(doc => doc.Id == id);
+            => Client.CreateDocumentQuery<Document>(Collection.DocumentsLink).Where(doc => doc.Id == id).AsEnumerable().FirstOrDefault();
         #endregion
 
         #region IDomainManager{TData} Interface
@@ -341,6 +337,9 @@ namespace Backend.DomainManagers
         {
             try
             {
+                data.CreatedAt = data.CreatedAt ?? DateTimeOffset.UtcNow;
+                data.UpdatedAt = DateTimeOffset.UtcNow;
+                data.Version = Guid.NewGuid().ToByteArray();
                 var response = await Client.CreateDocumentAsync(Collection.SelfLink, data);
                 return (TData)(dynamic)response.Resource;
             }
@@ -372,6 +371,8 @@ namespace Backend.DomainManagers
                 // Update the data based on the patch
                 var tdata = (TData)(dynamic)document;
                 patch.Patch(tdata);
+                tdata.UpdatedAt = DateTimeOffset.UtcNow;
+                tdata.Version = Guid.NewGuid().ToByteArray();
 
                 // Replace the document in the store
                 var response = await Client.ReplaceDocumentAsync(document.SelfLink, tdata);
@@ -403,6 +404,8 @@ namespace Backend.DomainManagers
                 {
                     throw new HttpResponseException(HttpStatusCode.NotFound);
                 }
+                data.UpdatedAt = DateTimeOffset.UtcNow;
+                data.Version = Guid.NewGuid().ToByteArray();
                 var response = await Client.ReplaceDocumentAsync(document.SelfLink, data);
                 return (TData)(dynamic)response.Resource;
             }
