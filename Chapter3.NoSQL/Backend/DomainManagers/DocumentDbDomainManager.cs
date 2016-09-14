@@ -12,6 +12,7 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Tables;
+using Microsoft.Azure.Documents.Linq;
 
 namespace Backend.DomainManagers
 {
@@ -268,7 +269,11 @@ namespace Backend.DomainManagers
         {
             try
             {
-                return Client.CreateDocumentQuery<TData>(Collection.DocumentsLink);
+                return Client.CreateDocumentQuery<TData>(Collection.SelfLink);
+            }
+            catch (DocumentQueryException queryException)
+            {
+                throw new HttpResponseException(queryException.StatusCode ?? HttpStatusCode.InternalServerError);
             }
             catch (DocumentClientException clientException)
             {
@@ -288,15 +293,7 @@ namespace Backend.DomainManagers
         /// <returns>A <see cref="SingleResult{T}"/> containing the <see cref="IQueryable{T}"/> which has not yet been executed.</returns>
         public SingleResult<TData> Lookup(string id)
         {
-            try
-            {
-                var queryable = Client.CreateDocumentQuery<TData>(Collection.DocumentsLink).Where(doc => doc.Id == id);
-                return SingleResult.Create<TData>(queryable);
-            }
-            catch (DocumentClientException clientException)
-            {
-                throw new HttpResponseException(clientException.StatusCode ?? HttpStatusCode.InternalServerError);
-            }
+            return SingleResult.Create<TData>(Query().Where(item => item.Id == id));
         }
 
         /// <summary>
