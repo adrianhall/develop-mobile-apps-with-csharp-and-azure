@@ -446,7 +446,7 @@ software to integrate, so extra time must be allotted to make it work correctly.
 In the end, I prefer handling tables individually and handling relationship management on the mobile client manually.  This
 causes more code on the mobile client but makes the server much simpler by avoiding most of the complexity of relationships.
 
-## NoSQL Storage with the StorageDomainManager
+## <a name="storage-domain-mgr"></a>NoSQL Storage with the StorageDomainManager
 
 What if you don't want to use a SQL backend for your service?  Relationships between entities are not that important in the mobile
 client and Azure Table Storage costs significantly less than SQL Azure.  There are always trade-offs between various storage
@@ -540,6 +540,7 @@ namespace Backend
         }
     }
 }
+```
 
 We've made three changes:
 

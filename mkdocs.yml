@@ -25,7 +25,10 @@ pages:
         - The Mobile Client: chapter3/client.md
         - Relationships: chapter3/relationships.md
         - The Domain Manager: chapter3/domainmgr.md
-    - File Management: files.md
+    - Chapter 4 - File Management: 
+        - Concepts: chapter4/concepts.md
+        - Dealing with Files: chapter4/files.md
+        - File Synchronization: chapter4/filesync.md
     - Push Notifications: push.md
     - Server Side Code: custom.md
     - Media Services: media.md
