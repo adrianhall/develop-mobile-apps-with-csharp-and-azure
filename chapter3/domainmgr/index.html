@@ -375,8 +375,20 @@
             </li>
           
             <li class="anchor">
-              <a title="NoSQL Storage with the StorageDomainManager" href="#nosql-storage-with-the-storagedomainmanager">
-                NoSQL Storage with the StorageDomainManager
+              <a title="1. There are no relationhips" href="#1-there-are-no-relationhips">
+                1. There are no relationhips
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="2. Limited support for OData query options" href="#2-limited-support-for-odata-query-options">
+                2. Limited support for OData query options
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="3. Offline sync only supports "flat" objects" href="#3-offline-sync-only-supports-flat-objects">
+                3. Offline sync only supports "flat" objects
               </a>
             </li>
           
@@ -392,10 +404,37 @@
           
             
   <li>
-    <a class="" title="File Management" href="../../files/">
-      File Management
+    <span class="section">Chapter 4 - File Management</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter4/concepts/">
+      Concepts
     </a>
     
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Dealing with Files" href="../../chapter4/files/">
+      Dealing with Files
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="File Synchronization" href="../../chapter4/filesync/">
+      File Synchronization
+    </a>
+    
+  </li>
+
+      
+    </ul>
   </li>
 
           
@@ -963,7 +1002,7 @@ table.  This is also a very time consuming process to set up properly.  Automapp
 software to integrate, so extra time must be allotted to make it work correctly.</p>
 <p>In the end, I prefer handling tables individually and handling relationship management on the mobile client manually.  This
 causes more code on the mobile client but makes the server much simpler by avoiding most of the complexity of relationships.</p>
-<h2 id="nosql-storage-with-the-storagedomainmanager">NoSQL Storage with the StorageDomainManager<a class="headerlink" href="#nosql-storage-with-the-storagedomainmanager" title="Permanent link">&para;</a></h2>
+<h2 id="nosql-storage-with-the-storagedomainmanager"><a name="storage-domain-mgr"></a>NoSQL Storage with the StorageDomainManager<a class="headerlink" href="#nosql-storage-with-the-storagedomainmanager" title="Permanent link">&para;</a></h2>
 <p>What if you don't want to use a SQL backend for your service?  Relationships between entities are not that important in the mobile
 client and Azure Table Storage costs significantly less than SQL Azure.  There are always trade-offs between various storage
 providers.  A Domain Manager enables you to swap out the storage for one of your own choosing.  Azure Mobile Apps provides 
@@ -1054,23 +1093,22 @@ namespace Backend
         }
     }
 }
+</code></pre>
 
-We've made three changes:
-
-1. We've removed the database seeding.
-2. We've removed the database initializer.
-3. We've changed `AddTablesWithEntityFramework()` to `AddTables()`.
-
-There is extra work needed with Entity Framework.  Since we aren't using it, we don't need the additional work.  We do, however,
-need to create the ASP.NET routes to the table controllers.
-
-!!! tip
-    You must add the `Microsoft.Azure.Mobile.Server.Storage` package from NuGet. 
-
-Let's move onto the DataObjects.  These are very similar:
-
-```csharp
-namespace Backend.DataObjects
+<p>We've made three changes:</p>
+<ol>
+<li>We've removed the database seeding.</li>
+<li>We've removed the database initializer.</li>
+<li>We've changed <code>AddTablesWithEntityFramework()</code> to <code>AddTables()</code>.</li>
+</ol>
+<p>There is extra work needed with Entity Framework.  Since we aren't using it, we don't need the additional work.  We do, however,
+need to create the ASP.NET routes to the table controllers.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You must add the <code>Microsoft.Azure.Mobile.Server.Storage</code> package from NuGet. </p>
+</div>
+<p>Let's move onto the DataObjects.  These are very similar:</p>
+<pre><code class="csharp">namespace Backend.DataObjects
 {
     public class TodoItem : StorageData
     {
@@ -1266,14 +1304,14 @@ allows you to see what is truly involved in writing a domain manager.</p>
     </div>
     <div class="next">
       
-        <a href="../../files/" title="File Management">
+        <a href="../../chapter4/concepts/" title="Concepts">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                File Management
+                Concepts
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

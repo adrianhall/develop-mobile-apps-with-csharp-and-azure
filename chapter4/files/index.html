@@ -9,19 +9,19 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Authentication in the Backend - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+        <title>Dealing with Files - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
       
       
       
-        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter2/backend/">
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter4/files/">
       
       
         <meta name="author" content="Adrian Hall">
       
     
-    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter2/backend/">
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter4/files/">
     <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
-    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter2/backend//../../">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter4/files//../../">
     <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -97,12 +97,12 @@
           <span class="path">
             
               
-                Chapter 2 - Authentication <i class="icon icon-link"></i>
+                Chapter 4 - File Management <i class="icon icon-link"></i>
               
             
           </span>
         
-        Authentication in the Backend
+        Dealing with Files
       </div>
     </div>
     
@@ -223,7 +223,7 @@
       
         
   <li>
-    <a class="" title="Concepts" href="../authconcepts/">
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
       Concepts
     </a>
     
@@ -232,21 +232,16 @@
       
         
   <li>
-    <a class="current" title="Authentication in the Backend" href="./">
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
       Authentication in the Backend
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
       
         
   <li>
-    <a class="" title="Enterprise Authentication" href="../enterprise/">
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
       Enterprise Authentication
     </a>
     
@@ -255,7 +250,7 @@
       
         
   <li>
-    <a class="" title="Social Authentication" href="../social/">
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
       Social Authentication
     </a>
     
@@ -264,7 +259,7 @@
       
         
   <li>
-    <a class="" title="Debugging Authentication" href="../debugging/">
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
       Debugging Authentication
     </a>
     
@@ -273,7 +268,7 @@
       
         
   <li>
-    <a class="" title="Custom Authentication" href="../custom/">
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
       Custom Authentication
     </a>
     
@@ -282,7 +277,7 @@
       
         
   <li>
-    <a class="" title="Claims and Authorization" href="../authorization/">
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
       Claims and Authorization
     </a>
     
@@ -291,7 +286,7 @@
       
         
   <li>
-    <a class="" title="Tokens in Real Apps" href="../realworld/">
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
       Tokens in Real Apps
     </a>
     
@@ -300,7 +295,7 @@
       
         
   <li>
-    <a class="" title="Best Practices" href="../bestpractices/">
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
       Best Practices
     </a>
     
@@ -381,7 +376,7 @@
       
         
   <li>
-    <a class="" title="Concepts" href="../../chapter4/concepts/">
+    <a class="" title="Concepts" href="../concepts/">
       Concepts
     </a>
     
@@ -390,16 +385,37 @@
       
         
   <li>
-    <a class="" title="Dealing with Files" href="../../chapter4/files/">
+    <a class="current" title="Dealing with Files" href="./">
       Dealing with Files
     </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Uploading a File to Blob Storage" href="#uploading-a-file-to-blob-storage">
+                Uploading a File to Blob Storage
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Download a File from Blob Storage" href="#download-a-file-from-blob-storage">
+                Download a File from Blob Storage
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
       
         
   <li>
-    <a class="" title="File Synchronization" href="../../chapter4/filesync/">
+    <a class="" title="File Synchronization" href="../filesync/">
       File Synchronization
     </a>
     
@@ -558,121 +574,12 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="adding-authentication-to-a-mobile-backend">Adding Authentication to a Mobile Backend<a class="headerlink" href="#adding-authentication-to-a-mobile-backend" title="Permanent link">&para;</a></h1>
-<p>The Azure App Service Authentication / Authorization service integrates seamlessly into an Azure Mobile Apps
-backend as a piece of middleware that fills in the Identity information for ASP.NET.  That means the only
-thing we have to worry about is authorization.  The authentication piece (determining that a user is who they
-say they are) is already taken care of.</p>
-<p>Authorization (which is the determination of whether an authenticated user can use a specific API) can happen
-at either the controller level or an individual operation level.  We can add authorization to an entire table
-controller by adding the <code>[Authorize]</code> attribute to the table controller.  For example, here is our table
-controller from the first chapter with authorization required for all operations:</p>
-<pre><code class="csharp">using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.OData;
-using Backend.DataObjects;
-using Backend.Models;
-using Microsoft.Azure.Mobile.Server;
+          <h1 id="dealing-with-files">Dealing with Files<a class="headerlink" href="#dealing-with-files" title="Permanent link">&para;</a></h1>
+<h2 id="uploading-a-file-to-blob-storage">Uploading a File to Blob Storage<a class="headerlink" href="#uploading-a-file-to-blob-storage" title="Permanent link">&para;</a></h2>
+<h2 id="download-a-file-from-blob-storage">Download a File from Blob Storage<a class="headerlink" href="#download-a-file-from-blob-storage" title="Permanent link">&para;</a></h2>
+<!-- Images -->
 
-namespace Backend.Controllers
-{
-    [Authorize]
-    public class TodoItemController : TableController&lt;TodoItem&gt;
-    {
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
-        }
-
-        // GET tables/TodoItem
-        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
-
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
-
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
-
-        // POST tables/TodoItem
-        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
-        {
-            TodoItem current = await InsertAsync(item);
-            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
-        }
-
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
-    }
-}
-</code></pre>
-
-<p>Authorization can also happen on a per-operation basis by adding the <code>[Authorize]</code> attribute to a single method
-within the table controller.  For example, instead of requiring authorization on the entire table, we want a
-version where reading was possible anonymously but updating the database required authentication:</p>
-<pre><code class="csharp">using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.OData;
-using Backend.DataObjects;
-using Backend.Models;
-using Microsoft.Azure.Mobile.Server;
-
-namespace Backend.Controllers
-{
-    public class TodoItemController : TableController&lt;TodoItem&gt;
-    {
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
-        }
-
-        // GET tables/TodoItem
-        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
-
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
-
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [Authorize]
-        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
-
-        // POST tables/TodoItem
-        [Authorize]
-        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
-        {
-            TodoItem current = await InsertAsync(item);
-            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
-        }
-
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [Authorize]
-        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
-    }
-}
-</code></pre>
-
-<p>Note that the <code>[Authorize]</code> attribute can do much more than what is provided here.  Underneath there are various
-parameters that you can adjust to see if the user belongs to a specific group or role.  However, the token that
-is checked to see if the user is authenticated does not pull in any of the other information that is normally
-needed for such authorization tasks.  As a result, the <code>[Authorize]</code> tags is really only checking whether a
-request requires authentication or not.</p>
-<h1 id="configuring-an-authentication-provider">Configuring an Authentication Provider<a class="headerlink" href="#configuring-an-authentication-provider" title="Permanent link">&para;</a></h1>
-<p>Configuration of the identity provider is very dependent on the identity provider and whether the client is using
-a client-flow or server-flow.  Choose one of the several options for authentication:</p>
-<ul>
-<li><a href="../enterprise/">Enterprise Authentication</a> covers Azure Active Directory.</li>
-<li><a href="../social/">Social Authentication</a> covers Facebook, Google, Microsoft and Twitter.</li>
-</ul>
-<p>We can also configure authentication using custom routes.  This allows us to use other (non-supported) services
-or to completely customize our flow (for example, to use an existing identity database).  We will cover custom
-authentication later on.</p>
+<!-- Links -->
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -689,7 +596,7 @@ authentication later on.</p>
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../authconcepts/" title="Concepts">
+        <a href="../concepts/" title="Concepts">
           <span class="direction">
             Previous
           </span>
@@ -708,14 +615,14 @@ authentication later on.</p>
     </div>
     <div class="next">
       
-        <a href="../enterprise/" title="Enterprise Authentication">
+        <a href="../filesync/" title="File Synchronization">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Enterprise Authentication
+                File Synchronization
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
