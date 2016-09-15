@@ -135,6 +135,12 @@ public async Task<ICollection<T>> ReadAllItemsAsync()
 }
 ```
 
+This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the
+first will bring down 50 records, the second 25 records and the third no reocrds.  Why not stop at the second request?  We expect this
+code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety
+of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The
+only way of knowing for sure that you have received all the records is to do a request and be told there is no more.
+
 This code could be simplified quite a bit.  The reason I am not doing so is that this is not how you would want to do the transfer
 of items in a real application.  Doing this will tie up the UI thread of your application for quite a while as the `AzureCloudTable`
 downloads all the data.  Consider if there were thousands of entries?  This method would be problematic very quickly.
@@ -321,6 +327,11 @@ As the UI displays each cell, it calls our command.  The command figures out if 
 last one in the list.  If it is, it asks for more records.  Once no more records are available, it sets the
 flag `hasMoreItems` to false so it can short-circuit the network request.
 
+!!! tip
+    Be careful when using `OrderBy()` with online data.  Earlier pages may change, causing duplicated data or
+    missed data in your result set.  There is little you can do about this other than pulling down all the data 
+    ordered by the `CreatedAt` field (which is the default).
+    
 Finally, our current implementation of the `Refresh()` method loads all the items.  We need to adjust it
 to only load the first page:
 
@@ -561,6 +572,10 @@ an item in the `TaskDetailViewModel`.  Each synchronization will be called with 
 ```csharp
 await CloudService.SyncOfflineCacheAsync();
 ```
+
+!!! info
+    The offline sync cache automatically handles paging of results during the transfer for you so you never have to worry
+    about it.  By default, it orders the transfers by the `CreatedAt` field, which is theoretically linear.
 
 ### Additional Steps on Universal Windows
 
