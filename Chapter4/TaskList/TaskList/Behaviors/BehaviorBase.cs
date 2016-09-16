@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace TaskList.Behaviors
 {
-    class BehaviorBase<T> : Behavior<T> where T : BindableObject
+    public class BehaviorBase<T> : Behavior<T> where T : BindableObject
     {
         public T AssociatedObject { get; private set; }
 
@@ -34,7 +34,7 @@ namespace TaskList.Behaviors
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-            OnBindingContextChanged = AssociatedObject.BindingContext;
+            BindingContext = AssociatedObject.BindingContext;
         }
     }
 }

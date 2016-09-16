@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.Models;
+using Xamarin.Forms;
 
 namespace TaskList.ViewModels
 {
@@ -70,7 +71,7 @@ namespace TaskList.ViewModels
         /// </summary>
         public Command DeleteCommand { get; }
 
-        private async Task Delete()
+        private async Task DeleteAsync()
         {
             if (IsBusy)
             {
@@ -82,7 +83,7 @@ namespace TaskList.ViewModels
             {
                 if (CurrentTask.Id != null)
                 {
-                    await Table.DeleteTaskAsync(CurrentTask);
+                    await CloudService.DeleteTaskAsync(CurrentTask);
                     MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
                 }
                 await Application.Current.MainPage.Navigation.PopAsync();

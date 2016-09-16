@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TaskList.Abstractions;
 using TaskList.Helpers;
 using TaskList.Models;
@@ -70,17 +71,17 @@ namespace TaskList.ViewModels
         /// <summary>
         /// Bindable property for the AddNewItem Command
         /// </summary>
-        public Command AddNewItemCommand { get; }
+        public ICommand AddNewItemCommand { get; }
 
         /// <summary>
         /// Bindable property for the LoadMore Command
         /// </summary>
-        public Command LoadMoreCommand { get; }
+        public ICommand LoadMoreCommand { get; }
 
         /// <summary>
         /// Bindable property for the Refresh Command
         /// </summary>
-        public Command<TodoItem> RefreshCommand { get; }
+        public ICommand RefreshCommand { get; }
 
         /// <summary>
         /// User clicked on the + New Item command
@@ -125,8 +126,8 @@ namespace TaskList.ViewModels
             IsBusy = true;
             try
             {
-                var list = CloudService.ReadTasksAsync(Items.Count, 20);
-                if (list.Count > 0)
+                var list = await CloudService.ReadTasksAsync(Items.Count, 20);
+                if (list.Count() > 0)
                 {
                     Items.AddRange(list);
                 }
@@ -165,7 +166,7 @@ namespace TaskList.ViewModels
                     var name = identity.UserClaims.FirstOrDefault(claim => claim.Type.Equals("name")).Value;
                     Title = $"Tasks for {name}";
                 }
-                var list = CloudService.ReadTasksAsync(Items.Count, 20);
+                var list = await CloudService.ReadTasksAsync(Items.Count, 20);
                 Items.ReplaceRange(list);
                 HasMoreItems = true;
             }
