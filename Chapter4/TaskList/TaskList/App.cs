@@ -11,7 +11,6 @@ namespace TaskList
         {
             ServiceLocator.Add<ICloudService, AzureCloudService>();
             MainPage = new NavigationPage(new Pages.TaskList());
-
         }
 
         protected override void OnStart()

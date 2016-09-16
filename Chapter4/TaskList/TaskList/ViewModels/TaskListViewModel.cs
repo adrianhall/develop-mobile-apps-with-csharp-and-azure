@@ -21,14 +21,11 @@ namespace TaskList.ViewModels
             Title = "Task List";
 
             // Commands
-            RefreshCommand = new Command(async () => await Refresh());
-            AddNewItemCommand = new Command(async () => await AddNewItem());
-            LoadMoreCommand = new Command<TodoItem>(async (TodoItem item) => await LoadMore(item));
+            RefreshCommand = new Command(async () => await RefreshAsync());
+            AddNewItemCommand = new Command(async () => await AddNewItemAsync());
+            LoadMoreCommand = new Command<TodoItem>(async (TodoItem item) => await LoadMoreAsync(item));
 
-            MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) =>
-            {
-                await Refresh();
-            });
+            MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) => await RefreshAsync());
 
             LoadMoreCommand.Execute(null);
         }
@@ -86,7 +83,7 @@ namespace TaskList.ViewModels
         /// <summary>
         /// User clicked on the + New Item command
         /// </summary>
-        private async Task AddNewItem()
+        private async Task AddNewItemAsync()
         {
             if (IsBusy)
             {
@@ -106,20 +103,19 @@ namespace TaskList.ViewModels
             {
                 IsBusy = false;
             }
-
         }
 
         /// <summary>
         /// User scrolled beyond the end of the list
         /// </summary>
         /// <param name="item">The item that was activated</param>
-        private async Task LoadMore(TodoItem item)
+        private async Task LoadMoreAsync(TodoItem item)
         {
             if (IsBusy || !HasMoreItems)
             {
                 return;
             }
-            if (Items.Count() > 0 && !Items.Last().Id.Equals(item?.Id))
+            if (Items.Any() && !Items.Last().Id.Equals(item?.Id))
             {
                 return;
             }
@@ -127,7 +123,7 @@ namespace TaskList.ViewModels
             try
             {
                 var list = await CloudService.ReadTasksAsync(Items.Count, 20);
-                if (list.Count() > 0)
+                if (list.Any())
                 {
                     Items.AddRange(list);
                 }
@@ -149,7 +145,7 @@ namespace TaskList.ViewModels
         /// <summary>
         /// User clicked on the refresh button (or did a pull-to-refresh command)
         /// </summary>
-        private async Task Refresh()
+        private async Task RefreshAsync()
         {
             if (IsBusy)
             {
