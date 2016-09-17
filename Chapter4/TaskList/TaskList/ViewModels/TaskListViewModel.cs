@@ -27,7 +27,7 @@ namespace TaskList.ViewModels
 
             MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) => await RefreshAsync());
 
-            LoadMoreCommand.Execute(null);
+            RefreshCommand.Execute(null);
         }
 
         /// <summary>

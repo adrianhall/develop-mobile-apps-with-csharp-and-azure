@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace TaskList.Converters
+namespace TaskList.Behaviors
 {
     public class ItemVisibilityConverter : IValueConverter
     {
