@@ -713,6 +713,11 @@ there are no more records to read. This is the simplest to implement.  In the <c
 }
 </code></pre>
 
+<p>This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the
+first will bring down 50 records, the second 25 records and the third no reocrds.  Why not stop at the second request?  We expect this
+code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety
+of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The
+only way of knowing for sure that you have received all the records is to do a request and be told there is no more.</p>
 <p>This code could be simplified quite a bit.  The reason I am not doing so is that this is not how you would want to do the transfer
 of items in a real application.  Doing this will tie up the UI thread of your application for quite a while as the <code>AzureCloudTable</code>
 downloads all the data.  Consider if there were thousands of entries?  This method would be problematic very quickly.</p>
@@ -882,6 +887,12 @@ output window instead of setting a breakpoint and clicking Continue a lot.</p>
 <p>As the UI displays each cell, it calls our command.  The command figures out if the record being displayed is the
 last one in the list.  If it is, it asks for more records.  Once no more records are available, it sets the
 flag <code>hasMoreItems</code> to false so it can short-circuit the network request.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Be careful when using <code>OrderBy()</code> with online data.  Earlier pages may change, causing duplicated data or
+missed data in your result set.  There is little you can do about this other than pulling down all the data 
+ordered by the <code>CreatedAt</code> field (which is the default).</p>
+</div>
 <p>Finally, our current implementation of the <code>Refresh()</code> method loads all the items.  We need to adjust it
 to only load the first page:</p>
 <pre><code class="csharp">async Task Refresh()
@@ -1092,6 +1103,11 @@ an item in the `TaskDetailViewModel`.  Each synchronization will be called with 
 await CloudService.SyncOfflineCacheAsync();
 </code></pre>
 
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The offline sync cache automatically handles paging of results during the transfer for you so you never have to worry
+about it.  By default, it orders the transfers by the <code>CreatedAt</code> field, which is theoretically linear.</p>
+</div>
 <h3 id="additional-steps-on-universal-windows">Additional Steps on Universal Windows<a class="headerlink" href="#additional-steps-on-universal-windows" title="Permanent link">&para;</a></h3>
 <p>If you are compiling the Universal Windows (UWP) project, there is an extra step.  You must Add a reference for SQLite
 to the project.  Open the <strong>TaskList.UWP</strong> project, then right-click on the <strong>References</strong> node and select <strong>Add Reference</strong>.
