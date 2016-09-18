@@ -38,17 +38,18 @@ namespace TaskList.UWP.Services
         private async Task<string> LoginADALAsync()
         {
             var authContext = new AuthenticationContext(Locations.AadAuthority);
-            if (authContext.TokenCache.ReadItems().Count() > 0)
+            if (authContext.TokenCache.ReadItems().Any())
             {
                 authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
             }
-            var authResult = await authContext.AcquireTokenAsync(
+            AuthenticationResult authResult = await authContext.AcquireTokenAsync(
                 Locations.AppServiceUrl,
                 Locations.AadClientId,
                 new Uri(Locations.AadRedirectUri),
                 new PlatformParameters(PromptBehavior.Auto, false));
             return authResult.AccessToken;
         }
+
         #region IPlatform Interface
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
@@ -58,10 +59,12 @@ namespace TaskList.UWP.Services
             return await client.LoginAsync("aad", zumoPayload);
         }
 
-        public Task LogoutAsync()
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public async Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            // Nothing to do here...
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
         public void RemoveTokenFromSecureStore()
         {

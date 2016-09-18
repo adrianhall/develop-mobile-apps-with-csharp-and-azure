@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace TaskList.ViewModels
 {
-    class TaskDetailViewModel : BaseViewModel
+    public class TaskDetailViewModel : BaseViewModel
     {
         /// <summary>
         /// Initializer for the view model
@@ -16,7 +16,7 @@ namespace TaskList.ViewModels
         public TaskDetailViewModel(TodoItem item = null)
         {
             CurrentTask = item ?? new TodoItem { Text = "New Item", Complete = false };
-            Title = item.Text;
+            Title = CurrentTask.Text;
 
             SaveCommand = new Command(async () => await SaveAsync());
             DeleteCommand = new Command(async () => await DeleteAsync());
