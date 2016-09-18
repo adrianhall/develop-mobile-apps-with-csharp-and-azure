@@ -26,6 +26,8 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchSdkVersion>9.3</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -88,7 +90,6 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="iOSPlatformProvider.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Services\iOSPlatform.cs" />
@@ -103,6 +104,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskList\TaskList.csproj">
       <Name>TaskList</Name>
+      <Project>{A14E455F-6BE1-4D24-9353-44A1D9128ED0}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
