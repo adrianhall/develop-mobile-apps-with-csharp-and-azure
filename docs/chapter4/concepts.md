@@ -38,7 +38,7 @@ query capabilities, as we discussed in the last chapter.  That makes it unsuited
 Storage if you want to browse files from your PC or Mac as you can mount the file system directly from Azure Storage.
 
 * Finally, **Queue Storage** provides cloud messaging between application components.  We'll get onto Azure Functions
-later on, during our look at Custom API.  Queue Storage will definitely be coming into play then.  Think of Queue 
+later on, during our look at Custom API.  Queue Storage will definitely be coming into play then.  Think of Queue
 Storage as the glue that ties work flow components together.
 
 The real question is when should you use File Storage and when should you use Blob Storage.  For more applications,
@@ -79,7 +79,7 @@ Just like SQL Azure, Azure Storage has some great scalability and redundancy fea
 For example, you have the option of **Premium Storage** - this provides all-SSD storage that has a large IOPS performance
 number.  You can also decide how redundant you want the storage.  Azure always keeps 3 copies of your data.  You can choose
 to increase the number of copies and decide whether the additional copies will be in the same datacenter, another datacenter
-in the same region or another region.  We have selected the slowest performance and least redundant options here to keep the 
+in the same region or another region.  We have selected the slowest performance and least redundant options here to keep the
 cost down on your service.
 
 !!! warn
@@ -123,7 +123,7 @@ by providing a management interface that sets the Account Key for the App Servic
 
 !!! tip
     For local development, there is the [Azure Storage Emulator][3].  The connection string when using the Azure Storage
-    Emulator is `UseDevelopmentStorage=true`. 
+    Emulator is `UseDevelopmentStorage=true`.
 
 It's normal to add the storage connection string to the `Web.config` file with the following:
 
@@ -139,7 +139,7 @@ Azure Storage Emulator during local development and Azure Storage when you deplo
 ## The Shared Access Signature (SAS)
 
 The storage account key is kind of like the root or Administrator password.  You should always protect it, never send it to a
-third party and regenerate it on a regular basis.  You avoid storing the storage account key in source code by linking the 
+third party and regenerate it on a regular basis.  You avoid storing the storage account key in source code by linking the
 storage account to the App Service.  The key is stored in the connection string instead.  You should never ship an account
 key to your mobile account.
 
@@ -150,14 +150,14 @@ with Azure Storage directly rather than having an intermediary web service for t
 
 If you want to interact with Azure Storage directly and you shouldn't give out the account key, how do you deal with the
 security of the service?  The answer is with a Shared Access Signature, or SAS.  The **Service SAS** delegates access
-to just a single resource in one of the storage services (Blob, Table, Queue or File service).  
+to just a single resource in one of the storage services (Blob, Table, Queue or File service).
 
 !!! info
     There is also an [Account SAS][4] which delegates access to resources in more than one service.  You generally don't
     want this in application development.
 
-A service SAS is a URI that is used when accessing the resource.  It consists of the URI to the resource followed by a 
-SAS token.  The SAS token is an cryptographically signed opaque token that the storage service decodes.  Minimally, it 
+A service SAS is a URI that is used when accessing the resource.  It consists of the URI to the resource followed by a
+SAS token.  The SAS token is an cryptographically signed opaque token that the storage service decodes.  Minimally, it
 provides an expiry time and the permissions being granted to the SAS.
 
 !!! warn
@@ -165,21 +165,21 @@ provides an expiry time and the permissions being granted to the SAS.
     think again.  In mobile development, you **NEVER** want a non-expiring token.
 
 Accessing Azure Storage is always done with a specific [version of the REST API][5] and that follows through to the SDK.  You
-should always request a SAS token for the appropriate API you are going to be using.   We'll cover the various 
+should always request a SAS token for the appropriate API you are going to be using.   We'll cover the various
 methods of obtaining a SAS later in the chapter.
 
 ## File Sync with Azure Mobile Apps
 
 It's actually fairly rare that you will want to upload and download random files. Generally, your application will need
 to associate your files with a database record.  Take, for example, the common patterns for image management.  Your
-users will want to organize the images into albums and also store metadata about the images.  They will want to 
+users will want to organize the images into albums and also store metadata about the images.  They will want to
 search for images based on the metadata.  The same can be said for many other applications.  Inevitably, you will
 want to associate your files with database records.
 
 Our database records are available offline via the Azure Mobile Apps offline sync capability.  It is only natural,
 therefore, that we will want to have our pictures available offline as well.  Fortunately, the mobile clients all
 have the capability of organizing files on the device, and Azure Mobile Apps has the capability of synchronizing
-files between Azure Storage and the device.  No extra data is stored with the database record.  However, it's 
+files between Azure Storage and the device.  No extra data is stored with the database record.  However, it's
 important that the data within Azure Storage is organized properly.
 
 In this chapter, we will again be working with Azure Mobile Apps and our typical Task List application.  We will add
@@ -198,7 +198,7 @@ We will use this as a starting point for our investigations.
 
 
 <!-- Links -->
-[ch3-1]: [../chapter3/domainmgr.md#storage-domain-mgr]
+[ch3-1]: ../chapter3/domainmgr.md#storage-domain-mgr
 [1]: https://azure.microsoft.com/documentation/articles/vs-azure-tools-storage-manage-with-storage-explorer/
 [2]: https://visualstudiogallery.msdn.microsoft.com/84e83a7c-9606-4f9f-83dd-0f6182f13add
 [3]: https://azure.microsoft.com/en-us/documentation/articles/storage-use-emulator/
