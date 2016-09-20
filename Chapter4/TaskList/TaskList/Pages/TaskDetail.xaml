@@ -7,7 +7,7 @@
         <StackLayout Padding="10" Spacing="10">
             <Entry Placeholder="What should I be doing?"
                    Text="{Binding CurrentTask.Text}"
-                   TextColor="Black" />
+                   TextColor="Default" />
             <StackLayout HorizontalOptions="Fill" Orientation="Horizontal">
                 <Label HorizontalOptions="StartAndExpand" Text="Completed?" />
                 <Switch HorizontalOptions="End" IsToggled="{Binding CurrentTask.Complete}" />
