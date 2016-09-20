@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -33,6 +34,7 @@ namespace TaskList.iOS.Services
         /// </summary>
         public iOSPlatform()
         {
+			Debug.WriteLine("In iOSPlatform... Initializing");
             AccountStore = AccountStore.Create();
         }
 

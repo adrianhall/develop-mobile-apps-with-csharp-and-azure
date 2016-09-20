@@ -18,13 +18,16 @@ namespace TaskList.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            // Initialize Azure Mobile Apps
+			// Initialize SQLitePCL
+			SQLitePCL.CurrentPlatform.Init();
+
+			// Initialize Azure Mobile Apps
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
-            // Initialize Xamarin Forms
+			// Initialize Xamarin Forms
             global::Xamarin.Forms.Forms.Init();
 
-            // Load the application
+			// Load the application
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

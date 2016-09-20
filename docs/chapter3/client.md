@@ -329,9 +329,9 @@ flag `hasMoreItems` to false so it can short-circuit the network request.
 
 !!! tip
     Be careful when using `OrderBy()` with online data.  Earlier pages may change, causing duplicated data or
-    missed data in your result set.  There is little you can do about this other than pulling down all the data 
+    missed data in your result set.  There is little you can do about this other than pulling down all the data
     ordered by the `CreatedAt` field (which is the default).
-    
+
 Finally, our current implementation of the `Refresh()` method loads all the items.  We need to adjust it
 to only load the first page:
 
@@ -448,6 +448,63 @@ client projects.
     The SQLiteStore package relies on another package for implementing a SQLite portable class library called
     `SQLitePCL`.  This package is not compatible with Android "N" at this time.  An update to the SQLiteStore
     is being developed to change the dependent package to one that is compatible.
+
+To use offline capabilities, you must add initialization code to the platform dependent code.  This varies
+by platform.  For iOS, edit the `AppDelegate.cs` file:
+
+```csharp
+public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+{
+    // Initialize SQLitePCL
+    SQLitePCL.CurrentPlatform.Init();
+
+    // Initialize Azure Mobile Apps
+    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+    // Initialize Xamarin Forms
+    global::Xamarin.Forms.Forms.Init();
+
+    // Load the application
+    LoadApplication(new App());
+
+    return base.FinishedLaunching(app, options);
+}
+```
+
+The ordering is particular here.  SQLitePCL must be initialized before the Azure Mobile Apps SDK, and both
+must occur before Xamarin.Forms initialization.  For Android, the `MainActivity.cs` file must be updated:
+
+```csharp
+public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+{
+    // Initialize SQLitePCL
+    SQLitePCL.CurrentPlatform.Init();
+
+    // Initialize Azure Mobile Apps
+    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+    // Initialize Xamarin Forms
+    global::Xamarin.Forms.Forms.Init();
+
+    // Load the application
+    LoadApplication(new App());
+
+    return base.FinishedLaunching(app, options);
+}
+```
+
+Note that the same two lines are needed and in the same order.  Failure to add these lines will result
+in exceptions when initializing the SQLite store.  The error that is produced is fairly cryptic.
+
+```text
+A SQLite Wrapper assmebly for the current platform was not found.  Ensure that the current project
+references both SQLitePCL and the following platform-specific assembly: SQLitePCL.Ext.
+```
+
+This should pretty specific.  However, when you look at the references for the projects, you will note that
+you have a reference to SQLitePCL.Ext.  The error is actually referring to the fact that you have not
+called the Init() method for the current platform.  You do not need to add these lines to the Universal
+Windows project as the SQLite installation is different.
 
 In the `Services\AzureCloudService.cs` file, add the following method:
 
@@ -843,11 +900,11 @@ then select the **Android Manifest** tab.
 
 ![][droid-manifest-packagename]
 
-The database will be located in `/data/data/_package\_name_/files` directory on the emulator.  Google has provided utilities 
-for handling developer connections to devices (including emulators).  In this case, we can use the `adb` utility.  First, start 
-your emulator of choice through the **Tools** -> **Visual Studio Emulator for Android** menu option.  Click on the **Play** 
-button next to the emulator that you have been using.  Ensure the emulator is fully started before continuing.  The `adb` utility 
-can be accessed through a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows, 
+The database will be located in `/data/data/_package\_name_/files` directory on the emulator.  Google has provided utilities
+for handling developer connections to devices (including emulators).  In this case, we can use the `adb` utility.  First, start
+your emulator of choice through the **Tools** -> **Visual Studio Emulator for Android** menu option.  Click on the **Play**
+button next to the emulator that you have been using.  Ensure the emulator is fully started before continuing.  The `adb` utility
+can be accessed through a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows,
 this is probably `C:\Program Files (x86)\Android\android-sdk\platform-tools`.  It's a good idea to add this to your PATH.
 
 Start at your Visual Studio Emulator for Android.  Click on the **Tools** button (it looks like a pair of right-facing
@@ -867,7 +924,7 @@ adb shell
 !!! tip
     If you are only running one emulator and have no connected real devices, you don't need the `adb connect` command.  Visual
     Studio will have already set up the connection for you.  Use `adb devices` to determine if you need to connect.
-    
+
 This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around.   You can remove
 the entire private data area for your package using the following:
 
@@ -876,7 +933,7 @@ the entire private data area for your package using the following:
 **root@donatollo:/#** find . -name tasklist.db -print | xargs rm
 ```
 
-The database will normally be in the `files` directory.  Use `exit` to close the shell prompt on the Android device.  Each disk 
+The database will normally be in the `files` directory.  Use `exit` to close the shell prompt on the Android device.  Each disk
 image file is independent.  You must remove the database file on each emulator individually.
 
 !!! tip
@@ -921,7 +978,7 @@ You can also use the normal Finder utilities to search for and remove the databa
 
 ### Purging Records from the Offline Cache
 
-The `IMobileServiceSyncTable` interface also includes a capability for purging records that are stored in the offline sync by query.  This 
+The `IMobileServiceSyncTable` interface also includes a capability for purging records that are stored in the offline sync by query.  This
 is done in code like this:
 
 ```csharp
@@ -943,21 +1000,21 @@ Each incremental sync query has a unique name that is specified during the `Pull
 you to do a "purge and refresh" operation.  If you don't want this to happen, set the query name to null.
 
 The OData query is a similar query format to the incremental sync query that we used with `PullAsync()`.  In this case, it selects the
-records that should be purged from the offline sync cache.  If we wished to purge everything, we could just use `syncTable.CreateQuery()`.  
-If we want to purge only certain records, then we can adjust the query with a `.Where()` LINQ query.  In the example above, records that 
+records that should be purged from the offline sync cache.  If we wished to purge everything, we could just use `syncTable.CreateQuery()`.
+If we want to purge only certain records, then we can adjust the query with a `.Where()` LINQ query.  In the example above, records that
 have not been updated within the last 7 days are purged.
 
 Finally, the `PurgeAsync()` call will fail (and generate an exception) if there are any operations pending in the operations queue.  If we
 specify `force = true`, then the operations queue check is bypassed and pending operations in the operations queue are flushed without being
 uploaded.  It is important that this option is used only when absolutely required.  You can leave your database in an inconsistent
 state if you expect referential integrity between different tables.  Use `SyncContext.PushAsync()` to push the operations queue
-to the remote server before calling `PurgeAsync()`.   If you use `force = true`, then also specify a query name to reset the incremental 
+to the remote server before calling `PurgeAsync()`.   If you use `force = true`, then also specify a query name to reset the incremental
 sync state.
 
 ## Debugging the Offline Cache
 
 One of the most difficult parts of the offline cache is that it is opaque - you can't really see what is going on.  Fortunately, the
-`SQLiteStore` that is used is relatively straight forward to sub-class so we can add logging to it.  The following helper method can 
+`SQLiteStore` that is used is relatively straight forward to sub-class so we can add logging to it.  The following helper method can
 be substituted for a `SQLiteStore` in any code.
 
 ```csharp
@@ -966,8 +1023,8 @@ public class MobileServiceSQLiteStoreWithLogging : MobileServiceSQLiteStore
     private bool logResults;
     private bool logParameters;
 
-    public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false) 
-        : base(fileName) 
+    public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false)
+        : base(fileName)
     {
         this.logResults = logResults;
         this.logParameters = logParameters;
@@ -975,14 +1032,14 @@ public class MobileServiceSQLiteStoreWithLogging : MobileServiceSQLiteStore
 
     protected override IList<Newtonsoft.Json.Linq.JObject> ExecuteQuery(string tableName, string sql, IDictionary<string, object> parameters)
     {
-        Console.WriteLine (sql);   
+        Console.WriteLine (sql);
 
         if(logParameters)
             PrintDictionary (parameters);
 
         var result = base.ExecuteQuery(tableName, sql, parameters);
 
-        if (logResults && result != null) 
+        if (logResults && result != null)
         {
             foreach (var token in result)
                 Console.WriteLine (token);
@@ -1024,7 +1081,7 @@ public class LoggingHandler : DelegatingHandler
     {
         Console.WriteLine("Request: {0} {1}", request.Method, request.RequestUri.ToString());
 
-        if (logRequestResponseBody && request.Content != null) 
+        if (logRequestResponseBody && request.Content != null)
         {
             var requestContent = await request.Content.ReadAsStringAsync ();
             Console.WriteLine (requestContent);
@@ -1034,7 +1091,7 @@ public class LoggingHandler : DelegatingHandler
 
         Console.WriteLine ("Response: {0}", response.StatusCode);
 
-        if (logRequestResponseBody) 
+        if (logRequestResponseBody)
         {
             var responseContent = await response.Content.ReadAsStringAsync ();
             Console.WriteLine (responseContent);
@@ -1042,11 +1099,11 @@ public class LoggingHandler : DelegatingHandler
 
         return response;
     }
-} 
+}
 ```
 
-Using this class will print all the SQL commands that are executed against the SQLite store.  Ensure you are capturing the console somewhere 
-so that you can see the debug messages as you are running your application. 
+Using this class will print all the SQL commands that are executed against the SQLite store.  Ensure you are capturing the console somewhere
+so that you can see the debug messages as you are running your application.
 
 <!-- Images -->
 [not-paging]: img/not-paging.PNG
