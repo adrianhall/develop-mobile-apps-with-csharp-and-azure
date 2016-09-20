@@ -26,6 +26,10 @@
 
     <ContentPage.Content>
         <StackLayout>
+            <ActivityIndicator HorizontalOptions="FillAndExpand"
+                               IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               VerticalOptions="Start" />
             <ListView CachingStrategy="RecycleElement"
                       IsPullToRefreshEnabled="True"
                       IsRefreshing="{Binding IsBusy,
