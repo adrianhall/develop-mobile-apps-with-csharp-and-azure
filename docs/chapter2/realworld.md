@@ -142,7 +142,7 @@ it will be overwritten.  Finally, there is a method called `IsTokenExpired()` wh
 token is expired or not.  This same code can be used in the `Services/iOSLoginProvider.cs`.  The only difference is
 in the `AccountStore.Create()` call (as discussed earlier).
 
-!!! warn Update Entitlements for iOS 10
+!!! warn "Update Entitlements for iOS 10"
     You may notice that you are not able to use `AccountStore.Save()` in the iOS 10 Simulator.  A change to the
     iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and
     use the Entitlements.plist file as a custom entitlements list.  Xamarin Studio for Mac has a really good

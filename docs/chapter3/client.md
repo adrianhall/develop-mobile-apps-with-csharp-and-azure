@@ -501,7 +501,7 @@ A SQLite Wrapper assmebly for the current platform was not found.  Ensure that t
 references both SQLitePCL and the following platform-specific assembly: SQLitePCL.Ext.
 ```
 
-This should pretty specific.  However, when you look at the references for the projects, you will note that
+This looks very specific.  However, when you look at the references for the projects, you will note that
 you have a reference to SQLitePCL.Ext.  The error is actually referring to the fact that you have not
 called the Init() method for the current platform.  You do not need to add these lines to the Universal
 Windows project as the SQLite installation is different.
