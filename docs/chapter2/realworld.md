@@ -142,8 +142,23 @@ it will be overwritten.  Finally, there is a method called `IsTokenExpired()` wh
 token is expired or not.  This same code can be used in the `Services/iOSLoginProvider.cs`.  The only difference is
 in the `AccountStore.Create()` call (as discussed earlier).
 
-I'm using an application specific service ID (or descriptor) for this purpose.  You could also use an identity
-provider-based service ID which is especially useful if your mobile client supports multiple identity providers.
+!!! warn Update Entitlements for iOS 10
+    You may notice that you are not able to use `AccountStore.Save()` in the iOS 10 Simulator.  A change to the
+    iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and
+    use the Entitlements.plist file as a custom entitlements list.  Xamarin Studio for Mac has a really good
+    editor for this, so I recommend doing this activity on the Mac.
+
+To update the entitlements.plist within Xamarin Studio for Mac:
+
+1. Double-click on the **TaskList.iOS** project to open the options pane.
+2. Select the **iOS Bundle Signing** menu option.
+3. Select **iPhoneSimulator** for the Platform.
+4. Click the **...** button next to **Custom Entitlements**.
+5. Select the **Entitlements.plist** file, then click on **OK**.
+6. Click on **OK** to close the options pane.
+7. Find and open the **Entitlements.plist** file in the Xamarin Studio project.
+8. In the **Keychain** sction, check the box next to **Enable Keychain Access Groups**.
+9. Save the file and re-build your project.
 
 Xamarin.Auth only support iOS and Android.  We need to turn to an alternate library for token caching on Universal
 Windows.  The standard library has a package called [PasswordVault][33] that can be used identically to the
@@ -659,8 +674,8 @@ So, how do you log out?  You should:
 
 Calling the `/.auth/logout` endpoint on the Azure App Service mobile backend will remove the entry
 on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted,
-will still authorize the user.  The refresh token is stored in the token store. The user submitting the 
-token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after 
+will still authorize the user.  The refresh token is stored in the token store. The user submitting the
+token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after
 it was created), the logout is complete.
 
 We need to do a HTTP client call for this purpose:
