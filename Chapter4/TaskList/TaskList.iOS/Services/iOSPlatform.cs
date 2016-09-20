@@ -36,7 +36,6 @@ namespace TaskList.iOS.Services
             AccountStore = AccountStore.Create();
         }
 
-
         /// <summary>
         /// Login using AAD with client-flow
         /// </summary>
@@ -44,7 +43,7 @@ namespace TaskList.iOS.Services
         private async Task<string> LoginADALAsync()
         {
             var authContext = new AuthenticationContext(Locations.AadAuthority);
-            if (authContext.TokenCache.ReadItems().Count() > 0)
+            if (authContext.TokenCache.ReadItems().Any())
             {
                 authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
             }
