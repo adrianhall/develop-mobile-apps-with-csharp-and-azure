@@ -711,8 +711,25 @@ successful, we reach the second piece, which is to store the token within the Ke
 it will be overwritten.  Finally, there is a method called <code>IsTokenExpired()</code> whose only job is to check to see if a
 token is expired or not.  This same code can be used in the <code>Services/iOSLoginProvider.cs</code>.  The only difference is
 in the <code>AccountStore.Create()</code> call (as discussed earlier).</p>
-<p>I'm using an application specific service ID (or descriptor) for this purpose.  You could also use an identity
-provider-based service ID which is especially useful if your mobile client supports multiple identity providers.</p>
+<div class="admonition warn">
+<p class="admonition-title">Update Entitlements for iOS 10</p>
+<p>You may notice that you are not able to use <code>AccountStore.Save()</code> in the iOS 10 Simulator.  A change to the
+iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and
+use the Entitlements.plist file as a custom entitlements list.  Xamarin Studio for Mac has a really good
+editor for this, so I recommend doing this activity on the Mac.</p>
+</div>
+<p>To update the entitlements.plist within Xamarin Studio for Mac:</p>
+<ol>
+<li>Double-click on the <strong>TaskList.iOS</strong> project to open the options pane.</li>
+<li>Select the <strong>iOS Bundle Signing</strong> menu option.</li>
+<li>Select <strong>iPhoneSimulator</strong> for the Platform.</li>
+<li>Click the <strong>...</strong> button next to <strong>Custom Entitlements</strong>.</li>
+<li>Select the <strong>Entitlements.plist</strong> file, then click on <strong>OK</strong>.</li>
+<li>Click on <strong>OK</strong> to close the options pane.</li>
+<li>Find and open the <strong>Entitlements.plist</strong> file in the Xamarin Studio project.</li>
+<li>In the <strong>Keychain</strong> sction, check the box next to <strong>Enable Keychain Access Groups</strong>.</li>
+<li>Save the file and re-build your project.</li>
+</ol>
 <p>Xamarin.Auth only support iOS and Android.  We need to turn to an alternate library for token caching on Universal
 Windows.  The standard library has a package called <a href="https://msdn.microsoft.com/library/windows/apps/windows.security.credentials.passwordvault.aspx">PasswordVault</a> that can be used identically to the
 <a href="http://developer.android.com/reference/java/security/KeyStore.html">KeyStore</a> and <a href="https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html">Keychain</a> libraries.  Here is the Universal Windows version of the same code in
@@ -1191,8 +1208,8 @@ really want to log out of Facebook when you log out of your app?</p>
 <h3 id="invalidating-the-token-on-the-mobile-backend">Invalidating the token on the mobile backend.<a class="headerlink" href="#invalidating-the-token-on-the-mobile-backend" title="Permanent link">&para;</a></h3>
 <p>Calling the <code>/.auth/logout</code> endpoint on the Azure App Service mobile backend will remove the entry
 on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted,
-will still authorize the user.  The refresh token is stored in the token store. The user submitting the 
-token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after 
+will still authorize the user.  The refresh token is stored in the token store. The user submitting the
+token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after
 it was created), the logout is complete.</p>
 <p>We need to do a HTTP client call for this purpose:</p>
 <pre><code class="csharp">// Invalidate the token on the mobile backend
