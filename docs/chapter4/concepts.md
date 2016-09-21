@@ -49,7 +49,7 @@ that can only access that data via an SMB interface.
 If you need to explore the data that you upload or download, you can use the [Azure Storage Explorer][1] as a standalone
 application or you can use the Cloud Explorer in [Visual Studio][2].
 
-## Creating and Linking a Storage Account
+## <a name="create-storage-acct"></a>Creating and Linking a Storage Account
 
 Before we can use storage, we need to set up a storage account and connect it to our environment.  This involves:
 
