@@ -393,12 +393,6 @@
             </li>
           
             <li class="anchor">
-              <a title="Creating and Linking a Storage Account" href="#creating-and-linking-a-storage-account">
-                Creating and Linking a Storage Account
-              </a>
-            </li>
-          
-            <li class="anchor">
               <a title="The Shared Access Signature (SAS)" href="#the-shared-access-signature-sas">
                 The Shared Access Signature (SAS)
               </a>
@@ -635,7 +629,7 @@ only be thinking of File Storage if you have other components of your system tha
 that can only access that data via an SMB interface.</p>
 <p>If you need to explore the data that you upload or download, you can use the <a href="https://azure.microsoft.com/documentation/articles/vs-azure-tools-storage-manage-with-storage-explorer/">Azure Storage Explorer</a> as a standalone
 application or you can use the Cloud Explorer in <a href="https://visualstudiogallery.msdn.microsoft.com/84e83a7c-9606-4f9f-83dd-0f6182f13add">Visual Studio</a>.</p>
-<h2 id="creating-and-linking-a-storage-account">Creating and Linking a Storage Account<a class="headerlink" href="#creating-and-linking-a-storage-account" title="Permanent link">&para;</a></h2>
+<h2 id="creating-and-linking-a-storage-account"><a name="create-storage-acct"></a>Creating and Linking a Storage Account<a class="headerlink" href="#creating-and-linking-a-storage-account" title="Permanent link">&para;</a></h2>
 <p>Before we can use storage, we need to set up a storage account and connect it to our environment.  This involves:</p>
 <ol>
 <li>Create a Resource Group</li>
@@ -744,7 +738,7 @@ provides an expiry time and the permissions being granted to the SAS.</p>
 <p>A SAS token <strong>ALWAYS</strong> expires.  There is no way to produce a permanent SAS token.  If you think you need one,
 think again.  In mobile development, you <strong>NEVER</strong> want a non-expiring token.</p>
 </div>
-<p>Accessing Azure Storage is always done with a specific [version of the REST API][5] and that follows through to the SDK.  You
+<p>Accessing Azure Storage is always done with a specific <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chapter4-start">version of the REST API</a> and that follows through to the SDK.  You
 should always request a SAS token for the appropriate API you are going to be using.   We'll cover the various
 methods of obtaining a SAS later in the chapter.</p>
 <h2 id="file-sync-with-azure-mobile-apps">File Sync with Azure Mobile Apps<a class="headerlink" href="#file-sync-with-azure-mobile-apps" title="Permanent link">&para;</a></h2>
@@ -770,7 +764,8 @@ Before you continue:</p>
 <li>Deploy the code from the Backend project for the [Chapter4 solution].</li>
 <li>Ensure that the Tasklist application runs for your platform.</li>
 </ul>
-<p>We will use this as a starting point for our investigations.</p>
+<p>We will use this as a starting point for our investigations.  You can download the starter project from the books
+<a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chapter4-start">GitHub repository</a>.</p>
 <!-- Links -->
           <aside class="copyright" role="note">
             
