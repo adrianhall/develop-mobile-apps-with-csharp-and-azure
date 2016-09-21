@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 
 namespace TaskList.Abstractions
@@ -14,5 +15,7 @@ namespace TaskList.Abstractions
         Task<MobileServiceUser> LoginAsync(MobileServiceClient client);
 
         Task LogoutAsync();
+
+        Task<Stream> GetUploadFile();
     }
 }

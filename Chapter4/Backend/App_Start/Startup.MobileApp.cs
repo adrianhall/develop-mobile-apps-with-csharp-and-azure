@@ -17,6 +17,7 @@ namespace Backend
 
             new MobileAppConfiguration()
                 .AddTablesWithEntityFramework()
+                .MapApiControllers()
                 .ApplyTo(config);
 
             config.MapHttpAttributeRoutes();

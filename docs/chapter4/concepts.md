@@ -194,7 +194,8 @@ Before you continue:
 * Deploy the code from the Backend project for the [Chapter4 solution].
 * Ensure that the Tasklist application runs for your platform.
 
-We will use this as a starting point for our investigations.
+We will use this as a starting point for our investigations.  You can download the starter project from the books
+[GitHub repository][5].
 
 
 <!-- Links -->
@@ -203,3 +204,4 @@ We will use this as a starting point for our investigations.
 [2]: https://visualstudiogallery.msdn.microsoft.com/84e83a7c-9606-4f9f-83dd-0f6182f13add
 [3]: https://azure.microsoft.com/en-us/documentation/articles/storage-use-emulator/
 [4]: https://msdn.microsoft.com/en-us/library/mt584140.aspx
+[5]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chapter4-start
