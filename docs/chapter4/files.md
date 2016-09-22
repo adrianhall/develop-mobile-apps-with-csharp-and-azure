@@ -168,12 +168,70 @@ mobile backend to be less efficient at scaling.  Your mobile backend will likely
 Azure Storage endpoint has provided either.  Azure Storage provides upload and download restarts and progress bar
 capabilities.
 
-Obtaining a reference to the file that you wish to upload is inevitably a per-platform API.  To support this, we need to
-add an interface for the API to the `Abstractions\IPlatform.cs` file:
+Obtaining a reference to the file that you wish to upload is a per-platform API.  Obtaining a reference to a photo or video
+involves interacting with platform-specific APIs to provide access to camera and built-in photo storage capabilities on the 
+phone. To support such a per-platform capability, we need to add an interface for the API to the `Abstractions\IPlatform.cs` file:
 
 ```csharp
-Task<String> GetUploadFile();
+Task<Stream> GetUploadFile();
 ```
+
+This API will interact with whatever photo sharing API is available on the device, open the requested file and return a standard
+`Stream` object.  Loading a media file is made much simpler using the cross-platform [Xamarin Media] plugin.  This plugin allows 
+the user to take photos or video, or pick  the media file from a gallery.  It's available on NuGet, so add the `Xam.Plugin.Media` 
+plugin to each of the platform-specific projects.
+
+The Xamarin Media plugin is used like this:
+
+```csharp
+await CrossMedia.Current.Initialize();
+
+var file = await CrossMedia.Current.PickPhotoAsync();
+var stream = file.GetStream();
+```
+
+There are methods within the plugin to determine if a camera is available.  Different platforms require different permissions:
+
+### Android
+
+Android requires the  `WRITE\_EXTERNAL\_STORAGE`, `READ\_EXTERNAL\_STORAGE` and `CAMERA` permissions. If the mobile device is
+running Android M or later, the plugin will automatically prompt the user for runtime permissions.  You can set these permissions 
+within Visual Studio:
+
+* Double-click the **Properties** node within the Android project.
+* Select **Android Manifest**.
+* In the **Required permissions** list, check the box next to the required permissions by double-clicking the permission.
+* Save the Properties (you may have to right-click on the TaskList.Droid tab and click on **Save Selected Items**).
+
+### iOS
+
+Apple iOS requires the **NSCameraUsageDescription** and **NSPhotoLibraryUsageDescription** keys.  The string provided will be 
+displayed to the user when they are prompted to provide permission.  You can set these keys within Visual Studio:
+
+* Right-click on the **Info.plist** file and select **Open with...**
+* Choose the **XML (Text) Editor** then click **OK**.
+* Within the `<dict>` node, add the following lines:
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>This app needs access to the camera to take photos.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app needs access to photos.</string>
+```
+
+* Save and close the file.
+
+You can choose whatever string you want to display to the user.  For more information on iOS 10 privacy permissions, review 
+the [Xamarin Blog][4].
+
+### Universal Windows
+
+Universal Windows may require the **Pictures Library** capability:
+
+* In the **TaskList.UWP (Universal Windows)** project, open **Package.appxmanifest**.
+* Select the **Capabilities** tab.
+* Check the box next to **Pictures Library**.
+* Save the manifest.
 
 ## Download a File from Blob Storage
 
@@ -183,3 +241,5 @@ Task<String> GetUploadFile();
 <!-- Links -->
 [1]: ./concepts.md#create-storage-account
 [2]: https://msdn.microsoft.com/library/azure/dd135715.aspx
+[3]: https://github.com/jamesmontemagno/MediaPlugin
+[4]: https://blog.xamarin.com/new-ios-10-privacy-permission-settings/

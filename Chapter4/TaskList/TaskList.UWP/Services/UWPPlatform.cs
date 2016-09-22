@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -109,6 +110,11 @@ namespace TaskList.UWP.Services
         public void StoreTokenInSecureStore(MobileServiceUser user)
         {
             PasswordVault.Add(new PasswordCredential(ServiceIdentifier, user.UserId, user.MobileServiceAuthenticationToken));
+        }
+
+        public async Task<Stream> GetUploadFile()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
