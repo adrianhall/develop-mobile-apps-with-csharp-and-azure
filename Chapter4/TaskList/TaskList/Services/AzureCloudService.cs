@@ -228,5 +228,12 @@ namespace TaskList.Services
             var expiry = epoch.AddSeconds(exp);
             return expiry < DateTime.UtcNow;
         }
+
+        public async Task<StorageTokenViewModel> GetSasTokenAsync()
+        {
+            var parameters = new Dictionary<string, string>();
+            var storageToken = await Client.InvokeApiAsync<StorageTokenViewModel>("GetStorageToken", HttpMethod.Get, parameters);
+            return storageToken;
+        }
     }
 }

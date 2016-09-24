@@ -16,6 +16,6 @@ namespace TaskList.Abstractions
 
         Task LogoutAsync();
 
-        Task<Stream> GetUploadFile();
+        Task<Stream> GetUploadFileAsync();
     }
 }

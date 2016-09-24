@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using Xamarin.Auth;
 using UIKit;
+using System.IO;
+using Plugin.Media;
 
 [assembly: Xamarin.Forms.Dependency(typeof(TaskList.iOS.Services.iOSPlatform))]
 namespace TaskList.iOS.Services
@@ -57,6 +59,11 @@ namespace TaskList.iOS.Services
         }
 
         #region IPlatform Interface
+        /// <summary>
+        /// Log the user in, returning the mobile services user
+        /// </summary>
+        /// <param name="client">The mobile service client</param>
+        /// <returns>The mobile service user record</returns>
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
             var accessToken = await LoginADALAsync();
@@ -121,6 +128,25 @@ namespace TaskList.iOS.Services
             var account = new Account(user.UserId);
             account.Properties.Add("token", user.MobileServiceAuthenticationToken);
             AccountStore.Save(account, ServiceIdentifier);
+        }
+
+        public async Task<Stream> GetUploadFileAsync()
+        {
+            var mediaPlugin = CrossMedia.Current;
+            var mainPage = Xamarin.Forms.Application.Current.MainPage;
+
+            await mediaPlugin.Initialize();
+
+            if (mediaPlugin.IsPickPhotoSupported)
+            {
+                var mediaFile = await mediaPlugin.PickPhotoAsync();
+                return mediaFile.GetStream();
+            }
+            else
+            {
+                await mainPage.DisplayAlert("Media Service Unavailable", "Cannot pick photo", "OK");
+                return null;
+            }
         }
         #endregion
     }

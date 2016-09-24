@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using Windows.Security.Credentials;
+using Plugin.Media;
 
 [assembly: Xamarin.Forms.Dependency(typeof(TaskList.UWP.Services.UWPPlatform))]
 namespace TaskList.UWP.Services
@@ -52,6 +53,11 @@ namespace TaskList.UWP.Services
         }
 
         #region IPlatform Interface
+        /// <summary>
+        /// Log the user in, returning the mobile services user
+        /// </summary>
+        /// <param name="client">The mobile service client</param>
+        /// <returns>The mobile service user record</returns>
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
             var accessToken = await LoginADALAsync();
@@ -60,6 +66,10 @@ namespace TaskList.UWP.Services
             return await client.LoginAsync("aad", zumoPayload);
         }
 
+        /// <summary>
+        /// Log the user out.
+        /// </summary>
+        /// <returns></returns>
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task LogoutAsync()
         {
@@ -67,6 +77,9 @@ namespace TaskList.UWP.Services
         }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
+        /// <summary>
+        /// Remove the user records from the secure store
+        /// </summary>
         public void RemoveTokenFromSecureStore()
         {
             try
@@ -83,6 +96,10 @@ namespace TaskList.UWP.Services
             }
         }
 
+        /// <summary>
+        /// Retrieve the user authentication token from the secure store
+        /// </summary>
+        /// <returns>The user record</returns>
         public MobileServiceUser RetrieveTokenFromSecureStore()
         {
             try
@@ -107,14 +124,36 @@ namespace TaskList.UWP.Services
             return null;
         }
 
+        /// <summary>
+        /// Store the MobileServiceUser authentication token into the secure store
+        /// </summary>
+        /// <param name="user">The user record</param>
         public void StoreTokenInSecureStore(MobileServiceUser user)
         {
             PasswordVault.Add(new PasswordCredential(ServiceIdentifier, user.UserId, user.MobileServiceAuthenticationToken));
         }
 
-        public async Task<Stream> GetUploadFile()
+        /// <summary>
+        /// Picks a photo for uploading
+        /// </summary>
+        /// <returns>A Stream for the photo</returns>
+        public async Task<Stream> GetUploadFileAsync()
         {
-            throw new NotImplementedException();
+            var mediaPlugin = CrossMedia.Current;
+            var mainPage = Xamarin.Forms.Application.Current.MainPage;
+
+            await mediaPlugin.Initialize();
+
+            if (mediaPlugin.IsPickPhotoSupported)
+            {
+                var mediaFile = await mediaPlugin.PickPhotoAsync();
+                return mediaFile.GetStream();
+            }
+            else
+            {
+                await mainPage.DisplayAlert("Media Service Unavailable", "Cannot pick photo", "OK");
+                return null;
+            }
         }
         #endregion
     }

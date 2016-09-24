@@ -12,6 +12,9 @@ namespace TaskList.Abstractions
         Task<AppServiceIdentity> GetIdentityAsync();
         Task SyncOfflineCacheAsync();
 
+        // Custom APIs
+        Task<StorageTokenViewModel> GetSasTokenAsync();
+
         // The TodoItem table
         Task<TodoItem> UpsertTaskAsync(TodoItem item);
         Task DeleteTaskAsync(TodoItem item);

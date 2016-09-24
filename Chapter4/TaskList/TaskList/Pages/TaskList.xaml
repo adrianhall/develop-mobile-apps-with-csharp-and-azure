@@ -11,9 +11,14 @@
                      Icon="refresh.png"
                      Order="Primary"
                      Priority="0" />
-        <ToolbarItem Name="Add"
+        <ToolbarItem Name="Add Task"
                      Command="{Binding AddNewItemCommand}"
                      Icon="add.png"
+                     Order="Primary"
+                     Priority="0" />
+        <ToolbarItem Name="Add File"
+                     Command="{Binding AddNewFileCommand}"
+                     Icon="addfile.png"
                      Order="Primary"
                      Priority="0" />
     </ContentPage.ToolbarItems>
@@ -30,6 +35,11 @@
                                IsRunning="{Binding IsBusy}"
                                IsVisible="{Binding IsBusy}"
                                VerticalOptions="Start" />
+            <ProgressBar x:Name="fileUploadProgress"
+                         HeightRequest="3"
+                         HorizontalOptions="FillAndExpand"
+                         IsVisible="{Binding IsUploadingFile}"
+                         Progress="{Binding FileProgress}" />
             <ListView CachingStrategy="RecycleElement"
                       IsPullToRefreshEnabled="True"
                       IsRefreshing="{Binding IsBusy,

@@ -3,7 +3,9 @@ using Android.Content;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
+using Plugin.Media;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskList.Abstractions;
@@ -46,7 +48,7 @@ namespace TaskList.Droid.Services
         private async Task<string> LoginADALAsync()
         {
             var authContext = new AuthenticationContext(Locations.AadAuthority);
-            if (authContext.TokenCache.ReadItems().Count() > 0)
+            if (authContext.TokenCache.ReadItems().Any())
             {
                 authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
             }
@@ -128,6 +130,29 @@ namespace TaskList.Droid.Services
             var account = new Account(user.UserId);
             account.Properties.Add("token", user.MobileServiceAuthenticationToken);
             AccountStore.Save(account, ServiceIdentifier);
+        }
+
+        /// <summary>
+        /// Picks a photo for uploading
+        /// </summary>
+        /// <returns>A Stream for the photo</returns>
+        public async Task<Stream> GetUploadFileAsync()
+        {
+            var mediaPlugin = CrossMedia.Current;
+            var mainPage = Xamarin.Forms.Application.Current.MainPage;
+
+            await mediaPlugin.Initialize();
+
+            if (mediaPlugin.IsPickPhotoSupported)
+            {
+                var mediaFile = await mediaPlugin.PickPhotoAsync();
+                return mediaFile.GetStream();
+            }
+            else
+            {
+                await mainPage.DisplayAlert("Media Service Unavailable", "Cannot pick photo", "OK");
+                return null;
+            }
         }
         #endregion
     }
