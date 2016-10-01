@@ -76,6 +76,10 @@
       <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Entity.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Entity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.Server.Files, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Files.1.0.0-beta-2\lib\net45\Microsoft.Azure.Mobile.Server.Files.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Server.Home, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Home.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Home.dll</HintPath>
       <Private>True</Private>
@@ -204,6 +208,7 @@
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\GetStorageTokenController.cs" />
     <Compile Include="Controllers\TodoItemController.cs" />
+    <Compile Include="Controllers\TodoItemStorageController.cs" />
     <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="Extensions\TodoItemExtensions.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
