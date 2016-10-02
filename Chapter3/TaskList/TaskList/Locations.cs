@@ -6,7 +6,7 @@
 
         public static readonly string AlternateLoginHost = null;
 
-        public static readonly string AadClientId = "9ad80bbd-2f07-442e-841d-b8d6a47927eb";
+        public static readonly string AadClientId = "ea2eb134-80ee-4f5f-b1bd-26d68ce19d08";
 
         public static readonly string AadRedirectUri = $"{AppServiceUrl}/.auth/login/done";
 

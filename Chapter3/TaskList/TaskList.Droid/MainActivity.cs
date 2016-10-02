@@ -17,6 +17,8 @@ namespace TaskList.Droid
         {
             base.OnCreate(bundle);
 
+            SQLitePCL.Batteries.Init();
+
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
             global::Xamarin.Forms.Forms.Init(this, bundle);

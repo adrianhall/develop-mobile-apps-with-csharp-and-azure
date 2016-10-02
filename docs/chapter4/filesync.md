@@ -1,5 +1,9 @@
 # File Sync with Azure Mobile Apps
 
+!!! warn "Section In Progress"
+    This section is a work in progress.  It is not complete and may contain errors.  Do not
+    rely on the information in this section.
+
 There are a couple of issues that the file management presented in the last section doesn't
 handle.  The first issue is associated metadata.  If you are producing a picture album app, for
 example, you will want to know what album the picture is in, how you have tagged the picture
