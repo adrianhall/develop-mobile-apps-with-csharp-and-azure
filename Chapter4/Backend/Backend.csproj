@@ -207,8 +207,11 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\GetStorageTokenController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
+    <Compile Include="Controllers\TagStorageController.cs" />
     <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="Controllers\TodoItemStorageController.cs" />
+    <Compile Include="DataObjects\Tag.cs" />
     <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="Extensions\TodoItemExtensions.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />

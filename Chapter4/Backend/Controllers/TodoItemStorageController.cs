@@ -13,16 +13,16 @@ namespace Backend.Controllers
     {
         [HttpPost]
         [Route("tables/TodoItem/{id}/StorageToken")]
-        public async Task<HttpResponseMessage> StorageToken(string id, StorageTokenRequest value)
+        public async Task<HttpResponseMessage> StorageTokenAsync(string id, StorageTokenRequest value)
             => Request.CreateResponse(await GetStorageTokenAsync(id, value));
 
         [HttpGet]
         [Route("tables/TodoItem/{id}/MobileServiceFiles")]
-        public async Task<HttpResponseMessage> GetFiles(string id)
+        public async Task<HttpResponseMessage> GetFilesAsync(string id)
             => Request.CreateResponse(await GetRecordFilesAsync(id));
 
         [HttpDelete]
         [Route("tables/TodoItem/{id}/MobileServiceFiles/{name}")]
-        public Task Delete(string id, string name) => base.DeleteFileAsync(id, name);
+        public Task DeleteAsync(string id, string name) => base.DeleteFileAsync(id, name);
     }
 }

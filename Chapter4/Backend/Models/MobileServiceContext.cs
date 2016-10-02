@@ -16,6 +16,7 @@ namespace Backend.Models
         }
 
         public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
