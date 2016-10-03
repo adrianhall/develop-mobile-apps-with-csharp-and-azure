@@ -416,6 +416,12 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="Handling Authorization in File Sync" href="#handling-authorization-in-file-sync">
+                Handling Authorization in File Sync
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -575,8 +581,160 @@
         <div class="wrapper">
           
           <h1 id="file-sync-with-azure-mobile-apps">File Sync with Azure Mobile Apps<a class="headerlink" href="#file-sync-with-azure-mobile-apps" title="Permanent link">&para;</a></h1>
+<div class="admonition warn">
+<p class="admonition-title">Section In Progress</p>
+<p>This section is a work in progress.  It is not complete and may contain errors.  Do not
+rely on the information in this section.</p>
+</div>
+<p>There are a couple of issues that the file management presented in the last section doesn't
+handle.  The first issue is associated metadata.  If you are producing a picture album app, for
+example, you will want to know what album the picture is in, how you have tagged the picture
+and so on.  This associated metadata can be held in a table.  You do not have a direct
+association between the file that has been uploaded and the metadata about the picture.
+The second issue is offline sync.  The files are always retrieved from the server no matter
+how many times you request them.  File-level caching is easy to implement but requires you
+to maintain the list of files separately.  That brings us back to the associated metadata.</p>
+<p>Azure Mobile Apps has a feature in the .NET library called <em>File Sync</em>.  Files are associated
+with database records and synced alongside those database records.  The associated files can
+be stored in anything (I recommend Azure Blob Storage, just like before) in any format and
+any directory structure that you deem appropriate.  We will be producing a SAS token for
+each file as it is synced.</p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>File Sync is in <strong>PREVIEW</strong> at this time and is available only for the .NET SDK.  You
+can follow the development at <a href="https://github.com/Azure/azure-mobile-apps-net-files-client">the GitHub repository</a> for the SDK.  I used the <a href="http://www.nuget.org/packages/Microsoft.Azure.Mobile.Client.Files/1.0.0-beta-2">v1.0.0 beta-2</a>
+release of the Files SDK for this chapter.</p>
+</div>
+<p>Because Azure Mobile Apps File Sync support is in preview, there may be changes between the
+release noted here and the final release.  There may also be bugs in the software.</p>
+<p>Developing a File Sync solution is in two parts: a backend portion that generates the necessary
+SAS tokens.  Most of the development is done on the mobile client side.  I am going to assume
+that you have <a href="../concepts/#create-storage-acct">connected an Azure Storage account</a> to your mobile backend during this walkthrough.</p>
 <h2 id="configuring-the-mobile-backend">Configuring the Mobile Backend<a class="headerlink" href="#configuring-the-mobile-backend" title="Permanent link">&para;</a></h2>
+<p>File Sync requires three additional HTTP endpoints.  The endpoints are all based on the record that the
+files are associated with.  This is represented by the HTTP endpoint <code>/tables/{table}/{id}</code>, where <code>{table}</code>
+is the name of the table and <code>{id}</code> is the Id field for the record.</p>
+<ul>
+<li><strong>POST /tables/{table}/{id}/StorageToken</strong></li>
+</ul>
+<p>When uploading a new file during file sync operations, we need to get a Storage Token to access
+  that file.  This endpoint is called to generate the file.  It will look remarkably similar to the
+  StorageToken endpoint we developed in the [last section].</p>
+<ul>
+<li><strong>GET /tables/{table}/{id}/MobileServiceFiles</strong></li>
+</ul>
+<p>We need to obtain a list of files to synchronize during the file sync process.</p>
+<ul>
+<li><strong>DELETE /tables/{table}/{id}/MobileServiceFiles/{filename}</strong></li>
+</ul>
+<p>When we delete a file from the cache on the mobile client, this endpoint is called to remove the file on the
+  server during the sync operation.</p>
+<p>When file are synchronized, the entire file is uploaded or downloaded directly to Azure Storage.  The
+Azure Mobile Apps Files SDK for the server has default versions of these routines.  To implement them:</p>
+<ol>
+<li>
+<p>Add the <strong>Microsoft.Azure.Mobile.Server.Files</strong> NuGet package to your backend project.  You will need
+   to use the <em>Include prerelease</em> checkbox to find this package as it is still in preview.</p>
+</li>
+<li>
+<p>Ensure that your <code>Startup.MobileApp.cs</code> contains the <code>MapHttpAttributeRoutes()</code> step:</p>
+<p>```csharp
+public static void ConfigureMobileApp(IAppBuilder app)
+{
+    var config = new HttpConfiguration();</p>
+<pre><code>// Register the StorageController routes
+config.MapHttpAttributeRoutes();
+
+new MobileAppConfiguration()
+    .UseDefaultConfiguration()
+    .ApplyTo(config);
+</code></pre>
+<p>```</p>
+</li>
+<li>
+<p>Add a <code>StorageController</code> for each <code>TableController</code> that you use.</p>
+<p>```csharp
+[MobileAppController]
+public class TodoItemStorageController : StorageController<TodoItem>
+{
+    [HttpPost]
+    [Route("tables/TodoItem/{id}/StorageToken")]
+    public async Task<HttpResponseMessage> StorageTokenAsync(string id, StorageTokenRequest value)
+        =&gt; Request.CreateResponse(await GetStorageTokenAsync(id, value));</p>
+<pre><code>[HttpGet]
+[Route("tables/TodoItem/{id}/MobileServiceFiles")]
+public async Task&lt;HttpResponseMessage&gt; GetFilesAsync(string id)
+    =&gt; Request.CreateResponse(await GetRecordFilesAsync(id));
+
+[HttpDelete]
+[Route("tables/TodoItem/{id}/MobileServiceFiles/{name}")]
+public Task DeleteAsync(string id, string name) =&gt; base.DeleteFileAsync(id, name);
+</code></pre>
+<p>}
+```</p>
+</li>
+</ol>
+<p>You must add a <code>StorageController</code> for each <code>TableController</code> that you are using.  The File Sync
+process can provide sync capabilities for any file controller and it will attempt to sync any
+associated files when used with the default settings.</p>
+<p>Just as with the <code>TableController</code>, we can adjust the requests to handle per-user authorization.
+The default version of <code>StorageController</code> does the same amount of authorization as the default
+version of the <code>TableController</code> - none at all.  Our <code>TodoItemController</code> implements per-user
+authorization.  We may want to model that in the storage controller as well.</p>
+<p>Checking for a valid authorization token is the same.  Add an <code>[Authorize]</code> attribute to the
+class or individual endpoints.</p>
 <h2 id="developing-the-mobile-client">Developing the Mobile Client<a class="headerlink" href="#developing-the-mobile-client" title="Permanent link">&para;</a></h2>
+<h2 id="handling-authorization-in-file-sync">Handling Authorization in File Sync<a class="headerlink" href="#handling-authorization-in-file-sync" title="Permanent link">&para;</a></h2>
+<p>When we looked at the <a href="../../chapter3/projection/">data sync capabilities</a>, we used the concepts of filters and transforms to
+ensure that a user could only see and change the data for which they had permissions.  Similar concepts
+can be applied to the file sync capabilities as well.  There are three HTTP endpoints to concern
+ourselves with:</p>
+<ul>
+<li>
+<p>The <code>POST</code> endpoint (for obtaining a SAS token) should only produce an appropriate token based on
+  the permissions structure.  If the user does not have the permissions for the requested file
+  operations, a <strong>403 Forbidden</strong> response should be returned.</p>
+</li>
+<li>
+<p>The <code>GET</code> endpoint (for obtaining a list of files) should only produce a list of files if the user
+  is allowed to see the files.  If the user cannot see the associated database record, then a <strong>404 Not Found</strong>
+  response should be returned.  If the user can see the records but is not allowed to view the files,
+  an empty set should be returned.</p>
+</li>
+<li>
+<p>The <code>DELETE</code> endpoint (for deleting a file) should only delete the file if the user is allowed to
+  delete files.  If the user does not have permission to delete files, a <strong>403 Forbidden</strong> should be
+  returned.</p>
+</li>
+</ul>
+<p>We can use these rules to produce a constrained storage table controller.  For example, the following
+code could be used for a table that did not allow file sync:</p>
+<pre><code class="csharp">    [MobileAppController]
+    public class TagStorageController : StorageController&lt;Tag&gt;
+    {
+        [HttpPost]
+        [Route(&quot;tables/TodoItem/{id}/StorageToken&quot;)]
+        public HttpResponseMessage StorageToken(string id, StorageTokenRequest value)
+        {
+            throw new HttpResponseException(HttpStatusCode.Forbidden);
+        }
+
+        [HttpGet]
+        [Route(&quot;tables/TodoItem/{id}/MobileServiceFiles&quot;)]
+        public HttpResponseMessage GetFiles(string id)
+            =&gt; Request.CreateResponse(new List&lt;MobileServiceFile&gt;());
+
+        [HttpDelete]
+        [Route(&quot;tables/TodoItem/{id}/MobileServiceFiles/{name}&quot;)]
+        public Task DeleteAsync(string id, string name)
+        {
+            throw new HttpResponseException(HttpStatusCode.Forbidden);
+        }
+    }
+</code></pre>
+
+<p>Since every single table controller needs an associated storage controller, you can use this pattern for the
+storage controllers that should not support file sync.</p>
 <!-- Images -->
 
 <!-- Links -->

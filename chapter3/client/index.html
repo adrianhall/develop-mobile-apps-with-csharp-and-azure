@@ -969,10 +969,10 @@ to provide offline, which takes up memory.  It may result in large data transfer
 cases of the first sync operation and rapidly changing tables).  Finally, there is more complexity.  We
 have to deal with the offline table maintenance and conflict resolution patterns.</p>
 <div class="admonition important">
-<p class="admonition-title">Install SQLite for Universal Windows</p>
-<p>Before you get started with this section, install SQLite for Universal Windows from the <strong>Extensions and Updates</strong>
-in Visual Studio.  Android and iOS do not need a SQLite package (it is integrated into the platform).  However,
-SQLite is not natively provided on the Universal Windows platform.</p>
+<p class="admonition-title">Azure Mobile Apps v3.0</p>
+<p>Azure Mobile Apps introduced a breaking change in how SQLite was used in v3.0 of the Client SDK.  This
+book covers the v3.0 release of Azure Mobile Apps.  Earlier versions required the installation of SQLite
+for Universal Windows and slightly different initialization semantics.</p>
 </div>
 <p>There are three stages to using an offline client:</p>
 <ol>
@@ -990,18 +990,17 @@ into a single update when transmitted to the mobile backend.</p>
 Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the
 database is deceptively simple.  Install the <code>Mirosoft.Azure.Mobile.Client.SQLiteStore</code> package to all the
 client projects.</p>
-<div class="admonition warn">
-<p class="admonition-title">SQLitePCL and Android N</p>
-<p>The SQLiteStore package relies on another package for implementing a SQLite portable class library called
-<code>SQLitePCL</code>.  This package is not compatible with Android "N" at this time.  An update to the SQLiteStore
-is being developed to change the dependent package to one that is compatible.</p>
-</div>
 <p>To use offline capabilities, you must add initialization code to the platform dependent code.  This varies
-by platform.  For iOS, edit the <code>AppDelegate.cs</code> file:</p>
+by platform, but occurs in the primary startup file.</p>
+<ul>
+<li>For iOS, edit the <code>AppDelegate.cs</code> file.</li>
+<li>For Android, edit the <code>MainActivity.cs</code> file.</li>
+<li>For Universal Windows, edit the <code>App.xaml.cs</code> file.</li>
+</ul>
 <pre><code class="csharp">public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 {
     // Initialize SQLitePCL
-    SQLitePCL.CurrentPlatform.Init();
+    SQLitePCL.Batteries.Init();
 
     // Initialize Azure Mobile Apps
     Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
@@ -1016,28 +1015,58 @@ by platform.  For iOS, edit the <code>AppDelegate.cs</code> file:</p>
 }
 </code></pre>
 
-<p>The ordering is particular here.  SQLitePCL must be initialized before the Azure Mobile Apps SDK, and both
-must occur before Xamarin.Forms initialization.  For Android, the <code>MainActivity.cs</code> file must be updated:</p>
-<pre><code class="csharp">public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-{
-    // Initialize SQLitePCL
-    SQLitePCL.CurrentPlatform.Init();
+<p>The ordering is particularly important here.  SQLitePCL must be initialized before the Azure Mobile Apps SDK, and both
+must occur before Xamarin.Forms initialization.</p>
+<p>The Universal Windows initializer is different:</p>
+<pre><code class="csharp">        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        {
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                this.DebugSettings.EnableFrameRateCounter = true;
+            }
+#endif
 
-    // Initialize Azure Mobile Apps
-    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            Frame rootFrame = Window.Current.Content as Frame;
 
-    // Initialize Xamarin Forms
-    global::Xamarin.Forms.Forms.Init();
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
 
-    // Load the application
-    LoadApplication(new App());
+                rootFrame.NavigationFailed += OnNavigationFailed;
 
-    return base.FinishedLaunching(app, options);
-}
+                // Initialize SQLitePCL
+                SQLitePCL.Batteries.Init();
+
+                Xamarin.Forms.Forms.Init(e);
+
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            if (rootFrame.Content == null)
+            {
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+            }
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
 </code></pre>
 
-<p>Note that the same two lines are needed and in the same order.  Failure to add these lines will result
-in exceptions when initializing the SQLite store.  The error that is produced is fairly cryptic.</p>
+<p>The concept is the same.  Azure Mobile Apps does not require initialization on Universal Windows platforms, so that call
+is not needed.  However, SQLitePCL needs to be initialized prior to Xamarin Forms.</p>
+<p>Failure to add these lines will result in exceptions when initializing the SQLite store.  The error that is produced is fairly cryptic.</p>
 <pre><code class="text">A SQLite Wrapper assmebly for the current platform was not found.  Ensure that the current project
 references both SQLitePCL and the following platform-specific assembly: SQLitePCL.Ext.
 </code></pre>
@@ -1055,7 +1084,7 @@ Windows project as the SQLite installation is different.</p>
             return;
 
         // Create a reference to the local sqlite store
-        var store = new MobileServiceSQLiteStore(&quot;tasklist.db&quot;);
+        var store = new MobileServiceSQLiteStore(PlatformProvider.GetSyncStore());
 
         // Define the database schema
         store.DefineTable&lt;TodoItem&gt;();
@@ -1066,8 +1095,35 @@ Windows project as the SQLite installation is different.</p>
     #endregion
 </code></pre>
 
-<p>We also need to ensure the initialization is carried out before we use the local database. We do that by adjusting
-the <code>GetTable&lt;&gt;</code> method:</p>
+<p>SQLitePCL doesn't know where to put the local files on the platform.  As a result, you will need to create a
+platform-specific routine to return the path for the sync store.  This is easily achieved on most platforms.
+Just return the name of the database:</p>
+<pre><code class="csharp">    public string GetSyncStore()
+    {
+        return &quot;syncstore.db&quot;;
+    }
+</code></pre>
+
+<p>However, Android has a little more work to do:</p>
+<pre><code class="csharp">    public string GetSyncStore()
+    {
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), &quot;syncstore.db&quot;);
+
+        if (!File.Exists(path))
+        {
+            File.Create(path).Dispose();
+        }
+
+        return path;
+    }
+</code></pre>
+
+<p>This code goes in the platform provider for the platform.  You will also need to add the <code>GetSyncStore()</code> definition
+to the <code>Abstractions\IPlatform.cs</code> file.  The Azure Mobile Apps Client SDK also does not support lower Android SDK
+versions.  Right-click on the <strong>TaskList.Droid</strong> project and ensure the <strong>Minimum Android version to target</strong> is set
+to a minimum of API level 19.</p>
+<p>We need to ensure the initialization is carried out before we use the local database. The best place to do this is
+in the <code>GetTable&lt;&gt;</code> method:</p>
 <pre><code class="csharp">    /// &lt;summary&gt;
     /// Returns a link to the specific table.
     /// &lt;/summary&gt;
@@ -1156,7 +1212,7 @@ await CloudService.SyncOfflineCacheAsync();
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>The offline sync cache automatically handles paging of results during the transfer for you so you never have to worry
-about it.  By default, it orders the transfers by the <code>CreatedAt</code> field, which is theoretically linear.</p>
+about it.</p>
 </div>
 <h3 id="additional-steps-on-universal-windows">Additional Steps on Universal Windows<a class="headerlink" href="#additional-steps-on-universal-windows" title="Permanent link">&para;</a></h3>
 <p>If you are compiling the Universal Windows (UWP) project, there is an extra step.  You must Add a reference for SQLite
@@ -1375,12 +1431,12 @@ This is a dedicated area that each Universal Windows app has access to for anyth
 and cache files.  To find the location of the file, open the <strong>TaskList.UWP</strong> project and open the <strong>Package.appxmanifest</strong>
 file.  Go to the <strong>Packaging</strong> tab.</p>
 <p><img alt="" src="../img/appxmanifest-packageid.PNG" /></p>
-<p>Note the long <strong>Package family name</strong> field.  Your backing file is in your home directory under <code>AppData\Local\Packages\_family\_name_\LocalState</code>.
+<p>Note the long <strong>Package family name</strong> field.  Your backing file is in your home directory under <code>AppData\Local\Packages\{family_name}\LocalState</code>.
 You specified the name of the file when you created the store.</p>
 <p>You need to find the <strong>Package Name</strong> for Android.  Right-click on the <strong>TaskList.Droid</strong> project and select <strong>Properties</strong>,
 then select the <strong>Android Manifest</strong> tab.</p>
 <p><img alt="" src="../img/droid-manifest-packagename.PNG" /></p>
-<p>The database will be located in <code>/data/data/_package\_name_/files</code> directory on the emulator.  Google has provided utilities
+<p>The database will be located in <code>/data/data/{package_name}/files</code> directory on the emulator.  Google has provided utilities
 for handling developer connections to devices (including emulators).  In this case, we can use the <code>adb</code> utility.  First, start
 your emulator of choice through the <strong>Tools</strong> -&gt; <strong>Visual Studio Emulator for Android</strong> menu option.  Click on the <strong>Play</strong>
 button next to the emulator that you have been using.  Ensure the emulator is fully started before continuing.  The <code>adb</code> utility
@@ -1403,7 +1459,7 @@ Studio will have already set up the connection for you.  Use <code>adb devices</
 </div>
 <p>This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around.   You can remove
 the entire private data area for your package using the following:</p>
-<pre><code class="bash">**root@donatello:/#** cd /data/data/_package\_name_
+<pre><code class="bash">**root@donatello:/#** cd /data/data/Tasklist.Droid.TaskList.Droid
 **root@donatollo:/#** find . -name tasklist.db -print | xargs rm
 </code></pre>
 
