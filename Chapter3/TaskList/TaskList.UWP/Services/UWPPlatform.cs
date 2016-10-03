@@ -72,7 +72,6 @@ namespace TaskList.UWP.Services
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
             var user = await client.LoginAsync("aad");
-            Debug.WriteLine($"PlatformProvider: ZUMO User = {user.UserId}, token = {user.MobileServiceAuthenticationToken}");
             return user;
         }
 
@@ -81,6 +80,11 @@ namespace TaskList.UWP.Services
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             // Do nothing
+        }
+
+        public string GetSyncStore()
+        {
+            return "syncstore.db";
         }
         #endregion
     }

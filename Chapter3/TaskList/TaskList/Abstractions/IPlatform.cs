@@ -11,5 +11,7 @@ namespace TaskList.Abstractions
 
         Task<MobileServiceUser> LoginAsync(MobileServiceClient client);
         Task LogoutAsync();
+
+        string GetSyncStore();
     }
 }

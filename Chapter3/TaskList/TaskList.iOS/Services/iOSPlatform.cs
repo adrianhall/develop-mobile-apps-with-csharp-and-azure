@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Abstractions;
 using TaskList.iOS.Services;
@@ -10,7 +11,7 @@ namespace TaskList.iOS.Services
 {
     public class iOSPlatform : IPlatform
     {
-        const string ServiceIdentifier = "chapter3-tasklist";
+        private const string ServiceIdentifier = "chapter3-tasklist";
 
         public UIViewController RootView => UIApplication.SharedApplication.KeyWindow.RootViewController;
 
@@ -71,6 +72,11 @@ namespace TaskList.iOS.Services
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             // Do nothing
+        }
+
+        public string GetSyncStore()
+        {
+            return "syncstore.db";
         }
     }
 }

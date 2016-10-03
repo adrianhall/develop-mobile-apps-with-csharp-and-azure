@@ -20,17 +20,17 @@ namespace TaskList.Services
         /// <summary>
         /// The Client reference to the Azure Mobile App
         /// </summary>
-        MobileServiceClient Client { get; set; }
+        private MobileServiceClient Client { get; set; }
 
         /// <summary>
         /// The cache for the App Service Identity
         /// </summary>
-        List<AppServiceIdentity> Identities { get; set; }
+        private List<AppServiceIdentity> Identities { get; set; }
 
         /// <summary>
         /// Reference to the platform-specific code
         /// </summary>
-        IPlatform PlatformProvider { get; set; }
+        private IPlatform PlatformProvider { get; set; }
 
         /// <summary>
         /// Constructor: Create a new Cloud Service connection.
@@ -54,7 +54,7 @@ namespace TaskList.Services
         }
 
         #region Offline Sync
-        async Task InitializeAsync()
+        private async Task InitializeAsync()
         {
             // Short circuit - local database is already initialized
             if (Client.SyncContext.IsInitialized)
@@ -65,7 +65,7 @@ namespace TaskList.Services
 
             // Create a reference to the local sqlite store
             Debug.WriteLine("InitializeAsync: Initializing store");
-            var store = new MobileServiceSQLiteStore("tasklist.db");
+            var store = new MobileServiceSQLiteStore(PlatformProvider.GetSyncStore());
 
             // Define the database schema
             Debug.WriteLine("InitializeAsync: Defining Datastore");
@@ -104,7 +104,7 @@ namespace TaskList.Services
         /// </summary>
         /// <param name="token">The token to check</param>
         /// <returns>true if the token is expired</returns>
-        bool IsTokenExpired(string token)
+        private bool IsTokenExpired(string token)
         {
             // Get just the JWT part of the token (without the signature).
             var jwt = token.Split(new Char[] { '.' })[1];
@@ -133,7 +133,7 @@ namespace TaskList.Services
             // base date of 1/1/1970.
             DateTime minTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             var expire = minTime.AddSeconds(exp);
-            return (expire < DateTime.UtcNow);
+            return expire < DateTime.UtcNow;
         }
 
         #region ICloudService Interface
@@ -232,7 +232,7 @@ namespace TaskList.Services
             {
                 PlatformProvider.RemoveTokenFromSecureStore();
                 Debug.WriteLine($"Updating User Failed: {ex.Message}");
-                throw ex;
+                throw;
             }
             return Client.CurrentUser;
         }

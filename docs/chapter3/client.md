@@ -548,7 +548,7 @@ In the `Services\AzureCloudService.cs` file, add the following method:
             return;
 
         // Create a reference to the local sqlite store
-        var store = new MobileServiceSQLiteStore("tasklist.db");
+        var store = new MobileServiceSQLiteStore(PlatformProvider.GetSyncStore());
 
         // Define the database schema
         store.DefineTable<TodoItem>();
@@ -559,8 +559,40 @@ In the `Services\AzureCloudService.cs` file, add the following method:
     #endregion
 ```
 
-We also need to ensure the initialization is carried out before we use the local database. We do that by adjusting
-the `GetTable<>` method:
+SQLitePCL doesn't know where to put the local files on the platform.  As a result, you will need to create a
+platform-specific routine to return the path for the sync store.  This is easily achieved on most platforms.
+Just return the name of the database:
+
+```csharp
+    public string GetSyncStore()
+    {
+        return "syncstore.db";
+    }
+```
+
+However, Android has a little more work to do:
+
+```csharp
+    public string GetSyncStore()
+    {
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "syncstore.db");
+
+        if (!File.Exists(path))
+        {
+            File.Create(path).Dispose();
+        }
+
+        return path;
+    }
+```
+
+This code goes in the platform provider for the platform.  You will also need to add the `GetSyncStore()` definition
+to the `Abstractions\IPlatform.cs` file.  The Azure Mobile Apps Client SDK also does not support lower Android SDK
+versions.  Right-click on the **TaskList.Droid** project and ensure the **Minimum Android version to target** is set
+to a minimum of API level 19.
+
+We need to ensure the initialization is carried out before we use the local database. The best place to do this is
+in the `GetTable<>` method:
 
 ```csharp
     /// <summary>
