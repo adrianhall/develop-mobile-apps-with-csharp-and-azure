@@ -20,6 +20,7 @@ namespace TaskList.ViewModels
 
             SaveCommand = new Command(async () => await SaveAsync());
             DeleteCommand = new Command(async () => await DeleteAsync());
+            AddNewFileCommand = new Command(async () => await AddNewFileAsync());
         }
 
         /// <summary>
@@ -37,6 +38,16 @@ namespace TaskList.ViewModels
         #endregion
 
         #region Commands
+        /// <summary>
+        /// Bindable property for the AddNewItem Command
+        /// </summary>
+        public Command AddNewFileCommand { get; }
+
+        private async Task AddNewFileAsync()
+        {
+            await Application.Current.MainPage.DisplayAlert("Not Implemented", "This functionality is not implemented", "OK");
+        }
+
         /// <summary>
         /// Bindable Property for the Save Command
         /// </summary>

@@ -1,11 +1,13 @@
 ﻿{
   "dependencies": {
     "Microsoft.Azure.Mobile.Client": "3.0.1",
+    "Microsoft.Azure.Mobile.Client.Files": "1.0.0-beta-2",
     "Microsoft.Azure.Mobile.Client.SQLiteStore": "3.0.1",
     "Microsoft.IdentityModel.Clients.ActiveDirectory": "3.13.5",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Newtonsoft.Json": "9.0.1",
     "Validation": "2.3.7",
+    "Xam.Plugin.Connectivity": "2.3.0-beta4",
     "Xam.Plugin.Media": "2.3.0",
     "Xamarin.Forms": "2.3.2.127"
   },

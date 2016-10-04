@@ -3,6 +3,14 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="Add File"
+                     Command="{Binding AddNewFileCommand}"
+                     Icon="addfile.png"
+                     Order="Primary"
+                     Priority="0" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <StackLayout Padding="10" Spacing="10">
             <Entry Placeholder="What should I be doing?"

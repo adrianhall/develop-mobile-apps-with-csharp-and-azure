@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.Files;
+using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
+using Microsoft.WindowsAzure.MobileServices.Sync;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
-using Microsoft.WindowsAzure.MobileServices.Sync;
-using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using TaskList.Helpers;
 using TaskList.Models;
@@ -64,7 +65,15 @@ namespace TaskList.Services
 
             var store = new MobileServiceSQLiteStore(PlatformProvider.GetSyncStorePath());
             store.DefineTable<TodoItem>();
-            await Client.SyncContext.InitializeAsync(store);
+
+            // Initialize the File Sync Service
+            Client.InitializeFileSyncContext(new FileSyncHandler(this), store);
+
+            await Client.SyncContext.InitializeAsync(
+                store,                              // The store to initalize
+                new MobileServiceSyncHandler(),     // The table sync handler
+                StoreTrackingOptions.NotifyLocalAndServerOperations
+            );
 
             TaskTable = Client.GetSyncTable<TodoItem>();
         }
@@ -183,12 +192,19 @@ namespace TaskList.Services
         {
             await InitializeAsync();
 
+            // If we are not logged in, then log in.
             if (Client.CurrentUser == null || Client.CurrentUser?.MobileServiceAuthenticationToken == null)
             {
                 await LoginAsync();
             }
 
+            // Push out waiting database requests
             await Client.SyncContext.PushAsync();
+
+            // If we are on a non-cellular link, push file changes
+            await TaskTable.PushFileChangesAsync();
+
+            // Do an incremental sync
             await TaskTable.PullAsync("incsync_TodoItem", TaskTable.CreateQuery());
         }
 

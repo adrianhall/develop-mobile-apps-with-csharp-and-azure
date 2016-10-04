@@ -29,8 +29,12 @@ namespace TaskList.Droid
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Id.agentWebView = global::TaskList.Droid.Resource.Id.agentWebView;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Layout.WebAuthenticationBroker = global::TaskList.Droid.Resource.Layout.WebAuthenticationBroker;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
+			global::Microsoft.WindowsAzure.Mobile.Files.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
+			global::Microsoft.WindowsAzure.Mobile.Files.Resource.String.Hello = global::TaskList.Droid.Resource.String.Hello;
 			global::PCLCrypto.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.Hello = global::TaskList.Droid.Resource.String.Hello;
+			global::PCLStorage.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::TaskList.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::TaskList.Droid.Resource.Attribute.actionBarSize;
 		}
 		

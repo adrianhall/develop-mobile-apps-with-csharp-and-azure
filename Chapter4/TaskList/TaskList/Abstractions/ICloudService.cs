@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Models;
 
 namespace TaskList.Abstractions
