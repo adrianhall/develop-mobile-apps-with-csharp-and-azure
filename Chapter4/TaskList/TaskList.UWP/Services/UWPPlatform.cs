@@ -155,6 +155,16 @@ namespace TaskList.UWP.Services
                 return null;
             }
         }
+
+        /// <summary>
+        /// Obtains the platform-specific path for the sync-store database.
+        /// </summary>
+        /// <returns>Path to the syncstore on the local device</returns>
+        public string GetSyncStorePath()
+        {
+            var dbName = $"{ServiceIdentifier}.db";
+            return dbName;
+        }
         #endregion
     }
 }

@@ -6,6 +6,8 @@ namespace TaskList.Abstractions
 {
     public interface IPlatform
     {
+        string GetSyncStorePath();
+
         MobileServiceUser RetrieveTokenFromSecureStore();
 
         void StoreTokenInSecureStore(MobileServiceUser user);

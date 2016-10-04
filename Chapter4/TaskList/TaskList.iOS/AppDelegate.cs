@@ -19,7 +19,7 @@ namespace TaskList.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
 			// Initialize SQLitePCL
-			SQLitePCL.CurrentPlatform.Init();
+			SQLitePCL.Batteries.Init();
 
 			// Initialize Azure Mobile Apps
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();

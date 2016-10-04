@@ -16,6 +16,9 @@ namespace TaskList.Droid
         {
             base.OnCreate(bundle);
 
+            // Initialize SQLitePCL
+            SQLitePCL.Batteries.Init();
+
             // Initialize Azure Mobile Apps
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 

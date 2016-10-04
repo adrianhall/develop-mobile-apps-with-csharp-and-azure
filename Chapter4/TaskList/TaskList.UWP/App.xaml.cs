@@ -39,7 +39,6 @@ namespace TaskList.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -58,6 +57,10 @@ namespace TaskList.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+                // Initialize SQLitePCL
+                SQLitePCL.Batteries.Init();
+
+                // Initialize Xamarin Forms
                 Xamarin.Forms.Forms.Init(e);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -85,7 +88,7 @@ namespace TaskList.UWP
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }

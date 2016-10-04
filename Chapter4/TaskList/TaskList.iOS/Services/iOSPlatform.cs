@@ -130,6 +130,10 @@ namespace TaskList.iOS.Services
             AccountStore.Save(account, ServiceIdentifier);
         }
 
+        /// <summary>
+        /// Picks a photo for uploading
+        /// </summary>
+        /// <returns>A Stream for the photo</returns>
         public async Task<Stream> GetUploadFileAsync()
         {
             var mediaPlugin = CrossMedia.Current;
@@ -147,6 +151,16 @@ namespace TaskList.iOS.Services
                 await mainPage.DisplayAlert("Media Service Unavailable", "Cannot pick photo", "OK");
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Obtains the platform-specific path for the sync-store database.
+        /// </summary>
+        /// <returns>Path to the syncstore on the local device</returns>
+        public string GetSyncStorePath()
+        {
+            var dbName = $"{ServiceIdentifier}.db";
+            return dbName;
         }
         #endregion
     }

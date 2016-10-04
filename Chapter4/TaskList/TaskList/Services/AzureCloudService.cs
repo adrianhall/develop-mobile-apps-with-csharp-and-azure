@@ -62,7 +62,7 @@ namespace TaskList.Services
                 return;
             }
 
-            var store = new MobileServiceSQLiteStore("tasklist.db");
+            var store = new MobileServiceSQLiteStore(PlatformProvider.GetSyncStorePath());
             store.DefineTable<TodoItem>();
             await Client.SyncContext.InitializeAsync(store);
 

@@ -154,6 +154,23 @@ namespace TaskList.Droid.Services
                 return null;
             }
         }
+
+        /// <summary>
+        /// Obtains the platform-specific path for the sync-store database.
+        /// </summary>
+        /// <returns>Path to the syncstore on the local device</returns>
+        public string GetSyncStorePath()
+        {
+            var basePath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var dbName = $"{ServiceIdentifier}.db";
+
+            var dbPath = Path.Combine(basePath, dbName);
+            if (!File.Exists(dbPath))
+            {
+                File.Create(dbPath).Dispose();
+            }
+            return dbPath;
+        }
         #endregion
     }
 }
