@@ -11,9 +11,6 @@ namespace Backend.Controllers
 {
     public class TestController : TableController<Test>
     {
-        private const string connectionString = "MS_AzureStorageAccountConnectionString";
-        private const string tableName = "Test";
-
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
