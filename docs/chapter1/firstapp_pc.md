@@ -1348,6 +1348,12 @@ looked like my mock-ups (with the exception of the UI form of the switch, which
 is platform dependent).  If you want to see what I did to correct this, check out
 the final version of [the Chapter 1 sample][11] on GitHub.
 
+!!! tip Building for On-Premise
+    If you want to run your backend using on-premise resources (for example, Azure
+    Stack or a local IIS service), your UWP application will need the **Private Networks**
+    capability.  You can add this in the `Package.appxmanifest` file.  Choose the
+    **Capabilities** tab and add the required capability.
+    
 If you need to build the project, ensure you redeploy the project after building.
 It's a step that is easy to miss and can cause some consternation as you change
 the code and it doesn't seem to have an effect on the application.
