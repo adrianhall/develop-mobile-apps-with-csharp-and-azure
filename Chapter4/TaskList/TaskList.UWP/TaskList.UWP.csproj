@@ -101,6 +101,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UWPFileSyncProvider.cs" />
     <Compile Include="Services\UWPPlatform.cs" />
   </ItemGroup>
   <ItemGroup>

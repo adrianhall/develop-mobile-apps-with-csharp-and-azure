@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Abstractions\BaseViewModel.cs" />
     <Compile Include="Abstractions\ICloudService.cs" />
+    <Compile Include="Abstractions\IFileSyncProvider.cs" />
     <Compile Include="Abstractions\IPlatform.cs" />
     <Compile Include="Abstractions\TableData.cs" />
     <Compile Include="App.cs" />
@@ -58,6 +59,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AzureCloudService.cs" />
+    <Compile Include="Services\FileSyncHandler.cs" />
     <Compile Include="ViewModels\TaskDetailViewModel.cs" />
     <Compile Include="ViewModels\TaskListViewModel.cs" />
   </ItemGroup>
