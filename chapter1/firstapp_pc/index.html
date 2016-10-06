@@ -1840,6 +1840,14 @@ in the list.</p>
 looked like my mock-ups (with the exception of the UI form of the switch, which
 is platform dependent).  If you want to see what I did to correct this, check out
 the final version of <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1">the Chapter 1 sample</a> on GitHub.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+</div>
+<p>Building for On-Premise
+    If you want to run your backend using on-premise resources (for example, Azure
+    Stack or a local IIS service), your UWP application will need the <strong>Private Networks</strong>
+    capability.  You can add this in the <code>Package.appxmanifest</code> file.  Choose the
+    <strong>Capabilities</strong> tab and add the required capability.</p>
 <p>If you need to build the project, ensure you redeploy the project after building.
 It's a step that is easy to miss and can cause some consternation as you change
 the code and it doesn't seem to have an effect on the application.</p>
