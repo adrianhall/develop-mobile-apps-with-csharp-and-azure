@@ -4,6 +4,7 @@ using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Config;
 using Microsoft.Azure.Mobile.Server.Files;
 using Microsoft.Azure.Mobile.Server.Files.Controllers;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -65,7 +66,7 @@ namespace Backend.Controllers
         {
             var principal = this.User as ClaimsPrincipal;
             var sid = principal.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var item = await domainManager.LookupAsync(id);
+            var item = (await domainManager.LookupAsync(id)).Queryable.FirstOrDefault();
             return item.UserId.Equals(sid);
         }
     }

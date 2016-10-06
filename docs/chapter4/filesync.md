@@ -189,7 +189,7 @@ is used to trigger the upload process.
     One of the common requests is to detect the connection state.  You can use the [Xamarin Forms Labs Device][6] class
     to check if a site is reachable via Wifi.
 
-### Step 2: Implement a FileSyncHandler
+### Step 2: Implement a PCL FileSyncHandler
 
 When we initialized the file sync context, we provided a **FileSyncHandler** class. This class needs to implement the
 **IFileSyncHandler** interface that is provided with the File Sync NuGet packages.  It is used by the file sync context
@@ -246,7 +246,7 @@ namespace TaskList.Services
 I already mentioned that dealing with files is highly platform dependent.  This is very apparent when we deal with the file sync
 handler.  We have to define a platform-specific service for retrieving a data source and deleting files.
 
-### Step 3: Implement the Platform-Specific IFileSyncProvider
+### Step 3: Implement the Platform-Specific FileSyncProvider
 
 We have mentioned the platform-specific `IFileSyncProvider` a few times.  We can define this interface in the shared project using
 the calls we need to make:
@@ -436,8 +436,8 @@ namespace TaskList.Droid.Services
 ```
 
 You may find this shockingly similar to the Universal Windows version.  That's because it is.  **PCLStorage** is a cross-platform
-way that is very similar to **Windows.Storage** - enough that the exact same methods are used.  We still need to account for
-certain differences:
+way that is very similar to **Windows.Storage** - enough that the exact same methods are used, albeit in a different namespace and
+belonging to a different class.  We still need to account for certain differences:
 
 * `PortablePath.Combine` is used instead of `Path.Combine`.  PortablePath is a drop-in replacement that comes with PCLStorage.
 * We use `IFolder` instead of `StorageFolder` - the concepts are the same.
@@ -561,11 +561,11 @@ file sync capabilities as well.  The following code will limit permissions to th
             await base.DeleteFileAsync(id, name);
         }
 
-        async Task<string> IsRecordOwner(string id)
+        private async Task<bool> IsRecordOwner(string id)
         {
             var principal = this.User as ClaimsPrincipal;
             var sid = principal.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var item = await domainManager.LookupAsync(id);
+            var item = (await domainManager.LookupAsync(id)).Queryable.FirstOrDefault();
             return item.UserId.Equals(sid);
         }
     }

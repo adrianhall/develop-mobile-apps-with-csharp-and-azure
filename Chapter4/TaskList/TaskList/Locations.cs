@@ -5,7 +5,7 @@
         /// <summary>
         /// The Azure App Service Backend
         /// </summary>
-        public static readonly string AppServiceUrl = "https://7372523aa2ec4d2cbd1186ce29e5fd92.azurewebsites.net";
+        public static readonly string AppServiceUrl = "https://zumobook-ch4.azurewebsites.net";
 
         /// <summary>
         /// Set to the App Service Backend if AppServiceUrl is localhost (local dev)
@@ -15,7 +15,7 @@
         /// <summary>
         /// ClientId for AAD Authentication
         /// </summary>
-        public static readonly string AadClientId = "7dcc8b8e-45ca-4c6c-8bc1-5c4a78730218";
+        public static readonly string AadClientId = "e35ff8fb-4ffd-4fcb-aae8-fe795f2745b1";
 
         /// <summary>
         /// The AAD Service Authority
