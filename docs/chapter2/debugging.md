@@ -113,10 +113,11 @@ pulled from your App Service.
 
 * Log on to the [Azure Portal][portal].
 * Select your App Service from the **App Services** list.
-* Click on **Tools**, then **Kudu**, then **Go**.
+* Click on **Tools**, then **Advanced Tools**, then **Go**.
 
-Kudu is the backend debug console for Azure App Service and there is a lot you can do here.  Of note in this instance
-is that you can gain access to the keys and audience for your App Service.
+Kudu (now known as **Advanced Tools** in the Azure portal menu) is the backend debug console for Azure App Service and
+there is a lot you can do here.  Of note in this instance is that you can gain access to the keys and audience for your
+App Service.
 
 * Click on **Environment** in the top banner.
 * Click on **Environment variables**.
