@@ -518,57 +518,7 @@ when we discussed [filters and transforms][4].  It is only natural that you woul
 file sync capabilities as well.  The following code will limit permissions to the owning user:
 
 ```csharp
-    [MobileAppController]
-    public class TagStorageController : StorageController<Tag>
-    {
-        EntityDomainManager<TodoItem> domainManager;
 
-        public TodoItemStorageController()
-        {
-            MobileServiceContext context = new MobileServiceContext();
-            domainManager = new EntityDomainManager<TodoItem>(context, Request, enableSoftDelete: true);
-        }
-
-        [Route("tables/TodoItem/{id}/StorageToken")]
-        public async Task<HttpResponseMessage> StorageTokenAsync(string id, StorageTokenRequest value)
-        {
-            if (!await IsRecordOwner(id))
-            {
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
-            }
-            return Request.CreateResponse(await GetStorageTokenAsync(id, value));
-        }
-
-        [HttpGet]
-        [Route("tables/TodoItem/{id}/MobileServiceFiles")]
-        public async Task<HttpResponseMessage> GetFilesAsync(string id)
-        {
-            if (!await IsRecordOwner(id))
-            {
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
-            }
-            return Request.CreateResponse(await GetRecordFilesAsync(id));
-        }
-
-        [HttpDelete]
-        [Route("tables/TodoItem/{id}/MobileServiceFiles/{name}")]
-        public async Task DeleteAsync(string id, string name)
-        {
-            if (!await IsRecordOwner(id))
-            {
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
-            }
-            await base.DeleteFileAsync(id, name);
-        }
-
-        private async Task<bool> IsRecordOwner(string id)
-        {
-            var principal = this.User as ClaimsPrincipal;
-            var sid = principal.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var item = (await domainManager.LookupAsync(id)).Queryable.FirstOrDefault();
-            return item.UserId.Equals(sid);
-        }
-    }
 ```
 
 If you try to access the file set for the records that you don't own, then we return a **403 Forbidden** response.  We can

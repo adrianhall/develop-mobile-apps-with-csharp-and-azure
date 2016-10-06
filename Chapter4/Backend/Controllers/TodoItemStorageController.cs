@@ -13,6 +13,7 @@ using System.Web.Http;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     [MobileAppController]
     public class TodoItemStorageController : StorageController<TodoItem>
     {

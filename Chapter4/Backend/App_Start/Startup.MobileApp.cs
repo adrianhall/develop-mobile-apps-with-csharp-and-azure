@@ -15,12 +15,12 @@ namespace Backend
         {
             HttpConfiguration config = new HttpConfiguration();
 
+            config.MapHttpAttributeRoutes();
+
             new MobileAppConfiguration()
                 .AddTablesWithEntityFramework()
                 .MapApiControllers()
                 .ApplyTo(config);
-
-            config.MapHttpAttributeRoutes();
 
             // Use Entity Framework Code First to create database tables based on your DbContext
             Database.SetInitializer(new MobileServiceInitializer());
