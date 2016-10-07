@@ -109,6 +109,7 @@ namespace TaskList.Services
                     if (refreshedUser != null)
                     {
                         PlatformProvider.StoreTokenInSecureStore(refreshedUser);
+                        Debug.WriteLine($"Token = {refreshedUser.MobileServiceAuthenticationToken}");
                         return refreshedUser;
                     }
                 }
@@ -120,7 +121,7 @@ namespace TaskList.Services
 
             if (Client.CurrentUser != null && !IsTokenExpired(Client.CurrentUser.MobileServiceAuthenticationToken))
             {
-                Debug.WriteLine($"Using existing token");
+                Debug.WriteLine($"Existing Token = {Client.CurrentUser.MobileServiceAuthenticationToken}");
                 return Client.CurrentUser;
             }
 
@@ -128,10 +129,12 @@ namespace TaskList.Services
             if (Client.CurrentUser != null)
             {
                 PlatformProvider.StoreTokenInSecureStore(Client.CurrentUser);
+                Debug.WriteLine($"Token = {Client.CurrentUser.MobileServiceAuthenticationToken}");
                 return Client.CurrentUser;
             }
 
             PlatformProvider.RemoveTokenFromSecureStore();
+            Debug.WriteLine("Login Failed - Client == null");
             return null;
         }
 
