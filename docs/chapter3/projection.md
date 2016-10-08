@@ -704,7 +704,7 @@ public IQueryable<Message> GetAllMessage()
 [linqpad-friends]: img/linqpad.PNG
 
 <!-- Links -->
-[i-custom]: ../custom.md
+[i-custom]: ../chapter4/options.md
 [ClaimsPrinicipal]: https://msdn.microsoft.com/en-us/library/system.security.claims.claimsprincipal(v=vs.110).aspx
 [IQueryable]: https://msdn.microsoft.com/en-us/library/bb351562(v=vs.110).aspx
 [LINQ extension method]: https://www.simple-talk.com/dotnet/net-framework/giving-clarity-to-linq-queries-by-extending-expressions/
