@@ -24,10 +24,9 @@ namespace Backend.Controllers
         }
 
         // GET tables/Test/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult<Test> GetTest(string id)
+        public async Task<SingleResult<Test>> GetTest(string id)
         {
-            var response = Lookup(id);
-            return response;
+            return await LookupAsync(id);
         }
 
         // PATCH tables/Test/48D68C86-6EA6-4C25-AA33-223FC9A27959

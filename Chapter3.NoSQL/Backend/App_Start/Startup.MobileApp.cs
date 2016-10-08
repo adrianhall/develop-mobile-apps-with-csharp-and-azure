@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Diagnostics;
 using System.Web.Http;
 using Microsoft.Azure.Mobile.Server;
@@ -14,6 +13,9 @@ namespace Backend
         public static void ConfigureMobileApp(IAppBuilder app)
         {
             HttpConfiguration config = new HttpConfiguration();
+
+            // Enable Tracing
+            config.EnableSystemDiagnosticsTracing();
 
             new MobileAppConfiguration()
                 .AddTables()

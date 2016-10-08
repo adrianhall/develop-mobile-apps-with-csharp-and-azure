@@ -247,14 +247,6 @@ namespace Backend.DomainManagers
             var match = DefaultIdentifierPattern.Match(id);
             return match.Success;
         }
-
-        /// <summary>
-        /// Returns a Document from the DocumentDb store based on the Id
-        /// </summary>
-        /// <param name="id">The id to return</param>
-        /// <returns>The Document with the id</returns>
-        private Document GetDocumentById(string id)
-            => Client.CreateDocumentQuery<Document>(Collection.DocumentsLink).Where(doc => doc.Id == id).AsEnumerable().FirstOrDefault();
         #endregion
 
         #region IDomainManager{TData} Interface
@@ -293,7 +285,7 @@ namespace Backend.DomainManagers
         /// <returns>A <see cref="SingleResult{T}"/> containing the <see cref="IQueryable{T}"/> which has not yet been executed.</returns>
         public SingleResult<TData> Lookup(string id)
         {
-            return SingleResult.Create<TData>(Query().Where(item => item.Id == id));
+            throw TableUtils.GetNoQueryableLookupException(this.GetType(), "Lookup");
         }
 
         /// <summary>
@@ -320,9 +312,26 @@ namespace Backend.DomainManagers
         /// </remarks>
         /// <returns>A <see cref="SingleResult{T}"/> representing the result of the lookup. A <see cref="SingleResult{T}"/> represents an
         /// <see cref="IQueryable"/> containing zero or one entities. This allows it to be composed with further querying such as <c>$select</c>.</returns>
-        public Task<SingleResult<TData>> LookupAsync(string id)
+        public async Task<SingleResult<TData>> LookupAsync(string id)
         {
-            throw TableUtils.GetQueryableOnlyLookupException(this.GetType(), "Lookup");
+            var list = new List<TData>();
+            try
+            {
+                var response = await Client.ReadDocumentAsync(UriFactory.CreateDocumentUri(Database.Id, Collection.Id, id));
+                list.Add((TData)(dynamic)response.Resource);
+
+            }
+            catch (DocumentClientException clientException)
+            {
+                // If the request results in a 404 Not Found, fall-through.  Otherwise, throw the same status code.
+                // If we don't have a status code, something bad happened - throw a 500 Internal Server Error
+                if (clientException.StatusCode != HttpStatusCode.NotFound)
+                {
+                    throw new HttpResponseException(clientException.StatusCode ?? HttpStatusCode.InternalServerError);
+                }
+
+            }
+            return SingleResult.Create<TData>(list.AsQueryable());
         }
 
         /// <summary>
@@ -359,11 +368,7 @@ namespace Backend.DomainManagers
             try
             {
                 // Get the link to the document
-                var document = GetDocumentById(id);
-                if (document == null)
-                {
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
-                }
+                var document = (await Client.ReadDocumentAsync(UriFactory.CreateDocumentUri(Database.Id, Collection.Id, id))).Resource;
 
                 // Update the data based on the patch
                 var tdata = (TData)(dynamic)document;
@@ -396,11 +401,7 @@ namespace Backend.DomainManagers
 
             try
             {
-                var document = GetDocumentById(id);
-                if (document == null)
-                {
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
-                }
+                var document = (await Client.ReadDocumentAsync(UriFactory.CreateDocumentUri(Database.Id, Collection.Id, id))).Resource;
                 data.UpdatedAt = DateTimeOffset.UtcNow;
                 data.Version = Guid.NewGuid().ToByteArray();
                 var response = await Client.ReplaceDocumentAsync(document.SelfLink, data);
@@ -421,16 +422,16 @@ namespace Backend.DomainManagers
         {
             try
             {
-                var document = GetDocumentById(id);
-                if (document == null)
-                {
-                    return false;
-                }
+                var document = (await Client.ReadDocumentAsync(UriFactory.CreateDocumentUri(Database.Id, Collection.Id, id))).Resource;
                 await Client.DeleteDocumentAsync(document.SelfLink);
                 return true;
             }
             catch (DocumentClientException clientException)
             {
+                if (clientException.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
                 throw new HttpResponseException(clientException.StatusCode ?? HttpStatusCode.InternalServerError);
             }
         }
