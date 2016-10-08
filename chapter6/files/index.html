@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Dealing with Files - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/files/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+    
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/files/">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/files//../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 6 - File Management <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Dealing with Files
+      </div>
+    </div>
+    
+      
+      <div class="button button-twitter" role="button" aria-label="Twitter">
+        <a href="https://twitter.com/FizzyInTheHall" title="@FizzyInTheHall on Twitter" target="_blank" class="toggle-button icon icon-twitter"></a>
+      </div>
+    
+    
+      
+      <div class="button button-github" role="button" aria-label="GitHub">
+        <a href="https://github.com/adrianhall" title="@adrianhall on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+      </div>
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          adrianhall/develop-mobile-apps-with-csharp-and-azure
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
+      Best Practices
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 3 - Data Access and Offline Sync</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter3/dataconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Implementing Table Controllers" href="../../chapter3/server/">
+      Implementing Table Controllers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Projection and Queries" href="../../chapter3/projection/">
+      Data Projection and Queries
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Mobile Client" href="../../chapter3/client/">
+      The Mobile Client
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Relationships" href="../../chapter3/relationships/">
+      Relationships
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
+      The Domain Manager
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 4 - Server Side Code</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Options" href="../../chapter4/options/">
+      Options
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom API" href="../../chapter4/custom/">
+      Custom API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="WebJobs" href="../../chapter4/webjobs/">
+      WebJobs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Functions" href="../../chapter4/functions/">
+      Functions
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 5 - Push Notifications</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter5/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Notification Hubs" href="../../chapter5/nh/">
+      Notification Hubs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Android Push" href="../../chapter5/android/">
+      Android Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="iOS Push" href="../../chapter5/ios/">
+      iOS Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Windows Push" href="../../chapter5/windows/">
+      Windows Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing Push" href="../../chapter5/testing/">
+      Testing Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Push Recipes" href="../../chapter5/recipes/">
+      Push Recipes
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 6 - File Management</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Dealing with Files" href="./">
+      Dealing with Files
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Uploading a File to Blob Storage" href="#uploading-a-file-to-blob-storage">
+                Uploading a File to Blob Storage
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Download a File from Blob Storage" href="#download-a-file-from-blob-storage">
+                Download a File from Blob Storage
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="File Synchronization" href="../filesync/">
+      File Synchronization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 7 - Combining Web and Mobile Apps</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="MVC Applications" href="../../chapter7/mvc/">
+      MVC Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="SPA Applications" href="../../chapter7/spa/">
+      SPA Applications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 8 - Other Useful Services</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Azure Search" href="../../chapter8/search/">
+      Azure Search
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Media Services" href="../../chapter8/media/">
+      Media Services
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Real-time Notifications" href="../../chapter8/realtime/">
+      Real-time Notifications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 9 - Developing An App</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="The Development Environment" href="../../chapter9/developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing your Application" href="../../chapter9/testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 10 - Going to Production</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Repeatable Deployments" href="../../chapter10/arm/">
+      Repeatable Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Safe Deployments" href="../../chapter10/appsvc/">
+      Safe Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Monitoring" href="../../chapter10/monitoring/">
+      Monitoring
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Troubleshooting" href="../../chapter10/troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+          <hr>
+          <span class="section">The author</span>
+          <ul>
+            
+              
+              <li>
+                <a href="https://twitter.com/FizzyInTheHall" target="_blank" title="@FizzyInTheHall on Twitter">
+                  @FizzyInTheHall on Twitter
+                </a>
+              </li>
+            
+            
+              
+              <li>
+                <a href="https://github.com/adrianhall" target="_blank" title="@adrianhall on GitHub">
+                  @adrianhall on GitHub
+                </a>
+              </li>
+            
+          </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="dealing-with-files">Dealing with Files<a class="headerlink" href="#dealing-with-files" title="Permanent link">&para;</a></h1>
+<p>The most normal tasks for dealing with files are the upload and download of files to blob storage.  There is
+a natural and consistent process to this which makes this recipe very repeatable.  First, deal with the things
+you need before you start:</p>
+<ol>
+<li>Create an Azure Storage Account and link it to your Azure App Service.</li>
+<li>Decide how you want your files organized.</li>
+<li>Create a WebAPI to generate a SAS token for your upload or download.</li>
+</ol>
+<p>I've already discussed <a href="../concepts/#create-storage-account">how to create and link an Azure Storage Account</a>.  Blob storage is organized in a
+typical directory structure.  Each directory is called a container, and each file is a blob.  In the examples
+for this section, I am going to store each uploaded file in a container based on the authenticated user.  My
+WebAPI will create the appropriate container and then return an appropriate SAS token.</p>
+<p>We haven't discussed custom code yet.  We will go much deeper than we do right now.  Custom APIs allow us to
+write custom code and execute it within the context of the mobile backend.  It has access to many of the same
+facilities as the rest of the mobile backend - things like app settings, connection strings, and the Entity
+Framework structure.  To enable custom APIs, you need to alter the <code>App_Start\Startup.MobileApp.cs</code> file so
+that the custom APIs are attached to HTTP routes properly:</p>
+<pre><code class="csharp">    HttpConfiguration config = new HttpConfiguration();
+
+    new MobileAppConfiguration()
+        .AddTablesWithEntityFramework()
+        .MapApiControllers()
+        .ApplyTo(config);
+</code></pre>
+
+<p>The Custom API is a standard ASP.NET controller with the <code>[MobileAppController]</code> attribute attached to the
+class.  The <code>[MobileAppController]</code> signals to Azure Mobile Apps that the controller needs to be registered
+under the <code>/api</code> endpoint.  It also handles API version checking (or at least checks that the <code>ZUMO-API-VERSION</code>
+header is set to 2.0.0) and appropriately handles authorization if the <code>[Authorize]</code> attribute is present. The
+mapping under the <code>/api</code> endpoint only happens if the <code>.MapApiControllers()</code> extension method is called during
+configuration.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Ensure you install the latest version of the <code>WindowsAzure.Storage</code> Nuget package using the NuGet package
+Manager before continuing.</p>
+</div>
+<p>When we linked the Azure Storage account, we added a connection string called <code>MS_AzureStorageAccountConnectionString</code>.
+This is included in the environment as <code>CUSTOMCONNSTR_MS_AzureStorageAccountConnectionString</code>.  We can add a new
+Custom API controller in Visual Studio by right-clicking on the <strong>Controllers</strong> node, then selecting <strong>Add</strong> -&gt;
+<strong>Controller...</strong> and selecting the <strong>Azure Mobile APps Custom Controller</strong> option.  We can set up our custom API
+as follows:</p>
+<pre><code class="csharp">namespace Backend.Controllers
+{
+    [Authorize]
+    [MobileappController]
+    public class GetStorageTokenController : ApiController
+    {
+        private const string connString = &quot;CUSTOMCONNSTR_MS_AzureStorageAccountConnectionString&quot;;
+
+        public GetStorageTokenController()
+        {
+            ConnectionString = Environment.GetEnvironmentVariable(connString);
+            StorageAccount = CloudStorageAccount.Parse(ConnectionString);
+            BlobClient = StorageAccount.CreateCloudBlobClient();
+        }
+
+        public string ConnectionString { get; }
+
+        public CloudStorageAccount StorageAccount { get; }
+
+        public CloudBlobClient BlobClient { get; }
+    }
+}
+</code></pre>
+
+<p>The <code>ConnectionString</code> property is the pointer to where the Azure Storage account is located and how to
+access it.  the <code>StorageAccount</code> is a reference to that Azure Storage account.  Finally, the <code>BlobClient</code>
+is an object used for accessing blob storage.  We can access any WebAPI methods in this class by using
+the endpoint <code>/api/GetStorageToken</code> within our mobile client or using Postman.</p>
+<p>Azure Storage doesn't have a true heirarchial container system.  It does have containers and directories
+to organize things though, so we are going to use that:</p>
+<pre><code class="csharp">    private const string containerName = &quot;userdata&quot;;
+
+    [HttpGet]
+    public async Task&lt;StorageTokenViewModel&gt; GetAsync()
+    {
+        // The userId is the SID without the sid: prefix
+        var claimsPrincipal = User as ClaimsPrincipal;
+        var userId = claimsPrincipal
+            .FindFirst(ClaimTypes.NameIdentifier)
+            .Value.Substring(4);
+
+        // Errors creating the storage container result in a 500 Internal Server Error
+        var container = BlobClient.GetContainerReference(containerName);
+        await container.CreateIfNotExistsAsync();
+
+        // Get the user directory within the container
+        var directory = container.GetDirectoryReference(userId);
+        var blobName = Guid.NewGuid().ToString(&quot;N&quot;);
+        var blob = directory.GetBlockBlobReference(blobName);
+
+        // Create a policy for accessing the defined blob
+        var blobPolicy = new SharedAccessBlobPolicy
+        {
+            SharedAccessStartTime = DateTime.UtcNow.AddMinutes(-5),
+            SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(60),
+            Permissions = SharedAccessBlobPermissions.Read
+                        | SharedAccessBlobPermissions.Write
+                        | SharedAccessBlobPermissions.Create
+        };
+
+        return new StorageTokenViewModel
+        {
+            Name = blobName,
+            Uri = blob.Uri,
+            SasToken = blob.GetSharedAccessSignature(blobPolicy)
+        };
+    }
+</code></pre>
+
+<p>The main piece of work in this API is generating the policy that is then signed and returned to
+the user as the SAS Token.  The mobile device has permission to read, write and create the blob
+that we have defined for the next 60 minutes.  I've provided a policy that starts in the past in
+case there is a little amount of clock-skew between the mobile device and the backend.</p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Container names must be a valid DNS name.  The most notable requirement here is between 3
+and 64 lower-case letters.  Container names are case-sensitive.  Check <a href="https://msdn.microsoft.com/library/azure/dd135715.aspx">the documentation</a>
+for full details on naming requirements.</p>
+</div>
+<p>The <code>StorageTokenViewModel</code> is used for serialization purposes:</p>
+<pre><code class="csharp">public class StorageTokenViewModel
+{
+    public string Name { get; set; }
+    public Uri Uri { get; set; }
+    public string SasToken { get; set; }
+}
+</code></pre>
+
+<p>We can test this API using Postman.  First, generate an authentication token.  Then use Postman to
+do a GET of the <code>/api/GetStorageToken</code> endpoint:</p>
+<p><img alt="" src="../img/getstoragetoken-1.PNG" /></p>
+<p>There are two pieces of information we need here.  Firstly, the <code>uri</code> property provides the URI that we are going to
+use to upload the file.  Secondly, the <code>sasToken</code> is appended to the <code>uri</code> when uploading to provide a link to the
+policy.  Note that the token start and expiry time are encoded and readable in the sasToken.</p>
+<p>In real world applications, this is likely not the right method.  We might want to organize the files based on information
+that the mobile client provides us, for example.  We may also want to upload to a specific upload area and then download
+from another location, allowing processing of the files in between.  You may also want to append the uploaded file extension
+to the file before uploading.  There is no "one size fits all" token policy.  You must decide on the conditions under which
+you will allow upload and download capabilities and then provide the appropriate logic to generate the SAS token.</p>
+<h2 id="uploading-a-file-to-blob-storage">Uploading a File to Blob Storage<a class="headerlink" href="#uploading-a-file-to-blob-storage" title="Permanent link">&para;</a></h2>
+<p>Once we have the logic to generate a SAS token, we can turn our attention to the mobile clients.  We need to do three
+things for uploading a file to the service:</p>
+<ol>
+<li>Get a reference to the file (as a Stream object).</li>
+<li>Generate a SAS token using the custom API.</li>
+<li>Use the Azure Storage SDK to upload directly to the Azure Storage Account.</li>
+</ol>
+<p>You should not upload to a custom API in your mobile backend.  This needlessly ties up your mobile backend, causing your
+mobile backend to be less efficient at scaling.  Your mobile backend will not have all the facilities that the
+Azure Storage endpoint has provided either.  Azure Storage provides upload and download restarts and progress bar
+capabilities.</p>
+<p>Obtaining a reference to the file that you wish to upload is normally a per-platform API.  Obtaining a reference to a photo or video
+involves interacting with platform-specific APIs to provide access to camera and built-in photo storage capabilities on the
+phone. To support such a per-platform capability, we need to add an interface for the API to the <code>Abstractions\IPlatform.cs</code> file:</p>
+<pre><code class="csharp">Task&lt;Stream&gt; GetUploadFileAsync();
+</code></pre>
+
+<p>This API will interact with whatever photo sharing API is available on the device, open the requested file and return a standard
+<code>Stream</code> object.  Loading a media file is made much simpler using the cross-platform [Xamarin Media] plugin.  This plugin allows
+the user to take photos or video, or pick  the media file from a gallery.  It's available on NuGet, so add the <code>Xam.Plugin.Media</code>
+plugin to each of the platform-specific projects.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>I still like separating out code that deals with the hardware of a mobile device into the platform-specific code.  You don't
+need to do such separation on this project.  I find that I inevitably have one thing or another that requires a platform-specific
+tweak, so starting with a platform-specific API is better.</p>
+</div>
+<p>The Xamarin Media plugin is used like this:</p>
+<pre><code class="csharp">await CrossMedia.Current.Initialize();
+
+var file = await CrossMedia.Current.PickPhotoAsync();
+var stream = file.GetStream();
+</code></pre>
+
+<p>There are methods within the plugin to determine if a camera is available.  Different platforms require different permissions:</p>
+<h3 id="android">Android<a class="headerlink" href="#android" title="Permanent link">&para;</a></h3>
+<p>Android requires the  <code>WRITE\_EXTERNAL\_STORAGE</code>, <code>READ\_EXTERNAL\_STORAGE</code> and <code>CAMERA</code> permissions. If the mobile device is
+running Android M or later, the plugin will automatically prompt the user for runtime permissions.  You can set these permissions
+within Visual Studio:</p>
+<ul>
+<li>Double-click the <strong>Properties</strong> node within the Android project.</li>
+<li>Select <strong>Android Manifest</strong>.</li>
+<li>In the <strong>Required permissions</strong> list, check the box next to the required permissions by double-clicking the permission.</li>
+<li>Save the Properties (you may have to right-click on the TaskList.Droid tab and click on <strong>Save Selected Items</strong>).</li>
+</ul>
+<h3 id="ios">iOS<a class="headerlink" href="#ios" title="Permanent link">&para;</a></h3>
+<p>Apple iOS requires the <strong>NSCameraUsageDescription</strong> and <strong>NSPhotoLibraryUsageDescription</strong> keys.  The string provided will be
+displayed to the user when they are prompted to provide permission.  You can set these keys within Visual Studio:</p>
+<ul>
+<li>Right-click on the <strong>Info.plist</strong> file and select <strong>Open with...</strong></li>
+<li>Choose the <strong>XML (Text) Editor</strong> then click <strong>OK</strong>.</li>
+<li>Within the <code>&lt;dict&gt;</code> node, add the following lines:</li>
+</ul>
+<pre><code class="xml">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;
+&lt;string&gt;This app needs access to the camera to take photos.&lt;/string&gt;
+&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
+&lt;string&gt;This app needs access to photos.&lt;/string&gt;
+</code></pre>
+
+<ul>
+<li>Save and close the file.</li>
+</ul>
+<p>You can choose whatever string you want to display to the user.  For more information on iOS 10 privacy permissions, review
+the <a href="https://blog.xamarin.com/new-ios-10-privacy-permission-settings/">Xamarin Blog</a>.</p>
+<h3 id="universal-windows">Universal Windows<a class="headerlink" href="#universal-windows" title="Permanent link">&para;</a></h3>
+<p>Universal Windows may require the <strong>Pictures Library</strong> capability:</p>
+<ul>
+<li>In the <strong>TaskList.UWP (Universal Windows)</strong> project, open <strong>Package.appxmanifest</strong>.</li>
+<li>Select the <strong>Capabilities</strong> tab.</li>
+<li>Check the box next to <strong>Pictures Library</strong>.</li>
+<li>Save the manifest.</li>
+</ul>
+<h3 id="implementing-the-file-reader">Implementing the File Reader<a class="headerlink" href="#implementing-the-file-reader" title="Permanent link">&para;</a></h3>
+<p>The same code can be used in all three platform-specific projects, in the <code>*Platform.cs</code> file:</p>
+<pre><code class="csharp">    /// &lt;summary&gt;
+    /// Picks a photo for uploading
+    /// &lt;/summary&gt;
+    /// &lt;returns&gt;A Stream for the photo&lt;/returns&gt;
+    public async Task&lt;Stream&gt; GetUploadFileAsync()
+    {
+        var mediaPlugin = CrossMedia.Current;
+        var mainPage = Xamarin.Forms.Application.Current.MainPage;
+
+        await mediaPlugin.Initialize();
+
+        if (mediaPlugin.IsPickPhotoSupported)
+        {
+            var mediaFile = await mediaPlugin.PickPhotoAsync();
+            return mediaFile.GetStream();
+        }
+        else
+        {
+            await mainPage.DisplayAlert(&quot;Media Service Unavailable&quot;, &quot;Cannot pick photo&quot;, &quot;OK&quot;);
+            return null;
+        }
+    }
+</code></pre>
+
+<h3 id="uploading-a-file">Uploading a File<a class="headerlink" href="#uploading-a-file" title="Permanent link">&para;</a></h3>
+<p>We can now put the individual pieces together to actually do an upload.  In this example, we are going to use the photo picker to
+pick a photo and then upload it, displaying a progress bar as it happens.  We start with the XAML code in <code>Pages\TaskList.xaml</code>.  We
+need a button in the toolbar to initiate the file upload:</p>
+<pre><code class="xml">    &lt;ContentPage.ToolbarItems&gt;
+        &lt;ToolbarItem Name=&quot;Refresh&quot;
+                     Command=&quot;{Binding RefreshCommand}&quot;
+                     Icon=&quot;refresh.png&quot;
+                     Order=&quot;Primary&quot;
+                     Priority=&quot;0&quot; /&gt;
+        &lt;ToolbarItem Name=&quot;Add Task&quot;
+                     Command=&quot;{Binding AddNewItemCommand}&quot;
+                     Icon=&quot;add.png&quot;
+                     Order=&quot;Primary&quot;
+                     Priority=&quot;0&quot; /&gt;
+        &lt;ToolbarItem Name=&quot;Add File&quot;
+                     Command=&quot;{Binding AddNewFileCommand}&quot;
+                     Icon=&quot;addfile.png&quot;
+                     Order=&quot;Primary&quot;
+                     Priority=&quot;0&quot; /&gt;
+    &lt;/ContentPage.ToolbarItems&gt;
+</code></pre>
+
+<p>Obtain a suitable "Add File" icon from the Internet and resize the image appropriately for the task.  You will need five images total:</p>
+<ul>
+<li>TaskList.Droid\Resources\drawable\addfile.png should be 128x128 pixels</li>
+<li>TaskList.iOS\Resources\addfile.png should be 25x25 pixels</li>
+<li>TaskList.iOS\Resources\addfile@2x.png should be 50x50 pixels</li>
+<li>TaskList.iOS\Resources\addfile@3x.png should be 75x75 pixels</li>
+<li>TaskList.UWP\addfile.png should be 128x128 pixels</li>
+</ul>
+<p>All images should have a transparent background.</p>
+<p>The storage token is retrieved from the backend via the cloud service.  Add the following to <code>Abstractions\ICloudService.cs</code>:</p>
+<pre><code class="csharp">    // Custom APIs
+    Task&lt;StorageTokenViewModel&gt; GetSasTokenAsync();
+</code></pre>
+
+<p>This has a concrete implementation in <code>Services\AzureCloudService.cs</code>:</p>
+<pre><code class="csharp">    public async Task&lt;StorageTokenViewModel&gt; GetSasTokenAsync()
+    {
+        var parameters = new Dictionary&lt;string, string&gt;();
+        var storageToken = await Client.InvokeApiAsync&lt;StorageTokenViewModel&gt;(&quot;GetStorageToken&quot;, HttpMethod.Get, parameters);
+        return storageToken;
+    }
+</code></pre>
+
+<p>The <code>StorageTokenViewModel</code> is identical to the class in the <code>GetStorageTokenController.cs</code> controller in the Backend.  I've placed the class
+definition in the <code>Models</code> namespace for the client.  We could share this model between the backend and front end, but the case of sharing
+models is so rare I tend not to share the code.</p>
+<p>In the <code>TaskListViewModel.cs</code>, we can define a command that is called when the Add File button is clicked:</p>
+<pre><code class="csharp">    /// &lt;summary&gt;
+    /// Reference to the Platform Provider
+    /// &lt;/summary&gt;
+    public IPlatform PlatformProvider =&gt; DependencyService.Get&lt;IPlatform&gt;();
+
+    /// &lt;summary&gt;
+    /// Bindable property for the AddNewFile Command
+    /// &lt;/summary&gt;
+    public ICommand AddNewFileCommand { get; }
+
+    /// &lt;summary&gt;
+    /// User clicked on the Add New File button
+    /// &lt;/summary&gt;
+    private async Task AddNewFileAsync()
+    {
+        if (IsBusy)
+        {
+            return;
+        }
+        IsBusy = true;
+
+        try
+        {
+            // Get a stream for the file
+            var mediaStream = await PlatformProvider.GetUploadFileAsync();
+            if (mediaStream == null)
+            {
+                IsBusy = false;
+                return;
+            }
+
+            // Get the SAS token from the backend
+            var storageToken = await CloudService.GetSasTokenAsync();
+
+            // Use the SAS token to upload the file
+            var storageUri = new Uri($&quot;{storageToken.Uri}{storageToken.SasToken}&quot;);
+            var blobStorage = new CloudBlockBlob(storageUri);
+            await blobStorage.UploadFromStreamAsync(mediaStream);
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert(&quot;Error Uploading File&quot;, ex.Message, &quot;OK&quot;);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+</code></pre>
+
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Azure Storage SDK support for PCL projects is only available in -preview editions.  When installing the SDK, ensure you check the
+"Include prerelease" box in the NuGet package manager.  The latest version with PCL (.NETPortable) support is v7.0.2-preview.</p>
+</div>
+<p>You can look at the uploaded files in the Azure portal:</p>
+<ol>
+<li>Log in to the <a href="https://portal.azure.com">Azure portal</a>.</li>
+<li>Click <strong>All resources</strong>, then your storage account.</li>
+<li>Under <strong>SERVICES</strong>, click <strong>Blobs</strong>.</li>
+<li>Click your storage container (in this example, that's called <strong>userdata</strong>)</li>
+</ol>
+<p><img alt="" src="../img/storageinportal.PNG" /></p>
+<p>You will see a folder for each user account.  The folder is named for the SID of the account - not the username.  It's a good idea to
+store the user SID with other data about the user in a table within your database.   This allows you to associate a real user with their
+SID since a user will never know what their SID is.</p>
+<h3 id="implementing-a-progress-bar">Implementing a Progress bar<a class="headerlink" href="#implementing-a-progress-bar" title="Permanent link">&para;</a></h3>
+<p>It's common to want to see the progress of the upload while it is happening.  For that, we need a progress bar.  First, let's add a hidden
+progress bar to our <code>TaskList.xaml</code> page:</p>
+<pre><code class="xml">    &lt;ActivityIndicator HorizontalOptions=&quot;FillAndExpand&quot;
+                        IsRunning=&quot;{Binding IsBusy}&quot;
+                        IsVisible=&quot;{Binding IsBusy}&quot;
+                        VerticalOptions=&quot;Start&quot; /&gt;
+    &lt;ProgressBar x:Name=&quot;fileUploadProgress&quot;
+                    HeightRequest=&quot;3&quot;
+                    HorizontalOptions=&quot;FillAndExpand&quot;
+                    IsVisible=&quot;{Binding IsUploadingFile}&quot;
+                    Progress=&quot;{Binding FileProgress}&quot; /&gt;
+</code></pre>
+
+<p>This comes with two new bindable properties.  <code>IsUploadingFile</code> is a <code>bool</code> and <code>FileProgress</code> is a <code>Double</code>.  <code>FileProgress</code> takes a value between
+0 and 1 to indicate how far along the progress bar should be.  This code should be in the <code>TaskListViewModel.cs</code> file:</p>
+<pre><code class="csharp">    private bool isUploadingFile;
+    public bool IsUploadingFile
+    {
+        get { return isUploadingFile; }
+        set { SetProperty(ref isUploadingFile, value, &quot;IsUploadingFile&quot;); }
+    }
+
+    private Double fileProgress = 0.0;
+    public Double FileProgress
+    {
+        get { return fileProgress;  }
+        set { SetProperty(ref fileProgress, value, &quot;FileProgress&quot;); }
+    }
+</code></pre>
+
+<p>Finally, we have to change the upload so that it happens a chunk at a time.  In the <code>AddNewFileAsync()</code> method, we can replace the upload code with this:</p>
+<pre><code class="csharp">    /// &lt;summary&gt;
+    /// User clicked on the Add New File button
+    /// &lt;/summary&gt;
+    private async Task AddNewFileAsync()
+    {
+        if (IsBusy)
+        {
+            return;
+        }
+        IsBusy = true;
+
+        try
+        {
+            // Get a stream for the file
+            var mediaStream = await PlatformProvider.GetUploadFileAsync();
+            if (mediaStream == null)
+            {
+                IsBusy = false;
+                return;
+            }
+
+            // Get the SAS token from the backend
+            var storageToken = await CloudService.GetSasTokenAsync();
+
+            // Use the SAS token to get a reference to the blob storage
+            var storageUri = new Uri($&quot;{storageToken.Uri}{storageToken.SasToken}&quot;);
+            var blobStorage = new CloudBlockBlob(storageUri);
+
+            // Get the length of the stream
+            var mediaLength = mediaStream.Length;
+
+            // Initialize the blocks
+            int bytesInBlock = 1024;                // The number of bytes in a single block
+            var buffer = new byte[bytesInBlock];    // The buffer to hold the data during transfer
+            int totalBytesRead = 0;                 // The number of bytes read from the stream.
+            int bytesRead = 0;                      // The number of bytes read per block.
+            int blocksWritten = 0;                  // The # Blocks Written
+
+            IsUploadingFile = true;
+            FileProgress = 0.00;
+
+            // Loop through until we have processed the whole file
+            do
+            {
+                // Read a block from the media stream
+                bytesRead = mediaStream.Read(buffer, 0, bytesInBlock);
+
+                if (bytesRead &gt; 0)
+                {
+                    // Move the buffer into a memory stream
+                    using (var memoryStream = new MemoryStream(buffer, 0, bytesRead))
+                    {
+                        string blockId = GetBlockId(blocksWritten);
+                        await blobStorage.PutBlockAsync(blockId, memoryStream, null);
+                    }
+
+                    // Update the internal counters
+                    totalBytesRead += bytesRead;
+                    blocksWritten++;
+
+                    // Update the progress bar
+                    FileProgress = totalBytesRead / mediaLength;
+                }
+
+            } while (bytesRead &gt; 0);
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert(&quot;Error Uploading File&quot;, ex.Message, &quot;OK&quot;);
+        }
+        finally
+        {
+            IsBusy = false;
+            IsUploadingFile = false;
+            FileProgress = 0.0;
+        }
+    }
+
+    /// &lt;summary&gt;
+    /// Convert the Block ID to the string we need
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;block&quot;&gt;&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    private string GetBlockId(int block)
+    {
+        char[] tempID = new char[6];
+        string iStr = block.ToString();
+
+        for (int j = tempID.Length - 1; j &gt; (tempID.Length - iStr.Length - 1); j--)
+        {
+            tempID[j] = iStr[tempID.Length - j - 1];
+        }
+        byte[] blockIDBeforeEncoding = Encoding.UTF8.GetBytes(tempID);
+        return Convert.ToBase64String(blockIDBeforeEncoding);
+    }
+</code></pre>
+
+<p>The main work is done in the inner loop.  We split the media stream into 1024 byte blocks.  Each block is copied into a temporary buffer
+then transferred to cloud storage.  After each block is delivered, the <code>FileProgress</code> counter is updated which updates the progress bar.</p>
+<p>One of the secrets for doing block-based streaming uploads is the <code>GetBlockId()</code> method.  This properly formats the block ID (based on
+a rather convoluted method that ends up being Base-64 encoded).  If you do not get this right, you will instead get a rather cryptic
+message about the query parameter for the HTTP request being wrong.</p>
+<h2 id="download-a-file-from-blob-storage">Download a File from Blob Storage<a class="headerlink" href="#download-a-file-from-blob-storage" title="Permanent link">&para;</a></h2>
+<p>You can similarly download a file from blob storage.  To do the basic form:</p>
+<pre><code class="csharp">    // Get the SAS token from the backend
+    var storageToken = await CloudService.GetSasTokenAsync(filename);
+
+    // Use the SAS token to get a reference to the blob storage
+    var storageUri = new Uri($&quot;{storageToken.Uri}{storageToken.SasToken}&quot;);
+    var blobStorage = new CloudBlockBlob(storageUri);
+
+    // Get a stream for the blob file
+    var mediaStream = await blobStorage.OpenReadAsync();
+    // Do something with the mediaStream - like move it to storage
+    await PlatformProvider.StoreFileAsync(mediaStream);
+    // At the end, close the stream properly
+    mediaStream.Dispose();
+</code></pre>
+
+<p>Similarly, you can also produce a progress bar:</p>
+<pre><code class="csharp">    // Get the SAS token from the backend
+    var storageToken = await CloudService.GetSasTokenAsync(filename);
+
+    // Use the SAS token to get a reference to the blob storage
+    var storageUri = new Uri($&quot;{storageToken.Uri}{storageToken.SasToken}&quot;);
+    var blobStorage = new CloudBlockBlob(storageUri);
+    var mediaStream = await blobStorage.OpenReadAsync();
+
+    var mediaLength = mediaStream.Length;
+    byte[] buffer = new byte[1024];
+    var bytesRead = 0, totalBytesRead = 0;
+
+    // Do what you need to for opening your output file
+    do {
+        bytesRead = mediaStream.ReadAsync(buffer, 0, 1024);
+        if (bytesRead &gt; 0) {
+            // Do something with the buffer
+
+            totalBytesRead += bytesRead;
+            FileProgress = totalBytesRead / mediaLength;
+        }
+    } while (bytesRead &gt; 0);
+
+    // Potentially close your output file as well
+    mediaStream.Dispose();
+</code></pre>
+
+<p>When downloading, you will need to update the <code>GetStorageTokenController</code> method to provide access to files.  One possibility is to
+provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing.</p>
+<!-- Images -->
+
+<!-- Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../concepts/" title="Concepts">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Concepts
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../filesync/" title="File Synchronization">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                File Synchronization
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'adrianhall/develop-mobile-apps-with-csharp-and-azure';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="../../js/highlight.pack.js"></script>
+    
+    
+  </body>
+</html>

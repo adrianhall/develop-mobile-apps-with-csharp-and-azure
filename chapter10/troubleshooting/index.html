@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Troubleshooting - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter10/troubleshooting/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+    
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter10/troubleshooting/">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter10/troubleshooting//../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 10 - Going to Production <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Troubleshooting
+      </div>
+    </div>
+    
+      
+      <div class="button button-twitter" role="button" aria-label="Twitter">
+        <a href="https://twitter.com/FizzyInTheHall" title="@FizzyInTheHall on Twitter" target="_blank" class="toggle-button icon icon-twitter"></a>
+      </div>
+    
+    
+      
+      <div class="button button-github" role="button" aria-label="GitHub">
+        <a href="https://github.com/adrianhall" title="@adrianhall on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+      </div>
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          adrianhall/develop-mobile-apps-with-csharp-and-azure
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
+      Best Practices
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 3 - Data Access and Offline Sync</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter3/dataconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Implementing Table Controllers" href="../../chapter3/server/">
+      Implementing Table Controllers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Projection and Queries" href="../../chapter3/projection/">
+      Data Projection and Queries
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Mobile Client" href="../../chapter3/client/">
+      The Mobile Client
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Relationships" href="../../chapter3/relationships/">
+      Relationships
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
+      The Domain Manager
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 4 - Server Side Code</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Options" href="../../chapter4/options/">
+      Options
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom API" href="../../chapter4/custom/">
+      Custom API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="WebJobs" href="../../chapter4/webjobs/">
+      WebJobs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Functions" href="../../chapter4/functions/">
+      Functions
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 5 - Push Notifications</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter5/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Notification Hubs" href="../../chapter5/nh/">
+      Notification Hubs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Android Push" href="../../chapter5/android/">
+      Android Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="iOS Push" href="../../chapter5/ios/">
+      iOS Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Windows Push" href="../../chapter5/windows/">
+      Windows Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing Push" href="../../chapter5/testing/">
+      Testing Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Push Recipes" href="../../chapter5/recipes/">
+      Push Recipes
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 6 - File Management</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter6/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Dealing with Files" href="../../chapter6/files/">
+      Dealing with Files
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="File Synchronization" href="../../chapter6/filesync/">
+      File Synchronization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 7 - Combining Web and Mobile Apps</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="MVC Applications" href="../../chapter7/mvc/">
+      MVC Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="SPA Applications" href="../../chapter7/spa/">
+      SPA Applications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 8 - Other Useful Services</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Azure Search" href="../../chapter8/search/">
+      Azure Search
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Media Services" href="../../chapter8/media/">
+      Media Services
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Real-time Notifications" href="../../chapter8/realtime/">
+      Real-time Notifications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 9 - Developing An App</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="The Development Environment" href="../../chapter9/developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing your Application" href="../../chapter9/testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 10 - Going to Production</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Repeatable Deployments" href="../arm/">
+      Repeatable Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Safe Deployments" href="../appsvc/">
+      Safe Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Monitoring" href="../monitoring/">
+      Monitoring
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Troubleshooting" href="./">
+      Troubleshooting
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Troubleshooting the Mobile Backend" href="#troubleshooting-the-mobile-backend">
+                Troubleshooting the Mobile Backend
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Troubleshooting the Mobile Client" href="#troubleshooting-the-mobile-client">
+                Troubleshooting the Mobile Client
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Best Practices" href="#best-practices">
+                Best Practices
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+          <hr>
+          <span class="section">The author</span>
+          <ul>
+            
+              
+              <li>
+                <a href="https://twitter.com/FizzyInTheHall" target="_blank" title="@FizzyInTheHall on Twitter">
+                  @FizzyInTheHall on Twitter
+                </a>
+              </li>
+            
+            
+              
+              <li>
+                <a href="https://github.com/adrianhall" target="_blank" title="@adrianhall on GitHub">
+                  @adrianhall on GitHub
+                </a>
+              </li>
+            
+          </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h1>
+<h2 id="troubleshooting-the-mobile-backend">Troubleshooting the Mobile Backend<a class="headerlink" href="#troubleshooting-the-mobile-backend" title="Permanent link">&para;</a></h2>
+<h2 id="troubleshooting-the-mobile-client">Troubleshooting the Mobile Client<a class="headerlink" href="#troubleshooting-the-mobile-client" title="Permanent link">&para;</a></h2>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../monitoring/" title="Monitoring">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Monitoring
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../../xamarin_tips/" title="Xamarin Forms Tips">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Xamarin Forms Tips
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'adrianhall/develop-mobile-apps-with-csharp-and-azure';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="../../js/highlight.pack.js"></script>
+    
+    
+  </body>
+</html>

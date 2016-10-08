@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Options - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter4/options/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+    
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter4/options/">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter4/options//../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 4 - Server Side Code <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Options
+      </div>
+    </div>
+    
+      
+      <div class="button button-twitter" role="button" aria-label="Twitter">
+        <a href="https://twitter.com/FizzyInTheHall" title="@FizzyInTheHall on Twitter" target="_blank" class="toggle-button icon icon-twitter"></a>
+      </div>
+    
+    
+      
+      <div class="button button-github" role="button" aria-label="GitHub">
+        <a href="https://github.com/adrianhall" title="@adrianhall on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+      </div>
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          adrianhall/develop-mobile-apps-with-csharp-and-azure
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
+      Best Practices
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 3 - Data Access and Offline Sync</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter3/dataconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Implementing Table Controllers" href="../../chapter3/server/">
+      Implementing Table Controllers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Projection and Queries" href="../../chapter3/projection/">
+      Data Projection and Queries
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Mobile Client" href="../../chapter3/client/">
+      The Mobile Client
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Relationships" href="../../chapter3/relationships/">
+      Relationships
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
+      The Domain Manager
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 4 - Server Side Code</span>
+    <ul>
+      
+        
+  <li>
+    <a class="current" title="Options" href="./">
+      Options
+    </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Server Side Code" href="#server-side-code">
+                Server Side Code
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Best Practices" href="#best-practices">
+                Best Practices
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom API" href="../custom/">
+      Custom API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="WebJobs" href="../webjobs/">
+      WebJobs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Functions" href="../functions/">
+      Functions
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 5 - Push Notifications</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter5/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Notification Hubs" href="../../chapter5/nh/">
+      Notification Hubs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Android Push" href="../../chapter5/android/">
+      Android Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="iOS Push" href="../../chapter5/ios/">
+      iOS Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Windows Push" href="../../chapter5/windows/">
+      Windows Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing Push" href="../../chapter5/testing/">
+      Testing Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Push Recipes" href="../../chapter5/recipes/">
+      Push Recipes
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 6 - File Management</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter6/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Dealing with Files" href="../../chapter6/files/">
+      Dealing with Files
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="File Synchronization" href="../../chapter6/filesync/">
+      File Synchronization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 7 - Combining Web and Mobile Apps</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="MVC Applications" href="../../chapter7/mvc/">
+      MVC Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="SPA Applications" href="../../chapter7/spa/">
+      SPA Applications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 8 - Other Useful Services</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Azure Search" href="../../chapter8/search/">
+      Azure Search
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Media Services" href="../../chapter8/media/">
+      Media Services
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Real-time Notifications" href="../../chapter8/realtime/">
+      Real-time Notifications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 9 - Developing An App</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="The Development Environment" href="../../chapter9/developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing your Application" href="../../chapter9/testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 10 - Going to Production</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Repeatable Deployments" href="../../chapter10/arm/">
+      Repeatable Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Safe Deployments" href="../../chapter10/appsvc/">
+      Safe Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Monitoring" href="../../chapter10/monitoring/">
+      Monitoring
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Troubleshooting" href="../../chapter10/troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+          <hr>
+          <span class="section">The author</span>
+          <ul>
+            
+              
+              <li>
+                <a href="https://twitter.com/FizzyInTheHall" target="_blank" title="@FizzyInTheHall on Twitter">
+                  @FizzyInTheHall on Twitter
+                </a>
+              </li>
+            
+            
+              
+              <li>
+                <a href="https://github.com/adrianhall" target="_blank" title="@adrianhall on GitHub">
+                  @adrianhall on GitHub
+                </a>
+              </li>
+            
+          </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+            <h1>Options</h1>
+          
+          <h2 id="server-side-code">Server Side Code<a class="headerlink" href="#server-side-code" title="Permanent link">&para;</a></h2>
+<p>At some point during your mobile client development, you will need to do something a little outside simple
+data access.  We have already seen an example of this in custom authentication.  It may be that you want to
+kick off a workflow, re-size an image using server-side resources, push a notification to another user, or
+do a complex transaction on the database.</p>
+<p>Whatever the reason, that time si when you want to use server side code.  The aim is simple enough.  On a
+trigger, execute some code and do something with the result.  The trigger can be as simple as a HTTP request
+from your client, but could also be in response to a timer, or because something in your environment
+happened.  The result can be sent back to the user, placed in storage, or updated in the database.  There
+really are no rules when it comes to server side code.</p>
+<p>There are, however, options for running server side code.</p>
+<h3 id="client-processing-with-webapis-and-custom-apis">Client Processing with WebAPIs and Custom APIs<a class="headerlink" href="#client-processing-with-webapis-and-custom-apis" title="Permanent link">&para;</a></h3>
+<p>The first of the set is the venerable <a href="https://www.asp.net/web-api">ASP.NET WebAPI</a>.  Firstly, configure the ASP.NET application to allow
+attribute-based routing.  This is done in your <code>Startup.MobileApp.cs</code> file with this line:</p>
+<pre><code class="csharp">    config.MapHttpAttributeRoutes();
+</code></pre>
+
+<p>Any WebAPI that you provide must be preceded by a <code>[Route]</code> attribute.  We saw an example of this in the
+<a href="../../chapter2/custom/">Custom Authentication</a> section.  In custom authentication, we were setting up an endpoint that allows
+us to validate a login request.  The attribute looked like this:</p>
+<pre><code class="csharp">namespace Backend.Controllers
+{
+    [Route(&quot;.auth/login/custom&quot;)]
+    public class CustomAuthController : ApiController
+    {
+        [HttpPost]
+        public async Task&lt;IHttpActionResult&gt; Post([FromBody] UserInfo body)
+        {
+            ...
+        }
+    }
+}
+</code></pre>
+
+<p>The ASP.NET WebAPI comes with a bunch of capabilities:</p>
+<ul>
+<li>You can use your regular ASP.NET WebAPI programming techniques.</li>
+<li>You can use Entity Framework for adjusting the database.</li>
+<li>You can use the <code>[Authorize]</code> attribute for controlling access.</li>
+</ul>
+<p>With ASP.NET WebAPI, you are responsible for absolutely everything.  This option is great for providing
+an endpoint to your mobile client that doesn't need anything special.</p>
+<p>As flexible as the ASP.NET WebAPI is, most of the time you just want to do something and get the result
+returned.  The Custom API feature of the Azure Mobile Apps SDK is a great option because it does a lot
+of the scaffolding for you.  With a Custom API:</p>
+<ul>
+<li>Your API appears under '/api' - no exceptions.</li>
+<li>The server enforces the ZUMO-API-VERSION.</li>
+<li>The server emits a X-ZUMO-SERVER-VERSION header in the response.</li>
+</ul>
+<p>You can be sure, for example, that a random web crawler is not going to call your Custom API - the web crawler
+is not going to provide the <code>ZUMO-API-VERSION</code> header, so your code would never be touched.  The Azure
+Mobile Apps Client SDK also includes a routine that assumes a Custom API.  For example, let's say you
+create a <code>ValuesController</code>, then you can call this from your mobile client with the following code:</p>
+<pre><code class="csharp">var result = client.InvokeApiAsync&lt;ResultType&gt;('Values');
+</code></pre>
+
+<p>Using <code>InvokeApiAsync</code> is a good alternative because it provides the authentication automatically for you
+and uses any <code>DelegatingHandler</code> classes you have configured.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can still use <code>InvokeApiAsync()</code> with an ASP.NET WebAPI.</p>
+</div>
+<h3 id="background-processing-with-webjobs-azure-functions">Background Processing with WebJobs &amp; Azure Functions<a class="headerlink" href="#background-processing-with-webjobs-azure-functions" title="Permanent link">&para;</a></h3>
+<p>The ASP.NET WebAPI and the Custom API provide HTTP endpoints for your mobile clients to interact with.  <a href="https://azure.microsoft.com/en-us/documentation/articles/websites-webjobs-resources/">WebJobs</a>
+and <a href="https://azure.microsoft.com/en-us/documentation/articles/functions-overview/">Azure Functions</a>, by comparison, are primed for background tasks.  Things that WebJobs and Azure Functions
+are good at:</p>
+<ul>
+<li>Image processing or other CPU-intensive work.</li>
+<li>Queue processing.</li>
+<li>RSS aggregation.</li>
+<li>File and database management.</li>
+</ul>
+<p><a href="https://azure.microsoft.com/en-us/documentation/articles/websites-webjobs-resources/">WebJobs</a> run in the context of your site.  They use the same set of virtual machines that your website uses and
+they share resources with your site.  That means that running memory or CPU intensive jobs can affect your
+mobile backend.</p>
+<p><a href="https://azure.microsoft.com/en-us/documentation/articles/functions-overview/">Azure Functions</a> run in a separate project and run in "dynamic compute".  They don't run on your virtual machines.
+Rather, they pick up compute power from wherever it is available.  The scaling and lifecycle of the Function
+is handled for you by the platform.  The downside is that you have to configure it as a separate project and
+you pay for the executions separately.</p>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<p>For each thing we have defined, we have two choices.  There are reasons to use each and every one of these
+options.  So, which do you choose.  Here are my choices:</p>
+<ul>
+<li>Use a <a href="../custom/">Custom API</a> for basic web endpoints.</li>
+<li>Use a <a href="https://www.asp.net/web-api">WebAPI</a> for custom authentication and anything where you care about the shape of the API.</li>
+<li>Use <a href="../webjobs/">WebJobs</a> for clean-up tasks running on a schedule.</li>
+<li>Use <a href="../functions/">Functions</a> for triggered batch processing, like image or queue processing.</li>
+</ul>
+<p>Most mobile applications will be able to work with the following:</p>
+<ul>
+<li>A single <a href="../webjobs/">WebJob</a> for cleaning up the database deleted records.</li>
+<li>A <a href="../custom/">Custom API</a> for doing transaction work or triggering a batch process.</li>
+<li>An <a href="../functions/">Azure Function</a> for doing the batch processing.</li>
+</ul>
+<!-- URLs -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../../chapter3/domainmgr/" title="The Domain Manager">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                The Domain Manager
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../custom/" title="Custom API">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Custom API
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'adrianhall/develop-mobile-apps-with-csharp-and-azure';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="../../js/highlight.pack.js"></script>
+    
+    
+  </body>
+</html>
