@@ -71,12 +71,12 @@ To get started:
 
 At this point, Xamarin Studio will create your backend project.
 
-You may need to accept licenses for several packages to continue with 
-the project creation.  As Xamarin Studio doesn't have templates for all 
-of the same ASP.NET projects that Visual Studio does, we'll need to do 
+You may need to accept licenses for several packages to continue with
+the project creation.  As Xamarin Studio doesn't have templates for all
+of the same ASP.NET projects that Visual Studio does, we'll need to do
 some additional work to set our project up.
 
-First, we need to change our project to target .NET 4.6.  Right click on 
+First, we need to change our project to target .NET 4.6.  Right click on
 your **Backend** project in the Solution Explorer and choose Options.  Under
 the **Build** section, select **General**.  Under the Target Framework dropdown
 select .NET Framework 4.6.1:
@@ -85,8 +85,8 @@ select .NET Framework 4.6.1:
 
 Click **OK** to accept the change and close the Project Options.
 
-Next we'll install multiple NuGet packages.  Expand the **Backend** project 
-in the Solution Explorer and right click on **Packages** and then select 
+Next we'll install multiple NuGet packages.  Expand the **Backend** project
+in the Solution Explorer and right click on **Packages** and then select
 **Add Packages**.  Find and add the following packages:
 
 *  Azure Mobile .NET Server SDK
@@ -99,31 +99,35 @@ in the Solution Explorer and right click on **Packages** and then select
 *  Azure Mobile .NET Server Entity
 *  Microsoft.OWIN.Host.SystemWeb
 
+!!! tip
+    The Azure Mobile .NET Server Quickstart NuGet package has all the other packages
+    as dependencies.  Add the Quickstart package first to save yourself some time.
+
 You should also take the opportunity to update any NuGet packages that were
 automatically added to the project.  To do so, right click on **Packages** and
 choose **Update**.
 
-Next you'll need to add the following folders to the **Backend** project.  Right 
+Next you'll need to add the following folders to the **Backend** project.  Right
 click on **Backend** and select Add -> New Folder and create the following:
 
 * Controllers
 * DataObjects
 * Models
 
-Next you'll need to remove the following files that were created as part of the template.  
+Next you'll need to remove the following files that were created as part of the template.
 Right click on each of the following files and choose Remove and click the Delete button:
 
 * App_Start/WebApiConfig.cs
 * Global.asax
 
-Now we can add the files that will consist of our backend.  We'll start by 
-creating the three files that will handle projecting a single table in our 
-database - the TodoItem table - into the mobile realm with the aid of an 
+Now we can add the files that will consist of our backend.  We'll start by
+creating the three files that will handle projecting a single table in our
+database - the TodoItem table - into the mobile realm with the aid of an
 opinionated [OData v3][5] feed.  To that end, we need three items:
 
 * A `DbSet<>` within the `DbContext`
 * A Data Transfer Object (or DTO)
-* A Table Controller 
+* A Table Controller
 
 
 Start by right clicking on `DataObjects` and choose Add -> New File.  Select General -> Empty Class and name it
@@ -147,9 +151,9 @@ Note that the model uses `EntityData` as a base class.  The `EntityData` class
 adds five additional properties to the class - we'll discuss those in more
 details during the [Data Access and Offline Sync][int-data] chapter.
 
-Next, we'll create our `DbContext` which uses [Entity Framework][4] to deal with creating 
-our Database Model when we upload our backend to Azure.  Right click on **Models** and choose 
-Add -> New File.  Select General -> Empty Class and name it `MobileServiceContext.cs`.  
+Next, we'll create our `DbContext` which uses [Entity Framework][4] to deal with creating
+our Database Model when we upload our backend to Azure.  Right click on **Models** and choose
+Add -> New File.  Select General -> Empty Class and name it `MobileServiceContext.cs`.
 Add the following code:
 
 ```csharp
@@ -165,14 +169,14 @@ namespace Backend.Models
     public class MobileServiceContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
-        // 
+        //
         // If you want Entity Framework to alter your database
         // automatically whenever you change your model schema, please use data migrations.
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
         //
-        // To enable Entity Framework migrations in the cloud, please ensure that the 
-        // service name, set by the 'MS_MobileServiceName' AppSettings in the local 
+        // To enable Entity Framework migrations in the cloud, please ensure that the
+        // service name, set by the 'MS_MobileServiceName' AppSettings in the local
         // Web.config, is the same as the service name when hosted in Azure.
 
         private const string connectionStringName = "Name=MS_TableConnectionString";
@@ -194,7 +198,7 @@ namespace Backend.Models
 ```
 
 Next we'll create the controller for our TodoItem table.  Right click on **Controllers**
-and choose Add -> New File.  Select General -> Empty Class and name it 
+and choose Add -> New File.  Select General -> Empty Class and name it
 `TodoItemController.cs`.  Add the following code:
 
 ```csharp
@@ -249,9 +253,9 @@ within our WebAPI.  This means that the actual code for this controller is tiny 
     a mechanism for querying and manipulating data within a table.  Entity Framework is a
     common data access layer for ASP.NET applications.
 
-Moving on, we'll create the startup file for our backend.  Right click on **App_Start** 
--> Add -> New File.  Select General -> Empty Class and name it 
-`Startup.MobileApp.cs`.  
+Moving on, we'll create the startup file for our backend.  Right click on **App_Start**
+-> Add -> New File.  Select General -> Empty Class and name it
+`Startup.MobileApp.cs`.
 
 !!! info
     If you name a file in Xamarin Studio with a period in it without including the specific
@@ -313,11 +317,11 @@ namespace Backend
 }
 ```
 
-If you were to create a new Mobile App based application in Visual Studio or download the 
+If you were to create a new Mobile App based application in Visual Studio or download the
 quickstart application from the Azure portal, the startup
 would be considerably inflated with additional functionality for things like
 authentication and push notifications.  Currently we have it set up to only implement
-our data layer.  
+our data layer.
 
 There is another method in the `App_Start\Startup.MobileApp.cs` file for
 seeding data into the database for us.  We can leave that alone for now, but
@@ -330,8 +334,8 @@ your own backend.
     will be there when we query the database later on.
 
 
-Finally we need to add a startup class for our ASP.NET 
-application.  Right click on **Backend** -> Add -> New File.  Select General -> 
+Finally we need to add a startup class for our ASP.NET
+application.  Right click on **Backend** -> Add -> New File.  Select General ->
 Empty Class and name it `Startup.cs`.  The purpose of this class is just to kick off
 the configuration of our mobile app backend:
 
@@ -360,8 +364,8 @@ Our last step in our backend before publishing it is to edit the `web.config`:
 <!--
 Web.config file for TestProject.
 
-The settings that can be used in this file are documented at 
-http://www.mono-project.com/Config_system.web and 
+The settings that can be used in this file are documented at
+http://www.mono-project.com/Config_system.web and
 http://msdn2.microsoft.com/en-us/library/b5ysx397.aspx
 -->
 <configuration>
@@ -454,7 +458,7 @@ http://msdn2.microsoft.com/en-us/library/b5ysx397.aspx
 </configuration>
 ```
 
-Choose **Build All** from the **Build** menu and ensure your project compiles 
+Choose **Build All** from the **Build** menu and ensure your project compiles
 without errors.
 
 ### Building an Azure App Service for Mobile Apps
@@ -570,11 +574,11 @@ defined.  However, we can also create a test database.
 
     - Enter a unique name for the server (a GUID is a good idea here).
     - Enter a username and password for the server.
-    - Make sure the Location for your database server is the same as your 
+    - Make sure the Location for your database server is the same as your
     Mobile App.
     - Click on **Select** to close the **New Server** blade.
     - Click on **Select** to close the **New Database** blade.
-    - An error may appear asking you to set the Database Connection string, 
+    - An error may appear asking you to set the Database Connection string,
     if so, click on the Database Connection and then click **OK** on it's blade.
     - Click on **OK** to close the **Add Data Connection** blade.
 
@@ -598,7 +602,7 @@ we're developing with Xamarin Studio, we'll need to do things a bit differently.
 There are a number of potential deployment options including FTP, connecting
 to a Continuous Integration server, connecting a Dropbox folder, or creating a local git repository.  To
 keep things simple, we'll use an adminstration site named Kudu (also called
-SCM) to copy the files over.  Once we're ready, we'll need to collect the compiled 
+SCM) to copy the files over.  Once we're ready, we'll need to collect the compiled
 application files since Xamarin doesn't have any publish functionality.
 
 1. Return to the browser and the Azure Portal.
@@ -628,7 +632,7 @@ should see the files appear in the file list:
     ![Files deployed][img10]
 
 In the browser navigate to the URL for your Mobile App.  This should match the
-format https://{YourMobileApp}.azurewebsites.net/.    
+format https://{YourMobileApp}.azurewebsites.net/.
 
 
 
@@ -678,9 +682,9 @@ the platform-specific project.
 
 There is one final item we must do before we leave the set up of the project.
 There are a number of platform upgrades that inevitably have to happen.  The
-Xamarin Platform is updated much more often than the project templates in Xamarin 
-Studio - the updates are released via NuGet: the standard method of distributing 
-libraries for .NET applications.  In addition to the inevitable Xamarin Platform 
+Xamarin Platform is updated much more often than the project templates in Xamarin
+Studio - the updates are released via NuGet: the standard method of distributing
+libraries for .NET applications.  In addition to the inevitable Xamarin Platform
 updates, we also will want to add the following NuGet packages:
 
 *  Microsoft.Azure.Mobile.Client v2.0.0 or later
@@ -843,7 +847,7 @@ name of your mobile backend and the rest is silently dealt with.
     Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are
     not interchangeable with clients for Azure Mobile Apps.
 
-We also need a concrete implementation of the `ICloudTable<T>` interface 
+We also need a concrete implementation of the `ICloudTable<T>` interface
 (in `Services\AzureCloudTable.cs`):
 
 ```csharp
@@ -974,7 +978,7 @@ XAML definition file, a (simple) code-behind file, and a view model.
 !!! info
     This book is not intending to introduce you to everything that there is to know
     about Xamarin and UI programming with XAML.  If you wish to have that sort of introduction,
-    then I recommend reading the excellent book by Charles Petzold: 
+    then I recommend reading the excellent book by Charles Petzold:
     [Creating Mobile Apps with Xamarin.Forms][8].
 
 I tend to use MVVM (or Model-View-ViewModel) for UI development in Xamarin
@@ -1565,17 +1569,17 @@ protected override void OnCreate(Bundle bundle)
     global::Xamarin.Forms.Forms.Init(this, bundle);
     LoadApplication(new App());
 }
-``` 
+```
 
-Finally, as Android has an explicit permission model (this has somewhat changed in the latest 
-version of Android), we need to say the application requires the Internet permission.  Right-click 
+Finally, as Android has an explicit permission model (this has somewhat changed in the latest
+version of Android), we need to say the application requires the Internet permission.  Right-click
 on the Android project and go to **Options**.  Select **Android Application** from under the
 **Build** section.  At the bottom of the options panel, you'll see a list of permissions.
-Find Internet and check it and then click the OK button. 
+Find Internet and check it and then click the OK button.
 
 ![Adding the Intenet permission][img15]
 
-Next we need to configure the solution to run the Android project.  
+Next we need to configure the solution to run the Android project.
 
 - Right-click on the **TaskList.Droid** project, then select **Set as StartUp Project**.
 - Right-click on the **TaskList.Droid** project again, then select **Build TaskList.Droid**.
@@ -1587,7 +1591,7 @@ the **Manage Google Emulators...** option to create additional Android Virtual D
 and download other images online.
 
 !!! tip
-    When testing the mobile client manually through the Android Emulator, 
+    When testing the mobile client manually through the Android Emulator,
     you are likely to need to rebuild the application.  You do not have to
     shut down the emulator between runs.  You can leave it running.  The application
     will be stopped and replaced before starting again.  This can significantly speed
@@ -1640,7 +1644,7 @@ Now we can build and run our app:
 
 If you have never used Xamarin Studio to build and run an iOS app before, it is possible
 that you will receive an error having to do with code signing keys, provisioning profiles,
-or signing identities.  If so it may be  because you have not yet signed up for an Apple 
+or signing identities.  If so it may be  because you have not yet signed up for an Apple
 Developer Account and linked it to your Mac development environment.
 
 - Go to the [Apple Developer Center][11].
@@ -1676,7 +1680,7 @@ list.  For a free account, it looks like this:
 Click on the Create button next to **iOS Development**.  Once the UI comes back,
 click on **Done**.  For more information on this process, refer to the [Apple Documentation][12].
 
-You can close Xcode at this point.  Return to Xamarin Studio, right-click on the 
+You can close Xcode at this point.  Return to Xamarin Studio, right-click on the
 **TaskList.iOS** project and build again.  This will (finally!) build the application for you.
 
 !!! tip
@@ -1689,7 +1693,7 @@ You can now select from several simulator options from the drop-down to the left
 build status.
 You should only use **Device** if you have signed up for the Apple Developer Program.  Pick
 one of the simulator options like the **iPhone 6 iOS 10.0** simulator, then click on it
-to run the simulator.  
+to run the simulator.
 
 The final product screens look like this:
 

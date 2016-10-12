@@ -197,8 +197,39 @@ There is a lot going on here:
 
 !!! warn
     You must turn on Authentication / Authorization in your App Service.  Set the **Action to take when request
-    is not authenticated** to **Allow Request (no action)** and do not configure any of the supported authentication 
+    is not authenticated** to **Allow Request (no action)** and do not configure any of the supported authentication
     providers.
+
+You can add additional claims in the token that is passed back to the client by adding additional rows to the `claims`
+object.  For example:
+
+```csharp
+    var claims = new Claim[]
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, body.Username),
+        new Claim("foo", "Value for Foo")
+    };
+```
+
+For example, you could do a custom authentication that includes group information, permissions structures, or
+additional information about the user from the directory.  Claim names are normally three letters and the value
+is always a string.  It is normal to create a class (just like the `JwtRegisteredClaimNames`) with the strings
+in it that can be shared between the client and server projects:
+
+```csharp
+public static class LocalClaimNames
+{
+    public string MainUser => "mus"
+};
+```
+
+The only claim that **must** be present is the "sub" claim (referenced here by `JwtRegisteredClaimNames.Sub` claim
+type).  The token, when encoded, must fit in a HTTP header.  For Windows systems based on IIS, the maximum size
+of a header is 16Kb.  For Linux systems based on Apache, the maximum size of a header is 8Kb.  The server will
+return **413 Entity Too Large** if the header is too long.  The token is also transmitted with every single
+request so you should make efforts to reduce the size of the token.  It is better to make two requests initially
+(one request for the token followed by an authenticated request for the extra information) than to include the
+extra information in the token.
 
 Next, we need to wire the custom authentication controller so that it appears in the same place as all the other
 authenticators.  We are going to access it via the `/.auth/login/custom` endpoint.  The normal ASP.NET methods can be
@@ -292,7 +323,7 @@ namespace TaskList.Abstractions
 }
 ```
 
-I am adding a new version of the `LoginAsync()` method.  The concrete version of this method no longer has to go 
+I am adding a new version of the `LoginAsync()` method.  The concrete version of this method no longer has to go
 through the dependency service since I can use shared code.  Here is the definition of our new `LoginAsync()`
 method in `Services\AzureCloudService.cs`:
 
