@@ -393,6 +393,34 @@
         
       
       
+        <ul>
+          
+            <li class="anchor">
+              <a title="Configuring Custom APIs" href="#configuring-custom-apis">
+                Configuring Custom APIs
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Creating a Basic Custom API" href="#creating-a-basic-custom-api">
+                Creating a Basic Custom API
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Handling Parameters to a Custom API" href="#handling-parameters-to-a-custom-api">
+                Handling Parameters to a Custom API
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Handling POST Requests" href="#handling-post-requests">
+                Handling POST Requests
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
@@ -730,6 +758,244 @@
         <div class="wrapper">
           
           <h1 id="custom-http-endpoints">Custom HTTP Endpoints<a class="headerlink" href="#custom-http-endpoints" title="Permanent link">&para;</a></h1>
+<p>Azure Mobile Apps makes it really easy to develop basic APIs that can be used in mobile clients.  Most
+custom APIs can be simply invoked.  Azure Mobile Apps takes care of most of the scaffolding for you. The
+server SDK will:</p>
+<ul>
+<li>Ensure the <code>ZUMO-API-VERSION</code> is present and valid.</li>
+<li>Handle serialization and deserialization of JSON.</li>
+<li>Ensure the API is given an appropriate URL.</li>
+</ul>
+<p>All the custom APIs will appear under the <code>/api</code> endpoint.  For example, if you created a controller
+called <code>FooController</code>, it would be invoked by sending messages to <code>/api/Foo</code>.  This is case-insensitive,
+so you could also reference this API as <code>/api/foo</code>.</p>
+<h3 id="configuring-custom-apis">Configuring Custom APIs<a class="headerlink" href="#configuring-custom-apis" title="Permanent link">&para;</a></h3>
+<p>Before anything happens, you must add the <code>MapApiControllers()</code> method to the <code>MobileAppConfiguration()</code>
+call.  This is done in the <code>ConfigureMobileApp()</code> method in <code>App_Start\Startup.MobileApp.cs</code> file:</p>
+<pre><code class="csharp">    new MobileAppConfiguration()
+        .AddTablesWithEntityFramework()     /* /tables endpoints */
+        .MapApiControllers()                /* /api endpoints */
+        .ApplyTo(config);
+</code></pre>
+
+<p>The <code>MapApiControllers()</code> extension method does the actual work of looking for custom APIs and mapping them
+onto the <code>/api</code> endpoint.</p>
+<h3 id="creating-a-basic-custom-api">Creating a Basic Custom API<a class="headerlink" href="#creating-a-basic-custom-api" title="Permanent link">&para;</a></h3>
+<p>You might remember that the original Azure Mobile Apps project within Visual Studio comes with a sample
+custom API called the <code>ValuesController</code>.  This controller did not do anything useful.  Let's re-create
+it from scratch.</p>
+<ul>
+<li>Right-click the <code>Controllers</code> node in your backend project and use <strong>Add</strong> -&gt; <strong>Controller...</strong>.</li>
+</ul>
+<p><img alt="" src="../img/add-custom-controller-1.PNG" /></p>
+<ul>
+<li>Select the <strong>Azure Mobile Apps Custom Controller</strong>, then click <strong>Add</strong>.</li>
+<li>Enter the name for the controller, for example, <strong>ValuesController</strong>.  Click <strong>Add</strong>.</li>
+</ul>
+<p>The new controller will be scaffolded for you.  When you are done, it looks like this:</p>
+<pre><code class="csharp">using System.Web.Http;
+using Microsoft.Azure.Mobile.Server.Config;
+
+namespace Backend.Controllers
+{
+    [MobileAppController]
+    public class ValuesController : ApiController
+    {
+        // GET api/Default
+        public string Get()
+        {
+            return &quot;Hello from custom controller!&quot;;
+        }
+    }
+}
+</code></pre>
+
+<p>If you have not done anything that requires a backend, then you can press F5 to run the backend and use
+Postman to interact with your new custom API:</p>
+<p><img alt="" src="../img/add-custom-controller-2.PNG" /></p>
+<p>We still have to submit the <code>ZUMO-API-VERSION</code> header for this to work.  Whatever my method returns will
+be returned as JSON.  This one is not exactly exciting.  One of the things I do quite often is provide
+a configuration endpoint called <code>/api/config</code> which returns a JSON object that I can use to configure the
+mobile client.</p>
+<pre><code class="csharp">using System.Web.Http;
+using Microsoft.Azure.Mobile.Server.Config;
+using System.Collections.Generic;
+using System;
+
+namespace Backend.Controllers
+{
+    [MobileAppController]
+    public class ConfigController : ApiController
+    {
+        private ConfigViewModel configuration;
+
+        public ConfigController()
+        {
+            Dictionary&lt;string, ProviderInformation&gt; providers = new Dictionary&lt;string, ProviderInformation&gt;();
+
+            AddToProviders(providers, &quot;aad&quot;, &quot;MOBILE_AAD_CLIENT_ID&quot;);
+            AddToProviders(providers, &quot;facebook&quot;, &quot;MOBILE_FB_CLIENT_ID&quot;);
+            AddToProviders(providers, &quot;google&quot;, &quot;MOBILE_GOOGLE_CLIENT_ID&quot;);
+            AddToProviders(providers, &quot;microsoftaccount&quot;, &quot;MOBILE_MSA_CLIENT_ID&quot;);
+            AddToProviders(providers, &quot;twitter&quot;, &quot;MOBILE_TWITTER_CLIENT_ID&quot;);
+
+            configuration = new ConfigViewModel
+            {
+                AuthProviders = providers
+            };
+        }
+
+        private void AddToProviders(Dictionary&lt;string, ProviderInformation&gt; providers, string provider, string envVar)
+        {
+            string envVal = Environment.GetEnvironmentVariable(envVar);
+            if (envVal != null &amp;&amp; envVal?.Length &gt; 0)
+            {
+                providers.Add(provider, new ProviderInformation { ClientId = envVal });
+            }
+
+        }
+
+        [HttpGet]
+        public ConfigViewModel Get()
+        {
+            return configuration;
+        }
+    }
+
+    public class ProviderInformation
+    {
+        public string ClientId { get; set; }
+    }
+
+    public class ConfigViewModel
+    {
+        public Dictionary&lt;string, ProviderInformation&gt; AuthProviders { get; set; }
+    }
+}
+</code></pre>
+
+<p>The constructor produces a <code>ConfigViewModel</code> for me.  This describes the configuration object I want to send.  In
+this case, I want to send the client ID for each authentication provider.  If the authentication provider is not
+configured, then the client ID is not sent.  I use the application settings to determine what is configured. The
+primary idea behind this is to integrate all the client flows within my mobile client.  When the user wishes to
+log in, they are presented with a menu of options and can pick which social provider they wish to use.  The
+client-flow authentication libraries may use different client IDs than the ones that are configured into the authentication
+service.  For example, AAD uses two client IDs - one for server-flow and one for client-flow.  As a result, this
+controller uses <strong>Application Settings</strong> (which appear as environment variables to the backend) to set the
+client IDs.  The result of calling this API from Postman looks like this:</p>
+<p><img alt="" src="../img/add-custom-controller-3.PNG" /></p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Only expose information that you would normally and reasonably embed in a mobile client.  Never transmit
+secrets this way.  It is insecure and can put your entire authentication system at risk of hijack.</p>
+</div>
+<p>You can read this information using the Azure Mobile Apps Client SDK once you have a client reference, using
+the same model classes:</p>
+<pre><code class="csharp">var configuration = await client.InvokeAsync&lt;ConfigViewModel&gt;(&quot;config&quot;, HttpMethod.Get, null);
+</code></pre>
+
+<p>You must specify a class that deserializes the JSON that is produced by your API.  If you use the same classes,
+that is practically guaranteed.  The other methods in call are the HTTP Method (GET, POST, PATCH, DELETE, etc.)
+and the query parameters.</p>
+<h3 id="handling-parameters-to-a-custom-api">Handling Parameters to a Custom API<a class="headerlink" href="#handling-parameters-to-a-custom-api" title="Permanent link">&para;</a></h3>
+<p>The <code>/api/config</code> endpoint didn't require any information that is extra.  Sometimes, we need to provide
+extra information so that the right thing can be produced.  For example, consider the case of uploading
+or downloading a file to Azure Storage.  We may want to provide some extra information - the filename of
+the file we want to upload and the permissions for the file.  Uploading and downloading files is discussed
+more fully <a href="../../chapter6/concepts/">later</a> in the book and offers a fuller example of this concept.</p>
+<p>To illustrate the concept clearly, let's create an API that adds two numbers together.  We would call
+this API through HTTP like this: <code>GET /api/addition?first=1&amp;second=2</code>.  The first number gets added to
+the second number and we will return the result.  If the first or the second number doesn't exist, we
+want to produce a 400 Bad Request response rather than crashing the server.  Here is the code:</p>
+<pre><code class="csharp">using System.Web.Http;
+using Microsoft.Azure.Mobile.Server.Config;
+using System.Net;
+
+namespace Backend.Controllers
+{
+    [MobileAppController]
+    public class AdditionController : ApiController
+    {
+        // GET api/Addition
+        public ResultViewModel Get(int? first, int? second)
+        {
+            if (first == null || second == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            ResultViewModel results = new ResultViewModel
+            {
+                First = first.GetValueOrDefault(),
+                Second = second.GetValueOrDefault()
+            };
+            results.Result = results.First + results.Second;
+            return results;
+        }
+    }
+
+    public class ResultViewModel
+    {
+        public int First { get; set; }
+        public int Second { get; set; }
+        public int Result { get; set; }
+    }
+}
+</code></pre>
+
+<p>If you try this out, you will notice something rather odd.  Try doing the following URL: <code>/api/addition?first=1&amp;second=2</code>.
+You will note it works as expected.  However, if you try doing the following URL: <code>/api/addition?first=1</code>, then you
+will note that you get a <strong>404 Not Found</strong>.  This makes the API easy to write because you don't have to worry about
+your code receiving bad input (most of the time).  However, you may not get the API surface that you want.  In this
+case, I want to return a <strong>400 Bad Request</strong> instead of the normal 404 response.  I have to do a lot more work to
+support this case:</p>
+<pre><code class="csharp">    public class AdditionController : ApiController
+    {
+        // GET api/Addition
+        public ResultViewModel Get()
+        {
+            int? first = GetParameter(Request, &quot;first&quot;),
+                 second = GetParameter(Request, &quot;second&quot;);
+
+            ResultViewModel results = new ResultViewModel
+            {
+                First = first.GetValueOrDefault(),
+                Second = second.GetValueOrDefault()
+            };
+            results.Result = results.First + results.Second;
+            return results;
+        }
+
+        private int? GetParameter(HttpRequestMessage request, string name)
+        {
+            var queryParams = request.GetQueryNameValuePairs().Where(kv =&gt; kv.Key == name).ToList();
+            if (queryParams.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+
+            int rv;
+            if (!Int32.TryParse(queryParams[0].Value, out rv))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            return rv;
+        }
+    }
+</code></pre>
+
+<p>When our Get() routine does not take parameters, no particular pattern is required.  We can use the <code>Request</code>
+object to access the parameters we send.  In this case, the <code>GetParameter()</code> routine checks to see if there
+is a named parameter and converts it to an integer.  If the named parameter is not there or it is not numeric,
+then a Bad Request response is sent.</p>
+<h3 id="handling-post-requests">Handling POST Requests<a class="headerlink" href="#handling-post-requests" title="Permanent link">&para;</a></h3>
+<p>GET and DELETE requests take parameters on the URI.  These cam ne dealt with via the automatic conversion to
+method parameters or they can be handled via LINQ queries on the request object, as we observed in the prior
+section.  POST requests, by contrast, allow you to submit a JSON body for processing.  This is useful when we
+want to submit multiple JSON objects for processing.  For example, one of the common requirements we have is
+for transactions.</p>
+<!-- Images -->
+
+<!-- URLs -->
           <aside class="copyright" role="note">
             
             Documentation built with

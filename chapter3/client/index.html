@@ -1141,9 +1141,9 @@ cases of the first sync operation and rapidly changing tables).  Finally, there 
 have to deal with the offline table maintenance and conflict resolution patterns.</p>
 <div class="admonition important">
 <p class="admonition-title">Azure Mobile Apps v3.0</p>
-<p>Azure Mobile Apps introduced a breaking change in how SQLite was used in v3.0 of the Client SDK.  This
-book covers the v3.0 release of Azure Mobile Apps.  Earlier versions required the installation of SQLite
-for Universal Windows and slightly different initialization semantics.</p>
+<p>Azure Mobile Apps introduced a breaking change in how SQLite was used in v3.0 of the Client SDK.  The
+breaking change ensured support for Android Nougat.  This book covers the v3.0 release of Azure Mobile
+Apps.</p>
 </div>
 <p>There are three stages to using an offline client:</p>
 <ol>
@@ -1161,91 +1161,12 @@ into a single update when transmitted to the mobile backend.</p>
 Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the
 database is deceptively simple.  Install the <code>Mirosoft.Azure.Mobile.Client.SQLiteStore</code> package to all the
 client projects.</p>
-<p>To use offline capabilities, you must add initialization code to the platform dependent code.  This varies
-by platform, but occurs in the primary startup file.</p>
-<ul>
-<li>For iOS, edit the <code>AppDelegate.cs</code> file.</li>
-<li>For Android, edit the <code>MainActivity.cs</code> file.</li>
-<li>For Universal Windows, edit the <code>App.xaml.cs</code> file.</li>
-</ul>
-<pre><code class="csharp">public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-{
-    // Initialize SQLitePCL
-    SQLitePCL.Batteries.Init();
-
-    // Initialize Azure Mobile Apps
-    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
-
-    // Initialize Xamarin Forms
-    global::Xamarin.Forms.Forms.Init();
-
-    // Load the application
-    LoadApplication(new App());
-
-    return base.FinishedLaunching(app, options);
-}
-</code></pre>
-
-<p>The ordering is particularly important here.  SQLitePCL must be initialized before the Azure Mobile Apps SDK, and both
-must occur before Xamarin.Forms initialization.</p>
-<p>The Universal Windows initializer is different:</p>
-<pre><code class="csharp">        protected override void OnLaunched(LaunchActivatedEventArgs e)
-        {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
-
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                // Initialize SQLitePCL
-                SQLitePCL.Batteries.Init();
-
-                Xamarin.Forms.Forms.Init(e);
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
-            }
-            // Ensure the current window is active
-            Window.Current.Activate();
-        }
-</code></pre>
-
-<p>The concept is the same.  Azure Mobile Apps does not require initialization on Universal Windows platforms, so that call
-is not needed.  However, SQLitePCL needs to be initialized prior to Xamarin Forms.</p>
-<p>Failure to add these lines will result in exceptions when initializing the SQLite store.  The error that is produced is fairly cryptic.</p>
-<pre><code class="text">A SQLite Wrapper assmebly for the current platform was not found.  Ensure that the current project
-references both SQLitePCL and the following platform-specific assembly: SQLitePCL.Ext.
-</code></pre>
-
-<p>This looks very specific.  However, when you look at the references for the projects, you will note that
-you have a reference to SQLitePCL.Ext.  The error is actually referring to the fact that you have not
-called the Init() method for the current platform.  You do not need to add these lines to the Universal
-Windows project as the SQLite installation is different.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <code>Microsoft.Azure.Mobile.Client</code> package v3.0.2 drastically improved the startup experience for
+offline sync. Make sure you are using it.  If you are using an earlier version, additional steps are
+required for initializing your offline cache.</p>
+</div>
 <p>In the <code>Services\AzureCloudService.cs</code> file, add the following method:</p>
 <pre><code class="csharp">    #region Offline Sync Initialization
     async Task InitializeAsync()
@@ -1255,7 +1176,7 @@ Windows project as the SQLite installation is different.</p>
             return;
 
         // Create a reference to the local sqlite store
-        var store = new MobileServiceSQLiteStore(PlatformProvider.GetSyncStore());
+        var store = new MobileServiceSQLiteStore(&quot;offlinecache.db&quot;);
 
         // Define the database schema
         store.DefineTable&lt;TodoItem&gt;();
@@ -1266,33 +1187,12 @@ Windows project as the SQLite installation is different.</p>
     #endregion
 </code></pre>
 
-<p>SQLitePCL doesn't know where to put the local files on the platform.  As a result, you will need to create a
-platform-specific routine to return the path for the sync store.  This is easily achieved on most platforms.
-Just return the name of the database:</p>
-<pre><code class="csharp">    public string GetSyncStore()
-    {
-        return &quot;syncstore.db&quot;;
-    }
-</code></pre>
-
-<p>However, Android has a little more work to do:</p>
-<pre><code class="csharp">    public string GetSyncStore()
-    {
-        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), &quot;syncstore.db&quot;);
-
-        if (!File.Exists(path))
-        {
-            File.Create(path).Dispose();
-        }
-
-        return path;
-    }
-</code></pre>
-
-<p>This code goes in the platform provider for the platform.  You will also need to add the <code>GetSyncStore()</code> definition
-to the <code>Abstractions\IPlatform.cs</code> file.  The Azure Mobile Apps Client SDK also does not support lower Android SDK
-versions.  Right-click on the <strong>TaskList.Droid</strong> project and ensure the <strong>Minimum Android version to target</strong> is set
-to a minimum of API level 19.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <code>Microsoft.Azure.Mobile.Client</code> package does not support Android API versions earlier than API 19.
+To set this, right-click on the <strong>TaskList.Droid</strong> project and ensure the <strong>Minimum Android version to target</strong>
+is set to a minimum of API level 19.</p>
+</div>
 <p>We need to ensure the initialization is carried out before we use the local database. The best place to do this is
 in the <code>GetTable&lt;&gt;</code> method:</p>
 <pre><code class="csharp">    /// &lt;summary&gt;
