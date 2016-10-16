@@ -1,4 +1,177 @@
-# Dealing with Files
+Now that we have explored the syntax and methodologies of invoking server-side code, we can look at some very common
+use cases for custom code.
+
+## Storage Related Operations
+
+When dealing with cloud concepts, there are multiple operating levels one can think about.  At the bottom layer
+is _Infrastructure as a Service_.  Most people think of this as the Virtual Machine layer, but it also incorporates
+basic networking and storage concepts.  As you move to higher level services, you gain a lot of efficiencies by
+adding software components, you lose a lot of the potential management headaches, but you also lose flexibility
+in what you can do to the platform.  At the top of the stack is _Software as a Service_.  You may be running
+a helpdesk, for example, but you are completely isolated from what operating system is being run, what web services
+are being run, APIs that can be accessed and language that is used.
+
+Azure Mobile Apps is an opinionated combination of a client and server SDK running on top of a standard ASP.NET
+based web service and is normally thought of as being a _Platform as a Service_.  You get to choose what database
+to use, what tables to expose, and what programming language to use.  You don't get to determine when the operating
+system is patched or what patches are applied.  It's a middle of the road between SaaS and IaaS.
+
+That isn't to say we can't dip down sometimes to deal with lower level cloud services, nor to access higher level
+SaaS APIs.  One of those times is when dealing with files.  Storage is conceptually easy - you have an amount of
+disk and you can store files on it.  However, the management of that storage is complicated.  Placing that storage
+at the service of a scalable web application is similarly complicated.  What we intend to do is develop a set of
+skills that make developing storage based mobile applications easy.
+
+### Blobs, Table, Queues and files
+
+At the top of my list of "storage made complicated" is the cloud storage concepts.  In the old days, we stored files
+on a file system and we didn't really have to worry about differing types of storage, redundancy and capabilities.
+Cloud storage tends to come in multiple flavors:
+
+* The base storage type is **Blob Storage**.  Put simply, you have containers (roughly analogous to directories) and
+blobs (roughly analogous to files).  It's the cheapest form of storage and is used for many things, including the underlying
+storage for virtual machine disks.  Blob storage has many advantages.  From a mobile perspective, developers will
+appreciate the upload/download restart capabilities within the SDK.
+
+* We've already introduced **Table Storage** in [the last chapter][ch3-1].  It is more analogous to a NoSQL store for storing
+key / attribute values.  It has a schemaless design, so you can store basic JSON objects.  However, it has limited
+query capabilities, as we discussed in the last chapter.  That makes it unsuited to large scale query-driven applications.
+
+* You may think you want **Files Storage**.  This provides an SMB interface to the storage layer.  You would use Files
+Storage if you want to browse files from your PC or Mac as you can mount the file system directly from Azure Storage.
+
+* Finally, **Queue Storage** provides cloud messaging between application components.  We'll get onto Azure Functions
+later on, during our look at Custom API.  Queue Storage will definitely be coming into play then.  Think of Queue
+Storage as the glue that ties work flow components together.
+
+The real question is when should you use File Storage and when should you use Blob Storage.  For more applications,
+Blob Storage is going to save you money over File Storage, so it's pretty much always the better choice.  You should
+only be thinking of File Storage if you have other components of your system that need to access the data you upload
+that can only access that data via an SMB interface.
+
+If you need to explore the data that you upload or download, you can use the [Azure Storage Explorer][1] as a standalone
+application or you can use the Cloud Explorer in [Visual Studio][2].
+
+### <a name="create-storage-acct"></a>Creating and Linking a Storage Account
+
+Before we can use storage, we need to set up a storage account and connect it to our environment.  This involves:
+
+1. Create a Resource Group
+2. Create an Azure App Service
+3. Set up authentication on the Azure App Service
+4. Create a Storage Account
+5. Link the Storage Account to the Azure App Service.
+
+We've already covered the first three items in previous chapters.  We've also created a storage account and linked it
+to the mobile backend during our look at the [Storage Domain Manager][ch3-1].  To create a Storage Account:
+
+* Log on to the [Azure portal].
+* Click the big **+ NEW** button in the top left corner.
+* Click **Data + Storage**, then **Storage account**.
+* Fill in the form:
+    * The name can only contain letters and numbers and must be unique.  A GUID without the dashes is a good choice.
+    * The **Deployment model** should be set to **Resource manager**.
+    * The **Account kind** should be set to **General purpose**.
+    * The **Performance** should be set to **Standard** for this example.
+    * The **Replication** should be set to **Locally-redundant storage (LRS)**.
+    * Set the **Resource group** to your existing resource group.
+    * Set the **Location** to the same location as your App Service.
+* Click **Create**.
+
+Just like SQL Azure, Azure Storage has some great scalability and redundancy features if your backend takes advantage of them.
+For example, you have the option of **Premium Storage** - this provides all-SSD storage that has a large IOPS performance
+number.  You can also decide how redundant you want the storage.  Azure always keeps 3 copies of your data.  You can choose
+to increase the number of copies and decide whether the additional copies will be in the same datacenter, another datacenter
+in the same region or another region.  We have selected the slowest performance and least redundant options here to keep the
+cost down on your service.
+
+!!! warn
+    There is no "free" option for Azure Storage.  You pay by the kilobyte depending on the performance and redundancy selected.
+
+Once the Azure Storage account is deployed, you can link the storage account to your App Service:
+
+* Open your App Service in the [Azure portal].
+* Click  **Data Connections** under the **MOBILE** section in the settings menu.
+* Click **+ ADD**
+* In the **Add data connection** blade:
+    * Set the Type to **Storage**.
+    * Click the **Storage** link.
+    * In the **Storage Account** selector, click the storage account you just created.
+    * Click the **Connection string**.
+    * In the **Connection string** selector, make a note of the **Name** field.
+    * Click **OK**.
+    * Click **OK** to close the **Add data connection** blade.
+
+Click on the **Application Settings** menu option, then scroll down to the **Connection Strings** section.  Note that the portal
+has created the connection string as an App Setting for you with the right value:
+
+```bash
+DefaultEndpointsProtocol=https;AccountName=thebook;AccountKey=<key1>
+```
+
+By default, the connection string is called `MS_AzureStorageAccountConnectionString` and we will use that throughout our
+examples.
+
+The key is the access key for the storage.  When a storage account is created, two keys are also created.  The keys are used for
+secure access to the storage area.  You should never distribute the storage keys nor check them into source control.  If you feel
+they have been compromised, you should regenerate them.  There are two keys for this purpose.  The process of regeneration is:
+
+1. Regenerate KEY2
+2. Place the regenerated KEY2 in the connection string and restart your App Service.
+3. Regenerate key1
+4. Place the regenerated KEY1 in the connection string and restart your App Service.
+
+In this way, your App Service will always be using KEY1 except during regeneration.  You can avoid the restart of your App Service
+by providing a management interface that sets the Account Key for the App Service.
+
+!!! tip
+    For local development, there is the [Azure Storage Emulator][3].  The connection string when using the Azure Storage
+    Emulator is `UseDevelopmentStorage=true`.
+
+It's normal to add the storage connection string to the `Web.config` file with the following:
+
+```xml
+<connectionStrings>
+    <add name="MS_AzureStorageAccountConnectionString" connectionString="UseDevelopmentStorage=true" />
+</connectionStrings>
+```
+
+This will be overwritten by the connection string in the App Service Application Settings.  Effectively, you will be using the
+Azure Storage Emulator during local development and Azure Storage when you deploy to Azure App Service.
+
+### The Shared Access Signature (SAS)
+
+The storage account key is kind of like the root or Administrator password.  You should always protect it, never send it to a
+third party and regenerate it on a regular basis.  You avoid storing the storage account key in source code by linking the
+storage account to the App Service.  The key is stored in the connection string instead.  You should never ship an account
+key to your mobile account.
+
+The Azure Storage SDK already has many of the features that you want in handling file upload and download.  Azure Storage is
+optimized for streaming, for example.  You can upload or download blobs in blocks, allowing you to restart the transfer and
+provide feedback to the user on progress, for example.   You will inevitably be drawn to having your mobile client interact
+with Azure Storage directly rather than having an intermediary web service for this reason.
+
+If you want to interact with Azure Storage directly and you shouldn't give out the account key, how do you deal with the
+security of the service?  The answer is with a Shared Access Signature, or SAS.  The **Service SAS** delegates access
+to just a single resource in one of the storage services (Blob, Table, Queue or File service).
+
+!!! info
+    There is also an [Account SAS][4] which delegates access to resources in more than one service.  You generally don't
+    want this in application development.
+
+A service SAS is a URI that is used when accessing the resource.  It consists of the URI to the resource followed by a
+SAS token.  The SAS token is an cryptographically signed opaque token that the storage service decodes.  Minimally, it
+provides an expiry time and the permissions being granted to the SAS.
+
+!!! warn
+    A SAS token **ALWAYS** expires.  There is no way to produce a permanent SAS token.  If you think you need one,
+    think again.  In mobile development, you **NEVER** want a non-expiring token.
+
+Accessing Azure Storage is always done with a specific [version of the REST API][5] and that follows through to the SDK.  You
+should always request a SAS token for the appropriate API you are going to be using.   We'll cover the various
+methods of obtaining a SAS later in the chapter.
+
+## Uploading a File
 
 The most normal tasks for dealing with files are the upload and download of files to blob storage.  There is
 a natural and consistent process to this which makes this recipe very repeatable.  First, deal with the things
@@ -7,43 +180,11 @@ you need before you start:
 1. Create an Azure Storage Account and link it to your Azure App Service.
 2. Decide how you want your files organized.
 3. Create a WebAPI to generate a SAS token for your upload or download.
+Blob storage is organized in a typical directory structure.  Each directory is called a container, and each file
+is a blob.  In the examples for this section, I am going to store each uploaded file in a container based on the
+authenticated user.  My WebAPI will create the appropriate container and then return an appropriate SAS token.
 
-I've already discussed [how to create and link an Azure Storage Account][1].  Blob storage is organized in a
-typical directory structure.  Each directory is called a container, and each file is a blob.  In the examples
-for this section, I am going to store each uploaded file in a container based on the authenticated user.  My
-WebAPI will create the appropriate container and then return an appropriate SAS token.
-
-We haven't discussed custom code yet.  We will go much deeper than we do right now.  Custom APIs allow us to
-write custom code and execute it within the context of the mobile backend.  It has access to many of the same
-facilities as the rest of the mobile backend - things like app settings, connection strings, and the Entity
-Framework structure.  To enable custom APIs, you need to alter the `App_Start\Startup.MobileApp.cs` file so
-that the custom APIs are attached to HTTP routes properly:
-
-```csharp
-    HttpConfiguration config = new HttpConfiguration();
-
-    new MobileAppConfiguration()
-        .AddTablesWithEntityFramework()
-        .MapApiControllers()
-        .ApplyTo(config);
-```
-
-The Custom API is a standard ASP.NET controller with the `[MobileAppController]` attribute attached to the
-class.  The `[MobileAppController]` signals to Azure Mobile Apps that the controller needs to be registered
-under the `/api` endpoint.  It also handles API version checking (or at least checks that the `ZUMO-API-VERSION`
-header is set to 2.0.0) and appropriately handles authorization if the `[Authorize]` attribute is present. The
-mapping under the `/api` endpoint only happens if the `.MapApiControllers()` extension method is called during
-configuration.
-
-!!! info
-    Ensure you install the latest version of the `WindowsAzure.Storage` Nuget package using the NuGet package
-    Manager before continuing.
-
-When we linked the Azure Storage account, we added a connection string called `MS_AzureStorageAccountConnectionString`.
-This is included in the environment as `CUSTOMCONNSTR_MS_AzureStorageAccountConnectionString`.  We can add a new
-Custom API controller in Visual Studio by right-clicking on the **Controllers** node, then selecting **Add** ->
-**Controller...** and selecting the **Azure Mobile APps Custom Controller** option.  We can set up our custom API
-as follows:
+We can set up our custom API as follows:
 
 ```csharp
 namespace Backend.Controllers
@@ -154,7 +295,7 @@ from another location, allowing processing of the files in between.  You may als
 to the file before uploading.  There is no "one size fits all" token policy.  You must decide on the conditions under which
 you will allow upload and download capabilities and then provide the appropriate logic to generate the SAS token.
 
-## Uploading a File to Blob Storage
+### The Mobile Client
 
 Once we have the logic to generate a SAS token, we can turn our attention to the mobile clients.  We need to do three
 things for uploading a file to the service:
@@ -538,9 +679,10 @@ One of the secrets for doing block-based streaming uploads is the `GetBlockId()`
 a rather convoluted method that ends up being Base-64 encoded).  If you do not get this right, you will instead get a rather cryptic
 message about the query parameter for the HTTP request being wrong.
 
-## Download a File from Blob Storage
+## Downloading a File
 
-You can similarly download a file from blob storage.  To do the basic form:
+You can similarly download a file from blob storage.  The basics (such as the SAS token generator) are exactly
+the same as before.  To do the basic form:
 
 ```csharp
     // Get the SAS token from the backend
@@ -591,13 +733,18 @@ Similarly, you can also produce a progress bar:
 When downloading, you will need to update the `GetStorageTokenController` method to provide access to files.  One possibility is to
 provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing.
 
+
+
+## Image Resizing
+
+## Initiating a Workflow
+
 <!-- Images -->
 [img1]: img/getstoragetoken-1.PNG
 [img2]: img/storageinportal.PNG
 
 <!-- Links -->
 [Azure portal]: https://portal.azure.com
-[1]: ./concepts.md#create-storage-account
 [2]: https://msdn.microsoft.com/library/azure/dd135715.aspx
 [3]: https://github.com/jamesmontemagno/MediaPlugin
 [4]: https://blog.xamarin.com/new-ios-10-privacy-permission-settings/

@@ -1,3 +1,4 @@
+using Backend.DataObjects;
 using Microsoft.Azure.Mobile.Server.Tables;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -30,5 +31,9 @@ namespace Backend.Models
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
+
+        public DbSet<Album> Albums { get; set; }
+        public DbSet<Track> Tracks { get; set; }
+
     }
 }

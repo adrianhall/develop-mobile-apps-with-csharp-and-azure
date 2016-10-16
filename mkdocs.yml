@@ -26,10 +26,11 @@ pages:
         - Relationships: chapter3/relationships.md
         - The Domain Manager: chapter3/domainmgr.md
     - Chapter 4 - Server Side Code:
-        - Options: chapter4/options.md
-        - Custom API: chapter4/custom.md
+        - Options for Server Code: chapter4/options.md
+        - Custom HTTP Endpoints: chapter4/custom.md
         - WebJobs: chapter4/webjobs.md
         - Functions: chapter4/functions.md
+        - Recipes: chapter4/recipes.md
     - Chapter 5 - Push Notifications:
         - Concepts: chapter5/concepts.md
         - Notification Hubs: chapter5/nh.md
@@ -38,25 +39,21 @@ pages:
         - Windows Push: chapter5/windows.md
         - Testing Push: chapter5/testing.md
         - Push Recipes: chapter5/recipes.md
-    - Chapter 6 - File Management:
-        - Concepts: chapter6/concepts.md
-        - Dealing with Files: chapter6/files.md
-        - File Synchronization: chapter6/filesync.md
-    - Chapter 7 - Combining Web and Mobile Apps:
-        - MVC Applications: chapter7/mvc.md
-        - SPA Applications: chapter7/spa.md
-    - Chapter 8 - Other Useful Services:
-        - Azure Search: chapter8/search.md
-        - Media Services: chapter8/media.md
-        - Real-time Notifications: chapter8/realtime.md
-    - Chapter 9 - Developing An App:
-        - The Development Environment: chapter9/developing.md
-        - Testing your Application: chapter9/testing.md
-    - Chapter 10 - Going to Production:
-        - Repeatable Deployments: chapter10/arm.md
-        - Safe Deployments: chapter10/appsvc.md
-        - Monitoring: chapter10/monitoring.md
-        - Troubleshooting: chapter10/troubleshooting.md
+    - Chapter 6 - Combining Web and Mobile Apps:
+        - MVC Applications: chapter6/mvc.md
+        - SPA Applications: chapter6/spa.md
+    - Chapter 7 - Other Useful Services:
+        - Azure Search: chapter7/search.md
+        - Media Services: chapter7/media.md
+        - Real-time Notifications: chapter7/realtime.md
+    - Chapter 8 - Developing An App:
+        - The Development Environment: chapter8/developing.md
+        - Testing your Application: chapter8/testing.md
+    - Chapter 9 - Going to Production:
+        - Repeatable Deployments: chapter9/arm.md
+        - Safe Deployments: chapter9/appsvc.md
+        - Monitoring: chapter9/monitoring.md
+        - Troubleshooting: chapter9/troubleshooting.md
     - Xamarin Forms Tips: xamarin_tips.md
     - Android Developer Notes: android_appendix.md
     - References: references.md

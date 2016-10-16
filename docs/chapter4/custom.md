@@ -258,8 +258,111 @@ GET and DELETE requests take parameters on the URI.  These cam ne dealt with via
 method parameters or they can be handled via LINQ queries on the request object, as we observed in the prior
 section.  POST requests, by contrast, allow you to submit a JSON body for processing.  This is useful when we
 want to submit multiple JSON objects for processing.  For example, one of the common requirements we have is
-for transactions.
+for transactions.  When we want to submit two objects that are joined by a foreign key, we can submit them
+both and construct a transaction in the backend with Entity Framework.
 
+Let's take an example.  We want to produce a music trakcing mobile app.  When we add an album to our music
+database, we also want to add the tracks for that database.  This can be modeled with code first Entity
+Framework:
+
+```csharp
+public class Track : EntityData
+{
+    public Track() {}
+
+    public string Title { get; set; }
+    public int Length { get; set; }
+
+    public virtual Album Album { get; set; }
+}
+
+public class Album : EntityData
+{
+    public Album()
+    {
+        Tracks = new List<Track>();
+    }
+
+    public string Title { get; set; }
+
+    public virtual ICollection<Track> Tracks { get; set; }
+}
+```
+
+This will generate a foreign key relationship in the tables of our database.  However, as we learned in
+[chapter 3][3], relationships are hard to implement and come with some serious caveats.  We could decouple
+the tracks from the albums, but let's instead try to insert the data for an album all in one go.  We do
+this by submitting the JSON for an Album to a custom controller:
+
+```csharp
+    [MobileAppController]
+    public class AlbumCustomController : ApiController
+    {
+        MobileServiceContext context;
+
+        public AlbumCustomController() : base()
+        {
+            context = new MobileServiceContext();
+        }
+
+        [HttpPost]
+        public async Task<AlbumCustomResponse> PostAsync([FromBody] Album newAlbum)
+        {
+            // Use a transaction to update the database
+            using (DbContextTransaction transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    context.Albums.Add(newAlbum);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+
+            // Now generate whatever output we want.
+            AlbumCustomResponse response = new AlbumCustomResponse
+            {
+                Status = 200
+            };
+            return response;
+        }
+    }
+```
+
+In this particular scenario, we would construct an album object on the mobile client side that directly corresponded
+to the JSON we want to push to the database, including the track information.  Let's take a look at a typical call:
+
+```csharp
+var response = client.InvokeApiAsync<Album,AlbumCustomResponse>(
+    "AlbumController",              // The name of the API
+    newAlbum,                       // The body of the POST
+    HttpMethod.Post,                // The HTTP Method
+    null,                           // Request Headers
+    null);                          // Parameters
+```
+
+There are [quite a few signatures][4] for the `InvokeApiAsync<>()` method.  This one sends an `Album` object as JSON as the
+body of the request, and returns an `AlbumCustomResponse`, decoding the response as it goes.
+
+## The Downside of Custom APIs
+
+Given that we can do transaction processing within a custom API, one might be forgiven for wondering why we don't
+use custom APIs for processing data within our normalized SQL schema.  The problem, of course, is that custom APIs
+(including WebAPIs) can only be executed while connected to the Internet.  When the mobile device is offline, the
+custom API cannot be executed, thus breaking our offline model.  Offline just doesn't mix with SQL relationships.
+
+When I first encountered this, I thought a great idea may be to instantiate a queue, much like the Operations Queue
+that is used within the offline sync process.  When I want to queue up a transaction, I insert it into my own
+operations queue.  My early research used a light-weight queuing mechanism ([DotNetMQ][5], for those interested) to
+implement the queue.  Transactions were inserted into the queue at the appropriate time in the client.  During the
+sync process, the transactions were pushed, then the tables were pulled.  The problem is that the tables in the
+offline sync were not maintained until a pull, resulting in "old data".  If I updated the data in the offline cache
+as well, I produced many conflicts and inconsistent data within the offline cache.  In the end, I concluded that
+it was better to loosely couple the tables that were being used (as we discussed in [chapter 3][3]).
 
 <!-- Images -->
 [img1]: img/add-custom-controller-1.PNG
@@ -268,4 +371,7 @@ for transactions.
 
 <!-- URLs -->
 [1]: ../chapter2/custom.md
-[2]: ../chapter6/concepts.md
+[2]: ./recipes.md
+[3]: ../chapter3/relationships.md
+[4]: https://github.com/Azure/azure-mobile-apps-net-client/blob/bfe421987a9fabcf82f341355749c64a1eed43c3/src/Microsoft.WindowsAzure.MobileServices/IMobileServiceClient.cs#L186
+[5]: http://www.codeproject.com/Articles/193611/DotNetMQ-A-Complete-Message-Queue-System-for-NET
