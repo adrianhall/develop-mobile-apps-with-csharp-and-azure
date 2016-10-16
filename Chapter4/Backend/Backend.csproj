@@ -185,9 +185,11 @@
     <Compile Include="Controllers\AdditionController.cs" />
     <Compile Include="Controllers\AlbumCustomController.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
+    <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="Controllers\TrackController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataObjects\Album.cs" />
+    <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

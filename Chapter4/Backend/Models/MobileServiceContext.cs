@@ -34,6 +34,6 @@ namespace Backend.Models
 
         public DbSet<Album> Albums { get; set; }
         public DbSet<Track> Tracks { get; set; }
-
+        public DbSet<TodoItem> TodoItems { get; set; }
     }
 }

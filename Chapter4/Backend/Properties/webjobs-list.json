@@ -3,6 +3,9 @@
   "WebJobs": [
     {
       "filePath": "../CleanupDatabaseWebJob/CleanupDatabaseWebJob.csproj"
+    },
+    {
+      "filePath": "../ImageResizeWebJob/ImageResizeWebJob.csproj"
     }
   ]
 }
