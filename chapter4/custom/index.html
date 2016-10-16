@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Custom API - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+        <title>Custom HTTP Endpoints - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
       
       
       
@@ -102,7 +102,7 @@
             
           </span>
         
-        Custom API
+        Custom HTTP Endpoints
       </div>
     </div>
     
@@ -376,8 +376,8 @@
       
         
   <li>
-    <a class="" title="Options" href="../options/">
-      Options
+    <a class="" title="Options for Server Code" href="../options/">
+      Options for Server Code
     </a>
     
   </li>
@@ -385,8 +385,8 @@
       
         
   <li>
-    <a class="current" title="Custom API" href="./">
-      Custom API
+    <a class="current" title="Custom HTTP Endpoints" href="./">
+      Custom HTTP Endpoints
     </a>
     
       
@@ -419,6 +419,12 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="The Downside of Custom APIs" href="#the-downside-of-custom-apis">
+                The Downside of Custom APIs
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -438,6 +444,15 @@
   <li>
     <a class="" title="Functions" href="../functions/">
       Functions
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Recipes" href="../recipes/">
+      Recipes
     </a>
     
   </li>
@@ -521,48 +536,12 @@
           
             
   <li>
-    <span class="section">Chapter 6 - File Management</span>
+    <span class="section">Chapter 6 - Combining Web and Mobile Apps</span>
     <ul>
       
         
   <li>
-    <a class="" title="Concepts" href="../../chapter6/concepts/">
-      Concepts
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="Dealing with Files" href="../../chapter6/files/">
-      Dealing with Files
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="File Synchronization" href="../../chapter6/filesync/">
-      File Synchronization
-    </a>
-    
-  </li>
-
-      
-    </ul>
-  </li>
-
-          
-            
-  <li>
-    <span class="section">Chapter 7 - Combining Web and Mobile Apps</span>
-    <ul>
-      
-        
-  <li>
-    <a class="" title="MVC Applications" href="../../chapter7/mvc/">
+    <a class="" title="MVC Applications" href="../../chapter6/mvc/">
       MVC Applications
     </a>
     
@@ -571,7 +550,7 @@
       
         
   <li>
-    <a class="" title="SPA Applications" href="../../chapter7/spa/">
+    <a class="" title="SPA Applications" href="../../chapter6/spa/">
       SPA Applications
     </a>
     
@@ -584,12 +563,12 @@
           
             
   <li>
-    <span class="section">Chapter 8 - Other Useful Services</span>
+    <span class="section">Chapter 7 - Other Useful Services</span>
     <ul>
       
         
   <li>
-    <a class="" title="Azure Search" href="../../chapter8/search/">
+    <a class="" title="Azure Search" href="../../chapter7/search/">
       Azure Search
     </a>
     
@@ -598,7 +577,7 @@
       
         
   <li>
-    <a class="" title="Media Services" href="../../chapter8/media/">
+    <a class="" title="Media Services" href="../../chapter7/media/">
       Media Services
     </a>
     
@@ -607,7 +586,7 @@
       
         
   <li>
-    <a class="" title="Real-time Notifications" href="../../chapter8/realtime/">
+    <a class="" title="Real-time Notifications" href="../../chapter7/realtime/">
       Real-time Notifications
     </a>
     
@@ -620,12 +599,12 @@
           
             
   <li>
-    <span class="section">Chapter 9 - Developing An App</span>
+    <span class="section">Chapter 8 - Developing An App</span>
     <ul>
       
         
   <li>
-    <a class="" title="The Development Environment" href="../../chapter9/developing/">
+    <a class="" title="The Development Environment" href="../../chapter8/developing/">
       The Development Environment
     </a>
     
@@ -634,7 +613,7 @@
       
         
   <li>
-    <a class="" title="Testing your Application" href="../../chapter9/testing/">
+    <a class="" title="Testing your Application" href="../../chapter8/testing/">
       Testing your Application
     </a>
     
@@ -647,12 +626,12 @@
           
             
   <li>
-    <span class="section">Chapter 10 - Going to Production</span>
+    <span class="section">Chapter 9 - Going to Production</span>
     <ul>
       
         
   <li>
-    <a class="" title="Repeatable Deployments" href="../../chapter10/arm/">
+    <a class="" title="Repeatable Deployments" href="../../chapter9/arm/">
       Repeatable Deployments
     </a>
     
@@ -661,7 +640,7 @@
       
         
   <li>
-    <a class="" title="Safe Deployments" href="../../chapter10/appsvc/">
+    <a class="" title="Safe Deployments" href="../../chapter9/appsvc/">
       Safe Deployments
     </a>
     
@@ -670,7 +649,7 @@
       
         
   <li>
-    <a class="" title="Monitoring" href="../../chapter10/monitoring/">
+    <a class="" title="Monitoring" href="../../chapter9/monitoring/">
       Monitoring
     </a>
     
@@ -679,7 +658,7 @@
       
         
   <li>
-    <a class="" title="Troubleshooting" href="../../chapter10/troubleshooting/">
+    <a class="" title="Troubleshooting" href="../../chapter9/troubleshooting/">
       Troubleshooting
     </a>
     
@@ -902,7 +881,7 @@ and the query parameters.</p>
 extra information so that the right thing can be produced.  For example, consider the case of uploading
 or downloading a file to Azure Storage.  We may want to provide some extra information - the filename of
 the file we want to upload and the permissions for the file.  Uploading and downloading files is discussed
-more fully <a href="../../chapter6/concepts/">later</a> in the book and offers a fuller example of this concept.</p>
+more fully <a href="../recipes/">later</a> in the book and offers a fuller example of this concept.</p>
 <p>To illustrate the concept clearly, let's create an API that adds two numbers together.  We would call
 this API through HTTP like this: <code>GET /api/addition?first=1&amp;second=2</code>.  The first number gets added to
 the second number and we will return the result.  If the first or the second number doesn't exist, we
@@ -992,7 +971,101 @@ then a Bad Request response is sent.</p>
 method parameters or they can be handled via LINQ queries on the request object, as we observed in the prior
 section.  POST requests, by contrast, allow you to submit a JSON body for processing.  This is useful when we
 want to submit multiple JSON objects for processing.  For example, one of the common requirements we have is
-for transactions.</p>
+for transactions.  When we want to submit two objects that are joined by a foreign key, we can submit them
+both and construct a transaction in the backend with Entity Framework.</p>
+<p>Let's take an example.  We want to produce a music trakcing mobile app.  When we add an album to our music
+database, we also want to add the tracks for that database.  This can be modeled with code first Entity
+Framework:</p>
+<pre><code class="csharp">public class Track : EntityData
+{
+    public Track() {}
+
+    public string Title { get; set; }
+    public int Length { get; set; }
+
+    public virtual Album Album { get; set; }
+}
+
+public class Album : EntityData
+{
+    public Album()
+    {
+        Tracks = new List&lt;Track&gt;();
+    }
+
+    public string Title { get; set; }
+
+    public virtual ICollection&lt;Track&gt; Tracks { get; set; }
+}
+</code></pre>
+
+<p>This will generate a foreign key relationship in the tables of our database.  However, as we learned in
+<a href="../../chapter3/relationships/">chapter 3</a>, relationships are hard to implement and come with some serious caveats.  We could decouple
+the tracks from the albums, but let's instead try to insert the data for an album all in one go.  We do
+this by submitting the JSON for an Album to a custom controller:</p>
+<pre><code class="csharp">    [MobileAppController]
+    public class AlbumCustomController : ApiController
+    {
+        MobileServiceContext context;
+
+        public AlbumCustomController() : base()
+        {
+            context = new MobileServiceContext();
+        }
+
+        [HttpPost]
+        public async Task&lt;AlbumCustomResponse&gt; PostAsync([FromBody] Album newAlbum)
+        {
+            // Use a transaction to update the database
+            using (DbContextTransaction transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    context.Albums.Add(newAlbum);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+
+            // Now generate whatever output we want.
+            AlbumCustomResponse response = new AlbumCustomResponse
+            {
+                Status = 200
+            };
+            return response;
+        }
+    }
+</code></pre>
+
+<p>In this particular scenario, we would construct an album object on the mobile client side that directly corresponded
+to the JSON we want to push to the database, including the track information.  Let's take a look at a typical call:</p>
+<pre><code class="csharp">var response = client.InvokeApiAsync&lt;Album,AlbumCustomResponse&gt;(
+    &quot;AlbumController&quot;,              // The name of the API
+    newAlbum,                       // The body of the POST
+    HttpMethod.Post,                // The HTTP Method
+    null,                           // Request Headers
+    null);                          // Parameters
+</code></pre>
+
+<p>There are <a href="https://github.com/Azure/azure-mobile-apps-net-client/blob/bfe421987a9fabcf82f341355749c64a1eed43c3/src/Microsoft.WindowsAzure.MobileServices/IMobileServiceClient.cs#L186">quite a few signatures</a> for the <code>InvokeApiAsync&lt;&gt;()</code> method.  This one sends an <code>Album</code> object as JSON as the
+body of the request, and returns an <code>AlbumCustomResponse</code>, decoding the response as it goes.</p>
+<h2 id="the-downside-of-custom-apis">The Downside of Custom APIs<a class="headerlink" href="#the-downside-of-custom-apis" title="Permanent link">&para;</a></h2>
+<p>Given that we can do transaction processing within a custom API, one might be forgiven for wondering why we don't
+use custom APIs for processing data within our normalized SQL schema.  The problem, of course, is that custom APIs
+(including WebAPIs) can only be executed while connected to the Internet.  When the mobile device is offline, the
+custom API cannot be executed, thus breaking our offline model.  Offline just doesn't mix with SQL relationships.</p>
+<p>When I first encountered this, I thought a great idea may be to instantiate a queue, much like the Operations Queue
+that is used within the offline sync process.  When I want to queue up a transaction, I insert it into my own
+operations queue.  My early research used a light-weight queuing mechanism (<a href="http://www.codeproject.com/Articles/193611/DotNetMQ-A-Complete-Message-Queue-System-for-NET">DotNetMQ</a>, for those interested) to
+implement the queue.  Transactions were inserted into the queue at the appropriate time in the client.  During the
+sync process, the transactions were pushed, then the tables were pulled.  The problem is that the tables in the
+offline sync were not maintained until a pull, resulting in "old data".  If I updated the data in the offline cache
+as well, I produced many conflicts and inconsistent data within the offline cache.  In the end, I concluded that
+it was better to loosely couple the tables that were being used (as we discussed in <a href="../../chapter3/relationships/">chapter 3</a>).</p>
 <!-- Images -->
 
 <!-- URLs -->
@@ -1012,7 +1085,7 @@ for transactions.</p>
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../options/" title="Options">
+        <a href="../options/" title="Options for Server Code">
           <span class="direction">
             Previous
           </span>
@@ -1022,7 +1095,7 @@ for transactions.</p>
             </div>
             <div class="stretch">
               <div class="title">
-                Options
+                Options for Server Code
               </div>
             </div>
           </div>
