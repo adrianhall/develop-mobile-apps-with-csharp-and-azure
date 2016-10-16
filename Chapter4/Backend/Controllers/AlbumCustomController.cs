@@ -30,7 +30,7 @@ namespace Backend.Controllers
                     await context.SaveChangesAsync();
                     transaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     transaction.Rollback();
                 }
