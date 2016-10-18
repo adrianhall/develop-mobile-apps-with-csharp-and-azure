@@ -291,7 +291,7 @@ namespace ImageResizeWebJob
             var image = Image.FromStream(input);
 
             // Process the image object
-            if (image.Height > requiredHeight || image.Width < requiredWidth)
+            if (image.Height > requiredHeight || image.Width > requiredWidth)
             {
                 var destRect = new Rectangle(0, 0, requiredWidth, requiredHeight);
                 var destImage = new Bitmap(requiredWidth, requiredHeight);

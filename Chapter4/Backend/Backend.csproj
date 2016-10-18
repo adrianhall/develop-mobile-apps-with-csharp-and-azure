@@ -190,6 +190,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataObjects\Album.cs" />
     <Compile Include="DataObjects\TodoItem.cs" />
+    <Compile Include="Helpers\Webhook.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -211,7 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\zumobook-ch4 - Web Deploy.pubxml" />
-    <Content Include="Properties\webjobs-list.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -318,7 +318,7 @@ Task<Stream> GetUploadFileAsync();
 ```
 
 This API will interact with whatever photo sharing API is available on the device, open the requested file and return a standard
-`Stream` object.  Loading a media file is made much simpler using the cross-platform [Xamarin Media] plugin.  This plugin allows
+`Stream` object.  Loading a media file is made much simpler using the cross-platform [Xamarin Media plugin][3].  This plugin allows
 the user to take photos or video, or pick  the media file from a gallery.  It's available on NuGet, so add the `Xam.Plugin.Media`
 plugin to each of the platform-specific projects.
 
@@ -340,7 +340,7 @@ There are methods within the plugin to determine if a camera is available.  Diff
 
 ### Android
 
-Android requires the  `WRITE\_EXTERNAL\_STORAGE`, `READ\_EXTERNAL\_STORAGE` and `CAMERA` permissions. If the mobile device is
+Android requires the  `WRITE_EXTERNAL_STORAGE`, `READ_EXTERNAL_STORAGE` and `CAMERA` permissions. If the mobile device is
 running Android M or later, the plugin will automatically prompt the user for runtime permissions.  You can set these permissions
 within Visual Studio:
 
@@ -733,18 +733,105 @@ Similarly, you can also produce a progress bar:
 When downloading, you will need to update the `GetStorageTokenController` method to provide access to files.  One possibility is to
 provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing.
 
+## Table Controllers and Webhooks
 
+I love writing asynchronous applications.  One of the four features I mentioned with Table Controllers is the
+Webhook.  In essence, if someone inserts, updates or deletes a record, you may want to do something asynchronously.
+For example, you may want to do sentiment analysis on the record that was just uploaded, or perhaps execute some
+custom code to simulate an offline custom API.
 
-## Image Resizing
+A Webhook is a callback mechanism whereby the controller will do an HTTP POST when something happens.  It's an
+event processing system over HTTP.  In this sample, we are going to generate a simple Webhook function that
+logs the inserted record, then adjust our table controller to call the Webhook when an insert happens.
 
-## Initiating a Workflow
+Let's first of all create a Function that handles the request.  Create a Function App, and then create a new
+function based on the **Generic Webhook - C#** template.  Call this function `InsertTodoItemWebhook`.  You
+can call this whatever you want, but the URI of your Webhook is based on the name of your function.
+
+Replace the body of the function with the following:
+
+```csharp
+#r "Newtonsoft.Json"
+
+using System;
+using System.Net;
+using Newtonsoft.Json;
+
+public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
+{
+    string jsonContent = await req.Content.ReadAsStringAsync();
+    dynamic data = JsonConvert.DeserializeObject(jsonContent);
+
+    log.Info($"Created New Todo ({data.Text}, {data.Complete})");
+
+    return req.CreateResponse(HttpStatusCode.OK);
+}
+```
+
+Note the **Function Url** at the top of the page.  You will need to copy and paste this later on.  You can
+test the Function in isolation by putting the following in the **Request body** panel:
+
+```text
+{
+    "Text": "test",
+    "Complete": true
+}
+```
+
+When you click the **Run** button, the log should show the Info line and the Output should show a **200 OK**
+
+![][img3]
+
+You can now turn your attention to the mobile backend.  I use a `Webhook.cs` helper:
+
+```csharp
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Backend.Helpers
+{
+    public static class Webhook
+    {
+        public static async Task<HttpStatusCode> SendAsync<T>(Uri uri, T data)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = uri;
+            var response = await httpClient.PostAsJsonAsync<T>("", data);
+            return response.StatusCode;
+        }
+    }
+}
+```
+
+This allows me to call the Webhook in my `TodoItemController.cs` method like this:
+
+```csharp
+    public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
+    {
+        TodoItem current = await InsertAsync(item);
+#pragma warning disable CS4014
+        Webhook.SendAsync<TodoItem>(new Uri(webhookUri), current);
+#pragma warning restore CS4014
+        return CreatedAtRoute("Tables", new { id = current.Id }, current);
+    }
+```
+
+You will see the Webhook is called when the value is inserted.  We don't await the `SendAsync<TodoItem>()`
+call because we don't want the process to be held up while the webhook is running.  You will notice that
+the response is sometimes returned to the user before the webhook is executed.
 
 <!-- Images -->
 [img1]: img/getstoragetoken-1.PNG
 [img2]: img/storageinportal.PNG
+[img3]: img/run-webhook.PNG
 
 <!-- Links -->
 [Azure portal]: https://portal.azure.com
+[ch3-1]: ../chapter3/domainmgr.md
+[1]: https://azurestorageexplorer.codeplex.com/
 [2]: https://msdn.microsoft.com/library/azure/dd135715.aspx
 [3]: https://github.com/jamesmontemagno/MediaPlugin
 [4]: https://blog.xamarin.com/new-ios-10-privacy-permission-settings/
+[5]: https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx

@@ -6,11 +6,15 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using Backend.DataObjects;
 using Backend.Models;
+using System;
+using Backend.Helpers;
 
 namespace Backend.Controllers
 {
     public class TodoItemController : TableController<TodoItem>
     {
+        const string webhookUri = "https://zumobook-ch4-func.azurewebsites.net/api/InsertTodoItemWebhook?code=m88quems91v542lq57a6k1emikv9jgwbtjjfzi476v3l6xn7b9b8owmo0kn38darryz34fxyldi";
+
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
@@ -40,6 +44,9 @@ namespace Backend.Controllers
         public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
         {
             TodoItem current = await InsertAsync(item);
+#pragma warning disable CS4014
+            Webhook.SendAsync<TodoItem>(new Uri(webhookUri), current);
+#pragma warning restore CS4014
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
