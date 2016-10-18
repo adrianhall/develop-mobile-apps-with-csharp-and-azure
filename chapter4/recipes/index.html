@@ -439,14 +439,8 @@
             </li>
           
             <li class="anchor">
-              <a title="Image Resizing" href="#image-resizing">
-                Image Resizing
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Initiating a Workflow" href="#initiating-a-workflow">
-                Initiating a Workflow
+              <a title="Table Controllers and Webhooks" href="#table-controllers-and-webhooks">
+                Table Controllers and Webhooks
               </a>
             </li>
           
@@ -767,7 +761,7 @@ storage for virtual machine disks.  Blob storage has many advantages.  From a mo
 appreciate the upload/download restart capabilities within the SDK.</p>
 </li>
 <li>
-<p>We've already introduced <strong>Table Storage</strong> in [the last chapter][ch3-1].  It is more analogous to a NoSQL store for storing
+<p>We've already introduced <strong>Table Storage</strong> in <a href="../../chapter3/domainmgr/">the last chapter</a>.  It is more analogous to a NoSQL store for storing
 key / attribute values.  It has a schemaless design, so you can store basic JSON objects.  However, it has limited
 query capabilities, as we discussed in the last chapter.  That makes it unsuited to large scale query-driven applications.</p>
 </li>
@@ -785,7 +779,7 @@ Storage as the glue that ties work flow components together.</p>
 Blob Storage is going to save you money over File Storage, so it's pretty much always the better choice.  You should
 only be thinking of File Storage if you have other components of your system that need to access the data you upload
 that can only access that data via an SMB interface.</p>
-<p>If you need to explore the data that you upload or download, you can use the [Azure Storage Explorer][1] as a standalone
+<p>If you need to explore the data that you upload or download, you can use the <a href="https://azurestorageexplorer.codeplex.com/">Azure Storage Explorer</a> as a standalone
 application or you can use the Cloud Explorer in <a href="https://msdn.microsoft.com/library/azure/dd135715.aspx">Visual Studio</a>.</p>
 <h3 id="creating-and-linking-a-storage-account"><a name="create-storage-acct"></a>Creating and Linking a Storage Account<a class="headerlink" href="#creating-and-linking-a-storage-account" title="Permanent link">&para;</a></h3>
 <p>Before we can use storage, we need to set up a storage account and connect it to our environment.  This involves:</p>
@@ -797,7 +791,7 @@ application or you can use the Cloud Explorer in <a href="https://msdn.microsoft
 <li>Link the Storage Account to the Azure App Service.</li>
 </ol>
 <p>We've already covered the first three items in previous chapters.  We've also created a storage account and linked it
-to the mobile backend during our look at the [Storage Domain Manager][ch3-1].  To create a Storage Account:</p>
+to the mobile backend during our look at the <a href="../../chapter3/domainmgr/">Storage Domain Manager</a>.  To create a Storage Account:</p>
 <ul>
 <li>Log on to the <a href="https://portal.azure.com">Azure portal</a>.</li>
 <li>Click the big <strong>+ NEW</strong> button in the top left corner.</li>
@@ -896,7 +890,7 @@ provides an expiry time and the permissions being granted to the SAS.</p>
 <p>A SAS token <strong>ALWAYS</strong> expires.  There is no way to produce a permanent SAS token.  If you think you need one,
 think again.  In mobile development, you <strong>NEVER</strong> want a non-expiring token.</p>
 </div>
-<p>Accessing Azure Storage is always done with a specific [version of the REST API][5] and that follows through to the SDK.  You
+<p>Accessing Azure Storage is always done with a specific <a href="https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx">version of the REST API</a> and that follows through to the SDK.  You
 should always request a SAS token for the appropriate API you are going to be using.   We'll cover the various
 methods of obtaining a SAS later in the chapter.</p>
 <h2 id="uploading-a-file">Uploading a File<a class="headerlink" href="#uploading-a-file" title="Permanent link">&para;</a></h2>
@@ -1030,7 +1024,7 @@ phone. To support such a per-platform capability, we need to add an interface fo
 </code></pre>
 
 <p>This API will interact with whatever photo sharing API is available on the device, open the requested file and return a standard
-<code>Stream</code> object.  Loading a media file is made much simpler using the cross-platform [Xamarin Media] plugin.  This plugin allows
+<code>Stream</code> object.  Loading a media file is made much simpler using the cross-platform <a href="https://github.com/jamesmontemagno/MediaPlugin">Xamarin Media plugin</a>.  This plugin allows
 the user to take photos or video, or pick  the media file from a gallery.  It's available on NuGet, so add the <code>Xam.Plugin.Media</code>
 plugin to each of the platform-specific projects.</p>
 <div class="admonition tip">
@@ -1048,7 +1042,7 @@ var stream = file.GetStream();
 
 <p>There are methods within the plugin to determine if a camera is available.  Different platforms require different permissions:</p>
 <h3 id="android">Android<a class="headerlink" href="#android" title="Permanent link">&para;</a></h3>
-<p>Android requires the  <code>WRITE\_EXTERNAL\_STORAGE</code>, <code>READ\_EXTERNAL\_STORAGE</code> and <code>CAMERA</code> permissions. If the mobile device is
+<p>Android requires the  <code>WRITE_EXTERNAL_STORAGE</code>, <code>READ_EXTERNAL_STORAGE</code> and <code>CAMERA</code> permissions. If the mobile device is
 running Android M or later, the plugin will automatically prompt the user for runtime permissions.  You can set these permissions
 within Visual Studio:</p>
 <ul>
@@ -1408,8 +1402,80 @@ the same as before.  To do the basic form:</p>
 
 <p>When downloading, you will need to update the <code>GetStorageTokenController</code> method to provide access to files.  One possibility is to
 provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing.</p>
-<h2 id="image-resizing">Image Resizing<a class="headerlink" href="#image-resizing" title="Permanent link">&para;</a></h2>
-<h2 id="initiating-a-workflow">Initiating a Workflow<a class="headerlink" href="#initiating-a-workflow" title="Permanent link">&para;</a></h2>
+<h2 id="table-controllers-and-webhooks">Table Controllers and Webhooks<a class="headerlink" href="#table-controllers-and-webhooks" title="Permanent link">&para;</a></h2>
+<p>I love writing asynchronous applications.  One of the four features I mentioned with Table Controllers is the
+Webhook.  In essence, if someone inserts, updates or deletes a record, you may want to do something asynchronously.
+For example, you may want to do sentiment analysis on the record that was just uploaded, or perhaps execute some
+custom code to simulate an offline custom API.</p>
+<p>A Webhook is a callback mechanism whereby the controller will do an HTTP POST when something happens.  It's an
+event processing system over HTTP.  In this sample, we are going to generate a simple Webhook function that
+logs the inserted record, then adjust our table controller to call the Webhook when an insert happens.</p>
+<p>Let's first of all create a Function that handles the request.  Create a Function App, and then create a new
+function based on the <strong>Generic Webhook - C#</strong> template.  Call this function <code>InsertTodoItemWebhook</code>.  You
+can call this whatever you want, but the URI of your Webhook is based on the name of your function.</p>
+<p>Replace the body of the function with the following:</p>
+<pre><code class="csharp">#r &quot;Newtonsoft.Json&quot;
+
+using System;
+using System.Net;
+using Newtonsoft.Json;
+
+public static async Task&lt;object&gt; Run(HttpRequestMessage req, TraceWriter log)
+{
+    string jsonContent = await req.Content.ReadAsStringAsync();
+    dynamic data = JsonConvert.DeserializeObject(jsonContent);
+
+    log.Info($&quot;Created New Todo ({data.Text}, {data.Complete})&quot;);
+
+    return req.CreateResponse(HttpStatusCode.OK);
+}
+</code></pre>
+
+<p>Note the <strong>Function Url</strong> at the top of the page.  You will need to copy and paste this later on.  You can
+test the Function in isolation by putting the following in the <strong>Request body</strong> panel:</p>
+<pre><code class="text">{
+    &quot;Text&quot;: &quot;test&quot;,
+    &quot;Complete&quot;: true
+}
+</code></pre>
+
+<p>When you click the <strong>Run</strong> button, the log should show the Info line and the Output should show a <strong>200 OK</strong></p>
+<p><img alt="" src="../img/run-webhook.PNG" /></p>
+<p>You can now turn your attention to the mobile backend.  I use a <code>Webhook.cs</code> helper:</p>
+<pre><code class="csharp">using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Backend.Helpers
+{
+    public static class Webhook
+    {
+        public static async Task&lt;HttpStatusCode&gt; SendAsync&lt;T&gt;(Uri uri, T data)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = uri;
+            var response = await httpClient.PostAsJsonAsync&lt;T&gt;(&quot;&quot;, data);
+            return response.StatusCode;
+        }
+    }
+}
+</code></pre>
+
+<p>This allows me to call the Webhook in my <code>TodoItemController.cs</code> method like this:</p>
+<pre><code class="csharp">    public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+    {
+        TodoItem current = await InsertAsync(item);
+#pragma warning disable CS4014
+        Webhook.SendAsync&lt;TodoItem&gt;(new Uri(webhookUri), current);
+#pragma warning restore CS4014
+        return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+    }
+</code></pre>
+
+<p>You will see the Webhook is called when the value is inserted.  We don't await the <code>SendAsync&lt;TodoItem&gt;()</code>
+call because we don't want the process to be held up while the webhook is running.  You will notice that
+the response is sometimes returned to the user before the webhook is executed.</p>
 <!-- Images -->
 
 <!-- Links -->
