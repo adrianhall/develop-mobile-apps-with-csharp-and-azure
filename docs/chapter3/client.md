@@ -959,6 +959,23 @@ state if you expect referential integrity between different tables.  Use `SyncCo
 to the remote server before calling `PurgeAsync()`.   If you use `force = true`, then also specify a query name to reset the incremental
 sync state.
 
+## Schema changes in the Offline Cache
+
+During development, it's very likely that you will want to change the schema of the data being stored on the client.
+Unfortunately, there isn't a really good way of dealing with this situation.  Here is my solution:
+
+1. Create a constant within your mobile client containing a schema version number.  The actual value (text or int) doesn't
+   matter.  You should never have the same schema version number twice though.  Change this constant whenever you change
+   the schema.
+2. Read a file from the mobile device with the schema version in it.  If the file exists and the read value is different
+   from the constant you created in step 1, then you are "refreshing the cache"
+3. If you are refreshing the cache, delete the offline cache file, then write the current schema version number to the file
+   that you read in step 2.
+4. Set up your offline cache, define your tables, etc.
+5. If you are "refreshing the cache", do a full `PullAsync()` on all tables to populate the cache.
+
+You obviously want to avoid this process as much as possible.
+
 ## Debugging the Offline Cache
 
 One of the most difficult parts of the offline cache is that it is opaque - you can't really see what is going on.  Fortunately, the
