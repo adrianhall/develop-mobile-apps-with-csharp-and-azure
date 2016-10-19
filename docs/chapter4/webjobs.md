@@ -162,6 +162,11 @@ several things you can do.  Go to your mobile backend.  In the menu, select **We
 WebJob.  You can trigger a run of the WebJob independently of the schedule that you configured when you linked
 the WebJob to the mobile backend.  You can also view the logs for the WebJob.
 
+!!! info
+    You will see an additional resource group when you created a scheduler WebJob.  This holds the Azure
+    Scheduler resource that you will use.  Azure Scheduler has a free tier which includes up to 3,600
+    job executions per month and 5 jobs.  Ensure you delete the scheduler if you are not using it.
+
 ## An Image Resizing WebJob
 
 Scheduled WebJobs are great for report generation and maintenance tasks, but WebJobs can also be run continuously.
