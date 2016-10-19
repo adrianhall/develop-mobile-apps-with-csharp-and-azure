@@ -880,6 +880,12 @@ to generate a view of what would happen:</p>
 several things you can do.  Go to your mobile backend.  In the menu, select <strong>WebJobs</strong> to see your configured
 WebJob.  You can trigger a run of the WebJob independently of the schedule that you configured when you linked
 the WebJob to the mobile backend.  You can also view the logs for the WebJob.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>You will see an additional resource group when you created a scheduler WebJob.  This holds the Azure
+Scheduler resource that you will use.  Azure Scheduler has a free tier which includes up to 3,600
+job executions per month and 5 jobs.  Ensure you delete the scheduler if you are not using it.</p>
+</div>
 <h2 id="an-image-resizing-webjob">An Image Resizing WebJob<a class="headerlink" href="#an-image-resizing-webjob" title="Permanent link">&para;</a></h2>
 <p>Scheduled WebJobs are great for report generation and maintenance tasks, but WebJobs can also be run continuously.
 In a continuous mode, they wait for some trigger and then execute the code on that.  This is where the WebJobs

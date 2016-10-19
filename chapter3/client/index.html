@@ -375,6 +375,12 @@
             </li>
           
             <li class="anchor">
+              <a title="Schema changes in the Offline Cache" href="#schema-changes-in-the-offline-cache">
+                Schema changes in the Offline Cache
+              </a>
+            </li>
+          
+            <li class="anchor">
               <a title="Debugging the Offline Cache" href="#debugging-the-offline-cache">
                 Debugging the Offline Cache
               </a>
@@ -1572,6 +1578,21 @@ uploaded.  It is important that this option is used only when absolutely require
 state if you expect referential integrity between different tables.  Use <code>SyncContext.PushAsync()</code> to push the operations queue
 to the remote server before calling <code>PurgeAsync()</code>.   If you use <code>force = true</code>, then also specify a query name to reset the incremental
 sync state.</p>
+<h2 id="schema-changes-in-the-offline-cache">Schema changes in the Offline Cache<a class="headerlink" href="#schema-changes-in-the-offline-cache" title="Permanent link">&para;</a></h2>
+<p>During development, it's very likely that you will want to change the schema of the data being stored on the client.
+Unfortunately, there isn't a really good way of dealing with this situation.  Here is my solution:</p>
+<ol>
+<li>Create a constant within your mobile client containing a schema version number.  The actual value (text or int) doesn't
+   matter.  You should never have the same schema version number twice though.  Change this constant whenever you change
+   the schema.</li>
+<li>Read a file from the mobile device with the schema version in it.  If the file exists and the read value is different
+   from the constant you created in step 1, then you are "refreshing the cache"</li>
+<li>If you are refreshing the cache, delete the offline cache file, then write the current schema version number to the file
+   that you read in step 2.</li>
+<li>Set up your offline cache, define your tables, etc.</li>
+<li>If you are "refreshing the cache", do a full <code>PullAsync()</code> on all tables to populate the cache.</li>
+</ol>
+<p>You obviously want to avoid this process as much as possible.</p>
 <h2 id="debugging-the-offline-cache">Debugging the Offline Cache<a class="headerlink" href="#debugging-the-offline-cache" title="Permanent link">&para;</a></h2>
 <p>One of the most difficult parts of the offline cache is that it is opaque - you can't really see what is going on.  Fortunately, the
 <code>SQLiteStore</code> that is used is relatively straight forward to sub-class so we can add logging to it.  The following helper method can
