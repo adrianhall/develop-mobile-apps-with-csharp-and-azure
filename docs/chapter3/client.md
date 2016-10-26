@@ -370,6 +370,11 @@ We've done two things here.
 * We have altered the first request so that only the first 20 records are retrieved.
 * We have set `hasMoreItems` to true so that the `LoadMore()` command will do network requests again.
 
+!!! info
+    The Azure Mobile Apps SDK also has a collection class that can be used: `MobileServiceCollection<T,T>`.  This
+    handles the paging for you and implements the `ICollectionChanged` event.  For simple cases where you don't
+    want to do on-demand loading, you can use the `MobileServiceCollection<T,T>` collection class.
+    
 ### Query Support in Online Clients
 
 When using an online client, you can also use an OData query to look for records.  The following code

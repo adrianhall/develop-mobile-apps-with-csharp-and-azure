@@ -33,7 +33,6 @@ pages:
         - Recipes: chapter4/recipes.md
     - Chapter 5 - Push Notifications:
         - Concepts: chapter5/concepts.md
-        - Notification Hubs: chapter5/nh.md
         - Android Push: chapter5/android.md
         - iOS Push: chapter5/ios.md
         - Windows Push: chapter5/windows.md
