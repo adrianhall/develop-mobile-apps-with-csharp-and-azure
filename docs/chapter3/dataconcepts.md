@@ -97,6 +97,9 @@ and have to refer back to them during your offline state.
 The compromise here is to use a globally unique ID.  The [GUID] is a well-known algorithm and easily generated in
 offline scenarios.  This is stored as a string during transfer.
 
+!!! tip
+    You can specify an Id field when creating an Entity.  However, you must ensure that it is globally unique.
+
 ### The UpdatedAt field
 
 One of the concepts that is always top of mind is ensuring that we are a good mobile citizen.  This means that we
@@ -106,9 +109,13 @@ Sync_.  With each record, we record the date it was last updated.  This is gener
 trigger, so we never have to worry about setting this value.  When we synchronize our table, only the records
 that have been updated since the last synchronization are requested.
 
+The UpdatedAt field contains the date and time that the record was updated within the central (server-side)
+database.  Do not maintain this field yourself.  If you need a "last updated timestamp" for the client-side
+insert, update or delete methods, you must generate it yourself.
+
 ### The Version field
 
-The version field is all about conflict detection.  Let's take two devices requesting the same table again:
+The Version field is all about conflict detection.  Let's take two devices requesting the same table again:
 
 ![][img2]
 
@@ -120,6 +127,8 @@ knows that it has the latest version.
 Later on, Device A sends an update to the same entity.  It, however, still has version 1 of the entity.  The
 server will reject that because of a version mismatch.
 
+The Version field is maintained by the central (sever-side) SDK.  Do not maintain this field yourself.
+
 ### The Deleted field
 
 When you are operating a service with an offline scope, you can't just delete entities.  If an entity is deleted
@@ -128,6 +137,10 @@ to Device B because it no longer exists.  For this reason, we never delete entit
 Soft Delete is a feature whereby entities are marked as deleted by setting the Deleted flag to true.  When you
 query the server, the deleted records are not shown unless you explicitly ask for them.  This is done as part
 of the offline sync process.
+
+!!! info
+    The UpdatedAt and Version fields are maintained by the Azure Mobile Apps Domain Manager, generally by
+    triggers within the database.  You must not set these fields yourself.  
 
 ## The Data Access Protocol
 
