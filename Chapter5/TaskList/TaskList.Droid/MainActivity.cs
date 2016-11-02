@@ -1,13 +1,9 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using System;
 using TaskList.Abstractions;
 using TaskList.Droid.Services;
+using Xamarin.Forms;
 
 namespace TaskList.Droid
 {
@@ -25,12 +21,6 @@ namespace TaskList.Droid
             ((DroidLoginProvider)DependencyService.Get<ILoginProvider>()).Init(this);
 
             LoadApplication(new App());
-        }
-
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
         }
     }
 }
