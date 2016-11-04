@@ -65,8 +65,37 @@ that NH provides.
     You do not have to run Azure Mobile Apps or Azure App Service to use Notification Hubs.  You do need to have a 
     registration service somewhere.  However, Notification Hubs is a standalone service.
 
-In this chapter, we will be expanding our simple Task list app to support push notifications using Notification Hubs
-and demonstrate a few different scenarios on handling push notifications on the backend.
+Notification Hubs has two features that are important in mobile push scenarios - tags and templates.  while
+you will see these two features a lot in this chapter, we will also use other features of Notification Hubs,
+such as Scheduled Push, Geofenced Push and Analytics.
+
+### Tags
+
+When a device registers itself with Notification Hubs (via the registration endpoint), you can specify a number
+of tags that are associated with the device.  The tag allows you to segment the devices and push a message to 
+only a portion of the devices.  Technically, a tag is a string.  The string can be up to 120 characters long, but
+has a restricted character set (alphanumeric plus 6 other characters).  
+
+You can use tags to allow the user to register interest in a topic, or register on their behalf based on just
+about anything you want.  If you want to push to a department or users in a specific location, you can automatically
+register for those tags within the registration service.  You can also use tags to do "user tagging" - allowing 
+you to push to a user ID or email address instead of a device ID.
+
+When sending a push notification, you can broadcast a message to everyone, but it's generally better to send
+to a tag.  You can also combine tags with boolean operations.  For example, you might want to push a Marketing
+message to all sales people in Washington with `(state:Washington && dept:Sales)`.  Tag expressions like this
+are limited in the number of tags allowed.
+
+### Templates
+
+There are multiple plaform notification systems and each one wants a message sent to them in a specific format.
+APNS and FCM require a JSON payload (each of which is different), while WNS requires an XML payload.  Effectively,
+this makes the backend of your app responsible for a part of the presentation layer, which is something that has
+been avoided thus far.  In addition, you might want to localize the message for your audience and potentially use
+string replacement to customize the message for the recipient.
+
+Templates provide a way to send cross-platform notifications and customize the message for each recipient.  You
+can use locale files to insert locale-specific messages into the template.
 
 ## Configuring Notification Hubs
 
@@ -74,21 +103,106 @@ Our first step is to configure our backend.  Thus far, we have implemented an Az
 database, and that is our starting point again.  To those resources, we will add the Notification Hub, which starts
 just like the addition of any other resource:
 
-* Log into the [Azure Portal].
-* Click on the **+ NEW** button in the top right corner.
+* Log into the [Azure portal].
+* Click on the **+ NEW** button in the top right corner (or the **+ ADD** button at the top of your resource group).
 * Select or search for **Notification Hub**.
 * Click on **Create**.
 
     ![][img2]
 
-* 
+* Enter the information required.  You will need to create both a notification hub and a namespace.  I generally
+   add the `-ns` designation to a namespace.
+* Click on **Create**.
+
+Notification Hubs has three tiers which give you increasing numbers of pushes, plus additional features.  The
+_Free_ tier provides just push services.  The _Basic_ tier gives you the more pushes plus the opportunity to 
+buy additional pushes. Telemetry, scheduled push and multi-tenancy are only provided in the _Standard_ tier,
+which should be your choice for production workloads.
+
+When considering architecture, you should use one Notification Hub per mobile backend.  Notification Hub
+namespaces are used for deployment grouping.  For example, you might want to give a different namespace to
+each tenant in a multi-tenant environment.
+
+Once your notification hub has been created, you will see both the hub and the namespace listed in your
+resource group.  Note that we have not actually linked the notification hub to any platform notification
+services yet.  We will do that later.
 
 ## Configuring Push Registration
 
+Push registration is generally handled by the mobile backend, and there is a feature of the App Service
+for this purpose.  Although it is possible, resist trying to get mobile clients to register with the
+notification hub directly.
 
+* Log into the [Azure portal].
+* Select your mobile backend.
+* Click on **Push** (under the **SETTINGS** menu).
+* Click on **Connect**.
+* Select the notification hub you created earlier.
+* Wait for the notification hub to be connected (it takes approximately 10 seconds).
+
+![][img3]
+
+You can now decide which tags are valid for this application.  The mobile client will request a list
+of tags.  The push registration service will use this information to register the appropriate tags
+with the notification hub.
+
+!!! info
+    The process is called push registration, but the entity that is created in notification hubs is
+    called an **Installation**.
+
+There are two types of tags.  Client requested tags may be requested by the mobile client during the 
+registration process.  Automatically added tags are added by the mobile backend.  Let's take an example.
+My mobile backend is connected to Azure Active Directory.   I've configured my backend as follows:
+
+![][img4]
+
+Here, I have three client requested tags and two automatically generated tags that are only added when
+authenticated.  Let's suppose that the mobile client requested `[ topic:World topic:Sports ]` and the
+mobile client was authenticated as username `user@foo.com`, and was a member of the Sales group and the
+Managers group.  With this configuration, the user would be registered for the following tags:
+
+* topic:Sports
+* auto:Sales
+* auto:Managers
+* auto:user@foo.com
+
+The topic:Politics and topic:News tags would not be added because the user did not request them.  The topic:World
+tag would not be added because it is not in the allowed list of client-requested tags.
+
+!!! info
+    We never provide the ability to request any tag (a wild-card) because it is a large security hole.  With a 
+    wild-card tag, you could request push notifications for a user or group to which you were not allowed.
+
+The `$(claim)` format is used in automatically added tags to add claims from the authenticated user into the
+notification hub installation.  You can use any claim that is returned by the `/.auth/me` endpoint.  The
+standard identifiers are:
+
+* $(emailaddress)
+* $(identityprovider)
+* $(name)
+* $(user_id)
+
+The list is different for each provider and additional claims may be available.  It is possible to configure
+Azure AD to return groups, for example.  Check the output of the  `/.auth/me` endpoint to determine which 
+claims are available.
+
+Once you have configure the tags, click on **Save** to save your work.
+
+## Next Steps
+
+Each push notification system is different and requires different configuration in both the mobile client
+and backend registration system.  You can jump directly to a specific platform:
+
+* [Android](./android.md).
+* [iOS](./ios.md).
+* [Windows](./windows.md).
 
 <!-- Images -->
 [img1]: img/push-architecture.PNG
+[img2]: img/push-create-2.PNG
+[img3]: img/push-create-3.PNG
+[img4]: img/push-create-4.PNG
 
 <!-- Links -->
+[Azure portal]: https://portal.azure.com
 [1]: https://azure.com/something-something-something
