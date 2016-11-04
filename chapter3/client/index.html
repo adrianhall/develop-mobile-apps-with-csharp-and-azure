@@ -484,15 +484,6 @@
       
         
   <li>
-    <a class="" title="Notification Hubs" href="../../chapter5/nh/">
-      Notification Hubs
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Android Push" href="../../chapter5/android/">
       Android Push
     </a>
@@ -1079,6 +1070,12 @@ to only load the first page:</p>
 <li>We have altered the first request so that only the first 20 records are retrieved.</li>
 <li>We have set <code>hasMoreItems</code> to true so that the <code>LoadMore()</code> command will do network requests again.</li>
 </ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The Azure Mobile Apps SDK also has a collection class that can be used: <code>MobileServiceCollection&lt;T,T&gt;</code>.  This
+handles the paging for you and implements the <code>ICollectionChanged</code> event.  For simple cases where you don't
+want to do on-demand loading, you can use the <code>MobileServiceCollection&lt;T,T&gt;</code> collection class.</p>
+</div>
 <h3 id="query-support-in-online-clients">Query Support in Online Clients<a class="headerlink" href="#query-support-in-online-clients" title="Permanent link">&para;</a></h3>
 <p>When using an online client, you can also use an OData query to look for records.  The following code
 snippet, for example, will only return records that are incomplete:</p>

@@ -478,15 +478,6 @@
       
         
   <li>
-    <a class="" title="Notification Hubs" href="../../chapter5/nh/">
-      Notification Hubs
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Android Push" href="../../chapter5/android/">
       Android Push
     </a>
@@ -818,6 +809,10 @@ do not insert an ID.  However, this can cause problems in offline cases, where y
 and have to refer back to them during your offline state.</p>
 <p>The compromise here is to use a globally unique ID.  The <a href="https://msdn.microsoft.com/en-us/library/system.guid(v=vs.110).aspx">GUID</a> is a well-known algorithm and easily generated in
 offline scenarios.  This is stored as a string during transfer.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can specify an Id field when creating an Entity.  However, you must ensure that it is globally unique.</p>
+</div>
 <h3 id="the-updatedat-field">The UpdatedAt field<a class="headerlink" href="#the-updatedat-field" title="Permanent link">&para;</a></h3>
 <p>One of the concepts that is always top of mind is ensuring that we are a good mobile citizen.  This means that we
 care about bandwidth utilization.  Reducing transfer size is good for your users.  They use less of their data
@@ -825,8 +820,11 @@ allowance and save time by transferring less.  One of the key components to redu
 Sync</em>.  With each record, we record the date it was last updated.  This is generally done for us as a database
 trigger, so we never have to worry about setting this value.  When we synchronize our table, only the records
 that have been updated since the last synchronization are requested.</p>
+<p>The UpdatedAt field contains the date and time that the record was updated within the central (server-side)
+database.  Do not maintain this field yourself.  If you need a "last updated timestamp" for the client-side
+insert, update or delete methods, you must generate it yourself.</p>
 <h3 id="the-version-field">The Version field<a class="headerlink" href="#the-version-field" title="Permanent link">&para;</a></h3>
-<p>The version field is all about conflict detection.  Let's take two devices requesting the same table again:</p>
+<p>The Version field is all about conflict detection.  Let's take two devices requesting the same table again:</p>
 <p><img alt="" src="../img/version-reason.PNG" /></p>
 <p>In this diagram, Device A submits the first version of the entity.  Device B then updates the entity and posts
 it back.  This is accepted because Device B is sending the same version, so the server knows that this is an
@@ -834,6 +832,7 @@ update to the latest version.  The server will send back a response with the upd
 knows that it has the latest version.</p>
 <p>Later on, Device A sends an update to the same entity.  It, however, still has version 1 of the entity.  The
 server will reject that because of a version mismatch.</p>
+<p>The Version field is maintained by the central (sever-side) SDK.  Do not maintain this field yourself.</p>
 <h3 id="the-deleted-field">The Deleted field<a class="headerlink" href="#the-deleted-field" title="Permanent link">&para;</a></h3>
 <p>When you are operating a service with an offline scope, you can't just delete entities.  If an entity is deleted
 on Device A, it is then removed from the server.  The server does not know to send an update to that entity
@@ -841,6 +840,11 @@ to Device B because it no longer exists.  For this reason, we never delete entit
 Soft Delete is a feature whereby entities are marked as deleted by setting the Deleted flag to true.  When you
 query the server, the deleted records are not shown unless you explicitly ask for them.  This is done as part
 of the offline sync process.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The UpdatedAt and Version fields are maintained by the Azure Mobile Apps Domain Manager, generally by
+triggers within the database.  You must not set these fields yourself.  </p>
+</div>
 <h2 id="the-data-access-protocol">The Data Access Protocol<a class="headerlink" href="#the-data-access-protocol" title="Permanent link">&para;</a></h2>
 <p>Given any particular table, there are a few endpoints that are important.  Given our TodoItem table from Chapter 1:</p>
 <table>
