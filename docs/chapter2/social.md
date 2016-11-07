@@ -101,7 +101,8 @@ want a different account for your development activities), create a new account 
 
 Enter a nice name (like mine) and click on **Create**.  The screen will show the progress and eventually the project
 will be listed in the **All Projects** list.  It takes about 30 seconds to create a project.  Once you have your
-Google project, click on it to see all the wonderful things you can add to your project:
+Google project, click on the hamburger menu (in the top-left corner), select **API Manager**, followed by **Library**
+to see all the Google APIs you can enable:
 
 ![Google APIs Library][img9]
 

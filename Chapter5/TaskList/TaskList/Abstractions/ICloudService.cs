@@ -13,5 +13,7 @@ namespace TaskList.Abstractions
         Task LogoutAsync();
 
         Task<AppServiceIdentity> GetIdentityAsync();
+
+        Task RegisterForPushNotifications();
     }
 }

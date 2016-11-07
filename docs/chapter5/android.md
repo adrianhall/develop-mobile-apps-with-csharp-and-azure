@@ -1,7 +1,190 @@
-# Push Notifications for Android
+Push notifications for Android devices are handled by Firebase Cloud Messaging - a service run by Google.
+This service used to be called _Google Cloud Messaging_ and nothing has really changed since they rebranded
+the service.  Google wanted to bundle all their mobile offerings under one roof.  Firebase Cloud Messaging
+can still be used independently of the rest of Firebase.
+## Preparing for development
 
-## Registering with FCM
+!!! warn
+    Push notifications are one of those areas where it really pays to have a real device instead of an
+    emulator.  It's frustrating to bump into so many issues with emulation, but it's almost inevitable.  If
+    you are having problems, use a real device.
 
-## Registering with Azure Mobile Apps
+Before continuing, you will need an Android Emulator with the Google Play SDKs installed, or a real Android
+device.  You cannot use a vanilla emulator without the Google Play SDKs.  To set up an emulator with the
+appropriate SDKs, in Visual Studio:
 
-## Receiving a Notifications
+* Click **Tools** -> **Android** -> **Android SDK Manager**.
+* Expand **Android 6.0 (API 23)**.
+* Select **Google APIs ARM EABI v7a System Image**.
+* Expand the **Extras**.
+* Select **Google Play Services**.
+* Click on **Install**.
+
+Wait for the installation to complete, then close the Android SDK Manager.
+
+* Click **Tools** -> **Android** -> **Android Emulator Manager**.
+* Click **Create...**
+* Fill in the form.   You must specify:
+    * Target: **Android 6.0 - API Level 23**
+    * CPU/ABI: **Google APIs ARM (armeabi-v7a)**
+    * Memory Options: RAM: **768**
+    Other than these settings, there is a lot of flexibility.  Consult the [Android documentation][2].
+* Once ready, click on **OK** to create the device.
+* Click **OK** to confirm the creation.
+
+Test that the emulator device works:
+
+* Click the device you just created.
+* Click **Start...**.
+
+If the device starts and looks like a regular Android device, then you've completed the task.  You must
+have a working emulator or real device before continuing, so don't continue until you've got something
+working.
+
+!!! tip
+    You can also download and use the Intel Atom x86 images.  However, this requires Intel HAXM, so
+    you need to install that first.  The SDK can be downloaded with the Android SDK manager, but needs
+    to be installed separately.
+
+## Registering your app with FCM
+
+To start, you need a Firebase Developer Account.  Go to the [Firebase Developer Console][1] and sign in 
+with a Google account.  If you have never been a Google developer before, the site will ask you to agree
+to their legal terms so your account can be converted to a developer account.
+
+Once done, create a Firebase application.  If you previously created a Google project for authentication,
+you can import the Google project instead.  The effect is the same - you need a Firebase project at the
+end.
+
+Click on **Add Firebase to your Android app**.  You aren't actually adding Firebase - just the push
+capabilities.
+
+![][img1]
+
+The next screen is confusing - it's talking about Android native development and we are developing in
+Xamarin Forms.  We need to enter a namespace, so use the namespace of your application.  The actual
+value does not matter as we are not using the majority of the Firebase SDK:
+
+![][img2]
+
+Click on **ADD APP**, then on **CONTINUE**, and finally **FINISH**.  The process will download a file:
+`google-services.json`, which is used by Android Studio in native applications.  The instructions along
+the way are also for Android Studio.
+
+Once done, click on the cog next to your project name and select **PROJECT SETTINGS**.
+
+![][img3]
+
+Click on the **CLOUD MESSAGING** tab:
+
+![][img4]
+
+This gives you a server key and a sender ID.  We will need these later.
+
+## Linking Notification Hubs to FCM
+
+Now that you have the server key and sender ID, you can enter that information into Notification Hubs to
+enable it to push to your Android clients.
+
+* Log in to the [Azure portal].
+* Find your App Service:
+    * Use **All Resources**, then enter the name in the **Filter items...** box.
+    * Use **Resource Groups**, find the resource group, then click on the items.
+    Which ever way you choose, enter the App Service.
+* Select **Push** from the menu (under **SETTINGS**).
+* Click **Configure push notification services**.
+* Click **Google (GCM)**.
+* Enter the server key in the **API Key** box.
+* Click on **Save**.
+
+We can now turn our attention to the mobile client.
+
+## Registering for Push Notifications
+
+Registering for push notification is always a per-platform piece, so it has to go into the platform specific
+code.  We've seen what this means in terms of code before.  First, we create a new method definition in the
+`IPlatformProvider.cs` interface and the `ICloudService.cs` interface, then we update the `AzureCloudService.cs` to 
+call the platform-specific code.  Finally, we need an platform-specific implementation.
+
+First, the `IPlatformProvider.cs` - I'm going to add a new method: `RegisterForPushNotifications()` that will
+do all the work for me:
+
+```csharp
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+
+namespace TaskList.Abstractions
+{
+    public interface IPlatformProvider
+    {
+        MobileServiceUser RetrieveTokenFromSecureStore();
+
+        void StoreTokenInSecureStore(MobileServiceUser user);
+
+        void RemoveTokenFromSecureStore();
+
+        Task<MobileServiceUser> LoginAsync(MobileServiceClient client);
+
+        Task RegisterForPushNotifications(MobileServiceClient client);
+    }
+}
+```
+
+The first four methods are from our authentication work.  The final method is our new method.  There is a 
+similar method in the `ICloudService.cs` interface:
+
+```csharp
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Models;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable<T> GetTable<T>() where T : TableData;
+
+        Task<MobileServiceUser> LoginAsync();
+
+        Task LogoutAsync();
+
+        Task<AppServiceIdentity> GetIdentityAsync();
+
+        Task RegisterForPushNotifications();
+    }
+}
+```
+
+We also have a concrete implementation of this in `AzureCloudService.cs` that simply calls the platform 
+specific version:
+
+```csharp
+    public async Task RegisterForPushNotifications()
+    {
+        var platformProvider = DependencyService.Get<IPlatformProvider>();
+        await platformProvider.RegisterForPushNotifications(client);
+    }
+```
+
+These are required irrespective of whether you are implementing iOS, Android, UWP or any combination of 
+those platforms.  The real work happens in the platform specific code - in this case, that's the `Services\DroidPlatformProvider.cs`
+file in the TaskList.Droid project:
+
+```csharp
+```
+
+
+## Processing a Push Notification
+
+## Running your app in an Emulator
+
+<!-- Images -->
+[img1]: img/push-fcm-1.PNG
+[img2]: img/push-fcm-2.PNG
+[img3]: img/push-fcm-3.PNG
+
+<!-- Links -->
+[Azure portal]: https://portal.azure.com
+[1]: https://firebase.google.com/console/
+[2]: https://developer.android.com/studio/run/managing-avds.html
+

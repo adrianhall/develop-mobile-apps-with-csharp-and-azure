@@ -15,8 +15,8 @@ namespace TaskList.Services
 {
     public class AzureCloudService : ICloudService
     {
-        MobileServiceClient client;
-        List<AppServiceIdentity> identities = null;
+        private MobileServiceClient client;
+        private List<AppServiceIdentity> identities = null;
 
         public AzureCloudService()
         {
@@ -30,18 +30,18 @@ namespace TaskList.Services
 
         public async Task<MobileServiceUser> LoginAsync()
         {
-            var loginProvider = DependencyService.Get<ILoginProvider>();
+            var platformProvider = DependencyService.Get<IPlatformProvider>();
 
-            client.CurrentUser = loginProvider.RetrieveTokenFromSecureStore();
+            client.CurrentUser = platformProvider.RetrieveTokenFromSecureStore();
             if (client.CurrentUser != null)
             {
                 // User has previously been authenticated - try to Refresh the token
                 try
                 {
-                    var refreshed = await client.RefreshUserAsync();
+                    var refreshed = await client.RefreshUserAsync().ConfigureAwait(false);
                     if (refreshed != null)
                     {
-                        loginProvider.StoreTokenInSecureStore(refreshed);
+                        platformProvider.StoreTokenInSecureStore(refreshed);
                         return refreshed;
                     }
                 }
@@ -58,15 +58,14 @@ namespace TaskList.Services
             }
 
             // We need to ask for credentials at this point
-            await loginProvider.LoginAsync(client);
+            await platformProvider.LoginAsync(client).ConfigureAwait(false);
             if (client.CurrentUser != null)
             {
                 // We were able to successfully log in
-                loginProvider.StoreTokenInSecureStore(client.CurrentUser);
+                platformProvider.StoreTokenInSecureStore(client.CurrentUser);
             }
             return client.CurrentUser;
         }
-
 
         public async Task LogoutAsync()
         {
@@ -80,14 +79,14 @@ namespace TaskList.Services
             using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Add("X-ZUMO-AUTH", client.CurrentUser.MobileServiceAuthenticationToken);
-                await httpClient.GetAsync(authUri);
+                await httpClient.GetAsync(authUri).ConfigureAwait(false);
             }
 
             // Remove the token from the cache
-            DependencyService.Get<ILoginProvider>().RemoveTokenFromSecureStore();
+            DependencyService.Get<IPlatformProvider>().RemoveTokenFromSecureStore();
 
             // Remove the token from the MobileServiceClient
-            await client.LogoutAsync();
+            await client.LogoutAsync().ConfigureAwait(false);
         }
 
         public async Task<AppServiceIdentity> GetIdentityAsync()
@@ -99,7 +98,7 @@ namespace TaskList.Services
 
             if (identities == null)
             {
-                identities = await client.InvokeApiAsync<List<AppServiceIdentity>>("/.auth/me");
+                identities = await client.InvokeApiAsync<List<AppServiceIdentity>>("/.auth/me").ConfigureAwait(false);
             }
 
             if (identities.Count > 0)
@@ -107,7 +106,7 @@ namespace TaskList.Services
             return null;
         }
 
-        bool IsTokenExpired(string token)
+        private bool IsTokenExpired(string token)
         {
             // Get just the JWT part of the token (without the signature).
             var jwt = token.Split(new Char[] { '.' })[1];
@@ -136,7 +135,13 @@ namespace TaskList.Services
             // base date of 1/1/1970.
             DateTime minTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             var expire = minTime.AddSeconds(exp);
-            return (expire < DateTime.UtcNow);
+            return expire < DateTime.UtcNow;
+        }
+
+        public async Task RegisterForPushNotifications()
+        {
+            var platformProvider = DependencyService.Get<IPlatformProvider>();
+            await platformProvider.RegisterForPushNotifications(client);
         }
     }
 }
