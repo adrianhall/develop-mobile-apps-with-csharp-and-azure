@@ -26,10 +26,6 @@ namespace TaskList.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Gcm.Client.Resource.String.library_name = global::TaskList.Droid.Resource.String.library_name;
-			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Id.agentWebView = global::TaskList.Droid.Resource.Id.agentWebView;
-			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Layout.WebAuthenticationBroker = global::TaskList.Droid.Resource.Layout.WebAuthenticationBroker;
-			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.Hello = global::TaskList.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::TaskList.Droid.Resource.Attribute.actionBarSize;
@@ -2276,9 +2272,6 @@ namespace TaskList.Droid
 			// aapt resource value: 0x7f07003d
 			public const int activity_chooser_view_content = 2131165245;
 			
-			// aapt resource value: 0x7f070098
-			public const int agentWebView = 2131165336;
-			
 			// aapt resource value: 0x7f070049
 			public const int alertTitle = 2131165257;
 			
@@ -2927,9 +2920,6 @@ namespace TaskList.Droid
 			// aapt resource value: 0x7f030036
 			public const int support_simple_spinner_dropdown_item = 2130903094;
 			
-			// aapt resource value: 0x7f030037
-			public const int WebAuthenticationBroker = 2130903095;
-			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -3014,9 +3004,6 @@ namespace TaskList.Droid
 			
 			// aapt resource value: 0x7f080025
 			public const int character_counter_pattern = 2131230757;
-			
-			// aapt resource value: 0x7f080028
-			public const int library_name = 2131230760;
 			
 			// aapt resource value: 0x7f080000
 			public const int mr_button_content_description = 2131230720;

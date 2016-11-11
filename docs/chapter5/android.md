@@ -23,6 +23,12 @@ appropriate SDKs, in Visual Studio:
 
 Wait for the installation to complete, then close the Android SDK Manager.
 
+!!! tip Disable Android Emulator for Visual Studio
+    The Android Virtual Device from Google and the Android Emulator for Visual Studio are incompatible with
+    one another.  To use the Android Virtual Device, open a PowerShell prompt as an Administrator, then run
+    the command  `bcdedit /set hypervisorlaunchtype off` and reboot.  You may also have to install [Intel HAXM],
+    which is available for download through the Android SDK Manager but needs to be installed separately.
+
 * Click **Tools** -> **Android** -> **Android Emulator Manager**.
 * Click **Create...**
 * Fill in the form.   You must specify:
@@ -49,7 +55,7 @@ working.
 
 ## Registering your app with FCM
 
-To start, you need a Firebase Developer Account.  Go to the [Firebase Developer Console][1] and sign in 
+To start, you need a Firebase Developer Account.  Go to the [Firebase Developer Console][1] and sign in
 with a Google account.  If you have never been a Google developer before, the site will ask you to agree
 to their legal terms so your account can be converted to a developer account.
 
@@ -104,7 +110,7 @@ We can now turn our attention to the mobile client.
 
 Registering for push notification is always a per-platform piece, so it has to go into the platform specific
 code.  We've seen what this means in terms of code before.  First, we create a new method definition in the
-`IPlatformProvider.cs` interface and the `ICloudService.cs` interface, then we update the `AzureCloudService.cs` to 
+`IPlatformProvider.cs` interface and the `ICloudService.cs` interface, then we update the `AzureCloudService.cs` to
 call the platform-specific code.  Finally, we need an platform-specific implementation.
 
 First, the `IPlatformProvider.cs` - I'm going to add a new method: `RegisterForPushNotifications()` that will
@@ -131,7 +137,7 @@ namespace TaskList.Abstractions
 }
 ```
 
-The first four methods are from our authentication work.  The final method is our new method.  There is a 
+The first four methods are from our authentication work.  The final method is our new method.  There is a
 similar method in the `ICloudService.cs` interface:
 
 ```csharp
@@ -156,7 +162,7 @@ namespace TaskList.Abstractions
 }
 ```
 
-We also have a concrete implementation of this in `AzureCloudService.cs` that simply calls the platform 
+We also have a concrete implementation of this in `AzureCloudService.cs` that simply calls the platform
 specific version:
 
 ```csharp
@@ -167,9 +173,9 @@ specific version:
     }
 ```
 
-These are required irrespective of whether you are implementing iOS, Android, UWP or any combination of 
+These are required irrespective of whether you are implementing iOS, Android, UWP or any combination of
 those platforms.  Let's now work with the Android platform-specific code.  Before we look at the platform
-specific code, we are going to need a library that implements the GCM/FCM library. 
+specific code, we are going to need a library that implements the GCM/FCM library.
 
 * Right-click on **Components** in the **TaskList.Droid** project.
 * Select **Get More Components...**.
@@ -185,7 +191,7 @@ Now that you have the library installed, you can configure registration with FCM
         RootView = context;
         AccountStore = AccountStore.Create(context);
 
-        // Check to see that GCM is supported and that the manifest has 
+        // Check to see that GCM is supported and that the manifest has
         // the correct information
         GcmClient.CheckDevice(context);
         GcmClient.CheckManifest(context);
@@ -214,6 +220,7 @@ we need a `Services\GcmService.cs` file with the following contents:
 
 <!-- Links -->
 [Azure portal]: https://portal.azure.com
+[Intel HAXM]: https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager
 [1]: https://firebase.google.com/console/
 [2]: https://developer.android.com/studio/run/managing-avds.html
 
