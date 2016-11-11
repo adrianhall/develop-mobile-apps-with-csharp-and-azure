@@ -18,7 +18,7 @@ namespace TaskList.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            ((DroidPlatformProvider)DependencyService.Get<ILoginProvider>()).Init(this);
+            ((DroidPlatformProvider)DependencyService.Get<IPlatformProvider>()).Init(this);
 
             LoadApplication(new App());
         }

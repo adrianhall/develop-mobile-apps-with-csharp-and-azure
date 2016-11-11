@@ -2,6 +2,7 @@ Push notifications for Android devices are handled by Firebase Cloud Messaging -
 This service used to be called _Google Cloud Messaging_ and nothing has really changed since they rebranded
 the service.  Google wanted to bundle all their mobile offerings under one roof.  Firebase Cloud Messaging
 can still be used independently of the rest of Firebase.
+
 ## Preparing for development
 
 !!! warn
@@ -167,12 +168,39 @@ specific version:
 ```
 
 These are required irrespective of whether you are implementing iOS, Android, UWP or any combination of 
-those platforms.  The real work happens in the platform specific code - in this case, that's the `Services\DroidPlatformProvider.cs`
-file in the TaskList.Droid project:
+those platforms.  Let's now work with the Android platform-specific code.  Before we look at the platform
+specific code, we are going to need a library that implements the GCM/FCM library. 
+
+* Right-click on **Components** in the **TaskList.Droid** project.
+* Select **Get More Components...**.
+* Enter **Google Cloud Messaging Client** in the search box.
+* Select the **Google Cloud Messaging Client**.
+* Click **Add to App**.
+
+Now that you have the library installed, you can configure registration with FCM as follows:
+
+```csharp
+    public void Init(Context context)
+    {
+        RootView = context;
+        AccountStore = AccountStore.Create(context);
+
+        // Check to see that GCM is supported and that the manifest has 
+        // the correct information
+        GcmClient.CheckDevice(context);
+        GcmClient.CheckManifest(context);
+
+        // Register with FCM for push notifications
+        GcmClient.Register(context, PushHandlerBroadcastReceiver.SENDER_IDS);
+    }
+```
+
+Most of this `Init()` method existed before.  The `GcmClient` calls are new.  They require you to
+define a service definition class that will receive and handle the push notifications.  For that,
+we need a `Services\GcmService.cs` file with the following contents:
 
 ```csharp
 ```
-
 
 ## Processing a Push Notification
 
@@ -182,6 +210,7 @@ file in the TaskList.Droid project:
 [img1]: img/push-fcm-1.PNG
 [img2]: img/push-fcm-2.PNG
 [img3]: img/push-fcm-3.PNG
+[img4]: img/push-fcm-4.PNG
 
 <!-- Links -->
 [Azure portal]: https://portal.azure.com

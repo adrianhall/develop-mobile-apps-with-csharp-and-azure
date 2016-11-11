@@ -1,5 +1,6 @@
 using Android.App;
 using Android.Content;
+using Gcm.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
@@ -59,11 +60,12 @@ namespace TaskList.Droid.Services
 
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
-            var accessToken = await LoginADALAsync();
+            var accessToken = await LoginADALAsync().ConfigureAwait(false);
             var zumoPayload = new JObject();
             zumoPayload["access_token"] = accessToken;
-            return await client.LoginAsync("aad", zumoPayload);
+            return await client.LoginAsync("aad", zumoPayload).ConfigureAwait(false);
         }
+
         public Task RegisterForPushNotifications(MobileServiceClient client)
         {
             throw new NotImplementedException();
@@ -94,11 +96,9 @@ namespace TaskList.Droid.Services
                 Locations.AppServiceUrl, /* The resource we want to access  */
                 Locations.AadClientId,   /* The Client ID of the Native App */
                 returnUri,               /* The Return URI we configured    */
-                new PlatformParameters((Activity)RootView));
+                new PlatformParameters((Activity)RootView)).ConfigureAwait(false);
             return authResult.AccessToken;
         }
-
-
         #endregion
     }
 }
