@@ -286,7 +286,7 @@ namespace TaskList.Droid.Services
 
 !!! warn Replace the SenderId
     You must replace the SenderId with your sender ID that you copied from the Firebase Console.
-    
+
 Let's start at the top.  In order to use push notifications from Firebase, we need to tell our application
 to ask for that permission.  We need the OS to wake us up (WAKE_LOCK), access the Internet (INTERNET), and
 handle push notifications (C2D_MESSAGE and RECEIVE).
@@ -375,6 +375,11 @@ the other breakpoints at this point.  Log into the application.
 ## Processing a Push Notification
 
 ## Registering for Tags and Templates
+
+The `client.RegisterAsync()` method can take a second parameter for defining the configuration that gets sent
+to the service.  In the documentation, it explicitly mentions templates, but you can send tags as well.  It 
+must be supplied as a `JObject`.  
+
 
 When we registered 
 <!-- Images -->
