@@ -29,6 +29,7 @@ namespace TaskList.ViewModels
             {
                 var cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
                 await cloudService.LoginAsync();
+                await cloudService.RegisterForPushNotifications();
                 Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
             }
             catch (Exception ex)

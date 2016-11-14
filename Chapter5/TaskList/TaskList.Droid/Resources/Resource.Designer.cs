@@ -26,6 +26,7 @@ namespace TaskList.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::Gcm.Client.Resource.String.library_name = global::TaskList.Droid.Resource.String.library_name;
 			global::PCLCrypto.Resource.String.ApplicationName = global::TaskList.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.Hello = global::TaskList.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::TaskList.Droid.Resource.Attribute.actionBarSize;
@@ -3004,6 +3005,9 @@ namespace TaskList.Droid
 			
 			// aapt resource value: 0x7f080025
 			public const int character_counter_pattern = 2131230757;
+			
+			// aapt resource value: 0x7f080028
+			public const int library_name = 2131230760;
 			
 			// aapt resource value: 0x7f080000
 			public const int mr_button_content_description = 2131230720;
