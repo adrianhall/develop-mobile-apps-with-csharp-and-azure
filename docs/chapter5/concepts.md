@@ -197,6 +197,30 @@ In this case, three tags may be created - one for each unique name.
 
 Once you have configure the tags, click on **Save** to save your work.
 
+## Registering Your Mobile Client
+
+After you have gained the requisite platform-specific registration ID, you need to pass this to the mobile
+backend.  The registration endpoint listens on `/push/installations/{guid}` where the GUID is a unique ID
+for the app on a specific mobile device.  The Azure Mobile Apps client generates this for you.  You must
+**HTTP PUT** a JSON **Installation** object to this URL.  A simple (empty) **Installation** object looks 
+like this:
+
+```text
+{
+    "installationId": "{guid}",
+    "platform": "gcm",
+    "pushChannel": "{registrationid}"
+}
+```
+
+The minimal settings are the installationId, platform, and pushChannel.  The pushChannel field needs to be
+set to the registration ID of the platform.  The platform is set to the appropriate value for the platform
+you are using - gcm, apns or wns.   You can also add tags and template into this installation object.  Check
+out the [recipes section][2] for details on requesting tags and templates.
+
+There are certain helpers within the Azure Mobile Apps SDK for assisting with registration via the service, 
+but you will have better control of the process if you create the installation yourself.
+
 ## Next Steps
 
 Each push notification system is different and requires different configuration in both the mobile client
@@ -215,3 +239,4 @@ and backend registration system.  You can jump directly to a specific platform:
 <!-- Links -->
 [Azure portal]: https://portal.azure.com
 [1]: https://azure.com/en-us/services/notification-hubs/
+[2]: ./recipes.md

@@ -1,13 +1,15 @@
-using Android.Content;
-using Microsoft.WindowsAzure.MobileServices;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Android.Content;
+using Android.Util;
+using Gcm.Client;
+using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Abstractions;
 using TaskList.Droid.Services;
 using Xamarin.Auth;
-using Gcm.Client;
-using Android.Util;
 
 [assembly: Xamarin.Forms.Dependency(typeof(DroidPlatformProvider))]
 namespace TaskList.Droid.Services
@@ -66,26 +68,40 @@ namespace TaskList.Droid.Services
         {
             if (GcmClient.IsRegistered(RootView))
             {
-                var push = client.GetPush();
-                var registrationId = GcmClient.GetRegistrationId(RootView);
-                MainActivity activity = (MainActivity)RootView;
+                try
+                {
+                    var registrationId = GcmClient.GetRegistrationId(RootView);
+                    var push = client.GetPush();
+                    // await push.RegisterAsync(registrationId);
 
-                activity.RunOnUiThread(() => RegisterAsync(push, registrationId));
+                    var endpoint = $"/push/installations/{client.InstallationId}";
+
+                    DeviceInstallation installation = new DeviceInstallation
+                    {
+                        InstallationId = client.InstallationId,
+                        Platform = "gcm",
+                        PushChannel = registrationId
+                    };
+                    var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+                        endpoint,
+                        installation,
+                        HttpMethod.Put,
+                        new Dictionary<string, string>());
+
+                    // Validate that the response worked!
+                    Log.Info("DroidPlatformProvider", $"Registered with NH");
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("DroidPlatformProvider", $"Could not register with NH: {ex.Message}");
+                }
+            }
+            else
+            {
+                Log.Error("DroidPlatformProvider", $"Not registered with GCM");
             }
         }
         #endregion
-
-        public async void RegisterAsync(Push push, string registrationId)
-        {
-            try
-            {
-                await push.RegisterAsync(registrationId);
-            }
-            catch (Exception ex)
-            {
-                Log.Error("DroidPlatformProvider", $"Registration with NH failed: {ex.Message}");
-            }
-        }
 
         public Context RootView { get; private set; }
 
