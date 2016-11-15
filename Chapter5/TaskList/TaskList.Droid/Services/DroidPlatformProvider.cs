@@ -71,21 +71,8 @@ namespace TaskList.Droid.Services
                 try
                 {
                     var registrationId = GcmClient.GetRegistrationId(RootView);
-                    var endpoint = $"/push/installations/{client.InstallationId}";
-
-                    DeviceInstallation installation = new DeviceInstallation
-                    {
-                        InstallationId = client.InstallationId,
-                        Platform = "gcm",
-                        PushChannel = registrationId
-                    };
-                    await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
-                        endpoint,
-                        installation,
-                        HttpMethod.Put,
-                        new Dictionary<string, string>());
-
-                    // Validate that the response worked!
+                    var push = client.GetPush();
+                    await push.RegisterAsync(registrationId);
                     Log.Info("DroidPlatformProvider", $"Registered with NH");
                 }
                 catch (Exception ex)

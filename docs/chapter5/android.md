@@ -222,9 +222,9 @@ Now that you have the library installed, you can configure registration with FCM
 ```
 
 Most of this `Init()` method existed before.  The `GcmClient` calls are new.  The first two calls
-ensure that the mobile device is capable of handling registrations and that the application is 
+ensure that the mobile device is capable of handling registrations and that the application is
 properly configured.  The `GcmClient.Register()` call registers with GCM.  I'm dumping the registration
-ID we get back to the debug channel. 
+ID we get back to the debug channel.
 
 We also need to define a handler for the GCM calls.  GCM will send an out-of-band notification to the
 Android OS, which will figure out which application to wake up, and then call the defined handler.  Mine
@@ -301,7 +301,7 @@ package.  The class that will receive the events is the `GcmService` class.  The
 be defined there - registration, un-registration, messages and errors.  Right now, I'm just setting up some
 debug messages so I can see what is going on.
 
-We can test this right now.  Place a breakpoint on each `Log` method, then run the app.  
+We can test this right now.  Place a breakpoint on each `Log` method, then run the app.
 
 !!! tip The application could not be started
     If you get the error "The application could not be started.  Ensure that the application has been installed
@@ -333,7 +333,7 @@ the `intent` variable.  Click on **Stop** to stop the application.
 
 Moving onto registration with Notification Hubs, we need to pass the registration ID we received from GCM to
 our mobile backend.  The App Service will ensure our device is registered properly.  We need to do this at
-the appropriate time, and that depends on a lot of factors.  There is no problem with registering multiple 
+the appropriate time, and that depends on a lot of factors.  There is no problem with registering multiple
 times if our requirements change.  In this app, I might choose to register at the beginning of the app, once
 the user has authenticated and if I had a settings page, when the settings changed.  This activity is done
 in the `Services\DroidPlatformProvider.cs` file:
@@ -346,19 +346,8 @@ in the `Services\DroidPlatformProvider.cs` file:
             try
             {
                 var registrationId = GcmClient.GetRegistrationId(RootView);
-                var endpoint = $"/push/installations/{client.InstallationId}";
-
-                DeviceInstallation installation = new DeviceInstallation
-                {
-                    InstallationId = client.InstallationId,
-                    Platform = "gcm",
-                    PushChannel = registrationId
-                };
-                await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
-                    endpoint,
-                    installation,
-                    HttpMethod.Put,
-                    new Dictionary<string, string>());
+                var push = client.GetPush();
+                await push.RegisterAsync(registrationId)
 
                 // Validate that the response worked!
                 Log.Info("DroidPlatformProvider", $"Registered with NH");
@@ -375,71 +364,8 @@ in the `Services\DroidPlatformProvider.cs` file:
     }
 ```
 
-This is a little more complex than you might expect.  We are using the custom API invoker to submit
-our `DeviceInstallation`, which is the required JSON blob that Notification Hubs expects so that it
-can register the device.  We are not doing much - just setting the installation ID (which is required),
-platform and registration ID (which Notification Hubs calls the pushChannel).  I've placed the definition
-of `DeviceInstallation` in the shared project under `Abstractions\DeviceInstallation.cs`:
-
-```csharp
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
-namespace TaskList.Abstractions
-{
-    public class DeviceInstallation
-    {
-        public DeviceInstallation()
-        {
-            ExpirationTime = "";
-            Tags = new List<string>();
-            Templates = new Dictionary<string, DeviceTemplate>();
-        }
-
-        [JsonProperty(PropertyName = "installationId")]
-        public string InstallationId { get; set; }
-
-        [JsonProperty(PropertyName = "expirationTime")]
-        public string ExpirationTime { get; set; }
-
-        [JsonProperty(PropertyName = "platform")]
-        public string Platform { get; set; }
-
-        [JsonProperty(PropertyName = "pushChannel")]
-        public string PushChannel { get; set; }
-
-        [JsonProperty(PropertyName = "tags")]
-        public List<string> Tags { get; set; }
-
-        [JsonProperty(PropertyName = "templates")]
-        public Dictionary<string, DeviceTemplate> Templates { get; set; }
-    }
-
-    public class DeviceTemplate
-    {
-        public DeviceTemplate()
-        {
-            Body = "";
-            Tags = new List<string>();
-        }
-
-        [JsonProperty(PropertyName = "body")]
-        public string Body { get; set; }
-
-        [JsonProperty(PropertyName = "tags")]
-        public List<string> Tags { get; set; }
-
-        [JsonProperty(PropertyName = "headers")]
-        public Dictionary<string, string> Headers { get; set; }
-
-    }
-}
-```
-
-This is here to generate the appropriate JSON when serialized.
-
 You should call `RegisterForPushNotifications()` whenever you feel that the definition of the push endpoint
-should change.  In my application, I added the registration after the `LoginAsync()` method in the 
+should change.  In my application, I added the registration after the `LoginAsync()` method in the
 `ViewModels\EntryPageViewModel.cs` file:
 
 ```csharp
@@ -482,7 +408,7 @@ can click on the **Device Registrations** tab:
 We can see the registration of our test emulator device.  We can also send to a specific device using the test
 send facility.  Click over to the **Test Send** facility.  Since we only have one device, we can use broadcast.
 Each installation will also be given a tag: `$InstallationId:{guid}`, where {guid} is the installation ID.  Select
-**Google (GCM)** -> **Default** to send a message to GCM.  The body will be filled in for you.  
+**Google (GCM)** -> **Default** to send a message to GCM.  The body will be filled in for you.
 
 Since we have already set a breakpoint at the `OnMessage()` method in `GcmService.cs`, our app is running and we
 have entered the app and logged in, click **Send**.  The breakpoint should be triggered within a reasonable amount
@@ -498,10 +424,10 @@ We now have the full registration lifecycle working and we can do a test send to
 
 Processing of push notifications is done within your mobile app, so you can process the push notifications however
 you want.  For example, you may want to silently pull a specific record from the server and insert it into your
-SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.  
+SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.
 
-In this example, we are going to show the message that comes in the `message` field of the data block.  There 
-are more examples in the [recipes section](./recipes.md).  
+In this example, we are going to show the message that comes in the `message` field of the data block.  There
+are more examples in the [recipes section](./recipes.md).
 
 <!-- Images -->
 [img1]: img/push-fcm-1.PNG
@@ -520,4 +446,4 @@ are more examples in the [recipes section](./recipes.md).
 [2]: https://developer.android.com/studio/run/managing-avds.html
 [3]: https://console.firebase.google.com/
 [4]: https://components.xamarin.com/view/googleplayservices-gcm
-[5]: 
+[5]:

@@ -202,7 +202,7 @@ Once you have configure the tags, click on **Save** to save your work.
 After you have gained the requisite platform-specific registration ID, you need to pass this to the mobile
 backend.  The registration endpoint listens on `/push/installations/{guid}` where the GUID is a unique ID
 for the app on a specific mobile device.  The Azure Mobile Apps client generates this for you.  You must
-**HTTP PUT** a JSON **Installation** object to this URL.  A simple (empty) **Installation** object looks 
+**HTTP PUT** a JSON **Installation** object to this URL.  A simple (empty) **Installation** object looks
 like this:
 
 ```text
@@ -218,8 +218,7 @@ set to the registration ID of the platform.  The platform is set to the appropri
 you are using - gcm, apns or wns.   You can also add tags and template into this installation object.  Check
 out the [recipes section][2] for details on requesting tags and templates.
 
-There are certain helpers within the Azure Mobile Apps SDK for assisting with registration via the service, 
-but you will have better control of the process if you create the installation yourself.
+This is all handled for you using the Azure Mobile Apps SDK, as we will see later.
 
 ## Next Steps
 
