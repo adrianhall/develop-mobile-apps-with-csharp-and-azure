@@ -34,6 +34,18 @@ namespace TaskList.Droid.Services
         protected override void OnMessage(Context context, Intent intent)
         {
             Log.Info("GcmService", $"Message {intent.ToString()}");
+
+            var message = intent.DataString;
+            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
+
+            var notificationBuilder = new Notification.Builder(context)
+                .SetSmallIcon(Resource.Drawable.notification_template_icon_bg)
+                .SetContentTitle("NH Message")
+                .SetContentText(message)
+                .SetAutoCancel(true)
+                .SetContentIntent(pendingIntent);
+            var notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
+            notificationManager.Notify(0, notificationBuilder.Build());
         }
 
         protected override void OnError(Context context, string errorId)

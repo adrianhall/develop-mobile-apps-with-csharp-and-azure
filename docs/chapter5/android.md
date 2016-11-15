@@ -185,6 +185,11 @@ These are required irrespective of whether you are implementing iOS, Android, UW
 those platforms.  Let's now work with the Android platform-specific code.  Before we look at the platform
 specific code, we are going to need a library that implements the GCM/FCM library.
 
+!!! tip Alternative Libraries
+    We are going to use a fairly old and venerable GCM Client.  There is an official Xamarin client
+    for [Google Play Services][3] for example.  Feel free to experiment with other libraries.  The
+    process for registration tends to be very similar between SDKs.
+
 * Right-click on **Components** in the **TaskList.Droid** project.
 * Select **Get More Components...**.
 * Enter **Google Cloud Messaging Client** in the search box.
@@ -336,13 +341,106 @@ in the `Services\DroidPlatformProvider.cs` file:
 ```csharp
     public async Task RegisterForPushNotifications(MobileServiceClient client)
     {
-        var registrationId = GcmClient.GetRegistrationId(RootView);
-        await client.GetPush().RegisterAsync(registrationId);
+        if (GcmClient.IsRegistered(RootView))
+        {
+            try
+            {
+                var registrationId = GcmClient.GetRegistrationId(RootView);
+                var endpoint = $"/push/installations/{client.InstallationId}";
+
+                DeviceInstallation installation = new DeviceInstallation
+                {
+                    InstallationId = client.InstallationId,
+                    Platform = "gcm",
+                    PushChannel = registrationId
+                };
+                await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+                    endpoint,
+                    installation,
+                    HttpMethod.Put,
+                    new Dictionary<string, string>());
+
+                // Validate that the response worked!
+                Log.Info("DroidPlatformProvider", $"Registered with NH");
+            }
+            catch (Exception ex)
+            {
+                Log.Error("DroidPlatformProvider", $"Could not register with NH: {ex.Message}");
+            }
+        }
+        else
+        {
+            Log.Error("DroidPlatformProvider", $"Not registered with GCM");
+        }
     }
 ```
 
-In my application, I added the registration after the `LoginAsync()` method in the `ViewModels\EntryPageViewModel.cs`
-file:
+This is a little more complex than you might expect.  We are using the custom API invoker to submit
+our `DeviceInstallation`, which is the required JSON blob that Notification Hubs expects so that it
+can register the device.  We are not doing much - just setting the installation ID (which is required),
+platform and registration ID (which Notification Hubs calls the pushChannel).  I've placed the definition
+of `DeviceInstallation` in the shared project under `Abstractions\DeviceInstallation.cs`:
+
+```csharp
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace TaskList.Abstractions
+{
+    public class DeviceInstallation
+    {
+        public DeviceInstallation()
+        {
+            ExpirationTime = "";
+            Tags = new List<string>();
+            Templates = new Dictionary<string, DeviceTemplate>();
+        }
+
+        [JsonProperty(PropertyName = "installationId")]
+        public string InstallationId { get; set; }
+
+        [JsonProperty(PropertyName = "expirationTime")]
+        public string ExpirationTime { get; set; }
+
+        [JsonProperty(PropertyName = "platform")]
+        public string Platform { get; set; }
+
+        [JsonProperty(PropertyName = "pushChannel")]
+        public string PushChannel { get; set; }
+
+        [JsonProperty(PropertyName = "tags")]
+        public List<string> Tags { get; set; }
+
+        [JsonProperty(PropertyName = "templates")]
+        public Dictionary<string, DeviceTemplate> Templates { get; set; }
+    }
+
+    public class DeviceTemplate
+    {
+        public DeviceTemplate()
+        {
+            Body = "";
+            Tags = new List<string>();
+        }
+
+        [JsonProperty(PropertyName = "body")]
+        public string Body { get; set; }
+
+        [JsonProperty(PropertyName = "tags")]
+        public List<string> Tags { get; set; }
+
+        [JsonProperty(PropertyName = "headers")]
+        public Dictionary<string, string> Headers { get; set; }
+
+    }
+}
+```
+
+This is here to generate the appropriate JSON when serialized.
+
+You should call `RegisterForPushNotifications()` whenever you feel that the definition of the push endpoint
+should change.  In my application, I added the registration after the `LoginAsync()` method in the 
+`ViewModels\EntryPageViewModel.cs` file:
 
 ```csharp
     async Task ExecuteLoginCommand()
@@ -370,24 +468,50 @@ file:
 ```
 
 Run the application again, with the same breakpoint in the `GcmService.OnMessage()` method.  You can remove
-the other breakpoints at this point.  Log into the application.
+the other breakpoints at this point.  Log into the application this time.  Let's explore some of the debugging
+tools for Notification Hubs.  Within Visual Studio, you can use **View** -> **Server Explorer** to open the
+server explorer.  Expand the **Azure** node then the **Notification Hubs** node:
+
+![][img6]
+
+Double-click on your Notification Hub to open the developer console.  This provides two functions.  Firstly, we
+can click on the **Device Registrations** tab:
+
+![][img7]
+
+We can see the registration of our test emulator device.  We can also send to a specific device using the test
+send facility.  Click over to the **Test Send** facility.  Since we only have one device, we can use broadcast.
+Each installation will also be given a tag: `$InstallationId:{guid}`, where {guid} is the installation ID.  Select
+**Google (GCM)** -> **Default** to send a message to GCM.  The body will be filled in for you.  
+
+Since we have already set a breakpoint at the `OnMessage()` method in `GcmService.cs`, our app is running and we
+have entered the app and logged in, click **Send**.  The breakpoint should be triggered within a reasonable amount
+of time.  I'd like to say that it will be near instantaneous, but push notifications may take some time depending
+on what is happening within the push notification system at the time.  The push should not take more than a couple
+of minutes to arrive and will likely arrive much quicker.
+
+![][img8]
+
+We now have the full registration lifecycle working and we can do a test send to hit the right piece of code.
 
 ## Processing a Push Notification
 
-## Registering for Tags and Templates
+Processing of push notifications is done within your mobile app, so you can process the push notifications however
+you want.  For example, you may want to silently pull a specific record from the server and insert it into your
+SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.  
 
-The `client.RegisterAsync()` method can take a second parameter for defining the configuration that gets sent
-to the service.  In the documentation, it explicitly mentions templates, but you can send tags as well.  It 
-must be supplied as a `JObject`.  
+In this example, we are going to show the message that comes in the `message` field of the data block.  There 
+are more examples in the [recipes section](./recipes.md).  
 
-
-When we registered 
 <!-- Images -->
 [img1]: img/push-fcm-1.PNG
 [img2]: img/push-fcm-2.PNG
 [img3]: img/push-fcm-3.PNG
 [img4]: img/push-fcm-4.PNG
 [img5]: img/push-fcm-5.PNG
+[img6]: img/push-nh-vs1.PNG
+[img7]: img/push-nh-vs2.PNG
+[img8]: img/push-nh-vs3.PNG
 
 <!-- Links -->
 [Azure portal]: https://portal.azure.com
@@ -395,4 +519,5 @@ When we registered
 [1]: https://firebase.google.com/console/
 [2]: https://developer.android.com/studio/run/managing-avds.html
 [3]: https://console.firebase.google.com/
-
+[4]: https://components.xamarin.com/view/googleplayservices-gcm
+[5]: 
