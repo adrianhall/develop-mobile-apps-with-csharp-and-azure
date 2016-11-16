@@ -23,7 +23,7 @@ appropriate SDKs, in Visual Studio:
 
 Wait for the installation to complete, then close the Android SDK Manager.
 
-!!! tip Disable Android Emulator for Visual Studio
+!!! tip "Disable Android Emulator for Visual Studio"
     The Android Virtual Device from Google and the Android Emulator for Visual Studio are incompatible with
     one another.  To use the Android Virtual Device, open a PowerShell prompt as an Administrator, then run
     the command  `bcdedit /set hypervisorlaunchtype off` and reboot.  You may also have to install [Intel HAXM],
@@ -45,7 +45,7 @@ Test that the emulator device works:
 * Click **Start...**.
 * Click **Launch...**.
 
-!!! tip Fixing Permission Denied
+!!! tip "Fixing Permission Denied"
     You may get an error for `...\/system.img: Permission denied`.  To fix this, open up a File Explorer
     and go to `C:\Program Files (x86)\Android`.  Right-click on `android-sdk` and select **Properties**.  Click
     the **Security** tab, then **Edit**.  Highlight Users in the Group or user names box, select Allow Full control
@@ -55,11 +55,6 @@ Test that the emulator device works:
 If the device starts and looks like a regular Android device, then you've completed the task.  You must
 have a working emulator or real device before continuing, so don't continue until you've got something
 working.
-
-!!! tip
-    You can also download and use the Intel Atom x86 images.  However, this requires Intel HAXM, so
-    you need to install that first.  The SDK can be downloaded with the Android SDK manager, but needs
-    to be installed separately.
 
 ## Registering your app with FCM
 
@@ -185,7 +180,7 @@ These are required irrespective of whether you are implementing iOS, Android, UW
 those platforms.  Let's now work with the Android platform-specific code.  Before we look at the platform
 specific code, we are going to need a library that implements the GCM/FCM library.
 
-!!! tip Alternative Libraries
+!!! tip "Alternative Libraries"
     We are going to use a fairly old and venerable GCM Client.  There is an official Xamarin client
     for [Google Play Services][3] for example.  Feel free to experiment with other libraries.  The
     process for registration tends to be very similar between SDKs.
@@ -289,7 +284,7 @@ namespace TaskList.Droid.Services
 }
 ```
 
-!!! warn Replace the SenderId
+!!! warn "Replace the SenderId"
     You must replace the SenderId with your sender ID that you copied from the Firebase Console.
 
 Let's start at the top.  In order to use push notifications from Firebase, we need to tell our application
@@ -303,7 +298,7 @@ debug messages so I can see what is going on.
 
 We can test this right now.  Place a breakpoint on each `Log` method, then run the app.
 
-!!! tip The application could not be started
+!!! tip "The application could not be started"
     If you get the error "The application could not be started.  Ensure that the application has been installed
     to the target device and has a launchable activity (MainLauncher=true)".  This is because the Android system
     can't handle package names in upper case.  Right-click the **TaskList.Droid** project and select **Properties**

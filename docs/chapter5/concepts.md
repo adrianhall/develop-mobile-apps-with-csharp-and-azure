@@ -108,7 +108,7 @@ just like the addition of any other resource:
 * Select or search for **Notification Hub**.
 * Click on **Create**.
 
-    ![][img2]
+![][img2]
 
 * Enter the information required.  You will need to create both a notification hub and a namespace.  I generally
    add the `-ns` designation to a namespace.
