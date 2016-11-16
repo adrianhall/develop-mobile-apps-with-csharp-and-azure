@@ -7,6 +7,8 @@ using Android.Content;
 using Android.Util;
 using Gcm.Client;
 using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using TaskList.Droid.Services;
 using Xamarin.Auth;
@@ -73,6 +75,7 @@ namespace TaskList.Droid.Services
                     var registrationId = GcmClient.GetRegistrationId(RootView);
                     var push = client.GetPush();
                     await push.RegisterAsync(registrationId);
+
                     Log.Info("DroidPlatformProvider", $"Registered with NH");
                 }
                 catch (Exception ex)

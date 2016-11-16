@@ -158,12 +158,10 @@ My mobile backend is connected to Azure Active Directory.   I've configured my b
 
 Here, I have three client requested tags and two automatically generated tags that are only added when
 authenticated.  Let's suppose that the mobile client requested `[ topic:World topic:Sports ]` and the
-mobile client was authenticated as username `user@foo.com`, and was a member of the Sales group and the
-Managers group.  With this configuration, the user would be registered for the following tags:
+mobile client was authenticated as username `user@foo.com`.  With this configuration, the user would 
+be registered for the following tags:
 
 * topic:Sports
-* auto:Sales
-* auto:Managers
 * auto:user@foo.com
 
 The topic:Politics and topic:News tags would not be added because the user did not request them.  The topic:World
@@ -173,14 +171,13 @@ tag would not be added because it is not in the whitelist of allowed client requ
     We never provide the ability to request any tag (a wild-card) because it is a large security hole.  With a
     wild-card tag, you could request push notifications for a user or group to which you were not allowed.
 
-The `$(claim)` format is used in automatically added tags to add claims from the authenticated user into the
-notification hub installation.  You can use any claim that is returned by the `/.auth/me` endpoint.  The
+The `$(provider.claim)` format is used in automatically added tags to add claims from the authenticated user 
+into the notification hub installation.  You can use any claim that is returned by the `/.auth/me` endpoint.  The
 standard identifiers are:
 
 * $(*provider*.emailaddress)
 * $(*provider*.identityprovider)
 * $(*provider*.name)
-* $(*provider*.user_id)
 
 Replace *provider* with the provider name (facebook, google, microsoftaccount, twitter or aad).  The list of claims
 that are available is different for each provider and additional claims may be available.  It is possible to configure
@@ -218,7 +215,15 @@ set to the registration ID of the platform.  The platform is set to the appropri
 you are using - gcm, apns or wns.   You can also add tags and template into this installation object.  Check
 out the [recipes section][2] for details on requesting tags and templates.
 
-This is all handled for you using the Azure Mobile Apps SDK, as we will see later.
+This is all handled for you using the Azure Mobile Apps SDK, as we will see later.  The simple form of registration
+is:
+
+```
+var push = client.GetPush();
+await push.RegisterAsync(registrationId);
+```
+
+However, there are other methods and overrides as well.
 
 ## Next Steps
 
