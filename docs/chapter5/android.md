@@ -346,11 +346,28 @@ in the `Services\DroidPlatformProvider.cs` file:
             try
             {
                 var registrationId = GcmClient.GetRegistrationId(RootView);
-                var push = client.GetPush();
-                await push.RegisterAsync(registrationId)
+                //var push = client.GetPush();
+                //await push.RegisterAsync(registrationId);
 
-                // Validate that the response worked!
-                Log.Info("DroidPlatformProvider", $"Registered with NH");
+                var installation = new DeviceInstallation
+                {
+                    InstallationId = client.InstallationId,
+                    Platform = "gcm",
+                    PushChannel = registrationId
+                };
+                // Set up tags to request
+                installation.Tags.Add("topic:Sports");
+                // Set up templates to request
+                PushTemplate genericTemplate = new PushTemplate
+                {
+                    Body = "{\"data\":{\"message\":\"$(messageParam)\"}}"
+                };
+                // Register with NH
+                var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+                    $"/push/installations/{client.InstallationId}",
+                    installation,
+                    HttpMethod.Put,
+                    new Dictionary<string, string>());
             }
             catch (Exception ex)
             {
@@ -405,10 +422,14 @@ can click on the **Device Registrations** tab:
 
 ![][img7]
 
-We can see the registration of our test emulator device.  We can also send to a specific device using the test
-send facility.  Click over to the **Test Send** facility.  Since we only have one device, we can use broadcast.
-Each installation will also be given a tag: `$InstallationId:{guid}`, where {guid} is the installation ID.  Select
-**Google (GCM)** -> **Default** to send a message to GCM.  The body will be filled in for you.
+We can see the registration of our test emulator device.  Note that our request for the `topic:Sports` tag has
+also been honored.  If we did not configure that tag within the Push blade in the portal, that would not have
+been added to our registration.  
+
+We can also send to a specific device using the test send facility.  Click over to the **Test Send** facility.  Since 
+we only have one device, we can use broadcast. Each installation will also be given a tag: `$InstallationId:{guid}`, 
+where {guid} is the installation ID.  Select **Google (GCM)** -> **Default** to send a message to GCM.  The body 
+will be filled in for you.
 
 Since we have already set a breakpoint at the `OnMessage()` method in `GcmService.cs`, our app is running and we
 have entered the app and logged in, click **Send**.  The breakpoint should be triggered within a reasonable amount
@@ -427,7 +448,37 @@ you want.  For example, you may want to silently pull a specific record from the
 SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.
 
 In this example, we are going to show the message that comes in the `message` field of the data block.  There
-are more examples in the [recipes section](./recipes.md).
+are more examples in the [recipes section](./recipes.md).  The `OnMessage()` method in `GcmService.cs` is triggered 
+on a push.  A simple notification looks like this:
+
+```csharp
+    protected override void OnMessage(Context context, Intent intent)
+    {
+        Log.Info("GcmService", $"Message {intent.ToString()}");
+
+        var message = intent.Extras.GetString("message");
+
+        var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+        var uiIntent = new Intent(context, typeof(MainActivity));
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+        var notification = builder.SetContentIntent(PendingIntent.GetActivity(context, 0, uiIntent, 0))
+            .SetSmallIcon(Android.Resource.Drawable.SymDefAppIcon)
+            .SetTicker("TaskList")
+            .SetContentTitle("TaskList")
+            .SetContentText(message)
+            .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification))
+            .SetAutoCancel(true)
+            .Build();
+
+        notificationManager.Notify(1, notification);
+    }
+```
+
+The major thing to note here is how we get the contents of the message.  The data block from the Notification
+Hub is received by the Intent into the Extras property.  If you have other properties in that block, you can
+retrieve them the same way.  The message field is standard, but you can pass other things.  An example would
+be to pass the table name and ID of an inserted record.
 
 <!-- Images -->
 [img1]: img/push-fcm-1.PNG

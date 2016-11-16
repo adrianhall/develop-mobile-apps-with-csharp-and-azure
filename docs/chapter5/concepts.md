@@ -215,15 +215,114 @@ set to the registration ID of the platform.  The platform is set to the appropri
 you are using - gcm, apns or wns.   You can also add tags and template into this installation object.  Check
 out the [recipes section][2] for details on requesting tags and templates.
 
-This is all handled for you using the Azure Mobile Apps SDK, as we will see later.  The simple form of registration
-is:
+There is a simple class for implementing an installation, which I place in `Abstractions\DeviceInstallation.cs`
+within the shared project:
 
-```
-var push = client.GetPush();
-await push.RegisterAsync(registrationId);
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+namespace TaskList.Abstractions
+{
+    public class DeviceInstallation
+    {
+        public DeviceInstallation()
+        {
+            Tags = new List<string>();
+            Templates = new Dictionary<string, PushTemplate>();
+        }
+
+        [JsonProperty(PropertyName = "installationId")]
+        public string InstallationId { get; set; }
+
+        [JsonProperty(PropertyName = "platform")]
+        public string Platform { get; set; }
+
+        [JsonProperty(PropertyName = "pushChannel")]
+        public string PushChannel { get; set; }
+
+        [JsonProperty(PropertyName = "tags")]
+        public List<string> Tags { get; set; }
+
+        [JsonProperty(PropertyName = "templates")]
+        public Dictionary<string, PushTemplate> Templates { get; set; }
+    }
+
+    public class PushTemplate
+    {
+        public PushTemplate()
+        {
+            Tags = new List<string>();
+            Headers = new Dictionary<string, string>();
+        }
+
+        [JsonProperty(PropertyName = "body")]
+        public string Body { get; set; }
+
+        [JsonProperty(PropertyName = "tags")]
+        public List<string> Tags { get; set; }
+
+        [JsonProperty(PropertyName = "headers")]
+        public Dictionary<string, string> Headers { get; set; }
+    }
+}
 ```
 
-However, there are other methods and overrides as well.
+The `Installation` object is also available in the Notification Hubs SDK, but I find bringing in the entire 
+Notification Hubs SDK just for this is a little overkill.  You can create a suitable installation and 
+register with the `InvokeApiAsync<T,U>()` method:
+
+```csharp
+    public async Task RegisterForPushNotifications(MobileServiceClient client)
+    {
+        if (GcmClient.IsRegistered(RootView))
+        {
+            try
+            {
+                var registrationId = GcmClient.GetRegistrationId(RootView);
+                //var push = client.GetPush();
+                //await push.RegisterAsync(registrationId);
+
+                var installation = new DeviceInstallation
+                {
+                    InstallationId = client.InstallationId,
+                    Platform = "gcm",
+                    PushChannel = registrationId
+                };
+                // Set up tags to request
+                installation.Tags.Add("topic:Sports");
+                // Set up templates to request
+                PushTemplate genericTemplate = new PushTemplate
+                {
+                    Body = "{\"data\":{\"message\":\"$(messageParam)\"}}"
+                };
+                // Register with NH
+                var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+                    $"/push/installations/{client.InstallationId}",
+                    installation,
+                    HttpMethod.Put,
+                    new Dictionary<string, string>());
+            }
+            catch (Exception ex)
+            {
+                Log.Error("DroidPlatformProvider", $"Could not register with NH: {ex.Message}");
+            }
+        }
+        else
+        {
+            Log.Error("DroidPlatformProvider", $"Not registered with GCM");
+        }
+    }
+```
+
+This is normally placed within the platform-specific provider since the details on how to get the registration
+ID and platform are different.  This version is for the Android edition as an example.  Using `InvokeApiAsync()` 
+instead of relying on the in-built Azure Mobile Apps push registration methods gives you more control over the 
+process of registration.
 
 ## Next Steps
 

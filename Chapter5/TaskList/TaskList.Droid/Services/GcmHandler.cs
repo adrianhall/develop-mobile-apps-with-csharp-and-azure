@@ -1,5 +1,7 @@
 using Android.App;
 using Android.Content;
+using Android.Media;
+using Android.Support.V7.App;
 using Android.Util;
 using Gcm.Client;
 
@@ -35,17 +37,22 @@ namespace TaskList.Droid.Services
         {
             Log.Info("GcmService", $"Message {intent.ToString()}");
 
-            var message = intent.DataString;
-            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
+            var message = intent.Extras.GetString("message");
 
-            var notificationBuilder = new Notification.Builder(context)
-                .SetSmallIcon(Resource.Drawable.notification_template_icon_bg)
-                .SetContentTitle("NH Message")
+            var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+            var uiIntent = new Intent(context, typeof(MainActivity));
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+            var notification = builder.SetContentIntent(PendingIntent.GetActivity(context, 0, uiIntent, 0))
+                .SetSmallIcon(Android.Resource.Drawable.SymDefAppIcon)
+                .SetTicker("TaskList")
+                .SetContentTitle("TaskList")
                 .SetContentText(message)
+                .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification))
                 .SetAutoCancel(true)
-                .SetContentIntent(pendingIntent);
-            var notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
-            notificationManager.Notify(0, notificationBuilder.Build());
+                .Build();
+
+            notificationManager.Notify(1, notification);
         }
 
         protected override void OnError(Context context, string errorId)

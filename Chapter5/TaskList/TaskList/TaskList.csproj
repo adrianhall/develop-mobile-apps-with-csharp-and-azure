@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Abstractions\BaseViewModel.cs" />
+    <Compile Include="Abstractions\DeviceInstallation.cs" />
     <Compile Include="Abstractions\ICloudService.cs" />
     <Compile Include="Abstractions\ICloudTable.cs" />
     <Compile Include="Abstractions\IPlatformProvider.cs" />

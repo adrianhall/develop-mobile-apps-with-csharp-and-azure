@@ -73,10 +73,28 @@ namespace TaskList.Droid.Services
                 try
                 {
                     var registrationId = GcmClient.GetRegistrationId(RootView);
-                    var push = client.GetPush();
-                    await push.RegisterAsync(registrationId);
+                    //var push = client.GetPush();
+                    //await push.RegisterAsync(registrationId);
 
-                    Log.Info("DroidPlatformProvider", $"Registered with NH");
+                    var installation = new DeviceInstallation
+                    {
+                        InstallationId = client.InstallationId,
+                        Platform = "gcm",
+                        PushChannel = registrationId
+                    };
+                    // Set up tags to request
+                    installation.Tags.Add("topic:Sports");
+                    // Set up templates to request
+                    PushTemplate genericTemplate = new PushTemplate
+                    {
+                        Body = "{\"data\":{\"message\":\"$(messageParam)\"}}"
+                    };
+                    // Register with NH
+                    var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+                        $"/push/installations/{client.InstallationId}",
+                        installation,
+                        HttpMethod.Put,
+                        new Dictionary<string, string>());
                 }
                 catch (Exception ex)
                 {
