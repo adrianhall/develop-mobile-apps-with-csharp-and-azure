@@ -376,6 +376,9 @@ in the `Services\DroidPlatformProvider.cs` file:
     }
 ```
 
+!!! tip "Registering without Tags"
+    You can also register without tags using the commented-out single line of code `push.RegisterAsync(registrationId);`
+
 You should call `RegisterForPushNotifications()` whenever you feel that the definition of the push endpoint
 should change.  In my application, I added the registration after the `LoginAsync()` method in the
 `ViewModels\EntryPageViewModel.cs` file:
@@ -419,11 +422,11 @@ can click on the **Device Registrations** tab:
 
 We can see the registration of our test emulator device.  Note that our request for the `topic:Sports` tag has
 also been honored.  If we did not configure that tag within the Push blade in the portal, that would not have
-been added to our registration.  
+been added to our registration.
 
-We can also send to a specific device using the test send facility.  Click over to the **Test Send** facility.  Since 
-we only have one device, we can use broadcast. Each installation will also be given a tag: `$InstallationId:{guid}`, 
-where {guid} is the installation ID.  Select **Google (GCM)** -> **Default** to send a message to GCM.  The body 
+We can also send to a specific device using the test send facility.  Click over to the **Test Send** facility.  Since
+we only have one device, we can use broadcast. Each installation will also be given a tag: `$InstallationId:{guid}`,
+where {guid} is the installation ID.  Select **Google (GCM)** -> **Default** to send a message to GCM.  The body
 will be filled in for you.
 
 Since we have already set a breakpoint at the `OnMessage()` method in `GcmService.cs`, our app is running and we
@@ -443,7 +446,7 @@ you want.  For example, you may want to silently pull a specific record from the
 SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.
 
 In this example, we are going to show the message that comes in the `message` field of the data block.  There
-are more examples in the [recipes section](./recipes.md).  The `OnMessage()` method in `GcmService.cs` is triggered 
+are more examples in the [recipes section](./recipes.md).  The `OnMessage()` method in `GcmService.cs` is triggered
 on a push.  A simple notification looks like this:
 
 ```csharp
