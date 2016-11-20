@@ -102,11 +102,13 @@ namespace TaskList.iOS.Services
 			{
 				try
 				{
+					var registrationId = AppDelegate.PushDeviceToken.Description
+						.Trim('<', '>').Replace(" ", string.Empty).ToUpperInvariant();
 					var installation = new DeviceInstallation
 					{
 						InstallationId = client.InstallationId,
 						Platform = "apns",
-						PushChannel = AppDelegate.PushDeviceToken.ToString()
+						PushChannel = registrationId
 					};
 					// Set up tags to request
 					installation.Tags.Add("topic:Sports");
@@ -115,8 +117,9 @@ namespace TaskList.iOS.Services
 					{
 						Body = "{\"aps\":{\"alert\":\"$(messageParam)\"}}"
 					};
+					installation.Templates.Add("genericTemplate", genericTemplate);
 					// Register with NH
-					var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+					await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
 						$"/push/installations/{client.InstallationId}",
 						installation,
 						HttpMethod.Put,

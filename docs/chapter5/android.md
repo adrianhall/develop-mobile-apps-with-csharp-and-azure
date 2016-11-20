@@ -357,6 +357,8 @@ in the `Services\DroidPlatformProvider.cs` file:
                 {
                     Body = "{\"data\":{\"message\":\"$(messageParam)\"}}"
                 };
+                installation.Templates.Add("genericTemplate", genericTemplate);
+
                 // Register with NH
                 var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
                     $"/push/installations/{client.InstallationId}",

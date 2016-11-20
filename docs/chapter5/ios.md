@@ -218,11 +218,13 @@ from the `Services\iOSPlatformProvider.cs` file:
         {
             try
             {
+                var registrationId = AppDelegate.PushDeviceToken.Description
+                    .Trim('<', '>').Replace(" ", string.Empty).ToUpperInvariant();
                 var installation = new DeviceInstallation
                 {
                     InstallationId = client.InstallationId,
                     Platform = "apns",
-                    PushChannel = AppDelegate.PushDeviceToken.ToString()
+                    PushChannel = registrationId
                 };
                 // Set up tags to request
                 installation.Tags.Add("topic:Sports");
@@ -231,6 +233,8 @@ from the `Services\iOSPlatformProvider.cs` file:
                 {
                     Body = "{\"aps\":{\"alert\":\"$(messageParam)\"}}"
                 };
+                installation.Templates.Add("genericTemplate", genericTemplate);
+
                 // Register with NH
                 var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
                     $"/push/installations/{client.InstallationId}",
@@ -247,8 +251,9 @@ from the `Services\iOSPlatformProvider.cs` file:
 ```
 
 In this case, we don't have a service class to deal with - the iOS AppDelegate does all the work for us.  The
-registration Id is stored in the AppDelegate once registered.  Similar to the Android version, we make the template
-we are using match what we are expecting within our push handler.
+registration Id is stored in the AppDelegate once registered, but needs to be decoded (which is relatively
+simple).  Similar to the Android version, we make the template we are using match what we are expecting within 
+our push handler.
 
 ## Receiving a Notifications
 

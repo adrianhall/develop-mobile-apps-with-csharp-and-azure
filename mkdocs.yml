@@ -36,7 +36,6 @@ pages:
         - Android Push: chapter5/android.md
         - iOS Push: chapter5/ios.md
         - Windows Push: chapter5/windows.md
-        - Testing Push: chapter5/testing.md
         - Push Recipes: chapter5/recipes.md
     - Chapter 6 - Combining Web and Mobile Apps:
         - MVC Applications: chapter6/mvc.md
