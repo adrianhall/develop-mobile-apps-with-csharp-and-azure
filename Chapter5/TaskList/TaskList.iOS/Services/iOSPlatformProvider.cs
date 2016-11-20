@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
@@ -93,6 +95,39 @@ namespace TaskList.iOS.Services
                 new PlatformParameters(RootView));
             return authResult.AccessToken;
         }
-        #endregion
-    }
+
+		public async Task RegisterForPushNotifications(MobileServiceClient client)
+		{
+			if (AppDelegate.PushDeviceToken != null)
+			{
+				try
+				{
+					var installation = new DeviceInstallation
+					{
+						InstallationId = client.InstallationId,
+						Platform = "apns",
+						PushChannel = AppDelegate.PushDeviceToken.ToString()
+					};
+					// Set up tags to request
+					installation.Tags.Add("topic:Sports");
+					// Set up templates to request
+					PushTemplate genericTemplate = new PushTemplate
+					{
+						Body = "{\"aps\":{\"alert\":\"$(messageParam)\"}}"
+					};
+					// Register with NH
+					var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+						$"/push/installations/{client.InstallationId}",
+						installation,
+						HttpMethod.Put,
+						new Dictionary<string, string>());
+				}
+				catch (Exception ex)
+				{
+					System.Diagnostics.Debug.Fail($"[iOSPlatformProvider]: Could not register with NH: {ex.Message}");
+				}
+			}
+		}
+		#endregion
+	}
 }

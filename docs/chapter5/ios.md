@@ -14,6 +14,9 @@ certificates and the process of configuring the APNS gateway is made easier by u
 certain things on a PC (like editing the plist files appropriately), but you will end up spending a significant
 amount of time on the Mac.  As a result, I'm going to do this entire section on a Mac.
 
+If you have not done so already, read through the [Android Push](./android.md) section to get all the code for
+the shared project - it won't be repeated in this section.
+
 ## Registering with APNS
 
 Registering with APNS is a multi-step process:
@@ -153,9 +156,114 @@ loading your project.
 
 ### Code the push handler
 
+The push handler is coded in the `AppDelegate.cs` file.  Unlike other platforms (like Android), you don't have to 
+write code to define the push handler.  It's always in the same place.  Add the following code to the `AppDelegate.cs`
+file:
+
+```csharp
+    public static NSData PushDeviceToken { get; private set; } = null;
+
+    /// <summary>
+    /// Called when the push notification system is registered
+    /// </summary>
+    /// <param name="application">Application.</param>
+    /// <param name="deviceToken">Device token.</param>
+    public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+    {
+        AppDelegate.PushDeviceToken = deviceToken;
+    }
+
+    public override void DidReceiveRemoteNotification(UIApplication application, 
+        NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+    {
+        NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+
+        // The aps is a dictionary with the template values in it
+        // You can adjust this section to do whatever you need to with the push notification
+
+        string alert = string.Empty;
+        if (aps.ContainsKey(new NSString("alert")))
+            alert = (aps[new NSString("alert")] as NSString).ToString();
+
+        //show alert
+        if (!string.IsNullOrEmpty(alert))
+        {
+            UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
+            avAlert.Show();
+        }
+
+        // End of the user configurable piece
+    }
+```
+
+The `NSDictionary`, `NSData`, and `NSString` classes are part of the iOS programming model and do exactly what you
+would expect them to do.  The `UIAlertView` class provides a standard alert.  
+
+!!! tip "Call common code for push notifications"
+    One of the great things about Xamarin Forms is that it is cross-platform.  However, that all breaks
+    down when you move to push notifications.  One of the things you can do is to use the push handler
+    to generate a model and then pass that model to a method in your PCL project.  This allows you to
+    express the differences clearly and yet still do the majority of the logic in a cross-platform manner.
+
 ## Registering with Azure Mobile Apps
 
+As with Android, I recommend using a `HttpClient` for registering with Notification Hubs via the Azure
+Mobile Apps Push handler.  Here is the code that does basically the same thing as the Android version
+from the `Services\iOSPlatformProvider.cs` file:
+
+```csharp
+    public async Task RegisterForPushNotifications(MobileServiceClient client)
+    {
+        if (AppDelegate.PushDeviceToken != null)
+        {
+            try
+            {
+                var installation = new DeviceInstallation
+                {
+                    InstallationId = client.InstallationId,
+                    Platform = "apns",
+                    PushChannel = AppDelegate.PushDeviceToken.ToString()
+                };
+                // Set up tags to request
+                installation.Tags.Add("topic:Sports");
+                // Set up templates to request
+                PushTemplate genericTemplate = new PushTemplate
+                {
+                    Body = "{\"aps\":{\"alert\":\"$(messageParam)\"}}"
+                };
+                // Register with NH
+                var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+                    $"/push/installations/{client.InstallationId}",
+                    installation,
+                    HttpMethod.Put,
+                    new Dictionary<string, string>());
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Fail($"[iOSPlatformProvider]: Could not register with NH: {ex.Message}");
+            }
+        }
+    }
+```
+
+In this case, we don't have a service class to deal with - the iOS AppDelegate does all the work for us.  The
+registration Id is stored in the AppDelegate once registered.  Similar to the Android version, we make the template
+we are using match what we are expecting within our push handler.
+
 ## Receiving a Notifications
+
+Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
+to ensure that a registration happens when we expect it to.  In the case of our app, that happens immediately after
+the authentication.  There is no Notifications Hub registration monitor in Visual Studio for Mac, so we have to get
+that information an alternate way:
+
+**XXX-TODO**: Registration Monitor for Mac
+
+We can also send a test message for push notifications.  This can be done via the Azure Portal.
+
+**XXX-TODO**: Test Send for Azure Portal
+
+Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Section](./recipes.md).
 
 <!-- Images -->
 [img1]: ./img/push-ios-1.PNG
