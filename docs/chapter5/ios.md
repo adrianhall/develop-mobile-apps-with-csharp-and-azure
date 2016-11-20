@@ -1,6 +1,7 @@
-!!! warn Visual Studio for Mac Use
-    I'm going to be using Visual Studio for Mac in this section.  You can also use Xamarin Studio or Visual Studio
-    on the PC and then compile using a Mac Build Agent.  The same code will work.
+!!! warn "Visual Studio for Mac Use"
+    I'm going to be using Visual Studio for Mac for screen shots in this section.  You can also use Xamarin Studio 
+    or Visual Studio on the PC and then compile using a Mac Build Agent.  The same code will work.  Some terminology
+    differences may exist and locations may differ.
 
 Push notifications for Apple devices is handled by _Apple Push Notification Service_ or APNS.  APNS is certificate
 based, rather than secret based as is the case with GCM and FCM.  You will find that there are two certificates -
@@ -107,9 +108,10 @@ Now we can upload the certificate to Azure:
     * Select **Sandbox** (probably) or **Production** as appropriate.
 
     ![][img5]
+
 6. Click **OK**.
 
-It's important to figure out whether you are operating in the Sandbox (Development) or Production mode.  During 
+It's important to figure out whether you are operating in the _Sandbox_ (Development) or _Production_ mode.  During 
 development, it's likely that your device will be registered on the Apple Developer console and you will be 
 operating in the sandbox.  Any device not listed with the developer console is considered "production".  You 
 must update the certificate to a production certificate and specify the production mode when you release your app.  
@@ -118,6 +120,36 @@ Apple APNS provides two endpoints for pushing notifications.  If you use the wro
 error code.  This will cause Notification Hubs to delete the registration and your push will fail.
 
 ### Configure your application
+
+Before we start with code, you will want a _Provisioning Profile_.  This small file is key to being able to
+use push notifications on your device.  You **MUST** have a real device at this point.  The easiest way for
+this to happen is to plug the iPhone or iPad that you want to use into your development system.  Once your
+device is recognized by iTunes, start XCode and look under **Product** > **Destination**.  You should see
+the device listed there.
+
+!!! warn "INCOMPLETE SECTION"
+    This section is incomplete.
+
+Moving on to our code, we need to configure the iOS project for push notifications.  This involves configuring
+the Bundle ID and enabling certain configuration settings required for handling push notifications.  Start by
+loading your project.  
+
+1. Expand the **TaskList.iOS** project and open the **Info.plist** file.
+2. In the **Identity** section, fill in the **Bundle ID**.  It must match the App ID Suffix that you set earlier.
+
+    ![][img6]
+
+3. Scroll down until you see **Background Modes**.  Check the **Enable Background Modes** checkbox.
+4. Check the **Remote notifications** checkbox.
+
+    ![][img7]
+
+5. Right-click on the **TaskList.iOS** project, then select **Options**.
+6. Click **iOS Bundle Signing** in the left hand menu.
+7. Select your Signing Identity and Provisioning Profile.
+
+!!! warn "INCOMPLETE SECTION"
+    This section is incomplete.
 
 ### Code the push handler
 
@@ -130,9 +162,12 @@ error code.  This will cause Notification Hubs to delete the registration and yo
 [img2]: ./img/push-ios-2.PNG
 [img3]: ./img/push-ios-3.PNG
 [img4]: ./img/push-ios-4.PNG
-
+[img5]: ./img/push-ios-5.PNG
+[img6]: ./img/push-ios-6.PNG
+[img7]: ./img/push-ios-7.PNG
 
 <!-- Links -->
 [Azure portal]: https;//portal.azure.com/
 [1]: http://developer.apple.com/account
 [2]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW991
+[3]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html

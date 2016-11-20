@@ -102,6 +102,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskList\TaskList.csproj">
       <Name>TaskList</Name>
+      <Project>{9DCFDCC4-2B35-4146-A258-F3167F7786D1}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
