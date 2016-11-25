@@ -1037,6 +1037,25 @@ up so that when pulled, it calls the RefreshCommand.  It also has an indicator
 that I have wired up to the IsBusy indicator.  Anyone who is familiar with the
 iOS "pull-to-refresh" gesture can probably guess what this does.
 
+The code behind in `Pages\TaskList.xaml.cs`:
+
+```csharp
+using TaskList.ViewModels; 
+using Xamarin.Forms;
+
+namespace TaskList.Pages
+{
+    public partial class TaskList : ContentPage
+    {
+        public TaskList()
+        {
+            InitializeComponent();
+            BindingContext = new TaskListViewModel();
+        }
+    }
+}
+```
+
 There is a view-model that goes along with the view (in `ViewModels\TaskListViewModel.cs`):
 
 ```csharp
