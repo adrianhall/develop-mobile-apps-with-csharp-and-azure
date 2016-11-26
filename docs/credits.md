@@ -8,6 +8,7 @@ particular order):
 - Donna Malayeri
 - Fabio Cavalcante
 - James Montemagno
+- Kevin Hilscher
 - Mike James
 - Pierce Boggan
 - Steve Lee
