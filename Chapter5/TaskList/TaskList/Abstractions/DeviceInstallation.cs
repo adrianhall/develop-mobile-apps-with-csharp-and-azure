@@ -36,7 +36,6 @@ namespace TaskList.Abstractions
         public PushTemplate()
         {
             Tags = new List<string>();
-            Headers = new Dictionary<string, string>();
         }
 
         [JsonProperty(PropertyName = "body")]
@@ -44,8 +43,5 @@ namespace TaskList.Abstractions
 
         [JsonProperty(PropertyName = "tags")]
         public List<string> Tags { get; set; }
-
-        [JsonProperty(PropertyName = "headers")]
-        public Dictionary<string, string> Headers { get; set; }
     }
 }

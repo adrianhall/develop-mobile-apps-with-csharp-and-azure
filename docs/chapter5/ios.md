@@ -128,10 +128,7 @@ Before we start with code, you will want a _Provisioning Profile_.  This small f
 use push notifications on your device.  You **MUST** have a real device at this point.  The easiest way for
 this to happen is to plug the iPhone or iPad that you want to use into your development system.  Once your
 device is recognized by iTunes, start XCode and look under **Product** > **Destination**.  You should see
-the device listed there.
-
-!!! warn "INCOMPLETE SECTION"
-    This section is incomplete.
+the device listed there.  For more information on creating a Provisioning Profile, see the [Apple documentation][4].
 
 Moving on to our code, we need to configure the iOS project for push notifications.  This involves configuring
 the Bundle ID and enabling certain configuration settings required for handling push notifications.  Start by
@@ -151,8 +148,10 @@ loading your project.
 6. Click **iOS Bundle Signing** in the left hand menu.
 7. Select your Signing Identity and Provisioning Profile.
 
-!!! warn "INCOMPLETE SECTION"
-    This section is incomplete.
+!!! tip "Provisioning Profiles are frustrating"
+    If you find yourself going round and round in circles on getting the signing certificate and provisioning
+    profile right, you are not alone.  This is possibly one of the most frustrating pieces of iOS development
+    in general.  See this [Xamarin Forums post][5] for a good list of details.
 
 ### Code the push handler
 
@@ -162,6 +161,25 @@ file:
 
 ```csharp
     public static NSData PushDeviceToken { get; private set; } = null;
+
+    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+    {
+        Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+        global::Xamarin.Forms.Forms.Init();
+        LoadApplication(new App());
+
+        if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+        {
+            var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                new NSSet());
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+        }
+
+        return base.FinishedLaunching(app, options);
+    }
 
     /// <summary>
     /// Called when the push notification system is registered
@@ -197,7 +215,10 @@ file:
 ```
 
 The `NSDictionary`, `NSData`, and `NSString` classes are part of the iOS programming model and do exactly what you
-would expect them to do.  The `UIAlertView` class provides a standard alert.  
+would expect them to do.  The `UIAlertView` class provides a standard alert.  We need to add a little bit of code
+to the `FinishedLaunching()` method to send the registration request to APNS.  When the response is received, the
+`RegisteredForRemoteNotifications()` method is called.  Finally, the `DidReceiveRemoteNotification()` method is
+called whenever a remote push notification is received.
 
 !!! tip "Call common code for push notifications"
     One of the great things about Xamarin Forms is that it is cross-platform.  However, that all breaks
@@ -266,7 +287,30 @@ that information an alternate way:
 
 We can also send a test message for push notifications.  This can be done via the Azure Portal.
 
-**XXX-TODO**: Test Send for Azure Portal
+1. Log onto the [Azure portal].
+2. Find the Hub resource for your connected Notification Hub and open it.
+3. Click **Test Send**.
+
+    ![][img8]
+
+4. Select **Apple** as the Platform, then click on **Send**.
+
+    ![][img9]
+
+Your device should also receive the push notification and display an alert.
+
+## Common Problems
+
+As you might expect, there is plenty to go wrong here.  The majority of the issues come down to the fact that
+there are two endpoints on APNS - a Sandbox (or Developer) endpoint and a Production endpoint.  If you are
+using the wrong endpoint, the notification hub will receive an error.  If the notification hub receives an
+error from the APNS endpoint, it will remove the registration causing the error.  This manifests itself in two
+ways.  Firstly, your device will not receive the push notification.  Secondly, the registration will be removed
+from the list of valid registrations, causing you to think that the device has not been registered.
+
+This has not been made easy by the fact that Apple has combined the certificates needed to push into a single
+certificate for both Sandbox and Production use cases.  To correct this issue, ensure the notifiction hub is set 
+up with the appropriate endpoint - Sandbox or Production.
 
 Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Section](./recipes.md).
 
@@ -278,9 +322,13 @@ Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Sect
 [img5]: ./img/push-ios-5.PNG
 [img6]: ./img/push-ios-6.PNG
 [img7]: ./img/push-ios-7.PNG
+[img8]: ./img/push-ios-8.PNG
+[img9]: ./img/push-ios-9.PNG
 
 <!-- Links -->
 [Azure portal]: https;//portal.azure.com/
 [1]: http://developer.apple.com/account
 [2]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW991
 [3]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html
+[4]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10
+[5]: https://forums.xamarin.com/discussion/13497

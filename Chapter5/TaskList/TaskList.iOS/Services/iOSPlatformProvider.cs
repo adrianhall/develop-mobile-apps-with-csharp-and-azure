@@ -28,73 +28,48 @@ namespace TaskList.iOS.Services
 
         public MobileServiceUser RetrieveTokenFromSecureStore()
         {
-            var accounts = AccountStore.FindAccountsForService("tasklist");
-            if (accounts != null)
-            {
-                foreach (var acct in accounts)
-                {
-                    string token;
-
-                    if (acct.Properties.TryGetValue("token", out token))
-                    {
-                        return new MobileServiceUser(acct.Username)
-                        {
-                            MobileServiceAuthenticationToken = token
-                        };
-                    }
-                }
-            }
+            //var accounts = AccountStore.FindAccountsForService("tasklist");
+            //if (accounts != null)
+            //{
+            //    foreach (var acct in accounts)
+            //    {
+            //        string token;
+			//
+            //        if (acct.Properties.TryGetValue("token", out token))
+            //        {
+            //            return new MobileServiceUser(acct.Username)
+            //            {
+            //                MobileServiceAuthenticationToken = token
+            //            };
+            //        }
+            //    }
+            //}
             return null;
         }
 
         public void StoreTokenInSecureStore(MobileServiceUser user)
         {
-            var account = new Account(user.UserId);
-            account.Properties.Add("token", user.MobileServiceAuthenticationToken);
-            AccountStore.Save(account, "tasklist");
+            //var account = new Account(user.UserId);
+            //account.Properties.Add("token", user.MobileServiceAuthenticationToken);
+            //AccountStore.Save(account, "tasklist");
         }
 
         public void RemoveTokenFromSecureStore()
         {
-            var accounts = AccountStore.FindAccountsForService("tasklist");
-            if (accounts != null)
-            {
-                foreach (var acct in accounts)
-                {
-                    AccountStore.Delete(acct, "tasklist");
-                }
-            }
+            //var accounts = AccountStore.FindAccountsForService("tasklist");
+            //if (accounts != null)
+            //{
+            //   foreach (var acct in accounts)
+            //    {
+            //        AccountStore.Delete(acct, "tasklist");
+            //    }
+            //}
         }
 
-        public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
-        {
-            var accessToken = await LoginADALAsync();
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            return await client.LoginAsync("aad", zumoPayload);
-        }
-
-        #region Azure AD Client Flow
-        /// <summary>
-        /// Login via ADAL
-        /// </summary>
-        /// <returns>(async) token from the ADAL process</returns>
-        public async Task<string> LoginADALAsync()
-        {
-            Uri returnUri = new Uri(Locations.AadRedirectUri);
-
-            var authContext = new AuthenticationContext(Locations.AadAuthority);
-            if (authContext.TokenCache.ReadItems().Count() > 0)
-            {
-                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
-            }
-            var authResult = await authContext.AcquireTokenAsync(
-                Locations.AppServiceUrl, /* The resource we want to access  */
-                Locations.AadClientId,   /* The Client ID of the Native App */
-                returnUri,               /* The Return URI we configured    */
-                new PlatformParameters(RootView));
-            return authResult.AccessToken;
-        }
+		public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
+		{
+			return await client.LoginAsync(RootView, "aad");
+		}
 
 		public async Task RegisterForPushNotifications(MobileServiceClient client)
 		{
@@ -119,11 +94,12 @@ namespace TaskList.iOS.Services
 					};
 					installation.Templates.Add("genericTemplate", genericTemplate);
 					// Register with NH
-					await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+					var recordedInstallation = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
 						$"/push/installations/{client.InstallationId}",
 						installation,
 						HttpMethod.Put,
 						new Dictionary<string, string>());
+					System.Diagnostics.Debug.WriteLine("Completed NH Push Installation");
 				}
 				catch (Exception ex)
 				{
@@ -131,6 +107,5 @@ namespace TaskList.iOS.Services
 				}
 			}
 		}
-		#endregion
 	}
 }
