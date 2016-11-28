@@ -290,14 +290,13 @@ We can also send a test message for push notifications.  This can be done via th
 1. Log onto the [Azure portal].
 2. Find the Hub resource for your connected Notification Hub and open it.
 3. Click **Test Send**.
-
-    ![][img8]
-
 4. Select **Apple** as the Platform, then click on **Send**.
 
-    ![][img9]
+![][img9]
 
-Your device should also receive the push notification and display an alert.
+Your device should also receive the push notification and display an alert.  You can also do a test send
+to an explicit tag.  This can narrow the test send to just one device if necessary.  To send to a specific
+device, you need to know the installation ID of the registration.
 
 ## Common Problems
 
