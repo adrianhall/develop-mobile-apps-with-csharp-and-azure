@@ -493,15 +493,6 @@
       
         
   <li>
-    <a class="" title="Testing Push" href="../../chapter5/testing/">
-      Testing Push
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Push Recipes" href="../../chapter5/recipes/">
       Push Recipes
     </a>
@@ -1682,6 +1673,23 @@ area uses a template to help with the display of each item.</p>
 up so that when pulled, it calls the RefreshCommand.  It also has an indicator
 that I have wired up to the IsBusy indicator.  Anyone who is familiar with the
 iOS "pull-to-refresh" gesture can probably guess what this does.</p>
+<p>The code behind in <code>Pages\TaskList.xaml.cs</code>:</p>
+<pre><code class="csharp">using TaskList.ViewModels; 
+using Xamarin.Forms;
+
+namespace TaskList.Pages
+{
+    public partial class TaskList : ContentPage
+    {
+        public TaskList()
+        {
+            InitializeComponent();
+            BindingContext = new TaskListViewModel();
+        }
+    }
+}
+</code></pre>
+
 <p>There is a view-model that goes along with the view (in <code>ViewModels\TaskListViewModel.cs</code>):</p>
 <pre><code class="csharp">using System;
 using System.Collections.ObjectModel;

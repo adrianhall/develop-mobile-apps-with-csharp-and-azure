@@ -509,15 +509,6 @@
       
         
   <li>
-    <a class="" title="Testing Push" href="../testing/">
-      Testing Push
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Push Recipes" href="../recipes/">
       Push Recipes
     </a>
@@ -955,7 +946,6 @@ namespace TaskList.Abstractions
         public PushTemplate()
         {
             Tags = new List&lt;string&gt;();
-            Headers = new Dictionary&lt;string, string&gt;();
         }
 
         [JsonProperty(PropertyName = &quot;body&quot;)]
@@ -963,9 +953,6 @@ namespace TaskList.Abstractions
 
         [JsonProperty(PropertyName = &quot;tags&quot;)]
         public List&lt;string&gt; Tags { get; set; }
-
-        [JsonProperty(PropertyName = &quot;headers&quot;)]
-        public Dictionary&lt;string, string&gt; Headers { get; set; }
     }
 }
 </code></pre>

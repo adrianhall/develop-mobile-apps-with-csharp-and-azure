@@ -503,15 +503,6 @@
       
         
   <li>
-    <a class="" title="Testing Push" href="../testing/">
-      Testing Push
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Push Recipes" href="../recipes/">
       Push Recipes
     </a>
@@ -1060,6 +1051,8 @@ in the <code>Services\DroidPlatformProvider.cs</code> file:</p>
                 {
                     Body = &quot;{\&quot;data\&quot;:{\&quot;message\&quot;:\&quot;$(messageParam)\&quot;}}&quot;
                 };
+                installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
+
                 // Register with NH
                 var response = await client.InvokeApiAsync&lt;DeviceInstallation, DeviceInstallation&gt;(
                     $&quot;/push/installations/{client.InstallationId}&quot;,
@@ -1079,6 +1072,10 @@ in the <code>Services\DroidPlatformProvider.cs</code> file:</p>
     }
 </code></pre>
 
+<div class="admonition tip">
+<p class="admonition-title">Registering without Tags</p>
+<p>You can also register without tags using the commented-out single line of code <code>push.RegisterAsync(registrationId);</code></p>
+</div>
 <p>You should call <code>RegisterForPushNotifications()</code> whenever you feel that the definition of the push endpoint
 should change.  In my application, I added the registration after the <code>LoginAsync()</code> method in the
 <code>ViewModels\EntryPageViewModel.cs</code> file:</p>
@@ -1116,10 +1113,10 @@ can click on the <strong>Device Registrations</strong> tab:</p>
 <p><img alt="" src="../img/push-nh-vs2.PNG" /></p>
 <p>We can see the registration of our test emulator device.  Note that our request for the <code>topic:Sports</code> tag has
 also been honored.  If we did not configure that tag within the Push blade in the portal, that would not have
-been added to our registration.  </p>
-<p>We can also send to a specific device using the test send facility.  Click over to the <strong>Test Send</strong> facility.  Since 
-we only have one device, we can use broadcast. Each installation will also be given a tag: <code>$InstallationId:{guid}</code>, 
-where {guid} is the installation ID.  Select <strong>Google (GCM)</strong> -&gt; <strong>Default</strong> to send a message to GCM.  The body 
+been added to our registration.</p>
+<p>We can also send to a specific device using the test send facility.  Click over to the <strong>Test Send</strong> facility.  Since
+we only have one device, we can use broadcast. Each installation will also be given a tag: <code>$InstallationId:{guid}</code>,
+where {guid} is the installation ID.  Select <strong>Google (GCM)</strong> -&gt; <strong>Default</strong> to send a message to GCM.  The body
 will be filled in for you.</p>
 <p>Since we have already set a breakpoint at the <code>OnMessage()</code> method in <code>GcmService.cs</code>, our app is running and we
 have entered the app and logged in, click <strong>Send</strong>.  The breakpoint should be triggered within a reasonable amount
@@ -1133,7 +1130,7 @@ of minutes to arrive and will likely arrive much quicker.</p>
 you want.  For example, you may want to silently pull a specific record from the server and insert it into your
 SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.</p>
 <p>In this example, we are going to show the message that comes in the <code>message</code> field of the data block.  There
-are more examples in the <a href="../recipes/">recipes section</a>.  The <code>OnMessage()</code> method in <code>GcmService.cs</code> is triggered 
+are more examples in the <a href="../recipes/">recipes section</a>.  The <code>OnMessage()</code> method in <code>GcmService.cs</code> is triggered
 on a push.  A simple notification looks like this:</p>
 <pre><code class="csharp">    protected override void OnMessage(Context context, Intent intent)
     {

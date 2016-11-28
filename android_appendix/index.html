@@ -462,15 +462,6 @@
       
         
   <li>
-    <a class="" title="Testing Push" href="../chapter5/testing/">
-      Testing Push
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Push Recipes" href="../chapter5/recipes/">
       Push Recipes
     </a>
@@ -639,12 +630,6 @@
         <ul>
           
             <li class="anchor">
-              <a title="Handling Callbacks with an Android SDK" href="#handling-callbacks-with-an-android-sdk">
-                Handling Callbacks with an Android SDK
-              </a>
-            </li>
-          
-            <li class="anchor">
               <a title="Missing libaot-mscorlib.dll.so" href="#missing-libaot-mscorlibdllso">
                 Missing libaot-mscorlib.dll.so
               </a>
@@ -653,6 +638,12 @@
             <li class="anchor">
               <a title="Fixing Errors with the Visual Studio Emulator for Android" href="#fixing-errors-with-the-visual-studio-emulator-for-android">
                 Fixing Errors with the Visual Studio Emulator for Android
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Disabling Visual Studio Emulator for Android" href="#disabling-visual-studio-emulator-for-android">
+                Disabling Visual Studio Emulator for Android
               </a>
             </li>
           
@@ -714,8 +705,6 @@
           <h1 id="android-developer-notes">Android Developer Notes<a class="headerlink" href="#android-developer-notes" title="Permanent link">&para;</a></h1>
 <p>This chapter contains random notes that I discovered while developing mobile apps
 with Xamarin Forms on the Android platform.  I hope they are useful to you.</p>
-<h2 id="handling-callbacks-with-an-android-sdk">Handling Callbacks with an Android SDK<a class="headerlink" href="#handling-callbacks-with-an-android-sdk" title="Permanent link">&para;</a></h2>
-<h3 id="dissecting-the-google-plus-login-process">Dissecting the Google Plus Login Process<a class="headerlink" href="#dissecting-the-google-plus-login-process" title="Permanent link">&para;</a></h3>
 <h2 id="missing-libaot-mscorlibdllso">Missing libaot-mscorlib.dll.so<a class="headerlink" href="#missing-libaot-mscorlibdllso" title="Permanent link">&para;</a></h2>
 <p>When running an application is debug mode, I sometimes saw the following deployment issue:</p>
 <pre><code class="bash">D/Mono    ( 1366): AOT module 'mscorlib.dll.so' not found: dlopen failed: library &quot;/data/app-lib/TaskList.Droid-2/libaot-mscorlib.dll.so&quot; not found
@@ -742,6 +731,16 @@ To fix this:</p>
 <li>Click on <strong>OK</strong>.</li>
 </ul>
 <p>It's a good idea to do this on all the emulators.  When you start the emulator, this error should be gone.</p>
+<h2 id="disabling-visual-studio-emulator-for-android">Disabling Visual Studio Emulator for Android<a class="headerlink" href="#disabling-visual-studio-emulator-for-android" title="Permanent link">&para;</a></h2>
+<p>There are two emulators for Android.  One is supplied by Microsoft (the Visual Studio Emulator for Android) and 
+one is supplied by Google (the Google Android Emulator).  You can only use one of them.  To enable the usage of
+the Google Android Emulator, you have to disable the Visual Studio Emulator for Android.</p>
+<p>To disable the Visual Studio Emulator for Android, disable Hyper-V with this command:</p>
+<pre><code>bcdedit /set hypervisorlaunchtype off
+</code></pre>
+
+<p>You should then reboot.  If you wish to switch back to using the Visual Studio Emulator for Android, set the 
+hypervisorlaunchtype to auto and reboot again.</p>
           <aside class="copyright" role="note">
             
             Documentation built with

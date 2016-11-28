@@ -453,8 +453,6 @@
     </a>
     
       
-        
-      
       
         <ul>
           
@@ -476,6 +474,12 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="Common Problems" href="#common-problems">
+                Common Problems
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -486,15 +490,6 @@
   <li>
     <a class="" title="Windows Push" href="../windows/">
       Windows Push
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="Testing Push" href="../testing/">
-      Testing Push
     </a>
     
   </li>
@@ -715,10 +710,318 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="push-notifications-for-ios">Push Notifications for iOS<a class="headerlink" href="#push-notifications-for-ios" title="Permanent link">&para;</a></h1>
+            <h1>iOS Push</h1>
+          
+          <div class="admonition warn">
+<p class="admonition-title">Visual Studio for Mac Use</p>
+<p>I'm going to be using Visual Studio for Mac for screen shots in this section.  You can also use Xamarin Studio 
+or Visual Studio on the PC and then compile using a Mac Build Agent.  The same code will work.  Some terminology
+differences may exist and locations may differ.</p>
+</div>
+<p>Push notifications for Apple devices is handled by <em>Apple Push Notification Service</em> or APNS.  APNS is certificate
+based, rather than secret based as is the case with GCM and FCM.  You will find that there are two certificates -
+a test certificate that is used for test devices, and a production certificate that is used for production devices.
+You can use a common certificate for both (a so-called Universal Certificate).  However, you must ensure that you
+use the appropriate endpoints - test or production.</p>
+<p>It is imperitive that you use a Mac for this configuration.  You will be using Apple native tools to generate
+certificates and the process of configuring the APNS gateway is made easier by using XCode tools.  You can do
+certain things on a PC (like editing the plist files appropriately), but you will end up spending a significant
+amount of time on the Mac.  As a result, I'm going to do this entire section on a Mac.</p>
+<p>If you have not done so already, read through the <a href="../android/">Android Push</a> section to get all the code for
+the shared project - it won't be repeated in this section.</p>
 <h2 id="registering-with-apns">Registering with APNS<a class="headerlink" href="#registering-with-apns" title="Permanent link">&para;</a></h2>
+<p>Registering with APNS is a multi-step process:</p>
+<ol>
+<li>Register an App ID for your app, and select Push Notifications as a capability.</li>
+<li>Create an appropriate certificate for the push channel (either a Development or Distribution certificate).</li>
+<li>Configure Notification Hubs to use APNS.</li>
+<li>Configure your application to support Push Notifications.</li>
+<li>Add code for handling push notifications to your app.</li>
+</ol>
+<p>Let's cover each one in turn:</p>
+<h3 id="register-an-app-id-for-your-app">Register an App ID for your app<a class="headerlink" href="#register-an-app-id-for-your-app" title="Permanent link">&para;</a></h3>
+<p>Once you get to adding push notifications to your application, you are going to need that full developers license
+from Apple.  You need to work with real devices and that means you need code signing certificates on your mac.  If
+you have not spent the cash for the Apple Developers program, then you will probably find you need to at this 
+point.</p>
+<p>Registering an App ID is handled on the <a href="http://developer.apple.com/account">Apple Developer Portal</a>.  Apple does a good job of <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW991">documenting the process</a>,
+so these instructions are duplicative of the instructions that Apple provides.</p>
+<ol>
+<li>Go to the <a href="http://developer.apple.com/account">Apple Developer Portal</a> and log in with your Apple developer ID.</li>
+<li>In the left-hand menu, click <strong>Certificates, IDs &amp; Profiles</strong>.</li>
+<li>In the left-hand menu, <strong>Identifiers</strong>, click <strong>App IDs</strong>.</li>
+<li>Click the <strong>+</strong> button in the top right corner.</li>
+<li>You can pick either a wildcard App ID or an explicit App ID.  I'm going to use an Explicit App ID for this app.</li>
+<li>
+<p>Fill in the form:</p>
+<ul>
+<li>The App ID Description is not used and can be set to anything (subject to validation rules)</li>
+<li>Choose an <strong>Explicit App ID</strong> for this app.  (The alternative is a wildcard App ID, which isn't covered here).</li>
+<li>
+<p>Enter the App ID suffix according to the rules.  I used <code>com.shellmonger.tasklist</code>.</p>
+<p><img alt="" src="../img/push-ios-1.PNG" /></p>
+</li>
+<li>
+<p>Select <strong>Push Notifications</strong> in the <strong>App Services</strong> section.</p>
+<p><img alt="" src="../img/push-ios-2.PNG" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Click <strong>Continue</strong> when the form is complete.</p>
+</li>
+<li>Make a note of the <strong>Identifier</strong> in the next screen, then click <strong>Register</strong>.</li>
+<li>Click <strong>Done</strong>.</li>
+</ol>
+<p>Note that the Push Notifications capability will be listed as <em>Configurable</em> until you create a certificate that
+is used for push notifications.  Once that happens, the capability will be listed as <em>Enabled</em>.</p>
+<h3 id="create-a-certificate-for-the-push-channel">Create a certificate for the push channel<a class="headerlink" href="#create-a-certificate-for-the-push-channel" title="Permanent link">&para;</a></h3>
+<p>I mentioned earlier that APNS is certificate based.  That means that you need to generate an SSL certificate to
+fully configure push notifications:</p>
+<ol>
+<li>Staying in <strong>Certificates, Identifiers &amp; Profiles</strong>, click <em>All<strong> under the </strong>Certificates</em>* heading in the left hand menu.</li>
+<li>Click on the <strong>+</strong> button in the top right corner.</li>
+<li>
+<p>Select the <strong>Apple Push Notification service SSL (Sandbox &amp; Production)</strong></p>
+<p><img alt="" src="../img/push-ios-3.PNG" /></p>
+</li>
+<li>
+<p>Click <strong>Continue</strong>.</p>
+</li>
+<li>Select the App ID you just created from the list, then click <strong>Continue</strong>.</li>
+<li>
+<p>Follow the on-screen instructions for creating a Certificate Signing Request (CSR).</p>
+<p><img alt="" src="../img/push-ios-4.PNG" /></p>
+</li>
+<li>
+<p>Once you have generated the CSR, click <strong>Continue</strong> in the browser.</p>
+</li>
+<li>Select the CSR you just generated using the <strong>Choose File</strong> button, then click <strong>Continue</strong>.</li>
+<li>Click <strong>Download</strong> to download the resulting certificate.</li>
+<li>Click <strong>Done</strong> when the download is complete.</li>
+<li>Find your downloaded certificate and double-click on it to import it into Keychain Access</li>
+</ol>
+<p>Your certificate will also appear in the <strong>Certificates</strong> &gt; <strong>All</strong> list within the Apple Developer console.</p>
+<h3 id="configure-notification-hubs">Configure Notification Hubs<a class="headerlink" href="#configure-notification-hubs" title="Permanent link">&para;</a></h3>
+<p>Notification Hubs requires you to upload the certificate as a .p12 (PKCS#12) file.  To generate this file:</p>
+<ol>
+<li>Open Keychain Access.</li>
+<li>Select <strong>My Certificates</strong> from the left hand menu</li>
+<li>Right click on the certificate you just generated and select <strong>Export...</strong>.</li>
+<li>Select <strong>Personal Information Exchange (.p12)</strong> as the type and give it a name and location.  </li>
+<li>Click <strong>Save</strong>.</li>
+<li>Enter a password (twice) to protect the certificate.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+<p>Now we can upload the certificate to Azure:</p>
+<ol>
+<li>Open and log into the <a href="../https;//portal.azure.com/">Azure portal</a>.</li>
+<li>Select <strong>Notification Hubs</strong>, then the notification hub that is connected to your mobile backend.</li>
+<li>Click <strong>Push Notification Services</strong>, then select <strong>Apple (APNS)</strong>.</li>
+<li>Click <strong>+ Upload Certificate</strong>.</li>
+<li>
+<p>Fill in the form:</p>
+<ul>
+<li>Select the .p12 file you just created.</li>
+<li>Enter the password that you entered to secure the .p12 file.</li>
+<li>Select <strong>Sandbox</strong> (probably) or <strong>Production</strong> as appropriate.</li>
+</ul>
+<p><img alt="" src="../img/push-ios-5.PNG" /></p>
+</li>
+<li>
+<p>Click <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>It's important to figure out whether you are operating in the <em>Sandbox</em> (Development) or <em>Production</em> mode.  During 
+development, it's likely that your device will be registered on the Apple Developer console and you will be 
+operating in the sandbox.  Any device not listed with the developer console is considered "production".  You 
+must update the certificate to a production certificate and specify the production mode when you release your app.  </p>
+<p>Apple APNS provides two endpoints for pushing notifications.  If you use the wrong one, then APNS will return an
+error code.  This will cause Notification Hubs to delete the registration and your push will fail.</p>
+<h3 id="configure-your-application">Configure your application<a class="headerlink" href="#configure-your-application" title="Permanent link">&para;</a></h3>
+<p>Before we start with code, you will want a <em>Provisioning Profile</em>.  This small file is key to being able to
+use push notifications on your device.  You <strong>MUST</strong> have a real device at this point.  The easiest way for
+this to happen is to plug the iPhone or iPad that you want to use into your development system.  Once your
+device is recognized by iTunes, start XCode and look under <strong>Product</strong> &gt; <strong>Destination</strong>.  You should see
+the device listed there.  For more information on creating a Provisioning Profile, see the <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10">Apple documentation</a>.</p>
+<p>Moving on to our code, we need to configure the iOS project for push notifications.  This involves configuring
+the Bundle ID and enabling certain configuration settings required for handling push notifications.  Start by
+loading your project.  </p>
+<ol>
+<li>Expand the <strong>TaskList.iOS</strong> project and open the <strong>Info.plist</strong> file.</li>
+<li>
+<p>In the <strong>Identity</strong> section, fill in the <strong>Bundle ID</strong>.  It must match the App ID Suffix that you set earlier.</p>
+<p><img alt="" src="../img/push-ios-6.PNG" /></p>
+</li>
+<li>
+<p>Scroll down until you see <strong>Background Modes</strong>.  Check the <strong>Enable Background Modes</strong> checkbox.</p>
+</li>
+<li>
+<p>Check the <strong>Remote notifications</strong> checkbox.</p>
+<p><img alt="" src="../img/push-ios-7.PNG" /></p>
+</li>
+<li>
+<p>Right-click on the <strong>TaskList.iOS</strong> project, then select <strong>Options</strong>.</p>
+</li>
+<li>Click <strong>iOS Bundle Signing</strong> in the left hand menu.</li>
+<li>Select your Signing Identity and Provisioning Profile.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Provisioning Profiles are frustrating</p>
+<p>If you find yourself going round and round in circles on getting the signing certificate and provisioning
+profile right, you are not alone.  This is possibly one of the most frustrating pieces of iOS development
+in general.  See this <a href="https://forums.xamarin.com/discussion/13497">Xamarin Forums post</a> for a good list of details.</p>
+</div>
+<h3 id="code-the-push-handler">Code the push handler<a class="headerlink" href="#code-the-push-handler" title="Permanent link">&para;</a></h3>
+<p>The push handler is coded in the <code>AppDelegate.cs</code> file.  Unlike other platforms (like Android), you don't have to 
+write code to define the push handler.  It's always in the same place.  Add the following code to the <code>AppDelegate.cs</code>
+file:</p>
+<pre><code class="csharp">    public static NSData PushDeviceToken { get; private set; } = null;
+
+    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+    {
+        Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+        global::Xamarin.Forms.Forms.Init();
+        LoadApplication(new App());
+
+        if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+        {
+            var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                new NSSet());
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+        }
+
+        return base.FinishedLaunching(app, options);
+    }
+
+    /// &lt;summary&gt;
+    /// Called when the push notification system is registered
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;application&quot;&gt;Application.&lt;/param&gt;
+    /// &lt;param name=&quot;deviceToken&quot;&gt;Device token.&lt;/param&gt;
+    public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+    {
+        AppDelegate.PushDeviceToken = deviceToken;
+    }
+
+    public override void DidReceiveRemoteNotification(UIApplication application, 
+        NSDictionary userInfo, Action&lt;UIBackgroundFetchResult&gt; completionHandler)
+    {
+        NSDictionary aps = userInfo.ObjectForKey(new NSString(&quot;aps&quot;)) as NSDictionary;
+
+        // The aps is a dictionary with the template values in it
+        // You can adjust this section to do whatever you need to with the push notification
+
+        string alert = string.Empty;
+        if (aps.ContainsKey(new NSString(&quot;alert&quot;)))
+            alert = (aps[new NSString(&quot;alert&quot;)] as NSString).ToString();
+
+        //show alert
+        if (!string.IsNullOrEmpty(alert))
+        {
+            UIAlertView avAlert = new UIAlertView(&quot;Notification&quot;, alert, null, &quot;OK&quot;, null);
+            avAlert.Show();
+        }
+
+        // End of the user configurable piece
+    }
+</code></pre>
+
+<p>The <code>NSDictionary</code>, <code>NSData</code>, and <code>NSString</code> classes are part of the iOS programming model and do exactly what you
+would expect them to do.  The <code>UIAlertView</code> class provides a standard alert.  We need to add a little bit of code
+to the <code>FinishedLaunching()</code> method to send the registration request to APNS.  When the response is received, the
+<code>RegisteredForRemoteNotifications()</code> method is called.  Finally, the <code>DidReceiveRemoteNotification()</code> method is
+called whenever a remote push notification is received.</p>
+<div class="admonition tip">
+<p class="admonition-title">Call common code for push notifications</p>
+<p>One of the great things about Xamarin Forms is that it is cross-platform.  However, that all breaks
+down when you move to push notifications.  One of the things you can do is to use the push handler
+to generate a model and then pass that model to a method in your PCL project.  This allows you to
+express the differences clearly and yet still do the majority of the logic in a cross-platform manner.</p>
+</div>
 <h2 id="registering-with-azure-mobile-apps">Registering with Azure Mobile Apps<a class="headerlink" href="#registering-with-azure-mobile-apps" title="Permanent link">&para;</a></h2>
+<p>As with Android, I recommend using a <code>HttpClient</code> for registering with Notification Hubs via the Azure
+Mobile Apps Push handler.  Here is the code that does basically the same thing as the Android version
+from the <code>Services\iOSPlatformProvider.cs</code> file:</p>
+<pre><code class="csharp">    public async Task RegisterForPushNotifications(MobileServiceClient client)
+    {
+        if (AppDelegate.PushDeviceToken != null)
+        {
+            try
+            {
+                var registrationId = AppDelegate.PushDeviceToken.Description
+                    .Trim('&lt;', '&gt;').Replace(&quot; &quot;, string.Empty).ToUpperInvariant();
+                var installation = new DeviceInstallation
+                {
+                    InstallationId = client.InstallationId,
+                    Platform = &quot;apns&quot;,
+                    PushChannel = registrationId
+                };
+                // Set up tags to request
+                installation.Tags.Add(&quot;topic:Sports&quot;);
+                // Set up templates to request
+                PushTemplate genericTemplate = new PushTemplate
+                {
+                    Body = &quot;{\&quot;aps\&quot;:{\&quot;alert\&quot;:\&quot;$(messageParam)\&quot;}}&quot;
+                };
+                installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
+
+                // Register with NH
+                var response = await client.InvokeApiAsync&lt;DeviceInstallation, DeviceInstallation&gt;(
+                    $&quot;/push/installations/{client.InstallationId}&quot;,
+                    installation,
+                    HttpMethod.Put,
+                    new Dictionary&lt;string, string&gt;());
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Fail($&quot;[iOSPlatformProvider]: Could not register with NH: {ex.Message}&quot;);
+            }
+        }
+    }
+</code></pre>
+
+<p>In this case, we don't have a service class to deal with - the iOS AppDelegate does all the work for us.  The
+registration Id is stored in the AppDelegate once registered, but needs to be decoded (which is relatively
+simple).  Similar to the Android version, we make the template we are using match what we are expecting within 
+our push handler.</p>
 <h2 id="receiving-a-notifications">Receiving a Notifications<a class="headerlink" href="#receiving-a-notifications" title="Permanent link">&para;</a></h2>
+<p>Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
+to ensure that a registration happens when we expect it to.  In the case of our app, that happens immediately after
+the authentication.  There is no Notifications Hub registration monitor in Visual Studio for Mac, so we have to get
+that information an alternate way:</p>
+<p><strong>XXX-TODO</strong>: Registration Monitor for Mac</p>
+<p>We can also send a test message for push notifications.  This can be done via the Azure Portal.</p>
+<ol>
+<li>Log onto the <a href="../https;//portal.azure.com/">Azure portal</a>.</li>
+<li>Find the Hub resource for your connected Notification Hub and open it.</li>
+<li>
+<p>Click <strong>Test Send</strong>.</p>
+<p><img alt="" src="../img/push-ios-8.PNG" /></p>
+</li>
+<li>
+<p>Select <strong>Apple</strong> as the Platform, then click on <strong>Send</strong>.</p>
+<p><img alt="" src="../img/push-ios-9.PNG" /></p>
+</li>
+</ol>
+<p>Your device should also receive the push notification and display an alert.</p>
+<h2 id="common-problems">Common Problems<a class="headerlink" href="#common-problems" title="Permanent link">&para;</a></h2>
+<p>As you might expect, there is plenty to go wrong here.  The majority of the issues come down to the fact that
+there are two endpoints on APNS - a Sandbox (or Developer) endpoint and a Production endpoint.  If you are
+using the wrong endpoint, the notification hub will receive an error.  If the notification hub receives an
+error from the APNS endpoint, it will remove the registration causing the error.  This manifests itself in two
+ways.  Firstly, your device will not receive the push notification.  Secondly, the registration will be removed
+from the list of valid registrations, causing you to think that the device has not been registered.</p>
+<p>This has not been made easy by the fact that Apple has combined the certificates needed to push into a single
+certificate for both Sandbox and Production use cases.  To correct this issue, ensure the notifiction hub is set 
+up with the appropriate endpoint - Sandbox or Production.</p>
+<p>Next you can move onto <a href="../windows/">Windows Push</a> or skip to the <a href="../recipes/">Recipes Section</a>.</p>
+<!-- Images -->
+
+<!-- Links -->
           <aside class="copyright" role="note">
             
             Documentation built with
