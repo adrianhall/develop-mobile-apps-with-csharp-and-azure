@@ -3,10 +3,6 @@
 This chapter contains random notes that I discovered while developing mobile apps
 with Xamarin Forms on the Android platform.  I hope they are useful to you.
 
-## Handling Callbacks with an Android SDK
-
-### Dissecting the Google Plus Login Process
-
 ## Missing libaot-mscorlib.dll.so
 
 When running an application is debug mode, I sometimes saw the following deployment issue:
@@ -38,4 +34,18 @@ To fix this:
 
 It's a good idea to do this on all the emulators.  When you start the emulator, this error should be gone.
 
+## Disabling Visual Studio Emulator for Android
+
+There are two emulators for Android.  One is supplied by Microsoft (the Visual Studio Emulator for Android) and 
+one is supplied by Google (the Google Android Emulator).  You can only use one of them.  To enable the usage of
+the Google Android Emulator, you have to disable the Visual Studio Emulator for Android.
+
+To disable the Visual Studio Emulator for Android, disable Hyper-V with this command:
+
+```
+bcdedit /set hypervisorlaunchtype off
+```
+
+You should then reboot.  If you wish to switch back to using the Visual Studio Emulator for Android, set the 
+hypervisorlaunchtype to auto and reboot again.
 
