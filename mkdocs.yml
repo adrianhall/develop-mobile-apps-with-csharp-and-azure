@@ -66,6 +66,7 @@ markdown_extensions:
         permalink: True
     - fenced_code
     - admonition
+    - codehilite(css_class=code)
 extra_css:
   - css/extra.css
   - css/vs.css
