@@ -992,22 +992,53 @@ our push handler.</p>
 <p>Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
 to ensure that a registration happens when we expect it to.  In the case of our app, that happens immediately after
 the authentication.  There is no Notifications Hub registration monitor in Visual Studio for Mac, so we have to get
-that information an alternate way:</p>
-<p><strong>XXX-TODO</strong>: Registration Monitor for Mac</p>
+that information an alternate way, by querying the hub registration endpoint.  I've written [a script] for this
+purpose.  To install:</p>
+<ul>
+<li>Install <a href="https://nodejs.org/en/download/">NodeJS</a>.</li>
+<li>Go to the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/tools">tools</a> directory on the books GitHub repository.</li>
+<li>Run <code>npm install</code>.</li>
+</ul>
+<p>To use, you will need the endpoint for your notification hub namespace.</p>
+<ul>
+<li>Log onto the <a href="../https;//portal.azure.com/">Azure portal</a>.</li>
+<li>Open your Notification Hub namespace.</li>
+<li>Click <strong>Access Policies</strong>.</li>
+<li>Copy the connection string of the <code>RootManagedSharedAccessKey</code> (which is probably the only policy you have).</li>
+</ul>
+<p>You can now use the program using:</p>
+<pre><code class="text">node get_nh_registrations.js -c '&lt;your connection string&gt;' -h &lt;your hub name&gt;
+</code></pre>
+
+<p>You will need to put the connection string in quotes generally.  For example:</p>
+<pre><code class="text">node .\get_nh_registrations.js -c 'Endpoint=sb://zumobook-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=
+****c9VoZHtxSGliSIhH5EEuar1B/jsrgTQTHOTA=' -h zumobook-hub
+</code></pre>
+
+<p>The output will look something like the following:</p>
+<pre><code class="text">Type:         APNS (Template)
+Id:           219869525209729025-4738338868778066550-1
+Device Token: 681F6BB012C62A61AA2185A676B23907A5FEFE9268283DD226B08B5F0336A552
+Tag:          topic:Sports
+Tag:          _UserId:a9650e1c4d3268ec912f4d9ca6d1d933
+Tag:          photoadrian@outlook.com
+Tag:          $InstallationId:{d7323fe4-64bb-4d99-a6cc-e7690032350f}
+Expires:      9999-12-31T23:59:59.9999999Z
+</code></pre>
+
+<p>Note that this script does not deal with "continuation tokens", so it can only return the first page of information.  This is generally suitable
+for testing purposes.</p>
 <p>We can also send a test message for push notifications.  This can be done via the Azure Portal.</p>
 <ol>
 <li>Log onto the <a href="../https;//portal.azure.com/">Azure portal</a>.</li>
 <li>Find the Hub resource for your connected Notification Hub and open it.</li>
-<li>
-<p>Click <strong>Test Send</strong>.</p>
-<p><img alt="" src="../img/push-ios-8.PNG" /></p>
-</li>
-<li>
-<p>Select <strong>Apple</strong> as the Platform, then click on <strong>Send</strong>.</p>
-<p><img alt="" src="../img/push-ios-9.PNG" /></p>
-</li>
+<li>Click <strong>Test Send</strong>.</li>
+<li>Select <strong>Apple</strong> as the Platform, then click on <strong>Send</strong>.</li>
 </ol>
-<p>Your device should also receive the push notification and display an alert.</p>
+<p><img alt="" src="../img/push-ios-9.PNG" /></p>
+<p>Your device should also receive the push notification and display an alert.  You can also do a test send
+to an explicit tag.  This can narrow the test send to just one device if necessary.  To send to a specific
+device, you need to know the installation ID of the registration.</p>
 <h2 id="common-problems">Common Problems<a class="headerlink" href="#common-problems" title="Permanent link">&para;</a></h2>
 <p>As you might expect, there is plenty to go wrong here.  The majority of the issues come down to the fact that
 there are two endpoints on APNS - a Sandbox (or Developer) endpoint and a Production endpoint.  If you are
