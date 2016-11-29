@@ -281,9 +281,48 @@ our push handler.
 Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
 to ensure that a registration happens when we expect it to.  In the case of our app, that happens immediately after
 the authentication.  There is no Notifications Hub registration monitor in Visual Studio for Mac, so we have to get
-that information an alternate way:
+that information an alternate way, by querying the hub registration endpoint.  I've written [a script] for this
+purpose.  To install:
 
-**XXX-TODO**: Registration Monitor for Mac
+* Install [NodeJS].
+* Go to the [tools] directory on the books GitHub repository.
+* Run `npm install`.
+
+To use, you will need the endpoint for your notification hub namespace.
+
+* Log onto the [Azure portal].
+* Open your Notification Hub namespace.
+* Click **Access Policies**.
+* Copy the connection string of the `RootManagedSharedAccessKey` (which is probably the only policy you have).
+
+You can now use the program using:
+
+```bash
+node get_nh_registrations.js -c '_your connection string_' -h '_your hub name_'
+```
+
+For example:
+
+```bash
+node .\get_nh_registrations.js -c 'Endpoint=sb://zumobook-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=
+****c9VoZHtxSGliSIhH5EEuar1B/jsrgTQTHOTA=' -h zumobook-hub
+```
+
+The output will look something like the following:
+
+```text
+Type:         APNS (Template)
+Id:           219869525209729025-4738338868778066550-1
+Device Token: 681F6BB012C62A61AA2185A676B23907A5FEFE9268283DD226B08B5F0336A552
+Tag:          topic:Sports
+Tag:          _UserId:a9650e1c4d3268ec912f4d9ca6d1d933
+Tag:          photoadrian@outlook.com
+Tag:          $InstallationId:{d7323fe4-64bb-4d99-a6cc-e7690032350f}
+Expires:      9999-12-31T23:59:59.9999999Z
+```
+
+Note that this script does not deal with "continuation tokens", so it can only return the first page of information.  This is generally suitable
+for testing purposes.
 
 We can also send a test message for push notifications.  This can be done via the Azure Portal.
 

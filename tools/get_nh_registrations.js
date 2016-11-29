@@ -3,6 +3,7 @@
 const CryptoJS = require('crypto-js');
 const program = require('commander');
 const request = require('request');
+const FeedMe = require('feedme');
 
 function getSelfSignedToken(targetUri, sharedKey, ruleId, expiresInMins) {
     targetUri = encodeURIComponent(targetUri.toLowerCase()).toLowerCase();
@@ -43,16 +44,34 @@ function parseConnectionString(connectionString) {
     return response;
 }
 
-function parseXML(xml, callback) {
-    const handler = new FeedHandler(callback, {
-        // No options
-    });
-    try {
-        const parser = new htmlparser2.Parser(handler, { xmlMode: true });
-        parser.parseComplete(xml);
-    } catch (ex) {
-        callback(ex);
+const registrationTypes = {
+    'appleregistrationdescription': 'APNS (Native)',
+    'appletemplateregistrationdescription': 'APNS (Template)',
+    'gcmregistrationdescription': 'GCM (Native)',
+    'gcmtemplateregistrationdescription': 'GCM (Template)',
+    'wnsregistrationdescription': 'WNS (Native)',
+    'wnstemplateregistrationdescription': 'WNS (Template)',
+    'mpnsregistrationdescription': 'MPNS (Native)',
+    'mpnstemplateregistrationdescription': 'MPNS (Template)' 
+};
+
+function getRegistrationType(registration) {
+    for (let key in registrationTypes) {
+        if (typeof registration[key] !== 'undefined') {
+            return key;
+        }
     }
+    return null;
+}
+
+function displayContent(registration) {
+    const registrationType = getRegistrationType(registration);
+    console.log(`Type:         ${registrationTypes[registrationType]}`);
+    console.log(`Id:           ${registration[registrationType].registrationid}`);
+    console.log(`Device Token: ${registration[registrationType].devicetoken}`);
+    console.log(`Tag:          ${registration[registrationType].tags.split(',').join('\nTag:          ')}`);
+    console.log(`Expires:      ${registration[registrationType].expirationtime}`);
+    console.log('----------------------------------------------------------------------------');
 }
 
 program
@@ -73,7 +92,12 @@ if (program.connectionstring && program.hub) {
     };
     request(options, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            console.log(body);
+            const parser = new FeedMe(true);
+            parser.write(body);
+            let result = parser.done();
+            result.items.forEach(function (item) {
+                displayContent(item.content);
+            });
         }
     });
 } else {
