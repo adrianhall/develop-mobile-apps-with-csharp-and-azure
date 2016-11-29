@@ -297,13 +297,13 @@ To use, you will need the endpoint for your notification hub namespace.
 
 You can now use the program using:
 
-```bash
-node get_nh_registrations.js -c '_your connection string_' -h '_your hub name_'
+```text
+node get_nh_registrations.js -c '<your connection string>' -h <your hub name>
 ```
 
-For example:
+You will need to put the connection string in quotes generally.  For example:
 
-```bash
+```text
 node .\get_nh_registrations.js -c 'Endpoint=sb://zumobook-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=
 ****c9VoZHtxSGliSIhH5EEuar1B/jsrgTQTHOTA=' -h zumobook-hub
 ```
@@ -365,6 +365,8 @@ Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Sect
 
 <!-- Links -->
 [Azure portal]: https;//portal.azure.com/
+[NodeJS]: https://nodejs.org/en/download/
+[tools]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/tools
 [1]: http://developer.apple.com/account
 [2]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW991
 [3]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html
