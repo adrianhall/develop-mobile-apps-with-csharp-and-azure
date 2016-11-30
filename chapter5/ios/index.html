@@ -469,8 +469,8 @@
             </li>
           
             <li class="anchor">
-              <a title="Receiving a Notifications" href="#receiving-a-notifications">
-                Receiving a Notifications
+              <a title="Testing Notifications" href="#testing-notifications">
+                Testing Notifications
               </a>
             </li>
           
@@ -714,7 +714,7 @@
           
           <div class="admonition warn">
 <p class="admonition-title">Visual Studio for Mac Use</p>
-<p>I'm going to be using Visual Studio for Mac for screen shots in this section.  You can also use Xamarin Studio 
+<p>I'm going to be using Visual Studio for Mac for screen shots in this section.  You can also use Xamarin Studio
 or Visual Studio on the PC and then compile using a Mac Build Agent.  The same code will work.  Some terminology
 differences may exist and locations may differ.</p>
 </div>
@@ -742,7 +742,7 @@ the shared project - it won't be repeated in this section.</p>
 <h3 id="register-an-app-id-for-your-app">Register an App ID for your app<a class="headerlink" href="#register-an-app-id-for-your-app" title="Permanent link">&para;</a></h3>
 <p>Once you get to adding push notifications to your application, you are going to need that full developers license
 from Apple.  You need to work with real devices and that means you need code signing certificates on your mac.  If
-you have not spent the cash for the Apple Developers program, then you will probably find you need to at this 
+you have not spent the cash for the Apple Developers program, then you will probably find you need to at this
 point.</p>
 <p>Registering an App ID is handled on the <a href="http://developer.apple.com/account">Apple Developer Portal</a>.  Apple does a good job of <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW991">documenting the process</a>,
 so these instructions are duplicative of the instructions that Apple provides.</p>
@@ -808,7 +808,7 @@ fully configure push notifications:</p>
 <li>Open Keychain Access.</li>
 <li>Select <strong>My Certificates</strong> from the left hand menu</li>
 <li>Right click on the certificate you just generated and select <strong>Export...</strong>.</li>
-<li>Select <strong>Personal Information Exchange (.p12)</strong> as the type and give it a name and location.  </li>
+<li>Select <strong>Personal Information Exchange (.p12)</strong> as the type and give it a name and location.</li>
 <li>Click <strong>Save</strong>.</li>
 <li>Enter a password (twice) to protect the certificate.</li>
 <li>Click <strong>OK</strong>.</li>
@@ -832,10 +832,10 @@ fully configure push notifications:</p>
 <p>Click <strong>OK</strong>.</p>
 </li>
 </ol>
-<p>It's important to figure out whether you are operating in the <em>Sandbox</em> (Development) or <em>Production</em> mode.  During 
-development, it's likely that your device will be registered on the Apple Developer console and you will be 
-operating in the sandbox.  Any device not listed with the developer console is considered "production".  You 
-must update the certificate to a production certificate and specify the production mode when you release your app.  </p>
+<p>It's important to figure out whether you are operating in the <em>Sandbox</em> (Development) or <em>Production</em> mode.  During
+development, it's likely that your device will be registered on the Apple Developer console and you will be
+operating in the sandbox.  Any device not listed with the developer console is considered "production".  You
+must update the certificate to a production certificate and specify the production mode when you release your app.</p>
 <p>Apple APNS provides two endpoints for pushing notifications.  If you use the wrong one, then APNS will return an
 error code.  This will cause Notification Hubs to delete the registration and your push will fail.</p>
 <h3 id="configure-your-application">Configure your application<a class="headerlink" href="#configure-your-application" title="Permanent link">&para;</a></h3>
@@ -846,7 +846,7 @@ device is recognized by iTunes, start XCode and look under <strong>Product</stro
 the device listed there.  For more information on creating a Provisioning Profile, see the <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10">Apple documentation</a>.</p>
 <p>Moving on to our code, we need to configure the iOS project for push notifications.  This involves configuring
 the Bundle ID and enabling certain configuration settings required for handling push notifications.  Start by
-loading your project.  </p>
+loading your project.</p>
 <ol>
 <li>Expand the <strong>TaskList.iOS</strong> project and open the <strong>Info.plist</strong> file.</li>
 <li>
@@ -873,7 +873,7 @@ profile right, you are not alone.  This is possibly one of the most frustrating 
 in general.  See this <a href="https://forums.xamarin.com/discussion/13497">Xamarin Forums post</a> for a good list of details.</p>
 </div>
 <h3 id="code-the-push-handler">Code the push handler<a class="headerlink" href="#code-the-push-handler" title="Permanent link">&para;</a></h3>
-<p>The push handler is coded in the <code>AppDelegate.cs</code> file.  Unlike other platforms (like Android), you don't have to 
+<p>The push handler is coded in the <code>AppDelegate.cs</code> file.  Unlike other platforms (like Android), you don't have to
 write code to define the push handler.  It's always in the same place.  Add the following code to the <code>AppDelegate.cs</code>
 file:</p>
 <pre><code class="csharp">    public static NSData PushDeviceToken { get; private set; } = null;
@@ -907,7 +907,7 @@ file:</p>
         AppDelegate.PushDeviceToken = deviceToken;
     }
 
-    public override void DidReceiveRemoteNotification(UIApplication application, 
+    public override void DidReceiveRemoteNotification(UIApplication application,
         NSDictionary userInfo, Action&lt;UIBackgroundFetchResult&gt; completionHandler)
     {
         NSDictionary aps = userInfo.ObjectForKey(new NSString(&quot;aps&quot;)) as NSDictionary;
@@ -986,9 +986,9 @@ from the <code>Services\iOSPlatformProvider.cs</code> file:</p>
 
 <p>In this case, we don't have a service class to deal with - the iOS AppDelegate does all the work for us.  The
 registration Id is stored in the AppDelegate once registered, but needs to be decoded (which is relatively
-simple).  Similar to the Android version, we make the template we are using match what we are expecting within 
+simple).  Similar to the Android version, we make the template we are using match what we are expecting within
 our push handler.</p>
-<h2 id="receiving-a-notifications">Receiving a Notifications<a class="headerlink" href="#receiving-a-notifications" title="Permanent link">&para;</a></h2>
+<h2 id="testing-notifications">Testing Notifications<a class="headerlink" href="#testing-notifications" title="Permanent link">&para;</a></h2>
 <p>Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
 to ensure that a registration happens when we expect it to.  In the case of our app, that happens immediately after
 the authentication.  There is no Notifications Hub registration monitor in Visual Studio for Mac, so we have to get
@@ -1047,7 +1047,7 @@ error from the APNS endpoint, it will remove the registration causing the error.
 ways.  Firstly, your device will not receive the push notification.  Secondly, the registration will be removed
 from the list of valid registrations, causing you to think that the device has not been registered.</p>
 <p>This has not been made easy by the fact that Apple has combined the certificates needed to push into a single
-certificate for both Sandbox and Production use cases.  To correct this issue, ensure the notifiction hub is set 
+certificate for both Sandbox and Production use cases.  To correct this issue, ensure the notifiction hub is set
 up with the appropriate endpoint - Sandbox or Production.</p>
 <p>Next you can move onto <a href="../windows/">Windows Push</a> or skip to the <a href="../recipes/">Recipes Section</a>.</p>
 <!-- Images -->
