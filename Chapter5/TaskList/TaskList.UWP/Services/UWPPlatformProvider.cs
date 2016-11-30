@@ -1,20 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Abstractions;
-using TaskList.Helpers;
 using TaskList.UWP.Services;
+using Windows.Networking.PushNotifications;
 using Windows.Security.Credentials;
-using Newtonsoft.Json.Linq;
 
 [assembly: Xamarin.Forms.Dependency(typeof(UWPPlatformProvider))]
 namespace TaskList.UWP.Services
 {
     public class UWPPlatformProvider : IPlatformProvider
     {
+        public static PushNotificationChannel Channel { get; set; } = null;
+
         public PasswordVault PasswordVault { get; private set; }
 
         public UWPPlatformProvider()
@@ -72,34 +74,47 @@ namespace TaskList.UWP.Services
 
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
-            var accessToken = await LoginADALAsync();
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
-            return await client.LoginAsync("aad", zumoPayload);
+            return await client.LoginAsync("aad");
         }
-        #endregion
 
-        #region Azure AD Client Flow
-        /// <summary>
-        /// Login via ADAL
-        /// </summary>
-        /// <returns>(async) token from the ADAL process</returns>
-        public async Task<string> LoginADALAsync()
+        public async Task RegisterForPushNotifications(MobileServiceClient client)
         {
-            Uri returnUri = new Uri(Locations.AadRedirectUri);
-
-            var authContext = new AuthenticationContext(Locations.AadAuthority);
-            if (authContext.TokenCache.ReadItems().Count() > 0)
+            if (UWPPlatformProvider.Channel != null)
             {
-                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+                try
+                {
+                    var registrationId = UWPPlatformProvider.Channel.Uri.ToString();
+                    var installation = new DeviceInstallation
+                    {
+                        InstallationId = client.InstallationId,
+                        Platform = "wns",
+                        PushChannel = registrationId
+                    };
+                    // Set up tags to request
+                    installation.Tags.Add("topic:Sports");
+                    // Set up templates to request
+                    var genericTemplate = new WindowsPushTemplate
+                    {
+                        Body = "<toast><visual><binding template=\"genericTemplate\"><text id=\"1\">$(messageParam)</text></binding></visual></toast>"
+                    };
+                    genericTemplate.Headers.Add("X-WNS-Type", "wns/toast");
+
+                    installation.Templates.Add("genericTemplate", genericTemplate);
+                    // Register with NH
+                    var recordedInstallation = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
+                        $"/push/installations/{client.InstallationId}",
+                        installation,
+                        HttpMethod.Put,
+                        new Dictionary<string, string>());
+                    System.Diagnostics.Debug.WriteLine("Completed NH Push Installation");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Fail($"[UWPPlatformProvider]: Could not register with NH: {ex.Message}");
+                }
             }
-            var authResult = await authContext.AcquireTokenAsync(
-                Locations.AppServiceUrl, /* The resource we want to access  */
-                Locations.AadClientId,   /* The Client ID of the Native App */
-                returnUri,               /* The Return URI we configured    */
-                new PlatformParameters(PromptBehavior.Auto, false));
-            return authResult.AccessToken;
         }
         #endregion
+
     }
 }

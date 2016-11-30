@@ -1,5 +1,5 @@
 !!! warn "Visual Studio for Mac Use"
-    I'm going to be using Visual Studio for Mac for screen shots in this section.  You can also use Xamarin Studio 
+    I'm going to be using Visual Studio for Mac for screen shots in this section.  You can also use Xamarin Studio
     or Visual Studio on the PC and then compile using a Mac Build Agent.  The same code will work.  Some terminology
     differences may exist and locations may differ.
 
@@ -33,7 +33,7 @@ Let's cover each one in turn:
 
 Once you get to adding push notifications to your application, you are going to need that full developers license
 from Apple.  You need to work with real devices and that means you need code signing certificates on your mac.  If
-you have not spent the cash for the Apple Developers program, then you will probably find you need to at this 
+you have not spent the cash for the Apple Developers program, then you will probably find you need to at this
 point.
 
 Registering an App ID is handled on the [Apple Developer Portal][1].  Apple does a good job of [documenting the process][2],
@@ -94,7 +94,7 @@ Notification Hubs requires you to upload the certificate as a .p12 (PKCS#12) fil
 1. Open Keychain Access.
 2. Select **My Certificates** from the left hand menu
 3. Right click on the certificate you just generated and select **Export...**.
-4. Select **Personal Information Exchange (.p12)** as the type and give it a name and location.  
+4. Select **Personal Information Exchange (.p12)** as the type and give it a name and location.
 5. Click **Save**.
 6. Enter a password (twice) to protect the certificate.
 7. Click **OK**.
@@ -114,10 +114,10 @@ Now we can upload the certificate to Azure:
 
 6. Click **OK**.
 
-It's important to figure out whether you are operating in the _Sandbox_ (Development) or _Production_ mode.  During 
-development, it's likely that your device will be registered on the Apple Developer console and you will be 
-operating in the sandbox.  Any device not listed with the developer console is considered "production".  You 
-must update the certificate to a production certificate and specify the production mode when you release your app.  
+It's important to figure out whether you are operating in the _Sandbox_ (Development) or _Production_ mode.  During
+development, it's likely that your device will be registered on the Apple Developer console and you will be
+operating in the sandbox.  Any device not listed with the developer console is considered "production".  You
+must update the certificate to a production certificate and specify the production mode when you release your app.
 
 Apple APNS provides two endpoints for pushing notifications.  If you use the wrong one, then APNS will return an
 error code.  This will cause Notification Hubs to delete the registration and your push will fail.
@@ -132,7 +132,7 @@ the device listed there.  For more information on creating a Provisioning Profil
 
 Moving on to our code, we need to configure the iOS project for push notifications.  This involves configuring
 the Bundle ID and enabling certain configuration settings required for handling push notifications.  Start by
-loading your project.  
+loading your project.
 
 1. Expand the **TaskList.iOS** project and open the **Info.plist** file.
 2. In the **Identity** section, fill in the **Bundle ID**.  It must match the App ID Suffix that you set earlier.
@@ -155,7 +155,7 @@ loading your project.
 
 ### Code the push handler
 
-The push handler is coded in the `AppDelegate.cs` file.  Unlike other platforms (like Android), you don't have to 
+The push handler is coded in the `AppDelegate.cs` file.  Unlike other platforms (like Android), you don't have to
 write code to define the push handler.  It's always in the same place.  Add the following code to the `AppDelegate.cs`
 file:
 
@@ -191,7 +191,7 @@ file:
         AppDelegate.PushDeviceToken = deviceToken;
     }
 
-    public override void DidReceiveRemoteNotification(UIApplication application, 
+    public override void DidReceiveRemoteNotification(UIApplication application,
         NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
     {
         NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
@@ -273,10 +273,10 @@ from the `Services\iOSPlatformProvider.cs` file:
 
 In this case, we don't have a service class to deal with - the iOS AppDelegate does all the work for us.  The
 registration Id is stored in the AppDelegate once registered, but needs to be decoded (which is relatively
-simple).  Similar to the Android version, we make the template we are using match what we are expecting within 
+simple).  Similar to the Android version, we make the template we are using match what we are expecting within
 our push handler.
 
-## Receiving a Notifications
+## Testing Notifications
 
 Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
 to ensure that a registration happens when we expect it to.  In the case of our app, that happens immediately after
@@ -347,7 +347,7 @@ ways.  Firstly, your device will not receive the push notification.  Secondly, t
 from the list of valid registrations, causing you to think that the device has not been registered.
 
 This has not been made easy by the fact that Apple has combined the certificates needed to push into a single
-certificate for both Sandbox and Production use cases.  To correct this issue, ensure the notifiction hub is set 
+certificate for both Sandbox and Production use cases.  To correct this issue, ensure the notifiction hub is set
 up with the appropriate endpoint - Sandbox or Production.
 
 Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Section](./recipes.md).
