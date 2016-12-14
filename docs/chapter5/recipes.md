@@ -7,6 +7,39 @@ the marketing person will create a "campaign" that includes a push notification.
 it.  If a user accepts the push notification, the mobile app will deep-link into a specific page and store the fact that the user viewed the page
 within the database.
 
+To implement this sort of functionality within a cross-platform application, we need to implement **Templates**.  We gave demonstrations of the
+implementation of the templates while we were discussing the various platform implementations.  However, we didn't actually use them.  A template
+is provides by the mobile client when registering.  Let's take a look at a typical template as implemented by each platform:
+
+**Android**:
+
+```text
+{
+    "data": {
+        "message": "$(message)",
+        "picture": "$(picture)",
+        "view": "$(viewid)"
+    }
+}
+```
+
+**iOS**:
+
+```text
+{
+    "aps": {
+        "message": "$(message)",
+        "picture": "$(picture)",
+        "view": "$(viewid)"
+    }
+}
+```
+
+**Windows**:
+
+```csharp
+```
+
 ## Geofenced Push
 
 This is a variation on the marketing push.  You want to send a marketing message, but only to those users that are within a certain geography.
