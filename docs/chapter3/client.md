@@ -374,7 +374,7 @@ We've done two things here.
     The Azure Mobile Apps SDK also has a collection class that can be used: `MobileServiceCollection<T,T>`.  This
     handles the paging for you and implements the `ICollectionChanged` event.  For simple cases where you don't
     want to do on-demand loading, you can use the `MobileServiceCollection<T,T>` collection class.
-    
+
 ### Query Support in Online Clients
 
 When using an online client, you can also use an OData query to look for records.  The following code
@@ -979,7 +979,20 @@ Unfortunately, there isn't a really good way of dealing with this situation.  He
 4. Set up your offline cache, define your tables, etc.
 5. If you are "refreshing the cache", do a full `PullAsync()` on all tables to populate the cache.
 
-You obviously want to avoid this process as much as possible.
+You obviously want to avoid this process as much as possible.  One possible solution is to use the [VersionTrackingPlugin][7] by
+Colby Williams to detect when the schema has been updated.  The following code can be added to automatically delete the offline
+cache when the version of the app changes:
+
+```csharp
+// Add an isRemoteDatabaseSchemaChanged boolean somewhere
+if (CrossVersionTracking.Current.IsFirstLaunchForBuild)
+{
+    isRemoteDatabaseSchemaChanged = true;
+
+    // Drop SQLite Store file to overcome remote-db schema changes
+    File.Delete(Constants.SqliteStorePath);
+}
+```
 
 ## Debugging the Offline Cache
 
@@ -1089,3 +1102,4 @@ so that you can see the debug messages as you are running your application.
 [4]: https://developer.xamarin.com/api/event/Xamarin.Forms.ListView.ItemAppearing/
 [5]: https://developer.xamarin.com/api/type/Xamarin.Forms.ItemVisibilityEventArgs/
 [6]: https://developer.android.com/studio/command-line/adb.html
+[7]: https://github.com/colbylwilliams/VersionTrackingPlugin

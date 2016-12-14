@@ -6,6 +6,7 @@ particular order):
 - Chris Gillum
 - Chris Risner
 - Donna Malayeri
+- Erich Brunner
 - Fabio Cavalcante
 - James Montemagno
 - Kevin Hilscher
