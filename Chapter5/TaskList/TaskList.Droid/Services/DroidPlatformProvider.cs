@@ -18,7 +18,7 @@ namespace TaskList.Droid.Services
 {
     public class DroidPlatformProvider : IPlatformProvider
     {
-        #region ILoginProvider Interface
+        #region IPlatformProvider Interface
         public MobileServiceUser RetrieveTokenFromSecureStore()
         {
             var accounts = AccountStore.FindAccountsForService("tasklist");
@@ -85,11 +85,11 @@ namespace TaskList.Droid.Services
                     // Set up tags to request
                     installation.Tags.Add("topic:Sports");
                     // Set up templates to request
-                    PushTemplate genericTemplate = new PushTemplate
+                    var genericTemplate = new PushTemplate
                     {
-                        Body = "{\"data\":{\"message\":\"$(messageParam)\"}}"
+                        Body = "{\"data\":{\"message\":\"$(message)\",\"picture\":\"$(picture)\",\"view\":\"$(viewid)\"}}"
                     };
-					installation.Templates.Add("genericTemplate", genericTemplate);
+                    installation.Templates.Add("genericTemplate", genericTemplate);
 
                     // Register with NH
                     var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
