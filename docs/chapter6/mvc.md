@@ -211,6 +211,18 @@ The view in `Views\Home\Index.cshtml` is similarly changed:
 <div class="row" style="margin-top: 8px;">
     <div class="col-md-1"></div>
     <div class="col-md-10">
+        @using (Html.BeginForm("Create", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="text" name="Text" placeholder="Enter TodoItem Text..."/>
+            <input type="submit" value="Add Todo Item"/>
+        }
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div class="row" style="margin-top: 8px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover table-condensed">
                 <thead>
@@ -237,7 +249,9 @@ The view in `Views\Home\Index.cshtml` is similarly changed:
 </div>
 ```
 
-The HTML classes are from [Bootstrap][2] - a common CSS framework.
+The HTML classes are from [Bootstrap][2] - a common CSS framework.  The first row div encapsulates the form for adding a new todo item,
+and the second row div encapsulates the list.  If you enter some text into the box and click the submit button, it will be added to the
+database.
 
 ## Sharing Authentication
 
