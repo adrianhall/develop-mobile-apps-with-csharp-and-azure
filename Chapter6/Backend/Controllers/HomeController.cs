@@ -8,6 +8,7 @@ using Backend.Models;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private MobileServiceContext context;

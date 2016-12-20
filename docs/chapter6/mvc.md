@@ -255,6 +255,8 @@ database.
 
 ## Sharing Authentication
 
+As one would suspect, [setting up App Service Authentication][4], then adding an `[Authorize]` attribute to the `HomeController` is a good
+starting point for making our application authenticated.  However, it isn't enough.
 <!-- Images -->
 [img1]: img/new-project.png
 
@@ -262,3 +264,4 @@ database.
 [1]: https://www.asp.net/entity-framework
 [2]: http://getbootstrap.com/
 [3]: ../chapter3/server.md
+[4]: ../chapter2/authconcepts.md
