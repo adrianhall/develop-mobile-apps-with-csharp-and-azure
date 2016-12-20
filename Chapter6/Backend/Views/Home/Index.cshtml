@@ -8,7 +8,6 @@
     <div class="col-md-10">
         @using (Html.BeginForm("Create", "Home", FormMethod.Post))
         {
-            @Html.AntiForgeryToken()
             <input type="text" name="Text" placeholder="Enter TodoItem Text..."/>
             <input type="submit" value="Add Todo Item"/>
         }

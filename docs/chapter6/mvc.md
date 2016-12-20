@@ -274,7 +274,11 @@ ASP.NET, this functionality is configured within the `Web.config` file.  Locate 
   </system.web>
 ```
 
-The `<compilation>` and `<httpRuntime>` values should already be present.  The `<authentication>` section is new.
+The `<compilation>` and `<httpRuntime>` values should already be present.  The `<authentication>` section is new.  Once you deploy this code
+to Azure App Service, you will be redirected to your authentication provider.  Once the authentication process is complete, you will receive
+a page indicating successful authentication, with a link back to the website.
+
+
 
 <!-- Images -->
 [img1]: img/new-project.png
