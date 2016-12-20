@@ -56,7 +56,7 @@ namespace Backend
                 context.Set<TodoItem>().Add(item);
             }
 
-            base.Seed();
+            base.Seed(context);
         }
     }
 }

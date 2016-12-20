@@ -85,7 +85,79 @@ caveats that must be followed, however:
 *  Deletes must set the `Deleted` column if using Soft Delete, instead of directly deleting records.
 
 As an example, let's create a default view for handling our TodoItem controller.  In MVC, you need a Model, View and Controller class.  The
-Model will be handled by our existing `DataObjects\TodoItem.cs` class.  The Controller and View will be new classes.
+Model will be handled by our existing `DataObjects\TodoItem.cs` class.  The Controller and View will be new classes.  Let's take a look at
+the replacement `HomeController.cs` class first:
+
+```csharp
+using System.Linq;
+using System.Web.Mvc;
+using Backend.Models;
+
+namespace Backend.Controllers
+{
+    public class HomeController : Controller
+    {
+        private MobileServiceContext context;
+
+        public HomeController()
+        {
+            context = new MobileServiceContext();
+        }
+
+        public ActionResult Index()
+        {
+            var list = context.TodoItems.ToList();
+            return View(list);
+        }
+    }
+}
+```
+
+I am using the existing MobileServiceContext as the Entity Framework context.  The list of tasks is taken directly from the `DbSet<>`
+that was established for the mobile backend table controller.
+
+!!! info
+    I've removed some additional views from this backend (About and Contact) plus the links in the layout partial view.  This is just
+    to make the code cleaner.  You can leave them in if you desire.
+
+The view in `Views\Home\Index.cshtml` is similarly changed:
+
+```html
+@{
+    ViewBag.Title = "Home Page";
+}
+@model IEnumerable<Backend.DataObjects.TodoItem>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Text</th>
+                        <th>Complete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Text)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Complete)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+```
+
+The HTML classes are from [Bootstrap][] - a common CSS framework.
 
 ## Sharing Authentication
 
@@ -93,3 +165,5 @@ Model will be handled by our existing `DataObjects\TodoItem.cs` class.  The Cont
 [img1]: img/new-project.png
 
 <!-- Links -->
+[1]: https://www.asp.net/entity-framework
+[2]: http://getbootstrap.com/

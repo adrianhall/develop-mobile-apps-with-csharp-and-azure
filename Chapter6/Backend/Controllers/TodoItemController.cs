@@ -27,7 +27,7 @@ namespace Backend.Controllers
 
         public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
         {
-            TodoItem current = await InsertAsync(item);
+            TodoItem current = await InsertAsync(item).ConfigureAwait(false);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
