@@ -256,9 +256,29 @@ database.
 ## Sharing Authentication
 
 As one would suspect, [setting up App Service Authentication][4], then adding an `[Authorize]` attribute to the `HomeController` is a good
-starting point for making our application authenticated.  However, it isn't enough.
+starting point for making our application authenticated.  However, it isn't enough.  If you just do this, you will got something like the
+following:
+
+![][img2]
+
+In order to properly capture the login flow, we have to redirect a missing authentication to the appropriate authentication endpoint.  In
+ASP.NET, this functionality is configured within the `Web.config` file.  Locate the `<system.web>` section and add the following:
+
+```xml
+  <system.web>
+    <compilation debug="true" targetFramework="4.5.2"/>
+    <httpRuntime targetFramework="4.5.2"/>
+    <authentication mode="Forms">
+      <forms loginUrl="/.auth/login/aad" timeout="2880"/>
+    </authentication>
+  </system.web>
+```
+
+The `<compilation>` and `<httpRuntime>` values should already be present.  The `<authentication>` section is new.
+
 <!-- Images -->
 [img1]: img/new-project.png
+[img2]: img/failed-auth.PNG
 
 <!-- Links -->
 [1]: https://www.asp.net/entity-framework
