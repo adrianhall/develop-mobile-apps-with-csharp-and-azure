@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Web.Http;
 using Backend.DataObjects;
 using Backend.Models;
@@ -23,7 +24,8 @@ namespace Backend
 
             config.MapHttpAttributeRoutes();
 
-            Database.SetInitializer(new MobileServiceInitializer());
+            var migrator = new DbMigrator(new Migrations.Configuration());
+            migrator.Update();
 
             var settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
             if (string.IsNullOrEmpty(settings.HostName))

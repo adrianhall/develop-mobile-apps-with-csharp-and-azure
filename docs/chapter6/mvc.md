@@ -115,6 +115,34 @@ caveats that must be followed, however:
 *  Inserts must set the fields that are not managed by the database (such as `Id`).
 *  Deletes must set the `Deleted` column if using Soft Delete, instead of directly deleting records.
 
+Before you get started, you have to enable EF code-first migrations.  If you don't, you will get an error about a duplicate clustered index
+in your application for each table based on EntityData.  To enable migrations:
+
+1.  Open the Package Manager Console in Visual Studio
+2.  Run `Enable-Migrations`
+3.  Adjust the created `Migrations\Configuration.cs` constructor as follows:
+
+    ```csharp
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+            SetSqlGenerator("System.Data.SqlClient", new EntityTableSqlGenerator());
+        }
+    ```
+
+4.  In your `App_Start\Startup.MobileApp.cs`, comment out or remove your  `Database.SetInitializer()` call, and replace with:
+
+    ```csharp
+    var migrator = new DbMigrator(new Migrations.Configuration());
+    migrator.Update();
+    ```
+
+    You can also remove the MobileServiceInitializer class in the same file, if you wish.
+
+5. Run `Add-Migration initial` in the Package Manager Console.
+
+This is an abbreviated set of instructions from our work in [Chapter 3][3].
+
 As an example, let's create a default view for handling our TodoItem controller.  In MVC, you need a Model, View and Controller class.  The
 Model will be handled by our existing `DataObjects\TodoItem.cs` class.  The Controller and View will be new classes.  Let's take a look at
 the replacement `HomeController.cs` class first:
@@ -140,12 +168,33 @@ namespace Backend.Controllers
             var list = context.TodoItems.ToList();
             return View(list);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind(Include = "Text")]TodoItem item)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    item.Id = Guid.NewGuid().ToString("N");
+                    context.TodoItems.Add(item);
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "Unable to save changes.");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
 ```
 
 I am using the existing MobileServiceContext as the Entity Framework context.  The list of tasks is taken directly from the `DbSet<>`
-that was established for the mobile backend table controller.
+that was established for the mobile backend table controller.  I also have a method for creating a new todo item within the controller.
+If you look for a tutorial on implementing CRUD in ASP.NET MVC, it's likely you will see code similar to this.
 
 !!! info
     I've removed some additional views from this backend (About and Contact) plus the links in the layout partial view.  This is just
@@ -159,7 +208,7 @@ The view in `Views\Home\Index.cshtml` is similarly changed:
 }
 @model IEnumerable<Backend.DataObjects.TodoItem>
 
-<div class="row">
+<div class="row" style="margin-top: 8px;">
     <div class="col-md-1"></div>
     <div class="col-md-10">
         <div class="table-responsive">
@@ -198,3 +247,4 @@ The HTML classes are from [Bootstrap][2] - a common CSS framework.
 <!-- Links -->
 [1]: https://www.asp.net/entity-framework
 [2]: http://getbootstrap.com/
+[3]: ../chapter3/server.md
