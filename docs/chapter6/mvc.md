@@ -75,6 +75,37 @@ namespace Backend
 Note the addition of the `ConfigureMobileApp()` call.  If you are starting from the suggested template, this file does not exist and you
 will need to create it.
 
+Finally, you must update the `Web.config` file.  Firstly, in the `<configSections>` tag, add the following to support Entity Framework:
+
+```xml
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+```
+
+Add the following `<connectionStrings>` section:
+
+```xml
+  <connectionStrings>
+    <add name="MS_TableConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-Backend.mdf;Initial Catalog=aspnet-Backend-20160720081828;Integrated Security=True;MultipleActiveResultSets=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+```
+
+Finally, add the following entries to the `<appSettings>` section:
+
+```xml
+  <appSettings>
+    <add key="webpages:Enabled" value="false" />
+    <add key="PreserveLoginUrl" value="true" />
+    <add key="MS_SigningKey" value="Overridden by portal settings" />
+    <add key="EMA_RuntimeUrl" value="Overridden by portal settings" />
+    <add key="MS_NotificationHubName" value="Overridden by portal settings" />
+    <add key="SigningKey" value="Overridden by portal settings" />
+    <add key="ValidAudience" value="https://chapter6.azurewebsites.net/" />
+    <add key="ValidIssuer" value="https://chapter6.azurewebsites.net/" />
+  </appSettings>
+```
+
+The first appSetting key should already be present.  These changes can be copied from the `Web.config` file from your Azure Mobile Apps project.
+
 ## Sharing the Database
 
 Underneath the covers, Azure Mobile Apps uses [EntityFramework][1] to access the database.  It requires certain adjustments to the models,
@@ -157,7 +188,7 @@ The view in `Views\Home\Index.cshtml` is similarly changed:
 </div>
 ```
 
-The HTML classes are from [Bootstrap][] - a common CSS framework.
+The HTML classes are from [Bootstrap][2] - a common CSS framework.
 
 ## Sharing Authentication
 
