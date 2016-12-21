@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Security.Claims;
-using System.Web.Helpers;
 using System.Web.Http;
 using Backend.DataObjects;
 using Backend.Models;
@@ -22,6 +20,7 @@ namespace Backend
 
             new MobileAppConfiguration()
                 .AddTablesWithEntityFramework()
+                .UseAppServiceAuthentication()
                 .ApplyTo(config);
 
             config.MapHttpAttributeRoutes();
