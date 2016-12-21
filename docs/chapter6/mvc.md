@@ -284,6 +284,47 @@ a page indicating successful authentication, with a link back to the website.
 
 ### Using Anti-Forgery Tokens
 
+One of the gotchas for using ASP.NET MVC with Azure App Service Authentication is that the Anti-Forgery Token no longer works as advertised.  If
+you try to use the anti-forgery token on POST operations (and the associated `[ValidateAntiForgeryToken]` within your controller), you will receive
+the following exception:
+
+> A claim of type 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier' or 'http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider' was not present on the provided ClaimsIdentity. To enable anti-forgery token support with claims-based authentication, please verify that the configured claims provider is providing both of these claims on the ClaimsIdentity instances it generates. If the configured claims provider instead uses a different claim type as a unique identifier, it can be configured by setting the static property AntiForgeryConfig.UniqueClaimTypeIdentifier.
+
+Unfortunately, the logic here is wrong.  Check the [source code][5] and you will see that both listed claims must be present to not throw
+the exception.  The Azure App Service Authentication claims do not include the `identityprovider` claim.
+
+So much for the bug.  With the advent of .NET Core, I do not expect this bug to be fixed.  The workaround is to explicitly specify the identifier
+to use somewhere in your application startup:
+
+```csharp
+AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+```
+
+I place this in the MVC specific `App_Start\RouteConfig.cs` file:
+
+```csharp
+namespace Backend
+{
+    public class RouteConfig
+    {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+        }
+    }
+}
+```
+
+This will force the use of the (singular) claim rather than requiring both claims to be present, thus allowing you to use the anti-forgery token.
+
 <!-- Images -->
 [img1]: img/new-project.png
 [img2]: img/failed-auth.PNG
@@ -293,3 +334,4 @@ a page indicating successful authentication, with a link back to the website.
 [2]: http://getbootstrap.com/
 [3]: ../chapter3/server.md
 [4]: ../chapter2/authconcepts.md
+[5]: https://github.com/mono/aspnetwebstack/blob/6248bfd24c31356e75a31c1b1030d4d96f669a6a/src/System.Web.WebPages/Helpers/AntiXsrf/ClaimUidExtractor.cs#L78

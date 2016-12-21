@@ -25,7 +25,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        /* [ValidateAntiForgeryToken] */
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Text")]TodoItem item)
         {
             try
