@@ -1,5 +1,8 @@
 This section is dedicated to exploring various common recipes for push notifications and how we can achieve those recipes through cross-platform code.
 
+!!! warn "Incomplete Section"
+    This section is incomplete and still in progress.  Please do not rely on any information within this section.
+
 ## Marketing Push
 
 The most common requirement for push notifications is to alert users of a special offer or other marketing information.  The general idea is that
