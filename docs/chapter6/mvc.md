@@ -278,7 +278,11 @@ The `<compilation>` and `<httpRuntime>` values should already be present.  The `
 to Azure App Service, you will be redirected to your authentication provider.  Once the authentication process is complete, you will receive
 a page indicating successful authentication, with a link back to the website.
 
+!!! warn "Use an private browsing window for testing"
+    One of the major problems with using Azure AD for authentication as a developer is that the Azure Portal authentication uses the same
+    providers.  This can cause problems in your app.  Always use a private browsing window and/or a different browser for testing your code.
 
+### Using Anti-Forgery Tokens
 
 <!-- Images -->
 [img1]: img/new-project.png
