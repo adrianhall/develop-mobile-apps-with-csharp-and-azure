@@ -20,7 +20,6 @@ namespace Backend
 
             new MobileAppConfiguration()
                 .AddTablesWithEntityFramework()
-                .UseAppServiceAuthentication()
                 .ApplyTo(config);
 
             config.MapHttpAttributeRoutes();
@@ -41,25 +40,6 @@ namespace Backend
             }
 
             app.UseWebApi(config);
-        }
-    }
-
-    public class MobileServiceInitializer : CreateDatabaseIfNotExists<MobileServiceContext>
-    {
-        protected override void Seed(MobileServiceContext context)
-        {
-            List<TodoItem> todoItems = new List<TodoItem>
-            {
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First Item", Complete = false },
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "Second Item", Complete = false }
-            };
-
-            foreach (TodoItem item in todoItems)
-            {
-                context.Set<TodoItem>().Add(item);
-            }
-
-            base.Seed(context);
         }
     }
 }

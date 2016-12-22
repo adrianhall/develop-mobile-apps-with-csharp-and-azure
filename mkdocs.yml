@@ -39,7 +39,9 @@ pages:
         - Push Recipes: chapter5/recipes.md
     - Chapter 6 - Combining Web and Mobile Apps:
         - MVC Applications: chapter6/mvc.md
-        - SPA Applications: chapter6/spa.md
+        - jQuery Applications: chapter6/spa.md
+        - React Applications: chapter6/react.md
+        - Angular Applications: chapter6/angular.md
     - Chapter 7 - Other Useful Services:
         - Azure Search: chapter7/search.md
         - Media Services: chapter7/media.md
