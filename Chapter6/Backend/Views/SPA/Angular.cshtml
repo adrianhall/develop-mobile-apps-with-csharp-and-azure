@@ -1,0 +1,38 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" data-framework="angular2">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Angular 2</title>
+    <link rel="stylesheet" href="~/Content/spa/angular/base.css"/>
+    <link rel="stylesheet" href="~/Content/spa/angular/index.css"/>
+    <script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js"></script>
+</head>
+<body>
+    <todo-app></todo-app>
+    <footer class="info">
+        <p>Double-click to edit a todo</p>
+        <p>
+            Created by <a href="http://github.com/samccone">Sam Saccone</a> and <a href="http://github.com/colineberhardt">Colin Eberhardt</a>
+            using <a href="http://angular.io">Angular2</a><br/>
+            Modified by <a href="https://github.com/adrianhall">Adrian Hall</a> for Azure Mobile Apps
+        </p>
+        <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+    </footer>
+    <script>
+            System.config({
+                packages: {
+                    'app': {
+                        format: 'cjs',
+                        defaultExtension: 'js'
+                    }
+                }
+            });
+            System.import('~/Content/spa/angular/bootstrap');
+    </script>
+</body>
+</html>

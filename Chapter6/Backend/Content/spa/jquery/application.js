@@ -14,12 +14,9 @@
     function onBrowserReady() {
         // Create a connection reference to our Azure Mobile Apps backend
         client = new WindowsAzure.MobileServiceClient(location.origin);
-        console.log('client: ', client);
 
         // Create a table reference
         table = client.getTable('todoitem');
-        console.log('table: ', table);
-        console.log('tablename: ', table.getTableName());
 
         // Refresh the todoItems
         refreshDisplay();

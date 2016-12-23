@@ -40,8 +40,8 @@ pages:
     - Chapter 6 - Combining Web and Mobile Apps:
         - MVC Applications: chapter6/mvc.md
         - jQuery Applications: chapter6/spa.md
-        - React Applications: chapter6/react.md
         - Angular Applications: chapter6/angular.md
+        - React Applications: chapter6/react.md
     - Chapter 7 - Other Useful Services:
         - Azure Search: chapter7/search.md
         - Media Services: chapter7/media.md
