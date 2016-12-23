@@ -24,7 +24,7 @@ angular.module('todomvc')
         $scope.$on('$routeChangeSuccess', function () {
             var status = $scope.status = $routeParams.status || '';
             $scope.statusFilter = status === 'active' ?
-                { completed: false } : status === 'complete' ?
+                { completed: false } : status === 'completed' ?
                 { completed: true } : {};
         });
 

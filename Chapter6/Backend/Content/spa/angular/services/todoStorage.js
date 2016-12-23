@@ -20,7 +20,13 @@ angular.module('todomvc')
 
                 store.table.read().then(function (items) {
                     // Convert the items into todos for this application
-                    var todoList = items.
+                    var todoList = items.map(function (item) {
+                        return {
+                            id: item.id,
+                            completed: item.complete,
+                            title: item.text
+                        };
+                    });
 
                     angular.copy(todoList, store.todos);
                     deferred.resolve(store.todos);
