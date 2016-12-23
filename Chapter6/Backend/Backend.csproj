@@ -240,8 +240,16 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\spa\angular\app.js" />
+    <Content Include="Content\spa\angular\controllers\todoCtrl.js" />
+    <Content Include="Content\spa\angular\directives\todoEscape.js" />
+    <Content Include="Content\spa\angular\directives\todoFocus.js" />
+    <Content Include="Content\spa\angular\services\todoStorage.js" />
     <Content Include="Content\spa\jquery\application.css" />
     <Content Include="Content\spa\jquery\application.js" />
+    <Content Include="Content\spa\todomvc\base.css" />
+    <Content Include="Content\spa\todomvc\base.js" />
+    <Content Include="Content\spa\todomvc\index.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
