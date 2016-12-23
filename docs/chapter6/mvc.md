@@ -18,8 +18,13 @@ Click **OK** to create the project.  Run your project to ensure it is working co
     ASP.NET requires a large number of NuGet packages to implement MVC.  These are provided for you when you start from the
     appropriate template, but you will need to add them yourself when you start from the Azure Mobile Apps template.
 
-Now that you have an MVC project, let's add Azure Mobile Apps to it.  Start by adding the **Microsoft.Azure.Mobile.Server.Quickstart**
-NuGet package.  This NuGet package contains dependencies for all the other Azure Mobile Apps SDK requirements.  If you want the
+Now that you have an MVC project, let's add Azure Mobile Apps to it.  Start by adding the following two NuGet packages to your
+project:
+
+*  Microsoft.Azure.Mobile.Server.Quickstart
+*  Mirosoft.Owin.Host.SystemWeb
+
+The Quickstart NuGet package contains dependencies for all the other Azure Mobile Apps SDK requirements.  If you want the
 big long list instead, add the following:
 
 *  AutoMapper
@@ -39,7 +44,8 @@ big long list instead, add the following:
 *  System.IdentityModel.Tokens.Jwt
 *  System.Spatial
 
-Using the Quickstart package is a serious time saver over having to type in 16 package names.
+Using the Quickstart package is a serious time saver over having to type in 16 package names.  The SystemWeb package enables
+the use of the Owin Startup.cs class.  This is used to bootstrap the Azure Mobile Apps configuration.
 
 !!! tip "Upgrading to .NET 4.6"
     If you want to run your ASP.NET service under .NET Framework 4.6, you can upgrade just about everything.  However, the
