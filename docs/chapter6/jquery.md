@@ -1,16 +1,18 @@
-# Single Page Web Applications
+# Single Page Applications
 
 One of the major changes that has happened within web applications in the past few years is the single page application, or SPA,
 coupled with the rise of JavaScript frameworks.  No-one can directly support all the JavaScript frameworks out there, but this
 section will cover a couple of the main ones - [jQuery][1], [React][2] and [Angular2][3].  Azure Mobile Apps has a [JavaScript SDK][4]
 that can be used for accessing table controllers and identity services within your mobile backend.
 
-## Basic JavaScript Usage
+## The JavaScript SDK and jQuery
 
-I refer to jQuery as a "plain JavaScript framework" because it relies on standard `<script>` tag loading within your main HTML
-page.  The important thing to note here is that you cannot instantiate the Azure Mobile Apps client SDK until all the scripts
-are loaded.  Fortunately, JavaScript (and jQuery) provide events when this happens.  I tend to add SPA applications to ASP.NET
-MVC apps by making the main HTML page a View.  First, add a controller called "Controllers\SPAController" with the following contents:
+iQuery has a long history in web development at this point.  It is easy to pick up and functionally great for small
+applications.  The important thing to note here is that you cannot instantiate the Azure Mobile Apps client SDK until 
+all the scripts are loaded.  Fortunately, JavaScript (and jQuery) provide events when this happens.  
+
+I tend to add SPA applications to ASP.NET MVC apps by making the main HTML page a View.  First, add a controller 
+called "Controllers\SPAController" with the following contents:
 
 ```csharp
 using System.Web.Mvc;

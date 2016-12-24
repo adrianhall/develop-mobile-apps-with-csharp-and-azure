@@ -321,15 +321,16 @@ you instantiate a singleton copy of the MobileServiceClient.
 
 ## Authentication
 
-The Azure Mobile Apps JavaScript SDK includes a call `client.login('_provider_')` for server-flow
+The Azure Mobile Apps JavaScript SDK includes a call `client.login('provider')` for server-flow
 authentication and a similar functionality for client-flow authentication.  If you have configured
-your authentication server properly, then calling the `.login()` method will pop up a small window
-to complete the normal authentication flow.  The token is then stored inside the MobileServiceClient
-object.
+your authentication service in the Azure Portal properly, then calling the `.login()` method will 
+pop up a small window to complete the normal authentication flow.  The token is then stored inside 
+the MobileServiceClient object.
 
 When using authentication this way, it is vital that you have a singleton model for your MobileServiceClient.
 In this case, I would break down the backend connectivity into three or more distinct services - one for the
 client connection, one for authenticating users, and one for each table controller you wish to expose.
+
 
 <!-- Links -->
 [1]: https://docs.angularjs.org

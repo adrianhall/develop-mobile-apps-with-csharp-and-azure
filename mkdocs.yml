@@ -39,7 +39,7 @@ pages:
         - Push Recipes: chapter5/recipes.md
     - Chapter 6 - Combining Web and Mobile Apps:
         - MVC Applications: chapter6/mvc.md
-        - jQuery Applications: chapter6/spa.md
+        - jQuery Applications: chapter6/jquery.md
         - Angular Applications: chapter6/angular.md
         - React Applications: chapter6/react.md
     - Chapter 7 - Other Useful Services:
