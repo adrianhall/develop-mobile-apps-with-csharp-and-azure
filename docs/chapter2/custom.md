@@ -611,7 +611,7 @@ For our iOS application, we are going to integrate Auth0 into the `Services\iOSL
                 "shellmonger.auth0.com",
                 "lmFp5jXnwPpD9lQIYwgwwPmFeofuLpYq");
             var user = await auth0.LoginAsync(RootView, scope: "openid email");
-            return user.Auth0AccessToken;
+            return user.IdToken;
         }
 ```
 
