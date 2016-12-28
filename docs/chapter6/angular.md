@@ -120,12 +120,12 @@ Also, add the following in `Views\SPA\Angular.cshtml`:
 
 I haven't done much to these except adjust the script links to resolve to the JavaScript CDN.  In addition, there
 are some basic CSS/JS libraries that all the ToDoMVC applications use.  I've copied those from the ToDoMVC
-site into my project in `~/Content/spa/todomvc`. 
+site into my project in `~/Content/spa/todomvc`.
 
 ### Copy the ToDoMVC application into Content
 
 I've created a directory `~/Content/spa/angular` with a direct copy of the [AngularJS][5] application.  Everything
-under the `js` directory has been copied, preserving the directory structure. 
+under the `js` directory has been copied, preserving the directory structure.
 
 At this point, you can publish your application and you will see the original ToDoMVC application prior to our
 making it work with Azure Mobile Apps.
@@ -134,14 +134,14 @@ making it work with Azure Mobile Apps.
 
 The logic for the storage of the data behind the task list all happens in `services\todoStorage.js`, and our
 changes are all limited to that file.  In this case, we will have a local cache of the data.  This local
-cache is read at the beginning of the application.  When the user wants to make a change to the data, we 
+cache is read at the beginning of the application.  When the user wants to make a change to the data, we
 modify the data locally and remotely at the same time.
 
 We have a small complexity - the model used by ToDoMVC does not match the model on the backend.  As a result,
 we need to do conversions between the two models when we perform backend operations.  This is surprisingly common,
 especially when using backend databases that you do not control.
 
-Let's start with the basics.  Here is the recipe for the promise-based Angular factory, with our 
+Let's start with the basics.  Here is the recipe for the promise-based Angular factory, with our
 Azure Mobile Apps initializer embedded:
 
 ```javascript
@@ -184,7 +184,7 @@ angular.module('todomvc')
         };
 
         var deferred = $q.defer();
-        
+
         store.client = new WindowsAzure.MobileServiceClient(location.origin);
         store.table = store.client.getTable('todoitem');
 
@@ -278,7 +278,7 @@ and generate a GUID on the client, storing that instead.
 
 Finally, there is a method for clearing (aka deleting) the completed records.  This is difficult
 primarily because the server only handles one record at a time.  The Angular promise library has
-an API for that called `.all()`.  This method is given an array of promises and waits for all of 
+an API for that called `.all()`.  This method is given an array of promises and waits for all of
 them to be resolved.  We can use this as follows:
 
 ```javascript
@@ -313,18 +313,18 @@ when the record is deleted.  Once all the records have been deleted, we filter t
 The main problem I see over and over is that the `WindowsAzure.MobileServiceClient` class is not
 available when it is used.  By default, Angular waits for the DOMContentLoaded event, which signals
 that all the scripts have been loaded.  Inevitably, when I look at the failing code, the call to
-initialize the MobileServiceClient is called outside of a factory. 
+initialize the MobileServiceClient is called outside of a factory.
 
 If you place the `new WindowsAzure.MobileServiceClient()` call inside of a service or factory, then
-you gain the two major problems.  Firstly, the MobileServiceClient class will be available.  Secondly,
-you instantiate a singleton copy of the MobileServiceClient.  
+you fix the two major problems.  Firstly, the MobileServiceClient class will be available when called.  Secondly,
+you instantiate a singleton copy of the MobileServiceClient, which is exactly what is required by the SDK.
 
 ## Authentication
 
 The Azure Mobile Apps JavaScript SDK includes a call `client.login('provider')` for server-flow
 authentication and a similar functionality for client-flow authentication.  If you have configured
-your authentication service in the Azure Portal properly, then calling the `.login()` method will 
-pop up a small window to complete the normal authentication flow.  The token is then stored inside 
+your authentication service in the Azure Portal properly, then calling the `.login()` method will
+pop up a small window to complete the normal authentication flow.  The token is then stored inside
 the MobileServiceClient object.
 
 When using authentication this way, it is vital that you have a singleton model for your MobileServiceClient.
