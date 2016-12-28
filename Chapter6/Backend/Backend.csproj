@@ -247,6 +247,9 @@
     <Content Include="Content\spa\angular\services\todoStorage.js" />
     <Content Include="Content\spa\jquery\application.css" />
     <Content Include="Content\spa\jquery\application.js" />
+    <Content Include="Content\spa\react\app.css" />
+    <Content Include="Content\spa\react\app.js" />
+    <Content Include="Content\spa\react\vendor.bundle.js" />
     <Content Include="Content\spa\todomvc\base.css" />
     <Content Include="Content\spa\todomvc\base.js" />
     <Content Include="Content\spa\todomvc\index.css" />
@@ -263,8 +266,22 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Compile Include="DataObjects\TodoItem.cs" />
+    <Content Include="Content\spa\react\app.js.map" />
+    <Content Include="Content\spa\react\vendor.bundle.js.map" />
+    <Content Include="ReactClient\components\Quickstart.jsx" />
+    <Content Include="ReactClient\components\TodoItem.jsx" />
+    <Content Include="ReactClient\components\AddTodoItem.jsx" />
+    <None Include="webpack.config.js" />
+    <None Include="package.json" />
     <None Include="Properties\PublishProfiles\chapter6 - Web Deploy.pubxml" />
+    <None Include="ReactClient\app.jsx" />
+    <None Include="ReactClient\.babelrc" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="ReactClient\redux\actions\todo.js" />
+    <Content Include="ReactClient\redux\constants.js" />
+    <Content Include="ReactClient\redux\reducers\index.js" />
+    <Content Include="ReactClient\redux\reducers\todo.js" />
+    <Content Include="ReactClient\redux\store.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -296,6 +313,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\SPA\JQuery.cshtml" />
     <Content Include="Views\SPA\Angular.cshtml" />
+    <Content Include="Views\SPA\React.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

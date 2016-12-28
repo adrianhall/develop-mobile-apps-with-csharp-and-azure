@@ -56,6 +56,7 @@ pages:
         - Troubleshooting: chapter9/troubleshooting.md
     - Xamarin Forms Tips: xamarin_tips.md
     - Android Developer Notes: android_appendix.md
+    - Visual Studio Extensions: vs_extensions.md
     - References: references.md
     - Credits: credits.md
 theme: material
