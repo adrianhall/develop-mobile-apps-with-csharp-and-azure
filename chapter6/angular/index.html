@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Angular Applications - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/angular/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+    
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/angular/">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/angular//../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 6 - Combining Web and Mobile Apps <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Angular Applications
+      </div>
+    </div>
+    
+      
+      <div class="button button-twitter" role="button" aria-label="Twitter">
+        <a href="https://twitter.com/FizzyInTheHall" title="@FizzyInTheHall on Twitter" target="_blank" class="toggle-button icon icon-twitter"></a>
+      </div>
+    
+    
+      
+      <div class="button button-github" role="button" aria-label="GitHub">
+        <a href="https://github.com/adrianhall" title="@adrianhall on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+      </div>
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          adrianhall/develop-mobile-apps-with-csharp-and-azure
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
+      Best Practices
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 3 - Data Access and Offline Sync</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter3/dataconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Implementing Table Controllers" href="../../chapter3/server/">
+      Implementing Table Controllers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Projection and Queries" href="../../chapter3/projection/">
+      Data Projection and Queries
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Mobile Client" href="../../chapter3/client/">
+      The Mobile Client
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Relationships" href="../../chapter3/relationships/">
+      Relationships
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
+      The Domain Manager
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 4 - Server Side Code</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Options for Server Code" href="../../chapter4/options/">
+      Options for Server Code
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom HTTP Endpoints" href="../../chapter4/custom/">
+      Custom HTTP Endpoints
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="WebJobs" href="../../chapter4/webjobs/">
+      WebJobs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Functions" href="../../chapter4/functions/">
+      Functions
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Recipes" href="../../chapter4/recipes/">
+      Recipes
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 5 - Push Notifications</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter5/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Android Push" href="../../chapter5/android/">
+      Android Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="iOS Push" href="../../chapter5/ios/">
+      iOS Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Windows Push" href="../../chapter5/windows/">
+      Windows Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Push Recipes" href="../../chapter5/recipes/">
+      Push Recipes
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 6 - Combining Web and Mobile Apps</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="MVC Applications" href="../mvc/">
+      MVC Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="jQuery Applications" href="../jquery/">
+      jQuery Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Angular Applications" href="./">
+      Angular Applications
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Angular in ASP.NET MVC" href="#angular-in-aspnet-mvc">
+                Angular in ASP.NET MVC
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Cloud Connectivity" href="#cloud-connectivity">
+                Cloud Connectivity
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Angular Gotchas" href="#angular-gotchas">
+                Angular Gotchas
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Authentication" href="#authentication">
+                Authentication
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="React Applications" href="../react/">
+      React Applications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 7 - Other Useful Services</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Azure Search" href="../../chapter7/search/">
+      Azure Search
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Media Services" href="../../chapter7/media/">
+      Media Services
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Real-time Notifications" href="../../chapter7/realtime/">
+      Real-time Notifications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 8 - Developing An App</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="The Development Environment" href="../../chapter8/developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing your Application" href="../../chapter8/testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 9 - Going to Production</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Repeatable Deployments" href="../../chapter9/arm/">
+      Repeatable Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Safe Deployments" href="../../chapter9/appsvc/">
+      Safe Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Monitoring" href="../../chapter9/monitoring/">
+      Monitoring
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Troubleshooting" href="../../chapter9/troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Visual Studio Extensions" href="../../vs_extensions/">
+      Visual Studio Extensions
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+          <hr>
+          <span class="section">The author</span>
+          <ul>
+            
+              
+              <li>
+                <a href="https://twitter.com/FizzyInTheHall" target="_blank" title="@FizzyInTheHall on Twitter">
+                  @FizzyInTheHall on Twitter
+                </a>
+              </li>
+            
+            
+              
+              <li>
+                <a href="https://github.com/adrianhall" target="_blank" title="@adrianhall on GitHub">
+                  @adrianhall on GitHub
+                </a>
+              </li>
+            
+          </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="angular-applications">Angular Applications<a class="headerlink" href="#angular-applications" title="Permanent link">&para;</a></h1>
+<p>For much of the last couple of years, <a href="https://docs.angularjs.org">Angular</a> has been the JavaScript framework of choice For
+front-end developers.  Developed by Google, it is fully-featured, albeit complex, but with a
+solid community of developers willing to help, and the support for learning through <a href="https://docs.angularjs.org/tutorial">tutorials</a>,
+<a href="https://www.youtube.com/user/angularjs">videos</a>, and <a href="https://vslive.com/Blogs/News-and-Tips/2016/02/4-Must-Read-Angular-Blogs.aspx">blogs</a>.  The most recent iteration, Angular 2, is taking off as a great framework
+as well.</p>
+<p>Learning a new framework is time consuming, but the outcomes can be remarkable.  In this section, I'm
+going to adjust a single class in the <a href="https://github.com/tastejs/todomvc/tree/gh-pages/examples/angularjs">Angular version</a> of <a href="http://todomvc.com/">ToDoMVC</a> so that it works with the Azure
+Mobile Apps JavaScript SDK.  You can find the full source code in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter6">Chapter6</a> project on the books
+GitHub page.</p>
+<h2 id="angular-in-aspnet-mvc">Angular in ASP.NET MVC<a class="headerlink" href="#angular-in-aspnet-mvc" title="Permanent link">&para;</a></h2>
+<p>Before we get started, let's get the default ToDoMVC application running in our ASP.NET MVC framework.</p>
+<h3 id="add-a-controller-method-and-a-view">Add a Controller Method and a View<a class="headerlink" href="#add-a-controller-method-and-a-view" title="Permanent link">&para;</a></h3>
+<p>Edit the <code>Controllers\SPAController.cs</code> and add the following method:</p>
+<pre><code class="csharp">    public ActionResult Angular()
+    {
+        return View();
+    }
+</code></pre>
+
+<p>Also, add the following in <code>Views\SPA\Angular.cshtml</code>:</p>
+<pre><code class="html">@{
+    Layout = null;
+}
+
+&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-framework=&quot;angularjs&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;AngularJS • TodoMVC&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;~/Content/spa/todomvc/base.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;~/Content/spa/todomvc/index.css&quot;&gt;
+    &lt;style&gt;
+        [ng-cloak] {
+            display: none;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body ng-app=&quot;todomvc&quot;&gt;
+    &lt;ng-view /&gt;
+
+    &lt;script type=&quot;text/ng-template&quot; id=&quot;todomvc-index.html&quot;&gt;
+        &lt;section id=&quot;todoapp&quot;&gt;
+            &lt;header id=&quot;header&quot;&gt;
+                &lt;h1&gt;todos&lt;/h1&gt;
+                &lt;form id=&quot;todo-form&quot; ng-submit=&quot;addTodo()&quot;&gt;
+                    &lt;input id=&quot;new-todo&quot; placeholder=&quot;What needs to be done?&quot; ng-model=&quot;newTodo&quot; ng-disabled=&quot;saving&quot; autofocus&gt;
+                &lt;/form&gt;
+            &lt;/header&gt;
+            &lt;section id=&quot;main&quot; ng-show=&quot;todos.length&quot; ng-cloak&gt;
+                &lt;input id=&quot;toggle-all&quot; type=&quot;checkbox&quot; ng-model=&quot;allChecked&quot; ng-click=&quot;markAll(allChecked)&quot;&gt;
+                &lt;label for=&quot;toggle-all&quot;&gt;Mark all as complete&lt;/label&gt;
+                &lt;ul id=&quot;todo-list&quot;&gt;
+                    &lt;li ng-repeat=&quot;todo in todos | filter:statusFilter track by $index&quot; ng-class=&quot;{completed: todo.completed, editing: todo == editedTodo}&quot;&gt;
+                        &lt;div class=&quot;view&quot;&gt;
+                            &lt;input class=&quot;toggle&quot; type=&quot;checkbox&quot; ng-model=&quot;todo.completed&quot; ng-change=&quot;toggleCompleted(todo)&quot;&gt;
+                            &lt;label ng-dblclick=&quot;editTodo(todo)&quot;&gt;{{todo.title}}&lt;/label&gt;
+                            &lt;button class=&quot;destroy&quot; ng-click=&quot;removeTodo(todo)&quot;&gt;&lt;/button&gt;
+                        &lt;/div&gt;
+                        &lt;form ng-submit=&quot;saveEdits(todo, 'submit')&quot;&gt;
+                            &lt;input class=&quot;edit&quot; ng-trim=&quot;false&quot; ng-model=&quot;todo.title&quot; todo-escape=&quot;revertEdits(todo)&quot; ng-blur=&quot;saveEdits(todo, 'blur')&quot; todo-focus=&quot;todo == editedTodo&quot;&gt;
+                        &lt;/form&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/section&gt;
+            &lt;footer id=&quot;footer&quot; ng-show=&quot;todos.length&quot; ng-cloak&gt;
+                &lt;span id=&quot;todo-count&quot;&gt;
+                    &lt;strong&gt;{{remainingCount}}&lt;/strong&gt;
+                    &lt;ng-pluralize count=&quot;remainingCount&quot; when=&quot;{ one: 'item left', other: 'items left' }&quot;&gt;&lt;/ng-pluralize&gt;
+                &lt;/span&gt;
+                &lt;ul id=&quot;filters&quot;&gt;
+                    &lt;li&gt;
+                        &lt;a ng-class=&quot;{selected: status == ''} &quot; href=&quot;#/&quot;&gt;All&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a ng-class=&quot;{selected: status == 'active'}&quot; href=&quot;#/active&quot;&gt;Active&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a ng-class=&quot;{selected: status == 'completed'}&quot; href=&quot;#/completed&quot;&gt;Completed&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;button id=&quot;clear-completed&quot; ng-click=&quot;clearCompletedTodos()&quot; ng-show=&quot;completedCount&quot;&gt;Clear completed&lt;/button&gt;
+            &lt;/footer&gt;
+        &lt;/section&gt;
+        &lt;footer id=&quot;info&quot;&gt;
+            &lt;p&gt;Double-click to edit a todo&lt;/p&gt;
+            &lt;p&gt;
+                Credits:
+                &lt;a href=&quot;http://twitter.com/cburgdorf&quot;&gt;Christoph Burgdorf&lt;/a&gt;,
+                &lt;a href=&quot;http://ericbidelman.com&quot;&gt;Eric Bidelman&lt;/a&gt;,
+                &lt;a href=&quot;http://jacobmumm.com&quot;&gt;Jacob Mumm&lt;/a&gt; and
+                &lt;a href=&quot;http://blog.igorminar.com&quot;&gt;Igor Minar&lt;/a&gt;
+            &lt;/p&gt;
+            &lt;p&gt;Adjusted for Azure Mobile Apps by &lt;a href=&quot;https://github.com/adrianhall&quot;&gt;Adrian Hall&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;Part of &lt;a href=&quot;http://todomvc.com&quot;&gt;TodoMVC&lt;/a&gt;&lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/todomvc/base.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular-route.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular-resource.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/angular/app.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/angular/controllers/todoCtrl.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/angular/services/todoStorage.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/angular/directives/todoFocus.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/angular/directives/todoEscape.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>I haven't done much to these except adjust the script links to resolve to the JavaScript CDN.  In addition, there
+are some basic CSS/JS libraries that all the ToDoMVC applications use.  I've copied those from the ToDoMVC
+site into my project in <code>~/Content/spa/todomvc</code>.</p>
+<h3 id="copy-the-todomvc-application-into-content">Copy the ToDoMVC application into Content<a class="headerlink" href="#copy-the-todomvc-application-into-content" title="Permanent link">&para;</a></h3>
+<p>I've created a directory <code>~/Content/spa/angular</code> with a direct copy of the <a href="https://github.com/tastejs/todomvc/tree/gh-pages/examples/angularjs">AngularJS</a> application.  Everything
+under the <code>js</code> directory has been copied, preserving the directory structure.</p>
+<p>At this point, you can publish your application and you will see the original ToDoMVC application prior to our
+making it work with Azure Mobile Apps.</p>
+<h2 id="cloud-connectivity">Cloud Connectivity<a class="headerlink" href="#cloud-connectivity" title="Permanent link">&para;</a></h2>
+<p>The logic for the storage of the data behind the task list all happens in <code>services\todoStorage.js</code>, and our
+changes are all limited to that file.  In this case, we will have a local cache of the data.  This local
+cache is read at the beginning of the application.  When the user wants to make a change to the data, we
+modify the data locally and remotely at the same time.</p>
+<p>We have a small complexity - the model used by ToDoMVC does not match the model on the backend.  As a result,
+we need to do conversions between the two models when we perform backend operations.  This is surprisingly common,
+especially when using backend databases that you do not control.</p>
+<p>Let's start with the basics.  Here is the recipe for the promise-based Angular factory, with our
+Azure Mobile Apps initializer embedded:</p>
+<pre><code class="javascript">/*global angular */
+
+/**
+ * Services that persists and retrieves todos from localStorage or a backend API
+ * if available.
+ *
+ * They both follow the same API, returning promises for all changes to the
+ * model.
+ */
+angular.module('todomvc')
+    .factory('todoStorage', function ($q) {
+        var store = {
+            todos: [],
+            client: null,
+            table: null,
+
+            // Additional methods Here
+            get: function() {
+
+            },
+
+            delete: function(todo) {
+
+            },
+
+            insert: function(todo) {
+
+            },
+
+            put: function(todo, index) {
+
+            },
+
+            clearCompleted: function() {
+
+            }
+        };
+
+        var deferred = $q.defer();
+
+        store.client = new WindowsAzure.MobileServiceClient(location.origin);
+        store.table = store.client.getTable('todoitem');
+
+        deferred.resolve(store);
+        return deferred.promise;
+    });
+</code></pre>
+
+<p>Since our application is doing all the filtering client-side, we are going to cache the
+table data in the store.todos variable.  I've created the API that the ToDoMVC application
+expects, but with empty contents.  Each method is expected to return a promise that resolves
+to the new list of todo items.</p>
+<p>Getting the data is easier than the jQuery version as we don't have to deal with filtering:</p>
+<pre><code class="javascript">    get: function () {
+        var deferred = $q.defer();
+
+        store.table.read().then(function (items) {
+            // Convert the items into todos for this application
+            var todoList = items.map(function (item) {
+                return {
+                    id: item.id,
+                    completed: item.complete,
+                    title: item.text
+                };
+            });
+
+            angular.copy(todoList, store.todos);
+            deferred.resolve(store.todos);
+        });
+
+        return deferred.promise;
+    },
+</code></pre>
+
+<p>Angular comes with a A+/Promise library that is referenced in a similar way to either the regular
+Promise API or like the jQuery deferred API.  Here, I am creating a promise, then doing the work,
+resolving the promise when the work is complete.  The <code>Array.map()</code> method in JavaScript is great
+for doing the work of converting one model to a new shape.</p>
+<p>Deleting, Updating and Inserting are all very similar to the jQuery version.  Since we are maintaing
+a cache, we don't resolve the promise we need until the server comes back with the new data:</p>
+<pre><code class="javascript">    delete: function (todo) {
+        var deferred = $q.defer();
+
+        store.table.del({ id: todo.id }).done(function () {
+            store.todos.splice(store.todos.indexOf(todo), 1);
+            deferred.resolve(store.todos);
+        });
+
+        return deferred.promise;
+    },
+
+    insert: function (todo) {
+        var deferred = $q.defer();
+
+        store.table.insert({ text: todo.title }).then(function (newItem) {
+            todo.id = newItem.id;
+            todo.title = newItem.text;
+            todo.completed = newItem.complete;
+
+            store.todos.push(todo);
+            deferred.resolve(store.todos);
+        });
+
+        return deferred.promise;
+    },
+
+    put: function (todo, index) {
+        var deferred = $q.defer();
+
+        store.table.update({ id: todo.id, text: todo.title, complete: todo.completed })
+            .then(function (item) {
+                todo.title = item.text;
+                todo.completed = item.complete;
+                store.todos[index] = todo;
+                deferred.resolve(store.todos);
+            });
+
+        return deferred.promise;
+    }
+</code></pre>
+
+<p>The major reason for not updating the cache directly is that we need the ID of the new record.
+That ID is created on the server for us.  We could, as an improvement, include the <code>uuid</code> package
+and generate a GUID on the client, storing that instead.</p>
+<p>Finally, there is a method for clearing (aka deleting) the completed records.  This is difficult
+primarily because the server only handles one record at a time.  The Angular promise library has
+an API for that called <code>.all()</code>.  This method is given an array of promises and waits for all of
+them to be resolved.  We can use this as follows:</p>
+<pre><code class="javascript">    clearCompleted: function () {
+        var deferred = $q.defer();
+
+        var promises = [];
+
+        var completeTodos = store.todos.filter(function (todo) { return todo.completed; });
+        completeTodo.forEach(function (todo) {
+            promises.push(store.table.del({ id: todo.id }));
+        });
+
+        $q.all(promises).then(function () {
+            var incompleteTodos = store.todos.filter(function (todo) {
+                return !todo.completed;
+            });
+
+            angular.copy(incompleteTodos, store.todos);
+            deferred.resolve(store.todos);
+        });
+
+        return deferred.promise;
+    },
+</code></pre>
+
+<p>We spend our initial time creating a promise for each record to be deleted.  That promise resolves
+when the record is deleted.  Once all the records have been deleted, we filter the cache similarly.</p>
+<h2 id="angular-gotchas">Angular Gotchas<a class="headerlink" href="#angular-gotchas" title="Permanent link">&para;</a></h2>
+<p>The main problem I see over and over is that the <code>WindowsAzure.MobileServiceClient</code> class is not
+available when it is used.  By default, Angular waits for the DOMContentLoaded event, which signals
+that all the scripts have been loaded.  Inevitably, when I look at the failing code, the call to
+initialize the MobileServiceClient is called outside of a factory.</p>
+<p>If you place the <code>new WindowsAzure.MobileServiceClient()</code> call inside of a service or factory, then
+you fix the two major problems.  Firstly, the MobileServiceClient class will be available when called.  Secondly,
+you instantiate a singleton copy of the MobileServiceClient, which is exactly what is required by the SDK.</p>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h2>
+<p>The Azure Mobile Apps JavaScript SDK includes a call <code>client.login('provider')</code> for server-flow
+authentication and a similar functionality for client-flow authentication.  If you have configured
+your authentication service in the Azure Portal properly, then calling the <code>.login()</code> method will
+pop up a small window to complete the normal authentication flow.  The token is then stored inside
+the MobileServiceClient object.</p>
+<p>When using authentication this way, it is vital that you have a singleton model for your MobileServiceClient.
+In this case, I would break down the backend connectivity into three or more distinct services - one for the
+client connection, one for authenticating users, and one for each table controller you wish to expose.</p>
+<!-- Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../jquery/" title="jQuery Applications">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                jQuery Applications
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../react/" title="React Applications">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                React Applications
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'adrianhall/develop-mobile-apps-with-csharp-and-azure';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="../../js/highlight.pack.js"></script>
+    
+    
+  </body>
+</html>

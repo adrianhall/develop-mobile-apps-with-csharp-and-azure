@@ -471,10 +471,20 @@
     </a>
     
       
-        
-      
       
         <ul>
+          
+            <li class="anchor">
+              <a title="Marketing Push" href="#marketing-push">
+                Marketing Push
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Geofenced Push" href="#geofenced-push">
+                Geofenced Push
+              </a>
+            </li>
           
             <li class="anchor">
               <a title="Push to Sync" href="#push-to-sync">
@@ -483,14 +493,8 @@
             </li>
           
             <li class="anchor">
-              <a title="Push to a Tag" href="#push-to-a-tag">
-                Push to a Tag
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Cross-Platform Templates" href="#cross-platform-templates">
-                Cross-Platform Templates
+              <a title="Secure Push" href="#secure-push">
+                Secure Push
               </a>
             </li>
           
@@ -520,8 +524,26 @@
       
         
   <li>
-    <a class="" title="SPA Applications" href="../../chapter6/spa/">
-      SPA Applications
+    <a class="" title="jQuery Applications" href="../../chapter6/jquery/">
+      jQuery Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Angular Applications" href="../../chapter6/angular/">
+      Angular Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="React Applications" href="../../chapter6/react/">
+      React Applications
     </a>
     
   </li>
@@ -659,6 +681,15 @@
           
             
   <li>
+    <a class="" title="Visual Studio Extensions" href="../../vs_extensions/">
+      Visual Studio Extensions
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
     <a class="" title="References" href="../../references/">
       References
     </a>
@@ -706,10 +737,126 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="recipes">Recipes<a class="headerlink" href="#recipes" title="Permanent link">&para;</a></h1>
+            <h1>Push Recipes</h1>
+          
+          <p>This section is dedicated to exploring various common recipes for push notifications and how we can achieve those recipes through cross-platform code.</p>
+<div class="admonition warn">
+<p class="admonition-title">Incomplete Section</p>
+<p>This section is incomplete and still in progress.  Please do not rely on any information within this section.</p>
+</div>
+<h2 id="marketing-push">Marketing Push<a class="headerlink" href="#marketing-push" title="Permanent link">&para;</a></h2>
+<p>The most common requirement for push notifications is to alert users of a special offer or other marketing information.  The general idea is that
+the marketing person will create a "campaign" that includes a push notification.  When the user receives the push notification, they will accept
+it.  If a user accepts the push notification, the mobile app will deep-link into a specific page and store the fact that the user viewed the page
+within the database.</p>
+<p>To implement this sort of functionality within a cross-platform application, we need to implement <strong>Templates</strong>.  We gave demonstrations of the
+implementation of the templates while we were discussing the various platform implementations.  However, we didn't actually use them.  A template
+is provides by the mobile client when registering.  Let's take a look at a typical template as implemented by each platform:</p>
+<p><strong>Android</strong>:</p>
+<pre><code class="text">{
+    &quot;data&quot;: {
+        &quot;message&quot;: &quot;$(message)&quot;,
+        &quot;picture&quot;: &quot;$(picture)&quot;,
+        &quot;view&quot;: &quot;$(viewid)&quot;
+    }
+}
+</code></pre>
+
+<p><strong>iOS</strong>:</p>
+<pre><code class="text">{
+    &quot;aps&quot;: {
+        &quot;alert&quot;: &quot;$(message)&quot;,
+        &quot;picture&quot;: &quot;$(picture)&quot;,
+        &quot;view&quot;: &quot;$(viewid)&quot;
+    }
+}
+</code></pre>
+
+<p><strong>Windows</strong>:</p>
+<pre><code class="xml">&lt;toast&gt;
+    &lt;visual&gt;
+        &lt;binding template=&quot;genericTemplate&quot;&gt;
+            &lt;image id=&quot;1&quot; src=&quot;$(picture)&quot; /&gt;
+            &lt;text id=&quot;2&quot;&gt;$(message)&lt;/text&gt;
+        &lt;/binding&gt;
+    &lt;/visual&gt;
+&lt;/toast&gt;
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Toast, Tile and Badge Schemas</p>
+<p>If you want to understand the format of the XML that we are using in the Windows section, it's laid out in the
+<a href="https://msdn.microsoft.com/en-us/library/windows/apps/br212853.aspx">MSDN documentation</a>.</p>
+</div>
+<p>Each of these formats can be specified in the appropriate registration call:</p>
+<pre><code class="csharp">    // Android Version
+    var genericTemplate = new PushTemplate
+    {
+        Body = &quot;{\&quot;data\&quot;:{\&quot;message\&quot;:\&quot;$(message)\&quot;,\&quot;picture\&quot;:\&quot;$(picture)\&quot;,\&quot;view\&quot;:\&quot;$(viewid)\&quot;}}&quot;
+    };
+    installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
+
+    // iOS Version
+    var genericTemplate = new PushTemplate
+    {
+        Body = &quot;{\&quot;aps\&quot;:{\&quot;alert\&quot;:\&quot;$(message)\&quot;,\&quot;picture\&quot;:\&quot;$(picture)\&quot;,\&quot;view\&quot;:\&quot;$(viewid)\&quot;}}&quot;
+    };
+    installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
+
+    // Windows Version
+    var genericTemplate = new WindowsPushTemplate
+    {
+        Body = &quot;&lt;toast&gt;&lt;visual&gt;&lt;binding template=\&quot;genericTemplate\&quot;&gt;&lt;image id=\&quot;1\&quot; src=\&quot;$(picture)\&quot;/&gt;&lt;text id=\&quot;1\&quot;&gt;$(message)&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;&quot;
+    };
+    genericTemplate.Headers.Add(&quot;X-WNS-Type&quot;, &quot;wns/toast&quot;);
+    installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
+</code></pre>
+
+<p>To push, we can use the same Test Send facility in the Azure Portal.  In the Test Send screen, set the <strong>Platforms</strong> field to be <strong>Custom Template</strong>,
+and the payload to be a JSON document with the three fields:</p>
+<pre><code class="text">{
+    &quot;message&quot;: &quot;Test Message&quot;,
+    &quot;picture&quot;: &quot;advertisement1&quot;,
+    &quot;viewid&quot;: &quot;advertising&quot;
+}
+</code></pre>
+
+<p>If you have done all the changes thus far, you will receive the same notification as before.  The difference is that you are pushing a message
+once and receiving that same message across all the Android, iOS and Windows systems at the same time.  You no longer have to know what sort
+of device your users are holding - the message will get to them.</p>
+<p>We can take this a step further, however, by deep-linking.  Deep-linking is a technique often used in push notification systems whereby we present
+the user a dialog that asks them to open the notification.  If the notification is opened, they are taken directly to a new view with the appropriate
+content provided.</p>
+<h3 id="deep-linking-with-android">Deep Linking with Android<a class="headerlink" href="#deep-linking-with-android" title="Permanent link">&para;</a></h3>
+<p>Let's start our investigation with the Android code-base.  Our push notification is received by the <code>OnMessage()</code> method within the <code>GcmService</code>
+class in the <code>GcmHandler.cs</code> file.  We can easily extract the three fields we need to execute our deep-link:</p>
+<pre><code class="csharp">    protected override void OnMessage(Context context, Intent intent)
+    {
+        var message = intent.Extras.GetString(&quot;message&quot;);
+        var picture = intent.Extras.GetString(&quot;picture&quot;);
+        var view = intent.Extras.GetString(&quot;view&quot;);
+
+        // Rest of code
+    }
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Keep the Push Small</p>
+<p>You should keep the push payload as small as possible.  There are limits and they vary by platform (but are in the range of 4-5Kb).  Note that I don't
+include the full URL of the picture, for example, nor do I include the picture as binary data.  This allows me to adjust to an appropriate image URL
+within the client.  This keeps the number of bytes in the push small, but also allows me to adjust the image for the platform, if necessary.</p>
+</div>
+<h2 id="geofenced-push">Geofenced Push<a class="headerlink" href="#geofenced-push" title="Permanent link">&para;</a></h2>
+<p>This is a variation on the marketing push.  You want to send a marketing message, but only to those users that are within a certain geography.
+This is known as geofencing.</p>
 <h2 id="push-to-sync">Push to Sync<a class="headerlink" href="#push-to-sync" title="Permanent link">&para;</a></h2>
-<h2 id="push-to-a-tag">Push to a Tag<a class="headerlink" href="#push-to-a-tag" title="Permanent link">&para;</a></h2>
-<h2 id="cross-platform-templates">Cross-Platform Templates<a class="headerlink" href="#cross-platform-templates" title="Permanent link">&para;</a></h2>
+<p>Sometimes, you want to alert the user that there is something new for that user.  When the user is alerted, acceptance of the push notification
+indicates that the user wants to go to the app and synchronize the database before viewing the data.</p>
+<h2 id="secure-push">Secure Push<a class="headerlink" href="#secure-push" title="Permanent link">&para;</a></h2>
+<p>Push notifications are insecure.  They appear on the front page of the lock screen and anyone can open them in a multi-user environment (where a
+mobile device is shared by a community of users).  In these cases, you may want to ensure that the push notification is only opened by the user
+for which it was intended.</p>
+<!-- Links -->
           <aside class="copyright" role="note">
             
             Documentation built with

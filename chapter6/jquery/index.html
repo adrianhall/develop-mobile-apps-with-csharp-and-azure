@@ -9,19 +9,19 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>SPA Applications - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+        <title>jQuery Applications - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
       
       
       
-        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/spa/">
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/jquery/">
       
       
         <meta name="author" content="Adrian Hall">
       
     
-    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/spa/">
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/jquery/">
     <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
-    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/spa//../../">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/jquery//../../">
     <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -102,7 +102,7 @@
             
           </span>
         
-        SPA Applications
+        jQuery Applications
       </div>
     </div>
     
@@ -493,8 +493,8 @@
       
         
   <li>
-    <a class="current" title="SPA Applications" href="./">
-      SPA Applications
+    <a class="current" title="jQuery Applications" href="./">
+      jQuery Applications
     </a>
     
       
@@ -504,25 +504,43 @@
         <ul>
           
             <li class="anchor">
-              <a title="Using Mobile Endpoints" href="#using-mobile-endpoints">
-                Using Mobile Endpoints
+              <a title="The JavaScript SDK and jQuery" href="#the-javascript-sdk-and-jquery">
+                The JavaScript SDK and jQuery
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Authentication" href="#authentication">
-                Authentication
+              <a title="Reading Table Data" href="#reading-table-data">
+                Reading Table Data
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Web Push" href="#web-push">
-                Web Push
+              <a title="Modifying Data" href="#modifying-data">
+                Modifying Data
               </a>
             </li>
           
         </ul>
       
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Angular Applications" href="../angular/">
+      Angular Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="React Applications" href="../react/">
+      React Applications
+    </a>
     
   </li>
 
@@ -659,6 +677,15 @@
           
             
   <li>
+    <a class="" title="Visual Studio Extensions" href="../../vs_extensions/">
+      Visual Studio Extensions
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
     <a class="" title="References" href="../../references/">
       References
     </a>
@@ -706,10 +733,292 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="single-page-web-applications">Single Page Web Applications<a class="headerlink" href="#single-page-web-applications" title="Permanent link">&para;</a></h1>
-<h2 id="using-mobile-endpoints">Using Mobile Endpoints<a class="headerlink" href="#using-mobile-endpoints" title="Permanent link">&para;</a></h2>
-<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h2>
-<h2 id="web-push">Web Push<a class="headerlink" href="#web-push" title="Permanent link">&para;</a></h2>
+          <h1 id="single-page-applications">Single Page Applications<a class="headerlink" href="#single-page-applications" title="Permanent link">&para;</a></h1>
+<p>One of the major changes that has happened within web applications in the past few years is the single page application, or SPA,
+coupled with the rise of JavaScript frameworks.  No-one can directly support all the JavaScript frameworks out there, but this
+section will cover a couple of the main ones - <a href="http://jquery.com/">jQuery</a>, <a href="https://facebook.github.io/react/">React</a> and <a href="https://angularjs.org/">Angular2</a>.  Azure Mobile Apps has a <a href="https://www.npmjs.com/package/azure-mobile-apps-client">JavaScript SDK</a>
+that can be used for accessing table controllers and identity services within your mobile backend.</p>
+<h2 id="the-javascript-sdk-and-jquery">The JavaScript SDK and jQuery<a class="headerlink" href="#the-javascript-sdk-and-jquery" title="Permanent link">&para;</a></h2>
+<p>iQuery has a long history in web development at this point.  It is easy to pick up and functionally great for small
+applications.  The important thing to note here is that you cannot instantiate the Azure Mobile Apps client SDK until 
+all the scripts are loaded.  Fortunately, JavaScript (and jQuery) provide events when this happens.  </p>
+<p>I tend to add SPA applications to ASP.NET MVC apps by making the main HTML page a View.  First, add a controller 
+called "Controllers\SPAController" with the following contents:</p>
+<pre><code class="csharp">using System.Web.Mvc;
+
+namespace Backend.Controllers
+{
+    public class SPAController : Controller
+    {
+        public ActionResult JQuery()
+        {
+            return View();
+        }
+    }
+}
+</code></pre>
+
+<p>Also, create a directory <code>Views\SPA</code> and add a <code>JQuery.cshtml</code> file:</p>
+<pre><code class="html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
+    &lt;title&gt;JQuery&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;~/Content/spa/jquery/application.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h2&gt;Azure&lt;/h2&gt;
+                &lt;h1&gt;Mobile Apps&lt;/h1&gt;
+                &lt;form id=&quot;add-item&quot;&gt;
+                    &lt;button type=&quot;submit&quot; id=&quot;refresh&quot;&gt;Refresh&lt;/button&gt;
+                    &lt;button type=&quot;submit&quot;&gt;Add&lt;/button&gt;
+                    &lt;div&gt;
+                        &lt;input type=&quot;text&quot; id=&quot;new-item-text&quot; placeholder=&quot;Enter new task&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/form&gt;
+            &lt;/header&gt;
+            &lt;ul id=&quot;todo-items&quot;&gt;&lt;/ul&gt;
+            &lt;p id=&quot;summary&quot;&gt;Initializing...&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;footer&gt;
+            &lt;ul id=&quot;errorlog&quot;&gt;&lt;/ul&gt;
+        &lt;/footer&gt;
+    &lt;/div&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-2.2.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/jquery/application.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>This will be accessed via the <code>/SPA/JQuery</code> path.  Unlike other (mostly component based) applications,
+jQuery uses mark-up extensively, so we are really setting up the basics of the application.  You can
+find the CSS on the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter6/Backend/Content/spa/jquery/application.css">GitHub repository</a> as its contents are not germane to the discussion here.</p>
+<p>The main item to note in the scripts section is the path of the Azure Mobile Apps client.  This is loaded
+from the ZUMO CDN.  You can also download the JavaScript file (both minified and non-minified versions exist),
+and include it in your <code>Scripts</code> directory if you prefer a local copy.</p>
+<p>The <code>~/Content/spa/jquery/application.js</code> file contains our JavaScript code.  It starts with a standard <a href="https://en.wikipedia.org/wiki/Immediately-invoked_function_expression">IIFE</a>
+(immediately invoked function expression) - a common method of wrapping code such that variables don't leak into
+the global namespace:</p>
+<pre><code class="javascript">(function () {
+    &quot;use strict&quot;;
+
+    $(onBrowserReady);
+
+    /* Rest of the application */
+})();
+</code></pre>
+
+<p>The important thing here is that we cannot invoke a client definition until the "DOMContentLoaded" event has fired,
+which ensures that all libraries (including those slower libraries loaded from a CDN) have been loaded and executed.
+This, in turn, ensures that the <code>WindowsAzure.MobileServiceClient</code> object is available.  The <code>onBrowserReady()</code> function
+will be called when this happens:</p>
+<pre><code class="javascript">    var client, table;
+
+    /**
+     * Event handler, called when the browser has loaded all scripts
+     * @event
+     */
+    function onBrowserReady() {
+        // Create a connection reference to our Azure Mobile Apps backend
+        client = new WindowsAzure.MobileServiceClient(location.origin);
+
+        // Create a table reference
+        table = client.getTable('todoitem');
+
+        // Refresh the todoItems
+        refreshDisplay();
+
+        // Wire up the UI event handler for the add item
+        $('#add-item').submit(addItemHandler);
+        $('#refresh').on('click', refreshDisplay);
+    }
+</code></pre>
+
+<p>Once the browser is ready for action, we create a <code>MobileServiceClient</code>, get a reference to the table, then wire up the rest
+of the UI that we need to handle.  You may notice that the API that the JavaScript SDK for Azure Mobile Apps exposes is very
+similar to the .NET SDK.  This is intentional across all the Azure Mobile Apps SDK.  If you know the API surface of one
+version, it's likely you can take that knowledge to the other SDKs.  You only have to learn the new programming language.</p>
+<h2 id="reading-table-data">Reading Table Data<a class="headerlink" href="#reading-table-data" title="Permanent link">&para;</a></h2>
+<p>We can see this more clearly when working with the <code>refreshDisplay()</code> function:</p>
+<pre><code class="javascript">    /**
+     * Refresh the items within a page
+     */
+    function refreshDisplay() {
+        updateSummaryMessage('Loading data from Azure');
+
+        // Execute a query for uncompleted items and process
+        table
+            .where({ complete: false })     // Set up the query
+            .read()                         // Send query and read results
+            .then(createTodoItemList, handleError);
+    }
+
+    /**
+     * Create the DOM for a single todo item
+     * @param {Object} item the Todo item
+     * @param {string} item.id the ID of the item
+     * @param {bool} item.complete true if the item is complete
+     * @param {string} item.text the text value
+     * @returns {jQuery} jQuery DOM object
+     */
+    function createTodoItem(item) {
+        return $('&lt;li&gt;')
+            .attr('data-todoitem-id', item.id)
+            .append($('&lt;button class=&quot;item-delete&quot;&gt;Delete&lt;/button&gt;'))
+            .append($('&lt;input type=&quot;checkbox&quot; class=&quot;item-complete&quot;&gt;')
+                .prop('checked', item.complete))
+            .append($('&lt;div&gt;')
+                .append($('&lt;input class=&quot;item-text&quot;&gt;').val(item.text)));
+    }
+
+    /**
+     * Create a list of Todo Items
+     * @param {TodoItem[]} items an array of items
+     * @returns {void}
+     */
+    function createTodoItemList(items) {
+        // Cycle through each item received from Azure and add items to the item list
+        var listItems = $.map(items, createTodoItem);
+        $('#todo-items').empty().append(listItems).toggle(listItems.length &gt; 0);
+        updateSummaryMessage('&lt;strong&gt;' + items.length + '&lt;/strong&gt; item(s)');
+
+        // Wire up event handlers
+        $('.item-delete').on('click', deleteItemHandler);
+        $('.item-text').on('change', updateItemTextHandler);
+        $('.item-complete').on('change', updateItemCompleteHandler);
+    }
+</code></pre>
+
+<p>In the <code>refreshDisplay()</code> function, we can see the parallel with the LINQ language within the .NET world.  JavaScript
+does not have a LINQ library, so Azure Mobile Apps provides a simplified version of LINQ (called <a href="https://msdn.microsoft.com/en-us/library/azure/jj613353.aspx">QueryJS</a>) for
+use with Azure Mobile Apps.  Once you have set up the appropriate query, calling <code>.read()</code> will actually execute the
+HTTP GET to obtain the results.  The other two functions fill in the list of tasks with the appropriate HTML trimmings.</p>
+<blockquote>
+<p>There is no concept of "offline-sync" in web applications as there is not an equivalent of the SQLite database available.</p>
+</blockquote>
+<p>You can perform paging with <code>.skip(n)</code> and <code>.take(n)</code>, include the total number of records that would be returned without
+paging with <code>.includeTotalCount()</code>, order the returned results and filter by function instead of a specific value.  For
+example, let's say you had an orders table and you wanted to produce a paged list of results where the state was OPEN (a
+constant) that belonged to a specific user, ordered by their completion date?:</p>
+<pre><code class="javascript">function filter (userId, state) {
+    return this.owner === userId &amp;&amp; this.state == state;
+}
+
+function processResults (results) {
+    totalCount = results.totalCount;
+    // Handle results here
+}
+
+table
+    .where(filter, filteredUser, constants.OPEN)
+    .orderBy('completionDate')
+    .skip(startRecord)
+    .take(pageSize)
+    .includeTotalCount()
+    .read()
+    .then(processResults, handleError);
+</code></pre>
+
+<p>You can get just the total count using <code>.take(0).includeTotalCount()</code>.</p>
+<p>QueryJS is extremely effective at (and optimized for) selecting the exact data you need to do live displays without extra
+data being transferred.</p>
+<h2 id="modifying-data">Modifying Data<a class="headerlink" href="#modifying-data" title="Permanent link">&para;</a></h2>
+<p>In a similar way to the <code>.InsertAsync()</code>, <code>.UpdateAsync()</code> and <code>.DeleteAsync()</code> methods in the .NET SDK, there are methods
+for inserting, modifying and deleting data:</p>
+<pre><code class="javascript">    /**
+     * Given a sub-element of an LI, find the TodoItem ID associated with the list member
+     *
+     * @param {DOMElement} el the form element
+     * @returns {string} the ID of the TodoItem
+     */
+    function getTodoItemId(el) {
+        return $(el).closest('li').attr('data-todoitem-id');
+    }
+
+    /**
+     * Event handler for when the user enters some text and clicks on Add
+     * @param {Event} event the event that caused the request
+     * @returns {void}
+     */
+    function addItemHandler(event) {
+        var textbox = $('#new-item-text'),
+            itemText = textbox.val();
+
+        updateSummaryMessage('Adding New Item');
+        if (itemText !== '') {
+            table.insert({
+                text: itemText,
+                complete: false
+            }).then(refreshDisplay, handleError);
+        }
+
+        textbox.val('').focus();
+        event.preventDefault();
+    }
+
+    /**
+     * Event handler for when the user clicks on Delete next to a todo item
+     * @param {Event} event the event that caused the request
+     * @returns {void}
+     */
+    function deleteItemHandler(event) {
+        var itemId = getTodoItemId(event.currentTarget);
+
+        updateSummaryMessage('Deleting Item in Azure');
+        table
+            .del({ id: itemId })   // Async send the deletion to backend
+            .then(refreshDisplay, handleError); // Update the UI
+        event.preventDefault();
+    }
+
+    /**
+     * Event handler for when the user updates the text of a todo item
+     * @param {Event} event the event that caused the request
+     * @returns {void}
+     */
+    function updateItemTextHandler(event) {
+        var itemId = getTodoItemId(event.currentTarget),
+            newText = $(event.currentTarget).val();
+
+        updateSummaryMessage('Updating Item in Azure');
+        table
+            .update({ id: itemId, text: newText })  // Async send the update to backend
+            .then(refreshDisplay, handleError); // Update the UI
+        event.preventDefault();
+    }
+
+    /**
+     * Event handler for when the user updates the completed checkbox of a todo item
+     * @param {Event} event the event that caused the request
+     * @returns {void}
+     */
+    function updateItemCompleteHandler(event) {
+        var itemId = getTodoItemId(event.currentTarget),
+            isComplete = $(event.currentTarget).prop('checked');
+
+        updateSummaryMessage('Updating Item in Azure');
+        table
+            .update({ id: itemId, complete: isComplete })  // Async send the update to backend
+            .then(refreshDisplay, handleError);        // Update the UI
+    }
+</code></pre>
+
+<p>We insert data by passing the object to insert to <code>table.insert()</code>, modify with <code>table.update()</code>
+and delete with <code>table.del()</code>.  These functions all operate using promises.  Once the promise
+returns, we call the <code>refreshDisplay()</code> method to refresh the data.  In the case of the <code>.insert()</code>
+and <code>.update()</code> functions, the promise is called with the updated item (containing the extra fields
+that the server adds), allowing the code to update a cache if necessary and avoiding a round-trip for
+the search.</p>
+<!-- Links -->
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -745,14 +1054,14 @@
     </div>
     <div class="next">
       
-        <a href="../../chapter7/search/" title="Azure Search">
+        <a href="../angular/" title="Angular Applications">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Azure Search
+                Angular Applications
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

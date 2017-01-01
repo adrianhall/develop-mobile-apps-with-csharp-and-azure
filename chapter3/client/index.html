@@ -538,8 +538,26 @@
       
         
   <li>
-    <a class="" title="SPA Applications" href="../../chapter6/spa/">
-      SPA Applications
+    <a class="" title="jQuery Applications" href="../../chapter6/jquery/">
+      jQuery Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Angular Applications" href="../../chapter6/angular/">
+      Angular Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="React Applications" href="../../chapter6/react/">
+      React Applications
     </a>
     
   </li>
@@ -670,6 +688,15 @@
   <li>
     <a class="" title="Android Developer Notes" href="../../android_appendix/">
       Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Visual Studio Extensions" href="../../vs_extensions/">
+      Visual Studio Extensions
     </a>
     
   </li>
@@ -1580,7 +1607,19 @@ Unfortunately, there isn't a really good way of dealing with this situation.  He
 <li>Set up your offline cache, define your tables, etc.</li>
 <li>If you are "refreshing the cache", do a full <code>PullAsync()</code> on all tables to populate the cache.</li>
 </ol>
-<p>You obviously want to avoid this process as much as possible.</p>
+<p>You obviously want to avoid this process as much as possible.  One possible solution is to use the <a href="https://github.com/colbylwilliams/VersionTrackingPlugin">VersionTrackingPlugin</a> by
+Colby Williams to detect when the schema has been updated.  The following code can be added to automatically delete the offline
+cache when the version of the app changes:</p>
+<pre><code class="csharp">// Add an isRemoteDatabaseSchemaChanged boolean somewhere
+if (CrossVersionTracking.Current.IsFirstLaunchForBuild)
+{
+    isRemoteDatabaseSchemaChanged = true;
+
+    // Drop SQLite Store file to overcome remote-db schema changes
+    File.Delete(Constants.SqliteStorePath);
+}
+</code></pre>
+
 <h2 id="debugging-the-offline-cache">Debugging the Offline Cache<a class="headerlink" href="#debugging-the-offline-cache" title="Permanent link">&para;</a></h2>
 <p>One of the most difficult parts of the offline cache is that it is opaque - you can't really see what is going on.  Fortunately, the
 <code>SQLiteStore</code> that is used is relatively straight forward to sub-class so we can add logging to it.  The following helper method can

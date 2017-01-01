@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>React Applications - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/react/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+    
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/react/">
+    <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter6/react//../../">
+    <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Chapter 6 - Combining Web and Mobile Apps <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        React Applications
+      </div>
+    </div>
+    
+      
+      <div class="button button-twitter" role="button" aria-label="Twitter">
+        <a href="https://twitter.com/FizzyInTheHall" title="@FizzyInTheHall on Twitter" target="_blank" class="toggle-button icon icon-twitter"></a>
+      </div>
+    
+    
+      
+      <div class="button button-github" role="button" aria-label="GitHub">
+        <a href="https://github.com/adrianhall" title="@adrianhall on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+      </div>
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          adrianhall/develop-mobile-apps-with-csharp-and-azure
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../..">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 1 - Introduction</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Your First App - PC Edition" href="../../chapter1/firstapp_pc/">
+      Your First App - PC Edition
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Your First App - Mac Edition" href="../../chapter1/firstapp_mac/">
+      Your First App - Mac Edition
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 2 - Authentication</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter2/authconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Authentication in the Backend" href="../../chapter2/backend/">
+      Authentication in the Backend
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Enterprise Authentication" href="../../chapter2/enterprise/">
+      Enterprise Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Social Authentication" href="../../chapter2/social/">
+      Social Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Debugging Authentication" href="../../chapter2/debugging/">
+      Debugging Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom Authentication" href="../../chapter2/custom/">
+      Custom Authentication
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Claims and Authorization" href="../../chapter2/authorization/">
+      Claims and Authorization
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Tokens in Real Apps" href="../../chapter2/realworld/">
+      Tokens in Real Apps
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Best Practices" href="../../chapter2/bestpractices/">
+      Best Practices
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 3 - Data Access and Offline Sync</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter3/dataconcepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Implementing Table Controllers" href="../../chapter3/server/">
+      Implementing Table Controllers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Projection and Queries" href="../../chapter3/projection/">
+      Data Projection and Queries
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Mobile Client" href="../../chapter3/client/">
+      The Mobile Client
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Relationships" href="../../chapter3/relationships/">
+      Relationships
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="The Domain Manager" href="../../chapter3/domainmgr/">
+      The Domain Manager
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 4 - Server Side Code</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Options for Server Code" href="../../chapter4/options/">
+      Options for Server Code
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Custom HTTP Endpoints" href="../../chapter4/custom/">
+      Custom HTTP Endpoints
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="WebJobs" href="../../chapter4/webjobs/">
+      WebJobs
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Functions" href="../../chapter4/functions/">
+      Functions
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Recipes" href="../../chapter4/recipes/">
+      Recipes
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 5 - Push Notifications</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Concepts" href="../../chapter5/concepts/">
+      Concepts
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Android Push" href="../../chapter5/android/">
+      Android Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="iOS Push" href="../../chapter5/ios/">
+      iOS Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Windows Push" href="../../chapter5/windows/">
+      Windows Push
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Push Recipes" href="../../chapter5/recipes/">
+      Push Recipes
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 6 - Combining Web and Mobile Apps</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="MVC Applications" href="../mvc/">
+      MVC Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="jQuery Applications" href="../jquery/">
+      jQuery Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Angular Applications" href="../angular/">
+      Angular Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="React Applications" href="./">
+      React Applications
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Setting Up" href="#setting-up">
+                Setting Up
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Integrating Azure Mobile Apps" href="#integrating-azure-mobile-apps">
+                Integrating Azure Mobile Apps
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 7 - Other Useful Services</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Azure Search" href="../../chapter7/search/">
+      Azure Search
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Media Services" href="../../chapter7/media/">
+      Media Services
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Real-time Notifications" href="../../chapter7/realtime/">
+      Real-time Notifications
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 8 - Developing An App</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="The Development Environment" href="../../chapter8/developing/">
+      The Development Environment
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Testing your Application" href="../../chapter8/testing/">
+      Testing your Application
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Chapter 9 - Going to Production</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Repeatable Deployments" href="../../chapter9/arm/">
+      Repeatable Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Safe Deployments" href="../../chapter9/appsvc/">
+      Safe Deployments
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Monitoring" href="../../chapter9/monitoring/">
+      Monitoring
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Troubleshooting" href="../../chapter9/troubleshooting/">
+      Troubleshooting
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Xamarin Forms Tips" href="../../xamarin_tips/">
+      Xamarin Forms Tips
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Android Developer Notes" href="../../android_appendix/">
+      Android Developer Notes
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Visual Studio Extensions" href="../../vs_extensions/">
+      Visual Studio Extensions
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="References" href="../../references/">
+      References
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Credits" href="../../credits/">
+      Credits
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+          <hr>
+          <span class="section">The author</span>
+          <ul>
+            
+              
+              <li>
+                <a href="https://twitter.com/FizzyInTheHall" target="_blank" title="@FizzyInTheHall on Twitter">
+                  @FizzyInTheHall on Twitter
+                </a>
+              </li>
+            
+            
+              
+              <li>
+                <a href="https://github.com/adrianhall" target="_blank" title="@adrianhall on GitHub">
+                  @adrianhall on GitHub
+                </a>
+              </li>
+            
+          </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="react-applications">React Applications<a class="headerlink" href="#react-applications" title="Permanent link">&para;</a></h1>
+<p>There have been two major shifts in the way that JavaScript applications are built in the past few years.  The first is
+in the user of transpilers for compiling another variant of JavaScript into something that a browser can use.  There are
+languages that add whole new feature sets to the language, like <a href="http://coffeescript.org/">CoffeeScript</a>, <a href="https://www.typescriptlang.org/">TypeScript</a> and <a href="https://www.dartlang.org/">Dart</a>, plus
+others that extend JavaScript to include unsupported features of the JavaScript language early, like <a href="https://babeljs.io/">BabelJS</a> which
+provides access to the latest specifications for JavaScript on the current set of browsers.  The process of converting
+one of these languages into more normal JavaScript is called transpiling.  The resultant code is rarely readable.</p>
+<p>The other major shift is in the use of bundlers.  In prior iterations of the JavaScript language, there was no module
+system.  Developers included a number of <code>&lt;script&gt;</code> tags to load the code.  As JavaScript became more of a development
+platform, the size of the code grew and the need for a module system also grew.  There are three in general
+use - <a href="http://requirejs.org/">RequireJS</a>, <a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS</a> and <a href="http://exploringjs.com/es6/ch_modules.html">ES2015 modules</a>.  In general, developers will use a bundler like
+<a href="http://browserify.org/">Browserify</a> or <a href="https://webpack.github.io/">Webpack</a> to bundle their application source together so that it loads faster and they can
+take care of alternate module specifications like CommonJS and ES2015 modules.  (RequireJS doesn't require bundling).</p>
+<p>This brings us to <a href="https://facebook.github.io/react/">React</a> applications.  React is a newcomer to the JavaScript framework scene.  It provides a component
+model for your application.  It is generally paired with a <a href="https://facebook.github.io/flux/docs/in-depth-overview.html#content">Flux</a> state manager like <a href="http://redux.js.org/">Redux</a>.  Thus,
+most React applications can more properly be called React/Redux applications.  While React can be used with just straight
+JavaScript and script tags, it is more normal to use ES2015 syntax and a bundler like Webpack to distribute the application.</p>
+<h2 id="setting-up">Setting Up<a class="headerlink" href="#setting-up" title="Permanent link">&para;</a></h2>
+<p>In this example, we are going to walk through the set up of an application that uses Webpack and the BabelJS transpiler
+to build our web application into our MVC framework.</p>
+<h3 id="mvc-controller-view">MVC Controller &amp; View<a class="headerlink" href="#mvc-controller-view" title="Permanent link">&para;</a></h3>
+<p>As with the jQuery and Angular examples, we need a controller (within the <code>Controllers\SPAController.cs</code> file):</p>
+<pre><code class="csharp">    public ActionResult React()
+    {
+        return View();
+    }
+</code></pre>
+
+<p>We also need a suitable View.  This is similar in construction to the Angular view, but it requires some different
+elements, as is normal when you change a JavaScript framework.  This is <code>Views\SPA\React.cshtml</code>:</p>
+<pre><code class="html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;Azure Mobile Apps Quickstart&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;~/Content/spa/react/app.css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+
+    &lt;script src=&quot;~/Content/spa/react/vendor.bundle.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;~/Content/spa/react/app.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>This view is much simpler than the Angular view because none of the markup for the actual application is contained
+within the view.  All markup is done by the React components in our code.  There are three files referenced in this
+file that do not yet exist.  The JavaScript files will be created by the Webpack bundler, and the <code>app.css</code> file is
+the <a href="https://github.com/Azure/azure-mobile-apps-quickstarts/blob/master/client/web/styles.css">regular CSS file</a> from the normal Quickstart application.</p>
+<h3 id="setting-up-a-webpack-project">Setting up a Webpack project<a class="headerlink" href="#setting-up-a-webpack-project" title="Permanent link">&para;</a></h3>
+<p>There is some work to do in order to set up a reasonable Webpack-enabled project.  Let's first of all set up a basic
+React application in a new directory called <code>ReactClient</code>.  Here is the <code>ReactClient\app.jsx</code> file that will serve
+as our entry-point into the application:</p>
+<pre><code class="javascript">import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+    &lt;h1&gt;In a React Application&lt;/h1&gt;
+, document.getElementById('app')
+);
+</code></pre>
+
+<p>Once we have the build correctly done, the application will insert the <code>&lt;h1&gt;In a React Application&lt;/h1&gt;</code> inside
+the <code>&lt;div id="app"&gt;&lt;/div&gt;</code> from the main page.  This is the most basic of React applications, but we can already
+see some things we may not have seen before.  The <code>import</code> statements bring in ES2015 modules for use.  Also, you
+can embed pseudo-HTML into a React application rendering method by using <a href="http://buildwithreact.com/tutorial/jsx">JSX</a>.  When the application is
+transpiled with BabelJS, this pseudo-HTML get compiled into normal JavaScript.</p>
+<p>There are three other files we want to produce that are build related.  The first is the <a href="https://babeljs.io/docs/usage/babelrc/">.babelrc</a> file.  This
+contains instructions to the BabelJS transpiler that tells it what specifications need to be transpiled:</p>
+<pre><code class="text">{
+    &quot;presets&quot;: [ &quot;es2015&quot;, &quot;react&quot; ],
+    &quot;plugins&quot;: [
+        &quot;transform-class-properties&quot;,
+        &quot;transform-object-rest-spread&quot;
+    ]
+}
+</code></pre>
+
+<p>Our application will be written in ES2015 syntax with React extensions (those are presets) and I write with a couple
+of specifications that may or may not make it into the next JavaScript specification, but are useful - <a href="https://babeljs.io/docs/plugins/transform-class-properties/">Class Properties</a>
+and <a href="https://babeljs.io/docs/plugins/transform-object-rest-spread/">Object Rest Spread</a>.  Although these are considered "experimental", they make your life much easier as a
+developer.</p>
+<p>The second file is <code>webpack.config.js</code>.  This is a JavaScript file that tells the Webpack system how to build the
+application.  Here is a suitable file for this application:</p>
+<pre><code class="javascript">'use strict';
+/* global __dirname */
+
+var path = require('path'),
+    webpack = require('webpack');
+
+var configuration = {
+    devtool: 'source-map',
+    entry: {
+        app: [
+            path.join(__dirname, 'ReactClient/app.jsx')
+        ],
+        vendor: [
+            'react',
+            'react-dom'
+        ]
+    },
+    module: {
+        loaders: [
+            { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ }
+        ]
+    },
+    output: {
+        path: path.join(__dirname, 'Content/spa/react'),
+        publicPath: '/',
+        filename: 'app.js'
+    },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+        new webpack.optimize.DedupePlugin()
+    ],
+    resolve: {
+        modulesDirectories: [ 'node_modules' ],
+        extensions: [ '', '.js', '.jsx' ]
+    },
+    target: 'web'
+};
+
+module.exports = configuration;
+</code></pre>
+
+<p>There are three areas of the configuration object that are interesting.  The <code>entry</code> block contains the entry-point
+for the application, but it also contains a vendor array.  This array is the list of modules that will be placed into
+the <code>vendor.bundle.js</code> file.  When we add a new external module, we need to add it to the list so that it is included
+in the bundle.  The <code>module</code> section contains instructions on how to transpile the source files.  The single entry tells
+Webpack to run all JavaScript and JSX files through the BabelJS transpiler.  Finally, the <code>output</code> section tells
+Webpack where to store the output files.</p>
+<p>Our final file is <code>package.json</code>.  This is a fairly standard file for loading modules from the NPM repository.  You can
+create one using <code>npm init --yes</code>, then use <code>npm install modulename --save</code> to install the individual modules.  Alternatively,
+you can create the <code>package.json</code> file and then run <code>npm install</code> to install the modules that are named in the file.</p>
+<pre><code class="text">{
+  &quot;version&quot;: &quot;0.0.1&quot;,
+  &quot;name&quot;: &quot;react-quickstart&quot;,
+  &quot;private&quot;: true,
+  &quot;main&quot;: &quot;ReactClient/app.jsx&quot;,
+  &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;webpack -p&quot;
+  },
+  &quot;devDependencies&quot;: {},
+  &quot;dependencies&quot;: {
+    &quot;babel-core&quot;: &quot;^6.21.0&quot;,
+    &quot;babel-loader&quot;: &quot;^6.2.10&quot;,
+    &quot;babel-plugin-transform-class-properties&quot;: &quot;^6.19.0&quot;,
+    &quot;babel-plugin-transform-object-rest-spread&quot;: &quot;^6.20.2&quot;,
+    &quot;babel-preset-es2015&quot;: &quot;^6.18.0&quot;,
+    &quot;babel-preset-react&quot;: &quot;^6.16.0&quot;,
+    &quot;react&quot;: &quot;^15.4.1&quot;,
+    &quot;react-dom&quot;: &quot;^15.4.1&quot;,
+    &quot;webpack&quot;: &quot;^1.14.0&quot;
+  }
+}
+</code></pre>
+
+<p>Run <code>npm install</code> in the <code>Backend</code> directory once you have saved this file.  It will download all the modules needed.</p>
+<div class="admonition tip">
+<p class="admonition-title">Visual Studio Extensions</p>
+<p>There are a number of Visual Studio extensions that can assist with this work.  Check out the <a href="../../vs_extensions/">Appendix</a> for
+more details on these.  You should definitely install the <a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a> extension before continuing though.</p>
+</div>
+<p>Both <code>webpack.config.js</code> and <code>package.json</code> should be at the top of the directory tree, in the <code>Backend</code> folder.  The
+<code>.babeljs</code> file should be in the <code>ReactClient</code> directory.</p>
+<p>You should exclude any files that are not going to be distributed from the publication process.  This includes all three
+build files and the contents of the ReactClient directory.  Right-click on each object and select <strong>Properties...</strong>.  Set
+the <strong>Build Action</strong> to <strong>None</strong> and the <strong>Copy to Output Directory</strong> to <strong>Do not copy</strong>.</p>
+<div class="admonition warn">
+<p class="admonition-title">Add node_modules to .gitignore</p>
+<p>You should ensure you add the node_modules directory to your .gitignore file or it will be checked into source code.
+The node_modules is normally very large and you can easily regenerate it by running <code>npm install</code>.</p>
+</div>
+<h3 id="building-the-webpack-files-automatically">Building the Webpack files automatically<a class="headerlink" href="#building-the-webpack-files-automatically" title="Permanent link">&para;</a></h3>
+<p>If you have installed the <a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a>, you can build the entire JavaScript application within Visual Studio.
+Open the Task Runner Explorer (<strong>View</strong> &gt; <strong>Other Windows</strong> &gt; <strong>Task Runner Explorer</strong>).  There will be a <code>package.json</code>
+section with <strong>Defaults</strong> and <strong>Custom</strong> sections within.  In the <strong>Defaults</strong> section, right-click on <strong>install</strong> and
+select <strong>Run</strong>.  This will install all the npm packages you are missing.</p>
+<p>The next step is to do the first build.  Right-click on <strong>build</strong> in the <strong>Custom</strong> section and select <strong>Run</strong>.  This
+will generate the <code>vendor.bundle.js</code> and <code>app.js</code> files (plus their map equivalents).</p>
+<div class="admonition info">
+<p class="admonition-title">Map Files</p>
+<p>Since there is no direct correlation between what is running in the browser and what your source code looks like
+when using transpilers and bundlers, these tools produce map files.  This is a (generally much larger) file that
+tells the browser what line represents a piece of code in the browser.  They are not distributed (nor required)
+in a production build.</p>
+</div>
+<p>As a one-time activity, we need to add the generated files to the project.  In the <strong>Solution Explorer</strong>, click on the
+<strong>Show All Files</strong> button (which is to the left of the spanner icon).  Expand <strong>Content</strong> &gt; <strong>spa</strong> &gt; <strong>react</strong> and you
+will see four files which have dotted icons:</p>
+<p><img alt="" src="../img/show-all-files.PNG" /></p>
+<p>Right-click on each file and select <strong>Include in Project</strong>.  Ensure their <strong><em>Build Action</em>* is set to </strong>Content** in the
+Properties pane.</p>
+<p>Assuming all went well, you can now set up the build to happen automatically.  Right-click on <strong>build</strong> in the <strong>Custom</strong>
+section, then select <strong>Bindings</strong> &gt; <strong>Before Build</strong>.  This will generate the files on each build (before the build occurs).</p>
+<p>If you publish the project as this point, you will be able to browse to <code>/SPA/React</code> and see the following:</p>
+<p><img alt="" src="../img/react-intro.PNG" /></p>
+<h2 id="integrating-azure-mobile-apps">Integrating Azure Mobile Apps<a class="headerlink" href="#integrating-azure-mobile-apps" title="Permanent link">&para;</a></h2>
+<p>There are three parts to adding Azure Mobile Apps to a Redux: the store, the actions and the reducer.  The store is a
+central part of a redux application and you don't need to do anything special.  Here is the <code>ReactClient/redux/store.js</code>
+code:</p>
+<pre><code class="javascript">import { createStore, combineReducers, applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+import promiseMiddleware from 'redux-promise';
+
+import * as reducers from './reducers';
+import * as todoActions from './actions/todo';
+
+const appReducers = combineReducers({ ...reducers });
+
+const reduxStore = applyMiddleware(
+    thunkMiddleware,
+    promiseMiddleware,
+    createLogger()
+)(createStore);
+
+export const store = reduxStore(appReducers);
+
+// Dispatch a refresh action
+store.dispatch(todoActions.refreshTodoItems());
+</code></pre>
+
+<p>The only real addition is that we dispatch an action (which initiates a change in the store) when we start up.  This
+action is for refreshing the content from the mobile backend.  Our reducer converts the actions into changes in the
+store.  This is the <code>ReactClient/reducers/todo.js</code>:</p>
+<pre><code class="javascript">import constants from '../constants';
+
+const initialState = {
+    todoItems: [],
+    network: 0,
+    error: &quot;&quot;
+};
+
+export default function todoReducers(state = initialState, action) {
+    switch (action.type) {
+        case constants.todo.addItem:
+            return Object.assign({}, state, {
+                todoItems: state.todoItems.concat(action.item)
+            });
+
+        case constants.todo.removeItem:
+            return Object.assign({}, state, {
+                todoItems: state.todoItems.filter(item =&gt; item.id !== action.id)
+            });
+
+        case constants.todo.updateItem:
+            return Object.assign({}, state, {
+                todoItems: state.todoItems.map(item =&gt; { return (item.id === action.item.id) ? action.item : item; })
+            });
+
+        case constants.todo.replaceItems:
+            return Object.assign({}, state, {
+                todoItems: action.items
+            });
+
+        case constants.todo.network:
+            return Object.assign({}, state, {
+                network: state.network + action.counter
+            });
+
+        case constants.todo.error:
+            return Object.assign({}, state, {
+                error: action.error
+            });
+
+        default:
+            return state;
+    }
+};
+</code></pre>
+
+<p>There is no network activity here because all the store changes are being done against a cached copy of the data.  You
+should not have to go to the cloud to fetch the data, except when refreshing the cache.  All the actual network activity
+happens inside the <code>ReactClient/actions/todo.js</code>:</p>
+<pre><code class="javascript">import * as WindowsAzure from 'azure-mobile-apps-client';
+import constants from '../constants';
+
+const ZUMOAPPURL = location.origin;
+
+const zumoClient = new WindowsAzure.MobileServiceClient(ZUMOAPPURL);
+const todoTable = zumoClient.getTable('todoitem');
+
+function networkProcess(counter) {
+    return {
+        type: constants.todo.network,
+        counter: counter
+    };
+}
+
+function zumoError(error) {
+    return {
+        type: constants.todo.error,
+        error: error
+    };
+}
+
+export function addTodoItem(item) {
+    return (dispatch) =&gt; {
+        dispatch({
+            type: constants.todo.addItem,
+            item: item
+        });
+
+        const success = (item) =&gt; {
+            dispatch({
+                type: constants.todo.updateItem,
+                item: item
+            });
+        };
+        const failure = (error) =&gt; { dispatch(zumoError(error)); };
+
+        dispatch(networkProcess(1));
+        todoTable.insert(item).done(success, failure);
+        dispatch(networkProcess(-1));
+    };
+}
+
+export function removeTodoItem(id) {
+    return (dispatch) =&gt; {
+        dispatch({
+            type: constants.todo.removeItem,
+            id: id
+        });
+
+        const success = () =&gt; {};
+        const failure = (error) =&gt; { dispatch(zumoError(error)); };
+
+        dispatch(networkProcess(1));
+        todoTable.del({ id: id }).done(success, failure);
+        dispatch(networkProcess(-1));
+    };
+}
+
+export function updateTodoItem(item) {
+    return (dispatch) =&gt; {
+        dispatch({
+            type: constants.todo.updateItem,
+            item: item
+        });
+
+        const success = (item) =&gt; {
+            dispatch({
+                type: constants.todo.updateItem,
+                item: item
+            });
+        };
+        const failure = (error) =&gt; { dispatch(zumoError(error)); };
+
+        dispatch(networkProcess(1));
+        todoTable.update(item).done(success, failure);
+        dispatch(networkProcess(-1));
+    };
+
+}
+
+export function refreshTodoItems() {
+    return (dispatch) =&gt; {
+        const success = (data) =&gt; {
+            dispatch({
+                type: constants.todo.replaceItems,
+                items: data
+            });
+        };
+        const failure = (error) =&gt; { dispatch(zumoError(error)); };
+
+        dispatch(networkProcess(1));
+        todoTable.read().then(success, failure);
+        dispatch(networkProcess(-1));
+    }
+}
+</code></pre>
+
+<p>Each action that is called by the client code kicks off a call into the standard Azure Mobile Apps JavaScript SDK
+to do the relevant change in the mobile backend.  When that returns, another action is dispatched to make the change
+in the store via the reducer.  In addition, we keep track of how many network requests are happening and we also
+handle errors via the <code>zumoError()</code> action.</p>
+<p>I have not included all the code in this chapter as much of it is fairly standard React/Redux, but it is available
+on <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter6/Backend">the GitHub repository</a> for the book.  Remember that you will have to update the <code>package.json</code> file and run
+<code>npm install</code> to install the additional libraries.</p>
+<h3 id="updating-webpack-for-azure-mobile-apps-javascript-sdk">Updating Webpack for Azure Mobile Apps JavaScript SDK<a class="headerlink" href="#updating-webpack-for-azure-mobile-apps-javascript-sdk" title="Permanent link">&para;</a></h3>
+<p>The Azure Mobile Apps JavaScript SDK requires an additional loader for Webpack to handle it.  Install the <code>json-loader</code>
+module using <code>npm install --save json-loader</code>, then add the following to the <code>loaders</code> section of the <code>webpack.config.js</code>:</p>
+<pre><code class="text">    module: {
+        loaders: [
+            { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
+            { test: /\.json$/, loader: 'json' }
+        ]
+    },
+</code></pre>
+
+<p>Once the additional line is added, Webpack will handle the <code>azure-mobile-apps-client</code> without problems.</p>
+<p>There is a lot more to be said about the capabilities of React, Redux, BabelJS and Webpack that is beyond the scope
+of this book.  I hope you will take the opportunity to try the vibrant JavaScript community out as you build single
+page applications.</p>
+<!-- Images -->
+
+<!-- Links -->
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../angular/" title="Angular Applications">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Angular Applications
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../../chapter7/search/" title="Azure Search">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Azure Search
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'adrianhall/develop-mobile-apps-with-csharp-and-azure';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="../../js/highlight.pack.js"></script>
+    
+    
+  </body>
+</html>

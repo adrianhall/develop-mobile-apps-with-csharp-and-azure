@@ -489,8 +489,6 @@
     </a>
     
       
-        
-      
       
         <ul>
           
@@ -514,8 +512,26 @@
       
         
   <li>
-    <a class="" title="SPA Applications" href="../spa/">
-      SPA Applications
+    <a class="" title="jQuery Applications" href="../jquery/">
+      jQuery Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Angular Applications" href="../angular/">
+      Angular Applications
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="React Applications" href="../react/">
+      React Applications
     </a>
     
   </li>
@@ -653,6 +669,15 @@
           
             
   <li>
+    <a class="" title="Visual Studio Extensions" href="../../vs_extensions/">
+      Visual Studio Extensions
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
     <a class="" title="References" href="../../references/">
       References
     </a>
@@ -700,9 +725,310 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="mvc-web-applications">MVC Web Applications<a class="headerlink" href="#mvc-web-applications" title="Permanent link">&para;</a></h1>
+            <h1>MVC Applications</h1>
+          
+          <p>At some point, you will likely want to pair your mobile application with a web interface.  This may be because you have a simplified
+mobile app whereas you may have a more fully featured app within the web.  For example,  I see this design featured prominently in
+fitness apps.  The mobile app is a news feed and recording device, whereas the web interface contains all the fitness analytics.  You
+may also have some sort of administrative interface that provides an alternate view of the data.</p>
+<p>Whatever the reason you decide to support web and mobile together, you will need to convert your Azure Mobile App backend to a fully-fledged
+ASP.NET MVC application.  Fortunately, the process of merging Azure Mobile Apps with an existing ASP.NET MVC application is simple.  Doing
+the reverse (merging MVC into Azure Mobile Apps) is considerably more complex.</p>
+<p>Start by creating a new ASP.NET application with File -&gt; New Project.  Select the <strong>ASP.NET Web Application (.NET Framework)</strong> project
+template.  Then select th <strong>MVC</strong> template.  Change the Authentication to <strong>No Authentication</strong>.</p>
+<p><img alt="" src="../img/new-project.png" /></p>
+<p>Click <strong>OK</strong> to create the project.  Run your project to ensure it is working correctly.</p>
+<div class="admonition info">
+<p class="admonition-title">Why is merging MVC into Azure Mobile Apps so hard?</p>
+<p>ASP.NET requires a large number of NuGet packages to implement MVC.  These are provided for you when you start from the
+appropriate template, but you will need to add them yourself when you start from the Azure Mobile Apps template.</p>
+</div>
+<p>Now that you have an MVC project, let's add Azure Mobile Apps to it.  Start by adding the following two NuGet packages to your
+project:</p>
+<ul>
+<li>Microsoft.Azure.Mobile.Server.Quickstart</li>
+<li>Mirosoft.Owin.Host.SystemWeb</li>
+</ul>
+<p>The Quickstart NuGet package contains dependencies for all the other Azure Mobile Apps SDK requirements.  If you want the
+big long list instead, add the following:</p>
+<ul>
+<li>AutoMapper</li>
+<li>EntityFramework</li>
+<li>Microsoft.AspNet.WebApi.Client</li>
+<li>Microsoft.AspNet.WebApi.Core</li>
+<li>Microsoft.AspNet.WebApi.Owin</li>
+<li>Microsoft.Azure.Mobile.Server</li>
+<li>Microsoft.Azure.Mobile.Server.Authentication</li>
+<li>Microsoft.Azure.Mobile.Server.Notifications</li>
+<li>Microsoft.Azure.NotificationHubs</li>
+<li>Microsoft.Data.Edm</li>
+<li>Microsoft.Owin</li>
+<li>Microsoft.Owin.Security</li>
+<li>Microsoft.WindowsAzure.ConfigurationManager</li>
+<li>Owin</li>
+<li>System.IdentityModel.Tokens.Jwt</li>
+<li>System.Spatial</li>
+</ul>
+<p>Using the Quickstart package is a serious time saver over having to type in 16 package names.  The SystemWeb package enables
+the use of the Owin Startup.cs class.  This is used to bootstrap the Azure Mobile Apps configuration.</p>
+<div class="admonition tip">
+<p class="admonition-title">Upgrading to .NET 4.6</p>
+<p>If you want to run your ASP.NET service under .NET Framework 4.6, you can upgrade just about everything.  However, the
+<code>System.IdentityModel.Tokens.Jwt</code> package should not be upgraded - leave it on the latest v4.x release.  In addition, do
+not upgrade <code>AutoMapper</code> beyond v3.3.1 if you are using the <code>MappedEntityDomainManager</code> class.</p>
+</div>
+<p>You can then copy the the following files from your original Azure Mobile Apps server project to the new project.</p>
+<ul>
+<li><code>App_Start\Startup.MobileApp.cs</code></li>
+<li><code>Controllers\*.cs</code></li>
+<li><code>DataObjects\*.cs</code></li>
+<li><code>Models\MobileServiceContext.cs</code></li>
+</ul>
+<p>Finally, adjust or create the <code>Startup.cs</code> file as follows:</p>
+<pre><code class="csharp">using Microsoft.Owin;
+using Owin;
+
+[assembly: OwinStartup(typeof(Backend.Startup))]
+namespace Backend
+{
+    public partial class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            ConfigureMobileApp(app);
+        }
+    }
+}
+</code></pre>
+
+<p>Note the addition of the <code>ConfigureMobileApp()</code> call.  If you are starting from the suggested template, this file does not exist and you
+will need to create it.</p>
+<p>Finally, you must update the <code>Web.config</code> file.  Firstly, in the <code>&lt;configSections&gt;</code> tag, add the following to support Entity Framework:</p>
+<pre><code class="xml">    &lt;section name=&quot;entityFramework&quot; type=&quot;System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089&quot; requirePermission=&quot;false&quot; /&gt;
+</code></pre>
+
+<p>Add the following <code>&lt;connectionStrings&gt;</code> section:</p>
+<pre><code class="xml">  &lt;connectionStrings&gt;
+    &lt;add name=&quot;MS_TableConnectionString&quot; connectionString=&quot;Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-Backend.mdf;Initial Catalog=aspnet-Backend-20160720081828;Integrated Security=True;MultipleActiveResultSets=True&quot; providerName=&quot;System.Data.SqlClient&quot; /&gt;
+  &lt;/connectionStrings&gt;
+</code></pre>
+
+<p>Finally, add the following entries to the <code>&lt;appSettings&gt;</code> section:</p>
+<pre><code class="xml">  &lt;appSettings&gt;
+    &lt;add key=&quot;webpages:Enabled&quot; value=&quot;false&quot; /&gt;
+    &lt;add key=&quot;PreserveLoginUrl&quot; value=&quot;true&quot; /&gt;
+    &lt;add key=&quot;MS_SigningKey&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;EMA_RuntimeUrl&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;MS_NotificationHubName&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;SigningKey&quot; value=&quot;Overridden by portal settings&quot; /&gt;
+    &lt;add key=&quot;ValidAudience&quot; value=&quot;https://chapter6.azurewebsites.net/&quot; /&gt;
+    &lt;add key=&quot;ValidIssuer&quot; value=&quot;https://chapter6.azurewebsites.net/&quot; /&gt;
+  &lt;/appSettings&gt;
+</code></pre>
+
+<p>The first appSetting key should already be present.  These changes can be copied from the <code>Web.config</code> file from your Azure Mobile Apps project.</p>
 <h2 id="sharing-the-database">Sharing the Database<a class="headerlink" href="#sharing-the-database" title="Permanent link">&para;</a></h2>
+<p>Underneath the covers, Azure Mobile Apps uses <a href="https://www.asp.net/entity-framework">EntityFramework</a> to access the database.  It requires certain adjustments to the models,
+as we discussed in [Chapter 3].  However, you can still use the same Entity Framework context to access the database.  There are some
+caveats that must be followed, however:</p>
+<ul>
+<li>Inserts must set the fields that are not managed by the database (such as <code>Id</code>).</li>
+<li>Deletes must set the <code>Deleted</code> column if using Soft Delete, instead of directly deleting records.</li>
+</ul>
+<p>Before you get started, you have to enable EF code-first migrations.  If you don't, you will get an error about a duplicate clustered index
+in your application for each table based on EntityData.  To enable migrations:</p>
+<ol>
+<li>Open the Package Manager Console in Visual Studio</li>
+<li>Run <code>Enable-Migrations</code></li>
+<li>
+<p>Adjust the created <code>Migrations\Configuration.cs</code> constructor as follows:</p>
+<p><code>csharp
+    public Configuration()
+    {
+        AutomaticMigrationsEnabled = false;
+        SetSqlGenerator("System.Data.SqlClient", new EntityTableSqlGenerator());
+    }</code></p>
+</li>
+<li>
+<p>In your <code>App_Start\Startup.MobileApp.cs</code>, comment out or remove your  <code>Database.SetInitializer()</code> call, and replace with:</p>
+<p><code>csharp
+var migrator = new DbMigrator(new Migrations.Configuration());
+migrator.Update();</code></p>
+<p>You can also remove the MobileServiceInitializer class in the same file, if you wish.</p>
+</li>
+<li>
+<p>Run <code>Add-Migration initial</code> in the Package Manager Console.</p>
+</li>
+</ol>
+<p>This is an abbreviated set of instructions from our work in <a href="../../chapter3/server/">Chapter 3</a>.</p>
+<p>As an example, let's create a default view for handling our TodoItem controller.  In MVC, you need a Model, View and Controller class.  The
+Model will be handled by our existing <code>DataObjects\TodoItem.cs</code> class.  The Controller and View will be new classes.  Let's take a look at
+the replacement <code>HomeController.cs</code> class first:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Web.Mvc;
+using Backend.Models;
+
+namespace Backend.Controllers
+{
+    public class HomeController : Controller
+    {
+        private MobileServiceContext context;
+
+        public HomeController()
+        {
+            context = new MobileServiceContext();
+        }
+
+        public ActionResult Index()
+        {
+            var list = context.TodoItems.ToList();
+            return View(list);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task&lt;ActionResult&gt; Create([Bind(Include = &quot;Text&quot;)]TodoItem item)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    item.Id = Guid.NewGuid().ToString(&quot;N&quot;);
+                    context.TodoItems.Add(item);
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError(&quot;&quot;, &quot;Unable to save changes.&quot;);
+            }
+            return RedirectToAction(&quot;Index&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>I am using the existing MobileServiceContext as the Entity Framework context.  The list of tasks is taken directly from the <code>DbSet&lt;&gt;</code>
+that was established for the mobile backend table controller.  I also have a method for creating a new todo item within the controller.
+If you look for a tutorial on implementing CRUD in ASP.NET MVC, it's likely you will see code similar to this.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>I've removed some additional views from this backend (About and Contact) plus the links in the layout partial view.  This is just
+to make the code cleaner.  You can leave them in if you desire.</p>
+</div>
+<p>The view in <code>Views\Home\Index.cshtml</code> is similarly changed:</p>
+<pre><code class="html">@{
+    ViewBag.Title = &quot;Home Page&quot;;
+}
+@model IEnumerable&lt;Backend.DataObjects.TodoItem&gt;
+
+&lt;div class=&quot;row&quot; style=&quot;margin-top: 8px;&quot;&gt;
+    &lt;div class=&quot;col-md-1&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;col-md-10&quot;&gt;
+        @using (Html.BeginForm(&quot;Create&quot;, &quot;Home&quot;, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            &lt;input type=&quot;text&quot; name=&quot;Text&quot; placeholder=&quot;Enter TodoItem Text...&quot;/&gt;
+            &lt;input type=&quot;submit&quot; value=&quot;Add Todo Item&quot;/&gt;
+        }
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-1&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row&quot; style=&quot;margin-top: 8px;&quot;&gt;
+    &lt;div class=&quot;col-md-1&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;col-md-10&quot;&gt;
+        &lt;div class=&quot;table-responsive&quot;&gt;
+            &lt;table class=&quot;table table-striped table-bordered table-hover table-condensed&quot;&gt;
+                &lt;thead&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;#&lt;/th&gt;
+                        &lt;th&gt;Text&lt;/th&gt;
+                        &lt;th&gt;Complete&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                    @foreach (var item in Model)
+                    {
+                        &lt;tr&gt;
+                            &lt;td&gt;@Html.DisplayFor(modelItem =&gt; item.Id)&lt;/td&gt;
+                            &lt;td&gt;@Html.DisplayFor(modelItem =&gt; item.Text)&lt;/td&gt;
+                            &lt;td&gt;@Html.DisplayFor(modelItem =&gt; item.Complete)&lt;/td&gt;
+                        &lt;/tr&gt;
+                    }
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-1&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The HTML classes are from <a href="http://getbootstrap.com/">Bootstrap</a> - a common CSS framework.  The first row div encapsulates the form for adding a new todo item,
+and the second row div encapsulates the list.  If you enter some text into the box and click the submit button, it will be added to the
+database.</p>
 <h2 id="sharing-authentication">Sharing Authentication<a class="headerlink" href="#sharing-authentication" title="Permanent link">&para;</a></h2>
+<p>As one would suspect, <a href="../../chapter2/authconcepts/">setting up App Service Authentication</a>, then adding an <code>[Authorize]</code> attribute to the <code>HomeController</code> is a good
+starting point for making our application authenticated.  However, it isn't enough.  If you just do this, you will got something like the
+following:</p>
+<p><img alt="" src="../img/failed-auth.PNG" /></p>
+<p>In order to properly capture the login flow, we have to redirect a missing authentication to the appropriate authentication endpoint.  In
+ASP.NET, this functionality is configured within the <code>Web.config</code> file.  Locate the <code>&lt;system.web&gt;</code> section and add the following:</p>
+<pre><code class="xml">  &lt;system.web&gt;
+    &lt;compilation debug=&quot;true&quot; targetFramework=&quot;4.5.2&quot;/&gt;
+    &lt;httpRuntime targetFramework=&quot;4.5.2&quot;/&gt;
+    &lt;authentication mode=&quot;Forms&quot;&gt;
+      &lt;forms loginUrl=&quot;/.auth/login/aad&quot; timeout=&quot;2880&quot;/&gt;
+    &lt;/authentication&gt;
+  &lt;/system.web&gt;
+</code></pre>
+
+<p>The <code>&lt;compilation&gt;</code> and <code>&lt;httpRuntime&gt;</code> values should already be present.  The <code>&lt;authentication&gt;</code> section is new.  Once you deploy this code
+to Azure App Service, you will be redirected to your authentication provider.  Once the authentication process is complete, you will receive
+a page indicating successful authentication, with a link back to the website.</p>
+<div class="admonition warn">
+<p class="admonition-title">Use a private browsing window for testing</p>
+<p>One of the major problems with using Azure AD for authentication as a developer is that the Azure Portal authentication uses the same
+providers.  This can cause problems in your app.  Always use a private browsing window and/or a different browser for testing your code.</p>
+</div>
+<h3 id="using-anti-forgery-tokens">Using Anti-Forgery Tokens<a class="headerlink" href="#using-anti-forgery-tokens" title="Permanent link">&para;</a></h3>
+<p>One of the gotchas for using ASP.NET MVC with Azure App Service Authentication is that the Anti-Forgery Token no longer works as advertised.  If
+you try to use the anti-forgery token on POST operations (and the associated <code>[ValidateAntiForgeryToken]</code> within your controller), you will receive
+the following exception:</p>
+<blockquote>
+<p>A claim of type 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier' or 'http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider' was not present on the provided ClaimsIdentity. To enable anti-forgery token support with claims-based authentication, please verify that the configured claims provider is providing both of these claims on the ClaimsIdentity instances it generates. If the configured claims provider instead uses a different claim type as a unique identifier, it can be configured by setting the static property AntiForgeryConfig.UniqueClaimTypeIdentifier.</p>
+</blockquote>
+<p>Unfortunately, the logic here is wrong.  Check the <a href="https://github.com/mono/aspnetwebstack/blob/6248bfd24c31356e75a31c1b1030d4d96f669a6a/src/System.Web.WebPages/Helpers/AntiXsrf/ClaimUidExtractor.cs#L78">source code</a> and you will see that both listed claims must be present to not throw
+the exception.  The Azure App Service Authentication claims do not include the <code>identityprovider</code> claim.</p>
+<p>So much for the bug.  With the advent of .NET Core, I do not expect this bug to be fixed.  The workaround is to explicitly specify the identifier
+to use somewhere in your application startup:</p>
+<pre><code class="csharp">AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+</code></pre>
+
+<p>I place this in the MVC specific <code>App_Start\RouteConfig.cs</code> file:</p>
+<pre><code class="csharp">namespace Backend
+{
+    public class RouteConfig
+    {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute(&quot;{resource}.axd/{*pathInfo}&quot;);
+
+            routes.MapRoute(
+                name: &quot;Default&quot;,
+                url: &quot;{controller}/{action}/{id}&quot;,
+                defaults: new { controller = &quot;Home&quot;, action = &quot;Index&quot;, id = UrlParameter.Optional }
+            );
+
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+        }
+    }
+}
+</code></pre>
+
+<p>This will force the use of the (singular) claim rather than requiring both claims to be present, thus allowing you to use the anti-forgery token.</p>
+<!-- Images -->
+
+<!-- Links -->
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -738,14 +1064,14 @@
     </div>
     <div class="next">
       
-        <a href="../spa/" title="SPA Applications">
+        <a href="../jquery/" title="jQuery Applications">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                SPA Applications
+                jQuery Applications
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
