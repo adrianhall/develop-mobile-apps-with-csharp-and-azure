@@ -43,6 +43,7 @@ pages:
         - Angular Applications: chapter6/angular.md
         - React Applications: chapter6/react.md
     - Chapter 7 - Other Useful Services:
+        - Useful Azure Services: chapter7/services.md
         - Azure Search: chapter7/search.md
         - Media Services: chapter7/media.md
         - Real-time Notifications: chapter7/realtime.md
