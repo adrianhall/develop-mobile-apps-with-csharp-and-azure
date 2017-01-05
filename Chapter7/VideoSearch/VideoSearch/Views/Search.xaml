@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="VideoSearch.Views.Search"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.Content>
+        <StackLayout>
+            <!--  The Search Bar  -->
+            <StackLayout
+                Padding="15,0,15,5"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start">
+                <SearchBar
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="Enter Search Terms"
+                    SearchCommand="{Binding SearchCommand}"
+                    VerticalOptions="Start" />
+            </StackLayout>
+
+            <!--  The activity indicator  -->
+            <ActivityIndicator
+                HorizontalOptions="FillAndExpand"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Start"
+                Color="Teal" />
+            <!--  The rest of the content  -->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
