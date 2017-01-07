@@ -22,7 +22,7 @@ Now that you have an MVC project, let's add Azure Mobile Apps to it.  Start by a
 project:
 
 *  Microsoft.Azure.Mobile.Server.Quickstart
-*  Mirosoft.Owin.Host.SystemWeb
+*  Microsoft.Owin.Host.SystemWeb
 
 The Quickstart NuGet package contains dependencies for all the other Azure Mobile Apps SDK requirements.  If you want the
 big long list instead, add the following:
