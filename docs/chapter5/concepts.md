@@ -156,9 +156,9 @@ My mobile backend is connected to Azure Active Directory.   I've configured my b
 
 ![][img4]
 
-Here, I have three client requested tags and two automatically generated tags that are only added when
+Here, I have three client requested tags and an automatically generated tag that is only added when
 authenticated.  Let's suppose that the mobile client requested `[ topic:World topic:Sports ]` and the
-mobile client was authenticated as username `user@foo.com`.  With this configuration, the user would 
+mobile client was authenticated as username `user@foo.com`.  With this configuration, the user would
 be registered for the following tags:
 
 * topic:Sports
@@ -168,10 +168,10 @@ The topic:Politics and topic:News tags would not be added because the user did n
 tag would not be added because it is not in the whitelist of allowed client requested tags.
 
 !!! info
-    We never provide the ability to request any tag (a wild-card) because it is a large security hole.  With a
+    We do not provide the ability to request any tag (a wild-card) because it is a large security hole.  With a
     wild-card tag, you could request push notifications for a user or group to which you were not allowed.
 
-The `$(provider.claim)` format is used in automatically added tags to add claims from the authenticated user 
+The `$(provider.claim)` format is used in automatically added tags to add claims from the authenticated user
 into the notification hub installation.  You can use any claim that is returned by the `/.auth/me` endpoint.  The
 standard identifiers are:
 
@@ -183,6 +183,11 @@ Replace *provider* with the provider name (facebook, google, microsoftaccount, t
 that are available is different for each provider and additional claims may be available.  It is possible to configure
 Azure AD to return groups, for example.  Check the output of the  `/.auth/me` endpoint to determine which
 claims are available.
+
+!!! info
+    The automatic claim tags are only included when authenticated with a supported authentication provider.  If
+    you are using Custom Authentication, you must also use a custom WebAPI controller to do push registration
+    if you wants claims based on your authentication.
 
 A claim name can resolve to multiple claim types.  For example, `$(aad.name)` resolves to the following claims:
 
@@ -268,8 +273,8 @@ namespace TaskList.Abstractions
 }
 ```
 
-The `Installation` object is also available in the Notification Hubs SDK, but I find bringing in the entire 
-Notification Hubs SDK just for this is a little overkill.  You can create a suitable installation and 
+The `Installation` object is also available in the Notification Hubs SDK, but I find bringing in the entire
+Notification Hubs SDK just for this is a little overkill.  You can create a suitable installation and
 register with the `InvokeApiAsync<T,U>()` method:
 
 ```csharp
@@ -289,13 +294,17 @@ register with the `InvokeApiAsync<T,U>()` method:
                     Platform = "gcm",
                     PushChannel = registrationId
                 };
+
                 // Set up tags to request
                 installation.Tags.Add("topic:Sports");
+
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
                     Body = "{\"data\":{\"message\":\"$(messageParam)\"}}"
                 };
+                installation.Templates.Add("genericTemplate", genericTemplate);
+
                 // Register with NH
                 var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
                     $"/push/installations/{client.InstallationId}",
@@ -316,8 +325,8 @@ register with the `InvokeApiAsync<T,U>()` method:
 ```
 
 This is normally placed within the platform-specific provider since the details on how to get the registration
-ID and platform are different.  This version is for the Android edition as an example.  Using `InvokeApiAsync()` 
-instead of relying on the in-built Azure Mobile Apps push registration methods gives you more control over the 
+ID and platform are different.  This version is for the Android edition as an example.  Using `InvokeApiAsync()`
+instead of relying on the in-built Azure Mobile Apps push registration methods gives you more control over the
 process of registration.
 
 ## Next Steps
