@@ -77,6 +77,7 @@ faceted navigation.
 Back to my model, here it is:
 
 | Field Name | Type | Attributes |
+| --- | --- | --- |
 | videoId | Edm.String | Key, Retrievable |
 | title | Edm.String | Retrievable, Sortable, Filterable, Searchable |
 | image | Edm.String | Retrievable |
