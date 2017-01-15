@@ -1092,13 +1092,47 @@ may search for cars, but then want to limit the search to only convertibles, the
 cars.  Each of these refinements is a facet.  If I added a "genre" to my fields, I could use
 faceted navigation.</p>
 <p>Back to my model, here it is:</p>
-<p>| Field Name | Type | Attributes |
-| videoId | Edm.String | Key, Retrievable |
-| title | Edm.String | Retrievable, Sortable, Filterable, Searchable |
-| image | Edm.String | Retrievable |
-| rating | Edm.Double | Retrievable, Sortable, Filterable |
-| releaseYear | Edm.Int32 | Retrievable, Sortable, Filterable |
-| genre | Collection(Edm.String) | Retrievable, Filterable, Searchable, Facetable |</p>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th>Type</th>
+<th>Attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>videoId</td>
+<td>Edm.String</td>
+<td>Key, Retrievable</td>
+</tr>
+<tr>
+<td>title</td>
+<td>Edm.String</td>
+<td>Retrievable, Sortable, Filterable, Searchable</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Edm.String</td>
+<td>Retrievable</td>
+</tr>
+<tr>
+<td>rating</td>
+<td>Edm.Double</td>
+<td>Retrievable, Sortable, Filterable</td>
+</tr>
+<tr>
+<td>releaseYear</td>
+<td>Edm.Int32</td>
+<td>Retrievable, Sortable, Filterable</td>
+</tr>
+<tr>
+<td>genre</td>
+<td>Collection(Edm.String)</td>
+<td>Retrievable, Filterable, Searchable, Facetable</td>
+</tr>
+</tbody>
+</table>
 <p>The types are based on <a href="http://docs.oasis-open.org/odata/odata/v4.0/errata03/os/complete/part3-csdl/odata-v4.0-errata03-os-part3-csdl-complete.html#_The_edm:Documentation_Element">OData v4 types</a>.  There are a large number of primitive types.  Unfortunately, Azure
 Search only supports <a href="https://docs.microsoft.com/en-us/rest/api/searchservice/Supported-data-types">a subset of these</a>.</p>
 <div class="admonition warn">
