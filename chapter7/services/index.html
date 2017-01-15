@@ -9,19 +9,19 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Push Recipes - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+        <title>Useful Azure Services - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
       
       
       
-        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter5/recipes/">
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter7/services/">
       
       
         <meta name="author" content="Adrian Hall">
       
     
-    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter5/recipes/">
+    <meta property="og:url" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter7/services/">
     <meta property="og:title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
-    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter5/recipes//../../">
+    <meta property="og:image" content="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter7/services//../../">
     <meta name="apple-mobile-web-app-title" content="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -97,12 +97,12 @@
           <span class="path">
             
               
-                Chapter 5 - Push Notifications <i class="icon icon-link"></i>
+                Chapter 7 - Other Useful Services <i class="icon icon-link"></i>
               
             
           </span>
         
-        Push Recipes
+        Useful Azure Services
       </div>
     </div>
     
@@ -430,7 +430,7 @@
       
         
   <li>
-    <a class="" title="Concepts" href="../concepts/">
+    <a class="" title="Concepts" href="../../chapter5/concepts/">
       Concepts
     </a>
     
@@ -439,7 +439,7 @@
       
         
   <li>
-    <a class="" title="Android Push" href="../android/">
+    <a class="" title="Android Push" href="../../chapter5/android/">
       Android Push
     </a>
     
@@ -448,7 +448,7 @@
       
         
   <li>
-    <a class="" title="iOS Push" href="../ios/">
+    <a class="" title="iOS Push" href="../../chapter5/ios/">
       iOS Push
     </a>
     
@@ -457,7 +457,7 @@
       
         
   <li>
-    <a class="" title="Windows Push" href="../windows/">
+    <a class="" title="Windows Push" href="../../chapter5/windows/">
       Windows Push
     </a>
     
@@ -466,40 +466,9 @@
       
         
   <li>
-    <a class="current" title="Push Recipes" href="./">
+    <a class="" title="Push Recipes" href="../../chapter5/recipes/">
       Push Recipes
     </a>
-    
-      
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Marketing Push" href="#marketing-push">
-                Marketing Push
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Geofenced Push" href="#geofenced-push">
-                Geofenced Push
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Push to Sync" href="#push-to-sync">
-                Push to Sync
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Secure Push" href="#secure-push">
-                Secure Push
-              </a>
-            </li>
-          
-        </ul>
-      
     
   </li>
 
@@ -560,16 +529,35 @@
       
         
   <li>
-    <a class="" title="Useful Azure Services" href="../../chapter7/services/">
+    <a class="current" title="Useful Azure Services" href="./">
       Useful Azure Services
     </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Azure Services" href="#azure-services">
+                Azure Services
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Non-Azure Services" href="#non-azure-services">
+                Non-Azure Services
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
       
         
   <li>
-    <a class="" title="Azure Search" href="../../chapter7/search/">
+    <a class="" title="Azure Search" href="../search/">
       Azure Search
     </a>
     
@@ -578,7 +566,7 @@
       
         
   <li>
-    <a class="" title="Media Services" href="../../chapter7/media/">
+    <a class="" title="Media Services" href="../media/">
       Media Services
     </a>
     
@@ -587,7 +575,7 @@
       
         
   <li>
-    <a class="" title="Real-time Notifications" href="../../chapter7/realtime/">
+    <a class="" title="Real-time Notifications" href="../realtime/">
       Real-time Notifications
     </a>
     
@@ -746,125 +734,102 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>Push Recipes</h1>
+            <h1>Useful Azure Services</h1>
           
-          <p>This section is dedicated to exploring various common recipes for push notifications and how we can achieve those recipes through cross-platform code.</p>
-<div class="admonition warn">
-<p class="admonition-title">Incomplete Section</p>
-<p>This section is incomplete and still in progress.  Please do not rely on any information within this section.</p>
-</div>
-<h2 id="marketing-push">Marketing Push<a class="headerlink" href="#marketing-push" title="Permanent link">&para;</a></h2>
-<p>The most common requirement for push notifications is to alert users of a special offer or other marketing information.  The general idea is that
-the marketing person will create a "campaign" that includes a push notification.  When the user receives the push notification, they will accept
-it.  If a user accepts the push notification, the mobile app will deep-link into a specific page and store the fact that the user viewed the page
-within the database.</p>
-<p>To implement this sort of functionality within a cross-platform application, we need to implement <strong>Templates</strong>.  We gave demonstrations of the
-implementation of the templates while we were discussing the various platform implementations.  However, we didn't actually use them.  A template
-is provides by the mobile client when registering.  Let's take a look at a typical template as implemented by each platform:</p>
-<p><strong>Android</strong>:</p>
-<pre><code class="text">{
-    &quot;data&quot;: {
-        &quot;message&quot;: &quot;$(message)&quot;,
-        &quot;picture&quot;: &quot;$(picture)&quot;,
-        &quot;view&quot;: &quot;$(viewid)&quot;
-    }
-}
-</code></pre>
-
-<p><strong>iOS</strong>:</p>
-<pre><code class="text">{
-    &quot;aps&quot;: {
-        &quot;alert&quot;: &quot;$(message)&quot;,
-        &quot;picture&quot;: &quot;$(picture)&quot;,
-        &quot;view&quot;: &quot;$(viewid)&quot;
-    }
-}
-</code></pre>
-
-<p><strong>Windows</strong>:</p>
-<pre><code class="xml">&lt;toast&gt;
-    &lt;visual&gt;
-        &lt;binding template=&quot;genericTemplate&quot;&gt;
-            &lt;image id=&quot;1&quot; src=&quot;$(picture)&quot; /&gt;
-            &lt;text id=&quot;2&quot;&gt;$(message)&lt;/text&gt;
-        &lt;/binding&gt;
-    &lt;/visual&gt;
-&lt;/toast&gt;
-</code></pre>
-
-<div class="admonition tip">
-<p class="admonition-title">Toast, Tile and Badge Schemas</p>
-<p>If you want to understand the format of the XML that we are using in the Windows section, it's laid out in the
-<a href="https://msdn.microsoft.com/en-us/library/windows/apps/br212853.aspx">MSDN documentation</a>.</p>
-</div>
-<p>Each of these formats can be specified in the appropriate registration call:</p>
-<pre><code class="csharp">    // Android Version
-    var genericTemplate = new PushTemplate
-    {
-        Body = &quot;{\&quot;data\&quot;:{\&quot;message\&quot;:\&quot;$(message)\&quot;,\&quot;picture\&quot;:\&quot;$(picture)\&quot;,\&quot;view\&quot;:\&quot;$(viewid)\&quot;}}&quot;
-    };
-    installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
-
-    // iOS Version
-    var genericTemplate = new PushTemplate
-    {
-        Body = &quot;{\&quot;aps\&quot;:{\&quot;alert\&quot;:\&quot;$(message)\&quot;,\&quot;picture\&quot;:\&quot;$(picture)\&quot;,\&quot;view\&quot;:\&quot;$(viewid)\&quot;}}&quot;
-    };
-    installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
-
-    // Windows Version
-    var genericTemplate = new WindowsPushTemplate
-    {
-        Body = &quot;&lt;toast&gt;&lt;visual&gt;&lt;binding template=\&quot;genericTemplate\&quot;&gt;&lt;image id=\&quot;1\&quot; src=\&quot;$(picture)\&quot;/&gt;&lt;text id=\&quot;1\&quot;&gt;$(message)&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;&quot;
-    };
-    genericTemplate.Headers.Add(&quot;X-WNS-Type&quot;, &quot;wns/toast&quot;);
-    installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
-</code></pre>
-
-<p>To push, we can use the same Test Send facility in the Azure Portal.  In the Test Send screen, set the <strong>Platforms</strong> field to be <strong>Custom Template</strong>,
-and the payload to be a JSON document with the three fields:</p>
-<pre><code class="text">{
-    &quot;message&quot;: &quot;Test Message&quot;,
-    &quot;picture&quot;: &quot;advertisement1&quot;,
-    &quot;viewid&quot;: &quot;advertising&quot;
-}
-</code></pre>
-
-<p>If you have done all the changes thus far, you will receive the same notification as before.  The difference is that you are pushing a message
-once and receiving that same message across all the Android, iOS and Windows systems at the same time.  You no longer have to know what sort
-of device your users are holding - the message will get to them.</p>
-<p>We can take this a step further, however, by deep-linking.  Deep-linking is a technique often used in push notification systems whereby we present
-the user a dialog that asks them to open the notification.  If the notification is opened, they are taken directly to a new view with the appropriate
-content provided.</p>
-<h3 id="deep-linking-with-android">Deep Linking with Android<a class="headerlink" href="#deep-linking-with-android" title="Permanent link">&para;</a></h3>
-<p>Let's start our investigation with the Android code-base.  Our push notification is received by the <code>OnMessage()</code> method within the <code>GcmService</code>
-class in the <code>GcmHandler.cs</code> file.  We can easily extract the three fields we need to execute our deep-link:</p>
-<pre><code class="csharp">    protected override void OnMessage(Context context, Intent intent)
-    {
-        var message = intent.Extras.GetString(&quot;message&quot;);
-        var picture = intent.Extras.GetString(&quot;picture&quot;);
-        var view = intent.Extras.GetString(&quot;view&quot;);
-
-        // Rest of code
-    }
-</code></pre>
-
-<div class="admonition tip">
-<p class="admonition-title">Keep the Push Small</p>
-<p>You should keep the push payload as small as possible.  There are limits and they vary by platform (but are in the range of 4-5Kb).  Note that I don't
-include the full URL of the picture, for example, nor do I include the picture as binary data.  This allows me to adjust to an appropriate image URL
-within the client.  This keeps the number of bytes in the push small, but also allows me to adjust the image for the platform, if necessary.</p>
-</div>
-<h2 id="geofenced-push">Geofenced Push<a class="headerlink" href="#geofenced-push" title="Permanent link">&para;</a></h2>
-<p>This is a variation on the marketing push.  You want to send a marketing message, but only to those users that are within a certain geography.
-This is known as geofencing.</p>
-<h2 id="push-to-sync">Push to Sync<a class="headerlink" href="#push-to-sync" title="Permanent link">&para;</a></h2>
-<p>Sometimes, you want to alert the user that there is something new for that user.  When the user is alerted, acceptance of the push notification
-indicates that the user wants to go to the app and synchronize the database before viewing the data.</p>
-<h2 id="secure-push">Secure Push<a class="headerlink" href="#secure-push" title="Permanent link">&para;</a></h2>
-<p>Push notifications are insecure.  They appear on the front page of the lock screen and anyone can open them in a multi-user environment (where a
-mobile device is shared by a community of users).  In these cases, you may want to ensure that the push notification is only opened by the user
-for which it was intended.</p>
+          <p>When developing mobile applications, certain cloud services - data access, authentication and push notifications - almost always make their way
+into the requirements for the mobile backend.  However, there are a number of other Azure services that can also make an appearance.</p>
+<p>Azure has a number of "platform as a service" type services.  We've built Azure Mobile Apps on top of some of them - App Service and
+Notification Hubs.  PaaS, as it is known, is a microservice where you don't have to deal with the underlying operating system or scaling
+issues.  While we won't cover all possible Azure services, it's worth mentioning a few of the more useful ones here.  In addition, there
+are some things you can't get from Azure.  We'll take a look at those later on.</p>
+<p>We will be covering <a href="../search/">Search</a>, <a href="../realtime/">Realtime Communications</a> and <a href="../media/">Video</a> services within this chapter in more depth.</p>
+<h2 id="azure-services">Azure Services<a class="headerlink" href="#azure-services" title="Permanent link">&para;</a></h2>
+<p>The following services are available with your Azure subscription.  The all incur some kind of cost, although search has a free tier.</p>
+<h3 id="cognitive-services">Cognitive Services<a class="headerlink" href="#cognitive-services" title="Permanent link">&para;</a></h3>
+<p>Machine Learning has been a hot topic in development circles recently.  It's highly complex and very specific to the application being
+handled.  Fortunately, some applications are relatively easily generalized.  For example, if I want to speak to my app (for example,
+like Siri or Cortana), then I can use <a href="https://azure.microsoft.com/en-us/services/cognitive-services/">Cognitive Services</a> to process the speech.  There are SDKs for speech processing, textual
+language analytics and image processing.  The image processing SDKs are particularly useful for mobile photo applications.</p>
+<h3 id="content-delivery-networks-and-traffic-manager">Content Delivery Networks and Traffic Manager<a class="headerlink" href="#content-delivery-networks-and-traffic-manager" title="Permanent link">&para;</a></h3>
+<p>I hope your application is successful.  If you enjoy worldwide success or your mobile backend just can't go down, you will want to
+augment the single region solution with multiple region availability.  Perhaps you just want an automated failover to another region
+within the country, or perhaps you want to support other continents with closer capabilities.  Whatever the reason, you will want to
+take a look at <a href="https://azure.microsoft.com/en-us/services/traffic-manager/">Traffic Manager</a>, which routes a HTTP request to the closest service endpoint.</p>
+<p>In addition, you may want to make static assets available closer to the user.  You can't do anything about dynamic
+content.  However, static assets like images, videos or long-lived documents can be published to a <a href="https://azure.microsoft.com/en-us/services/cdn/">Content Delivery Network</a> or CDN.  The
+Azure CDN uses multiple providers (Akamai and Verizon) so that you can choose the footprint and costs that you need.</p>
+<h3 id="documentdb">DocumentDB<a class="headerlink" href="#documentdb" title="Permanent link">&para;</a></h3>
+<p>We have concentrated on integrating SQL services with offline-sync capabilities in this book.  However, there is a whole different
+paradigm for storing data on the server, mostly known as NoSQL stores.  These use JSON blobs to store their data.  Their main advantage
+is that you don't have to think about the schema of the data.    The Azure entry into this market is called <a href="https://azure.microsoft.com/en-us/services/documentdb/">DocumentDB</a>.  It's
+highly scalable, geo-replicated, and allows you to define business logic in JavaScript to be run on the server (as stored procedures
+and triggers).</p>
+<p>NoSQL databases tend to be prevalent in gaming, social data and IoT applications.  SQL tends to be more prevalent in web and enterprise
+applications.  Both types of data store have their place in the development world.  It really depends on what sort of work load you are
+considering with your app.  For assistance with the choice, check out the <a href="https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-vs-sql">NoSQL vs. SQL</a> article.</p>
+<h3 id="media-services">Media services<a class="headerlink" href="#media-services" title="Permanent link">&para;</a></h3>
+<p>One of the major pieces of functionality that I see in a lot of mobile applications is video.  It may be an advertisement, a training
+video, or a major video platform like Netflix or Hulu.  Video is a complex subject and can take up <a href="https://www.amazon.com/Technology-Video-Audio-Streaming/dp/0240805801/ref">a book</a> just by itself.  Fortunately,
+<a href="https://azure.microsoft.com/en-us/services/media-services/">Azure Media Services</a> simplifies the process by providing a scalable platform for video encoding and streaming to your mobile
+clients.  It also integrates media analytics, the ability to use cognitive services, and content protection in the platform.  We
+are going to go <a href="../media/">more in-depth</a> in Media Services later on.</p>
+<h3 id="search">Search<a class="headerlink" href="#search" title="Permanent link">&para;</a></h3>
+<p>If you have some sort of catalog (for example, a shopping cart or video library), then it's likely you will want to search within the
+catalog or library.  This is where <a href="https://azure.microsoft.com/en-us/services/traffic-manager/">Azure Search</a> comes in.  It is a platform service that implements an easily consumed API for
+searching your catalog.  This goes beyond basic SQL queries and gets into natural language processing, fuzzy search, proximity search,
+term boosting and regular expressions.  It supports 56 languages and provides feedback to your user in terms of search suggestions,
+highlighting and faceted navigation.  We are going to do a more <a href="../search/">in-depth study</a> of Azure Search later in the chapter.</p>
+<h3 id="service-fabric">Service Fabric<a class="headerlink" href="#service-fabric" title="Permanent link">&para;</a></h3>
+<p>Not all mobile applications are straight-forward view-based applications.  Some are games, for example, or highly scalable interactive
+platforms.  When you need custom microservices on the backend, then <a href="https://azure.microsoft.com/en-us/services/service-fabric/">Azure Service Fabric</a> will provide an architectural framework for
+developing the most complex, low-latency, data-intensive scenarios.  In these cases, a simple CRUD model is never going to be enough
+architecturally for the job of powering your backend.  However, such complexity comes at a cost.  In this case, the cost is the developer
+time necessry to invest in a highly scalable custom backend for your data flows.  If you think that you need more than basic CRUD style
+APIs because of latency concerns, then Service Fabric is the appropriate service.</p>
+<h2 id="non-azure-services">Non-Azure Services<a class="headerlink" href="#non-azure-services" title="Permanent link">&para;</a></h2>
+<p>Please note that I do not receive compensation and do not endorse any of the companies or products listed in this section.  Please do your
+research and ensure that the product will assist you.</p>
+<h3 id="customer-feedback">Customer Feedback<a class="headerlink" href="#customer-feedback" title="Permanent link">&para;</a></h3>
+<p>You can get some information from your customers without asking.  Crash analytics and page-use analytics can be driven by code within
+your application and submitted in real-time or batched to an application analytics package like <a href="https://www.visualstudio.com/vs/mobile-center/">Mobile Center</a>
+or <a href="https://azure.microsoft.com/en-us/services/application-insights/">App Insights</a>.  You may, however, need to ask your customers to leave feedback.  It could be as simple as a button click (like
+the Visual Studio happy face / sad face), or it may be more extensive, providing support capabilities, star ratings, and free-form
+text.  You can use these insights to drive UX improvements or features of your mobile app.</p>
+<p>Some companies that provide mobile-based feedback systems include <a href="http://www.opinionlab.com/tour/give-your-customer-a-voice/mobile-feedback/">OpinionLab</a> and <a href="https://www.apptentive.com/">Apptentive</a>.</p>
+<h3 id="in-app-purchases-and-mobile-advertising">In App Purchases and Mobile Advertising<a class="headerlink" href="#in-app-purchases-and-mobile-advertising" title="Permanent link">&para;</a></h3>
+<p>One of the big topics that mobile application developers face is how to monetize (i.e. get paid) their app.  Mobile app buyers do not like
+paying a lot for an app, so supplementary income comes from in-app purchases and mobile advertising.  In-app purchases (or In-app billing,
+as Android folks call it) are driven via an SDK provided by the mobile platform - <a href="https://www.raywenderlich.com/122144/in-app-purchase-tutorial">iOS</a> or <a href="https://developer.android.com/google/play/billing/billing_integrate.html">Android</a>.  You will need to integrate
+these SDKs into the platform-specific project, and Xamarin has some tools to assist for <a href="https://developer.xamarin.com/guides/ios/application_fundamentals/in-app_purchasing/">iOS</a> and <a href="https://components.xamarin.com/gettingstarted/xamarin.inappbilling">Android</a>.</p>
+<p>Mobile Advertising is another good area for investigation.  There are a number of considerations when choosing a mobile advertising partner
+(which is the partner who will feed your app advertisements to display and pay you for their display).  The good news for most mobile app
+developers is that you can use the social authentication provider as a hint as to which mobile ad provider is going to be appropriate:</p>
+<ul>
+<li>Facebook uses <a href="https://developers.facebook.com/products/ads/">Facebook App Ads</a></li>
+<li>Google uses <a href="https://www.google.com/admob/">AdMob</a></li>
+</ul>
+<p>There are also other mobile ad providers, like <a href="https://ogmobi.com/">OGMobi</a>, <a href="https://www.smaato.com/">Smaato</a> and <a href="http://adiquity.com/app-developers-overview/">AdIquity</a>, should you not be using one of these social
+auth providers.  It is not uncommon to see top-20 lists of mobile ad networks, so do some research - in particular, pay attention to the
+"fill rate" for customers in your area and the performance of the network (which is generally referred to as eCPM or effective cost per
+mille - one thousand impressions).  Your mobile ad performance will be less if the advertisements being offered by the network are not
+appropriate for your customers.</p>
+<p>In general, you will need to integrate the ad network SDK into your application and add view elements to your pages where the mobile ads
+will be displayed.</p>
+<h3 id="real-time-communications">Real-time Communications<a class="headerlink" href="#real-time-communications" title="Permanent link">&para;</a></h3>
+<p>You might want to get an instant alert of a pending change to a table, or perhaps produce the next great chat app.  Real-time Communications
+keeps a TCP or UDP channel open to the mobile client for communications, allowing you to send instant alerts to the connected mobile clients.  This
+enables quite a few collaborative use cases. There
+are quite a few "standards" here:</p>
+<ul>
+<li><a href="https://webrtc.org/">WebRTC</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/websockets/basics/">WebSockets</a></li>
+<li><a href="http://signalr.net/">SignalR</a></li>
+<li><a href="http://socket.io/">socket.io</a></li>
+</ul>
+<p>WebRTC uses UDP underneath, so it's better for lossy communication with low latency - for example, audio or video.  WebSockets (and the frameworks
+that depend on it, like socket.io and SignalR) use TCP.  This means higher latency, but lossless communication.  Since we are developing an
+ASP.NET mobile backend and using C# for the mobile application, SignalR would be more appropriate to use.  We'll do a more <a href="../realtime/">in-depth study</a> of
+SignalR later on in the chapter.</p>
 <!-- Links -->
           <aside class="copyright" role="note">
             
@@ -882,7 +847,7 @@ for which it was intended.</p>
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../windows/" title="Windows Push">
+        <a href="../../chapter6/react/" title="React Applications">
           <span class="direction">
             Previous
           </span>
@@ -892,7 +857,7 @@ for which it was intended.</p>
             </div>
             <div class="stretch">
               <div class="title">
-                Windows Push
+                React Applications
               </div>
             </div>
           </div>
@@ -901,14 +866,14 @@ for which it was intended.</p>
     </div>
     <div class="next">
       
-        <a href="../../chapter6/mvc/" title="MVC Applications">
+        <a href="../search/" title="Azure Search">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                MVC Applications
+                Azure Search
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

@@ -572,6 +572,15 @@
       
         
   <li>
+    <a class="" title="Useful Azure Services" href="../../chapter7/services/">
+      Useful Azure Services
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
     <a class="" title="Azure Search" href="../../chapter7/search/">
       Azure Search
     </a>
@@ -881,9 +890,9 @@ called an <strong>Installation</strong>.</p>
 registration process.  Automatically added tags are added by the mobile backend.  Let's take an example.
 My mobile backend is connected to Azure Active Directory.   I've configured my backend as follows:</p>
 <p><img alt="" src="../img/push-create-4.PNG" /></p>
-<p>Here, I have three client requested tags and two automatically generated tags that are only added when
+<p>Here, I have three client requested tags and an automatically generated tag that is only added when
 authenticated.  Let's suppose that the mobile client requested <code>[ topic:World topic:Sports ]</code> and the
-mobile client was authenticated as username <code>user@foo.com</code>.  With this configuration, the user would 
+mobile client was authenticated as username <code>user@foo.com</code>.  With this configuration, the user would
 be registered for the following tags:</p>
 <ul>
 <li>topic:Sports</li>
@@ -893,10 +902,10 @@ be registered for the following tags:</p>
 tag would not be added because it is not in the whitelist of allowed client requested tags.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>We never provide the ability to request any tag (a wild-card) because it is a large security hole.  With a
+<p>We do not provide the ability to request any tag (a wild-card) because it is a large security hole.  With a
 wild-card tag, you could request push notifications for a user or group to which you were not allowed.</p>
 </div>
-<p>The <code>$(provider.claim)</code> format is used in automatically added tags to add claims from the authenticated user 
+<p>The <code>$(provider.claim)</code> format is used in automatically added tags to add claims from the authenticated user
 into the notification hub installation.  You can use any claim that is returned by the <code>/.auth/me</code> endpoint.  The
 standard identifiers are:</p>
 <ul>
@@ -908,6 +917,12 @@ standard identifiers are:</p>
 that are available is different for each provider and additional claims may be available.  It is possible to configure
 Azure AD to return groups, for example.  Check the output of the  <code>/.auth/me</code> endpoint to determine which
 claims are available.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The automatic claim tags are only included when authenticated with a supported authentication provider.  If
+you are using Custom Authentication, you must also use a custom WebAPI controller to do push registration
+if you wants claims based on your authentication.</p>
+</div>
 <p>A claim name can resolve to multiple claim types.  For example, <code>$(aad.name)</code> resolves to the following claims:</p>
 <ul>
 <li>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name</li>
@@ -984,8 +999,8 @@ namespace TaskList.Abstractions
 }
 </code></pre>
 
-<p>The <code>Installation</code> object is also available in the Notification Hubs SDK, but I find bringing in the entire 
-Notification Hubs SDK just for this is a little overkill.  You can create a suitable installation and 
+<p>The <code>Installation</code> object is also available in the Notification Hubs SDK, but I find bringing in the entire
+Notification Hubs SDK just for this is a little overkill.  You can create a suitable installation and
 register with the <code>InvokeApiAsync&lt;T,U&gt;()</code> method:</p>
 <pre><code class="csharp">    public async Task RegisterForPushNotifications(MobileServiceClient client)
     {
@@ -1003,13 +1018,17 @@ register with the <code>InvokeApiAsync&lt;T,U&gt;()</code> method:</p>
                     Platform = &quot;gcm&quot;,
                     PushChannel = registrationId
                 };
+
                 // Set up tags to request
                 installation.Tags.Add(&quot;topic:Sports&quot;);
+
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
                     Body = &quot;{\&quot;data\&quot;:{\&quot;message\&quot;:\&quot;$(messageParam)\&quot;}}&quot;
                 };
+                installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
+
                 // Register with NH
                 var response = await client.InvokeApiAsync&lt;DeviceInstallation, DeviceInstallation&gt;(
                     $&quot;/push/installations/{client.InstallationId}&quot;,
@@ -1030,8 +1049,8 @@ register with the <code>InvokeApiAsync&lt;T,U&gt;()</code> method:</p>
 </code></pre>
 
 <p>This is normally placed within the platform-specific provider since the details on how to get the registration
-ID and platform are different.  This version is for the Android edition as an example.  Using <code>InvokeApiAsync()</code> 
-instead of relying on the in-built Azure Mobile Apps push registration methods gives you more control over the 
+ID and platform are different.  This version is for the Android edition as an example.  Using <code>InvokeApiAsync()</code>
+instead of relying on the in-built Azure Mobile Apps push registration methods gives you more control over the
 process of registration.</p>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <p>Each push notification system is different and requires different configuration in both the mobile client
