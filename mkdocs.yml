@@ -62,6 +62,9 @@ pages:
     - Credits: credits.md
 theme: material
 extra:
+    palette:
+      primary: 'red'
+      accent: 'deep purple'
     author:
       github: 'adrianhall'
       twitter: 'FizzyInTheHall'
