@@ -26,8 +26,6 @@ namespace VideoSearch.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::VideoSearch.Droid.Resource.String.ApplicationName;
-			global::Xamarin.Forms.Platform.Resource.String.Hello = global::VideoSearch.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
