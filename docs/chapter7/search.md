@@ -253,7 +253,176 @@ Azure Search can accept a simple search string (as we have done here), an [OData
 set of search criteria, or [Lucene Search Syntax][8].  The search explorer allows you to explore the various
 search mechanisms and their (sometimes peculiar) syntax.
 
+### Other Service Considerations
+
+You will note the use of an API key for Azure Search.  This can (and should) be regenerated at a regular
+interval.  As a result, you will want a custom API that retrieves the current API key, perhaps only giving
+the API key to authenticated users.  We covered custom APIs in an earlier chapter, so I won't cover that
+functionality here.  Instead, the demonstration code will use a `Settings.cs` class in the client that
+contains the URI and API key for searching.
+
 ## Using Azure Search
+
+Before you can use Azure Search, you should generate a Query-Only API key for your Azure Search service.  When
+we uploaded the documents to the search service for indexing (and if you intend to do any other administrative
+tasks through PowerShell or the REST API), you will use the Administrative API key.  This key is found under
+the **Keys** menu item in the Azure Search resource in the Azure Portal.  In the same place is a menu item called
+**Manage query keys**.
+
+![][img7]
+
+The service creates one of these keys for you with an empty name.  I like to create a query key for each version
+of the mobile software I release.  I can thus retire keys that are no longer in use.  To create a key:
+
+* Click the **+ Add** button.
+* Enter a descriptive name (like "iOS v1.0", for example)
+* Click **Create**.
+
+![][img8]
+
+You can now copy and paste the key into your settings file.  I have created a `Settings.cs` file in my shared
+project:
+
+```csharp
+using System;
+
+namespace VideoSearch
+{
+    public static class Settings
+    {
+        public static string AzureSearchUri = "https://zumbook.search.windows.net";
+
+        /// <summary>
+        /// Replace this with your API key from the Azure Search.  You should
+        /// never check in code with an API key in it - read the key from an
+        /// Azure App Service App Setting and then provide it to your mobile
+        /// clients via a custom API.
+        /// </summary>
+        public static string AzureSearchApiKey = "88E95AB69AAAAB6FC5579E1CC40E7FC4";
+    }
+}
+```
+
+As we saw while we were testing the service, the search API is going to return a number of JSON objects.  We
+can represent each return value with a model.  Here is my `Models/Movie.cs` model:
+
+```csharp
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace VideoSearch.Models
+{
+    public class Movie : SearchResult
+    {
+        [JsonProperty(PropertyName = "videoId")]
+        public string Id { get; set; }
+
+
+        public string Title { get; set; }
+
+        public Uri Image { get; set; }
+
+        public double Rating { get; set; }
+
+        public int ReleaseYear { get; set; }
+
+        [JsonProperty(PropertyName = "genre")]
+        public List<string> Genres { get; set; }
+    }
+}
+```
+
+The `Models/SearchResult.cs` model adds the `@search.score` value that is returned in the search results:
+
+```csharp
+using Newtonsoft.Json;
+
+namespace VideoSearch.Models
+{
+    public class SearchResult
+    {
+        [JsonProperty(PropertyName = "@search.score")]
+        public double SearchScore { get; set; }
+    }
+}
+```
+
+Finally, the `Models/MovieResults.cs` class can be used to deserialize the entire JSON object that is returned by the
+server:
+
+```csharp
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace VideoSearch.Models
+{
+    public class MovieResults
+    {
+        [JsonProperty(PropertyName = "@odata.context")]
+        public string Context { get; set; }
+
+        [JsonProperty(PropertyName = "value")]
+        public List<Movie> Movies { get; set; }
+    }
+}
+```
+
+I also provide a class called `Services/SearchService.cs` for handling search results.  In this case, it will
+do the HTTP request to the specified server, sending the provided search string, and decode the response.  It
+will throw an exception if the server produces an error:
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using VideoSearch.Models;
+
+namespace VideoSearch.Services
+{
+    public class SearchService
+    {
+        private HttpClient _client;
+        private string _apiVersion = "2016-09-01";
+
+        public SearchService()
+        {
+            this._client = new HttpClient();
+        }
+
+        public async Task<List<Movie>> SearchMoviesAsync(string searchTerms)
+        {
+            var content = await SearchAsync("videos", searchTerms);
+            var movieResults = JsonConvert.DeserializeObject<MovieResults>(content);
+            return movieResults.Movies;
+        }
+
+        private async Task<string> SearchAsync(string index, string searchTerms)
+        {
+            var uri = new UriBuilder($"{Settings.AzureSearchUri}/indexes/${index}/docs");
+            uri.Query = $"api-version={_apiVersion}&search={Uri.EscapeDataString(searchTerms)}";
+
+            var request = new HttpRequestMessage
+            {
+                RequestUri = uri.Uri,
+                Method = HttpMethod.Get
+            };
+
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.Add("api-key", Settings.AzureSearchApiKey);
+
+            var response = await _client.SendAsync(request);
+            return await response.Content.ReadAsStringAsync();
+        }
+    }
+}
+```
+
+The `SearchAsync()` method is a basic HTTP GET method that returns a string.  We add the appropriate
+headers and ensure the URI is the correct format.  We
 
 <!-- Images -->
 [img1]: ./img/search-pricing.PNG
@@ -262,6 +431,8 @@ search mechanisms and their (sometimes peculiar) syntax.
 [img4]: ./img/search-overview.PNG
 [img5]: ./img/search-all-of.PNG
 [img6]: ./img/search-of-comedy.PNG
+[img7]: ./img/search-querykey-1.PNG
+[img8]: ./img/search-querykey-2.PNG
 
 <!-- Links -->
 [1]: https://lucene.apache.org/
