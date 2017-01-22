@@ -628,6 +628,12 @@ namespace TaskList.Services
 }
 ```
 
+!!! warn "Ensure you use HTTPS"
+    If you copy the URL on the Overview page of your App Service, you will get the http
+    version of the endpoint.  You must provide the https version of the endpoint when
+    using App Service.  The http endpoint redirects to https and the standard HttpClient
+    does not handle redirects.
+
 The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating
 with the mobile backend that we have already published.  Just swap out the
 name of your mobile backend and the rest is silently dealt with.
@@ -1040,7 +1046,7 @@ iOS "pull-to-refresh" gesture can probably guess what this does.
 The code behind in `Pages\TaskList.xaml.cs`:
 
 ```csharp
-using TaskList.ViewModels; 
+using TaskList.ViewModels;
 using Xamarin.Forms;
 
 namespace TaskList.Pages
@@ -1372,7 +1378,7 @@ the final version of [the Chapter 1 sample][11] on GitHub.
     Stack or a local IIS service), your UWP application will need the **Private Networks**
     capability.  You can add this in the `Package.appxmanifest` file.  Choose the
     **Capabilities** tab and add the required capability.
-    
+
 If you need to build the project, ensure you redeploy the project after building.
 It's a step that is easy to miss and can cause some consternation as you change
 the code and it doesn't seem to have an effect on the application.
