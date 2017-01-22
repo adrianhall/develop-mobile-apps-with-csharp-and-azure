@@ -197,6 +197,11 @@ A claim name can resolve to multiple claim types.  For example, `$(aad.name)` re
 
 In this case, three tags may be created - one for each unique name.
 
+!!! warn
+    App Service Push provides a default tag called _UserId.  This is currently badly formed based on the MD5
+    of the SID provided in the JWT that we provide.  My recommendation is to not rely on or use the default
+    tags that are provided.  Set up your own tags.
+
 Once you have configure the tags, click on **Save** to save your work.
 
 ## Registering Your Mobile Client
@@ -323,6 +328,10 @@ register with the `InvokeApiAsync<T,U>()` method:
         }
     }
 ```
+
+!!! info "Where is that endpoint?"
+    The `/push/installations` endpoint is part of App Service Push - a feature of the Azure App Service
+    resource.  This exists on your `.azurewebsites.net` domain.  It is not part of Notification Hubs.
 
 This is normally placed within the platform-specific provider since the details on how to get the registration
 ID and platform are different.  This version is for the Android edition as an example.  Using `InvokeApiAsync()`
