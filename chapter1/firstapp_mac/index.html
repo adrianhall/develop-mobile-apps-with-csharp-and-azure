@@ -1959,6 +1959,13 @@ namespace TaskList.Services
 }
 </code></pre>
 
+<div class="admonition warn">
+<p class="admonition-title">Ensure you use HTTPS</p>
+<p>If you copy the URL on the Overview page of your App Service, you will get the http
+version of the endpoint.  You must provide the https version of the endpoint when
+using App Service.  The http endpoint redirects to https and the standard HttpClient
+does not handle redirects.</p>
+</div>
 <p>The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating
 with the mobile backend that we have already published.  Just swap <strong>my-backend</strong> out for the
 name of your mobile backend and the rest is silently dealt with.</p>

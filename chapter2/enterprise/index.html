@@ -1108,6 +1108,21 @@ namespace TaskList.Services
 
 <p>The method looks up the platform dependent version of the login provider and executes the login method, passing
 along the client (which we will need later).</p>
+<p>Finally, we will want to easily instantiate the cloud provider.  In the shared project, add the following to the
+constructor for <code>App.cs</code>:</p>
+<pre><code class="csharp">    public App()
+    {
+        ServiceLocator.Instance.Add&lt;ICloudService, AzureCloudService&gt;();
+        MainPage = new NavigationPage(new Pages.EntryPage());
+    }
+</code></pre>
+
+<p>The cloud service object can now be retrieved in any view using the following snippet:</p>
+<pre><code class="csharp">    ICloudService cloudService = ServiceLocator.Instance.Resolve&lt;ICloudService&gt;();
+</code></pre>
+
+<p>We will need to do this in the <code>ViewModels/TaskDetailViewModel.cs</code> and <code>ViewModels/TaskKListViewModel.cs</code> classes.  Refer
+to the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">project in GitHub</a> if you run into issues here.</p>
 <p>In each platform-specific project, we are going to define a concrete implementation of the login provider that uses
 a web view to hold the actual authentication flow.  Here is the droid <code>Services\DroidLoginProvider.cs</code> (in the
 TaskList.Droid project):</p>

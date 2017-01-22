@@ -1599,7 +1599,7 @@ In the dialog, find the <strong>Auth0 SDK</strong>, then click on <strong>Add to
                 &quot;shellmonger.auth0.com&quot;,
                 &quot;lmFp5jXnwPpD9lQIYwgwwPmFeofuLpYq&quot;);
             var user = await auth0.LoginAsync(RootView, scope: &quot;openid email&quot;);
-            return user.Auth0AccessToken;
+            return user.IdToken;
         }
 </code></pre>
 

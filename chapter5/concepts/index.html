@@ -1234,6 +1234,12 @@ if you wants claims based on your authentication.</p>
 <li>name</li>
 </ul>
 <p>In this case, three tags may be created - one for each unique name.</p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>App Service Push provides a default tag called _UserId.  This is currently badly formed based on the MD5
+of the SID provided in the JWT that we provide.  My recommendation is to not rely on or use the default
+tags that are provided.  Set up your own tags.</p>
+</div>
 <p>Once you have configure the tags, click on <strong>Save</strong> to save your work.</p>
 <h2 id="registering-your-mobile-client">Registering Your Mobile Client<a class="headerlink" href="#registering-your-mobile-client" title="Permanent link">&para;</a></h2>
 <p>After you have gained the requisite platform-specific registration ID, you need to pass this to the mobile
@@ -1352,6 +1358,11 @@ register with the <code>InvokeApiAsync&lt;T,U&gt;()</code> method:</p>
     }
 </code></pre>
 
+<div class="admonition info">
+<p class="admonition-title">Where is that endpoint?</p>
+<p>The <code>/push/installations</code> endpoint is part of App Service Push - a feature of the Azure App Service
+resource.  This exists on your <code>.azurewebsites.net</code> domain.  It is not part of Notification Hubs.</p>
+</div>
 <p>This is normally placed within the platform-specific provider since the details on how to get the registration
 ID and platform are different.  This version is for the Android edition as an example.  Using <code>InvokeApiAsync()</code>
 instead of relying on the in-built Azure Mobile Apps push registration methods gives you more control over the
