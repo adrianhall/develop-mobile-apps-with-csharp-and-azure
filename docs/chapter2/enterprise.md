@@ -60,7 +60,7 @@ using the same mobile client that we developed in the first chapter, but we are 
 it.  Web views are one of those items that are platform dependent. Fortunately for us, Xamarin has already thought
 of this and provided a facility for running platform specific code called the [DependencyService][22].
 
-!!! info 
+!!! info
     If we run our application right now, clicking on the "Enter the App" button will result in an error.  We will be
     able to see the Unauthorized error in the debug window of Visual Studio.
 
@@ -131,6 +131,26 @@ namespace TaskList.Services
 
 The method looks up the platform dependent version of the login provider and executes the login method, passing
 along the client (which we will need later).
+
+Finally, we will want to easily instantiate the cloud provider.  In the shared project, add the following to the
+constructor for `App.cs`:
+
+```csharp
+    public App()
+    {
+        ServiceLocator.Instance.Add<ICloudService, AzureCloudService>();
+        MainPage = new NavigationPage(new Pages.EntryPage());
+    }
+```
+
+The cloud service object can now be retrieved in any view using the following snippet:
+
+```csharp
+    ICloudService cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
+```
+
+We will need to do this in the `ViewModels/TaskDetailViewModel.cs` and `ViewModels/TaskKListViewModel.cs` classes.  Refer
+to the [project in GitHub][10] if you run into issues here.
 
 In each platform-specific project, we are going to define a concrete implementation of the login provider that uses
 a web view to hold the actual authentication flow.  Here is the droid `Services\DroidLoginProvider.cs` (in the
