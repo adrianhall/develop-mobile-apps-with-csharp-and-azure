@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.ico">
       
-      <meta name="generator" content="mkdocs+mkdocs-material#1.0.1">
+      <meta name="generator" content="mkdocs+mkdocs-material#1.0.3">
     
     
       
@@ -36,7 +36,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e0a21a99ab.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-f3ab63f78a.css">
       
         <link rel="stylesheet" href="../../assets/stylesheets/application-02ce7adcc2.palette.css">
       
@@ -741,6 +741,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#other-service-considerations" title="Other Service Considerations" class="md-nav__link">
+    Other Service Considerations
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -995,6 +1002,13 @@
           <li class="md-nav__item">
   <a href="#testing-azure-search" title="Testing Azure Search" class="md-nav__link">
     Testing Azure Search
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-service-considerations" title="Other Service Considerations" class="md-nav__link">
+    Other Service Considerations
   </a>
   
 </li>
@@ -1283,7 +1297,160 @@ search for the word "of" across all searchable fields:</p>
 <p>Azure Search can accept a simple search string (as we have done here), an <a href="https://docs.microsoft.com/en-us/rest/api/searchservice/odata-expression-syntax-for-azure-search">OData Filter</a> using a restricted
 set of search criteria, or <a href="https://docs.microsoft.com/en-us/rest/api/searchservice/lucene-query-syntax-in-azure-search">Lucene Search Syntax</a>.  The search explorer allows you to explore the various
 search mechanisms and their (sometimes peculiar) syntax.</p>
+<h3 id="other-service-considerations">Other Service Considerations<a class="headerlink" href="#other-service-considerations" title="Permanent link">&para;</a></h3>
+<p>You will note the use of an API key for Azure Search.  This can (and should) be regenerated at a regular
+interval.  As a result, you will want a custom API that retrieves the current API key, perhaps only giving
+the API key to authenticated users.  We covered custom APIs in an earlier chapter, so I won't cover that
+functionality here.  Instead, the demonstration code will use a <code>Settings.cs</code> class in the client that
+contains the URI and API key for searching.</p>
 <h2 id="using-azure-search">Using Azure Search<a class="headerlink" href="#using-azure-search" title="Permanent link">&para;</a></h2>
+<p>Before you can use Azure Search, you should generate a Query-Only API key for your Azure Search service.  When
+we uploaded the documents to the search service for indexing (and if you intend to do any other administrative
+tasks through PowerShell or the REST API), you will use the Administrative API key.  This key is found under
+the <strong>Keys</strong> menu item in the Azure Search resource in the Azure Portal.  In the same place is a menu item called
+<strong>Manage query keys</strong>.</p>
+<p><img alt="" src="../img/search-querykey-1.PNG" /></p>
+<p>The service creates one of these keys for you with an empty name.  I like to create a query key for each version
+of the mobile software I release.  I can thus retire keys that are no longer in use.  To create a key:</p>
+<ul>
+<li>Click the <strong>+ Add</strong> button.</li>
+<li>Enter a descriptive name (like "iOS v1.0", for example)</li>
+<li>Click <strong>Create</strong>.</li>
+</ul>
+<p><img alt="" src="../img/search-querykey-2.PNG" /></p>
+<p>You can now copy and paste the key into your settings file.  I have created a <code>Settings.cs</code> file in my shared
+project:</p>
+<pre><code class="csharp">using System;
+
+namespace VideoSearch
+{
+    public static class Settings
+    {
+        public static string AzureSearchUri = &quot;https://zumbook.search.windows.net&quot;;
+
+        /// &lt;summary&gt;
+        /// Replace this with your API key from the Azure Search.  You should
+        /// never check in code with an API key in it - read the key from an
+        /// Azure App Service App Setting and then provide it to your mobile
+        /// clients via a custom API.
+        /// &lt;/summary&gt;
+        public static string AzureSearchApiKey = &quot;88E95AB69AAAAB6FC5579E1CC40E7FC4&quot;;
+    }
+}
+</code></pre>
+
+<p>As we saw while we were testing the service, the search API is going to return a number of JSON objects.  We
+can represent each return value with a model.  Here is my <code>Models/Movie.cs</code> model:</p>
+<pre><code class="csharp">using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace VideoSearch.Models
+{
+    public class Movie : SearchResult
+    {
+        [JsonProperty(PropertyName = &quot;videoId&quot;)]
+        public string Id { get; set; }
+
+
+        public string Title { get; set; }
+
+        public Uri Image { get; set; }
+
+        public double Rating { get; set; }
+
+        public int ReleaseYear { get; set; }
+
+        [JsonProperty(PropertyName = &quot;genre&quot;)]
+        public List&lt;string&gt; Genres { get; set; }
+    }
+}
+</code></pre>
+
+<p>The <code>Models/SearchResult.cs</code> model adds the <code>@search.score</code> value that is returned in the search results:</p>
+<pre><code class="csharp">using Newtonsoft.Json;
+
+namespace VideoSearch.Models
+{
+    public class SearchResult
+    {
+        [JsonProperty(PropertyName = &quot;@search.score&quot;)]
+        public double SearchScore { get; set; }
+    }
+}
+</code></pre>
+
+<p>Finally, the <code>Models/MovieResults.cs</code> class can be used to deserialize the entire JSON object that is returned by the
+server:</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace VideoSearch.Models
+{
+    public class MovieResults
+    {
+        [JsonProperty(PropertyName = &quot;@odata.context&quot;)]
+        public string Context { get; set; }
+
+        [JsonProperty(PropertyName = &quot;value&quot;)]
+        public List&lt;Movie&gt; Movies { get; set; }
+    }
+}
+</code></pre>
+
+<p>I also provide a class called <code>Services/SearchService.cs</code> for handling search results.  In this case, it will
+do the HTTP request to the specified server, sending the provided search string, and decode the response.  It
+will throw an exception if the server produces an error:</p>
+<pre><code class="csharp">using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using VideoSearch.Models;
+
+namespace VideoSearch.Services
+{
+    public class SearchService
+    {
+        private HttpClient _client;
+        private string _apiVersion = &quot;2016-09-01&quot;;
+
+        public SearchService()
+        {
+            this._client = new HttpClient();
+        }
+
+        public async Task&lt;List&lt;Movie&gt;&gt; SearchMoviesAsync(string searchTerms)
+        {
+            var content = await SearchAsync(&quot;videos&quot;, searchTerms);
+            var movieResults = JsonConvert.DeserializeObject&lt;MovieResults&gt;(content);
+            return movieResults.Movies;
+        }
+
+        private async Task&lt;string&gt; SearchAsync(string index, string searchTerms)
+        {
+            var uri = new UriBuilder($&quot;{Settings.AzureSearchUri}/indexes/${index}/docs&quot;);
+            uri.Query = $&quot;api-version={_apiVersion}&amp;search={Uri.EscapeDataString(searchTerms)}&quot;;
+
+            var request = new HttpRequestMessage
+            {
+                RequestUri = uri.Uri,
+                Method = HttpMethod.Get
+            };
+
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(&quot;application/json&quot;));
+            request.Headers.Add(&quot;api-key&quot;, Settings.AzureSearchApiKey);
+
+            var response = await _client.SendAsync(request);
+            return await response.Content.ReadAsStringAsync();
+        }
+    }
+}
+</code></pre>
+
+<p>The <code>SearchAsync()</code> method is a basic HTTP GET method that returns a string.  We add the appropriate
+headers and ensure the URI is the correct format.  We</p>
 <!-- Images -->
 
 <!-- Links -->
@@ -1350,7 +1517,7 @@ search mechanisms and their (sometimes peculiar) syntax.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application-16f434a21a.js"></script>
+      <script src="../../assets/javascripts/application-2afe21e0b2.js"></script>
       <script>var config={url:{base:"../.."}},app=new Application(config);app.initialize()</script>
       
         <script src="../../js/highlight.pack.js"></script>
