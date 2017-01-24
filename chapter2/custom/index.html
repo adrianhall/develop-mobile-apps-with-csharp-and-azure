@@ -1456,7 +1456,7 @@ primarily a server-flow proecss, so we will be able to add support in our app wi
 <p>Azure AD is managed from the <a href="https://manage.windowsazure.com/">Classic Azure Portal</a>, so start by logging in using your Azure
 Subscription credentials.</p>
 <ul>
-<li>Click on the big <strong>+ NEW</strong> button in the bottom left of the screen.</li>
+<li>Click the big <strong>+ NEW</strong> button in the bottom left of the screen.</li>
 <li>Select <strong>App Services</strong> -&gt; <strong>Active Directory</strong> -&gt; <strong>Directory</strong> -&gt; <strong>Custom Create</strong>.</li>
 </ul>
 <p><img alt="AAD B2C Create Flow - Create a new resource" src="../img/aad-b2c-1.PNG" /></p>
@@ -1466,63 +1466,80 @@ Subscription credentials.</p>
 </ul>
 <p><img alt="AAD B2C Create Flow - Add a Directory" src="../img/aad-b2c-2.PNG" /></p>
 <ul>
-<li>Click on the tick to create the directory.  As noted, this process will take a couple of minutes to complete.</li>
+<li>Click the tick to create the directory.  As noted, this process will take a couple of minutes to complete.</li>
 </ul>
-<p>This creates a new tenant for you to manage.  If you go back to your <a href="https://portal.azure.com/">Azure Portal</a> and click on your name
+<p>This creates a new tenant for you to manage.  If you go back to your <a href="https://portal.azure.com/">Azure Portal</a> and click your name
 (top right corner), you will note that there is a new DIRECTORY entry for your B2C tenant.  This is where you will be
 managing your B2C tenant.</p>
 <p>It's a good idea to pin the B2C settings blade to your dashboard or navigation pane so you can access it faster.
 To do this:</p>
 <ul>
 <li>Log in to the <a href="https://portal.azure.com/">Azure Portal</a>.</li>
-<li>Switch to your B2C tenant by clicking on your name, then selecting the new tenant in the drop-down.</li>
-<li>The portal will probably ask you to confirm your ID and password.</li>
-<li>Click on <strong>Browse&gt;</strong> in the left-hand navigation bar.</li>
+<li>Switch to your B2C tenant by clicking on your name, then selecting the new tenant in the drop-down.  (The portal
+    may ask you to re-confirm your ID and password)</li>
+<li>Click <strong>More services&gt;</strong> in the left-hand navigation bar.</li>
 <li>Search for <strong>B2C</strong>.</li>
-<li>Click on the empty star next to <strong>Azure AD B2C</strong>.</li>
+<li>Click the empty star next to <strong>Azure AD B2C</strong>.</li>
 </ul>
 <p><img alt="AAD B2C Create Flow - Favorite the B2C" src="../img/aad-b2c-3.PNG" /></p>
 <p>This will make Azure AD B2C appear in your left hand navigation bar.  To place it on the dashboard, click on
-<strong>Azure AD B2C</strong> in the left hand navigation bar, then click on the pin at the top of the <strong>AZURE AD B2C SETTINGS</strong>
+<strong>Azure AD B2C</strong> in the left hand navigation bar, then click the pin at the top of the <strong>AZURE AD B2C SETTINGS</strong>
 blade.</p>
+<p>We also need to link the B2C tenant to an Azure subscription that can be billed.  If you see an orange banner
+across the top of the Azure AD BC Settings, then click it to find the simple 3-step process to link the
+service.  Once that is done, return to the the B2C tenant.</p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Azure AD B2C is currently in PREVIEW.  As a result, the process for creating a B2C tenant may change over
+time.  If you find these instructions don't work, consult the official documentation on <a href="https://docs.microsoft.com/">docs.microsoft.com</a>.</p>
+</div>
 <p>The next job is to create an application registration within the B2C tenant:</p>
 <ul>
 <li>Open the <strong>Azure AD B2C</strong> from your dashboard or the left hand navigation.</li>
-<li>In the <strong>Settings</strong> blade, click on <strong>Applications</strong>.</li>
+<li>In the <strong>Settings</strong> blade, click <strong>Applications</strong>.</li>
 </ul>
 <p><img alt="AAD B2C Create Flow - Create an App Step 1" src="../img/aad-b2c-4.PNG" /></p>
 <ul>
+<li>Click <strong>+ ADD</strong> to add a new application.</li>
 <li>In the <strong>New application</strong> blade:</li>
 <li>Enter a unique name for the application.</li>
-<li>Click on <strong>Yes</strong> under <strong>Include web app / web API</strong>.</li>
+<li>Click <strong>Yes</strong> under <strong>Include web app / web API</strong>.</li>
 <li>In the Reply URL, enter <code>https://yoursite.azurewebsites.net/.auth/login/aad/callback</code>.</li>
-<li>Click on <strong>Generate key</strong> - a key will be generated (cut and paste it somewhere).</li>
 </ul>
 <p><img alt="AAD B2C Create Flow - Create an App Step 2" src="../img/aad-b2c-5.PNG" /></p>
 <ul>
-<li>Click on <strong>Create</strong>.</li>
+<li>Click <strong>OK</strong>.</li>
 </ul>
 <p>There is no spinner or deployment here.  After approximately 5-10 seconds, the application registration will appear
-in the list.  Click on the application registration to see the <strong>Application ID</strong>:</p>
+in the list.  Click the application registration to see the <strong>Application ID</strong>:</p>
 <p><img alt="AAD B2C Create Flow - Create an App Step 3" src="../img/aad-b2c-6.PNG" /></p>
-<p>You will need the Application ID and App Key (which you copied earlier) later on.  The next step is to create a
-Sign-in/Sign-up policy.  We'll create a policy for signing up with an email address and email confirmation, then
-signing in with that email address:</p>
+<p>We will also need an App Key.</p>
 <ul>
-<li>In the <strong>Settings</strong> blade, click on <strong>Sign-up or sign-in policies</strong>.</li>
-<li>Click on the <strong>+ Add</strong> button.</li>
+<li>Click <strong>Keys</strong>.</li>
+<li>Click <strong>+ Generate Key</strong>.</li>
+<li>Click <strong>Save</strong>.</li>
+</ul>
+<p>The new App Key will be generated and the display updated. Copy the key that has been generated before you leave
+this blade as it cannot be re-displayed.  The next time you enter this blade, the secret will be obscured with
+no way of displaying it.  We will need the Application ID and App Key later on.</p>
+<p>The next step is to create a Sign-in/Sign-up policy.  We'll create a policy for signing up with an email address
+and email confirmation, then signing in with that email address.  Close all the blades out to the Settings blade
+for the B2C tenant, then:</p>
+<ul>
+<li>In the <strong>Settings</strong> blade, click <strong>Sign-up or sign-in policies</strong>.</li>
+<li>Click the <strong>+ Add</strong> button.</li>
 <li>Give the policy a name, like <strong>emailPolicy</strong>.</li>
-<li>Click on <strong>Identity providers</strong>:</li>
-<li>Click on <strong>Email signup / Local Account</strong> (a tick will appear next to the row).</li>
-<li>Click on <strong>OK</strong>.</li>
-<li>Click on <strong>Sign-up attributes</strong>:</li>
-<li>Click on <strong>Email Address</strong> and any other fields you want to gather.</li>
-<li>Click on <strong>OK</strong>.</li>
-<li>Click on <strong>Application claims</strong>:</li>
-<li>Click on <strong>Email Addresses</strong> and any other fields you want to provide to the application.</li>
-<li>Click on <strong>OK</strong></li>
-<li>Click on <strong>Create</strong> on the <strong>Add policy</strong> blade.</li>
-<li>Click on the policy you just created.  It will be named something like <em>B2C_1_emailPolicy</em>. Make a note of the
+<li>Click <strong>Identity providers</strong>:</li>
+<li>Click <strong>Email signup / Local Account</strong> (a tick will appear next to the row).</li>
+<li>Click <strong>OK</strong>.</li>
+<li>Click <strong>Sign-up attributes</strong>:</li>
+<li>Click <strong>Email Address</strong> and any other fields you want to gather.</li>
+<li>Click <strong>OK</strong>.</li>
+<li>Click <strong>Application claims</strong>:</li>
+<li>Click <strong>Email Addresses</strong> and any other fields you want to provide to the application.</li>
+<li>Click <strong>OK</strong></li>
+<li>Click <strong>Create</strong> on the <strong>Add policy</strong> blade.</li>
+<li>Click the policy you just created.  It will be named something like <em>B2C_1_emailPolicy</em>. Make a note of the
 <strong>Metadata Endpoint for this policy</strong>.</li>
 </ul>
 <p><img alt="AAD B2C Create Flow - Create a Policy" src="../img/aad-b2c-7.PNG" /></p>
@@ -1534,7 +1551,7 @@ the top-right corner and selecting the default directory).</p>
 the application ID of your B2C application registration, and the <strong>Issuer Url</strong> is the <strong>Metadata Endpoint</strong>
 for your sign-up policy:</p>
 <p><img alt="AAD B2C Create Flow - Configure EasyAuth" src="../img/aad-b2c-8.PNG" /></p>
-<p>Click on <strong>OK</strong> to configure the authentication server flow, the <strong>Save</strong> to save the settings.  As before, you
+<p>Click <strong>OK</strong> to configure the authentication server flow, the <strong>Save</strong> to save the settings.  As before, you
 can test your server flow by pointing your browser to <code>https://yoursite.azurewebsites.net/.auth/login/aad</code>:</p>
 <p><img alt="AAD B2C Login Flow" src="../img/aad-b2c-9.PNG" /></p>
 <p>If you have done everything right, you should be able to register an account, get the email verification code,
@@ -1553,6 +1570,10 @@ can't use both a B2C provider and a regular AAD provider.</p>
 <p>If you just want a sign-up / sign-in flow, then AAD B2C is probably the best way to go.  If, however, your plans
 include integration with other social identity providers, you should consider using the identity providers
 directly or via separate configuration with the Azure App Service Authentication / Authorization.</p>
+<p>Finally, you cannot use a "client-flow" for Azure Active Directory B2C when using it in combination with Azure
+Mobile Apps.  The Azure Mobile Apps will only accept a token from the ADAL library (as we described in the
+Active Directory section), and Azure Active Directory B2C requires authentication with MSAL (a newer library).
+We can happily work with server-flow.</p>
 <h2 id="using-third-party-tokens">Using Third Party Tokens<a class="headerlink" href="#using-third-party-tokens" title="Permanent link">&para;</a></h2>
 <p>The final method of authenticating a user we are going to look at is a process by which you use a third party
 authentication token.   For example, you may want to authenticate via <a href="https://developer.github.com/v3/oauth/">GitHub</a> or <a href="http://www.miicard.com/for/individuals/how-it-works">miiCard</a> or using
@@ -1562,24 +1583,24 @@ a username and password, you pass in the token from the other provider.</p>
 <p>To look at this in example form, we are going to implement Auth0 as a provider. Your first stop should be the
 <a href="https://www.auth0.com/">Auth0</a> web site to sign up for a developer account. Once you have done that:</p>
 <ul>
-<li>Click on the <strong>+ NEW CLIENT</strong> button in the <strong>Dashboard</strong>.</li>
-<li>Give your app a name, then click on <strong>Native</strong> and then <strong>CREATE</strong>.</li>
+<li>Click the <strong>+ NEW CLIENT</strong> button in the <strong>Dashboard</strong>.</li>
+<li>Give your app a name, then click <strong>Native</strong> and then <strong>CREATE</strong>.</li>
 </ul>
 <p><img alt="Auth0 Create Flow - Step 1" src="../img/auth0-create-1.PNG" /></p>
 <ul>
-<li>Click on the <strong>Xamarin</strong> icon to get the Xamarin Quickstart.</li>
-<li>Click on <strong>Settings</strong>.</li>
+<li>Click the <strong>Xamarin</strong> icon to get the Xamarin Quickstart.</li>
+<li>Click <strong>Settings</strong>.</li>
 <li>Enter the callback URL in the <strong>Allowed Callback URLs</strong>.  The callback URL will be something like
   <code>https://_youraccount_.auth0.com/mobile</code> and will be listed in the Quickstart page.</li>
-<li>Scroll down to the bottom of the page and click on <strong>SAVE CHANGES</strong>.</li>
+<li>Scroll down to the bottom of the page and click <strong>SAVE CHANGES</strong>.</li>
 <li>Make a note of the Client ID of the application.  You will need it later.</li>
-<li>Click on <strong>Connections</strong>.</li>
+<li>Click <strong>Connections</strong>.</li>
 <li>Turn on any connections that you want to use.  For this example, ensure you turn on the
 <strong>Username-Password-Authentication</strong> and a couple of social providers.</li>
 </ul>
 <p>Now that the Auth0 service is configured, we can turn our attention to the mobile client.  The Xamarin.Auth0Client
-is a component, so right-click on the <strong>Components</strong> node of a platform project and select <strong>Get More Components...</strong>.
-In the dialog, find the <strong>Auth0 SDK</strong>, then click on <strong>Add to App</strong>.</p>
+is a component, so right-click the <strong>Components</strong> node of a platform project and select <strong>Get More Components...</strong>.
+In the dialog, find the <strong>Auth0 SDK</strong>, then click <strong>Add to App</strong>.</p>
 <p>For our iOS application, we are going to integrate Auth0 into the <code>Services\iOSLoginProvider.cs</code>:</p>
 <pre><code class="csharp">        public async Task LoginAsync(MobileServiceClient client)
         {
