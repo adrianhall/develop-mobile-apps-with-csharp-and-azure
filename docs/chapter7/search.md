@@ -111,7 +111,6 @@ You can create an index via the Azure Portal or with the REST interface.  I'm go
             "name": "title",
             "type": "Edm.String",
             "filterable": true,
-            "searchable": true,
             "sortable": true,
             "facetable": false
         },
@@ -123,14 +122,14 @@ You can create an index via the Azure Portal or with the REST interface.  I'm go
             "sortable": false,
             "facetable": false
         },
-        {
-            "name": "rating",
-            "type": "Edm.Double",
-            "filterable": true,
-            "searchable": false,
-            "sortable": true,
-            "facetable": false
-        },
+      {
+        "name": "rating",
+        "type": "Edm.Double",
+        "filterable": true,
+        "searchable": false,
+        "sortable": true,
+        "facetable": false
+      },
         {
             "name": "releaseYear",
             "type": "Edm.Int32",
@@ -143,8 +142,7 @@ You can create an index via the Azure Portal or with the REST interface.  I'm go
             "name": "genra",
             "type": "Collection(Edm.String)",
             "filterable": true,
-            "searchable": true,
-            "sortable": false,
+            "sortable": true,
             "facetable": true
         }
     ]
@@ -230,7 +228,7 @@ referenced by the key field (in our case, the videoId field), the status field w
 be an errorMessage field which contains the problem.  You can correct the problem and upload just that
 document.
 
-There are four values for the **@search.action** field - normally, you will want to use "upload" for new
+There are four values for the **@search.action** field - normally, we will want to use "upload" for new
 documents and "mergeOrUpload" for subsequent updates.
 
 ### Testing Azure Search

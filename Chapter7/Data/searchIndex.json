@@ -14,7 +14,6 @@
             "name": "title",
             "type": "Edm.String",
             "filterable": true,
-            "searchable": true,
             "sortable": true,
             "facetable": false
         },
@@ -46,7 +45,6 @@
             "name": "genra",
             "type": "Collection(Edm.String)",
             "filterable": true,
-            "searchable": true,
             "sortable": true,
             "facetable": true
         }
