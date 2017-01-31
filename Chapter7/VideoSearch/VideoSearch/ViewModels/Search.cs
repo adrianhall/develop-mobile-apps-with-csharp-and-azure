@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using VideoSearch.Helpers;
+using VideoSearch.Services;
 using Xamarin.Forms;
 
 namespace VideoSearch.ViewModels
@@ -11,7 +13,6 @@ namespace VideoSearch.ViewModels
         public Search()
         {
             Title = "Video Search";
-            SearchResults = new List<Movie>();
         }
 
         #region SearchString Property
@@ -24,7 +25,7 @@ namespace VideoSearch.ViewModels
         #endregion
 
         #region Movies Propertu
-        private List<Movie> _pSearchResults;
+        private ObservableRangeCollection<Movie> _pSearchResults = new ObservableRangeCollection<Movie>();
         public List<Movie> SearchResults
         {
             get { return _pSearchResults; }
@@ -45,11 +46,12 @@ namespace VideoSearch.ViewModels
             try
             {
                 var results = await _service.SearchMoviesAsync(SearchString);
-                //
+                SearchResults.ReplaceRange(results);
             }
             catch (Exception ex)
             {
-                // Do exception handling here
+                SearchResults.Clear();
+                await Application.Current.MainPage.DisplayAlert("Search Failed", ex.Message, "OK");
             }
             finally
             {
