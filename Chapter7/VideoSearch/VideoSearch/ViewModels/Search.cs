@@ -24,13 +24,30 @@ namespace VideoSearch.ViewModels
         }
         #endregion
 
-        #region Movies Propertu
+        #region SearchResult Property
         private ObservableRangeCollection<Movie> _pSearchResults = new ObservableRangeCollection<Movie>();
         public List<Movie> SearchResults
         {
             get { return _pSearchResults; }
-            set { SetProperty(ref _pSearchResults, value, "Movies")}
+            set { SetProperty(ref _pSearchResults, value, "SearchResults"); }
         }
+        #endregion
+
+        #region SelectedItem Property
+        private Movie _pSelectedItem = null;
+        public Movie SelectedItem
+        {
+            get { return _pSelectedItem; }
+            set { 
+                SetProperty(ref _pSelectedItem, value, "SelectedItem");                
+                if (selectedItem != null)
+                {
+                    Application.Current.MainPage.Navigation.PushAsync(new Views.Details(_pSelectedItem));
+                    SelectedItem = null;
+                }
+            }
+        }
+        #endregion
 
         #region Search Command
         Command _cmdSearch;

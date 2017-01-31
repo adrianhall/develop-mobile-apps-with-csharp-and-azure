@@ -9,7 +9,6 @@ namespace VideoSearch.Models
         [JsonProperty(PropertyName = "videoId")]
         public string Id { get; set; }
 
-
         public string Title { get; set; }
 
         public Uri Image { get; set; }
