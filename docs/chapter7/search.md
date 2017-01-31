@@ -420,7 +420,22 @@ namespace VideoSearch.Services
 ```
 
 The `SearchAsync()` method is a basic HTTP GET method that returns a string.  We add the appropriate
-headers and ensure the URI is the correct format.  We
+headers and ensure the URI is the correct format.  
+
+This service class can now be used to search for movies when we type something into the search box and
+initiate a search.  This is done in the `ViewModels\Search.cs` class in the shared project:
+
+```csharp
+```
+
+This code creates a reference to our search service, then uses it to populate the search results PropertyName
+with the list of movies when the search is complete.  We also needed a little bit of error handling for the
+edge case when the user types something in that isn't understood by the search service.  This is likely to
+be rare, but we want to handle failures gracefully when they do happen.
+
+The associated view must also be adjusted so that the movies are displayed.
+
+We can now run this application and start using the search service!  
 
 <!-- Images -->
 [img1]: ./img/search-pricing.PNG

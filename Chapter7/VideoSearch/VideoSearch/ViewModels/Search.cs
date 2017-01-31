@@ -6,9 +6,12 @@ namespace VideoSearch.ViewModels
 {
     public class Search : ViewModels.Base
     {
+        private SearchService _service = new SearchService();
+
         public Search()
         {
             Title = "Video Search";
+            SearchResults = new List<Movie>();
         }
 
         #region SearchString Property
@@ -19,6 +22,14 @@ namespace VideoSearch.ViewModels
             set { SetProperty(ref _pSearchString, value, "SearchString"); }
         }
         #endregion
+
+        #region Movies Propertu
+        private List<Movie> _pSearchResults;
+        public List<Movie> SearchResults
+        {
+            get { return _pSearchResults; }
+            set { SetProperty(ref _pSearchResults, value, "Movies")}
+        }
 
         #region Search Command
         Command _cmdSearch;
@@ -33,7 +44,8 @@ namespace VideoSearch.ViewModels
 
             try
             {
-                // Do Work here
+                var results = await _service.SearchMoviesAsync(SearchString);
+                //
             }
             catch (Exception ex)
             {
