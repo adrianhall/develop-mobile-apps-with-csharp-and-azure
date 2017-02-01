@@ -758,6 +758,19 @@
     Using Azure Search
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql-vs-documentdb-vs-azure-search" title="SQL vs. DocumentDB vs. Azure Search" class="md-nav__link">
+    SQL vs. DocumentDB vs. Azure Search
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1023,6 +1036,19 @@
     Using Azure Search
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql-vs-documentdb-vs-azure-search" title="SQL vs. DocumentDB vs. Azure Search" class="md-nav__link">
+    SQL vs. DocumentDB vs. Azure Search
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1171,7 +1197,6 @@ Search only supports <a href="https://docs.microsoft.com/en-us/rest/api/searchse
             &quot;name&quot;: &quot;title&quot;,
             &quot;type&quot;: &quot;Edm.String&quot;,
             &quot;filterable&quot;: true,
-            &quot;searchable&quot;: true,
             &quot;sortable&quot;: true,
             &quot;facetable&quot;: false
         },
@@ -1200,10 +1225,9 @@ Search only supports <a href="https://docs.microsoft.com/en-us/rest/api/searchse
             &quot;facetable&quot;: false
         },
         {
-            &quot;name&quot;: &quot;genra&quot;,
+            &quot;name&quot;: &quot;genre&quot;,
             &quot;type&quot;: &quot;Collection(Edm.String)&quot;,
             &quot;filterable&quot;: true,
-            &quot;searchable&quot;: true,
             &quot;sortable&quot;: false,
             &quot;facetable&quot;: true
         }
@@ -1224,7 +1248,9 @@ Set the Content-Type to application/json and add an <code>api-key</code> header 
 of the POST should be your JSON object.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>You should automate this.  HTTP POSTs can be done via Node or PowerShell scripts.</p>
+<p>You can also install an index through the Azure Portal as a one time activity.  I like using REST
+because it allows me to treat "configuration as code" and check my index definition into my source
+repository.  This also opens up automated deployment options via PowerShell, for example.</p>
 </div>
 <p><img alt="" src="../img/search-createindex.PNG" /></p>
 <p>Click on the <strong>SEND</strong> button and you will see the return status of <code>201 Created</code> and an OData v4 document
@@ -1283,7 +1309,7 @@ then some of the documents were not uploaded.  In that case, look at the respons
 referenced by the key field (in our case, the videoId field), the status field will be false and there will
 be an errorMessage field which contains the problem.  You can correct the problem and upload just that
 document.</p>
-<p>There are four values for the <strong>@search.action</strong> field - normally, you will want to use "upload" for new
+<p>There are four values for the <strong>@search.action</strong> field - normally, we will want to use "upload" for new
 documents and "mergeOrUpload" for subsequent updates.</p>
 <h3 id="testing-azure-search">Testing Azure Search<a class="headerlink" href="#testing-azure-search" title="Permanent link">&para;</a></h3>
 <p>Now that we have a few documents indexed, we can test the search facility.  Go to the Overview page of your
@@ -1430,7 +1456,7 @@ namespace VideoSearch.Services
 
         private async Task&lt;string&gt; SearchAsync(string index, string searchTerms)
         {
-            var uri = new UriBuilder($&quot;{Settings.AzureSearchUri}/indexes/${index}/docs&quot;);
+            var uri = new UriBuilder($&quot;{Settings.AzureSearchUri}/indexes/{index}/docs&quot;);
             uri.Query = $&quot;api-version={_apiVersion}&amp;search={Uri.EscapeDataString(searchTerms)}&quot;;
 
             var request = new HttpRequestMessage
@@ -1450,7 +1476,112 @@ namespace VideoSearch.Services
 </code></pre>
 
 <p>The <code>SearchAsync()</code> method is a basic HTTP GET method that returns a string.  We add the appropriate
-headers and ensure the URI is the correct format.  We</p>
+headers and ensure the URI is the correct format.  </p>
+<p>This service class can now be used to search for movies when we type something into the search box and
+initiate a search.  This is done in the <code>ViewModels\Search.cs</code> class in the shared project:</p>
+<pre><code class="csharp">    public Command SearchCommand =&gt; _cmdSearch ?? (_cmdSearch = new Command(async () =&gt; await ExecuteSearchCommand()));
+
+    private async Task ExecuteSearchCommand()
+    {
+        if (IsBusy)
+            return;
+        IsBusy = true;
+
+        try
+        {
+            var results = await _service.SearchMoviesAsync(SearchString);
+            SearchResults.ReplaceRange(results);
+        }
+        catch (Exception ex)
+        {
+            SearchResults.Clear();
+            await Application.Current.MainPage.DisplayAlert(&quot;Search Failed&quot;, ex.Message, &quot;OK&quot;);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+</code></pre>
+
+<p>The <code>SearchString</code> is a bindable string property that is bound to the Text field of the search 
+bar.  The <code>SearchResults</code> property is an <code>ObservableRangeCollection</code> that is bound to a list of
+items.</p>
+<p>This code creates a reference to our search service, then uses it to populate the search results PropertyName
+with the list of movies when the search is complete.  We also needed a little bit of error handling for the
+edge case when the user types something in that isn't understood by the search service.  This is likely to
+be rare, but we want to handle failures gracefully when they do happen.</p>
+<p>The associated view must also be adjusted so that the movies are displayed.  This is done within a <code>ListView</code>
+object in a similar way to the way we did our task list examples:</p>
+<pre><code class="xml">&lt;ListView
+    CachingStrategy=&quot;RecycleElement&quot;
+    IsPullToRefreshEnabled=&quot;False&quot;
+    ItemsSource=&quot;{Binding SearchResults}&quot;
+    RowHeight=&quot;50&quot;
+    SelectedItem=&quot;{Binding SelectedItem, Mode=TwoWay}&quot;&gt;
+
+    &lt;ListView.BackgroundColor&gt;
+        &lt;OnPlatform
+            x:TypeArguments=&quot;Color&quot;
+            Android=&quot;#2E2F30&quot;
+            WinPhone=&quot;#F0F0F0&quot;
+            iOS=&quot;#F0F0F0&quot; /&gt;
+    &lt;/ListView.BackgroundColor&gt;
+
+    &lt;ListView.ItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;ViewCell&gt;
+                &lt;StackLayout
+                    Padding=&quot;10&quot;
+                    HorizontalOptions=&quot;FillAndExpand&quot;
+                    Orientation=&quot;Horizontal&quot;
+                    VerticalOptions=&quot;CenterAndExpand&quot;&gt;
+                    &lt;StackLayout.BackgroundColor&gt;
+                        &lt;OnPlatform
+                            x:TypeArguments=&quot;Color&quot;
+                            Android=&quot;Black&quot;
+                            WinPhone=&quot;White&quot;
+                            iOS=&quot;White&quot; /&gt;
+                    &lt;/StackLayout.BackgroundColor&gt;
+                    &lt;Label
+                        HorizontalOptions=&quot;FillAndExpand&quot;
+                        Text=&quot;{Binding Title}&quot;
+                        TextColor=&quot;#272832&quot;&gt;
+                        &lt;Label.TextColor&gt;
+                            &lt;OnPlatform
+                                x:TypeArguments=&quot;Color&quot;
+                                Android=&quot;#F3F3F3&quot;
+                                WinPhone=&quot;#272832&quot;
+                                iOS=&quot;#272832&quot; /&gt;
+                        &lt;/Label.TextColor&gt;
+                    &lt;/Label&gt;
+                &lt;/StackLayout&gt;
+            &lt;/ViewCell&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/ListView.ItemTemplate&gt;
+&lt;/ListView&gt;
+</code></pre>
+
+<p>We can now run this application and start using the search service!  In the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter7">example code</a>, I've also included
+a Details panel.  This should show you all the information within a movie title from the search results by clicking
+on the movie title.  It's similar in construction to the task details pane from our task list example.</p>
+<h3 id="sql-vs-documentdb-vs-azure-search">SQL vs. DocumentDB vs. Azure Search<a class="headerlink" href="#sql-vs-documentdb-vs-azure-search" title="Permanent link">&para;</a></h3>
+<p>You may be wondering at this point why you should use Azure Search as an addition to SQL databases or DocumentDB.
+After all, all three options store data, allow you to update that data, and provide access to JSON documents.  So
+why would I not just place all my data in a searchable index and use that instead?</p>
+<p>The Azure Search facility is designed for full-text searching of data, not rapid updates from multiple sources.  As
+a result of this focus, it has no ability to do offline synchronization or conflict resolution, and it is lazy about
+inserts (data inserted may not be available straight away).  It is not a good repository if your common practice is 
+to work with the full data set and it is most definitely not the right source if you have more than one client with
+the potential to update records at the same time.  It's primarily driven by a need to provide fast search results.  </p>
+<p>DocumentDB and SQL Azure (via Azure Mobile Apps) are are the inverse of this.  They are designed for concurrent and
+rapid updates to the data, with built-in conflict handling, incremental offline sync and guaranteed atomic writes.
+These are features that your mobile clients need when you are writing data.  Both DocumentDB and Azure Mobile Apps
+also have security features for limiting data retrieval - something Azure Search does not have.</p>
+<p>Use Azure Search when you want to do "shopping cart" or "reference data search" type functionality.  These use
+cases have slow changing data sets that are changed behind the scenes by a single client.  Use Azure Mobile Apps
+or DocumentDB when you want multiple clients to update the data set, or your mobile client updates have security
+concerns.</p>
 <!-- Images -->
 
 <!-- Links -->
