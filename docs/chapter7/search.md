@@ -122,14 +122,14 @@ You can create an index via the Azure Portal or with the REST interface.  I'm go
             "sortable": false,
             "facetable": false
         },
-      {
-        "name": "rating",
-        "type": "Edm.Double",
-        "filterable": true,
-        "searchable": false,
-        "sortable": true,
-        "facetable": false
-      },
+        {
+            "name": "rating",
+            "type": "Edm.Double",
+            "filterable": true,
+            "searchable": false,
+            "sortable": true,
+            "facetable": false
+        },
         {
             "name": "releaseYear",
             "type": "Edm.Int32",
@@ -139,10 +139,10 @@ You can create an index via the Azure Portal or with the REST interface.  I'm go
             "facetable": false
         },
         {
-            "name": "genra",
+            "name": "genre",
             "type": "Collection(Edm.String)",
             "filterable": true,
-            "sortable": true,
+            "sortable": false,
             "facetable": true
         }
     ]
@@ -161,7 +161,9 @@ Set the Content-Type to application/json and add an `api-key` header set to the 
 of the POST should be your JSON object.
 
 !!! info
-    You should automate this.  HTTP POSTs can be done via Node or PowerShell scripts.
+    You can also install an index through the Azure Portal as a one time activity.  I like using REST
+    because it allows me to treat "configuration as code" and check my index definition into my source
+    repository.  This also opens up automated deployment options via PowerShell, for example.
 
 ![][img2]
 
@@ -400,7 +402,7 @@ namespace VideoSearch.Services
 
         private async Task<string> SearchAsync(string index, string searchTerms)
         {
-            var uri = new UriBuilder($"{Settings.AzureSearchUri}/indexes/${index}/docs");
+            var uri = new UriBuilder($"{Settings.AzureSearchUri}/indexes/{index}/docs");
             uri.Query = $"api-version={_apiVersion}&search={Uri.EscapeDataString(searchTerms)}";
 
             var request = new HttpRequestMessage
@@ -426,16 +428,118 @@ This service class can now be used to search for movies when we type something i
 initiate a search.  This is done in the `ViewModels\Search.cs` class in the shared project:
 
 ```csharp
+    public Command SearchCommand => _cmdSearch ?? (_cmdSearch = new Command(async () => await ExecuteSearchCommand()));
+
+    private async Task ExecuteSearchCommand()
+    {
+        if (IsBusy)
+            return;
+        IsBusy = true;
+
+        try
+        {
+            var results = await _service.SearchMoviesAsync(SearchString);
+            SearchResults.ReplaceRange(results);
+        }
+        catch (Exception ex)
+        {
+            SearchResults.Clear();
+            await Application.Current.MainPage.DisplayAlert("Search Failed", ex.Message, "OK");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
 ```
+
+The `SearchString` is a bindable string property that is bound to the Text field of the search 
+bar.  The `SearchResults` property is an `ObservableRangeCollection` that is bound to a list of
+items.
 
 This code creates a reference to our search service, then uses it to populate the search results PropertyName
 with the list of movies when the search is complete.  We also needed a little bit of error handling for the
 edge case when the user types something in that isn't understood by the search service.  This is likely to
 be rare, but we want to handle failures gracefully when they do happen.
 
-The associated view must also be adjusted so that the movies are displayed.
+The associated view must also be adjusted so that the movies are displayed.  This is done within a `ListView`
+object in a similar way to the way we did our task list examples:
 
-We can now run this application and start using the search service!  
+```xml
+<ListView
+    CachingStrategy="RecycleElement"
+    IsPullToRefreshEnabled="False"
+    ItemsSource="{Binding SearchResults}"
+    RowHeight="50"
+    SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+
+    <ListView.BackgroundColor>
+        <OnPlatform
+            x:TypeArguments="Color"
+            Android="#2E2F30"
+            WinPhone="#F0F0F0"
+            iOS="#F0F0F0" />
+    </ListView.BackgroundColor>
+
+    <ListView.ItemTemplate>
+        <DataTemplate>
+            <ViewCell>
+                <StackLayout
+                    Padding="10"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal"
+                    VerticalOptions="CenterAndExpand">
+                    <StackLayout.BackgroundColor>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="Black"
+                            WinPhone="White"
+                            iOS="White" />
+                    </StackLayout.BackgroundColor>
+                    <Label
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Title}"
+                        TextColor="#272832">
+                        <Label.TextColor>
+                            <OnPlatform
+                                x:TypeArguments="Color"
+                                Android="#F3F3F3"
+                                WinPhone="#272832"
+                                iOS="#272832" />
+                        </Label.TextColor>
+                    </Label>
+                </StackLayout>
+            </ViewCell>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+</ListView>
+```
+
+We can now run this application and start using the search service!  In the [example code][9], I've also included
+a Details panel.  This should show you all the information within a movie title from the search results by clicking
+on the movie title.  It's similar in construction to the task details pane from our task list example.
+
+### SQL vs. DocumentDB vs. Azure Search
+
+You may be wondering at this point why you should use Azure Search as an addition to SQL databases or DocumentDB.
+After all, all three options store data, allow you to update that data, and provide access to JSON documents.  So
+why would I not just place all my data in a searchable index and use that instead?
+
+The Azure Search facility is designed for full-text searching of data, not rapid updates from multiple sources.  As
+a result of this focus, it has no ability to do offline synchronization or conflict resolution, and it is lazy about
+inserts (data inserted may not be available straight away).  It is not a good repository if your common practice is 
+to work with the full data set and it is most definitely not the right source if you have more than one client with
+the potential to update records at the same time.  It's primarily driven by a need to provide fast search results.  
+
+DocumentDB and SQL Azure (via Azure Mobile Apps) are are the inverse of this.  They are designed for concurrent and
+rapid updates to the data, with built-in conflict handling, incremental offline sync and guaranteed atomic writes.
+These are features that your mobile clients need when you are writing data.  Both DocumentDB and Azure Mobile Apps
+also have security features for limiting data retrieval - something Azure Search does not have.
+
+Use Azure Search when you want to do "shopping cart" or "reference data search" type functionality.  These use
+cases have slow changing data sets that are changed behind the scenes by a single client.  Use Azure Mobile Apps
+or DocumentDB when you want multiple clients to update the data set, or your mobile client updates have security
+concerns.
 
 <!-- Images -->
 [img1]: ./img/search-pricing.PNG
@@ -456,4 +560,4 @@ We can now run this application and start using the search service!
 [6]: http://api.androidhive.info/json/movies.json
 [7]: https://docs.microsoft.com/en-us/rest/api/searchservice/odata-expression-syntax-for-azure-search
 [8]: https://docs.microsoft.com/en-us/rest/api/searchservice/lucene-query-syntax-in-azure-search
-
+[9]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter7

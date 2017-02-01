@@ -27,7 +27,7 @@ namespace VideoSearch.Services
 
         private async Task<string> SearchAsync(string index, string searchTerms)
         {
-            var uri = new UriBuilder($"{Settings.AzureSearchUri}/indexes/${index}/docs");
+            var uri = new UriBuilder($"{Settings.AzureSearchUri}/indexes/{index}/docs");
             uri.Query = $"api-version={_apiVersion}&search={Uri.EscapeDataString(searchTerms)}";
 
             var request = new HttpRequestMessage

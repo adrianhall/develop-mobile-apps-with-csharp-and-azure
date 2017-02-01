@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VideoSearch.Helpers;
+using VideoSearch.Models;
 using VideoSearch.Services;
 using Xamarin.Forms;
 
@@ -16,7 +18,7 @@ namespace VideoSearch.ViewModels
         }
 
         #region SearchString Property
-        private string _pSearchString;
+        private string _pSearchString = "";
         public string SearchString
         {
             get { return _pSearchString; }
@@ -26,7 +28,7 @@ namespace VideoSearch.ViewModels
 
         #region SearchResult Property
         private ObservableRangeCollection<Movie> _pSearchResults = new ObservableRangeCollection<Movie>();
-        public List<Movie> SearchResults
+        public ObservableRangeCollection<Movie> SearchResults
         {
             get { return _pSearchResults; }
             set { SetProperty(ref _pSearchResults, value, "SearchResults"); }
@@ -40,7 +42,7 @@ namespace VideoSearch.ViewModels
             get { return _pSelectedItem; }
             set { 
                 SetProperty(ref _pSelectedItem, value, "SelectedItem");                
-                if (selectedItem != null)
+                if (_pSelectedItem != null)
                 {
                     Application.Current.MainPage.Navigation.PushAsync(new Views.Details(_pSelectedItem));
                     SelectedItem = null;

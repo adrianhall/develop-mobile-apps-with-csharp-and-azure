@@ -42,10 +42,10 @@
             "facetable": false
         },
         {
-            "name": "genra",
+            "name": "genre",
             "type": "Collection(Edm.String)",
             "filterable": true,
-            "sortable": true,
+            "sortable": false,
             "facetable": true
         }
     ]
