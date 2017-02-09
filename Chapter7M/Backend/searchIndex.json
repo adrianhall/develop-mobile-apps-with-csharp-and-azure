@@ -11,36 +11,6 @@
       "facetable": false
     },
     {
-      "name": "title",
-      "type": "Edm.String",
-      "filterable": true,
-      "sortable": true,
-      "facetable": false
-    },
-    {
-      "name": "rating",
-      "type": "Edm.Double",
-      "filterable": true,
-      "searchable": false,
-      "sortable": true,
-      "facetable": false
-    },
-    {
-      "name": "releaseYear",
-      "type": "Edm.Int32",
-      "filterable": true,
-      "searchable": false,
-      "sortable": true,
-      "facetable": false
-    },
-    {
-      "name": "genre",
-      "type": "Collection(Edm.String)",
-      "filterable": true,
-      "sortable": false,
-      "facetable": true
-    },
-    {
       "name": "audio",
       "type": "Edm.String",
       "filterable": true,

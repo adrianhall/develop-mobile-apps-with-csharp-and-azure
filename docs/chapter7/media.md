@@ -11,7 +11,7 @@ Whatever their source, they have some basic functionality in common:
 * The encoded video is provided to clients for download with a suitable web endpoint.
 * Additional services extract information from the video for search capabilities.
 
-Many enterprises wrap such functionality in a combined web and mobile site to provide streaming video for 
+Many enterprises wrap such functionality in a combined web and mobile site to provide streaming video for
 eLearning.  We are going to look at what it takes to produce the mobile side of such a site in this section.
 
 ## The Video Search Application with Media Services
@@ -22,7 +22,7 @@ Azure Search.  In the new example, this is the approximate flow of the applicati
 ![][img1]
 
 The administrator will upload an MP4 video via the Visual Studio Storage Explorer.  This will be Automatically
-picked up by an Azure Function that will extract information from the MP4 file (such as title, release year, 
+picked up by an Azure Function that will extract information from the MP4 file (such as title, release year,
 etc.) and place that information into a queue element.  The queue element will be used to drive another Azure
 service - Logic Apps.  Logic Apps are used to marshal sequential tasks in a workflow.  In our case, the workflow
 will use Media Services to process the video and produce a streamable version.  Once that is done, we will use
@@ -55,29 +55,29 @@ a series of processes are kicked off to process the incoming video.  First, the 
 extracted from the video for search purposes; finally, the video is added to the SQL database so it can be searched.
 
 The other flow is from the mobile client - it connects to the App Service and makes requests based on what it needs
-to do.  In this case, we have a set of data tables for providing data about the video and a few custom APIs for 
+to do.  In this case, we have a set of data tables for providing data about the video and a few custom APIs for
 handling search and video streaming.
 
-Let's take each of these in turn.   The configuration of most of the services  have already been discussed, so I 
+Let's take each of these in turn.   The configuration of most of the services  have already been discussed, so I
 will not go over them and only provide the options I used.  This includes Storage, Search, SQL Azure, and Functions.
 
 ### Creating pre-requisite services
 
-Before I start with the new services, I need an [Azure Storage] account, an [Azure Search] instance and 
+Before I start with the new services, I need an [Azure Storage] account, an [Azure Search] instance and
 an [Azure Function App].  I've covered all these items in previous sections, so I won't go into them here.
 The configuration is relatively simple:
 
 * My [Azure Storage] account called `zumomediach7.core.windows.net` as **General Purpose** storage with **LRS** replication.
 * My [Azure Search] instance called `zumomediach7.search.windows.net` in the **Free** pricing tier.
-* My [Azure Functions] app called `zumomediach7-functions.azurewebsites.net` in the **Consumption Plan**.  I'm 
+* My [Azure Functions] app called `zumomediach7-functions.azurewebsites.net` in the **Consumption Plan**.  I'm
    using my `zumomediach7` storage account.
 * My [SQL Azure] service is called `zumomediach7.database.windows.net`.
 * My [SQL Azure] database is called `videosearch` in the **B Basic** pricing plan.
-* My [Azure App Service] is created via the **Mobile App** template and called `zumomediach7.azurewebsites.net`.  It 
+* My [Azure App Service] is created via the **Mobile App** template and called `zumomediach7.azurewebsites.net`.  It
     has an **B1 Basic** app service plan associated with it.
 
-In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu 
-option.  I've also added a query key to my Azure Search instance and provided a pair of App Settings in 
+In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu
+option.  I've also added a query key to my Azure Search instance and provided a pair of App Settings in
 the App Service - `SEARCH_APIKEY` holds the query key and `SEARCH_ENDPOINT` holds the URI of my service.
 
 Our resource group looks quite extensive now:
@@ -93,10 +93,6 @@ Configuration for the services is as follows:
 | Field Name | Type | Attributes |
 | --- | --- | --- |
 | videoId | Edm.String | Key, Retrievable |
-| title | Edm.String | Retrievable, Sortable, Filterable, Searchable |
-| rating | Edm.Double | Retrievable, Sortable, Filterable |
-| releaseYear | Edm.Int32 | Retrievable, Sortable, Filterable |
-| genre | Collection(Edm.String) | Retrievable, Filterable, Searchable, Facetable |
 | audio | Edm.String | Retrievable, Filterable, Searchable |
 
 The `audio` field is new and will be populated with the textual content from analysis of the video.
@@ -110,11 +106,9 @@ namespace Backend.DataObjects
 {
     public class Video : EntityData
     {
-        public string Title { get; set; }
+        public string Filename { get; set; }
 
         public string VideoUri { get; set; }
-
-        public string ImageUri { get; set; }
     }
 }
 ```
@@ -169,7 +163,7 @@ of this configuration, review the appropriate sections of the book:
 
 So far, we've done a lot of infrastructure work.  We've generated an Azure Mobile App that our mobile app can use
 to retrieve information about the videos, generated an Azure Search instance with a suitable index, and a storage
-account for processing the videos.  We now want to move onto the meat of this section - working with video.  In 
+account for processing the videos.  We now want to move onto the meat of this section - working with video.  In
 order to do that, we will need an Azure Media Services account.
 
 Creating an Azure Media Services account is very similar to other Azure resources.  Log in to the [Azure Portal]
@@ -196,8 +190,23 @@ official documentation:
 
 ### The Azure Functions
 
-We are expecting a completely automated workflow for processing our video assets.  As a result, we are going to 
-need some basic processing blocks.  Our processing blocks are as follows:
+We are expecting a completely automated workflow for processing our video assets.  As a result, we are going to
+need some basic processing blocks.  Per our original specification, we need three processing blocks.  The first
+block will take the uploaded media file and encode it for later consumption, passing the URI and other associated
+information to the next block.  The second block will then extract information we want to search on and insert
+that into Azure Search.  We'll deal with this block in the next section.  Our final block will insert the details
+for the video into the database so that it can be exposed by Azure Mobile Apps.  We are only going to deal with
+the first and third blocks in this section.
+
+You can find a huge number of samples for doing various things with Azure Functions and Media Services on their
+[Samples GitHub repository].  We are going to base the encoding block on the [EncodeBlob\_MultiOut\_Function][1]
+sample.  This starts when the Logic App triggers based on a blob being uploaded.  It then triggers the following
+Azure Function:
+
+```csharp
+
+```
+
 
 ** TO BE CONTINUED **
 
@@ -218,3 +227,5 @@ need some basic processing blocks.  Our processing blocks are as follows:
 [Azure Storage]: https://docs.microsoft.com/en-us/azure/storage/storage-introduction
 [SQL Azure]: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-technical-overview
 [Azure Function App]: https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview
+[Samples GitHub repository]: https://github.com/Azure-Samples/media-services-dotnet-functions-integration
+[1]: https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/EncodeBlob_MultiOut_Function

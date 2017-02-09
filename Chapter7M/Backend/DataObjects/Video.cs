@@ -4,9 +4,7 @@ namespace Backend.DataObjects
 {
     public class Video : EntityData
     {
-        public string Title { get; set; }
-
-        public string VideoUri { get; set; }
+        public string Filename { get; set; }
 
         public string ImageUri { get; set; }
     }
