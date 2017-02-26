@@ -343,6 +343,39 @@ visual Studio is connected to the log-streaming service.
 
 ### Using the Visual Studio Debugger
 
+Even though diagnostic logging will probably be your go-to troubleshooting tool in the long run, there are
+times when you need to set a breakpoint and step through the code during development.  In my experience, this
+happens quite a lot, especially when there are differences between how the server reacts when running locally
+vs. when running within Azure.
+
+Before you attach a debugger to an App Service running within Azure, you need to turn on remote debugging.
+This should **NOT** be done on a production service.  You can turn on remote debugging within Visual Studio
+or in the Azure portal.  For Visual Studio:
+
+1.  Use **View** > **Server Explorer** to show the Server Explorer.
+2.  Expand the **Azure** node, then **App Service**, then your resource group.
+3.  Right-click your Azure App Service and select **View Settings**.
+4.  In the Configuration panel, set **Remote Debugging** = On.
+5.  Click **Save**.
+
+In the [Azure portal], the remote debugging option is set through the **Application settings** menu option.
+You will need to set the Remote Visual Studio version to be the same version as your copy of Visual Studio.
+
+To debug your service, deploy a Debug version of your server.  Then right-click the App Service within the
+**Server Explorer** and select **Attach Debugger**.  You can now set breakpoints and step through the code.
+
+!!! tip "Server Hangups"
+    Using the debugger is also a great way to ensure that your mobile client handles slow links and service
+    interruptions gracefully.  As developers, we tend to have pretty good cellular coverage and fast connections
+    to the Internet, but your users probably won't be in that situation.  Set a breakpoint on the `GetAll()`
+    method of your controller, trigger a synchronization, and then let the service just sit there at the
+    breakpoint.  Your mobile client will time out and you can see the effect of a bad connection.
+
+One of the other significant things you can do with your server when remote debugging is turned on is to profile
+the server.  Profiling is a good way of determining performance bottlenecks in your code.  Azure App Service
+supports [remote profiling within Visual Studio][4] for the server component.  Use the [Xamarin Profiler][5] to
+profile your mobile application.
+
 <!-- Images -->
 [img1]: ./img/build-options.PNG
 
@@ -353,6 +386,8 @@ visual Studio is connected to the log-streaming service.
 [1]: https://www.microsoft.com/en-us/sql-server/sql-server-editions-express
 [2]: https://go.microsoft.com/fwlink/?LinkID=799012
 [3]: https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms
+[4]: https://azure.microsoft.com/en-us/blog/remote-profiling-support-in-azure-app-service/
+[5]: https://www.xamarin.com/profiler
 [InvokeApiAsync]: https://github.com/Azure/azure-mobile-apps-net-client/blob/2e64164a06233ed2f1596fe336129a378eea4000/src/Microsoft.WindowsAzure.MobileServices/MobileServiceClient.cs#L664
 
 
