@@ -1036,6 +1036,12 @@ big long list instead, add the following:</p>
 <li>System.IdentityModel.Tokens.Jwt</li>
 <li>System.Spatial</li>
 </ul>
+<div class="admonition warn">
+<p class="admonition-title">Custom Authentication</p>
+<p>If you are using custom authentication, then you need to produce the entire login flow for both web and mobile
+sides.  There is no assistance provided with the platform.  You will also need to add the <code>Microsoft.Azure.Mobile.Server.Login</code>
+package to your project.</p>
+</div>
 <p>Using the Quickstart package is a serious time saver over having to type in 16 package names.  The SystemWeb package enables
 the use of the Owin Startup.cs class.  This is used to bootstrap the Azure Mobile Apps configuration.</p>
 <div class="admonition tip">
