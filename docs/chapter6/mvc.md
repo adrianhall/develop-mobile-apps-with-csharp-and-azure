@@ -44,6 +44,11 @@ big long list instead, add the following:
 *  System.IdentityModel.Tokens.Jwt
 *  System.Spatial
 
+!!! warn "Custom Authentication"
+    If you are using custom authentication, then you need to produce the entire login flow for both web and mobile
+    sides.  There is no assistance provided with the platform.  You will also need to add the `Microsoft.Azure.Mobile.Server.Login`
+    package to your project.
+
 Using the Quickstart package is a serious time saver over having to type in 16 package names.  The SystemWeb package enables
 the use of the Owin Startup.cs class.  This is used to bootstrap the Azure Mobile Apps configuration.
 
