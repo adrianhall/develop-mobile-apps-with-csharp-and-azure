@@ -261,6 +261,11 @@ database.
 
 ## Sharing Authentication
 
+!!! warn "Custom Authentication"
+    This section only pertains to using the standard authentication techniques provided with Azure App Service.  It does not pertain to
+    custom authentication.  If you are using custom authentication, then you need to produce the entire login flow for both web and mobile
+    sides.  There is no assistance provided with the platform.
+
 As one would suspect, [setting up App Service Authentication][4], then adding an `[Authorize]` attribute to the `HomeController` is a good
 starting point for making our application authenticated.  However, it isn't enough.  If you just do this, you will got something like the
 following:
