@@ -122,7 +122,11 @@ App Service.
 * Click on **Environment** in the top banner.
 * Click on **Environment variables**.
 * Scroll down to the environment variables starting with **WEBSITE\_AUTH**.
-* Make a note of the **WEBSITE\_AUTH\_SIGNING\_KEY** and **WEBSITE\_AUTH\_ALLOWED\_AUDIENCES** values.
+* Make a note of the **WEBSITE\_AUTH\_SIGNING\_KEY** and **WEBSITE\_HOSTNAME** values.
+
+!!! warn "WEBSITE\_AUTH\_ALLOWED\_AUDIENCES Setting"
+    The **WEBSITE\_AUTH\_ALLOWED\_AUDIENCES** setting may be seen.  This is set only in the case of Azure Active
+    Directory and may not be present (or not valid) if you configure other providers.
 
 Add the following to your project Web.config `<appSettings>` section:
 
@@ -133,7 +137,7 @@ Add the following to your project Web.config `<appSettings>` section:
     <add key="EMA_RuntimeUrl" value="Overridden by portal settings" />
     <add key="MS_NotificationHubName" value="Overridden by portal settings" />
     <add key="SigningKey" value="{Your WEBSITE_AUTH_SIGNING_KEY}"/>
-    <add key="ValidAudience" value="{Your WEBSITE_AUTH_ALLOWED_AUDIENCES}"/>
+    <add key="ValidAudience" value="https://{Your WEBSITE_HOSTNAME}/"/>
     <add key="ValidIssuer" value="https://{Your WEBSITE_HOSTNAME}/"/>
   </appSettings>
 ```
