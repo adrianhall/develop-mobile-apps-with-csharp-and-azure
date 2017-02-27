@@ -1234,6 +1234,12 @@ to make the code cleaner.  You can leave them in if you desire.</p>
 and the second row div encapsulates the list.  If you enter some text into the box and click the submit button, it will be added to the
 database.</p>
 <h2 id="sharing-authentication">Sharing Authentication<a class="headerlink" href="#sharing-authentication" title="Permanent link">&para;</a></h2>
+<div class="admonition warn">
+<p class="admonition-title">Custom Authentication</p>
+<p>This section only pertains to using the standard authentication techniques provided with Azure App Service.  It does not pertain to
+custom authentication.  If you are using custom authentication, then you need to produce the entire login flow for both web and mobile
+sides.  There is no assistance provided with the platform.</p>
+</div>
 <p>As one would suspect, <a href="../../chapter2/authconcepts/">setting up App Service Authentication</a>, then adding an <code>[Authorize]</code> attribute to the <code>HomeController</code> is a good
 starting point for making our application authenticated.  However, it isn't enough.  If you just do this, you will got something like the
 following:</p>
