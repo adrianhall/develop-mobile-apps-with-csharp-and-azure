@@ -479,7 +479,7 @@ async Task ExecuteLoginCommand()
 
 When you run the application, clicking on the "Enter the App" button will now present you with an Authenticate window:
 
-![AAD Authenticate][img58]
+![Facebook Authenticate][img58]
 
 Going through the authentication process will get you to the task list again.  If the authentication process fails,
 then `LoginAsync()` will throw an error, which is caught at the ViewModel.  Right now, the `EntryPageViewModel`
@@ -586,6 +586,7 @@ user to confirm the request, before switching back authenticated.
 [img21]: img/twtr-dev-1.PNG
 [img22]: img/twtr-dev-2.PNG
 [img23]: img/twtr-dev-3.PNG
+[img58]: img/img58.png
 
 <!-- External Links -->
 [chapter1]: ../chapter1/firstapp_pc.md
