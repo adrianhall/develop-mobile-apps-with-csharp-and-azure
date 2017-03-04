@@ -426,11 +426,11 @@ database for authentication of the users.
 ## Using Azure Active Directory B2C
 
 Custom authentication allows you to really customize the process, but I like to reduce the amount of code I write by
-using services or libraries.   The whole sign-in and sign-up process is ripe for this.  The code needed for building
-the sign-in / sign-up process is boiler-plate code.  It also introduces problems that I have to deal with going forward.
-I have to store passwords and profile information, which introduces a security concern.  I have to scale the database
-and ensure my app scales with it as my app gets popular.  Finally, I am being fairly inflexible and causing potential
-privacy concerns with my users.
+using services or libraries.   The whole sign-in and sign-up process is ripe for this sort of reduction.  The code
+needed for building the sign-in / sign-up process is boiler-plate code.  It also introduces problems that I have to
+deal with going forward.  I have to store passwords and profile information, which introduces a security concern.  I
+have to scale the database and ensure my app scales with it as my app gets popular.  Finally, I am being fairly
+inflexible and causing potential privacy concerns with my users.
 
 There are a couple of services that I can use to get around these concerns.  The first is an Azure service:
 [Azure Active Directory B2C][24].  The B2C stands for Business to Consumer.  It is a mechanism by which you can add a
@@ -481,8 +481,8 @@ across the top of the Azure AD BC Settings, then click it to find the simple 3-s
 service.  Once that is done, return to the the B2C tenant.
 
 !!! warn
-    Azure AD B2C is currently in PREVIEW.  As a result, the process for creating a B2C tenant may change over
-    time.  If you find these instructions don't work, consult the official documentation on [docs.microsoft.com][docs].
+    The process for creating a B2C tenant may change over time.  If you find these instructions don't work,
+    consult the official documentation on [docs.microsoft.com].
 
 The next job is to create an application registration within the B2C tenant:
 
@@ -776,7 +776,7 @@ You can make it last for as long as you like.
 <!-- Links -->
 [portal]: https://portal.azure.com/
 [classic-portal]: https://manage.windowsazure.com/
-[docs]: https://docs.microsoft.com/
+[docs.microsoft.com]: https://docs.microsoft.com/
 [23]: http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
 [24]: https://azure.microsoft.com/en-us/services/active-directory-b2c/
 [25]: https://developer.github.com/v3/oauth/
