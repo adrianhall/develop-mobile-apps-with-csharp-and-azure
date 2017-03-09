@@ -42,7 +42,7 @@ generally accepted method of dealing with relationships is through loose couplin
 in the client. Relationships are core to the SQL database world and we sometimes want to project those relationships 
 into the mobile client, allowing the backend to preserve any relationships that have been configured while still 
 using the standard offline client capabilities.  If you have existing SQL relationships, you can use a combination
-of AutoMattper and the `MappedEntityDomainManager`.  
+of [AutoMapper][1] and the `MappedEntityDomainManager`.  
 
 The `MappedEntityDomainManager` is an abstract `IDomainManager` implementation targetting SQL as the backend store where
 there is not a 1:1 mapping between the data object (DTO) exposed through the TableController and the domain model managed 
