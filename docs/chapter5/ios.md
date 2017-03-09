@@ -276,6 +276,13 @@ registration Id is stored in the AppDelegate once registered, but needs to be de
 simple).  Similar to the Android version, we make the template we are using match what we are expecting within
 our push handler.
 
+!!! tip "Receiving Notifications in the background"
+    If you want your app to be notified when a notification is received when your app is in the background, you
+    need to set the Background Fetch capability and your payload should include the key `content-available` with
+    a value of 1 (true).  You can add this to the Body of the template in the above sample.  iOS will wake up the
+    app and you will have 30 seconds to fetch any information you might need to update.  Check [the documentation][6]
+    for more details.
+
 ## Testing Notifications
 
 Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
@@ -372,3 +379,4 @@ Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Sect
 [3]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html
 [4]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10
 [5]: https://forums.xamarin.com/discussion/13497
+[6]: https://developer.xamarin.com/guides/ios/application_fundamentals/backgrounding/part_3_ios_backgrounding_techniques/updating_an_application_in_the_background/
