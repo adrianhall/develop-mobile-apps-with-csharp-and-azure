@@ -54,29 +54,25 @@ Azure App Service.
 Microsoft Azure has included a comprehensive starter kit template in the
 Azure SDK.  To get started:
 
-1. Fire up Visual Studio 2015
-2. Add a new project with File -> New Project...
+1. Fire up Visual Studio.
+2. Add a new project with File -> New -> Project...
 3. In the **New Project** window:
 
     - Open up Templates -> Visual C# -> Web and select **ASP.NET Web Application (.NET Framework)**.
     - Enter **Backend** for the Name and **Chapter1** for the Solution name.
+    - Select **.NET Framework 4.6** in the framework dropdown at the top.
     - Pick a suitable directory for the Location field.
-    - Click on OK.
+    - Click OK.
 
     ![New Project Form][img2]
 
 4. In the **New ASP.NET Web Application** window:
 
-    - Click on **Azure Mobile App**.
+    - Click **Azure Mobile App**.
     - Do **NOT** check "Host in the cloud" or any other checkboxes.
-    - Click on OK.
+    - Click OK.
 
 At this point, Visual Studio will create your backend project.
-
-!!! warn
-    It's very tempting to select **Azure Mobile Services** instead - it sounds
-    closer to what you want.  Azure Mobile Services is the **OLD** service and is
-    being shut down.  You should not select Azure Mobile Services for any project.
 
 There are a few files of which you should take note.  The Mobile Apps SDK is
 initialized within `App_Start\Startup.MobileApp.cs` (with the call to the
@@ -219,8 +215,8 @@ The next step in the process is to build the resources on Azure that will
 run your mobile backend.  Start by logging into the [Azure Portal][6], then
 follow these instructions:
 
-1. Click on the big **+ New** button in the top-left corner.
-2. Click on **Web + Mobile**, then **Mobile App**.
+1. Click the big **+ New** button in the top-left corner.
+2. Click **Web + Mobile**, then **Mobile App**.
 3. Enter a unique name in the **App name** box.
 
     !!! tip
@@ -262,7 +258,7 @@ follow these instructions:
     With 16 regions to choose from, you have a lot of choice.
 
     The second decision you have to make is what to run the service on; also
-    known as the Pricing tier.   If you click on **View all**, you will see you
+    known as the Pricing tier.   If you Click **View all**, you will see you
     have lots of choices.  F1 Free and D1 Shared, for example, run on shared
     resources and are CPU limited. You should avoid these as the service will
     stop responding when you are over the CPU quota.  That leaves Basic,
@@ -279,7 +275,7 @@ follow these instructions:
     Basic range of pricing plans.  Production apps should be set up in Standard
     or Premium pricing plans.
 
-7. Once you have created your app service plan and saved it, click on **Create**.
+7. Once you have created your app service plan and saved it, Click **Create**.
 
 The creation of the service can take a couple of minutes.  You can monitor the
 process of deployment by clicking on the Notifications icon.  This is in the top
@@ -302,113 +298,115 @@ defined.  However, we can also create a test database.
     I describe here) allows you to create a free database.  This option is
     not normally available through other SQL database creation flows.
 
-1.  Click on **Resource groups** in the left hand side menu.
-2.  Click on the resource group you created.
-3.  Click on the App Service your created.
-4.  Click on **All settings**.
+Before we can create a database, we need to create a logical server for the database.
+The SQL Server (the logical server) sets the region and the login credentials for
+all the contained databases:
+
+1.  Click **Resource groups** in the left hand side menu.
+2.  Click the resource group you created.
+3.  Click **Add** at the top of the blade.
+4.  Enter **SQL Server** into the search box, then press Enter.
+5.  Click **SQL Server (logical server)**.
+6.  Click **Create**.
+7.  Enter the information required by the form:
+    *  A server name (which must be unique in the world - this is a great place to use a GUID).
+    *  A username and password for accessing the databases on the server.
+    *  Select the existing resource group.
+    *  Pick the same Location as you did for the App Service Plan.
+8.  Click **Create**.
+
+Once the deployment has completed, you can move on to creating and linking a database.
+You can check the status of the deployment by clicking on the icon that looks like a bell
+in the top banner.
+
+To create and link the database:
+
+1.  Click **Resource groups** in the left hand side menu.
+2.  Click the resource group you created.
+3.  Click the App Service your created.
 
     !!! tip
-        If you pinned your App Service to the dashboard, you can click on the
+        If you pinned your App Service to the dashboard, you can Click the
         pinned App Service instead.  It will bring you to the same place.
 
-5.  Click on **Data connections** in the **MOBILE** menu.
-6.  Click on **Add**.
+4.  Click **Data connections** in the **MOBILE** menu.  You can also search for Data connections in the left hand menu.
+6.  Click **Add**.
 
     - In the **Type** box, select **SQL Database**.
-    - Click on the unconfigured **SQL Database** link:
+    - Click the unconfigured **SQL Database** link:
 
     ![Data Connection][img24]
 
     - In the **Database** blade, select **Create a new database**.
     - Enter a name for the database (like **chapter1-db**).
-    - Select a Pricing Tier (look for **F Free** at the bottom).
-    - Click on the unconfigured **Server**.
+    - Click the Target server box and select the logical server you created earlier.
+    - Select a Pricing Tier, then click **Apply**.
 
     ![SQL Server Configuration][img25]
 
-    - Enter a unique name for the server (a GUID is a good idea here).
-    - Enter a username and password for the server.
-    - Click on **OK** to close the **New Server** blade.
-    - Click on **OK** to close the **New Database** blade.
-    - Click on **OK** to close the **Add Data Connection** blade.
+    - EClick **Select** to close the SQL Database blade.
+    - Click the **Connection string** box.
+    - Enter the username and password you set up for the SQL logical server.
+    - Click **OK**.  The username and password will be validated before proceeding.
+    - Click **OK** to close the Add data connection blade.
 
-
-This produces another deployment step that creates a SQL Server and a SQL
-database with your settings.  Once complete, the connection
+This produces another deployment step that creates a SQL database with your settings
+and binds it to the App Service.  Once complete, the connection
 **MS_TableConnectionString** will be listed in Data Connections blade.
 
 ![Successful Data Connection][img26]
-
-!!! tip
-    If you want a completely free mobile backend, search for the **Mobile
-    Apps Quickstart** in the Azure Marketplace.  This template does not
-    require a database.  It relies on a Node backend, however, so you won't
-    be developing a C# backend.
 
 ### Deploying the Azure Mobile Apps Backend
 
 Deploying to Azure as a developer can be accomplished while entirely within
 Visual Studio:
 
-1. Right-click on the **Backend** project, then select **Publish...**.
-2. Make sure you see this screen shot:
+1. Right-Click the **Backend** project, then select **Publish...**.
+2. The following will be shown:
 
     ![Publish Dialog][img3]
 
-    If you do not see this image, then it is likely you have an older version
-    of the Azure SDK installed.  Make sure the Azure SDK version is v2.9 or
-    later.
+    If you have an earlier version of Visual Studio, a different screen will be
+    shown.  If Azure App Service is not listed, ensure you have the latest version
+    of Azure SDK installed - at least v2.9.
 
-3. Click on **Microsoft Azure App Service**.
-4. You may be prompted to enter your Azure credentials here.  Enter the same
+3. Click **Microsoft Azure App Service**.
+4. Click **Select Existing**, then click **Publish**.
+5. You may be prompted to enter your Azure credentials here.  Enter the same
     information that you enter to access the Azure Portal.
-5. In the lower box, expand the resource group that you created and select the
+6. In the lower box, expand the resource group that you created and select the
     app service you created in the portal.
-6. Click on **OK**.
-7. Click on **Publish**.
+7. Click **OK**.
 
-Visual Studio will open a browser.  Add `/tables/todoitem?ZUMO-API-VERSION=2.0.0`
-to the end of the URL.  This will show the JSON contents of the table that we
-defined in the backend.
+Visual Studio will open a browser pointing to the root of your Azure App Service.  Add 
+`/tables/todoitem?ZUMO-API-VERSION=2.0.0` to the end of the URL.  This will show the 
+JSON contents of the table that was defined as a table controller in the backend.
 
 !!! info
     You will see the word ZUMO all over the SDK, including in optional HTTP headers
     and throughout the SDK source code.  ZUMO was the original code name within Microsoft
     for A<b>ZU</b>re <b>MO</b>bile.
 
-## The Mobile Client
-
-Now that the mobile backend is created and deployed, we can move onto the client
-side of things.  First of all, let's prepare the Visual Studio instance.  If you
-have installed the Cross-Platform Mobile tools during the installation, most of
-the work has already been done.  However, you may want to install the [Xamarin
-Forms Templates][8] using the Tools -> Extensions and Updates...
-
-  ![Installing the Xamarin Forms Templates][img4]
-
-This template pack provides additional templates for Xamarin Forms development
-that I find useful.  Most notably, there is a specific template for a mobile
-cross-platform project covering the Android, iOS and UWP mobile platforms.
-
 !!! info
     When you compile a Xamarin.Forms application for a specific platform, you are
     producing a true native application for that platform - whether it be iOS,
-    Android or Windows.
+    Android or Windows
 
-### Creating a Simple Mobile Client with Xamarin
+## Building The Mobile Client
 
-Now that we have prepared your Visual Studio instance, we can create the
-project. Right-click on the solution and select **Add** -> **New Project...**.
-This will bring up the familiar New Project dialog.  The project you want is
-under **Visual C#** -> **Cross-Platform**, and is called **Xamarin.Forms
-(UWP/Android/iOS)**.  If you did not install the Xamarin Forms Template add-on,
-then choose the **Blank Xaml App (Xamarin.Forms Portable)** project.  Give the
-project a name, then click on **OK**.
+Now that the mobile backend is created and deployed, we can move onto the client
+side of things.  Right-Click the solution and select **Add** -> **New Project...**.
+This will bring up the familiar New Project dialog.  Select **Visual C#** -> 
+**Cross-Platform** -> **Cross Platform App (Xamarin.Forms or Native)**. Give the
+project a name, then Click **OK**.
 
   ![Creating the Xamarin Forms Project][img5]
 
-    > If you did not install the Xamarin Forms Templates, then you can create a
-    **Blank Xaml App (Xamarin.Forms Portable)** project instead.
+In the **New Cross Platform App** window, select **Blank App**, and use 
+**Xamarin.Forms** as the UI technology, and a **Shared Project** for the code
+sharing strategy.
+
+  ![Creating the Xamarin Forms Project][img27]
 
 Project creation will take longer than you expect, but there is a lot going on.
 If you have never created a mobile or UWP project before, you will be prompted
@@ -418,7 +416,8 @@ to turn on Windows 10 Developer Mode:
 
 Developer mode in Windows 10 allows you to run unsigned binaries for development
 purposes and to turn on debugging so that you can step through your UWP programs
-within Visual Studio.
+within Visual Studio.  Visual Studio may also just bring up the appropriate 
+Settings page where you can turn on Developer mode.
 
 We will also get asked to choose what version of the Universal Windows platform
 we want to target:
@@ -441,14 +440,14 @@ which must be [configured to build iOS apps from Visual Studio][9].
     continue with building a great Android and Universal Windows app.  You can
     delete the iOS specific project after it has been created.
 
-When prompted about the Xamarin Mac Agent, click on **OK** to get the list of
+When prompted about the Xamarin Mac Agent, Click **OK** to get the list of
 local mac agents:
 
   ![Xamarin Mac Agent - Host List][img8]
 
-Highlight your mac (in case there are multiples), then click on **Connect...**.
+Highlight your mac (in case there are multiples), then Click **Connect...**.
 If your mac is not listed or you are using a Mac in the cloud, then you can
-always enter the IP address for your mac.
+always enter the IP address for your mac.  
 
 !!! tip
     For more troubleshooting tips, visit [The Xamarin Troubleshooting Site][20].
@@ -457,7 +456,7 @@ You will be prompted for your username and password:
 
   ![Xamarin Mac Agent - Login][img9]
 
-Just enter the username and password that you use to log in to your mac and click
+Just enter the (real) username and password for your account on your mac and click
 on **Login**.
 
 !!! tip
@@ -465,9 +464,11 @@ on **Login**.
     easiest way to find your mac username is to open up the Finder.  The name next
     to your home icon is the name of your account.
 
-If the connection has successed, you will see a green icon in the Xamarin Visual
+If the connection is successful, you will see a green icon in the Xamarin Visual
 Studio toolbar area. It may take a minute or two to connect and verify that the
 mac can be used.
+
+  ![Xamarin Mac Agent - Success][img28]
 
 Once the project is created, you will see that four new projects have been
 created: a common library which you named plus one project for each platform
@@ -484,30 +485,29 @@ There is one final item we must do before we leave the set up of the project.
 There are a number of platform upgrades that inevitably have to happen.  The
 Xamarin Platform is updated much more often than the Visual Studio plugin - the
 updates are released via NuGet: the standard method of distributing libraries
-for .NET applications.  In addition to the inevitable Xamarin Platform update,
-we also will want to add the following NuGet packages:
-
-*  Microsoft.Azure.Mobile.Client v2.0.0 or later
-*  Newtonsoft.Json v6.0.3 or later
+for .NET applications.  
 
 !!! warn
     Although it is tempting, do not include a v1.x version of the Mobile Client.
     This is for the earlier Azure Mobile Services.  There are many differences between
     the wire protocols of the two products.
 
-You can install the NuGet packages by right-clicking on the project and selecting
-**Manage NuGet Packages...**.
+You can install the NuGet packages by right-clicking on the solution and selecting
+**Manage NuGet Packages for Solution...**.
 
   ![Manage NuGet Packages][img11]
 
-You must install the updates and the new NuGet packages on all four projects.
-This involves repeating the same process for each client project in your
-solution.
+You can generally select all the updates.  However, do **NOT** update the Jwt
+package (System.IdentityModel.Tokens.Jwt) as this will break the server project.
+You can update the System.IdentityModel.Tokens.Jwt to the latest v4.x release.
+Do **NOT** install a v5.x release.
 
 !!! info
     Android generally has more updates than the other platforms.  Ensure that you
     update the main Xamarin.Forms package and then refresh the update list.  This will
     ensure the right list of packages is updated.
+
+You should also install the `Microsoft.Azure.Mobile.Client` library in all the client projects.
 
 ### Building the Common Library
 
@@ -524,7 +524,7 @@ later on.  Mocking the backend service is a great technique to rapidly iterate
 on the front end mobile client without getting tied into what the backend is doing.
 
 Let's start with the cloud service - this is defined in
-`Abstractions\ICloudService.cs`.  It is basically used for initializing
+`Abstractions\ICloudService.cs`.  It is used for initializing
 the connection and getting a table definition:
 
 ```csharp
@@ -537,8 +537,7 @@ namespace TaskList.Abstractions
 }
 ```
 
-There is a dependent implementation here: the `ICloudTable` generic interface.  This
-represents a CRUD interface into our tables and is defined in `Abstractions\ICloudTable.cs`:
+The `ICloudTable` generic interface represents a CRUD interface into a table and is defined in `Abstractions\ICloudTable.cs`:
 
 ```csharp
 using System.Collections.Generic;
@@ -853,10 +852,10 @@ you are looking at the perfect app, this is a great place to put the introductor
 screen.
 
 Creating a XAML file is relatively simple.  First, create a `Pages` directory to
-hold the pages of our application.  Then right-click on the `Pages` directory in
+hold the pages of our application.  Then right-Click the `Pages` directory in
 the solution explorer and choose **Add** -> **New Item...**.  In the **Add New Item**
-dialog, pick **Visual C#** -> **Cross-Platform** -> **Forms Xaml Page**.  Name the
-new page `EntryPage.cs`.  This will create two files - `EntryPage.xaml` and
+dialog, pick **Visual C#** -> **Cross-Platform** -> **Forms Blank Content Page Xaml**.  Name 
+the new page `EntryPage.xaml`.  This will create two files - `EntryPage.xaml` and
 `EntryPage.xaml.cs`.  Let's center a button on the page and wire it up with
 a command.  Here is the `Pages\EntryPage.xaml` file:
 
@@ -894,19 +893,21 @@ The other part of the XAML is the code-behind file.  Because we are moving all
 of the non-UI code into a view-model, the code-behind file is trivial:
 
 ```csharp
-using TaskList.ViewModels;
+using TodoList.ViewModels;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-namespace TaskList.Pages
+namespace TodoList.Pages
 {
-    public partial class EntryPage : ContentPage
-    {
-        public EntryPage()
-        {
-            InitializeComponent();
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class EntryPage : ContentPage
+	{
+		public EntryPage ()
+		{
+			InitializeComponent ();
             BindingContext = new EntryPageViewModel();
-        }
-    }
+		}
+	}
 }
 ```
 
@@ -938,7 +939,7 @@ namespace TaskList.ViewModels
         }
 
         Command loginCmd;
-        public Command LoginCommand => loginCmd ?? (loginCmd = new Command(async () => await ExecuteLoginCommand()));
+        public Command LoginCommand => loginCmd ?? (loginCmd = new Command(async () => await ExecuteLoginCommand().ConfigureAwait(false)));
 
         async Task ExecuteLoginCommand()
         {
@@ -1046,20 +1047,23 @@ iOS "pull-to-refresh" gesture can probably guess what this does.
 The code behind in `Pages\TaskList.xaml.cs`:
 
 ```csharp
-using TaskList.ViewModels;
+using TodoList.ViewModels;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-namespace TaskList.Pages
+namespace TodoList.Pages
 {
-    public partial class TaskList : ContentPage
-    {
-        public TaskList()
-        {
-            InitializeComponent();
-            BindingContext = new TaskListViewModel();
-        }
-    }
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class TaskList : ContentPage
+	{
+		public TaskList ()
+		{
+			InitializeComponent ();
+			BindingContext = new TaskListViewModel();
+		}
+	}
 }
+
 ```
 
 There is a view-model that goes along with the view (in `ViewModels\TaskListViewModel.cs`):
@@ -1219,21 +1223,24 @@ passing of the item to be edited.  This is done in the `Pages\TaskDetail.xaml.cs
 code-behind file:
 
 ```csharp
-using TaskList.Models;
-using TaskList.ViewModels;
+using TodoList.Models;
+using TodoList.ViewModels;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-namespace TaskList.Pages
+namespace TodoList.Pages
 {
-    public partial class TaskDetail : ContentPage
-    {
-        public TaskDetail(TodoItem item = null)
-        {
-            InitializeComponent();
-            BindingContext = new TaskDetailViewModel(item);
-        }
-    }
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class TaskDetail : ContentPage
+	{
+		public TaskDetail (TodoItem item = null)
+		{
+			InitializeComponent ();
+			BindingContext = new TaskDetailViewModel(item);
+		}
+	}
 }
+
 ```
 
 The item that is passed in from the `TaskList` page is used to create a
@@ -1344,7 +1351,7 @@ in the `TaskDetail` list, then I want to update the list in the `TaskList` view.
 
 Note that all the code we have added to the solution thus far is in the common
 `TaskList` project.  Nothing is required for this simple example in a platform
-specific project.  That isn't normal, as we shall see.
+specific project.  That isn't normal, as we shall see in later chapters.
 
 ### Building the Client for Universal Windows
 
@@ -1352,10 +1359,14 @@ I tend to start by building the Universal Windows mobile client.  I'm using
 Visual Studio, after all, and I don't need to use any emulator.  To build the
 clients:
 
-- Right-click on the **TaskList.UWP (Universal Windows)** project, then select **Set as StartUp Project**.
-- Right-click on the **TaskList.UWP (Universal Windows)** project again, then select **Build**.
-- Once the build is complete, Right-click on the **TaskList.UWP (Universal Windows)** project again, then select **Deploy**.
-- Click on the **Local Machine** button in your command bar to run the application.
+- Right-Click the **TaskList.UWP (Universal Windows)** project, then select **Set as StartUp Project**.
+- Right-Click the **TaskList.UWP (Universal Windows)** project again, then select **Build**.
+- Once the build is complete, Right-Click the **TaskList.UWP (Universal Windows)** project again, then select **Deploy**.
+- Click the **Local Machine** button in your command bar to run the application.
+
+Ignore the warning **APPX0108** produced during the build.  It warns that your certificate
+has expired (you don't have one yet).  You can still run the application because you have
+turned Developer mode on in the Windows Settings.
 
 Here are the three screen screens we generated on Windows:
 
@@ -1373,7 +1384,7 @@ looked like my mock-ups (with the exception of the UI form of the switch, which
 is platform dependent).  If you want to see what I did to correct this, check out
 the final version of [the Chapter 1 sample][11] on GitHub.
 
-!!! tip Building for On-Premise
+!!! tip "Building for On-Premise"
     If you want to run your backend using on-premise resources (for example, Azure
     Stack or a local IIS service), your UWP application will need the **Private Networks**
     capability.  You can add this in the `Package.appxmanifest` file.  Choose the
@@ -1381,60 +1392,47 @@ the final version of [the Chapter 1 sample][11] on GitHub.
 
 If you need to build the project, ensure you redeploy the project after building.
 It's a step that is easy to miss and can cause some consternation as you change
-the code and it doesn't seem to have an effect on the application.
+the code and it doesn't seem to have an effect on the application.  To aid you in 
+this:
+
+*  Select **Build** -> **Configuration Manager...**
+*  Set the **Active solution platform** to **Any CPU**.
+*  Uncheck all the boxes under **Build** and **Deploy**.
+*  Check the boxes for **TodoList.UWP** under to **Build** and **Deploy**.
+*  Click **Close**.
+
+  ![Setting the Build options][img29]
+
+When you click the **Local Machine** button to start the application, Visual Studio
+will automatically build and deploy your app.
 
 ### Building the Client for Android
 
-Building Android with Visual Studio is as easy as building the Universal Windows
-version of the mobile client:
+Building Android with Visual Studio is almost as easy as building the Universal 
+Windows version of the mobile client.  First, we need to set the minimum SDK
+version.  Azure Mobile Apps only works with API level 19 or above and the provided
+template set the minimum SDK version to API level 15.  Open the `Properties\AndroidManifest.xml`
+file in the **TaskList.Android** project and update the `uses-sdk` element:
 
-- Right-click on the **TaskList.Droid** project, then select **Set as StartUp Project**.
-- Right-click on the **TaskList.Droid** project again, then select **Build**.
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+	<uses-sdk android:minSdkVersion="19" />
+	<application android:label="TodoList.Android"></application>
+</manifest>
+```
 
-The button for running the application has a drop-down that is now significant.
-It lets you choose the type of device that you will use.  Normally, this runs
-either a 5" or 7" KitKat-based Android device.  There is some setup required for
-the Visual Studio Emulator for Android.  The Visual Studio Emulator for Android
-runs within Hyper-V, so you must install Hyper-V before use.  You get the following
-error if you don't do this:
+Once that is done:
 
-![Hyper-V is not installed][img13]
+- Right-Click the **TaskList.Droid** project, then select **Set as StartUp Project**.
+- Right-Click the **TaskList.Droid** project again, then select **Build**.
 
-To install Hyper-V:
+In Visual Studio 2017, we use the Google Emulator for Android to test our Android 
+application.  Four devices will be defined for you by default:
 
-- Close all applications (your system will be rebooted during this process).
-- Search for **Programs and Features**.
-- Click on **Turn Windows features on or off** (in the left-hand menu).
-- Expand the **Hyper-V** node.
-- Check all the boxes below the **Hyper-V** node.  This will include Hyper-V Management Tools and Hyper-V Services.
-- Click on **OK**.
-- Your system will install the required pieces and then ask you to restart.  Click on **Restart now** when prompted.
+  ![Android Device Run][img30]
 
-Once you have done this, the next hurdle is to be added to the Hyper-V Administrators
-security group.  It gets done for you (again - the first time you try to run the
-application after installing Hyper-V).  Once it is done, close Visual Studio (again),
-the log out and back in again.
-
-As if that wasn't enough, the emulator also needs an Internet connection to
-start.
-
-![The emulator requires and Internet connection to start][img14]
-
-You should be able to just click on **Yes** or **OK** to enable the Internet
-connection.  My laptop required a reboot before this would work, however.  In
-addition, the process may request elevated privileges.
-
-!!! tip
-    If you want to run additional Android profiles before starting, run the
-    **Visual Studio Emulator for Android** and download any additional profiles.
-    For example, if you wish to emulate something similar to a Samsung Galaxy S6,
-    then download the profile for a 5.1" Marshmallow (6.0.0) XXHDPI Phone.
-
-Finally the Visual Studio Emulator for Android starts when you click on the Run
-button.  Fortunately, the setup of the emulator only has to be done once per
-machine.  The Visual Studio Emulator for Android is also a superior emulator
-to the standard Android Emulator, so this process is well worth going through.
-
+Select the **VisualStudio_android-23_x86_phone** emulator.  
 !!! tip
     When testing the mobile client manually through the Visual Studio Emulator for
     Android, you are likely to need to rebuild the application.  You do not have to
@@ -1483,8 +1481,8 @@ This linkage is used for building the project.  In essence, the entire project
 is sent to the Mac and the build tools that are supplied with Xamarin Studio
 will be used to build the project.
 
-- Right-click on the **TaskList.iOS** project and select **Set as StartUp Project**.
-- Right-click on the **TaskList.iOS** project and select **Build**.
+- Right-Click the **TaskList.iOS** project and select **Set as StartUp Project**.
+- Right-Click the **TaskList.iOS** project and select **Build**.
 
 You knew it was not going to be that easy, right?  Here are the errors that I
 received when building for the first time:
@@ -1502,8 +1500,8 @@ The fix is to do the following:
    or removing the reference and then adding it again from NuGet.
 3. Close the solution.
 4. Re-open the solution.  You don't need to close Visual Studio to do this.
-5. Right-click on the iOS project and select **Clean**.
-6. Right-click on the iOS project and select **Rebuild**.
+5. Right-Click the iOS project and select **Clean**.
+6. Right-Click the iOS project and select **Rebuild**.
 
 Once you have done this sequence, the error should go away.
 
@@ -1512,7 +1510,7 @@ we have not yet signed up for an Apple Developer Account and linked it to our
 Mac development environment.
 
 - Go to the [Apple Developer Center][15].
-- Click on **Account** in the top navigation bar.
+- Click **Account** in the top navigation bar.
 - If you haven't got an Apple ID yet, create one first.
 - If you have go an Apple ID, then log in.
 
@@ -1528,7 +1526,7 @@ you have gone through this process, you are registered as an Apple Developer.
 
 Once you have created your account and enabled it as a developer account, open
 up XCode.  Go to **Preferences...**, then **Account** and
-click on the **+** in the bottom-left corner of the window:
+Click the **+** in the bottom-left corner of the window:
 
 ![Adding an Apple ID to XCode][img18]
 
@@ -1536,16 +1534,16 @@ Sign in with the same account you used to sign up for the developer account.
 
 ![The Apple ID in XCode][img19]
 
-Click on the **View Details** button.  This will bring up the Signing Identities
+Click the **View Details** button.  This will bring up the Signing Identities
 list.  For a free account, it looks like this:
 
 ![XCode Signing Identities][img20]
 
-Click on the Create button next to **iOS Development**.  Once the UI comes back,
-click on **Done**.  For more information on this process, refer to the [Apple Documentation][16].
+Click the Create button next to **iOS Development**.  Once the UI comes back,
+Click **Done**.  For more information on this process, refer to the [Apple Documentation][16].
 
 You can close XCode at this point.  Ensure Xamarin Studio is not running.  Back
-within Visual Studio, right-click on the **TaskList.iOS** project and select **Rebuild**.
+within Visual Studio, right-Click the **TaskList.iOS** project and select **Rebuild**.
 This will (finally!) build the application for you.
 
 !!! tip
@@ -1556,7 +1554,7 @@ This will (finally!) build the application for you.
 
 The **Run** button has received a **Device** label, but there are several simulator options.
 You should only use **Device** if you have signed up for the Apple Developer Program.  Pick
-one of the simulator options like the **iPhone 6 iOS 9.3** simulator, then click on it
+one of the simulator options like the **iPhone 6 iOS 9.3** simulator, then Click it
 to run the simulator.  Before long, you should see the following:
 
 ![iOS Simulator Runtime Error][img21]
@@ -1647,6 +1645,10 @@ important functionality in your app to complete the work.
 [img24]: img/dataconns-sqldb.PNG
 [img25]: img/dataconns-sqlsvr.PNG
 [img26]: img/dataconns_success.PNG
+[img27]: img/new-xplat-app.PNG
+[img28]: img/img8.PNG
+[img29]: img/img29.PNG
+[img30]: img/img30.PNG
 
 [int-data]: ../chapter3/dataconcepts.md
 [int-firstapp-mac]: ./firstapp_mac.md

@@ -3,6 +3,7 @@ site_url: https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure
 repo_url: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure
 repo_name: GitHub
 site_author: Adrian Hall
+copyright: 'Copyright &copy; 2017 Adrian Hall'
 pages:
     - Getting Started: index.md
     - Chapter 1 - Introduction:
@@ -65,9 +66,11 @@ extra:
     palette:
       primary: 'red'
       accent: 'deep purple'
-    author:
-      github: 'adrianhall'
-      twitter: 'FizzyInTheHall'
+    social:
+    - type: 'github'
+      link: 'https://github.com/adrianhall'
+    - type: 'twitter'
+      link: 'https://twitter.com/FizzyInTheHall'
 markdown_extensions:
     - toc(permalink=true)
     - fenced_code
@@ -77,3 +80,6 @@ extra_css:
   - css/vs.css
 extra_javascript:
   - js/highlight.pack.js
+google_analytics:
+  - 'UA-93366112-1'
+  - 'auto'

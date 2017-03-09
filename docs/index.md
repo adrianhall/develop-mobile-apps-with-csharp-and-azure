@@ -165,7 +165,7 @@ package and update it (if appropriate) so that it is fully patched.
 #### On your Mac
 
 * [XCode][8] (available on the Mac App Store)
-* [Xamarin Studio][9]
+* [Visual Studio for Mac][9]
 * [Android Studio and Tools][23] (if you intend to build Android apps on the Mac)
 
 You must run XCode at least once after installation so that you can accept the
@@ -174,13 +174,22 @@ license agreement.
 #### On your Windows PC
 
 * [Android Studio and Tools][23]
-* [Visual Studio Community][10]
-* [Azure SDK][11]
+* [Visual Studio 2017 Community][10]
 
-When installing Visual Studio, you will want to install the components for
-Web applications and Cross-platform Mobile development.  If you have already
-installed Visual Studio and did not install these components, run the installer
-again to add the components.
+When installing Visual Studio, you will want to install the following workloads:
+
+* Universal Windows Platform development.
+* ASP.NET and web development.
+* Azure development.
+* Data storage and processing.
+* Mobile development with .NET.
+
+If you have already installed Visual Studio and did not install these components, 
+run the installer again to add the components.
+
+You can also use earlier versions of Visual Studio.  If you do use an earlier
+version, then the screen shots I provide will not match up.  You will also need
+the latest version of the [Azure SDK][11] installed.  
 
 !!! tip
     Development Tools are big, multi-gigabyte installers.  If you are on a slow or
@@ -193,9 +202,9 @@ You will need an Azure account to complete most of the tutorials in this book.
 In fact, you won't be able to get very far without one. If you have an MSDN
 account, you already have access to free Azure resources.  You just need to log
 into your [MSDN account][15] and activate your Azure benefit.  Students may be
-able to get access to [Dreamspark][16] from school resources, but this is not
-suitable for developing mobile applications.  This is because storage costs
-money.  If you don't have MSDN, then there is a [free trial][17] available.
+able to get access to [Microsoft Imagine][16] from school resources, but this 
+is not suitable for developing mobile applications.  This is because storage 
+costs money.  If you don't have MSDN, then there is a [free trial][17] available.
 Once the trial period ends, you can move to a Pay-As-You-Go account and continue
 to use free services without incurring a charge. I'll point out when you are
 going to incur charges on your Azure account, but I will be using free resources
@@ -223,7 +232,7 @@ until you need something they offer.
 Now, let's get developing!  Our next section is dependent on where you are developing:
 
 * On a Mac, skip ahead to the [Mac section][int-mac].
-* On a PC, the [next section][int-pc] covers Visual Studio.
+* On a PC, the [next section][int-pc] covers Windows.
 
 [int-mac]: ./chapter1/firstapp_mac.md
 [int-pc]: ./chapter1/firstapp_pc.md
@@ -236,14 +245,14 @@ Now, let's get developing!  Our next section is dependent on where you are devel
 [6]: http://www.apple.com/shop/buy-mac/mac-mini?product=MGEQ2LL/A&step=config#
 [7]: http://www.intel.com/content/www/us/en/nuc/change-the-game-with-nuc.html
 [8]: https://itunes.apple.com/us/app/xcode/id497799835?mt=12
-[9]: https://www.xamarin.com/platform
-[10]: https://www.visualstudio.com/products/visual-studio-community-vs
+[9]: https://www.visualstudio.com/thank-downloading-visual-studio-mac/?sku=vsmac
+[10]: https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15
 [11]: https://azure.microsoft.com/en-us/downloads/
 [12]: http://guide.bash.academy/
 [13]: https://mva.microsoft.com/en-us/training-courses/getting-started-with-powershell-3-0-jump-start-8276
 [14]: https://try.github.io/levels/1/challenges/1
 [15]: https://msdn.microsoft.com/en-us/default.aspx
-[16]: https://www.dreamspark.com/Product/Product.aspx?productid=99
+[16]: https://imagine.microsoft.com/en-us
 [17]: https://azure.microsoft.com/en-us/free/
 [18]: https://developer.apple.com/programs/
 [19]: https://play.google.com/apps/publish/signup
