@@ -1427,41 +1427,32 @@ Once that is done:
 - Right-Click the **TaskList.Droid** project, then select **Set as StartUp Project**.
 - Right-Click the **TaskList.Droid** project again, then select **Build**.
 
+!!! warn "Updating Xamarin.Android Support Packages"
+    If you use NuGet to update the referenced packages, ensure all the Xamarin Android
+    support packages are the same version.  Your build will fail if this is not the case.
+
+You may see build failures for a variety of reasons.  Generally, a search on the
+Xamarin Forums will turn up the root cause of the failure.  Xamarin Android builds
+seem to have more errors than either Windows or iOS, but they are easily correctable
+issues with the environment.
+
 In Visual Studio 2017, we use the Google Emulator for Android to test our Android 
 application.  Four devices will be defined for you by default:
 
   ![Android Device Run][img30]
 
-Select the **VisualStudio_android-23_x86_phone** emulator.  
-!!! tip
-    When testing the mobile client manually through the Visual Studio Emulator for
-    Android, you are likely to need to rebuild the application.  You do not have to
-    shut down the emulator between runs.  You can leave it running.  The application
-    will be stopped and replaced before starting again.  This can significantly speed
-    up the debug cycle since you are not waiting for the emulator to start each time.
+Select the **VisualStudio_android-23_x86_phone** emulator.    
 
-Watch the Output window.  If the debugger won't connect or the application
-won't start, you may need to restart your computer again to get the network
-working.
+!!! tip "Disable Hyper-V before using the Google Emulator"
+    The Google Android Emulator is incompatible with Hyper-V.  If you see deployment errors,
+    check the output window.  You may see a message asking you to disable Hyper-V.  Open up
+    a PowerShell prompt with "Run as Administrator" and type `bcdedit /set hypervisorlaunchtype off`,
+    then restart your computer.  When the computer is restarted, Hyper-V will not be running.
 
-!!! tip
-    If your computer doesn't run Hyper-V well (or at all), then the emulator won't run
-    well (or at all) either.  I find laptops to be particularly prone to this problem.
-    If this happens, you can always run the Google Emulator instead.  Build the application
-    as normal.  You will find the APK file to install in `...\TaskList.Droid\bin\Debug`.
-    Fortunately, there are lots of resources that show how to do this.  You can find the
-    answer on [Stack Overflow][13]
-
-If everything is working, you should see the Visual Studio Emulator for Android
+If everything is working, you should see the Google Android Emulator 
 display your mobile client:
 
-![Visual Studio Emulator for Android Final][img16]
-
-!!! warn
-    You can also build the Android version on a mac with Xamarin Studio.  However, I find
-    that version mismatches between Mono (which is used on the mac) and Visual Studio - particularly
-    in reference to the version of the .NET framework - cause issues when swapping between the
-    two environments.  For best results, stay in one environment.
+![Android Final][img16]
 
 Note that the task list view is a "light" style and the rest of the app is a
 "dark" style.  This is because the default styling on an Android device is
@@ -1473,89 +1464,38 @@ list page.
 ### Building the Client for iOS
 
 Finally, we get to the iOS platform.  You will need to ensure your Mac is turned
-on and accessible, that it has XCode installed (and you have run XCode once so
-that you can accept the license agreement), and it has Xamarin Studio installed.
+on and accessible via ssh, that it has XCode installed (and you have run XCode once so
+that you can accept the license agreement), and it has Visual Studio for Mac installed.
+
+!!! tip "Use Visual Studio Mobile Center for Mac Builds"
+    If you don't have a Mac handy, you can use [Visual Studio Mobile Center][vsmc] to
+    build your iOS version.  You will need a signing certificate for this as you will
+    obviously not have access to the iOS Simulator that is available on a Mac.
 
 When you created the projects, you were asked to link Visual Studio to your mac.
 This linkage is used for building the project.  In essence, the entire project
-is sent to the Mac and the build tools that are supplied with Xamarin Studio
-will be used to build the project.
+is sent to the Mac and the build tools that are supplied with Visual Studio for Mac
+are used to build the project.
 
-- Right-Click the **TaskList.iOS** project and select **Set as StartUp Project**.
-- Right-Click the **TaskList.iOS** project and select **Build**.
+- Right-click the **TaskList.iOS** project and select **Set as StartUp Project**.
+- Right-click the **TaskList.iOS** project and select **Build**.
 
 You knew it was not going to be that easy, right?  Here are the errors that I
 received when building for the first time:
 
 ![iOS First Build Errors][img17]
 
-There are two errors right at the top.  Let's cover the first one.  The error
-about _Build Action 'EmbeddedResource' is not supported_ is an annoying one.
-The fix is to do the following:
+The error about _No valid iOS code signing keys found in keychain_ is because we selected (by default) a 
+package to deploy onto an iPhone and have not signed  up for an Apple Developer Account and linked it to 
+our Mac development environment.  To fix this, select the "iPhoneSimulator" Configuration:
 
-1. Set the iOS project as the StartUp project.
-2. Go through each project, expand the **References** node and ensure that there are
-   no references with a warning (a little yellow triangle).  If there are - fix those
-   first.  Generally, this is fixed by either using the **Restore NuGet Packages** option
-   or removing the reference and then adding it again from NuGet.
-3. Close the solution.
-4. Re-open the solution.  You don't need to close Visual Studio to do this.
-5. Right-Click the iOS project and select **Clean**.
-6. Right-Click the iOS project and select **Rebuild**.
+![Select iPhone Simulator][img31]
 
-Once you have done this sequence, the error should go away.
+Once you have selected the iPhoneSimulator configuration, re-build the mobile application.  It should
+work this time.  Run the simulator using the normal Visual Studio method.  Visual Studio 2017 will
+connect to the Mac to run the simulator but display the simulator on your PC.
 
-The error about _No valid iOS code signing keys found in keychain_ is because
-we have not yet signed up for an Apple Developer Account and linked it to our
-Mac development environment.
-
-- Go to the [Apple Developer Center][15].
-- Click **Account** in the top navigation bar.
-- If you haven't got an Apple ID yet, create one first.
-- If you have go an Apple ID, then log in.
-
-There are a sequence of sign-up prompts in both cases (first for creating your
-Apple ID and secondly for signing up for the Apple Developer program).  Once
-you have gone through this process, you are registered as an Apple Developer.
-
-!!! info
-    If you want to distribute your apps on the Apple App Store, run on real devices or
-    get access to the beta bits, then you might consider signing up for the Apple Developer
-    Program.  The Apple Developer Program is an additional cost and is not required for
-    developing iOS apps that are only run on the iOS simulator.
-
-Once you have created your account and enabled it as a developer account, open
-up XCode.  Go to **Preferences...**, then **Account** and
-Click the **+** in the bottom-left corner of the window:
-
-![Adding an Apple ID to XCode][img18]
-
-Sign in with the same account you used to sign up for the developer account.
-
-![The Apple ID in XCode][img19]
-
-Click the **View Details** button.  This will bring up the Signing Identities
-list.  For a free account, it looks like this:
-
-![XCode Signing Identities][img20]
-
-Click the Create button next to **iOS Development**.  Once the UI comes back,
-Click **Done**.  For more information on this process, refer to the [Apple Documentation][16].
-
-You can close XCode at this point.  Ensure Xamarin Studio is not running.  Back
-within Visual Studio, right-Click the **TaskList.iOS** project and select **Rebuild**.
-This will (finally!) build the application for you.
-
-!!! tip
-    Getting an error about _Provisioning Profiles_ not being available?  This is because
-    you are building for a real device instead of the simulator.  In order to build for a
-    real device, you must have a linked Apple Developer Program.  To get around this, select
-    a Simulator before building.
-
-The **Run** button has received a **Device** label, but there are several simulator options.
-You should only use **Device** if you have signed up for the Apple Developer Program.  Pick
-one of the simulator options like the **iPhone 6 iOS 9.3** simulator, then Click it
-to run the simulator.  Before long, you should see the following:
+Before long, you should see the following:
 
 ![iOS Simulator Runtime Error][img21]
 
@@ -1580,22 +1520,7 @@ Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 ```
 
 This initializer is not required on the UWP project.  Once this is done and you have re-built
-the project, we can see the fruits of our labor.  You can, of course, run the IPA in the
-iOS simulator on the Mac.  However, it's much more satisfying (to me, at least) to be able
-to do everything from within Visual Studio.  For this, you need to install the
-[Xamarin Installer][17].  This is an MSI for your Windows development system and is
-quickly installed.  Once installed, start (or restart) Visual Studio, select **Tools** ->
-**Options**.  Search for **Xamarin**, and select the **iOS Settings** page.  There is
-a new option:
-
-![iOS Simulator Settings][img23]
-
-Note the **Remote Simulator to Windows**.  This should be checked.  You may need to
-rebuild the TaskList.iOS project after installing the Xamarin Simulator.  The debug
-window will tell you if this is the case.  There are also a few [known issues][18]
-so check the documentation if you run into problems.
-
-The final product screens look like this:
+the project, you can see the fruits of your labor.  The final product screens look like this:
 
 ![iOS Final Screens][img22]
 
@@ -1611,7 +1536,7 @@ won't have to think too much about them again. The Android and iOS build tools a
 will just work.
 
 If you would rather develop code on your mac, the next chapter is for you - it gets into
-the nitty gritty of developing the exact same app, but using Xamarin Studio instead.
+the nitty gritty of developing the exact same app, but using Visual Studio for Mac instead.
 
 The following 7 chapters each take one aspect of the cloud services that can be provided to
 mobile apps and explores it in detail, using an Azure Mobile App as a beginning. You can
@@ -1649,6 +1574,7 @@ important functionality in your app to complete the work.
 [img28]: img/img8.PNG
 [img29]: img/img29.PNG
 [img30]: img/img30.PNG
+[img31]: img/select-ios-simulator.PNG
 
 [int-data]: ../chapter3/dataconcepts.md
 [int-firstapp-mac]: ./firstapp_mac.md
@@ -1673,4 +1599,4 @@ important functionality in your app to complete the work.
 [18]: https://developer.xamarin.com/guides/cross-platform/windows/ios-simulator/#Known_Issues
 [19]: http://www.macincloud.com/
 [20]:  https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/troubleshooting/
-
+[vsmc]: https://mobile.azure.com/signup
