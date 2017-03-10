@@ -53,7 +53,7 @@ Azure App Service.
 
 To get started:
 
-1. Fire up Xamarin Studio
+1. Fire up Visual Studio for Mac
 2. Add a new project with File -> New Solution...
 3. In the **New Project** window:
 
