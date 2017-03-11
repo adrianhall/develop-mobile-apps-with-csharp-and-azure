@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.1.1">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-4ebe3f1d68.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-f6789307ff.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
       
     
     
@@ -1439,6 +1439,14 @@ from the <code>Services\iOSPlatformProvider.cs</code> file:</p>
 registration Id is stored in the AppDelegate once registered, but needs to be decoded (which is relatively
 simple).  Similar to the Android version, we make the template we are using match what we are expecting within
 our push handler.</p>
+<div class="admonition tip">
+<p class="admonition-title">Receiving Notifications in the background</p>
+<p>If you want your app to be notified when a notification is received when your app is in the background, you
+need to set the Background Fetch capability and your payload should include the key <code>content-available</code> with
+a value of 1 (true).  You can add this to the Body of the template in the above sample.  iOS will wake up the
+app and you will have 30 seconds to fetch any information you might need to update.  Check <a href="https://developer.xamarin.com/guides/ios/application_fundamentals/backgrounding/part_3_ios_backgrounding_techniques/updating_an_application_in_the_background/">the documentation</a>
+for more details.</p>
+</div>
 <h2 id="testing-notifications">Testing Notifications<a class="headerlink" href="#testing-notifications" title="Permanent link">&para;</a></h2>
 <p>Our final step is to test the whole process.  As with Android, there are two tests we need to perform.  The first is
 to ensure that a registration happens when we expect it to.  In the case of our app, that happens immediately after
@@ -1553,6 +1561,10 @@ up with the appropriate endpoint - Sandbox or Production.</p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
         powered by
         <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
         and
@@ -1561,6 +1573,16 @@ up with the appropriate endpoint - Sandbox or Production.</p>
       </div>
       
         
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
       
     </div>
   </div>
@@ -1575,6 +1597,8 @@ up with the appropriate endpoint - Sandbox or Production.</p>
       
     
     
+      
+      <script>!function(e,t,a,n,o,c,i){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,c=t.createElement(a),i=t.getElementsByTagName(a)[0],c.async=1,c.src=n,i.parentNode.insertBefore(c,i)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-93366112-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var t=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",t,e.href)})});var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})</script>
       
     
   </body>

@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="./assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.1.1">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="./assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="./assets/stylesheets/application-4ebe3f1d68.css">
+      <link rel="stylesheet" href="./assets/stylesheets/application-e17eeafcbc.css">
       
-        <link rel="stylesheet" href="./assets/stylesheets/application-f6789307ff.palette.css">
+        <link rel="stylesheet" href="./assets/stylesheets/application-892b79c5c5.palette.css">
       
     
     
@@ -1374,7 +1374,7 @@ package and update it (if appropriate) so that it is fully patched.</p>
 <h4 id="on-your-mac">On your Mac<a class="headerlink" href="#on-your-mac" title="Permanent link">&para;</a></h4>
 <ul>
 <li><a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12">XCode</a> (available on the Mac App Store)</li>
-<li><a href="https://www.xamarin.com/platform">Xamarin Studio</a></li>
+<li><a href="https://www.visualstudio.com/thank-downloading-visual-studio-mac/?sku=vsmac">Visual Studio for Mac</a></li>
 <li><a href="https://developer.android.com/">Android Studio and Tools</a> (if you intend to build Android apps on the Mac)</li>
 </ul>
 <p>You must run XCode at least once after installation so that you can accept the
@@ -1382,13 +1382,21 @@ license agreement.</p>
 <h4 id="on-your-windows-pc">On your Windows PC<a class="headerlink" href="#on-your-windows-pc" title="Permanent link">&para;</a></h4>
 <ul>
 <li><a href="https://developer.android.com/">Android Studio and Tools</a></li>
-<li><a href="https://www.visualstudio.com/products/visual-studio-community-vs">Visual Studio Community</a></li>
-<li><a href="https://azure.microsoft.com/en-us/downloads/">Azure SDK</a></li>
+<li><a href="https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&amp;rel=15">Visual Studio 2017 Community</a></li>
 </ul>
-<p>When installing Visual Studio, you will want to install the components for
-Web applications and Cross-platform Mobile development.  If you have already
-installed Visual Studio and did not install these components, run the installer
-again to add the components.</p>
+<p>When installing Visual Studio, you will want to install the following workloads:</p>
+<ul>
+<li>Universal Windows Platform development.</li>
+<li>ASP.NET and web development.</li>
+<li>Azure development.</li>
+<li>Data storage and processing.</li>
+<li>Mobile development with .NET.</li>
+</ul>
+<p>If you have already installed Visual Studio and did not install these components, 
+run the installer again to add the components.</p>
+<p>You can also use earlier versions of Visual Studio.  If you do use an earlier
+version, then the screen shots I provide will not match up.  You will also need
+the latest version of the <a href="https://azure.microsoft.com/en-us/downloads/">Azure SDK</a> installed.  </p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Development Tools are big, multi-gigabyte installers.  If you are on a slow or
@@ -1400,9 +1408,9 @@ local installation.</p>
 In fact, you won't be able to get very far without one. If you have an MSDN
 account, you already have access to free Azure resources.  You just need to log
 into your <a href="https://msdn.microsoft.com/en-us/default.aspx">MSDN account</a> and activate your Azure benefit.  Students may be
-able to get access to <a href="https://www.dreamspark.com/Product/Product.aspx?productid=99">Dreamspark</a> from school resources, but this is not
-suitable for developing mobile applications.  This is because storage costs
-money.  If you don't have MSDN, then there is a <a href="https://azure.microsoft.com/en-us/free/">free trial</a> available.
+able to get access to <a href="https://imagine.microsoft.com/en-us">Microsoft Imagine</a> from school resources, but this 
+is not suitable for developing mobile applications.  This is because storage 
+costs money.  If you don't have MSDN, then there is a <a href="https://azure.microsoft.com/en-us/free/">free trial</a> available.
 Once the trial period ends, you can move to a Pay-As-You-Go account and continue
 to use free services without incurring a charge. I'll point out when you are
 going to incur charges on your Azure account, but I will be using free resources
@@ -1427,7 +1435,7 @@ until you need something they offer.</p>
 <p>Now, let's get developing!  Our next section is dependent on where you are developing:</p>
 <ul>
 <li>On a Mac, skip ahead to the <a href="chapter1/firstapp_mac/">Mac section</a>.</li>
-<li>On a PC, the <a href="chapter1/firstapp_pc/">next section</a> covers Visual Studio.</li>
+<li>On a PC, the <a href="chapter1/firstapp_pc/">next section</a> covers Windows.</li>
 </ul>
               
               
@@ -1464,6 +1472,10 @@ until you need something they offer.</p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
         powered by
         <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
         and
@@ -1472,6 +1484,16 @@ until you need something they offer.</p>
       </div>
       
         
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
       
     </div>
   </div>
@@ -1486,6 +1508,8 @@ until you need something they offer.</p>
       
     
     
+      
+      <script>!function(e,t,a,n,o,c,i){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,c=t.createElement(a),i=t.getElementsByTagName(a)[0],c.async=1,c.src=n,i.parentNode.insertBefore(c,i)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-93366112-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var t=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",t,e.href)})});var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})</script>
       
     
   </body>
