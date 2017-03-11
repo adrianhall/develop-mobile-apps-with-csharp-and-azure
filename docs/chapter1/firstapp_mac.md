@@ -53,216 +53,55 @@ Azure App Service.
 
 To get started:
 
-1. Fire up Visual Studio for Mac
-2. Add a new project with File -> New Solution...
-3. In the **New Project** window:
+1. Fire up [Visual Studio for Mac][vsmac].
+2. Create a new solution with **File** -> **New Solution...**.
+3. In the **New Project** window, choose **Other** -> **ASP.NET**, select **Empty ASP.NET Project**, then click **Next**.
+4. In the **Configure your Web project** window, check the **Web API** box and uncheck the **Include Unit Test Project**, then click **Next**.
+5. In the second **Configure your new project** window, enter **Backend** for the for the Project Name and **Chapter1** for the Solution name. Click **Create** to generate the files.
 
-    - Choose Other -> ASP.NET and select **Empty ASP.NET Project**.
-    - Click Next.
+At this point, Visual Studio for Mac will lay down the template files on your disk and download the core ASP.NET libraries from NuGet.  You will need to accept the licenses for the downloaded NuGet packages.  
 
-4. In the **Configure your Web project** window:
-    - Check the **Web API** checkbox.
-    - Click Next.
-
-5. In the **Configure your new project** window:
-    - Enter **Backend** for the for the Project Name and **Chapter1** for the Solution name.
-    - Pick a suitable directory for the Location field.
-    - Click on Create.
-
-At this point, Xamarin Studio will create your backend project.
-
-You may need to accept licenses for several packages to continue with
-the project creation.  As Xamarin Studio doesn't have templates for all
-of the same ASP.NET projects that Visual Studio does, we'll need to do
-some additional work to set our project up.
-
-First, we need to change our project to target .NET 4.6.  Right click on
-your **Backend** project in the Solution Explorer and choose Options.  Under
-the **Build** section, select **General**.  Under the Target Framework dropdown
-select .NET Framework 4.6.1:
+Visual Studio for Mac does not have the range of templates that Visual Studio for the PC has.  As a result, we will need to do some additional work putting together a base project.  The core of Azure Mobile Apps runs on .NET Framework 4.6.x.  Right-click your `Backend` project in the Solution Explorer and choose **Options**.  The target framework setting is located in the **Build** -> **General** section.  You can choose any .NET Framework in the 4.6.x range. 
 
 ![Changing the Target Framework][img11]
 
 Click **OK** to accept the change and close the Project Options.
 
-Next we'll install multiple NuGet packages.  Expand the **Backend** project
-in the Solution Explorer and right click on **Packages** and then select
-**Add Packages**.  Find and add the following packages:
+Although a core set of NuGet packages are installed during project creation, we need to add the Azure Mobile Apps NuGet packages.  The easiest way to do this is to install the `Azure Mobile .NET Server Quickstart` NuGet package, which contains dependencies on all the other Azure Mobile Apps packages.  Expand the **Backend** project in the solution explorer, right-click **Packages**, then select **Add Packages...**.  Use the search box to find the appropriate NuGet package.  You also need to add the Owin System host `Microsoft.Owin.Host.Systemweb` NuGet package.   You should take the opportunity to update any NuGet packages that were automatically added to the project.  To do so, right-click **Packages**, then choose **Update**.
 
-*  Azure Mobile .NET Server SDK
-*  Azure Mobile .NET Server Tables
-*  Azure Mobile .NET Server CORS
-*  Azure Mobile .NET Server Notifications
-*  Azure Mobile .NET Server Authentication
-*  Azure Mobile .NET Server Home
-*  Azure Mobile .NET Server Quickstart
-*  Azure Mobile .NET Server Entity
-*  Microsoft.OWIN.Host.SystemWeb
+Start by configuring the Azure Mobile Apps SDK.  The Owin process runs the `Startup.cs` object to configure itself.  To create the `Startup.cs` class:
 
-!!! tip
-    The Azure Mobile .NET Server Quickstart NuGet package has all the other packages
-    as dependencies.  Add the Quickstart package first to save yourself some time.
+1. Right-click the **Backend** folder.
+2. Select **Add** -> **New File...**.
+3. Select **General** -> **Empty Class**, and set the name of the class to `Startup.cs`.
+4. Click **New**.
 
-You should also take the opportunity to update any NuGet packages that were
-automatically added to the project.  To do so, right click on **Packages** and
-choose **Update**.
+!!! tip "Leave off the .cs on the end"
+    If your filename does not have a dot in it (and some that we use do), you can leave off the `.cs`
+    trailing extension.  Visual Studio for Mac will add it for you.
 
-Next you'll need to add the following folders to the **Backend** project.  Right
-click on **Backend** and select Add -> New Folder and create the following:
-
-* Controllers
-* DataObjects
-* Models
-
-Next you'll need to remove the following files that were created as part of the template.
-Right click on each of the following files and choose Remove and click the Delete button:
-
-* App_Start/WebApiConfig.cs
-* Global.asax
-
-Now we can add the files that will consist of our backend.  We'll start by
-creating the three files that will handle projecting a single table in our
-database - the TodoItem table - into the mobile realm with the aid of an
-opinionated [OData v3][5] feed.  To that end, we need three items:
-
-* A `DbSet<>` within the `DbContext`
-* A Data Transfer Object (or DTO)
-* A Table Controller
-
-
-Start by right clicking on `DataObjects` and choose Add -> New File.  Select General -> Empty Class and name it
-`TodoItem.cs`.  As we're building a task list application, this is the DTO
-for our TodoItems:
+The `Startup.cs` class looks like this:
 
 ```csharp
-using Microsoft.Azure.Mobile.Server;
+using Microsoft.Owin;
+using Owin;
 
-namespace Backend.DataObjects
+[assembly: OwinStartup(typeof(Backend.Startup))]
+namespace Backend
 {
-	public class TodoItem : EntityData
-	{
-		public string Text { get; set; }
-		public bool Complete { get; set; }
-	}
-}
-```
-
-Note that the model uses `EntityData` as a base class.  The `EntityData` class
-adds five additional properties to the class - we'll discuss those in more
-details during the [Data Access and Offline Sync][int-data] chapter.
-
-Next, we'll create our `DbContext` which uses [Entity Framework][4] to deal with creating
-our Database Model when we upload our backend to Azure.  Right click on **Models** and choose
-Add -> New File.  Select General -> Empty Class and name it `MobileServiceContext.cs`.
-Add the following code:
-
-```csharp
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using Microsoft.Azure.Mobile.Server;
-using Microsoft.Azure.Mobile.Server.Tables;
-using Backend.DataObjects;
-
-namespace Backend.Models
-{
-    public class MobileServiceContext : DbContext
+    public partial class Startup
     {
-        // You can add custom code to this file. Changes will not be overwritten.
-        //
-        // If you want Entity Framework to alter your database
-        // automatically whenever you change your model schema, please use data migrations.
-        // For more information refer to the documentation:
-        // http://msdn.microsoft.com/en-us/data/jj591621.aspx
-        //
-        // To enable Entity Framework migrations in the cloud, please ensure that the
-        // service name, set by the 'MS_MobileServiceName' AppSettings in the local
-        // Web.config, is the same as the service name when hosted in Azure.
-
-        private const string connectionStringName = "Name=MS_TableConnectionString";
-
-        public MobileServiceContext() : base(connectionStringName)
+        public void Configuration(IAppBuilder app)
         {
-        }
-
-        public DbSet<TodoItem> TodoItems { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Add(
-                new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
-                    "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
+            ConfigureMobileApp(app);
         }
     }
 }
 ```
 
-Next we'll create the controller for our TodoItem table.  Right click on **Controllers**
-and choose Add -> New File.  Select General -> Empty Class and name it
-`TodoItemController.cs`.  Add the following code:
-
-```csharp
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.OData;
-using Backend.DataObjects;
-using Backend.Models;
-using Microsoft.Azure.Mobile.Server;
-
-namespace Backend.Controllers
-{
-    public class TodoItemController : TableController<TodoItem>
-    {
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager<TodoItem>(context, Request);
-        }
-
-        // GET tables/TodoItem
-        public IQueryable<TodoItem> GetAllTodoItems() => Query();
-
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult<TodoItem> GetTodoItem(string id) => Lookup(id);
-
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task<TodoItem> PatchTodoItem(string id, Delta<TodoItem> patch) => UpdateAsync(id, patch);
-
-        // POST tables/TodoItem
-        public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
-        {
-            TodoItem current = await InsertAsync(item);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
-        }
-
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task DeleteTodoItem(string id) => DeleteAsync(id);
-    }
-}
-```
-
-The `TableController` is the central processing for the database access layer.
-It handles all the OData capabilities for us and exposes these as REST endpoints
-within our WebAPI.  This means that the actual code for this controller is tiny - just 12 lines of code.
-
-!!! info
-    [OData][5] is a specification for accessing table data on the Internet.  It provides
-    a mechanism for querying and manipulating data within a table.  Entity Framework is a
-    common data access layer for ASP.NET applications.
-
-Moving on, we'll create the startup file for our backend.  Right click on **App_Start**
--> Add -> New File.  Select General -> Empty Class and name it
-`Startup.MobileApp.cs`.
-
-!!! info
-    If you name a file in Xamarin Studio with a period in it without including the specific
-    extension (.cs) at the end, Xamarin Studio will not automatically set the file up
-    to be compiled correctly.
-
-This class handles initializing our mobile application backend:
+The `ConfigureMobileApp()` method is located in the `App_Start\Startup.MobileApp.cs` file that we will
+create next.  Create the file the same way you did the `Startup.cs` file, then enter the following into 
+the new file:
 
 ```csharp
 using System;
@@ -317,83 +156,148 @@ namespace Backend
 }
 ```
 
-If you were to create a new Mobile App based application in Visual Studio or download the
-quickstart application from the Azure portal, the startup
-would be considerably inflated with additional functionality for things like
-authentication and push notifications.  Currently we have it set up to only implement
-our data layer.
+Let's break this down a little bit.  The `ConfigureMobileApp()` method is called to configure Azure Mobile 
+Apps when the service starts.  The code tells the SDK that we want to use tables and that those tables are
+backed with Entity Framework.  We also want to initialize the database that we are going to use.  That 
+database is going to use a `DbContext` called `MobileServiceContext`.  The initialization code will create
+the database and seed it with two new items if it doesn't already exist.  If it exists, then we assume that
+we don't need to seed the database with data.
 
-There is another method in the `App_Start\Startup.MobileApp.cs` file for
-seeding data into the database for us.  We can leave that alone for now, but
-remember it is there in case you need to seed data into a new database for
-your own backend.
-
-!!! info
-    When we refer to "seeding data" into a database, this means that we are going to introduce
-    some data into the database so that we aren't operating on an empty database. The data
-    will be there when we query the database later on.
-
-
-Finally we need to add a startup class for our ASP.NET
-application.  Right click on **Backend** -> Add -> New File.  Select General ->
-Empty Class and name it `Startup.cs`.  The purpose of this class is just to kick off
-the configuration of our mobile app backend:
+The `MobileServiceContext` is used to configure the tables within the database and to project those tables
+into Entity Framework.  It relies on a model for each table.  In Azure Mobile Apps, this is called the 
+**Data Transfer Object** or DTO.  The server will serialize a DTO to JSON for transmission.  Our DTO is in
+a new directory called `DataObjects` (right-click on **Backend** and choose **Add** -> **New Folder...** to
+create it) and is called `TodoItem.cs`:
 
 ```csharp
-using Microsoft.Owin;
-using Owin;
+using Microsoft.Azure.Mobile.Server;
 
-[assembly: OwinStartup(typeof(Backend.Startup))]
-
-namespace Backend
+namespace Backend.DataObjects
 {
-    public partial class Startup
+	public class TodoItem : EntityData
+	{
+		public string Text { get; set; }
+		public bool Complete { get; set; }
+	}
+}
+```
+
+We base each DTO we use on the `EntityData` class, since we are using Entity Framework.  This sets up some
+additional columns in the data model so that we can keep track on mobile device changes.  We will be 
+discussing this in more detail in the [Data Access and Offline Sync][int-data] chapter.
+
+We also need the `Models\MobileServiceContext.cs` which sets up the tables for us:
+
+```csharp
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
+using Microsoft.Azure.Mobile.Server;
+using Microsoft.Azure.Mobile.Server.Tables;
+using Backend.DataObjects;
+
+namespace Backend.Models
+{
+    public class MobileServiceContext : DbContext
     {
-        public void Configuration(IAppBuilder app)
+        private const string connectionStringName = "Name=MS_TableConnectionString";
+
+        public MobileServiceContext() : base(connectionStringName)
         {
-            ConfigureMobileApp(app);
+        }
+
+        public DbSet<TodoItem> TodoItems { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Add(
+                new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
+                    "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
     }
 }
 ```
 
-Our last step in our backend before publishing it is to edit the `web.config`:
+A `DbSet<>` statement is needed for each table we wish to expose to the mobile clients.  There are a couple of important items here.  Firstly, our connection string is called `MS_TableConnectionString`.  This is set up in the `Web.config` file and overridden in the Azure Portal so that you can do both local development and run
+against a production database in the cloud.  Do not change this name.
+
+The `OnModelCreating()` method sets up the tables to handle the service columns that are contained within the `EntityData` class used by the DTO.  Certain fields need to be indexed and triggers need to be added to keep
+the values updated properly.
+
+Finally (in terms of code), we need to create a table controller.  This is the endpoint that is exposed on
+the Internet that our mobile clients will access to send and receive data.  Create a `Controllers` folder
+and add the following `TodoItemController.cs` class:
+
+```csharp
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Backend.DataObjects;
+using Backend.Models;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.Controllers
+{
+    public class TodoItemController : TableController<TodoItem>
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager<TodoItem>(context, Request);
+        }
+
+        // GET tables/TodoItem
+        public IQueryable<TodoItem> GetAllTodoItems() => Query();
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult<TodoItem> GetTodoItem(string id) => Lookup(id);
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task<TodoItem> PatchTodoItem(string id, Delta<TodoItem> patch) => UpdateAsync(id, patch);
+
+        // POST tables/TodoItem
+        public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task DeleteTodoItem(string id) => DeleteAsync(id);
+    }
+}
+```
+
+The `TableController` is the central processing for the database access layer.  It handles all the [OData][5] capabilities for us and exposes these as REST endpoints within our WebAPI.  This means that the actual code for this controller is tiny - just 12 lines of code - but very powerful.
+
+!!! info
+    [OData][5] is a specification for accessing table data on the Internet.  It provides
+    a mechanism for querying and manipulating data within a table.  Entity Framework is a
+    common data access layer for ASP.NET applications.
+
+Our last step in our backend before publishing it is to edit the `Web.config` file.  The `Web.config` file tells IIS about the run-time settings for this application.  We need to set up the `MS_TableConnectionString` and several app settings.  Inevitably, I copy [a created Web.config][13] rather than starting from scratch:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-Web.config file for TestProject.
-
-The settings that can be used in this file are documented at
-http://www.mono-project.com/Config_system.web and
-http://msdn2.microsoft.com/en-us/library/b5ysx397.aspx
--->
 <configuration>
   <configSections>
     <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
-    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
-    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
   </configSections>
   <connectionStrings>
-    <add name="MS_TableConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-MobileAppsBookTest-20160923095604.mdf;Initial Catalog=aspnet-MobileAppsBookTest-20160923095604;Integrated Security=True;MultipleActiveResultSets=True" providerName="System.Data.SqlClient" />
+    <add name="MS_TableConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-Backend-20170308080621.mdf;Initial Catalog=aspnet-Backend-20170308080621;Integrated Security=True;MultipleActiveResultSets=True" providerName="System.Data.SqlClient" />
   </connectionStrings>
   <appSettings>
     <add key="PreserveLoginUrl" value="true" />
-    <!-- Use these settings for local development. After publishing to your
-    Mobile App, these settings will be overridden by the values specified
-    in the portal. -->
     <add key="MS_SigningKey" value="Overridden by portal settings" />
     <add key="EMA_RuntimeUrl" value="Overridden by portal settings" />
-    <!-- When using this setting, be sure to add matching Notification Hubs connection
-    string in the connectionStrings section with the name "MS_NotificationHubConnectionString". -->
     <add key="MS_NotificationHubName" value="Overridden by portal settings" />
   </appSettings>
   <system.web>
-    <customErrors mode="Off" />
-    <httpRuntime targetFramework="4.6.1" />
-    <compilation debug="true" targetFramework="4.6.1">
-      <assemblies />
-    </compilation>
+    <httpRuntime targetFramework="4.6" />
+    <compilation debug="true" targetFramework="4.6" />
   </system.web>
   <system.webServer>
     <validation validateIntegratedModeConfiguration="false" />
@@ -408,8 +312,8 @@ http://msdn2.microsoft.com/en-us/library/b5ysx397.aspx
   <runtime>
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:bcl="urn:schemas-microsoft-com:bcl">
       <dependentAssembly>
-        <assemblyIdentity name="System.Spatial" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.7.0.0" newVersion="5.7.0.0" />
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.0.0.0" newVersion="9.0.0.0" />
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="System.Web.Http" publicKeyToken="31bf3856ad364e35" culture="neutral" />
@@ -421,31 +325,19 @@ http://msdn2.microsoft.com/en-us/library/b5ysx397.aspx
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="Microsoft.Data.Edm" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.7.0.0" newVersion="5.7.0.0" />
+        <bindingRedirect oldVersion="0.0.0.0-5.8.1.0" newVersion="5.8.1.0" />
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="Microsoft.Data.OData" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.7.0.0" newVersion="5.7.0.0" />
+        <bindingRedirect oldVersion="0.0.0.0-5.8.1.0" newVersion="5.8.1.0" />
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-9.0.0.0" newVersion="9.0.0.0" />
+        <assemblyIdentity name="System.Spatial" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.8.1.0" newVersion="5.8.1.0" />
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="Microsoft.Owin" publicKeyToken="31bf3856ad364e35" culture="neutral" />
         <bindingRedirect oldVersion="0.0.0.0-3.0.1.0" newVersion="3.0.1.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System.IdentityModel.Tokens.Jwt" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.0.0.127" newVersion="5.0.0.127" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System.Web.Http.OData" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.7.0.0" newVersion="5.7.0.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="AutoMapper" publicKeyToken="be96cd2c38ef1005" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-5.1.1.0" newVersion="5.1.1.0" />
       </dependentAssembly>
     </assemblyBinding>
   </runtime>
@@ -458,17 +350,16 @@ http://msdn2.microsoft.com/en-us/library/b5ysx397.aspx
 </configuration>
 ```
 
-Choose **Build All** from the **Build** menu and ensure your project compiles
-without errors.
+Choose **Build All** from the **Build** menu and ensure your project compiles without errors.
 
 ### Building an Azure App Service for Mobile Apps
 
 The next step in the process is to build the resources on Azure that will
-run your mobile backend.  Start by logging into the [Azure Portal][6], then
+run your mobile backend.  Start by logging into the [Azure portal][6], then
 follow these instructions:
 
-1. Click on the big **+ New** button in the top-left corner.
-2. Click on **Web + Mobile**, then **Mobile App**.
+1. Click the big **+ New** button in the top-left corner.
+2. Click **Web + Mobile**, then **Mobile App**.
 3. Enter a unique name in the **App name** box.
 
     !!! tip
@@ -507,14 +398,14 @@ follow these instructions:
     customers".  "Close to the developers" is a good choice during development.
     Unfortunately, neither of those is an option you can actually choose in the
     portal, so you will have to translate into some sort of geographic location.
-    With 22 regions to choose from, you have a lot of choice.
+    With 16 regions to choose from, you have a lot of choice.
 
     The second decision you have to make is what to run the service on; also
-    known as the Pricing tier.   If you click on **View all**, you will see you
+    known as the Pricing tier.   If you Click **View all**, you will see you
     have lots of choices.  F1 Free and D1 Shared, for example, run on shared
     resources and are CPU limited. You should avoid these as the service will
     stop responding when you are over the CPU quota.  That leaves Basic,
-    Standard, and Premium.  Basic has no automatic scaling and can run up to 3
+    Standard and Premium.  Basic has no automatic scaling and can run up to 3
     instances - perfect for development tasks.  Standard and Premium both have
     automatic scaling, automatic backups, and large amounts of storage; they
     differ in features: the number of sites or instances you can run on them,
@@ -522,12 +413,12 @@ follow these instructions:
     big the virtual machine is that the plan is running on.  The numbers differ
     by number of cores and memory.
 
-    For our purposes, a F1 Free site is enough to run this small demonstration
+    For our purposes, an F1 Free site is enough to run this small demonstration
     project.  More complex development projects should use something in the
     Basic range of pricing plans.  Production apps should be set up in Standard
     or Premium pricing plans.
 
-7. Once you have created your app service plan and saved it, click on **Create**.
+7. Once you have created your app service plan and saved it, Click **Create**.
 
 The creation of the service can take a couple of minutes.  You can monitor the
 process of deployment by clicking on the Notifications icon.  This is in the top
@@ -550,95 +441,96 @@ defined.  However, we can also create a test database.
     I describe here) allows you to create a free database.  This option is
     not normally available through other SQL database creation flows.
 
-1.  Click on **Resource groups** in the left hand side menu.
-2.  Click on the resource group you created.
-3.  Click on the App Service your created.
+Before we can create a database, we need to create a logical server for the database.
+The SQL Server (the logical server) sets the region and the login credentials for
+all the contained databases:
+
+1.  Click **Resource groups** in the left hand side menu.
+2.  Click the resource group you created.
+3.  Click **Add** at the top of the blade.
+4.  Enter **SQL Server** into the search box, then press Enter.
+5.  Click **SQL Server (logical server)**.
+6.  Click **Create**.
+7.  Enter the information required by the form:
+    *  A server name (which must be unique in the world - this is a great place to use a GUID).
+    *  A username and password for accessing the databases on the server.
+    *  Select the existing resource group.
+    *  Pick the same Location as you did for the App Service Plan.
+8.  Click **Create**.
+
+Once the deployment has completed, you can move on to creating and linking a database.
+You can check the status of the deployment by clicking on the icon that looks like a bell
+in the top banner.
+
+To create and link the database:
+
+1.  Click **Resource groups** in the left hand side menu.
+2.  Click the resource group you created.
+3.  Click the App Service your created.
 
     !!! tip
-        If you pinned your App Service to the dashboard, you can click on the
+        If you pinned your App Service to the dashboard, you can Click the
         pinned App Service instead.  It will bring you to the same place.
 
-4.  Click on **Data connections** in the **MOBILE** menu.
-5.  Click on **Add**.
+4.  Click **Data connections** in the **MOBILE** menu.  You can also search for Data connections in the left hand menu.
+6.  Click **Add**.
 
     - In the **Type** box, select **SQL Database**.
-    - Click on the unconfigured **SQL Database** link:
+    - Click the unconfigured **SQL Database** link:
 
-    ![Data Connection][img6]
+    ![Data Connection][img24]
 
+    - In the **Database** blade, select **Create a new database**.
     - Enter a name for the database (like **chapter1-db**).
-    - Select a Pricing Tier (look for **F Free** at the bottom).
-    - Click on the unconfigured **Server**.
+    - Click the Target server box and select the logical server you created earlier.
+    - Select a Pricing Tier, then click **Apply**.
 
-    ![SQL Server Configuration][img7]
+    ![SQL Server Configuration][img25]
 
-    - Enter a unique name for the server (a GUID is a good idea here).
-    - Enter a username and password for the server.
-    - Make sure the Location for your database server is the same as your
-    Mobile App.
-    - Click on **Select** to close the **New Server** blade.
-    - Click on **Select** to close the **New Database** blade.
-    - An error may appear asking you to set the Database Connection string,
-    if so, click on the Database Connection and then click **OK** on it's blade.
-    - Click on **OK** to close the **Add Data Connection** blade.
+    - EClick **Select** to close the SQL Database blade.
+    - Click the **Connection string** box.
+    - Enter the username and password you set up for the SQL logical server.
+    - Click **OK**.  The username and password will be validated before proceeding.
+    - Click **OK** to close the Add data connection blade.
 
-
-This produces another deployment step that creates a SQL Server and a SQL
-database with your settings.  Once complete, the connection
+This produces another deployment step that creates a SQL database with your settings
+and binds it to the App Service.  Once complete, the connection
 **MS_TableConnectionString** will be listed in Data Connections blade.
 
-![Successful Data Connection][img8]
-
-!!! tip
-    If you want a completely free mobile backend, search for the **Mobile
-    Apps Quickstart** in the Azure Marketplace.  This template does not
-    require a database.  It relies on a Node backend, however, so you won't
-    be developing a C# backend.
+![Successful Data Connection][img26]
 
 ### Deploying the Azure Mobile Apps Backend
 
-Publishing a Mobile App backend is very integrated into Visual Studio.  Since
-we're developing with Xamarin Studio, we'll need to do things a bit differently.
-There are a number of potential deployment options including FTP, connecting
-to a Continuous Integration server, connecting a Dropbox folder, or creating a local git repository.  To
-keep things simple, we'll use an adminstration site named Kudu (also called
-SCM) to copy the files over.  Once we're ready, we'll need to collect the compiled
-application files since Xamarin doesn't have any publish functionality.
+One of the areas I love Visual Studio for the PC over the Mac edition is in publishing to Azure.  On the PC, that's a right-click action.  There is no publish action in Visual Studio for Mac.  However, Azure App Service has enough other tools available to publish a service.  These include continuous integration technologies that link to Visual Studio Team Services or GitHub, integrations with cloud storage providers like OneDrive and the venerable but trusty ftp mechanisms.  If none of those suit you, you can use drag-and-drop, which is what I am going to do here.
 
-1. Return to the browser and the Azure Portal.
-2. Go to the Settings blade for your Mobile App.
-3. Click on **Advanced Tools** in the **DEVELOPMENT TOOLS** menu.
-4. Click on **Go** in the **Advanced Tools** blade.
+1. Return to the browser and log into the [Azure portal][6].
+2. Go to the **Settings** blade for your Mobile App.
+3. Click **Advanced Tools** in the **DEVELOPMENT TOOLS** menu.
+4. Click **Go** in the **Advanced Tools** blade.
 
     ![Advanced Tools][img9]
 
-5. The page that loads should match https://{YourMobileApp}.scm.azurewebsites.net/.
+    The page that loads should match https://{YourMobileApp}.scm.azurewebsites.net/.
 6. Select the **Debug Console** menu from the top and choose **CMD**.
-7. Within the file structure listing, click on **site**.
-8. Click on **wwwroot**.
-9. You should see a **hostingstart.html** file here.  Click the circle with a minus
-symbol in it to the left of that file and confirm the dialog to delete this file.
-10. On your computer, navigate to the folder that contains your Mobile App Backend.
+7. Within the file structure listing, click **site**, then **wwwroot**.
+9. Remove the **hostingstart.html** file; click the circle with a minus symbol in it to the left of that file and confirm the dialog to delete this file.
+10. On your Mac, use the Finder to navigate to the folder that contains your Mobile App Backend.
 11. Select the following folder and files:
 
     - bin
     - packages.config
     - Web.config
 
-12. Drag and drop those files into the browser window above the Console.
-13. A progress indicator should appear near the top right.  Upon completion you
-should see the files appear in the file list:
+12. Drag and drop those files into the browser window where the **hostingstart.html** file used to be.
+13. A progress indicator should appear near the top right.  Upon completion you should see the files appear in the file list:
 
     ![Files deployed][img10]
 
-In the browser navigate to the URL for your Mobile App.  This should match the
-format https://{YourMobileApp}.azurewebsites.net/.
+You can test your deployed app by browsing to `https://{yourmobileapp}.azurewebsites.net/tables/todoitem?ZUMO-API-VERSION=2.0.0` - this is the same URL that your mobile app will connect to later on.  Replace `{yourmobileapp}` with the name of the App Service that you created.  If everything is working, you should see some JSON results in your window:
 
+![Successful deployment][img27]
 
-
-Add `/tables/todoitem?ZUMO-API-VERSION=2.0.0`
-to the end of the URL.  This will show the JSON contents of the table that we
-defined in the backend.
+The first request will take some time as the App Service is waking up your service, which is initializing the database and seeding the data into that database.
 
 !!! info
     You will see the word ZUMO all over the SDK, including in optional HTTP headers
@@ -647,77 +539,48 @@ defined in the backend.
 
 ## The Mobile Client
 
-Now that the mobile backend is created and deployed, we can move onto the client
-side of things.  As we're using Xamarin Studio, we should already have everything
-we need installed to proceed with creating a Xamarin.Forms application for
-both Android and iOS.
+Now that the mobile backend is created and deployed, we can move onto the mobile application that your users would install on their phones.  We are going to use [Xamarin.Forms][8] to produce a cross-platform application
+for iOS and Android, and the majority of the code will be placed in a shared project that both platforms will use.  You can get as high as 95% code re-use using Xamarin.Forms which is a major productivity boost in complex
+applications.
 
 !!! info
     When you compile a Xamarin.Forms application for a specific platform, you are
     producing a true native application for that platform - whether it be iOS,
     Android or Windows.
 
-### Creating a Simple Mobile Client with Xamarin
-
-Right-click on the **Chapter1** solution and select **Add** -> **Add New Project**.
-This will bring up the familiar New Project dialog.  The project you want is
-under **Multiplatform** -> **App**, and is called **Forms App**.  Select that
-and click **Next**.  Give the project a name such as **TaskList**, ensure Android and iOS are both
-selected, select **Use Portable Class Library** and click Next.
+Right-click the **Chapter1** solution, then select **Add** -> **Add New Project**.  This will bring up the familiar New Project dialog.  Select the **Multiplatform** -> **App** -> **Forms App** template, then click
+**Next**.   Give the project a name such as **TaskList**, ensure Android and iOS are both
+selected, select **Use Shared Library** and click **Next**.
 
   ![Creating our Client Projects][img12]
 
-On the next screen, leave all of the default values and click Create.
-
-Once the setup is complete, you will see that three new projects have been
-created: a common library which you named plus one project for each platform
-that has been chosen.  Since we chose both Android and iOS, we get
-three projects:
+Click **Create** on the next screen to create the projects.  You will see that three new projects are created:  a common library that you named, plus a project for each platform that you choise (in this case two platforms - Android and iOS):
 
   ![The TaskList Project Layout][img13]
 
-Most of our work will happen in the common library.  However, we can introduce
-platform-specific code at any point.  The platform-specific code is stored in
-the platform-specific project.
+Most of our work will happen in the common library in this walkthrough.  However, we can introduce platform-specific code at any point.  The platform-specific code is stored in the platform-specific project.
 
-There is one final item we must do before we leave the set up of the project.
-There are a number of platform upgrades that inevitably have to happen.  The
-Xamarin Platform is updated much more often than the project templates in Xamarin
-Studio - the updates are released via NuGet: the standard method of distributing
-libraries for .NET applications.  In addition to the inevitable Xamarin Platform
-updates, we also will want to add the following NuGet packages:
-
-*  Microsoft.Azure.Mobile.Client v2.0.0 or later
-*  Newtonsoft.Json v6.0.3 or later
+There is one final item we must do before we leave the set up of the project.  There are a number of platform upgrades that inevitably have to happen.  The Xamarin Platform is updated much more often than the project templates in Visual Studio for Mac. Updates to the Xamarin platform are released via NuGet. Since we are going to be integrating the Azure Mobile Apps client SDK, you should add the `Microsoft.Azure.Mobile.Client` NuGet package.  This will need to be done within each platform-specific project (TaskList.Droid and TaskList.iOS).
 
 !!! warn
     Although it is tempting, do not include a v1.x version of the Mobile Client.
     This is for the earlier Azure Mobile Services.  There are many differences between
     the wire protocols of the two products.
 
-You can start by updating the existing NuGet packages by right-clicking on the
-Packages folder in each project and selecting **Update**.
-
-Next we can install the NuGet packages by right-clicking on the Packages folder in each
-project and selecting **Add Packages...**.
+You can start by updating the existing NuGet packages.  Right-click the **Packages** folder in each project, then select **Update**.  Then add the `Microsoft.Azure.Mobile.Client` SDK.  Right-click the **Packages** folder again, select **Add Packages...**, then enter the package name in the search box.
 
   ![Manage NuGet Packages][img14]
-
-You must install the updates and the new NuGet packages on all three projects.
-This involves repeating the same process for each client project in your
-solution.
 
 !!! info
     Android generally has more updates than the other platforms.  Ensure that you
     update the main Xamarin.Forms package and then refresh the update list.  This will
-    ensure the right list of packages is updated.
+    ensure the right list of support packages is updated.
 
 ### Building the Common Library
 
-There are two parts that we must concentrate on within the common library.  The
-first is the connection to Azure Mobile Apps and the second is in the pages
-that the user interacts with.  In both cases, there are best practices to observe.
-Start by adding the following folders to your Portable Class Library project:
+There are two parts that we must concentrate on within the common library.  Firstly, we must deal with the connection to our mobile backend using the Azure Mobile Apps client SDK.  Secondly, we need to create the three pages that our application will show.
+
+Start by adding the following folders to your Shared Library project:
 
 * Abstractions
 * Models
@@ -725,17 +588,19 @@ Start by adding the following folders to your Portable Class Library project:
 * Services
 * ViewModels
 
+Our application will use MVVM (Model-View-ViewModel) for the interaction.  The UI will be written in XAML,
+and the ViewModel will be used to provide information to that UI.  The Services folder will hold the classes 
+necessary to communicate with the Azure Mobile Apps backend.  Finally, we have a number of interfaces and
+common classes that we will need to make everything work.
+
+Remove the other contents of the shared project.  They will not be required.
+
 #### Building an Azure Mobile Apps Connection
 
-We will rely on interfaces for defining the shape for the class for any service
-that we interact with.  This is really not important in small projects like this
-one.  This technique allows us to mock the backend service, as we shall see
-later on.  Mocking the backend service is a great technique to rapidly iterate
-on the front end mobile client without getting tied into what the backend is doing.
-
-Let's start with the cloud service - this will be defined in a new interface
-`Abstractions\ICloudService.cs`.  It is basically used for initializing
-the connection and getting a table definition:
+One of the things I often stress is to set yourself up assuming you are going to test your product.  Testing
+is a good thing.  In cloud development, we often set up a "mock" service where we swap out the "real" service
+and use something that has the same interface, but deals with local data only.  This application will have 
+two interfaces.  The first represents a cloud service, which will have a collection of tables we want to access.  This will be defined in  `Abstractions\ICloudService.cs`.  
 
 ```csharp
 namespace TaskList.Abstractions
@@ -747,8 +612,7 @@ namespace TaskList.Abstractions
 }
 ```
 
-There is a dependent implementation here: the `ICloudTable` generic interface.  This
-represents a CRUD interface into our tables and will be defined in `Abstractions\ICloudTable.cs`:
+We haven't defined `ICloudTable<>` nor `TableData` yet.  The `ICloudTable<T>` interface defines what the application can do to a table.  It will be defined in `Abstractions\ICloudTable.cs`:
 
 ```csharp
 using System.Collections.Generic;
@@ -768,17 +632,9 @@ namespace TaskList.Abstractions
 }
 ```
 
-The `ICloudTable<T>` interface defines the normal CRUD operations: Create, Read,
-Update, and Delete.  However, it does so asynchronously.  We are dealing with network
-operations in general so it is easy for those operations to tie up the UI thread
-for an appreciable amount of time.  Making them async provides the ability to
-respond to other events.  I also provide a `ReadAllItemsAsync()` method that
-returns a collection of all the items.
+The `ICloudTable<T>` interface defines the normal CRUD operations: Create, Read, Update, and Delete.  However, it does so asynchronously.  We are dealing with network operations and it is easy for those operations to tie up the UI thread for an appreciable amount of time.  Making them async provides the ability to respond to other events and ensure your application is responsive to the user.  
 
-There are some fields that every single record within an Azure Mobile Apps table
-provides.  These fields are required for offline sync capabilities like incremental
-sync and conflict resolution.  The fields are provided by a new abstract base class
-on the client called `Abstractions\TableData`:
+There are some fields that every single record within an Azure Mobile Apps table provides.  These fields are required for offline sync capabilities like incremental sync and conflict resolution.  On the server, this is represented by the `EntityData` class.  We cannot use that class as it contains the Entity Framework additions for indexing and triggers.  The fields are instead provided by a new abstract base class on the client called `Abstractions\TableData`:
 
 ```csharp
 using System;
@@ -795,25 +651,11 @@ namespace TaskList.Abstractions
 }
 ```
 
-As we will learn when we deal with [table data][int-data], these fields need to
-be defined with the same name and semantics as on the server.  Our model on
-the server was sub-classed from `EntityData` and the `EntityData` class on the
-server defines these fields.
+As we will learn when we deal with [table data][int-data], these fields need to be defined with the same name and semantics as on the server.  Our model on the server was sub-classed from `EntityData` and the `EntityData` class on the server defines these fields.  It's tempting to call the client version of the class the same as the server version.  If we did that, the models on both the client and server would look the same.  However, I find that this confuses the issue.  The models on the client and server are not the same.  They are missing the `Deleted` flag and they do not contain any relationship information on the client.  I choose to deliberately call the base class something else on the client to avoid this confusion.
 
-It's tempting to call the client version of the class the same as the server
-version.  If we did that, the models on both the client and server would look
-the same.  However, I find that this confuses the issue.  The models on the
-client and server are not the same.  They are missing the `Deleted` flag and
-they do not contain any relationship information on the client.  I choose to
-deliberately call the base class something else on the client to avoid this
-confusion.
+We will be adding to these interfaces in future chapters as we add more capabilities to the application.
 
-We will be adding to these interfaces in future chapters as we add more
-capabilities to the application.
-
-The concrete implementations of these classes are similarly easily defined.  The
-Azure Mobile Apps Client SDK does most of the work for us.  Here is the concrete
-implementation of the `ICloudService` (in `Services\AzureCloudService.cs`):
+The concrete implementations of these classes are similarly easily defined.  The Azure Mobile Apps Client SDK does most of the work for us.  Here is the concrete implementation of the `ICloudService` (in `Services\AzureCloudService.cs`):
 
 ```csharp
 using Microsoft.WindowsAzure.MobileServices;
@@ -839,22 +681,14 @@ namespace TaskList.Services
 ```
 
 !!! warn "Ensure you use HTTPS"
-    If you copy the URL on the Overview page of your App Service, you will get the http
-    version of the endpoint.  You must provide the https version of the endpoint when
-    using App Service.  The http endpoint redirects to https and the standard HttpClient
-    does not handle redirects.
+    If you copy the URL on the Overview page of your App Service, you will get the http version of the endpoint.  You must provide the https version of the endpoint when using App Service.  The http endpoint redirects to https and the standard HttpClient does not handle redirects.
 
-The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating
-with the mobile backend that we have already published.  Just swap **my-backend** out for the
-name of your mobile backend and the rest is silently dealt with.
+The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating with the mobile backend that we have already published.  Just swap **my-backend** out for the name of your mobile backend and the rest is silently dealt with.
 
 !!! warn
-    The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure
-    Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are
-    not interchangeable with clients for Azure Mobile Apps.
+    The name `Microsoft.WindowsAzure.MobileServices` is a hold-over from the old Azure Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are not interchangeable with clients for Azure Mobile Apps.
 
-We also need a concrete implementation of the `ICloudTable<T>` interface
-(in `Services\AzureCloudTable.cs`):
+We also need a concrete implementation of the `ICloudTable<T>` interface (in `Services\AzureCloudTable.cs`):
 
 ```csharp
 using System.Collections.Generic;
@@ -908,10 +742,7 @@ namespace TaskList.Services
 }
 ```
 
-It's important to note here that the Azure Mobile Apps Client SDK does a lot of
-the work for us.  In fact, we are just wrapping the basic interface here.  This
-won't normally be the case, but you can see that the majority of the code for
-dealing with the remote server is done for us.
+The Azure Mobile Apps Client SDK does a lot of the work for us.  In fact, we are just wrapping the basic interface here.  The majority of the code for dealing with the remote server is done for us.
 
 !!! tip
     You can use a shorthand (called a lambda expression) for methods with only one line.
@@ -923,9 +754,7 @@ dealing with the remote server is done for us.
 
     You may see this sort of short hand in samples.
 
-We also need to create the model that we will use for the data.  This should
-look very similar to the model on the server - including having the same name
-and fields.  In this case, it's `Models\TodoItem.cs`:
+We also need to create the model that we will use for the data.  This should look very similar to the model on the server - including having the same name and fields.  In this case, it's `Models\TodoItem.cs`:
 
 ```csharp
 using TaskList.Abstractions;
@@ -940,14 +769,7 @@ namespace TaskList.Models
 }
 ```
 
-We have a final piece of code to write before we move on to the views, but it's
-an important piece.  The `ICloudService` must be a singleton in the client.  We
-will add authentication and offline sync capabilities in future versions of this
-code.  The singleton becomes critical when using those features.  For right now,
-it's good practice and saves on memory if you only have one copy of the `ICloudService`
-in your mobile client.  Since there is only one copy of the `App.cs` in any
-given app, I can place it there.  Ideally, I'd use some sort of dependency
-injection system or a singleton manager to deal with this.  Here is the `App.cs`:
+We have a final piece of code to write before we move on to the views, but it's an important piece.  The `ICloudService` must be a singleton in the client.  We will add authentication and offline sync capabilities in future versions of this code.  The singleton becomes critical when using those features.  For right now, it's good practice and saves on memory if you only have one copy of the `ICloudService` in your mobile client.  Since there is only one copy of the `App.cs` in any given app, I can place it there.  Ideally, I'd use some sort of dependency injection system or a singleton manager to deal with this.  Here is the `App.cs`:
 
 ```csharp
 using TaskList.Abstractions;
@@ -971,15 +793,11 @@ namespace TaskList
 }
 ```
 
-We haven't written `Pages.EntryPage` yet, but that's coming.  The original `App.cs`
-class file had several methods for handling life cycle events like starting, suspending,
-or resuming the app.  I did not touch those methods for this example.
+We haven't written `Pages.EntryPage` yet, but that's coming.  This file replaces the `App.xaml` and `App.xaml.cs` files from the original shared project.  If you have not done so already, ensure you remove those files now.
 
 #### Building the UI for the App
 
-Earlier, I showed the mockup for my UI.  It included three pages - an entry
-page, a list page, and a detail page.  These pages have three elements - a
-XAML definition file, a (simple) code-behind file, and a view model.
+Earlier, I showed the mockup for my UI.  It included three pages - an entry page, a list page, and a detail page.  These pages have three elements - a XAML definition file, a (simple) code-behind file, and a view model.
 
 !!! info
     This book is not intending to introduce you to everything that there is to know
@@ -998,7 +816,7 @@ event to tell the UI that something within the view-model has been changed.
 To do this, we will use a `BaseViewModel` class that implements the base functionality
 for each view.  Aside from the `INotifyPropertyChanged` interface, there are
 some common properties we need for each page.  Each page needs a title, for
-example, and each page needs an indicator of network activity.  These can be
+example, and an indicator of network activity.  These can be
 placed in the `Abstractions\BaseViewModel.cs` class:
 
 ```csharp
@@ -1064,13 +882,7 @@ When we cover authentication later on, we'll use this to log in to the backend. 
 you are looking at the perfect app, this is a great place to put the introductory
 screen.
 
-Creating a XAML file is relatively simple.  We already created a `Pages` directory to
-hold the pages of our application.  Right-click on the `Pages` directory in
-the solution explorer and choose **Add** -> **New File...**.  In the **Add New File**
-dialog, pick **Forms** -> **Forms ContentPage Xaml**.  Name the
-new page `EntryPage`.  This will create two files - `EntryPage.xaml` and
-`EntryPage.xaml.cs`.  Let's center a button on the page and wire it up with
-a command.  Here is the `Pages\EntryPage.xaml` file:
+Creating a XAML file is relatively simple.  We already created a `Pages` directory to hold the pages of our application.  Right-click the `Pages` directory in the solution explorer and choose **Add** -> **New File...**.  In the **Add New File** dialog, pick **Forms** -> **Forms ContentPage Xaml**.  Name the new page `EntryPage`.  This will create two files - `EntryPage.xaml` and `EntryPage.xaml.cs`.  Let's center a button on the page and wire it up with a command.  Here is the `Pages\EntryPage.xaml` file:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -1092,18 +904,12 @@ a command.  Here is the `Pages\EntryPage.xaml` file:
 </ContentPage>
 ```
 
-There are a couple of interesting things to note here.  The `StackLayout` element
-is our layout element.  It occupies the entire screen (since it is a direct child
-of the content page) and the options just center whatever the contents are.  The
-only contents are a button.
+The `StackLayout` element is our layout element.  It occupies the entire screen (since it is a direct child
+of the content page) and the options just center whatever the contents are.  The only contents are a button.
 
-There are two bindings.  These are bound from the view-model.  We've already seen
-the Title property - this is a text field that specifies the title of the page.
-The other binding is a login command.  When the button is tapped, the login command
-will be run.  We'll get onto that in the view-model later.
+There are two bindings.  These are bound to properties in the view-model.  We've already seen the Title property - this is a text field that specifies the title of the page. The other binding is a login command.  When the button is tapped, the login command will be run.  We'll get onto that in the view-model later.
 
-The other file created is the code-behind file.  Because we are moving all
-of the non-UI code into a view-model, the code-behind file is trivial:
+The other file created is the code-behind file.  Because we are moving all of the non-UI code into a view-model, the code-behind file is trivial:
 
 ```csharp
 using TaskList.ViewModels;
@@ -1587,12 +1393,12 @@ Find Internet and check it and then click the OK button.
 
 Next we need to configure the solution to run the Android project.
 
-- Right-click on the **TaskList.Droid** project, then select **Set as StartUp Project**.
-- Right-click on the **TaskList.Droid** project again, then select **Build TaskList.Droid**.
+- Right-click the **TaskList.Droid** project, then select **Set as StartUp Project**.
+- Right-click the **TaskList.Droid** project again, then select **Build TaskList.Droid**.
 
-The drop-down between the run button in the top left of Xamarin Studio and the Build status
-at the top of Xamarin Studio, now allows you to choose an emualtor or device to run your app
-against.  By default, Xamarin Studio will create several emulators for you.  You can also use
+The drop-down between the run button in the top left of Visual Studio for Mac and the Build status
+at the top of Visual Studio for Mac, now allows you to choose an emulator or device to run your app
+against.  By default, Visual Studio for Mac will create several emulators for you.  You can also use
 the **Manage Google Emulators...** option to create additional Android Virtual Devices (AVDs)
 and download other images online.
 
@@ -1645,61 +1451,16 @@ public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 
 Now we can build and run our app:
 
-- Right-click on the **TaskList.iOS** project and select **Set as StartUp Project**.
-- Right-click on the **TaskList.iOS** project and select **Build TaskList.iOS**.
+- Right-click the **TaskList.iOS** project and select **Set as StartUp Project**.
+- Change the **Debug** configuration (top bar) to **Debug | iPhoneSimulator**.
+- Right-click the **TaskList.iOS** project and select **Build TaskList.iOS**.
 
-If you have never used Xamarin Studio to build and run an iOS app before, it is possible
+If you have never used Visual Studio for Mac to build and run an iOS app before, it is possible
 that you will receive an error having to do with code signing keys, provisioning profiles,
-or signing identities.  If so it may be  because you have not yet signed up for an Apple
-Developer Account and linked it to your Mac development environment.
-
-- Go to the [Apple Developer Center][11].
-- Click on **Account** in the top navigation bar.
-- If you haven't got an Apple ID yet, create one first.
-- If you have go an Apple ID, then log in.
-
-There are a sequence of sign-up prompts in both cases (first for creating your
-Apple ID and secondly for signing up for the Apple Developer program).  Once
-you have gone through this process, you are registered as an Apple Developer.
-
-!!! info
-    If you want to distribute your apps on the Apple App Store, run on real devices or
-    get access to the beta bits, then you might consider signing up for the Apple Developer
-    Program.  The Apple Developer Program is an additional cost and is not required for
-    developing iOS apps that are only run on the iOS simulator.
-
-Once you have created your account and enabled it as a developer account, open
-up Xcode.  Go to **Preferences...**, then **Account** and
-click on the **+** in the bottom-left corner of the window and pick **Add Apple ID...**:
-
-![Adding an Apple ID to Xcode][img2]
-
-Sign in with the same account you used to sign up for the developer account.
-
-![The Apple ID in Xcode][img3]
-
-Click on the **View Details** button.  This will bring up the Signing Identities
-list.  For a free account, it looks like this:
-
-![Xcode Signing Identities][img4]
-
-Click on the Create button next to **iOS Development**.  Once the UI comes back,
-click on **Done**.  For more information on this process, refer to the [Apple Documentation][12].
-
-You can close Xcode at this point.  Return to Xamarin Studio, right-click on the
-**TaskList.iOS** project and build again.  This will (finally!) build the application for you.
-
-!!! tip
-    Getting an error about _Provisioning Profiles_ not being available?  This is because
-    you are building for a real device instead of the simulator.  In order to build for a
-    real device, you must have a linked Apple Developer Program.  To get around this, select
-    a Simulator before building.
+or signing identities.  This is because you did not select the iPhoneSimulator prior to building.  Right-click the **TaskList.iOS** project and select **Clean TaskList.iOS**, then restart the process, but selecting the **iPhoneSimulator** configuration.
 
 You can now select from several simulator options from the drop-down to the left of the
-build status.
-You should only use **Device** if you have signed up for the Apple Developer Program.  Pick
-one of the simulator options like the **iPhone 6 iOS 10.0** simulator, then click on it
-to run the simulator.
+build status. You should only use **Device** if you have signed up for the Apple Developer Program and linked a provisioning profile to your XCode configuration.  Pick one of the simulator options like the **iPhone 7 iOS 10.0** simulator, then click on **Run** to run the simulator.
 
 The final product screens look like this:
 
@@ -1733,11 +1494,15 @@ important functionality in your app to complete the work.
 [img9]: img/advanced-tools.PNG
 [img10]: img/files-deployed.PNG
 [img11]: img/change-target-framework.PNG
-[img12]: img/xamarin-studio-new-client-project.PNG
+[img12]: img/xamarin-studio-new-client-project.png
 [img13]: img/xamarin-studio-tasklist-project-layout.PNG
 [img14]: img/xamarin-studio-manage-nuget-packages.PNG
 [img15]: img/android-internet-permission.PNG
 [img16]: img/android-emulator-app.PNG
+[img24]: img/dataconns-sqldb.PNG
+[img25]: img/dataconns-sqlsvr.PNG
+[img26]: img/dataconns_success.PNG
+[img27]: img/mac-successful-deployment.PNG
 
 [int-data]: ../chapter3/dataconcepts.md
 [int-firstapp-pc]: ./firstapp_pc.md
@@ -1754,4 +1519,5 @@ important functionality in your app to complete the work.
 [10]: https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/
 [11]: https://developer.apple.com/
 [12]: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html#//apple_ref/doc/uid/TP40012582-CH31-SW6
-
+[13]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1/Backend/Web.config
+[vsmac]: https://www.visualstudio.com/vs/visual-studio-mac/
