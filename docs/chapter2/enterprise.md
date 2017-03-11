@@ -1,13 +1,8 @@
 ## Enterprise Authentication
 
-Enterprise Authentication is handled by Azure Active Directory, which is fairly commonly configured within Azure.
-Every Azure subscription has a default directory associated with it that you can leverage for this section.  In
-addition, if your organization has an Office 365 subscription, this will likely be tied to an Azure Active Directory
-domain to allow enterprise sign-in.  In either case, you have a directory you can use for providing authentication
-to your app.
+Enterprise Authentication is handled by Azure Active Directory, which is fairly commonly configured within Azure.  Every Azure subscription has a default directory associated with it that you can leverage for this section.  In addition, if your organization has an Office 365 subscription, this will likely be tied to an Azure Active Directory domain to allow enterprise sign-in.  In either case, you have a directory you can use for providing authentication to your app.
 
-In general, you will need to get special permissions to update the directory. If you want to use your organizations
-corporate directory, then you are likely to have to get your IT department involved to set it up.
+In general, you will need to get special permissions to update the directory. If you want to use your organizations corporate directory, then you are likely to have to get your IT department involved to set it up.
 
 ## Azure Active Directory: Server-Flow setup
 
@@ -18,40 +13,53 @@ matter if you are doing a client flow or server flow, you need to set up the ser
     We recommend that you implement Client Flow in any non-trivial application.
 
 If you are using your default directory and you want to add a couple of test users, you will need to set those up
-first.   Start by going to the [Classic Azure Portal][classic-portal]:
+first.   Start by logging in to the [Azure portal][portal].
 
-![Classic Portal][img24]
+1. In the left-hand menu, click **More services**.
+2. Enter **Active Directory** in the search box, then click **Azure Active Directory**.
+3. (Optional) If you need to manage a different directory to the default directory, click **Switch directory** and choose a different directory.
+4. Click **Users and groups**, then **All users**.
+    
+    ![AzureAD: All Users][img1]
 
-Click on the **Default Directory**, then click on **USERS**.  You will notice that your Azure-linked ID is already
-present.
+5. Click **Add**.
 
-![AzureAD: Users][img25]
+    ![AzureAD: Add User][img2]
 
-Click on **Add User** at the bottom of the screen.  Enter a username in the box provided before clicking on the
-arrow.  Then fill in the personal information and click on the arrow again.  Finally, click on **create**.  Note
-the password, before clicking on the tick.  Now you have two users - your Azure ID and the one you just created.
-Note the username.  It is based on the tenant, so it will be something like `adrian@photoadrianoutlook.onmicrosoft.com`.
+6. Fill in the information.  Ensure you add the user to a group, if necessary.  You can also add additional information (like a real name) in the **Profile** section.
+7. Check **Show Password** and make a note of the new password.
+8. Click **Create**.
 
-To configure your app, switch back to the regular [Azure Portal][portal], find your App Service, click on
-**All Settings** followed by **Authentication / Authorization**. Finally, select **Azure Active Directory**.
+Repeat for each test user you wish to use.  Once done, move onto configuring your App Service for authentication:
 
-![AzureAD: Configuration][img26]
+1. Click **All resources** in the left hand menu.
+2. Click your App Service or Mobile App.
+3. Search for and click **Authentication / Authorization** (it's under SETTINGS).
+4. Change App Service Authentication to **On**. 
+5. Ensure the **Action to take when request is not authenticated** is set to **Allow Anonymous requests**.
+6. Click **Azure Active Directory**.
+7. Click **Express**.
+   
+    ![AzureAD: Configuration][img26]
 
-Click on **Express**.  Note that all the information is filled in for you.  All you have to do is click on **OK**,
-followed by **Save**.
+8. All the information is filled in for you.  Click **OK**, then **Save**.
 
 !!! info
-    Make sure you create the app service in the right directory / subscription.  If you have access to more than one
-    directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.
+    Make sure you create the app service in the right directory / subscription.  If you have access to more than one directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.
 
 There is also an **Advanced** track.  This is used in client-flow situations and in situations where you have more
 than one directory.  The Express flow is great for getting started quickly.
 
-You can walk through a server-flow authentication to test that you have all the settings correct.  Point your browser
-at https://_yoursite_.azurewebsites.net/.auth/login/aad.  The browser will take you through an authentication flow
-before giving you a successful authentication image:
+!!! info "Preview Portal Access"
+    Azure Active Directory portal access is in preview right now.  Certain things can only be done through
+    the [Azure Classic Portal][classic-portal].  The list of things that cannot be done in the Azure Portal
+    is thankfully dwindling.
+
+You can walk through a server-flow authentication to test that you have all the settings correct.  Point your browser at https://_yoursite_.azurewebsites.net/.auth/login/aad.  The browser will take you through an authentication flow before giving you a successful authentication image:
 
 ![AzureAD: Success][img7]
+
+If you get an error akin to "We are having problems signing you in", use an Incognito or InPrivate browsing window.
 
 ## Adding Authentication to a Mobile Client
 
@@ -143,17 +151,15 @@ constructor for `App.cs`:
     }
 ```
 
-The cloud service object can now be retrieved in any view using the following snippet:
+The [ServiceLocator][1] class is used to manage the singletons in an application.  The cloud service object can now be retrieved in any view using the following snippet:
 
 ```csharp
     ICloudService cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
 ```
 
-We will need to do this in the `ViewModels/TaskDetailViewModel.cs` and `ViewModels/TaskKListViewModel.cs` classes.  Refer
-to the [project in GitHub][10] if you run into issues here.
+We will need to do this in the `ViewModels/TaskDetailViewModel.cs` and `ViewModels/TaskKListViewModel.cs` classes.  Refer to the [project in GitHub][10] if you run into issues here.
 
-In each platform-specific project, we are going to define a concrete implementation of the login provider that uses
-a web view to hold the actual authentication flow.  Here is the droid `Services\DroidLoginProvider.cs` (in the
+In each platform-specific project, we need to define a concrete implementation of the login provider that uses a web view to hold the actual authentication flow.  Here is the droid `Services\DroidLoginProvider.cs` (in the
 TaskList.Droid project):
 
 ```csharp
@@ -183,11 +189,7 @@ namespace TaskList.Droid.Services
 }
 ```
 
-Let us take a closer look at this implementation.  The `LoginAsync()` method on the Azure Mobile Apps client object
-takes the Android context (which is normally the main window) and a provider - we can pick any of "facebook",
-"google", "microsoftaccount", "twitter" or "aad" depending on what we have defined in the Azure App Service.  The
-clever piece is the `Xamarin.Forms.Dependency` call at the top - that registers the class as a platform service
-so we can access it through the Xamarin dependency service.
+Let us take a closer look at this implementation.  The `LoginAsync()` method on the Azure Mobile Apps client object takes the Android context (which is normally the main window) and a provider - we can pick any of "facebook", "google", "microsoftaccount", "twitter" or "aad" depending on what we have defined in the Azure App Service.  The clever piece is the `Xamarin.Forms.Dependency` call at the top - that registers the class as a platform service so we can access it through the Xamarin dependency service.
 
 Note that we need an extra initialization routine for Android that must be called prior the login provider being
 called to pass along the main window of the app (also known as the context).  This is done in the `MainActivity.cs`
@@ -307,61 +309,48 @@ to access the WEB application.
 It starts with configuring a server-flow to protect the resource.  We've already done that above. Then configure
 a "Native Application" and give it permissions to the web application:
 
-* Log on to the [Classic Portal][classic-portal].
-* Select the **Default Directory** from your list of all items.
-* Click on the **APPLICATIONS** tab.
+* Log on to the [Azure portal]portal].
+* Select **Azure Active Directory** from the left hand menu.
+* Click **App registrations**.
 
   ![Azure AD Apps][img32]
 
 * Note that our existing web application is already there.  You will see more applications, depending on what you
-  have set up.  In this example, I have Visual Studio Team Services and Office 365 set up.
-* Click on the **ADD** button at the bottom of the page.
+  have set up.
+* Click **+ Add** at the top of the page.
 
   ![Azure AD Apps - Add an App][img33]
 
-* Click on **Add an application my organization is developing**.
-
-  ![Azure AD Apps - Add a Native App][img34]
-
-* Enter a name for the app registration, and select **NATIVE CLIENT APPLICATION**.
-* Click on the Next arrow.
-* Enter a valid URI - it can be anything, but it has to be valid
-
-  ![Azure AD Apps - Native App Redirect URI][img35]
-
-* Click on the tick to create the application.
-* The wizard will close, but you will be brought to the app configuration.  Click on the **CONFIGURE** tab.
-
-  ![Azure AD Apps - Native App Configuration][img36]
-
+* Enter a name for the app registration.  Select **Native** as the application type.  Enter a valid URI in the Redirect URI.  It can be anything, but it has to be valid.
+* Click **Create**.
+* In the **Settings** blade, click **Redirect URIs**.
 * Add a Redirect URI of the form: `https://yoursite.azurewebsites.net/.auth/login/done`.
 
   ![Azure AD Apps - Native App Redirect URI Added][img37]
 
-* At the bottom of the page is the **permissions to other applications** section.  Click on the **Add application** button.
+* Click **Save**.
+* Click **Required permissions**.
+* Click **+ Add**.
+* Click **Select an API**.
+* Enter the name of your web application in the search box, and press Enter.
 
-  ![Azure AD Apps - Permissions (1)][img38]
+    ![Azure AD Apps - Permissions][img3]
 
-* Click on the **SHOW** drop-down and select **All Apps**, then click on the tick next to the search box.
-* Click on the web application that you set up during the server-flow configuration, then click on the  tick in
-  the lower-right corner.
+* Click the name of your web application, then click **Select**.
+* You will be taken to **Select permissions**.  Click **Access _your web application_**
 
-  ![Azure AD Apps - Permissions (2)][img39]
+    ![Azure AD Apps - Permissions][img4]
 
-* Click on **Delegated Permissions** next to the web application.  Check the box next to **Access**, then click
-  on **Save** at the bottom of the screen.
-
-  ![Azure AD Apps - Permissions (3)][img40]
-
-At this point the application configuration will be saved.
+* Click **Select**, then **Done**.
 
 So, what did we just do there?  We created a new Azure AD app for the native application.  We then gave permission
-for the native application to access resources that are protected by the web application.  In our Azure App Service,
-we configured the service so that the Azure AD web application is used to protect our resources.  The net effect is
- that our native application OR our web application can access the App Service resources that are protected via the
- `[Authorize]` attribute.
+for the native application to access resources that are protected by the web application.  In our Azure App Service, we configured the service so that the Azure AD web application is used to protect our resources.  The net effect is that our native application OR our web application can access the App Service resources that are protected via the `[Authorize]` attribute.
 
-Before continuing, you will need the **Client ID** and the **Redirect URI** for the NATIVE application. You can enter
+Before continuing, you will need the **Application ID** and the **Redirect URI** for the NATIVE application.  The Application ID for the native app is available in the **Properties** section of the **Settings** blade in the App Registrations blade:
+
+![Azure AD Apps - The Application ID][img5]
+
+ You can enter
 these into the `Helpers\Locations.cs` file in the shared project:
 
 ```csharp
@@ -369,23 +358,19 @@ namespace TaskList.Helpers
 {
     public static class Locations
     {
-        public static readonly string AppServiceUrl = "https://the-book.azurewebsites.net";
+        public static readonly string AppServiceUrl = "https://zumobook-chapter2.azurewebsites.net";
 
-        public static readonly string AadClientId = "b61c7d68-2086-43a1-a8c9-d93c5732cc84";
+        public static readonly string AadClientId = "0c3309fe-e392-4ca5-8d54-55f69ae1e0f8";
 
-        public static readonly string AadRedirectUri = "https://the-book.azurewebsites.net/.auth/login/done";
+        public static readonly string AadRedirectUri = "https://zumobook-chapter2.azurewebsites.net/.auth/login/done";
 
         public static readonly string AadAuthority = "https://login.windows.net/photoadrianoutlook.onmicrosoft.com";
     }
 }
 ```
 
-The **AadClientId** and **AadRedirectUri** must match what we have configured in Azure AD for the native app.  The
-other piece of information we need to add is the Azure AD Authority for the directory.  If you click on the
-**DOMAINS** tab, it will generally tell you what domain you are in. The Authority is just a path on the
-`https://login.windows.net` that corresponds to your domain.  There is also a GUID version of this domain.  You
-can find the GUID by looking at the **View Endpoints** in the **APPLICATIONS** tab.  Look at the first path section
-of most all the endpoints.
+The **AadClientId** and **AadRedirectUri** must match what was configured in Azure AD for the native app.  The
+other piece of information we need to add is the Azure AD Authority for the directory.  This is available in the **Domain names** blade within the Azure Active Directory blade.
 
 Add the **Microsoft.IdentityModel.Clients.ActiveDirectory** NuGet package using **Manage NuGet Packages...** to
 each platform project.  This package contains the ADAL library as a portable class library.
@@ -596,12 +581,17 @@ If you aren't interested in social authentication (Facebook, Google, Microsoft o
 you can [skip the Social Authentication section](debugging.md).
 
 <!-- Images -->
+[img1]: img/aad-ibiza-allusers.PNG
+[img2]: img/aad-ibiza-adduser.PNG
+[img3]: img/aad-ibiza-appperms1.PNG
+[img4]: img/aad-ibiza-appperms2.PNG
+[img5]: img/aad-ibiza-appid.PNG
 [img7]: img/auth-success.PNG
 [img24]: img/ent-dev-1.PNG
 [img25]: img/ent-dev-2.PNG
 [img26]: img/ent-dev-3.PNG
-[img32]: img/aad-apps-1.PNG
-[img33]: img/aad-apps-2.PNG
+[img32]: img/aad-ibiza-allapps.PNG
+[img33]: img/aad-ibiza-addanapp.PNG
 [img34]: img/aad-apps-3.PNG
 [img35]: img/aad-apps-4.PNG
 [img36]: img/aad-apps-5.PNG
@@ -615,5 +605,7 @@ you can [skip the Social Authentication section](debugging.md).
 <!-- External Links -->
 [classic-portal]: https://manage.windowsazure.com/
 [portal]: https://portal.azure.com/
+[1]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/Helpers/ServiceLocator.cs
 [10]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2
 [22]: https://developer.xamarin.com/guides/xamarin-forms/dependency-service/
+
