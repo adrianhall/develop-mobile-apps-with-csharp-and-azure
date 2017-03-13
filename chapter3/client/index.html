@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-1d1da4857d.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-66fa0d9bba.palette.css">
       
     
     
@@ -66,7 +66,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -592,6 +592,8 @@
   </a>
   
 </li>
+      
+      
       
     </ul>
   
@@ -1270,6 +1272,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -1280,29 +1284,23 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-               
-                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter3\client.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
-               
               
                 
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter3\client.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
                 <h1 id="handling-data-in-mobile-clients">Handling Data in Mobile Clients<a class="headerlink" href="#handling-data-in-mobile-clients" title="Permanent link">&para;</a></h1>
-<p>Pretty much any non-trivial mobile client will require access to data.  Although we have already brushed on handling data within the client, this
-section will go deeper into the data handling aspects on the client.  We will cover how to get and process data, how to deal with performance and
-reliability and some of the quirks that one must deal with when dealing with offline data.</p>
+<p>Pretty much any non-trivial mobile client will require access to data.  Although we have already brushed on handling data within the client, this section will go deeper into the data handling aspects on the client.  We will cover how to get and process data, how to deal with performance and reliability and some of the quirks that one must deal with when dealing with offline data.</p>
 <h2 id="an-online-client">An Online Client<a class="headerlink" href="#an-online-client" title="Permanent link">&para;</a></h2>
 <p>We've already seen an example of an online client in our online <code>TaskList</code> project.  There is a method for obtaining a reference to an online table:</p>
 <pre><code class="csharp">var table = client.GetTable&lt;Model&gt;();
 </code></pre>
 
-<p>This method relies on the fact that the table name is the same as the model.  One must have a consistent naming scheme - the model on the server,
-table controller on the server, model on the client and table on the client must all be based on the same root name.  This is definitely a best
-practice.  You can produce an un-typed table:</p>
+<p>This method relies on the fact that the table name is the same as the model.  One must have a consistent naming scheme - the model on the server, table controller on the server, model on the client and table on the client must all be based on the same root name.  This is definitely a best practice.  You can produce an un-typed table:</p>
 <pre><code class="csharp">var table = client.GetTable(&quot;todoitem&quot;);
 </code></pre>
 
-<p>This version of the method returns an untyped table.  Whereas a typed table is based on a concrete model, an untyped table is based on a JSON
-object.  This allows one to access data when the model is unknown or hard to represent in a model.  You should never use an untyped table unless
-there is no other way of achieving whatever operation you need.</p>
+<p>This version of the method returns an untyped table.  Whereas a typed table is based on a concrete model, an untyped table is based on a JSON object.  This allows one to access data when the model is unknown or hard to represent in a model.  You should never use an untyped table unless there is no other way of achieving whatever operation you need.</p>
 <p>All tables implement the <code>IMobileServiceTable</code> interface:</p>
 <ul>
 <li><strong>ReadAsync()</strong> performs reads against the table.</li>
@@ -1312,10 +1310,7 @@ there is no other way of achieving whatever operation you need.</p>
 <li><strong>DeleteAsync()</strong> deletes a record in the table.</li>
 <li><strong>UndeleteAsync()</strong> un-deletes a deleted record (if soft-delete is turned on).</li>
 </ul>
-<p>When developing my interface, I tend to wrap my table interface into another class.  This isn't because I like wrapping classes.  Rather it is
-because the return values from many of the methods are not compatible with the general patterns used when working with a UI.  For instance, the
-ReadAsync() method returns an <code>IEnumerable&lt;&gt;</code> type.  However, the standard list management in Xamarin and UWP applications use an
-<code>ObservableCollection&lt;&gt;</code> instead.  One has to do a conversion from one to the other.</p>
+<p>When developing my interface, I tend to wrap my table interface into another class.  This isn't because I like wrapping classes.  Rather it is because the return values from many of the methods are not compatible with the general patterns used when working with a UI.  For instance, the ReadAsync() method returns an <code>IEnumerable&lt;&gt;</code> type.  However, the standard list management in Xamarin and UWP applications use an <code>ObservableCollection&lt;&gt;</code> instead.  One has to do a conversion from one to the other.</p>
 <p>Let's look at a standard table wrapper:</p>
 <pre><code class="csharp">using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -1366,13 +1361,8 @@ namespace TaskList.Services
 }
 </code></pre>
 
-<p>This is the <code>AzureCloudTable</code> class that our task list has been using thus far.  It's actually got a few bugs in it.  Let's go
-over them.</p>
-<p>Probably the most egregious bug is that the <code>ReadAllItemsAsync()</code> method does not handle paging.  If you have more than 50 items,
-then the <code>ToListAsync()</code> method will do a single GET operation and then return the results.  The Azure Mobile Apps Server SDK implements
-enforced paging.  This protects two things.  Firstly, the client cannot tie up the UI thread and cause a significant delay in the
-responsiveness of the app.  More importantly, a rogue client cannot tie up the server for a long period thus helping with dealing
-with denial of service attacks.  Paging is a good thing.</p>
+<p>This is the <code>AzureCloudTable</code> class that our task list has been using thus far.  It's actually got a few bugs in it.  Let's go over them.</p>
+<p>Probably the most egregious bug is that the <code>ReadAllItemsAsync()</code> method does not handle paging.  If you have more than 50 items, then the <code>ToListAsync()</code> method will do a single GET operation and then return the results.  The Azure Mobile Apps Server SDK implements enforced paging.  This protects two things.  Firstly, the client cannot tie up the UI thread and cause a significant delay in the responsiveness of the app.  More importantly, a rogue client cannot tie up the server for a long period thus helping with dealing with denial of service attacks.  Paging is a good thing.</p>
 <p>To test this:</p>
 <ul>
 <li>Insert over 50 records into the <code>TodoItems</code> table in your database using a SQL client.</li>
@@ -1380,10 +1370,7 @@ with denial of service attacks.  Paging is a good thing.</p>
 <li>Run the UWP project.</li>
 </ul>
 <p><img alt="" src="../img/not-paging.PNG" /></p>
-<p>Note that even though there are more than 50 records, you will only see 50 records in the list.  There are multiple ways to fix
-this and it depends on your final expectation.  In the class of "probably not what we want", we can keep on reading records until
-there are no more records to read. This is the simplest to implement.  In the <code>Services\AzureCloudTable.cs</code> file, replace the
-<code>ReadAllItemsAsync()</code> method with the following:</p>
+<p>Note that even though there are more than 50 records, you will only see 50 records in the list.  There are multiple ways to fix this and it depends on your final expectation.  In the class of "probably not what we want", we can keep on reading records until there are no more records to read. This is the simplest to implement.  In the <code>Services\AzureCloudTable.cs</code> file, replace the <code>ReadAllItemsAsync()</code> method with the following:</p>
 <pre><code class="csharp">public async Task&lt;ICollection&lt;T&gt;&gt; ReadAllItemsAsync()
 {
     List&lt;T&gt; allItems = new List&lt;T&gt;();
@@ -1406,17 +1393,9 @@ there are no more records to read. This is the simplest to implement.  In the <c
 }
 </code></pre>
 
-<p>This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the
-first will bring down 50 records, the second 25 records and the third no reocrds.  Why not stop at the second request?  We expect this
-code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety
-of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The
-only way of knowing for sure that you have received all the records is to do a request and be told there is no more.</p>
-<p>This code could be simplified quite a bit.  The reason I am not doing so is that this is not how you would want to do the transfer
-of items in a real application.  Doing this will tie up the UI thread of your application for quite a while as the <code>AzureCloudTable</code>
-downloads all the data.  Consider if there were thousands of entries?  This method would be problematic very quickly.</p>
-<p>The alternative is to incrementally load the data as it is needed.  This means that your UI thread will pause as the data is loaded,
-but the resulting UI will be less memory hungry and overall more responsive.  We start by adjusting our <code>Abstractions\ICloudTable.cs</code>
-to add a method signature for returning paged data:</p>
+<p>This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the first will bring down 50 records, the second 25 records and the third no reocrds.  Why not stop at the second request?  We expect this code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The only way of knowing for sure that you have received all the records is to do a request and be told there is no more.</p>
+<p>This code could be simplified quite a bit.  The reason I am not doing so is that this is not how you would want to do the transfer of items in a real application.  Doing this will tie up the UI thread of your application for quite a while as the <code>AzureCloudTable</code> downloads all the data.  Consider if there were thousands of entries?  This method would be problematic very quickly.</p>
+<p>The alternative is to incrementally load the data as it is needed.  This means that your UI thread will pause as the data is loaded, but the resulting UI will be less memory hungry and overall more responsive.  We start by adjusting our <code>Abstractions\ICloudTable.cs</code> to add a method signature for returning paged data:</p>
 <pre><code class="csharp">public interface ICloudTable&lt;T&gt; where T : TableData
 {
     Task&lt;T&gt; CreateItemAsync(T item);
@@ -1429,19 +1408,14 @@ to add a method signature for returning paged data:</p>
 }
 </code></pre>
 
-<p>The <code>ReadItemsAsync()</code> method is our new method here.  The concrete implementation usese <code>.Skip()</code> and <code>.Take()</code> to return just the
-data that is required:</p>
+<p>The <code>ReadItemsAsync()</code> method is our new method here.  The concrete implementation usese <code>.Skip()</code> and <code>.Take()</code> to return just the data that is required:</p>
 <pre><code class="csharp">public async Task&lt;ICollection&lt;T&gt;&gt; ReadItemsAsync(int start, int count)
 {
     return await table.Skip(start).Take(count).ToListAsync();
 }
 </code></pre>
 
-<p>Now that we have a method for paging through the contents of our table, we need to be able to wire that up to our <code>ListView</code>.  Xamarin Forms
-has a concept called <a href="https://developer.xamarin.com/guides/xamarin-forms/behaviors/introduction/">Behaviors</a> that lets us add functionality to user interface controls without having to completely re-write them or
-sub-class them.  We can use a behavior to implement a reusable paging control for a ListView.  Xamarin provides a sample for this called
-<a href="https://developer.xamarin.com/samples/xamarin-forms/behaviors/eventtocommandbehavior/">EventToCommandBehavior</a> (along with an <a href="https://developer.xamarin.com/guides/xamarin-forms/behaviors/reusable/event-to-command-behavior/">explanation</a>). We are going to be using the <a href="https://developer.xamarin.com/api/event/Xamarin.Forms.ListView.ItemAppearing/">ItemAppearing</a> event and that event uses the
-<a href="https://developer.xamarin.com/api/type/Xamarin.Forms.ItemVisibilityEventArgs/">ItemVisibilityEventArgs</a> as a parameter.  We need a converter for the EventToCommandBehavior class (in <code>Converters\ItemVisibilityConverter.cs</code>):</p>
+<p>Now that we have a method for paging through the contents of our table, we need to be able to wire that up to our <code>ListView</code>.  Xamarin Forms has a concept called <a href="https://developer.xamarin.com/guides/xamarin-forms/behaviors/introduction/">Behaviors</a> that lets us add functionality to user interface controls without having to completely re-write them or sub-class them.  We can use a behavior to implement a reusable paging control for a ListView.  Xamarin provides a sample for this called <a href="https://developer.xamarin.com/samples/xamarin-forms/behaviors/eventtocommandbehavior/">EventToCommandBehavior</a> (along with an <a href="https://developer.xamarin.com/guides/xamarin-forms/behaviors/reusable/event-to-command-behavior/">explanation</a>). We are going to be using the <a href="https://developer.xamarin.com/api/event/Xamarin.Forms.ListView.ItemAppearing/">ItemAppearing</a> event and that event uses the <a href="https://developer.xamarin.com/api/type/Xamarin.Forms.ItemVisibilityEventArgs/">ItemVisibilityEventArgs</a> as a parameter.  We need a converter for the EventToCommandBehavior class (in <code>Converters\ItemVisibilityConverter.cs</code>):</p>
 <pre><code class="csharp">using System;
 using System.Globalization;
 using Xamarin.Forms;
@@ -1464,8 +1438,7 @@ namespace TaskList.Converters
 }
 </code></pre>
 
-<p>This is wired up with some XAML code in <code>Pages\TaskList.xaml.cs</code>.  There are two pieces.  Firstly, we must define the ItemVisibilityConverter
-that we just wrote.  This is done at the top of the file:</p>
+<p>This is wired up with some XAML code in <code>Pages\TaskList.xaml.cs</code>.  There are two pieces.  Firstly, we must define the ItemVisibilityConverter that we just wrote.  This is done at the top of the file:</p>
 <pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
 &lt;ContentPage x:Class=&quot;TaskList.Pages.TaskList&quot;
              xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
@@ -1498,8 +1471,7 @@ that we just wrote.  This is done at the top of the file:</p>
     &lt;/ListView.Behaviors&gt;
 </code></pre>
 
-<p>Finally, we need to add a new command to our <code>TaskListViewModel</code> to load more items.  This involves
-firstly defining the new command:</p>
+<p>Finally, we need to add a new command to our <code>TaskListViewModel</code> to load more items.  This involves firstly defining the new command:</p>
 <pre><code class="csharp">public TaskListViewModel()
 {
     CloudTable = CloudService.GetTable&lt;TodoItem&gt;();
@@ -1575,19 +1547,13 @@ async Task LoadMore(TodoItem item)
 }
 </code></pre>
 
-<p>I've added a whole bunch of debug output because this command is called a lot, so I can scroll back through the
-output window instead of setting a breakpoint and clicking Continue a lot.</p>
-<p>As the UI displays each cell, it calls our command.  The command figures out if the record being displayed is the
-last one in the list.  If it is, it asks for more records.  Once no more records are available, it sets the
-flag <code>hasMoreItems</code> to false so it can short-circuit the network request.</p>
+<p>I've added a whole bunch of debug output because this command is called a lot, so I can scroll back through the output window instead of setting a breakpoint and clicking Continue a lot.</p>
+<p>As the UI displays each cell, it calls our command.  The command figures out if the record being displayed is the last one in the list.  If it is, it asks for more records.  Once no more records are available, it sets the flag <code>hasMoreItems</code> to false so it can short-circuit the network request.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Be careful when using <code>OrderBy()</code> with online data.  Earlier pages may change, causing duplicated data or
-missed data in your result set.  There is little you can do about this other than pulling down all the data
-ordered by the <code>CreatedAt</code> field (which is the default).</p>
+<p>Be careful when using <code>OrderBy()</code> with online data.  Earlier pages may change, causing duplicated data or missed data in your result set.  There is little you can do about this other than pulling down all the data ordered by the <code>CreatedAt</code> field (which is the default).</p>
 </div>
-<p>Finally, our current implementation of the <code>Refresh()</code> method loads all the items.  We need to adjust it
-to only load the first page:</p>
+<p>Finally, our current implementation of the <code>Refresh()</code> method loads all the items.  We need to adjust it to only load the first page:</p>
 <pre><code class="csharp">async Task Refresh()
 {
     if (IsBusy)
@@ -1624,25 +1590,20 @@ to only load the first page:</p>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The Azure Mobile Apps SDK also has a collection class that can be used: <code>MobileServiceCollection&lt;T,T&gt;</code>.  This
-handles the paging for you and implements the <code>ICollectionChanged</code> event.  For simple cases where you don't
-want to do on-demand loading, you can use the <code>MobileServiceCollection&lt;T,T&gt;</code> collection class.</p>
+<p>The Azure Mobile Apps SDK also has a collection class that can be used: <code>MobileServiceCollection&lt;T,T&gt;</code>.  This handles the paging for you and implements the <code>ICollectionChanged</code> event.  For simple cases where you don't want to do on-demand loading, you can use the <code>MobileServiceCollection&lt;T,T&gt;</code> collection class.</p>
 </div>
 <h3 id="query-support-in-online-clients">Query Support in Online Clients<a class="headerlink" href="#query-support-in-online-clients" title="Permanent link">&para;</a></h3>
-<p>When using an online client, you can also use an OData query to look for records.  The following code
-snippet, for example, will only return records that are incomplete:</p>
+<p>When using an online client, you can also use an OData query to look for records.  The following code snippet, for example, will only return records that are incomplete:</p>
 <pre><code class="csharp">return await table
     .Where(item =&gt; item.Complete == false)
     .ToListAsync()
 </code></pre>
 
-<p>This is a standard LINQ query.  Just as the LINQ query was used to adjust the SQL that is generated in
-the server-side code, the LINQ query here is used to adjust the OData query that is generated to call
-the server.  This particular query will generate the follow HTTP call:</p>
+<p>This is a standard LINQ query.  Just as the LINQ query was used to adjust the SQL that is generated in the server-side code, the LINQ query here is used to adjust the OData query that is generated to call the server.  This particular query will generate the follow HTTP call:</p>
 <pre><code>GET /tables/todoitem?$filter=(complete+eq+false) HTTP/1.1
 </code></pre>
 
-<p>LINQ queries are very useful in dealing with online data.  In general they should take a specific forms</p>
+<p>LINQ queries are very useful in dealing with online data.  In general they should be formatted in a particular order so that the best possible format across the Internet to your backend.</p>
 <pre><code class="csharp">table                           // start with the table reference
     .Where(filter)              // filter the results
     .Select(filter)             // Only return certain fields
@@ -1650,28 +1611,19 @@ the server.  This particular query will generate the follow HTTP call:</p>
     .ToListAsync()              // convert to something we can use
 </code></pre>
 
-<p>This format allows you to be very specific about what you want to return from the server, thus allowing
-you to balance the optimization of bandwidth with the responsiveness of the UI.</p>
+<p>This format allows you to be very specific about what you want to return from the server, thus allowing you to balance the optimization of bandwidth with the responsiveness of the UI.</p>
 <h2 id="an-offline-client">An Offline Client<a class="headerlink" href="#an-offline-client" title="Permanent link">&para;</a></h2>
-<p>Another method of optimizing bandwidth utilization with an added benefit of providing a resilient data
-connection is to use an offline sync database.   The Azure Mobile Apps Client SDK has a built-in offline
-mode that allows for the common requirements of bandwidth optimization, connection resliency, and
-performance optimization.</p>
+<p>Another method of optimizing bandwidth utilization with an added benefit of providing a resilient data connection is to use an offline sync database.   The Azure Mobile Apps Client SDK has a built-in offline mode that allows for the common requirements of bandwidth optimization, connection resliency, and performance optimization.</p>
 <ul>
 <li>An offline capable table uses <em>Incremental Sync</em> to only bring down new records from the server.</li>
 <li>Connection detection allows you to defer requests until after a connection is available.</li>
 <li>In-built <em>Conflict Resolution</em> provides a robust mechanism for handling changes while your client was offline.</li>
 <li>Since the data is always local, the UI will be much more responsive to changes.</li>
 </ul>
-<p>All of this comes at a cost.  We need to maintain an offline sync database for the tables you wish
-to provide offline, which takes up memory.  It may result in large data transfers (especially in the
-cases of the first sync operation and rapidly changing tables).  Finally, there is more complexity.  We
-have to deal with the offline table maintenance and conflict resolution patterns.</p>
+<p>All of this comes at a cost.  We need to maintain an offline sync database for the tables you wish to provide offline, which takes up memory.  It may result in large data transfers (especially in the cases of the first sync operation and rapidly changing tables).  Finally, there is more complexity.  We have to deal with the offline table maintenance and conflict resolution patterns.</p>
 <div class="admonition important">
 <p class="admonition-title">Azure Mobile Apps v3.0</p>
-<p>Azure Mobile Apps introduced a breaking change in how SQLite was used in v3.0 of the Client SDK.  The
-breaking change ensured support for Android Nougat.  This book covers the v3.0 release of Azure Mobile
-Apps.</p>
+<p>Azure Mobile Apps introduced a breaking change in how SQLite was used in v3.0 of the Client SDK.  The breaking change ensured support for Android Nougat.  This book covers the v3.1 release of Azure Mobile Apps.  In general, always start a project using the latest generally available release of the SDK from NuGet.</p>
 </div>
 <p>There are three stages to using an offline client:</p>
 <ol>
@@ -1680,20 +1632,12 @@ Apps.</p>
 <li>Configure appropriate conflict resolution.</li>
 </ol>
 <p>The actual code for your mobile client that deals with tables remains identical to the online case.</p>
-<p>To effect the offline sync, the Azure Mobile Apps client SDK keeps a table in the local SQLite database called
-the <em>Operations Queue</em>.  An entry is placed in the operations queue whenever a modification is done to a sync
-table.  These modifications are collapsed.  Later modifications to the same record in a sync table will be collapsed
-into a single update when transmitted to the mobile backend.</p>
+<p>To effect the offline sync, the Azure Mobile Apps client SDK keeps a table in the local SQLite database called the <em>Operations Queue</em>.  An entry is placed in the operations queue whenever a modification is done to a sync table.  These modifications are collapsed.  Later modifications to the same record in a sync table will be collapsed into a single update when transmitted to the mobile backend.</p>
 <h3 id="configuring-the-local-sqlite-database">Configuring the Local SQLite database<a class="headerlink" href="#configuring-the-local-sqlite-database" title="Permanent link">&para;</a></h3>
-<p>We must initialize the local database before we can use it.  This happens on start up and the Azure Mobile
-Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the
-database is deceptively simple.  Install the <code>Mirosoft.Azure.Mobile.Client.SQLiteStore</code> package to all the
-client projects.</p>
+<p>We must initialize the local database before we can use it.  This happens on start up and the Azure Mobile Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the database is deceptively simple.  Install the <code>Mirosoft.Azure.Mobile.Client.SQLiteStore</code> package to all the client projects.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The <code>Microsoft.Azure.Mobile.Client</code> package v3.0.2 drastically improved the startup experience for
-offline sync. Make sure you are using it.  If you are using an earlier version, additional steps are
-required for initializing your offline cache.</p>
+<p>The <code>Microsoft.Azure.Mobile.Client</code> package v3.0.2 drastically improved the startup experience for offline sync. Make sure you are using it.  If you are using an earlier version, additional steps are required for initializing your offline cache.</p>
 </div>
 <p>In the <code>Services\AzureCloudService.cs</code> file, add the following method:</p>
 <pre><code class="csharp">    #region Offline Sync Initialization
@@ -1717,9 +1661,7 @@ required for initializing your offline cache.</p>
 
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The <code>Microsoft.Azure.Mobile.Client</code> package does not support Android API versions earlier than API 19.
-To set this, right-click on the <strong>TaskList.Droid</strong> project and ensure the <strong>Minimum Android version to target</strong>
-is set to a minimum of API level 19.</p>
+<p>The <code>Microsoft.Azure.Mobile.Client</code> package does not support Android API versions earlier than API 19.  To set this, right-click on the <strong>TaskList.Droid</strong> project and ensure the <strong>Minimum Android version to target</strong> is set to a minimum of API level 19.</p>
 </div>
 <p>We need to ensure the initialization is carried out before we use the local database. The best place to do this is
 in the <code>GetTable&lt;&gt;</code> method:</p>
@@ -1735,11 +1677,9 @@ in the <code>GetTable&lt;&gt;</code> method:</p>
     }
 </code></pre>
 
-<p>Note that we made the routine async during this process.  Adjust the <code>ICloudService</code> interface and the calls to
-<code>GetTable&lt;&gt;</code> in the rest of the code to compensate for this.</p>
+<p>Note that we made the routine async during this process.  Adjust the <code>ICloudService</code> interface and the calls to <code>GetTable&lt;&gt;</code> in the rest of the code to compensate for this.</p>
 <h3 id="updating-the-sync-tables">Updating the Sync tables<a class="headerlink" href="#updating-the-sync-tables" title="Permanent link">&para;</a></h3>
-<p>We also need to add some routines to our <code>ICloudTable&lt;&gt;</code> and <code>AzureCloudTable&lt;&gt;</code> classes to effect a synchronization.
-The first method is added to the  <code>ICloudTable&lt;&gt;</code> interface and pulls data from the mobile backend:</p>
+<p>We also need to add some routines to our <code>ICloudTable&lt;&gt;</code> and <code>AzureCloudTable&lt;&gt;</code> classes to effect a synchronization. The first method is added to the  <code>ICloudTable&lt;&gt;</code> interface and pulls data from the mobile backend:</p>
 <pre><code class="csharp">    public interface ICloudTable&lt;T&gt; where T : TableData
     {
         Task&lt;T&gt; CreateItemAsync(T item);
@@ -1753,8 +1693,7 @@ The first method is added to the  <code>ICloudTable&lt;&gt;</code> interface and
     }
 </code></pre>
 
-<p>The new method is <code>PullAsync()</code> which will do the "pull data from the server" operation.  The <code>AzureCloudTable&lt;&gt;</code>
-class has the concrete implementation:</p>
+<p>The new method is <code>PullAsync()</code> which will do the "pull data from the server" operation.  The <code>AzureCloudTable&lt;&gt;</code> class has the concrete implementation:</p>
 <pre><code class="csharp">        IMobileServiceSyncTable&lt;T&gt; table;
 
         public AzureCloudTable(MobileServiceClient client)
@@ -1769,18 +1708,13 @@ class has the concrete implementation:</p>
         }
 </code></pre>
 
-<p>Note that we have changed the call to get the table reference.  It's now a <code>SyncTable</code>.  You can test to see if the
-sync table has been defined with the following:</p>
+<p>Note that we have changed the call to get the table reference.  It's now a <code>SyncTable</code>.  You can test to see if the sync table has been defined with the following:</p>
 <pre><code class="csharp">if (client.IsSyncTable(typeof(T).Name)) {
     // There is a sync table defined
 }
 </code></pre>
 
-<p>This can be used to have a single <code>AzureCloudTable</code> implementation for both the online and offline capabilities.  The
-concrete implementation of the <code>PullAsync()</code> method implements incremental sync.  If we set the queryName to <code>null</code>,
-then the entire table is pulled across each time.  By setting a queryName, the last updated time for the table is stored
-and associated with the queryName.  The last updated time is used to request only records that have changed since the
-last updated time when doing the pull from the backend.</p>
+<p>This can be used to have a single <code>AzureCloudTable</code> implementation for both the online and offline capabilities.  The concrete implementation of the <code>PullAsync()</code> method implements incremental sync.  If we set the queryName to <code>null</code>, then the entire table is pulled across each time.  By setting a queryName, the last updated time for the table is stored and associated with the queryName.  The last updated time is used to request only records that have changed since the last updated time when doing the pull from the backend.</p>
 <p>The push of the operations queue up to the mobile backend is handled by a single call in the <code>AzureCloudService</code> class:</p>
 <pre><code class="csharp">    public async Task SyncOfflineCacheAsync()
     {
@@ -1794,37 +1728,33 @@ last updated time when doing the pull from the backend.</p>
     }
 </code></pre>
 
-<p>note that if the mobile client tries to pull data while there are pending operations in the operations quuee, the Azure
-Mobile Apps client SDK will perform an implicit push.  You can check the state of the operations queue with:</p>
+<p>note that if the mobile client tries to pull data while there are pending operations in the operations quuee, the Azure Mobile Apps client SDK will perform an implicit push.  You can check the state of the operations queue with:</p>
 <pre><code class="csharp">if (Client.SyncContext.PendingOperations &gt; 0) {
     // There are pending operations
 }
+</code></pre>
 
-The only thing left to do now is to decide when to synchronize the local database on the mobile device.  In this example,
-I am going to synchronize the database during the refresh command of the `TaskListViewModel` and on saving or deleting
-an item in the `TaskDetailViewModel`.  Each synchronization will be called with the following:
-
-```csharp
-await CloudService.SyncOfflineCacheAsync();
+<p>The only thing left to do now is to decide when to synchronize the local database on the mobile device.  In this example, I am going to synchronize the database during the refresh command of the <code>TaskListViewModel</code> and on saving or deleting an item in the <code>TaskDetailViewModel</code>.  Each synchronization will be called with the following:</p>
+<pre><code class="csharp">await CloudService.SyncOfflineCacheAsync();
 </code></pre>
 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The offline sync cache automatically handles paging of results during the transfer for you so you never have to worry
-about it.</p>
+<p>The offline sync cache automatically handles paging of results during the transfer for you so you never have to worry about it.</p>
 </div>
 <h3 id="additional-steps-on-universal-windows">Additional Steps on Universal Windows<a class="headerlink" href="#additional-steps-on-universal-windows" title="Permanent link">&para;</a></h3>
-<p>If you are compiling the Universal Windows (UWP) project, there is an extra step.  You must Add a reference for SQLite
-to the project.  Open the <strong>TaskList.UWP</strong> project, then right-click on the <strong>References</strong> node and select <strong>Add Reference</strong>.
-Select <strong>Universal Windows</strong> -&gt; <strong>Extensions</strong> and place a check mark next to the <strong>SQLite for Universal Windows</strong> and
-<strong>Visual C++ 2015 Runtime for Universal Windows</strong> components.</p>
+<p>If you are compiling the Universal Windows (UWP) project, there is an extra step.  You must Add a reference for SQLite to the project:</p>
+<ul>
+<li>Open the <strong>TaskList.UWP</strong> project.</li>
+<li>Right-click on the <strong>References</strong> node, then select <strong>Add Reference</strong>. </li>
+<li>Select <strong>Universal Windows</strong> -&gt; <strong>Extensions</strong>. </li>
+<li>Place a check mark next to the <strong>SQLite for Universal Windows</strong> and <strong>Visual C++ 2015 Runtime for Universal Windows</strong> components.</li>
+</ul>
 <p><img alt="" src="../img/add-uwp-reference.PNG" /></p>
 <p>If you don't do this, you will get the rather cryptic error message "Unable to set temporary directory" when running the
 application.</p>
 <h3 id="detecting-connection-state">Detecting Connection State<a class="headerlink" href="#detecting-connection-state" title="Permanent link">&para;</a></h3>
-<p>Xamarin has a rather cool plugin called the Connectivity Plugin for testing connectivity state.  We can install it by
-installing the <code>Xam.Plugin.Connectivity</code> NuGet package.  Once that is installed, we can update our <code>SyncOfflineCacheAsync()</code>
-method to use it:</p>
+<p>Xamarin has a rather cool plugin called the Connectivity Plugin for testing connectivity state.  We can install it by installing the <code>Xam.Plugin.Connectivity</code> NuGet package.  Once that is installed, we can update our <code>SyncOfflineCacheAsync()</code> method to use it:</p>
 <pre><code class="csharp">    public async Task SyncOfflineCacheAsync()
     {
         await InitializeAsync();
@@ -1843,9 +1773,7 @@ method to use it:</p>
     }
 </code></pre>
 
-<p>The Connectivity Plugin (which is accessible through <code>CrossConnectivity.Current</code>) has other parameters that allow the mobile
-client to test for specific types of connectivity.  For example, let's say you only wanted to pull one of the tables over
-wifi.  You could do this as follows:</p>
+<p>The Connectivity Plugin (which is accessible through <code>CrossConnectivity.Current</code>) has other parameters that allow the mobile client to test for specific types of connectivity.  For example, let's say you only wanted to pull one of the tables over wifi.  You could do this as follows:</p>
 <pre><code class="csharp">var connections = CrossConnectivity.Current.ConnectionTypes;
 if (connections.Contains(ConnectionType.Wifi)) {
     var largeTable = await GetTableAsync&lt;LargeModel&gt;();
@@ -1853,21 +1781,15 @@ if (connections.Contains(ConnectionType.Wifi)) {
 }
 </code></pre>
 
-<p>The Connectivity plugin when paired with the Azure Mobile Apps Client SDK gives you a lot of flexibility in deciding what to
-sync and over what type of connection you should sync.</p>
+<p>The Connectivity plugin when paired with the Azure Mobile Apps Client SDK gives you a lot of flexibility in deciding what to sync and over what type of connection you should sync.</p>
 <h3 id="handling-conflict-resolution">Handling Conflict Resolution<a class="headerlink" href="#handling-conflict-resolution" title="Permanent link">&para;</a></h3>
 <p>When the mobile client submits a modification to the mobile backend, it's generally done as a two-step process:</p>
 <ol>
 <li>A "pre-condition check" is done, comparing the Version to the ETag of the record (which is derived from the Version of the record).</li>
 <li>The actual request is done, where the Version of the mobile client is compared to the Version of the record on the mobile backend.</li>
 </ol>
-<p>If the version of the record being submitted is different from the version on the server, the test will fail.  In the case of the first
-check, a <em>412 Precondition Failed</em> will be returned for the modification.  If the second test fails, a <em>409 Conflict</em> response is
-returned.  Normally, you will see the <em>412 Precondition Failed</em> response, but you should be prepared for either response.</p>
-<p>Both responses indicate a conflict that needs to be resolved before continuing.  Programatically, when doing a modification in
-an online table (such as an Insert, Update, Delete), you should be capture the <code>MobileServicePreconditionFailedException&lt;&gt;</code> Exception
-to handle the conflict.  In an offline sync table, you should capture the <code>MobileServicePushFailedException</code> during the
-<code>PushAsync()</code> operation.  This will potentially have an array of conflicts for you to deal with.</p>
+<p>If the version of the record being submitted is different from the version on the server, the test will fail.  In the case of the first check, a <em>412 Precondition Failed</em> will be returned for the modification.  If the second test fails, a <em>409 Conflict</em> response is returned.  Normally, you will see the <em>412 Precondition Failed</em> response, but you should be prepared for either response.</p>
+<p>Both responses indicate a conflict that needs to be resolved before continuing.  Programatically, when doing a modification in an online table (such as an Insert, Update, Delete), you should be capture the <code>MobileServicePreconditionFailedException&lt;&gt;</code> Exception to handle the conflict.  In an offline sync table, you should capture the <code>MobileServicePushFailedException</code> during the <code>PushAsync()</code> operation.  This will potentially have an array of conflicts for you to deal with.</p>
 <p>For the online case, the code would look like this:</p>
 <pre><code class="csharp">try
 {
@@ -1907,8 +1829,7 @@ deciding between the two options or making corrections to the item.</p>
 <p class="admonition-title">Info</p>
 <p>If the model on your mobile client does not have a Version field, the policy is "last write wins".</p>
 </div>
-<p>The online case is relatively simple as you are going to be ignoring the old request and creating a new request.  Here is
-some template code that implements both client-wins and server-wins strategies for the offline case:</p>
+<p>The online case is relatively simple as you are going to be ignoring the old request and creating a new request.  Here is some template code that implements both client-wins and server-wins strategies for the offline case:</p>
 <pre><code class="csharp">sync Task ResolveConflictAsync(MobileServiceTableOperationError error)
 {
     var serverItem = error.Result.ToObject&lt;T&gt;();
@@ -1932,17 +1853,13 @@ some template code that implements both client-wins and server-wins strategies f
 }
 </code></pre>
 
-<p>You could also ask the user as an option.  Finally, you could do some processing.  For example, let's say that you wanted
-to keep the local version of the Text, but keep the server version of Complete:</p>
+<p>You could also ask the user as an option.  Finally, you could do some processing.  For example, let's say that you wanted to keep the local version of the Text, but keep the server version of Complete:</p>
 <pre><code>localItem.Complete = serverItem.Complete;
 localItem.Version = serverItem.Version;
 await error.UpdateOperationAsync(JObject.FromObject(serverItem));
 </code></pre>
 
-<p>There are many ways to resolve a conflict.  You should consider your requirements carefully.  Asking the user should
-always be the last resort for conflict resolution.  In the majority of applications, most users will click the
-"keep my version" button to resolve conflicts, so the UI for resolving conflicts should do more than just ask the
-user to decide between a server and a client version.</p>
+<p>There are many ways to resolve a conflict.  You should consider your requirements carefully.  Asking the user should always be the last resort for conflict resolution.  In the majority of applications, most users will click the "keep my version" button to resolve conflicts, so the UI for resolving conflicts should do more than just ask the user to decide between a server and a client version.</p>
 <h2 id="query-management">Query Management<a class="headerlink" href="#query-management" title="Permanent link">&para;</a></h2>
 <p>Record selection is based on two factors:</p>
 <ol>
@@ -2247,7 +2164,12 @@ so that you can see the debug messages as you are running your application.</p>
 <!-- Images -->
 
 <!-- Links -->
+                
+                  
+                
               
+              
+                
               
             </article>
           </div>
@@ -2325,7 +2247,7 @@ so that you can see the debug messages as you are running your application.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application-30ac6a1727.js"></script>
+      <script src="../../assets/javascripts/application-7aa26ad9ec.js"></script>
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="../../js/highlight.pack.js"></script>

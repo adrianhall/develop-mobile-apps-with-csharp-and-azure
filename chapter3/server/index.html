@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-1d1da4857d.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-66fa0d9bba.palette.css">
       
     
     
@@ -66,7 +66,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -521,6 +521,8 @@
   </a>
   
 </li>
+      
+      
       
     </ul>
   
@@ -1176,6 +1178,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -1186,10 +1190,10 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-               
-                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter3\server.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
-               
               
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter3\server.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
                 
                 <h1 id="implementing-table-controllers">Implementing Table Controllers<a class="headerlink" href="#implementing-table-controllers" title="Permanent link">&para;</a></h1>
 <p>The central component for providing a table endpoint on the Azure App Service side of things occurs in your
@@ -1205,7 +1209,7 @@ updating the schema of your database.</p>
 migrations, we construct a code file whenever we need to change the database.  Don't worry - it's done for
 us.  Later on, we will consider Database First.  With database first, we adjust the database schema
 manually, then write C# models to reflect that change.</p>
-<p>Nothing causes more headaches in an Azure Mobile Apps backend than [code first migrations].  A code-first
+<p>Nothing causes more headaches in an Azure Mobile Apps backend than <a href="https://msdn.microsoft.com/en-us/data/jj591621">code-first migrations</a>.  A code-first
 migration is simply a set of configuration commands that updates the database to support the new
 database model.  If you try to publish this application, you will see an <code>InvalidOperationException</code>
 and your service will likely crash.  If you manage to trap the error, it will say <em>The model backing
@@ -1363,18 +1367,14 @@ must be serialized into a simple JSON type during transfer between the server an
 types (that is, any type that can be serialized to an object or array) will always require special handling
 and may not be able to be used at all.</p>
 <h3 id="create-a-table-controller">Create a Table Controller<a class="headerlink" href="#create-a-table-controller" title="Permanent link">&para;</a></h3>
-<p>Visual Studio with the Azure SDK provides some help in creating a table controller.  Right-click on the
-<strong>Controllers</strong> node and select <strong>Add</strong> -&gt; <strong>Controller...</strong>.</p>
+<p>Visual Studio for Windows (with the Azure SDK) provides some help in creating a table controller.  Right-click on the <strong>Controllers</strong> node and select <strong>Add</strong> -&gt; <strong>Controller...</strong>.</p>
 <p><img alt="" src="../img/new-controller-1.PNG" /></p>
-<p>The Azure SDK provides scaffolding for a new table controller.  Select it and then click on <strong>Add</strong>.</p>
+<p>Visual Studio provides scaffolding for a new table controller.  Select it and then click on <strong>Add</strong>.</p>
 <p><img alt="" src="../img/new-controller-2.PNG" /></p>
 <p>The dialog asks for the model (which is actually a DTO) and the data context (which is already created).
 Once you select the model, the controller name is created for you.  You can change it if you like, but
 it's common practice to not do this.</p>
-<p>Once the scaffolding is finished, you can look at your newly created table controller.  We do want to
-do one change.  We want to enable soft delete so that our table controller supports offline sync
-scenarios properly.  To do this, go into the <code>Initialize()</code> method and change the constructor of the
-<code>EntityDomainManager</code>.  The completed table controller looks like this:</p>
+<p>Once the scaffolding is finished, you can look at your newly created table controller.  We do want to do one change.  We want to enable soft delete so that our table controller supports offline sync scenarios properly.  To do this, go into the <code>Initialize()</code> method and change the constructor of the <code>EntityDomainManager</code>.  The completed table controller looks like this:</p>
 <pre><code class="csharp">using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -1430,24 +1430,14 @@ namespace Chapter3.Controllers
 </code></pre>
 
 <h3 id="creating-a-code-first-migration">Creating a Code-First Migration<a class="headerlink" href="#creating-a-code-first-migration" title="Permanent link">&para;</a></h3>
-<p>You must add a code first migration to update the database when it is published. Use the <code>add-migration</code>
-command in the Package Manager Console.  The <code>add-migration</code> command will request a name - it just has
-to be unique, but it's a good idea to make the name descriptive:</p>
+<p>You must add a code first migration to update the database when it is published. Use the <code>add-migration</code> command in the Package Manager Console.  The <code>add-migration</code> command will request a name - it just has to be unique, but it's a good idea to make the name descriptive:</p>
 <p><img alt="" src="../img/add-migration.PNG" /></p>
 <p>You should also use <code>update-database</code> to apply the change to the local database (if any):</p>
 <p><img alt="" src="../img/update-database.PNG" /></p>
-<p>Once this is done, you can publish the project.  Right-click on the project and select <strong>Publish...</strong>.  Once
-the project is published, you should be able to send a query to the <code>/tables/example</code> endpoint using Postman
-and get an empty array.  You should also be able to insert, update and delete entities as you can with the
-<code>TodoItem</code> table.</p>
+<p>Once this is done, you can publish the project.  Right-click on the project and select <strong>Publish...</strong>.  Once the project is published, you should be able to send a query to the <code>/tables/example</code> endpoint using Postman and get an empty array.  You should also be able to insert, update and delete entities as you can with the <code>TodoItem</code> table.</p>
 <h3 id="handling-publish-failures">Handling Publish Failures<a class="headerlink" href="#handling-publish-failures" title="Permanent link">&para;</a></h3>
-<p>Sometimes, the publish fails.  It seems that whenever I start with code-first migrations, my publish fails.
-I get a nice error screen, but no actual error.  At least half the time, the problem is not my code-first
-migration, but something else.  For instance, one of the things I tend to do is update my NuGet packages.
-This inevitably breaks something.</p>
-<p>Fortunately, once the error message is known, it's generally trivial to correct the error.  You can turn
-custom error messages off (and thus expose the original error message) by editing the Web.config file.
-Locate the <code>&lt;system.web&gt;</code> section and add the <code>&lt;customErrors mode="Off"/&gt;</code> line:</p>
+<p>Sometimes, the publish fails.  It seems that whenever I start with code-first migrations, my publish fails.  I get a nice error screen, but no actual error.  At least half the time, the problem is not my code-first migration, but something else.  For instance, one of the things I tend to do is update my NuGet packages. This inevitably breaks something.</p>
+<p>Fortunately, once the error message is known, it's generally trivial to correct the error.  You can turn custom error messages off (and thus expose the original error message) by editing the Web.config file.  Locate the <code>&lt;system.web&gt;</code> section and add the <code>&lt;customErrors mode="Off"/&gt;</code> line:</p>
 <pre><code class="xml">  &lt;system.web&gt;
     &lt;httpRuntime targetFramework=&quot;4.6&quot; /&gt;
     &lt;compilation debug=&quot;true&quot; targetFramework=&quot;4.6&quot; /&gt;
@@ -1457,8 +1447,7 @@ Locate the <code>&lt;system.web&gt;</code> section and add the <code>&lt;customE
 
 <p>Then republish your project and the response from the server is much more informative.</p>
 <h3 id="turning-on-diagnostic-logs">Turning on Diagnostic Logs<a class="headerlink" href="#turning-on-diagnostic-logs" title="Permanent link">&para;</a></h3>
-<p>You can log all the SQL statements that Entity Framework executes on your behalf by adding a Database
-Log.  Edit the <code>Models\MobileServiceContext.cs</code> file:</p>
+<p>You can log all the SQL statements that Entity Framework executes on your behalf by adding a Database Log.  Edit the <code>Models\MobileServiceContext.cs</code> file:</p>
 <pre><code class="csharp">public class MobileServiceContext : DbContext
 {
     private const string connectionStringName = &quot;Name=MS_TableConnectionString&quot;;
@@ -1485,9 +1474,7 @@ Log.  Edit the <code>Models\MobileServiceContext.cs</code> file:</p>
 }
 </code></pre>
 
-<p>You have to use a real method.  System.Diagnostics.Debug is removed from the context when DEBUG is not
-defined, so you can't just use it directly.   Using an interim method works around that problem. Azure App
-Service captures the output from the console and places it into the log viewer for you.</p>
+<p>You have to use a real method.  System.Diagnostics.Debug is removed from the context when DEBUG is not defined, so you can't just use it directly.   Using an interim method works around that problem. Azure App Service captures the output from the console and places it into the log viewer for you.</p>
 <p>To turn on diagnostic logging:</p>
 <ul>
 <li>Log in to the <a href="https://portal.azure.com">Azure Portal</a>.</li>
@@ -1790,11 +1777,7 @@ call and replace it with two calls instead.</p>
 <code>Deleted</code> flag in the `[mobile].[SysProps_TodoItems] table instead of deleting the row.</p>
 </div>
 <h3 id="changing-the-mobile-schema">Changing the Mobile Schema<a class="headerlink" href="#changing-the-mobile-schema" title="Permanent link">&para;</a></h3>
-<p>We stored our mobile representation of the table in a different schema.  Azure Mobile Apps looks
-for tables (and views) in the <code>[dbo]</code> schema by default.  There are two places you can modify the
-schema that Entity Framework uses to access the database.  The first is by changing the default
-schema that Entity Framework uses.  This will affect all the tables that we are exposing via a
-table controller.  This is done in the <code>Models\MobileDbContext.cs</code> class:</p>
+<p>We stored our mobile representation of the table in a different schema.  Azure Mobile Apps looks for tables (and views) in the <code>[dbo]</code> schema by default.  There are two places you can modify the schema that Entity Framework uses to access the database.  The first is by changing the default schema that Entity Framework uses.  This will affect all the tables that we are exposing via a table controller.  This is done in the <code>Models\MobileDbContext.cs</code> class:</p>
 <pre><code class="csharp">protected override void OnModelCreating(DbModelBuilder modelBuilder)
 {
     modelBuilder.HasDefaultSchema(&quot;mobile&quot;);
@@ -1807,8 +1790,7 @@ table controller.  This is done in the <code>Models\MobileDbContext.cs</code> cl
 }
 </code></pre>
 
-<p>We can also do this on the model as an annotation.  For example, here is the TodoItem model suitably
-adjusted:</p>
+<p>We can also do this on the model as an annotation.  For example, here is the TodoItem model suitably adjusted:</p>
 <pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -1829,9 +1811,7 @@ namespace Backend.DataObjects
 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Entity Framework adds an <code>s</code> onto the end of the model to create the table name.  If you
-have a model named <code>TodoItem</code>, the table is called <code>TodoItems</code> in the database.  You can use this
-same annotation to adjust the table name if it is not to your liking.</p>
+<p>Entity Framework adds an <code>s</code> onto the end of the model to create the table name.  If you have a model named <code>TodoItem</code>, the table is called <code>TodoItems</code> in the database.  You can use this same annotation to adjust the table name if it is not to your liking.</p>
 </div>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <p>Here is a summary of what I consider best practices for table controllers:</p>
@@ -1854,7 +1834,12 @@ your mobile backend.</p>
 <!-- Images -->
 
 <!-- Links -->
+                
+                  
+                
               
+              
+                
               
             </article>
           </div>
@@ -1932,7 +1917,7 @@ your mobile backend.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application-30ac6a1727.js"></script>
+      <script src="../../assets/javascripts/application-7aa26ad9ec.js"></script>
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="../../js/highlight.pack.js"></script>
