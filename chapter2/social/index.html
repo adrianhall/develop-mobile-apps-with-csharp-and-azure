@@ -1081,23 +1081,23 @@ a new Facebook application:</p>
 I have provided here may be different.  If in doubt, follow the bullet descriptions to find your way.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>If you are not already registered, click on the drop-down in the top-right corner and <strong>Register as a Developer</strong>
+<p>If you are not already registered, Click the drop-down in the top-right corner and <strong>Register as a Developer</strong>
 before continuing.</p>
 </div>
 <ul>
-<li>Click on the <strong>My Apps</strong> link in the top right corner of the screen.</li>
-<li>Click on <strong>Create a New App</strong>.</li>
+<li>Click the <strong>My Apps</strong> link in the top right corner of the screen.</li>
+<li>Click <strong>Create a New App</strong>.</li>
 <li>Fill in the form:</li>
 </ul>
 <p><img alt="Create a new Application" src="../img/fb-dev-2.PNG" /></p>
 <ul>
 <li>
-<p>If required, verify your account according to the instructions.  This usually involves adding a credit card number
-or verifying your mobile phone number.</p>
+<p>If required, verify your account according to the instructions.  This usually involves typing a CAPTCHA text, adding a credit card number and/or verifying your mobile phone number.</p>
 </li>
 <li>
-<p>Click on the <strong>Get Started</strong> button next to <strong>Facebook Login</strong>.</p>
+<p>Click the <strong>Get Started</strong> button next to <strong>Facebook Login</strong>.</p>
 </li>
+<li>Click <strong>Settings</strong> under <strong>Facebook Login</strong> in the left-hand menu.</li>
 </ul>
 <p><img alt="Facebook Login" src="../img/fb-dev-3.PNG" /></p>
 <ul>
@@ -1105,27 +1105,24 @@ or verifying your mobile phone number.</p>
 </ul>
 <p><img alt="Facebook OAuth redirect URIs" src="../img/fb-dev-4.PNG" /></p>
 <ul>
-<li>Click on <strong>Save Changes</strong>.</li>
-<li>Click on the <strong>Settings</strong> -&gt; <strong>Basic</strong> in the left hand side-bar.</li>
-<li>Click on the <strong>Show</strong> button next to the App Secret</li>
+<li>Click <strong>Save Changes</strong>.</li>
+<li>Click the <strong>Settings</strong> (under <strong>Dashboard</strong>) in the left-hand menu.</li>
+<li>Click the <strong>Show</strong> button next to the App Secret</li>
 </ul>
 <p>Now that you have the <strong>App ID</strong> and <strong>App Secret</strong>, you can continue configuration of your app within the
 <a href="https://portal.azure.com/">Azure Portal</a>.</p>
 <ul>
 <li>Open up your App Service by clicking on <strong>All Resources</strong> or <strong>App Services</strong> followed by the name of your app service.</li>
-<li>In the <strong>Settings</strong> blade, click on <strong>Authentication / Authorization</strong> which is under <strong>Features</strong>.</li>
+<li>In the <strong>Settings</strong> blade, Click <strong>Authentication / Authorization</strong> which is under <strong>Features</strong>.</li>
 <li>Turn <strong>App Service Authentication</strong> to <strong>On</strong>.</li>
-<li>In the <strong>Action to take when request is not authenticated</strong>, select <strong>Allow Request (no action)</strong>.</li>
+<li>In the <strong>Action to take when request is not authenticated</strong>, select <strong>Allow Anonymous requests (no action)</strong>.</li>
 </ul>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
-<p>It is very tempting to choose <strong>Log in with Facebook</strong>.  However, you need to avoid this.  Selecting this option
-will mean that all requests need to be authenticated and you will not get the information about the identity on the
-back end.  Selecting <strong>Allow Request</strong> means your app is in charge of what gets authenticated and what does not
-require authentication.</p>
+<p>It is very tempting to choose <strong>Log in with Facebook</strong>.  However, you need to avoid this.  Selecting this option will mean that all requests need to be authenticated and you will not get the information about the identity on the back end.  Selecting <strong>Allow Anonymous requests</strong> means your app is in charge of what gets authenticated and what does not require authentication.</p>
 </div>
 <ul>
-<li>Click on <strong>Facebook</strong> (which should show <em>Not Configured</em>).</li>
+<li>Click <strong>Facebook</strong> (which should show <em>Not Configured</em>).</li>
 <li>Cut and Paste the <strong>App ID</strong> and <strong>App Secret</strong> into the boxes provided.</li>
 <li>Select <strong>public_profile</strong> and <strong>email</strong> for Scopes.</li>
 </ul>
@@ -1135,8 +1132,8 @@ require authentication.</p>
 Facebook, which will take time.  This process is not worth it for test apps like this one.</p>
 </div>
 <ul>
-<li>Click on <strong>OK</strong> (at the bottom of the blade) to close the Facebook configuration blade.</li>
-<li>Click on <strong>Save</strong> (at the top of the blade) to save your Authentication changes.</li>
+<li>Click <strong>OK</strong> (at the bottom of the blade) to close the Facebook configuration blade.</li>
+<li>Click <strong>Save</strong> (at the top of the blade) to save your Authentication changes.</li>
 </ul>
 <p>You can test your authentication process by browsing to https://<em>yoursite</em>.azurewebsites.net/.auth/login/facebook;
 this is the same endpoint that the Azure Mobile Apps Client SDK calls when it is time to integrate authentication
@@ -1154,102 +1151,91 @@ them.  Be a good net citizen and only request the information you are actually g
 <h2 id="google-configuration">Google Configuration<a class="headerlink" href="#google-configuration" title="Permanent link">&para;</a></h2>
 <p>It should be no shock that you need a <a href="https://accounts.google.com/">Google Account</a> to get started.  If you do not have one already (or you
 want a different account for your development activities), create a new account now.  Then log in to the
-<a href="https://console.developers.google.com/iam-admin/projects">Google Developer Portal</a>.  Click on the <strong>Create Project</strong> link at the top:</p>
+<a href="https://console.developers.google.com/iam-admin/projects">Google Developer Portal</a>.  Click the <strong>Create Project</strong> link at the top:</p>
 <p><img alt="New Google Project" src="../img/goog-dev-1.PNG" /></p>
-<p>Enter a nice name (like mine) and click on <strong>Create</strong>.  The screen will show the progress and eventually the project
+<p>Enter a nice name, then Click <strong>Create</strong>.  The screen will show the progress and eventually the project
 will be listed in the <strong>All Projects</strong> list.  It takes about 30 seconds to create a project.  Once you have your
-Google project, click on the hamburger menu (in the top-left corner), select <strong>API Manager</strong>, followed by <strong>Library</strong>
-to see all the Google APIs you can enable:</p>
+Google project, the API Manager Library will show up.  If Google decides to change the end place, Click the hamburger menu (in the top-left corner), select <strong>API Manager</strong>, followed by <strong>Library</strong> to see all the Google APIs you can enable:</p>
 <p><img alt="Google APIs Library" src="../img/goog-dev-2.PNG" /></p>
-<p>There is no "Google Login" that can guide you here.  The API you need to add is called <strong>Google+</strong> and is listed under
-the <strong>Social APIs</strong>.  Click on it, then click on <strong>Enable</strong> at the top of the screen.</p>
-<p>Just because it is enabled does not mean you automatically get to use it.  Click on <strong>Credentials</strong> link in the
-left-hand side bar.  You will also see a "Go to Credentials" button at the top of the screen, but it does not take
-you to the same screen, so do not click it.</p>
-<p>On the Credentials screen, click on the <strong>OAuth consent screen</strong> tab:</p>
+<p>There is no "Google Login" that can guide you here.  The API you need to add is called <strong>Google+</strong> and is listed under the <strong>Social APIs</strong>.  Click <strong>Google+ API</strong>, then click <strong>Enable</strong> at the top of the screen.</p>
+<p>Adding an API to a Google app doesn't mean it is ready to use.  In our case, we need to configure the login process.  Google has, of course, set this up so that it's easy to access a Google service, but difficult to use the authentication for other purposes.  Configure Google login as follows:</p>
+<ol>
+<li>Click <strong>Credentials</strong> in the left-hand menu.</li>
+<li>
+<p>Select the <strong>OAuth consent screen</strong> tab:</p>
 <p><img alt="Google OAuth Credential" src="../img/goog-dev-3.PNG" /></p>
-<p>Fill in the form and click on <strong>Save</strong>.  This brings up the next step - creating credentials.  Click on the
-<strong>Create Credentials</strong> button.  This pops up a drop-down menu.  You want the <strong>OAuth Client ID</strong>.</p>
+<p>Fill in the form and Click <strong>Save</strong>.<br />
+3.  <strong>Create Credentials</strong> button.  This pops up a drop-down menu.  You want the <strong>OAuth Client ID</strong>.</p>
 <p><img alt="Google Create Credentials" src="../img/goog-dev-4.PNG" /></p>
-<p>The specific type of client ID you want is a <strong>Web Application</strong>.  The server flow version of the application is
-a web-based form authentication, which matches the <strong>Web Application</strong> version of the Client ID.</p>
-<p>When you select <strong>Web Application</strong>, you will get another form:</p>
+</li>
+<li>
+<p>Select <strong>Web application</strong>.</p>
 <p><img alt="Google Create Client ID" src="../img/goog-dev-5.PNG" /></p>
-<p>Enter the URL of your App Service in the <strong>Authorized JavaScript origins</strong> box, and the URL +
-<code>/.auth/login/google/callback</code> into the <strong>Authorized redirect URIs</strong> box, then click on <strong>Create</strong>.</p>
-<div class="admonition warn">
-<p class="admonition-title">Warn</p>
-<p>Google is one of those providers that requires authentication redirect URIs to be secure - so ensure you use the
-https version of your URL.</p>
-</div>
-<p>At this point, Google will show you the Client ID and Client Secret for your app.  You can also get the Client ID and
-Client Secret from the interface by clicking on the <strong>Credentials</strong> link on the left-hand side bar.</p>
-<p>The process from here is practically the same as Facebook.  Open your App Service within the Azure Portal, click on
+</li>
+<li>
+<p>Enter the URL of your App Service in the <strong>Authorized JavaScript origins</strong> box.  Ensure you use the https version of the URL.</p>
+</li>
+<li>Enter <code>https://_yoursite_.azurewebsites.net/.auth/login/google/callback</code> in the <strong>Authorized redirect URIs</strong> box.</li>
+<li>Click <strong>Create</strong>.</li>
+<li>Google will display your client ID and client secret.</li>
+</ol>
+<p>You can also view the Client ID and Client Secret from the interface by clicking on the <strong>Credentials</strong> link on the left-hand menu.</p>
+<p>The process from here is practically the same as Facebook.  Open your App Service within the Azure Portal, Click
 <strong>All Settings</strong>, then <strong>Authentication / Authorization</strong> and finally <strong>Google</strong> (assuming you have already turned
-on the authentication service).  Cut and paste the Client ID and Client Secret into the boxes provided.  Click on
+on the authentication service).  Copy and paste the Client ID and Client Secret into the boxes provided.  Click
 <strong>OK</strong> (at the bottom) followed by <strong>Save</strong> (at the top of the page).</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>You can define multiple providers at the same time.  The code in the client determines what authentication mechanism
-gets used.</p>
+<p>You can define multiple providers at the same time.  The code in the client determines what authentication mechanism is used.</p>
 </div>
-<p>You can test this just like Facebook.  Go to https://<em>yoursite</em>/.auth/login/google with your browser.  You should get
-something like the following:</p>
+<p>You can test this just like Facebook.  Go to https://<em>yoursite</em>/.auth/login/google with your browser.  You should see something like the following:</p>
 <p><img alt="Confirming Google Authentication" src="../img/goog-dev-6.PNG" /></p>
 <p>Confirming here should get us to the same happy screen we achieved with Facebook.</p>
-<p>If you happen to mis-type the Authorized redirect URI, Google will tell you that the URI is wrong.  I inevitably swap
-http for https.  When this happens, it is an easy fix, but you have to wait a few minutes before the authentication
-system updates itself.</p>
+<p>If you happen to mis-type the Authorized redirect URI, Google will inform you that the URI is wrong.  I inevitably swap http for https.  When this happens, it is an easy fix, but you have to wait a few minutes before the authentication system updates itself.</p>
 <div class="admonition warn">
 <p class="admonition-title">Warn</p>
-<p>Google is turning off the ability to use "Server Flow" authentication with its service.  If you wish to use Google
-authentication, you must use "Client Flow" and their SDK.</p>
+<p>Google has changed the security semantics for its authentication service.  You must use the v3.1.0 of the Azure Mobile Apps Client SDK for Server Flow authentication with Google to work.</p>
 </div>
 <h2 id="microsoft-account-configuration">Microsoft Account Configuration<a class="headerlink" href="#microsoft-account-configuration" title="Permanent link">&para;</a></h2>
-<p>The advantage of the Microsoft Account (or MSA, as it is known) is that you already have an account - you need one for
-Azure.  So this is the first time I am not going to explicitly tell you to sign up for an account.</p>
-<p>Your first step is to go to the <a href="https://apps.dev.microsoft.com/?mkt=en-us#/appList">Microsoft Account Developer Center</a> and log on with your Microsoft account.  You
-should use the same one as you use for Azure, but it is not required.</p>
+<p>The advantage of the Microsoft Account (or MSA, as it is known) is that you already have an account - you need 
+one for accessing Azure in general.  Go to the <a href="https://apps.dev.microsoft.com/?mkt=en-us#/appList">Microsoft Account Developer Center</a> and log on with 
+your Microsoft account.  You should use the same one as you use for Azure, but it is not required.</p>
 <p><img alt="Microsoft Account Developer Center" src="../img/msa-dev-1.PNG" /></p>
-<p>Just to confuse us, there are two <strong>Add an App</strong> buttons. Strangely, they are different. Click on the one next to
-<strong>My applications</strong>.</p>
+<p>Just to confuse us, there are two <strong>Add an App</strong> buttons. Strangely, they are different. Click the one next to
+<strong>Converged applications</strong>.</p>
 <p><img alt="MSA: Create an application" src="../img/msa-dev-2.PNG" /></p>
-<p>Enter an awesome name and click on <strong>Create application</strong>.</p>
+<p>Enter an awesome name, then lick <strong>Create application</strong>.</p>
 <p><img alt="MSA: Add a Platform" src="../img/msa-dev-3.PNG" /></p>
-<p>Click on <strong>Add Platform</strong>, followed by <strong>Web</strong>.  In the <strong>Redirect URIs</strong>, enter your app URL +
-<code>/.auth/login/microsoftaccount/callback</code>. Then click on <strong>Save</strong>.</p>
+<p>Click <strong>Add Platform</strong>, followed by <strong>Web</strong>.  In the <strong>Redirect URIs</strong>, enter your app URL +
+<code>/.auth/login/microsoftaccount/callback</code>. Then Click <strong>Save</strong>.</p>
 <p><img alt="MSA: Redirect URI" src="../img/msa-dev-4.PNG" /></p>
-<p>Now click on <strong>Generate New Password</strong> under <strong>Application Secrets</strong>.</p>
+<p>Now Click <strong>Generate New Password</strong> under <strong>Application Secrets</strong>.</p>
 <p><img alt="MSA: New password" src="../img/msa-dev-5.PNG" /></p>
-<p>Unlike the other social providers, this is the only time you will get to see your client secret, so make a note of it
-or cut and paste it into a notepad.  Once you have it copied somewhere, click on <strong>OK</strong>, followed by <strong>Save</strong>.</p>
+<p>Unlike the other social providers, this is the only time you will get to see your client secret, so make a note of it or copy and paste it into a notepad.  Once you have it copied somewhere, Click <strong>OK</strong>, followed by <strong>Save</strong>.</p>
 <p>You now have all the information you need to configure the Microsoft Account section within your App Server
 Authentication / Authorization.  The Client ID you need to enter is the Application ID and the Client Secret is the
 password you just copied somewhere.</p>
 <p><img alt="MSA: Configuration of App Service" src="../img/msa-dev-6.PNG" /></p>
 <p>Note that you have to choose claims that you want to read.  The <strong>wl.basic</strong> and <strong>wl.emails</strong> will give you enough
 information to get started with this tutorial.</p>
-<p>Click on <strong>OK</strong> (at the bottom), followed by <strong>Save</strong> (at the top).  You can test the settings by pointing your browser
+<p>Click <strong>OK</strong> (at the bottom), followed by <strong>Save</strong> (at the top).  You can test the settings by pointing your browser
 to https://<em>yoursite</em>.azurewebsites.net/.auth/login/microsoftaccount.  You will see what should be a normal claims
 request page:</p>
 <p><img alt="MSA: Claims Request" src="../img/msa-dev-7.PNG" /></p>
 <p>Clicking on <strong>Yes</strong> should take you to the normal success page.</p>
 <h2 id="twitter-configuration">Twitter Configuration<a class="headerlink" href="#twitter-configuration" title="Permanent link">&para;</a></h2>
-<p>I hope you are seeing that all the OAuth providers take a very similar route to configuring their service.  The
-semantics of the service are slightly different in each case.  Twitter is no different.  As you might expect, before
-continuing, sign up for <a href="https://twitter.com/">Twitter</a>.  Once you have signed up, the <a href="https://apps.twitter.com/">Twitter Developers Portal</a> is your next stop.
-Once there, you can click on <strong>Create New App</strong>:</p>
+<p>I hope you are seeing that all the OAuth providers take a very similar route to configuring their service.  The semantics of the service are slightly different in each case.  Twitter is no different.  As you might expect, before continuing, sign up for <a href="https://twitter.com/">Twitter</a>.  Once you have signed up, the <a href="https://apps.twitter.com/">Twitter Developers Portal</a> is your next stop. Once there, click <strong>Create New App</strong>:</p>
 <p><img alt="Twitter: New App" src="../img/twtr-dev-1.PNG" /></p>
 <p>Most of the fields are self-explanatory.  The <strong>Callback URL</strong> is the same thing that the other social providers have
 called the Redirect URL.  The appropriate value is your app URL + <code>/.auth/login/twitter/callback</code>.  There is a legal
-agreement at the bottom of the page, then you can click on <strong>Create your Twitter application</strong> button.</p>
+agreement at the bottom of the page, then you can Click <strong>Create your Twitter application</strong> button.</p>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>All social authentication providers have some sort of legal agreement that governs their use.  In general, demo or
 PoC apps are fair use.  However, you should get a legal opinion before using a social authentication provider in a
 production app.</p>
 </div>
-<p>Once you have created the app, you will get a tabbed display with all the settings.  Click on the <strong>Keys and Access
+<p>Once you have created the app, you will get a tabbed display with all the settings.  Click the <strong>Keys and Access
 Tokens</strong> tab:</p>
 <p><img alt="Twitter: Keys" src="../img/twtr-dev-2.PNG" /></p>
 <p>Note the values for the <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>.  They get entered into the
@@ -1478,31 +1464,32 @@ returns the concrete version of the cloud service, just like the Singleton versi
 <p>Going through the authentication process will get you to the task list again.  If the authentication process fails,
 then <code>LoginAsync()</code> will throw an error, which is caught at the ViewModel.  Right now, the <code>EntryPageViewModel</code>
 does nothing more than print a diagnostic message to the debug window of Visual Studio.</p>
+<div class="admonition info">
+<p class="admonition-title">Integrating with multiple providers</p>
+<p>Each provider has a slightly different server flow.  In the [Chapter2] project, I use this to call the 
+right provider endpoint.  When the user clicks on the Facebook logo, for instance, it logs in with
+Facebook.  It's up to you as to how this UI is presented.</p>
+</div>
 <h2 id="client-flow-for-social-providers">Client-Flow for Social Providers<a class="headerlink" href="#client-flow-for-social-providers" title="Permanent link">&para;</a></h2>
-<p>In each of the social providers, the identity provider SDK (provided by Facebook, Google, or Twitter) will need to be
-integrated.  In general, these SDKs are provided for a native platform (Objective-C or Swift for iOS, Java for Android),
-use callbacks or delegates (as is common practice in native libraries) and are thus more complicated to integrate with
-your mobile client than those that have a C#/.NET SDK delivered on NuGet.</p>
+<p>In each of the social providers, the identity provider SDK (provided by Facebook, Google, Microsoft or Twitter) 
+will need to be integrated.  In general, these SDKs are provided for a native platform (Objective-C or Swift 
+for iOS, Java for Android), use callbacks or delegates (as is common practice in native libraries) and are thus 
+more complicated to integrate with your mobile client than those that have a C#/.NET SDK delivered on NuGet.</p>
 <div class="admonition warn">
 <p class="admonition-title">Warn</p>
 <p>Testing Client Flow for social providers requires that the social app be installed on the device.  You cannot
 install other apps on the iOS simulator and there may be restrictions on the Android Emulator.  This means that
-you need to test client flow for social providers on an actual device.</p>
+you generally need to test client flow for social providers on an actual device.</p>
 </div>
-<p>The reward for doing so are a more integrated experience on mobile devices.  For example, if you integrate the Google
-Play Services SDK in an Android app, the app will seamlessly authenticate itself with the connected Google account in
-the background, avoiding the need for repeatedly authenticating the client.  It may ask for a fingerprint instead if
-the app is not trusted.  If you integrate the Facebook SDK, then the app will automatically switch to the Facebook app
-and ask you to approve the authentication request there instead of authenticating the user through a web view.  Both
-of these provide a more integrated experience for the end user, so this work is well worth pursuing.</p>
-<div class="admonition warn">
-<p class="admonition-title">Warn</p>
-<p>Google is turning off WebView flows, which are required for "Server Flow" authentication.  This means that you
-must use a client flow with the Google+ SDK if you wish to authenticate users using a Google ID.</p>
-</div>
-<p>As an example, here is the client flow for Facebook.  I've implemented this using the <code>Xamarin.Facebook.iOS</code> library,
-which can be downloaded and installed into the iOS project from NuGet.  The <code>Services\iOSLoginProvider.cs</code> contains
-the following:</p>
+<p>The reward for doing so are a more integrated experience on mobile devices.  For example, if you integrate 
+the Google Play Services SDK in an Android app, the app will seamlessly authenticate itself with the 
+connected Google account in the background, avoiding the need for repeatedly authenticating the client.  It may
+ask for a fingerprint instead if the app is not trusted.  If you integrate the Facebook SDK, then the app will 
+automatically switch to the Facebook app and ask you to approve the authentication request there instead of 
+authenticating the user through a web view.  Both of these provide a more integrated experience for the end user, 
+so this work is well worth pursuing.</p>
+<p>As an example, here is the client flow for Facebook.  I've implemented this using the <code>Xamarin.Facebook.iOS</code> 
+library, which can be downloaded and installed into the iOS project from NuGet.  The <code>Services\iOSLoginProvider.cs</code> contains the following:</p>
 <pre><code class="csharp">        #region Facebook Client Flow
         private TaskCompletionSource&lt;string&gt; fbtcs;
 
@@ -1537,17 +1524,39 @@ an exception) and that causes the task to complete.</p>
 <pre><code class="csharp">        public async Task LoginAsync(MobileServiceClient client)
         {
             var accessToken = await LoginFacebookAsync();
-
-            var zumoPayload = new JObject();
-            zumoPayload[&quot;access_token&quot;] = accessToken;
+            var zumoPayload = new JObject()
+            {
+                [&quot;access_token&quot;] = accessToken
+            };
             await client.LoginAsync(&quot;facebook&quot;, zumoPayload);
         }
 
         public UIViewController RootView =&gt; UIApplication.SharedApplication.KeyWindow.RootViewController;
 </code></pre>
 
+<p>Finally, you need to configure your Facebook settings within the <code>Info.plist</code> file.  Right-click the <code>Info.plist</code> file and select <strong>Open with...</strong>.  Select the XML editor.  Add the following to the file within the <code>&lt;dict&gt;</code> element (right before the closing <code>&lt;/dict&gt;</code>):</p>
+<pre><code class="xml">    &lt;key&gt;FacebookAppID&lt;/key&gt;
+    &lt;string&gt;YOUR-APP-ID&lt;/string&gt;
+    &lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;fbauth2&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+    &lt;array&gt;
+        &lt;dict&gt;
+            &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+            &lt;array&gt;
+                &lt;string&gt;fbYOUR-APP-ID&lt;/string&gt;
+            &lt;/array&gt;
+        &lt;/dict&gt;
+    &lt;/array&gt;
+</code></pre>
+
+<p>Replace <strong>YOUR-APP-ID</strong> with the Facebook App ID from the Facebook developers console.</p>
 <p>With this version, clicking on the login button will seamlessly switch into the Facebook application and ask the
-user to confirm the request, before switching back authenticated.</p>
+user to confirm the request, before switching back authenticated.  Note that it's likely that the Facebook SDK 
+will not work within a simulator as it requires the Facebook app to be installed.</p>
+<p>There are a number of pre-built Xamarin libraries for handling provider authentication.  For iOS, we have already shown Azure Active Directory and Facebook. Android has its own version of the <a href="https://components.xamarin.com/view/facebookandroid">Facebook SDK</a>.  Use the <a href="https://developers.google.com/api-client-library/dotnet/">Google .NET API</a> to access Google accounts.  It's already cross-platform.  In general, using the library from the provider itself is preferable to using one from a third party. </p>
 <!-- Images -->
 
 <!-- External Links -->

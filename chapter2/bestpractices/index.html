@@ -1177,7 +1177,7 @@ time job is an excellent idea.</p>
 <li>If you need multiple social identity providers, <strong>Auth0</strong> is an excellent choice.</li>
 <li>If you need usernames and password, use <strong>Azure Active Directory B2C</strong>.</li>
 </ol>
-<p>Storing usernames and passwords in your own database is a bad idea and should be avoided.</p>
+<p>Storing usernames and passwords in your own database is a bad idea and should be avoided.  Avoid using Microsoft Account and Twitter authentication providers.  Their implementation has limitations that will be a concern if you ever try to share an authentication provider between two different backends or apps.</p>
 <h3 id="use-the-client-sdk-provided-by-the-identity-provider">Use the client SDK provided by the Identity Provider<a class="headerlink" href="#use-the-client-sdk-provided-by-the-identity-provider" title="Permanent link">&para;</a></h3>
 <p>Your first step should be getting an access token from the identity provider itself.  You will see the
 most integrated experience if you use their SDK.</p>

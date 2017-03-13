@@ -1063,7 +1063,7 @@ Developer Tools for your browser, you can take a look at the token that is being
 session.  Take a look at the URL on the "successful authentication" page.</p>
 <p><img alt="The JWT" src="../img/jwt-1.PNG" /></p>
 <p>The authentication token is clearly marked (after you strip away the URL encoding).  You can use a
-[URL Decoder / Encoder][16] - just cut and paste the entire URL into the box and click on <strong>Decode</strong>.  Note that
+<a href="http://www.urlencoder.org/">URL Decoder / Encoder</a> - just cut and paste the entire URL into the box and click on <strong>Decode</strong>.  Note that
 the token is actually a JSON object.  You can now easily extract the <strong>authenticationToken</strong> field from the JSON
 object.</p>
 <p><img alt="The JWT Revealed" src="../img/jwt-2.PNG" /></p>
@@ -1075,22 +1075,23 @@ the <a href="https://jwt.io">jwt.io tool</a>.  Cut and paste the authentication 
 (or entered as part of a configuration) at the identity provider and is used to cryptographically sign the token.
 You will need the client secret to verify the signature of the token.  The client secret is copied from the identity
 provider to the resource (in this case, the App Service).</p>
-<p>We can see other items within the token.  The <em>Issuer</em> is the place that issued the token.  This is generally a URI.
-The <em>Audience</em> is an identifier for who the token is for.  In this case, we have a token minted by the Azure App
-Service for use accessing that same App Service, so the issuer and audience are both the URI.  If you look at an
-Auth0 token, you will see that the issuer is the Auth0 domain and the audience is the Client ID of the Auth0 tenant.</p>
-<p>Each token will also have a number of claims.  The most common claim is the <em>Subject</em> of the token.  This is generally
-a security ID, but could be any unique user ID.</p>
+<p>We can see other items within the token.  The <em>Issuer</em> is the place that issued the token.  This is generally 
+a URI.  The <em>Audience</em> is an identifier for who the token is for.  In this case, we have a token minted by 
+the Azure App Service for use accessing that same App Service, so the issuer and audience are both the 
+URI.  If you look at an Auth0 token, you will see that the issuer is the Auth0 domain and the audience is 
+the Client ID of the Auth0 tenant.</p>
+<p>Each token will also have a number of claims.  The most common claim is the <em>Subject</em> of the token.  This 
+is generally a security ID, but could be any unique user ID.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Azure App Service sets the subject to a stable SID.  The stable SID is unique to the identity provider that is
-used for the authentication and guaranteed not to change, even if the user changes their email address or username
-on the underlying identity provider.</p>
+used for the authentication and guaranteed not to change, even if the user changes their email address 
+or username on the underlying identity provider.</p>
 </div>
-<p>Technically, the JWT can include any data and there are some identity providers that place just about everything
-about the user in the JWT.  App Service keeps the amount of data small because the client will be sending the JWT
-with every request. Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth
-usage will add up quickly, and your app will be known as a bandwidth hog.</p>
+<p>The JWT can include any data from the identity provider and there are some identity providers that place just 
+about everything about the user in the JWT.  App Service keeps the amount of data small because the client will 
+be sending the JWT with every request. Imagine adding a few kilobytes to every single request that the client 
+makes.  The bandwidth usage will add up quickly, and your app will be known as a bandwidth hog.</p>
 <p>However, there are some fields that are pretty universal.  Your JWT should always have the following fields:</p>
 <ul>
 <li>sub = Subject (the identifier for the token)</li>
