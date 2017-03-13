@@ -446,17 +446,11 @@ software to integrate, so extra time must be allotted to make it work correctly.
 In the end, I prefer handling tables individually and handling relationship management on the mobile client manually.  This
 causes more code on the mobile client but makes the server much simpler by avoiding most of the complexity of relationships.
 
-## <a name="storage-domain-mgr"></a>NoSQL Storage with the StorageDomainManager
+## NoSQL Storage with the StorageDomainManager
 
-What if you don't want to use a SQL backend for your service?  Relationships between entities are not that important in the mobile
-client and Azure Table Storage costs significantly less than SQL Azure.  There are always trade-offs between various storage
-providers.  A Domain Manager enables you to swap out the storage for one of your own choosing.  Azure Mobile Apps provides 
-a domain manager for Azure Table Storage.  Azure Table Storage is Microsoft's NOSQL key/attribute store.  It has a schemaless
-design, which (at least theoretically) enables you to adapt your data models as the application evolves without having to worry
-about the schema.
+What if you don't want to use a SQL backend for your service?  Relationships between entities are not that important in the mobile client and Azure Table Storage costs significantly less than SQL Azure.  There are always trade-offs between various storage providers.  A Domain Manager enables you to swap out the storage for one of your own choosing.  Azure Mobile Apps provides a domain manager for Azure Table Storage.  Azure Table Storage is Microsoft's NOSQL key/attribute store.  It has a schemaless design, which (at least theoretically) enables you to adapt your data models as the application evolves without having to worry about the schema.
 
-To see this in action, let's rework the existing data store (which has tags and todoitems as tables) to use Table Storage.  First
-up, we need to set up a suitable environment.  This involves:
+To see this in action, let's rework the existing data store (which has tags and todoitems as tables) to use Table Storage.  First up, we need to set up a suitable environment.  This involves:
 
 1. Create a Resource Group
 2. Create an Azure App Service
@@ -464,8 +458,7 @@ up, we need to set up a suitable environment.  This involves:
 4. Create a Storage Account
 5. Link the Storage Account to the Azure App Service.
 
-We've already covered the first three items in previous chapters.  The important element here is that we do not create a SQL
-database.  We are going to be using Table Storage instead so we don't need it.  To create a Storage Account:
+We've already covered the first three items in previous chapters.  The important element here is that we do not create a SQL database.  We are going to be using Table Storage instead so we don't need it.  To create a Storage Account:
 
 * Log on to the [Azure portal].
 * Click the big **+ NEW** button in the top left corner.
@@ -480,8 +473,7 @@ database.  We are going to be using Table Storage instead so we don't need it.  
     * Set the **Location** to the same location as your App Service.
 * Click **Create**.
 
-Just like SQL Azure, Azure Storage has some great scalability and redundancy features if your backend takes advantage of them.
-We have selected the slowest performance and least redundant options here to keep the cost down on your service.
+Just like SQL Azure, Azure Storage has some great scalability and redundancy features if your backend takes advantage of them. We have selected the slowest performance and least redundant options here to keep the cost down on your service.
 
 !!! warn
     There is no "free" option for Azure Storage.  You pay by the kilobyte depending on the performance and redundancy selected.
@@ -500,21 +492,15 @@ Once the Azure Storage account is deployed, you can link the storage account to 
     * Click **OK**.
     * Click **OK** to close the **Add data connection** blade.
 
-Click on the **Application Settings** menu option, then scroll down to the **Connection Strings** section.  Note that the portal
-has created the connection string as an App Setting for you with the right value:
+Click on the **Application Settings** menu option, then scroll down to the **Connection Strings** section.  Note that the portal has created the connection string as an App Setting for you with the right value:
 
 ```bash
 DefaultEndpointsProtocol=https;AccountName=thebook;AccountKey=<key1>
 ```
 
-The key is the access key for the storage.  When a storage account is created, two keys are also created.  If you re-generate the
-storage access keys, remember to update your connection string.  By default, the connection string is called `MS_AzureStorageAccountConnectionString`
-and we will use that throughout.
+The key is the access key for the storage.  When a storage account is created, two keys are also created.  If you re-generate the storage access keys, remember to update your connection string.  By default, the connection string is called `MS_AzureStorageAccountConnectionString` and we will use that throughout.
 
-Now that our resources are set up, let's look at the Backend project.  This started off as a standard Azure Mobile Apps template.
-The template assumes you are going to use SQL Azure, so there is quite a bit of work to convert the provided template to use
-Azure Table Storage.  Let's start with the `App_Start\Startup.MobileApp.cs` file.  There is no Entity Framework, so that needs to
-be stripped out:
+Now that our resources are set up, let's look at the Backend project.  This started off as a standard Azure Mobile Apps template.  The template assumes you are going to use SQL Azure, so there is quite a bit of work to convert the provided template to use Azure Table Storage.  Let's start with the `App_Start\Startup.MobileApp.cs` file.  There is no Entity Framework, so that needs to be stripped out:
 
 ```csharp
 using System.Configuration;
@@ -548,8 +534,7 @@ We've made three changes:
 2. We've removed the database initializer.
 3. We've changed `AddTablesWithEntityFramework()` to `AddTables()`.
 
-There is extra work needed with Entity Framework.  Since we aren't using it, we don't need the additional work.  We do, however,
-need to create the ASP.NET routes to the table controllers.
+There is extra work needed with Entity Framework.  Since we aren't using it, we don't need the additional work.  We do, however, need to create the ASP.NET routes to the table controllers.
 
 !!! tip
     You must add the `Microsoft.Azure.Mobile.Server.Storage` package from NuGet. 
@@ -567,14 +552,12 @@ namespace Backend.DataObjects
 }
 ```
 
-Each storage implementation will likely need their own implementation of the `ITableData` interface.  The `StorageData` class 
-performs the same duties as the `EntityData` class for Entity Framework based backends.
+Each storage implementation will likely need their own implementation of the `ITableData` interface.  The `StorageData` class performs the same duties as the `EntityData` class for Entity Framework based backends.
 
 !!! tip
     You can remove the `Models` directory and the `DbContext` for the project.  These are only needed when working with Entity Framework.
 
-The Azure Table Storage SDK is completely async driven.  Fortunately, the domain manager specification (codified in the definition
-of `IDomainManager`) allows both async and synchronous usage.  This does require a change to our controller:
+The Azure Table Storage SDK is completely async driven.  Fortunately, the domain manager specification (codified in the definition of `IDomainManager`) allows both async and synchronous usage.  This does require a change to our controller:
 
 ```csharp
 using System.Collections.Generic;
@@ -633,9 +616,7 @@ namespace Backend.Controllers
 }
 ```
 
-Note how we instantiate the storage domain controller.  This requires a connection string and the name of the table.  We
-have created the connection string in the portal, but we have not exposed that connection string to our ASP.NET application.
-We need to edit the `Web.config` file as well:
+Note how we instantiate the storage domain controller.  This requires a connection string and the name of the table.  We have created the connection string in the portal, but we have not exposed that connection string to our ASP.NET application. We need to edit the `Web.config` file as well:
 
 ```xml
 <connectionStrings>
@@ -657,10 +638,7 @@ record:
 
 ![][storage-2]
 
-There are a couple of things to note here.  Firstly, the Id must be specified.  It also must be of a specific form.  There
-are two numbers.  The first is a partition key and the second is a row key.  Tables are partitioned to support load balancing
-across storage notes.  It can be anything you wish it to be.  Similarly, the row key is unique within a partition.  We can
-use this information to generate a suitable Id if one is not provided:
+There are a couple of things to note here.  Firstly, the Id must be specified.  It also must be of a specific form.  There are two numbers.  The first is a partition key and the second is a row key.  Tables are partitioned to support load balancing across storage notes.  It can be anything you wish it to be.  Similarly, the row key is unique within a partition.  We can use this information to generate a suitable Id if one is not provided:
 
 ```csharp
 // POST tables/TodoItem
@@ -699,6 +677,7 @@ from there.
 Within the table editor, you can right-click on any row to delete or edit values.  This will update the time stamp and etag, ensuring
 that your mobile clients are updated as well.
 
+### Limitations of the Azure Storage Domain Manager
 There are, of course, caveats to working in Azure Mobile Apps with Azure Table Storage.   There are three major caveats that you should
 be aware of.
 
@@ -708,13 +687,13 @@ be aware of.
 
 Let's take a look at each in turn.
 
-### 1. There are no relationhips
+**No relationhips**
 
 You have to work at relationships and relationships between entities are severely restricted in Entity Framework.  However, they are
 possible.  Not so with Azure Table Storage.  The NoSQL store has no concept of a relationship of any description.  This is not a major
 caveat since your mobile client similarly has no notion of relationships.  Just treat every table as distinct.
 
-### 2. Limited support for OData query options
+**Limited support for OData query options**
 
 Only `$filter`, `$top` and `$select` are [supported by the OData interface][4].  Since the Azure Table Storage Domain Manager passes the 
 incoming OData query to the Storage driver intact, this limitation is passed on to the OData interface for Azure Mobile Apps.  Specifically, 
@@ -726,7 +705,7 @@ records until zero records were returned.  With the `StorageDomainManager`, a `L
 The `Link` header contains the URI that you need to retrieve to get the next page of the results.  This has implications for how you 
 receive more than 50 records.
 
-### 3. Offline sync only supports "flat" objects
+**Offline sync only supports "flat" objects**
 
 One of the common reasons for using NoSQL stores is that you can store pretty much any document you wish.  You just have to have a JSON
 representation of the object cross the wire.  If you have complex objects stored in Azure Table Storage, they won't be able to be stored
