@@ -1,30 +1,21 @@
 # Claims and Authorization
 
-Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication
-looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific
-operation.
+Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific operation.
 
-Authorization is handled within the server-side project by the `[Authorize]` attribute.  Our Azure Mobile Apps backend
-is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute
-can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id
-is not guessable and we have no roles.  To see what I mean, run the **Backend** project locally and set a break point
-on the `GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
+Authorization is handled within the server-side project by the `[Authorize]` attribute.  Our Azure Mobile Apps backend is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id is not guessable and we have no roles.  To see what I mean, run the **Backend** project locally and set a break point on the `GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
 
 !!! tip
-    Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
-    you to run the application and the server at the same time on the same machine.
+    Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows you to run the application and the server at the same time on the same machine.
 
 Once you have authenticated, you will be able to set a break point to take a look at `this.User.Identity`:
 
 ![this.User.Identity output][img55]
 
-Note that the `Name` property is null.  This is the property that is used when you want to authorize individual users.
-Expand the `Claims` property and then click on **Results View**:
+Note that the `Name` property is null.  This is the property that is used when you want to authorize individual users. Expand the `Claims` property and then click on **Results View**:
 
 ![Claims output][img56]
 
-The only claims are the ones in the token, and none of them match the `RoleClaimType`, so we can't use roles either.
-Clearly, we are going to have to do something else.
+The only claims are the ones in the token, and none of them match the `RoleClaimType`, so we can't use roles either. Clearly, we are going to have to do something else.
 
 ## Obtaining User Claims
 
@@ -157,113 +148,64 @@ async Task ExecuteRefreshCommand()
 }
 ```
 
-The return value from the `GetIdentityAsync()` method is the first identity.  Normally, a user would only authenticate
-once, so this is fairly safe.  The number of claims returned depends on the identity provider and could easily number
-in the hundreds.  Even the default configuration for Azure Active Directory returns 18 claims.  These are easily handled
-using LINQ, however.  The `Type` property holds the type.  This could be a short (common) name.  It could also be a
-schema name, which looks more like a URI.  The only way to know what claims are coming back for sure is to look at
-the `/.auth/me` result with something like Postman.
+The return value from the `GetIdentityAsync()` method is the first identity.  Normally, a user would only authenticate once, so this is fairly safe.  The number of claims returned depends on the identity provider and could easily number in the hundreds.  Even the default configuration for Azure Active Directory returns 18 claims.  These are easily handled using LINQ, however.  The `Type` property holds the type.  This could be a short (common) name.  It could also be a schema name, which looks more like a URI.  The only way to know what claims are coming back for sure is to look at the `/.auth/me` result with something like Postman.
 
 !!! warn
-    If you are using Custom Authentication (e.g. username/password or a third-party token), then the `/.auth/me`
-    endpoint is not available to you.  You can still produce a custom API in your backend to provide this information to
-    your client, but you are responsible for the code - it's custom, after all!
+    If you are using Custom Authentication (e.g. username/password or a third-party token), then the `/.auth/me`    endpoint is not available to you.  You can still produce a custom API in your backend to provide this information to your client, but you are responsible for the code - it's custom, after all!
 
 ## Authorization
 
-Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication
-looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific
-operation.
+Now that we have covered all the techniques for authentication, it's time to look at authorization.  While authentication looked at verifying that a user is who they say they are, authorization looks at if a user is allowed to do a specific operation.
 
-Authorization is handled within the server-side project by the `[Authorize]` attribute.  Our Azure Mobile Apps backend
-is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute
-can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id
-is not guessable and we have no roles.  To see what I mean, run the **Backend** project and set a break point on the
-`GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
+Authorization is handled within the server-side project by the `[Authorize]` attribute.  Our Azure Mobile Apps backend is leveraging this to provide authorization based on whether a user is authenticated or not.  The Authorize attribute can also check to see if a user is in a list of users or roles.  However, there is a problem with this.  The user id is not guessable and we have no roles.  To see what I mean, run the **Backend** project and set a break point on the `GetAllTodoItems()` method in the `TodoItemController`, then run your server and your UWP application.
 
 !!! tip
-    Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows
-    you to run the application and the server at the same time on the same machine.  Alternatively, you can attach a
-    Debugger to your Azure App Service within Visual Studio's Cloud Explorer.
+    Once you have built and deployed the UWP application, it will appear in your normal Application list.  This allows you to run the application and the server at the same time on the same machine.  Alternatively, you can attach a Debugger to your Azure App Service within Visual Studio's Cloud Explorer.
 
 Once you have authenticated, you will be able to set a break point to take a look at `this.User.Identity`:
 
 ![this.User.Identity output][img55]
 
-Note that the `Name` property is null.  This is the property that is used when you want to authorize individual users.
-Expand the `Claims` property and then click on **Results View**:
+Note that the `Name` property is null.  This is the property that is used when you want to authorize individual users.  Expand the `Claims` property and then click on **Results View**:
 
 ![Claims output][img56]
 
-The only claims are the ones in the token, and none of them match the `RoleClaimType`, so we can't use roles either.
-Clearly, we are going to have to do something else.  Fortunately, we already know that we can get some information
-about the identity provider claims from the `/.auth/me` endpoint.  To get the extra information, we need to query
-the `User` object:
+The only claims are the ones in the token, and none of them match the `RoleClaimType`, so we can't use roles either.  Clearly, we are going to have to do something else.  Fortunately, we already know that we can get some information about the identity provider claims from the `/.auth/me` endpoint.  To get the extra information, we need to query the `User` object:
 
 ```csharp
 var identity = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request);
 ```
 
-There is one `Credentials` class for each supported authentication technique - Azure Active Directory, Facebook,
-Google, Microsoft Account and Twitter.  These are in the **Microsoft.Azure.Mobile.Server.Authentication** namespace.
-They all follow the same pattern as the model we created for the client - there are Provider, UserId and UserClaims
-properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId
-is pulled out of the response for Azure AD.
+There is one `Credentials` class for each supported authentication technique - Azure Active Directory, Facebook, Google, Microsoft Account and Twitter.  These are in the **Microsoft.Azure.Mobile.Server.Authentication** namespace.  They all follow the same pattern as the model we created for the client - there are Provider, UserId and UserClaims properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId is pulled out of the response for Azure AD.
 
 !!! tip
-    You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into
-    this more in a later chapter.
+    You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into this more in a later chapter.
 
 ## Adding Group Claims to the Request
 
-There are times when you want to add something else to the token that is returned from Azure AD. The most common
-requirement is to add group information to the response so you can handle group-based authorization.
+There are times when you want to add something else to the token that is returned from Azure AD. The most common requirement is to add group information to the response so you can handle group-based authorization.
 
 To add security groups to the Azure AD token:
 
-1. Log into the [Classic Portal][classic-portal].
-2. Click on your directory (probably called **Default Directory**) in the **All Items** list.
-3. Click on **APPLICATIONS**, then your WEB application.
-4. Click on **MANAGE MANIFEST** (at the bottom of the page), then **Download Manifest**.
-5. Click on **Download manifest**.
+1.  Log into the [Azure Portal][portal].
+2.  Click on **Azure Active Directory** in your left-hand menu (you may need to search for it).
+3.  If you need to work in a different directory, click **Switch directory** to do so.
+4.  Click **App registrations**.
+5.  Click your WEB application.
+6.  Click **Manifest** at the top of the registered app blade.
+7.  You are now placed within a manifest editor.  Find the **groupMembershipClaims** entry and change it from null to **"SecurityGroup"**.
 
-This will download a JSON file.  Edit the file with a text editor.  (I use Visual Studio Code).  At the top of the
-file is this:
+    ![AAD Security Group - Change1][img1]
 
-```json
-  "displayName": "webapp-for-the-book",
-  "errorUrl": null,
-  "groupMembershipClaims": null,
-  "homepage": "https://the-book.azurewebsites.net",
-  "identifierUris": [
-    "https://the-book.azurewebsites.net"
-  ],
-  "keyCredentials": [],
-  "knownClientApplications": [],
-```
-
-Change the **groupMembershipClaims** to "SecurityGroup":
-
-```json
-  "displayName": "webapp-for-the-book",
-  "errorUrl": null,
-  "groupMembershipClaims": "SecurityGroup",
-  "homepage": "https://the-book.azurewebsites.net",
-  "identifierUris": [
-    "https://the-book.azurewebsites.net"
-  ],
-  "keyCredentials": [],
-  "knownClientApplications": [],
-```
-
-Save the file.  You can now upload this again.  Go back to the WEB application, click on **MANAGE MANIFEST**, then
-click on **Upload Manifest**.  Select the file and click on the tick.
-
-![AAD - Upload Manifest][img-upload-manifest]
+8. When complete, click **Save**.
 
 You can now give the web application additional permissions:
 
-1. Click on the **CONFIGURE** tab.
+1. Close the Manifest editor.
+2. Click **Settings**.
+3. Click **Required permissions**.
+4. Click **Windows Azure Active Directory**.
+5. Click **Read directory data** under the **Delegated Permissions** section.
 2. Scroll to the bottom, click on **Delegated Permissions**.
 3. Check the box for **Read directory data**.
 
@@ -271,26 +213,24 @@ You can now give the web application additional permissions:
 
 4. Click on **Save**.
 
-Now that you have configured the application to return groups as part of the claims, you should probably add a
-couple of groups:
+If you are not an administrator of the domain, then an administrator will need to approve your request.  Now that you have configured the application to return groups as part of the claims, you should probably add a couple of groups:
 
-1. Click on the back-arrow (at the top left) to return to the top level of your directory.
-2. Click on **GROUPS**.
-3. Click on **ADD GROUP**.
-4. Fill in the information, select **Security** as the group type, then click on the tick.
+1. Click **Azure Active Directory** in the left-hand menu to return to the top-level.
+2. Click **Users and groups**.
+3. Click **All groups**.
+4. Click **+ Add**.
+4. Fill in the information, then click **Create**.
 
    ![AAD: Add Group][img-add-group]
 
-5. Click on the new group, then click on **PROPERTIES**.
+5. Click on the new group.
 
    ![AAD: Group Properties][img-group-props]
 
 6. Make a note of the **OBJECT ID**.  The claims for groups are listed by the Object ID, so you will need this to
    refer to the group later.
 
-It's a good idea to add a couple of groups for testing purposes.  If you are using the organization directory, you
-will need to request the creation of a couple of groups for application roles.  The view of the groups will be shown
-when we get the identity of the user using `User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request)`:
+It's a good idea to add a couple of groups for testing purposes.  If you are using the organization directory, you will need to request the creation of a couple of groups for application roles.  The view of the groups will be shown when we get the identity of the user using `User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredentials>(Request)`:
 
 ![AAD: Group in Claims][img-group-claims]
 
@@ -406,6 +346,7 @@ We can use the following:
     performance reasons.
 
 <!-- Images -->
+[img1]: img/aad-ibiza-editmanifest.PNG
 [img55]: img/user-identity.PNG
 [img56]: img/user-claims.PNG
 [img57]: img/auth-me.PNG

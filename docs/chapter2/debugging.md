@@ -24,23 +24,24 @@ Note that the contents of the JWT are revealed even without knowing the secret. 
 You will need the client secret to verify the signature of the token.  The client secret is copied from the identity
 provider to the resource (in this case, the App Service).
 
-We can see other items within the token.  The _Issuer_ is the place that issued the token.  This is generally a URI.
-The _Audience_ is an identifier for who the token is for.  In this case, we have a token minted by the Azure App
-Service for use accessing that same App Service, so the issuer and audience are both the URI.  If you look at an
-Auth0 token, you will see that the issuer is the Auth0 domain and the audience is the Client ID of the Auth0 tenant.
+We can see other items within the token.  The _Issuer_ is the place that issued the token.  This is generally 
+a URI.  The _Audience_ is an identifier for who the token is for.  In this case, we have a token minted by 
+the Azure App Service for use accessing that same App Service, so the issuer and audience are both the 
+URI.  If you look at an Auth0 token, you will see that the issuer is the Auth0 domain and the audience is 
+the Client ID of the Auth0 tenant.
 
-Each token will also have a number of claims.  The most common claim is the _Subject_ of the token.  This is generally
-a security ID, but could be any unique user ID.
+Each token will also have a number of claims.  The most common claim is the _Subject_ of the token.  This 
+is generally a security ID, but could be any unique user ID.
 
 !!! info
     Azure App Service sets the subject to a stable SID.  The stable SID is unique to the identity provider that is
-    used for the authentication and guaranteed not to change, even if the user changes their email address or username
-    on the underlying identity provider.
+    used for the authentication and guaranteed not to change, even if the user changes their email address 
+    or username on the underlying identity provider.
 
-Technically, the JWT can include any data and there are some identity providers that place just about everything
-about the user in the JWT.  App Service keeps the amount of data small because the client will be sending the JWT
-with every request. Imagine adding a few kilobytes to every single request that the client makes.  The bandwidth
-usage will add up quickly, and your app will be known as a bandwidth hog.
+The JWT can include any data from the identity provider and there are some identity providers that place just 
+about everything about the user in the JWT.  App Service keeps the amount of data small because the client will 
+be sending the JWT with every request. Imagine adding a few kilobytes to every single request that the client 
+makes.  The bandwidth usage will add up quickly, and your app will be known as a bandwidth hog.
 
 However, there are some fields that are pretty universal.  Your JWT should always have the following fields:
 
@@ -265,6 +266,7 @@ debugger in Visual Studio will stop one to run the other when they are in the sa
 
 <!-- External Links -->
 [portal]: https://portal.azure.com/
+[16]: http://www.urlencoder.org/
 [17]: https://openid.net/specs/draft-jones-json-web-token-07.html
 [18]: https://jwt.io
 [19]: https://www.getpostman.com/

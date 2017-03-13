@@ -16,7 +16,7 @@ Choosing an identity provider is not easy.  Here are my choices:
 3. If you need multiple social identity providers, **Auth0** is an excellent choice.
 4. If you need usernames and password, use **Azure Active Directory B2C**.
 
-Storing usernames and passwords in your own database is a bad idea and should be avoided.
+Storing usernames and passwords in your own database is a bad idea and should be avoided.  Avoid using Microsoft Account and Twitter authentication providers.  Their implementation has limitations that will be a concern if you ever try to share an authentication provider between two different backends or apps.
 
 ### Use the client SDK provided by the Identity Provider
 

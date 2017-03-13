@@ -1,13 +1,8 @@
 ## Caching Tokens
 
-You will notice that we have to log in with every start of the application.  The token that is generated has a lifetime
-that is provided and controlled by the identity provider.  Some providers have a relatively short lifetime.  For example,
-Azure Active Directory tokens have a lifetime of 1 hour.  Others are incredibly long.  Facebook has an expiry time of
-60 days.
+You will notice that we have to log in with every start of the application.  The token that is generated has a lifetime that is provided and controlled by the identity provider.  Some providers have a relatively short lifetime.  For example, Azure Active Directory tokens have a lifetime of 1 hour.  Others are incredibly long.  Facebook has an expiry time of 60 days.
 
-Irrespective of the lifespan of the token, we will want to store it securely and re-use it when we can.  Xamarin has
-provided a nice component, [Xamarin.Auth][30], that provides such as secure store in a cross-platform manner.  It starts
-with an account store:
+Irrespective of the lifespan of the token, we will want to store it securely and re-use it when we can.  Xamarin has provided a nice component, [Xamarin.Auth][30], that provides such as secure store in a cross-platform manner.  It starts with an account store:
 
 ```csharp
 // For iOS:
@@ -22,9 +17,7 @@ We can then store the token with the following:
 accountStore.Save(account, "descriptor");
 ```
 
-The descriptor is a string that allows us to find the token again.  The account (which is an `Account` object) is
-uniquely identified by a key composed of the account's Username property and the descriptor.  The Account class is
-provided with Xamarin.Auth.  Storage is backed by the [Keychain] on iOS and the [KeyStore] on Android.
+The descriptor is a string that allows us to find the token again.  The account (which is an `Account` object) is uniquely identified by a key composed of the account's Username property and the descriptor.  The Account class is provided with Xamarin.Auth.  Storage is backed by the [Keychain] on iOS and the [KeyStore] on Android.
 
 To get the token back, we use the following:
 
@@ -32,11 +25,9 @@ To get the token back, we use the following:
 var accounts = accountStore.FindAccountsForService("descriptor");
 ```
 
-When we receive the token back from the key store, we will want to check the expiry time to ensure the token has not
-expired.  As a result, there is a little bit more code to caching code than one would expect.
+When we receive the token back from the key store, we will want to check the expiry time to ensure the token has not expired.  As a result, there is a little bit more code to caching code than one would expect.
 
-Let's start with the Android version in **TaskList.Droid**.  As with all the other login code, we are adjusting the
-`LoginAsync()` method in `Services\DroidLoginProvider.cs`:
+Let's start with the Android version in **TaskList.Droid**.  As with all the other login code, we are adjusting the `LoginAsync()` method in `Services\DroidLoginProvider.cs`:
 
 ```csharp
 using System;
@@ -134,36 +125,26 @@ namespace TaskList.Droid.Services
 }
 ```
 
-There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the
-KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and
-token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is
-successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry,
-it will be overwritten.  Finally, there is a method called `IsTokenExpired()` whose only job is to check to see if a
-token is expired or not.  This same code can be used in the `Services/iOSLoginProvider.cs`.  The only difference is
-in the `AccountStore.Create()` call (as discussed earlier).
+There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry, it will be overwritten.  Finally, there is a method called `IsTokenExpired()` whose only job is to check to see if a token is expired or not.  This same code can be used in the `Services/iOSLoginProvider.cs`.  The only difference is in the `AccountStore.Create()` call (as discussed earlier).
 
 !!! warn "Update Entitlements for iOS 10"
     You may notice that you are not able to use `AccountStore.Save()` in the iOS 10 Simulator.  A change to the
     iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and
-    use the Entitlements.plist file as a custom entitlements list.  Xamarin Studio for Mac has a really good
-    editor for this, so I recommend doing this activity on the Mac.
+    use the Entitlements.plist file as a custom entitlements list.  
 
-To update the entitlements.plist within Xamarin Studio for Mac:
+Visual Studio for the PC doesn't provide a lot of ssistance with the entitlements.  However, Visual Studio for Mac has a great editor for the entitlement, so this is one time I'd suggest going over to the Mac to do something.  Make sure you have created an Apple Developer account and created a provisioning profile.  These are pre-requisites to using the Keychain.
 
-1. Double-click on the **TaskList.iOS** project to open the options pane.
+1. Right-click the **TaskList.iOS** project to open the options pane and select **Options** 
 2. Select the **iOS Bundle Signing** menu option.
 3. Select **iPhoneSimulator** for the Platform.
 4. Click the **...** button next to **Custom Entitlements**.
-5. Select the **Entitlements.plist** file, then click on **OK**.
-6. Click on **OK** to close the options pane.
-7. Find and open the **Entitlements.plist** file in the Xamarin Studio project.
-8. In the **Keychain** sction, check the box next to **Enable Keychain Access Groups**.
+5. Select the **Entitlements.plist** file, then click **Open**.
+6. Save the properties (I used Ctrl-S for this)
+7. Find and open the **Entitlements.plist** file in the **TaskList.iOS** project.
+8. In the **Keychain** sction, check the box next to **Enable Keychain Access Groups**.  This may require additional setup and linking to a provisioning profile.
 9. Save the file and re-build your project.
 
-Xamarin.Auth only support iOS and Android.  We need to turn to an alternate library for token caching on Universal
-Windows.  The standard library has a package called [PasswordVault][33] that can be used identically to the
-[KeyStore] and [Keychain] libraries.  Here is the Universal Windows version of the same code in
-`Services\UWPLoginProvider.cs`:
+Xamarin.Auth only support iOS and Android.  We need to turn to an alternate library for token caching on Universal Windows.  The standard library has a package called [PasswordVault][33] that can be used identically to the [KeyStore] and [Keychain] libraries.  Here is the Universal Windows version of the same code in `Services\UWPLoginProvider.cs`:
 
 ```csharp
 using System;
@@ -227,28 +208,18 @@ mechanisms provide the basic functionality of storing client secrets securely.
 
 ## Refresh Tokens
 
-Our token cache checks the token to see if it is expired and prompts the user if the token is no longer valid.  Since
-the life of a token is inevitably short (maybe 1 hour), this will still mean that the user is prompted for new
-credentials most of the time.  In addition, we have an issue when the app is running for a long time.  What happens
-if the user leaves the app running for 2 hours?  The token we received at the start of the session will be invalid
-halfway through the session and we will have to restart the app in order to continue.  Both of these situations are
-undesirable from the point of view of the user.  Access tokens eventually expire and we need to explicitly deal with
-this situation.
+The token cache checks the token to see if it is expired and prompts the user if the token is no longer valid.  Since the life of a token is inevitably short (maybe one hour), this will still mean that the user is prompted for new credentials most of the time.  In addition, we have an issue when the app is running for a long time.  What happens if the user leaves the app running for 2 hours?  The token we received at the start of the session will be invalid halfway through the session and we will have to restart the app in order to continue.  Both of these situations are undesirable from the point of view of the user.  Access tokens eventually expire and we need to explicitly deal with this situation.
 
-The first part of the solution is to request a _Refresh Token_.  This is something the identity provider issues when
-the scope of the request includes an offline scope.  Only certain identity providers include the ability to request
-refresh tokens.  For server-flow:
+The first part of the solution is to request a _Refresh Token_.  This is something the identity provider issues when the scope of the request includes an offline scope.  Only certain identity providers include the ability to request refresh tokens.  For server-flow:
 
 * Google: Append the "access_type=offline" to the request.
 * Microsoft Account: Select the wl.offline_access scope in the Azure management portal.
 * Azure AD: Configure Azure AD to support access to the Graph API.
 
-Facebook and Twitter do not provider refresh tokens.  Once you have the refresh tokens, you can simply call the
-refresh API in the Azure Mobile Apps SDK to refresh the token.
+Facebook and Twitter do not provider refresh tokens.  Once you have the refresh tokens, you can simply call the refresh API in the Azure Mobile Apps SDK to refresh the token.
 
 !!! info
-    Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with
-    the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.
+    Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.
 
 ### Configuring Refresh Tokens
 
@@ -263,19 +234,17 @@ client.LoginAsync("google", new Dictionary<string, string>
 
 Azure Active Directory is perhaps the trickiest to configure.
 
-* Log on to the [Classic Portal][classic-portal].
+* Log on to the [Azure portal][portal].
 * Navigate to your Azure Active Directory.
-* Go to **APPLICATIONS** and then your WEB application.
-* Go to the **CONFIGURE** tab.
-* Scroll down to the **Keys** section.
+* Click **App registrations**, then your WEB application
+* Click **Keys**.
+* Enter a friendly name.  Pick _2 years_ in the Expiry duration
 
-  ![AAD: Add a Key][img59]
+    ![AAD - Add a Key][img59]
 
-* In the **Select duration** drop-down, select _2 Years_.
-* Click on **SAVE**.  The key will be generated for you.  Copy the key (you will need it below).
-* Go back to the [Azure Portal][portal].
+* Click **Save**.  The key will be generated for you.  Copy the key (you will need it below).
 * Go to **App Services**, then your App Service.
-* Click on **Tools**, then **Resource explorer**, then **Go**.
+* Click **Resource explorer** in the menu, then **Go**.
 * In the Resource Explorer, expand **config** and select **authsettings**.
 * Click on **Edit**.
 * Set the clientSecret to the key you copied from above.
@@ -288,10 +257,7 @@ Azure Active Directory is perhaps the trickiest to configure.
 
 The next time the user logs into our web app side, there will be a one-time prompt to consent to graph API access.
 Once granted, the App Service Authentication / Authorization service will start requesting and receiving refresh
-tokens.
-
-Once you go through this process and re-authenticate, you will be able to see the refresh token in the output of
-the `/.auth/me` endpoint:
+tokens.  Once you go through this process and re-authenticate, you will be able to see the refresh token in the output of the `/.auth/me` endpoint:
 
 ![AAD: Refresh Tokens][img61]
 

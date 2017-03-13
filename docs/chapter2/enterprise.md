@@ -423,8 +423,10 @@ namespace TaskList.UWP.Services
         {
             // Client Flow
             var accessToken = await LoginADALAsync();
-            var zumoPayload = new JObject();
-            zumoPayload["access_token"] = accessToken;
+            var zumoPayload = new JObject()
+            {
+                ["access_token"] = accessToken
+            };
             await client.LoginAsync("aad", zumoPayload);
 
             // Server-Flow Version
