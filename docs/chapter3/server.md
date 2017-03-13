@@ -17,7 +17,7 @@ migrations, we construct a code file whenever we need to change the database.  D
 us.  Later on, we will consider Database First.  With database first, we adjust the database schema
 manually, then write C# models to reflect that change.
 
-Nothing causes more headaches in an Azure Mobile Apps backend than [code first migrations].  A code-first
+Nothing causes more headaches in an Azure Mobile Apps backend than [code-first migrations].  A code-first
 migration is simply a set of configuration commands that updates the database to support the new
 database model.  If you try to publish this application, you will see an `InvalidOperationException`
 and your service will likely crash.  If you manage to trap the error, it will say _The model backing
@@ -193,23 +193,19 @@ and may not be able to be used at all.
 
 ### Create a Table Controller
 
-Visual Studio with the Azure SDK provides some help in creating a table controller.  Right-click on the
-**Controllers** node and select **Add** -> **Controller...**.
+Visual Studio for Windows (with the Azure SDK) provides some help in creating a table controller.  Right-click on the **Controllers** node and select **Add** -> **Controller...**.
 
 ![][new-controller-1]
 
-The Azure SDK provides scaffolding for a new table controller.  Select it and then click on **Add**.
+Visual Studio provides scaffolding for a new table controller.  Select it and then click on **Add**.
 
 ![][new-controller-2]
 
 The dialog asks for the model (which is actually a DTO) and the data context (which is already created).
 Once you select the model, the controller name is created for you.  You can change it if you like, but
 it's common practice to not do this.
-
-Once the scaffolding is finished, you can look at your newly created table controller.  We do want to
-do one change.  We want to enable soft delete so that our table controller supports offline sync
-scenarios properly.  To do this, go into the `Initialize()` method and change the constructor of the
-`EntityDomainManager`.  The completed table controller looks like this:
+ 
+Once the scaffolding is finished, you can look at your newly created table controller.  We do want to do one change.  We want to enable soft delete so that our table controller supports offline sync scenarios properly.  To do this, go into the `Initialize()` method and change the constructor of the `EntityDomainManager`.  The completed table controller looks like this:
 
 ```csharp
 using System.Linq;
@@ -268,9 +264,7 @@ namespace Chapter3.Controllers
 
 ### Creating a Code-First Migration
 
-You must add a code first migration to update the database when it is published. Use the `add-migration`
-command in the Package Manager Console.  The `add-migration` command will request a name - it just has
-to be unique, but it's a good idea to make the name descriptive:
+You must add a code first migration to update the database when it is published. Use the `add-migration` command in the Package Manager Console.  The `add-migration` command will request a name - it just has to be unique, but it's a good idea to make the name descriptive:
 
 ![][add-migration]
 
@@ -278,21 +272,13 @@ You should also use `update-database` to apply the change to the local database 
 
 ![][update-database]
 
-Once this is done, you can publish the project.  Right-click on the project and select **Publish...**.  Once
-the project is published, you should be able to send a query to the `/tables/example` endpoint using Postman
-and get an empty array.  You should also be able to insert, update and delete entities as you can with the
-`TodoItem` table.
+Once this is done, you can publish the project.  Right-click on the project and select **Publish...**.  Once the project is published, you should be able to send a query to the `/tables/example` endpoint using Postman and get an empty array.  You should also be able to insert, update and delete entities as you can with the `TodoItem` table.
 
 ### Handling Publish Failures
 
-Sometimes, the publish fails.  It seems that whenever I start with code-first migrations, my publish fails.
-I get a nice error screen, but no actual error.  At least half the time, the problem is not my code-first
-migration, but something else.  For instance, one of the things I tend to do is update my NuGet packages.
-This inevitably breaks something.
+Sometimes, the publish fails.  It seems that whenever I start with code-first migrations, my publish fails.  I get a nice error screen, but no actual error.  At least half the time, the problem is not my code-first migration, but something else.  For instance, one of the things I tend to do is update my NuGet packages. This inevitably breaks something.
 
-Fortunately, once the error message is known, it's generally trivial to correct the error.  You can turn
-custom error messages off (and thus expose the original error message) by editing the Web.config file.
-Locate the `<system.web>` section and add the `<customErrors mode="Off"/>` line:
+Fortunately, once the error message is known, it's generally trivial to correct the error.  You can turn custom error messages off (and thus expose the original error message) by editing the Web.config file.  Locate the `<system.web>` section and add the `<customErrors mode="Off"/>` line:
 
 ```xml
   <system.web>
@@ -306,8 +292,7 @@ Then republish your project and the response from the server is much more inform
 
 ###  Turning on Diagnostic Logs
 
-You can log all the SQL statements that Entity Framework executes on your behalf by adding a Database
-Log.  Edit the `Models\MobileServiceContext.cs` file:
+You can log all the SQL statements that Entity Framework executes on your behalf by adding a Database Log.  Edit the `Models\MobileServiceContext.cs` file:
 
 ```csharp
 public class MobileServiceContext : DbContext
@@ -336,9 +321,7 @@ public class MobileServiceContext : DbContext
 }
 ```
 
-You have to use a real method.  System.Diagnostics.Debug is removed from the context when DEBUG is not
-defined, so you can't just use it directly.   Using an interim method works around that problem. Azure App
-Service captures the output from the console and places it into the log viewer for you.
+You have to use a real method.  System.Diagnostics.Debug is removed from the context when DEBUG is not defined, so you can't just use it directly.   Using an interim method works around that problem. Azure App Service captures the output from the console and places it into the log viewer for you.
 
 To turn on diagnostic logging:
 
@@ -663,11 +646,7 @@ call and replace it with two calls instead.
 
 ### Changing the Mobile Schema
 
-We stored our mobile representation of the table in a different schema.  Azure Mobile Apps looks
-for tables (and views) in the `[dbo]` schema by default.  There are two places you can modify the
-schema that Entity Framework uses to access the database.  The first is by changing the default
-schema that Entity Framework uses.  This will affect all the tables that we are exposing via a
-table controller.  This is done in the `Models\MobileDbContext.cs` class:
+We stored our mobile representation of the table in a different schema.  Azure Mobile Apps looks for tables (and views) in the `[dbo]` schema by default.  There are two places you can modify the schema that Entity Framework uses to access the database.  The first is by changing the default schema that Entity Framework uses.  This will affect all the tables that we are exposing via a table controller.  This is done in the `Models\MobileDbContext.cs` class:
 
 ```csharp
 protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -682,8 +661,7 @@ protected override void OnModelCreating(DbModelBuilder modelBuilder)
 }
 ```
 
-We can also do this on the model as an annotation.  For example, here is the TodoItem model suitably
-adjusted:
+We can also do this on the model as an annotation.  For example, here is the TodoItem model suitably adjusted:
 
 ```csharp
 using Microsoft.Azure.Mobile.Server;
@@ -705,9 +683,7 @@ namespace Backend.DataObjects
 ```
 
 !!! info
-    Entity Framework adds an `s` onto the end of the model to create the table name.  If you
-    have a model named `TodoItem`, the table is called `TodoItems` in the database.  You can use this
-    same annotation to adjust the table name if it is not to your liking.
+    Entity Framework adds an `s` onto the end of the model to create the table name.  If you have a model named `TodoItem`, the table is called `TodoItems` in the database.  You can use this same annotation to adjust the table name if it is not to your liking.
 
 ## Best Practices
 
