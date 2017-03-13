@@ -746,70 +746,34 @@ are three forms of this operation:
 
 ### Deleting the backing store
 
-The major requirement during development is that you want to delete the SQLite file that backs the offline cache.
-It's likely that the model evolves over time during development.  Add test data that can sometimes cause things
-to go wrong and you have a recipe for bugs that are only there because you are developing.  If you suspect bad
-data in the offline cache, the first thing you want to do is start afresh.
+The major requirement during development is that you want to delete the SQLite file that backs the offline cache.  It's likely that the model evolves over time during development.  Add test data that can sometimes cause things to go wrong and you have a recipe for bugs that are only there because you are developing.  If you suspect bad data in the offline cache, the first thing you want to do is start afresh.
 
-Each platform stores the offline cache in a different place and the mechanism for removing it is different in each
-case.  For Universal Windows projects, the offline cache is stored in the Local AppData folder for the application.
-This is a dedicated area that each Universal Windows app has access to for anything from temporary files to settings
-and cache files.  To find the location of the file, open the **TaskList.UWP** project and open the **Package.appxmanifest**
-file.  Go to the **Packaging** tab.
+Each platform stores the offline cache in a different place and the mechanism for removing it is different in each case.  For Universal Windows projects, the offline cache is stored in the Local AppData folder for the application. This is a dedicated area that each Universal Windows app has access to for anything from temporary files to settings and cache files.  To find the location of the file, open the **TaskList.UWP** project and open the **Package.appxmanifest** file.  Go to the **Packaging** tab.
 
 ![][appxmanifest-packageid]
 
-Note the long **Package family name** field.  Your backing file is in your home directory under `AppData\Local\Packages\{family_name}\LocalState`.
-You specified the name of the file when you created the store.
+Note the long **Package family name** field.  Your backing file is in your home directory under `AppData\Local\Packages\{family_name}\LocalState`.  You specified the name of the file when you created the store.
 
-You need to find the **Package Name** for Android.  Right-click on the **TaskList.Droid** project and select **Properties**,
-then select the **Android Manifest** tab.
+You need to find the **Package Name** for Android.  Right-click on the **TaskList.Droid** project and select **Properties**, then select the **Android Manifest** tab.
 
 ![][droid-manifest-packagename]
 
-The database will be located in `/data/data/{package_name}/files` directory on the emulator.  Google has provided utilities
-for handling developer connections to devices (including emulators).  In this case, we can use the `adb` utility.  First, start
-your emulator of choice through the **Tools** -> **Visual Studio Emulator for Android** menu option.  Click on the **Play**
-button next to the emulator that you have been using.  Ensure the emulator is fully started before continuing.  The `adb` utility
-can be accessed through a shell prompt (I use PowerShell normally) and it is located in `$ANDROID_SDK/platform-tools`.  On Windows,
-this is probably `C:\Program Files (x86)\Android\android-sdk\platform-tools`.  It's a good idea to add this to your PATH.
+The database will be located in `/data/data/{package_name}/files` directory on the emulator.  Google has provided utilities for handling developer connections to devices (including emulators).  In this case, we can use the `adb` utility.  First, start your emulator of choice through the **Tools** -> **Android** -> **Android Emulator Manager** menu option.  Highlight the emulator you have been using, then click **Start**.  Ensure the emulator is fully started before continuing.  The `adb` utility can be accessed through Visual Studio using **Tools** -> **Android** -> **Android Adb Command Prompt**.  You will be able to use `adb` commands from there.  Use `adb devices` to find the device and `adb connect` to connect to the device.
 
-Start at your Visual Studio Emulator for Android.  Click on the **Tools** button (it looks like a pair of right-facing
-chevrons) and select the **Network** tab.
-
-![][android-emulator-network]
-
-You want the network address of the **Windows Phone Emulator Internal Switch**.  In this case, it's 169.254.138.177.  The
-169.254 address range is a private switch between the host computer (the one you are developing on) and the emulators.
-Open up a shell prompt and type:
-
-```bash
-adb connect 169.254.138.177:5555
-adb shell
-```
-
-!!! tip
-    If you are only running one emulator and have no connected real devices, you don't need the `adb connect` command.  Visual
-    Studio will have already set up the connection for you.  Use `adb devices` to determine if you need to connect.
-
-This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around.   You can remove
-the entire private data area for your package using the following:
+This opens up a Linux-like shell onto the Android device.  You can use normal Linux commands to move around.   You can remove the entire private data area for your package using the following:
 
 ```bash
 **root@donatello:/#** cd /data/data/Tasklist.Droid.TaskList.Droid
 **root@donatollo:/#** find . -name tasklist.db -print | xargs rm
 ```
 
-The database will normally be in the `files` directory.  Use `exit` to close the shell prompt on the Android device.  Each disk
-image file is independent.  You must remove the database file on each emulator individually.
+The database will normally be in the `files` directory.  Use `exit` to close the shell prompt on the Android device.  Each disk image file is independent.  You must remove the database file on each emulator individually.
 
 !!! tip
     You can use the same `adb` commands to connect to a real Android device connected via USB.  Ensure _USB Debugging_ is
     enabled on the device.  Use `adb devices` to find the device.  For more information, see [the Android documentation][6].
 
-The iOS Simulator does not use an image files.  Instead, it stores files on your Mac disk in `~/Library/Developer/CoreSimulator/Devices`.
-There is a file called `device_set.plist` that contains the list of devices that are defined and their location.  It is most easy to find
-a specific device.  For example, if you are testing on the iPhone 6x simulator:
+The iOS Simulator does not use an image files.  Instead, it stores files on your Mac disk in `~/Library/Developer/CoreSimulator/Devices`.  There is a file called `device_set.plist` that contains the list of devices that are defined and their location.  It is most easy to find a specific device.  For example, if you are testing on the iPhone 6x simulator:
 
 ```bash
 $ grep -B 1 'iPhone-6s<' device_set.plist
@@ -832,9 +796,7 @@ $ grep SimRuntime.iOS device_set.plist
 <key>com.apple.CoreSimulator.SimRuntime.iOS-9-3</key>
 ```
 
-My simulator is an iPhone 6s running iOS 9.3, so I can see the GUID is the third one: `ECAE441D-93F8-4D7A-BF14-7FA2D11BC152`.  This
-GUID is a directory in the same directory as the `device_set.plist` file.  You can use normal UNIX style commands to
-remove the backing store:
+My simulator is an iPhone 6s running iOS 9.3, so I can see the GUID is the third one: `ECAE441D-93F8-4D7A-BF14-7FA2D11BC152`.  This GUID is a directory in the same directory as the `device_set.plist` file.  You can use normal UNIX style commands to remove the backing store:
 
 ```bash
 $ cd ECAE441D-93F8-4D7A-BF14-7FA2D11BC152
@@ -845,8 +807,7 @@ You can also use the normal Finder utilities to search for and remove the databa
 
 ### Purging Records from the Offline Cache
 
-The `IMobileServiceSyncTable` interface also includes a capability for purging records that are stored in the offline sync by query.  This
-is done in code like this:
+The `IMobileServiceSyncTable` interface also includes a capability for purging records that are stored in the offline sync by query.  This is done in code like this:
 
 ```csharp
 var lowerBound = DateTimeOffset.Now.AddDays(-7);
@@ -862,40 +823,23 @@ There are four parameters for the `PurgeAsync` call:
 * A boolean for forcing the operation.
 * A cancellation token (for the async operation).
 
-Each incremental sync query has a unique name that is specified during the `PullAsync()` method call.  If you use the same name during the
-`PurgeAsync()` call, then the date associated with the incremental sync query is reset, causing a full refresh of the data.  This allows
-you to do a "purge and refresh" operation.  If you don't want this to happen, set the query name to null.
+Each incremental sync query has a unique name that is specified during the `PullAsync()` method call.  If you use the same name during the `PurgeAsync()` call, then the date associated with the incremental sync query is reset, causing a full refresh of the data.  This allows you to do a "purge and refresh" operation.  If you don't want this to happen, set the query name to null.
 
-The OData query is a similar query format to the incremental sync query that we used with `PullAsync()`.  In this case, it selects the
-records that should be purged from the offline sync cache.  If we wished to purge everything, we could just use `syncTable.CreateQuery()`.
-If we want to purge only certain records, then we can adjust the query with a `.Where()` LINQ query.  In the example above, records that
-have not been updated within the last 7 days are purged.
+The OData query is a similar query format to the incremental sync query that we used with `PullAsync()`.  In this case, it selects the records that should be purged from the offline sync cache.  If we wished to purge everything, we could just use `syncTable.CreateQuery()`. If we want to purge only certain records, then we can adjust the query with a `.Where()` LINQ query.  In the example above, records that have not been updated within the last 7 days are purged.
 
-Finally, the `PurgeAsync()` call will fail (and generate an exception) if there are any operations pending in the operations queue.  If we
-specify `force = true`, then the operations queue check is bypassed and pending operations in the operations queue are flushed without being
-uploaded.  It is important that this option is used only when absolutely required.  You can leave your database in an inconsistent
-state if you expect referential integrity between different tables.  Use `SyncContext.PushAsync()` to push the operations queue
-to the remote server before calling `PurgeAsync()`.   If you use `force = true`, then also specify a query name to reset the incremental
-sync state.
+Finally, the `PurgeAsync()` call will fail (and generate an exception) if there are any operations pending in the operations queue.  If we specify `force = true`, then the operations queue check is bypassed and pending operations in the operations queue are flushed without being uploaded.  It is important that this option is used only when absolutely required.  You can leave your database in an inconsistent state if you expect referential integrity between different tables.  Use `SyncContext.PushAsync()` to push the operations queue to the remote server before calling `PurgeAsync()`.   If you use `force = true`, then also specify a query name to reset the incremental sync state.
 
 ## Schema changes in the Offline Cache
 
-During development, it's very likely that you will want to change the schema of the data being stored on the client.
-Unfortunately, there isn't a really good way of dealing with this situation.  Here is my solution:
+During development, it's very likely that you will want to change the schema of the data being stored on the client. Unfortunately, there isn't a really good way of dealing with this situation.  Here is my solution:
 
-1. Create a constant within your mobile client containing a schema version number.  The actual value (text or int) doesn't
-   matter.  You should never have the same schema version number twice though.  Change this constant whenever you change
-   the schema.
-2. Read a file from the mobile device with the schema version in it.  If the file exists and the read value is different
-   from the constant you created in step 1, then you are "refreshing the cache"
-3. If you are refreshing the cache, delete the offline cache file, then write the current schema version number to the file
-   that you read in step 2.
+1. Create a constant within your mobile client containing a schema version number.  The actual value (text or int) doesn't matter.  You should never have the same schema version number twice though.  Change this constant whenever you change the schema.
+2. Read a file from the mobile device with the schema version in it.  If the file exists and the read value is different from the constant you created in step 1, then you are "refreshing the cache"
+3. If you are refreshing the cache, delete the offline cache file, then write the current schema version number to the file that you read in step 2.
 4. Set up your offline cache, define your tables, etc.
 5. If you are "refreshing the cache", do a full `PullAsync()` on all tables to populate the cache.
 
-You obviously want to avoid this process as much as possible.  One possible solution is to use the [VersionTrackingPlugin][7] by
-Colby Williams to detect when the schema has been updated.  The following code can be added to automatically delete the offline
-cache when the version of the app changes:
+You obviously want to avoid this process as much as possible.  One possible solution is to use the [VersionTrackingPlugin][7] by Colby Williams to detect when the schema has been updated.  The following code can be added to automatically delete the offline cache when the version of the app changes:
 
 ```csharp
 // Add an isRemoteDatabaseSchemaChanged boolean somewhere
@@ -999,8 +943,7 @@ public class LoggingHandler : DelegatingHandler
 }
 ```
 
-Using this class will print all the SQL commands that are executed against the SQLite store.  Ensure you are capturing the console somewhere
-so that you can see the debug messages as you are running your application.
+Using this class will print all the SQL commands that are executed against the SQLite store.  Ensure you are capturing the console somewhere so that you can see the debug messages as you are running your application.
 
 <!-- Images -->
 [not-paging]: img/not-paging.PNG
