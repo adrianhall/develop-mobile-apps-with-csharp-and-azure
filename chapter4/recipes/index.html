@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-1d1da4857d.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-66fa0d9bba.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
       
     
     
@@ -66,7 +66,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header" data-md-component="header">
+      <header class="md-header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -673,8 +673,6 @@
   
 </li>
       
-      
-      
     </ul>
   
 </nav>
@@ -1216,8 +1214,6 @@
   
 </li>
       
-      
-      
     </ul>
   
 </nav>
@@ -1228,64 +1224,36 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
+               
+                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter4\recipes.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+               
               
-                
-                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter4\recipes.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
-                
                 
                   <h1>Recipes</h1>
                 
-                <p>Now that we have explored the syntax and methodologies of invoking server-side code, we can look at some very common
-use cases for custom code.</p>
+                <p>Now that we have explored the syntax and methodologies of invoking server-side code, we can look at some very common use cases for custom code.</p>
 <h2 id="storage-related-operations">Storage Related Operations<a class="headerlink" href="#storage-related-operations" title="Permanent link">&para;</a></h2>
-<p>When dealing with cloud concepts, there are multiple operating levels one can think about.  At the bottom layer
-is <em>Infrastructure as a Service</em>.  Most people think of this as the Virtual Machine layer, but it also incorporates
-basic networking and storage concepts.  As you move to higher level services, you gain a lot of efficiencies by
-adding software components, you lose a lot of the potential management headaches, but you also lose flexibility
-in what you can do to the platform.  At the top of the stack is <em>Software as a Service</em>.  You may be running
-a helpdesk, for example, but you are completely isolated from what operating system is being run, what web services
-are being run, APIs that can be accessed and language that is used.</p>
-<p>Azure Mobile Apps is an opinionated combination of a client and server SDK running on top of a standard ASP.NET
-based web service and is normally thought of as being a <em>Platform as a Service</em>.  You get to choose what database
-to use, what tables to expose, and what programming language to use.  You don't get to determine when the operating
-system is patched or what patches are applied.  It's a middle of the road between SaaS and IaaS.</p>
-<p>That isn't to say we can't dip down sometimes to deal with lower level cloud services, nor to access higher level
-SaaS APIs.  One of those times is when dealing with files.  Storage is conceptually easy - you have an amount of
-disk and you can store files on it.  However, the management of that storage is complicated.  Placing that storage
-at the service of a scalable web application is similarly complicated.  What we intend to do is develop a set of
-skills that make developing storage based mobile applications easy.</p>
+<p>When dealing with cloud concepts, there are multiple operating levels one can think about.  At the bottom layer is <em>Infrastructure as a Service</em>.  Most people think of this as the Virtual Machine layer, but it also incorporates basic networking and storage concepts.  As you move to higher level services, you gain a lot of efficiencies by adding software components, you lose a lot of the potential management headaches, but you also lose flexibility in what you can do to the platform.  At the top of the stack is <em>Software as a Service</em>.  You may be running a helpdesk, for example, but you are completely isolated from what operating system is being run, what web services are being run, APIs that can be accessed and language that is used.</p>
+<p>Azure Mobile Apps is an opinionated combination of a client and server SDK running on top of a standard ASP.NET based web service and is normally thought of as being a <em>Platform as a Service</em>.  You get to choose what database to use, what tables to expose, and what programming language to use.  You don't get to determine when the operating system is patched or what patches are applied.  It's a middle of the road between SaaS and IaaS.</p>
+<p>That isn't to say we can't dip down sometimes to deal with lower level cloud services, nor to access higher level SaaS APIs.  One of those times is when dealing with files.  Storage is conceptually easy - you have an amount of disk and you can store files on it.  However, the management of that storage is complicated.  Placing that storage at the service of a scalable web application is similarly complicated.  What we intend to do is develop a set of skills that make developing storage based mobile applications easy.</p>
 <h3 id="blobs-table-queues-and-files">Blobs, Table, Queues and files<a class="headerlink" href="#blobs-table-queues-and-files" title="Permanent link">&para;</a></h3>
-<p>At the top of my list of "storage made complicated" is the cloud storage concepts.  In the old days, we stored files
-on a file system and we didn't really have to worry about differing types of storage, redundancy and capabilities.
-Cloud storage tends to come in multiple flavors:</p>
+<p>At the top of my list of "storage made complicated" is the cloud storage concepts.  In the old days, we stored files on a file system and we didn't really have to worry about differing types of storage, redundancy and capabilities. Cloud storage tends to come in multiple flavors:</p>
 <ul>
 <li>
-<p>The base storage type is <strong>Blob Storage</strong>.  Put simply, you have containers (roughly analogous to directories) and
-blobs (roughly analogous to files).  It's the cheapest form of storage and is used for many things, including the underlying
-storage for virtual machine disks.  Blob storage has many advantages.  From a mobile perspective, developers will
-appreciate the upload/download restart capabilities within the SDK.</p>
+<p>The base storage type is <strong>Blob Storage</strong>.  Put simply, you have containers (roughly analogous to directories) and blobs (roughly analogous to files).  It's the cheapest form of storage and is used for many things, including the underlying storage for virtual machine disks.  Blob storage has many advantages.  From a mobile perspective, developers will appreciate the upload/download restart capabilities within the SDK.</p>
 </li>
 <li>
-<p>We've already introduced <strong>Table Storage</strong> in <a href="../../chapter3/domainmgr/">the last chapter</a>.  It is more analogous to a NoSQL store for storing
-key / attribute values.  It has a schemaless design, so you can store basic JSON objects.  However, it has limited
-query capabilities, as we discussed in the last chapter.  That makes it unsuited to large scale query-driven applications.</p>
+<p>We've already introduced <strong>Table Storage</strong> in <a href="../../chapter3/domainmgr/">the last chapter</a>.  It is more analogous to a NoSQL store for storing key / attribute values.  It has a schemaless design, so you can store basic JSON objects.  However, it has limited query capabilities, as we discussed in the last chapter.  That makes it unsuited to large scale query-driven applications.</p>
 </li>
 <li>
-<p>You may think you want <strong>Files Storage</strong>.  This provides an SMB interface to the storage layer.  You would use Files
-Storage if you want to browse files from your PC or Mac as you can mount the file system directly from Azure Storage.</p>
+<p>You may think you want <strong>Files Storage</strong>.  This provides an SMB interface to the storage layer.  You would use Files Storage if you want to browse files from your PC or Mac as you can mount the file system directly from Azure Storage.</p>
 </li>
 <li>
-<p>Finally, <strong>Queue Storage</strong> provides cloud messaging between application components.  We'll get onto Azure Functions
-later on, during our look at Custom API.  Queue Storage will definitely be coming into play then.  Think of Queue
-Storage as the glue that ties work flow components together.</p>
+<p>Finally, <strong>Queue Storage</strong> provides cloud messaging between application components.  We'll get onto Azure Functions later on, during our look at Custom API.  Queue Storage will definitely be coming into play then.  Think of Queue Storage as the glue that ties work flow components together.</p>
 </li>
 </ul>
-<p>The real question is when should you use File Storage and when should you use Blob Storage.  For more applications,
-Blob Storage is going to save you money over File Storage, so it's pretty much always the better choice.  You should
-only be thinking of File Storage if you have other components of your system that need to access the data you upload
-that can only access that data via an SMB interface.</p>
-<p>If you need to explore the data that you upload or download, you can use the <a href="https://azurestorageexplorer.codeplex.com/">Azure Storage Explorer</a> as a standalone
-application or you can use the Cloud Explorer in <a href="https://msdn.microsoft.com/library/azure/dd135715.aspx">Visual Studio</a>.</p>
+<p>The real question is when should you use File Storage and when should you use Blob Storage.  For more applications, Blob Storage is going to save you money over File Storage, so it's pretty much always the better choice.  You should only be thinking of File Storage if you have other components of your system that need to access the data you upload that can only access that data via an SMB interface.</p>
+<p>If you need to explore the data that you upload or download, you can use the <a href="https://azurestorageexplorer.codeplex.com/">Azure Storage Explorer</a> as a standalone application or you can use the Cloud Explorer in <a href="https://msdn.microsoft.com/library/azure/dd135715.aspx">Visual Studio</a>.</p>
 <h3 id="creating-and-linking-a-storage-account"><a name="create-storage-acct"></a>Creating and Linking a Storage Account<a class="headerlink" href="#creating-and-linking-a-storage-account" title="Permanent link">&para;</a></h3>
 <p>Before we can use storage, we need to set up a storage account and connect it to our environment.  This involves:</p>
 <ol>
@@ -1295,8 +1263,7 @@ application or you can use the Cloud Explorer in <a href="https://msdn.microsoft
 <li>Create a Storage Account</li>
 <li>Link the Storage Account to the Azure App Service.</li>
 </ol>
-<p>We've already covered the first three items in previous chapters.  We've also created a storage account and linked it
-to the mobile backend during our look at the <a href="../../chapter3/domainmgr/">Storage Domain Manager</a>.  To create a Storage Account:</p>
+<p>We've already covered the first three items in previous chapters.  We've also created a storage account and linked it to the mobile backend during our look at the <a href="../../chapter3/domainmgr/">Storage Domain Manager</a>.  To create a Storage Account:</p>
 <ul>
 <li>Log on to the <a href="https://portal.azure.com">Azure portal</a>.</li>
 <li>Click the big <strong>+ NEW</strong> button in the top left corner.</li>
@@ -1313,12 +1280,7 @@ to the mobile backend during our look at the <a href="../../chapter3/domainmgr/"
 </li>
 <li>Click <strong>Create</strong>.</li>
 </ul>
-<p>Just like SQL Azure, Azure Storage has some great scalability and redundancy features if your backend takes advantage of them.
-For example, you have the option of <strong>Premium Storage</strong> - this provides all-SSD storage that has a large IOPS performance
-number.  You can also decide how redundant you want the storage.  Azure always keeps 3 copies of your data.  You can choose
-to increase the number of copies and decide whether the additional copies will be in the same datacenter, another datacenter
-in the same region or another region.  We have selected the slowest performance and least redundant options here to keep the
-cost down on your service.</p>
+<p>Just like SQL Azure, Azure Storage has some great scalability and redundancy features if your backend takes advantage of them. For example, you have the option of <strong>Premium Storage</strong> - this provides all-SSD storage that has a large IOPS performance number.  You can also decide how redundant you want the storage.  Azure always keeps 3 copies of your data.  You can choose to increase the number of copies and decide whether the additional copies will be in the same datacenter, another datacenter in the same region or another region.  We have selected the slowest performance and least redundant options here to keep the cost down on your service.</p>
 <div class="admonition warn">
 <p class="admonition-title">Warn</p>
 <p>There is no "free" option for Azure Storage.  You pay by the kilobyte depending on the performance and redundancy selected.</p>
@@ -1339,28 +1301,22 @@ cost down on your service.</p>
 </ul>
 </li>
 </ul>
-<p>Click on the <strong>Application Settings</strong> menu option, then scroll down to the <strong>Connection Strings</strong> section.  Note that the portal
-has created the connection string as an App Setting for you with the right value:</p>
+<p>Click on the <strong>Application Settings</strong> menu option, then scroll down to the <strong>Connection Strings</strong> section.  Note that the portal has created the connection string as an App Setting for you with the right value:</p>
 <pre><code class="bash">DefaultEndpointsProtocol=https;AccountName=thebook;AccountKey=&lt;key1&gt;
 </code></pre>
 
-<p>By default, the connection string is called <code>MS_AzureStorageAccountConnectionString</code> and we will use that throughout our
-examples.</p>
-<p>The key is the access key for the storage.  When a storage account is created, two keys are also created.  The keys are used for
-secure access to the storage area.  You should never distribute the storage keys nor check them into source control.  If you feel
-they have been compromised, you should regenerate them.  There are two keys for this purpose.  The process of regeneration is:</p>
+<p>By default, the connection string is called <code>MS_AzureStorageAccountConnectionString</code> and we will use that throughout our examples.</p>
+<p>The key is the access key for the storage.  When a storage account is created, two keys are also created.  The keys are used for secure access to the storage area.  You should never distribute the storage keys nor check them into source control.  If you feel they have been compromised, you should regenerate them.  There are two keys for this purpose.  The process of regeneration is:</p>
 <ol>
 <li>Regenerate KEY2</li>
 <li>Place the regenerated KEY2 in the connection string and restart your App Service.</li>
 <li>Regenerate key1</li>
 <li>Place the regenerated KEY1 in the connection string and restart your App Service.</li>
 </ol>
-<p>In this way, your App Service will always be using KEY1 except during regeneration.  You can avoid the restart of your App Service
-by providing a management interface that sets the Account Key for the App Service.</p>
+<p>In this way, your App Service will always be using KEY1 except during regeneration.  You can avoid the restart of your App Service by providing a management interface that sets the Account Key for the App Service.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>For local development, there is the <a href="https://github.com/jamesmontemagno/MediaPlugin">Azure Storage Emulator</a>.  The connection string when using the Azure Storage
-Emulator is <code>UseDevelopmentStorage=true</code>.</p>
+<p>For local development, there is the <a href="https://github.com/jamesmontemagno/MediaPlugin">Azure Storage Emulator</a>.  The connection string when using the Azure Storage Emulator is <code>UseDevelopmentStorage=true</code>.</p>
 </div>
 <p>It's normal to add the storage connection string to the <code>Web.config</code> file with the following:</p>
 <pre><code class="xml">&lt;connectionStrings&gt;
@@ -1368,48 +1324,29 @@ Emulator is <code>UseDevelopmentStorage=true</code>.</p>
 &lt;/connectionStrings&gt;
 </code></pre>
 
-<p>This will be overwritten by the connection string in the App Service Application Settings.  Effectively, you will be using the
-Azure Storage Emulator during local development and Azure Storage when you deploy to Azure App Service.</p>
+<p>This will be overwritten by the connection string in the App Service Application Settings.  Effectively, you will be using the Azure Storage Emulator during local development and Azure Storage when you deploy to Azure App Service.</p>
 <h3 id="the-shared-access-signature-sas">The Shared Access Signature (SAS)<a class="headerlink" href="#the-shared-access-signature-sas" title="Permanent link">&para;</a></h3>
-<p>The storage account key is kind of like the root or Administrator password.  You should always protect it, never send it to a
-third party and regenerate it on a regular basis.  You avoid storing the storage account key in source code by linking the
-storage account to the App Service.  The key is stored in the connection string instead.  You should never ship an account
-key to your mobile account.</p>
-<p>The Azure Storage SDK already has many of the features that you want in handling file upload and download.  Azure Storage is
-optimized for streaming, for example.  You can upload or download blobs in blocks, allowing you to restart the transfer and
-provide feedback to the user on progress, for example.   You will inevitably be drawn to having your mobile client interact
-with Azure Storage directly rather than having an intermediary web service for this reason.</p>
-<p>If you want to interact with Azure Storage directly and you shouldn't give out the account key, how do you deal with the
-security of the service?  The answer is with a Shared Access Signature, or SAS.  The <strong>Service SAS</strong> delegates access
-to just a single resource in one of the storage services (Blob, Table, Queue or File service).</p>
+<p>The storage account key is kind of like the root or Administrator password.  You should always protect it, never send it to a third party and regenerate it on a regular basis.  You avoid storing the storage account key in source code by linking the storage account to the App Service.  The key is stored in the connection string instead.  You should never ship an account key to your mobile account.</p>
+<p>The Azure Storage SDK already has many of the features that you want in handling file upload and download.  Azure Storage is optimized for streaming, for example.  You can upload or download blobs in blocks, allowing you to restart the transfer and provide feedback to the user on progress, for example.   You will inevitably be drawn to having your mobile client interact with Azure Storage directly rather than having an intermediary web service for this reason.</p>
+<p>If you want to interact with Azure Storage directly and you shouldn't give out the account key, how do you deal with the security of the service?  The answer is with a Shared Access Signature, or SAS.  The <strong>Service SAS</strong> delegates access to just a single resource in one of the storage services (Blob, Table, Queue or File service).</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>There is also an <a href="https://blog.xamarin.com/new-ios-10-privacy-permission-settings/">Account SAS</a> which delegates access to resources in more than one service.  You generally don't
-want this in application development.</p>
+<p>There is also an <a href="https://blog.xamarin.com/new-ios-10-privacy-permission-settings/">Account SAS</a> which delegates access to resources in more than one service.  You generally don't want this in application development.</p>
 </div>
-<p>A service SAS is a URI that is used when accessing the resource.  It consists of the URI to the resource followed by a
-SAS token.  The SAS token is an cryptographically signed opaque token that the storage service decodes.  Minimally, it
-provides an expiry time and the permissions being granted to the SAS.</p>
+<p>A service SAS is a URI that is used when accessing the resource.  It consists of the URI to the resource followed by a SAS token.  The SAS token is an cryptographically signed opaque token that the storage service decodes.  Minimally, it provides an expiry time and the permissions being granted to the SAS.</p>
 <div class="admonition warn">
 <p class="admonition-title">Warn</p>
-<p>A SAS token <strong>ALWAYS</strong> expires.  There is no way to produce a permanent SAS token.  If you think you need one,
-think again.  In mobile development, you <strong>NEVER</strong> want a non-expiring token.</p>
+<p>A SAS token <strong>ALWAYS</strong> expires.  There is no way to produce a permanent SAS token.  If you think you need one, think again.  In mobile development, you <strong>NEVER</strong> want a non-expiring token.</p>
 </div>
-<p>Accessing Azure Storage is always done with a specific <a href="https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx">version of the REST API</a> and that follows through to the SDK.  You
-should always request a SAS token for the appropriate API you are going to be using.   We'll cover the various
-methods of obtaining a SAS later in the chapter.</p>
+<p>Accessing Azure Storage is always done with a specific <a href="https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx">version of the REST API</a> and that follows through to the SDK.  You should always request a SAS token for the appropriate API you are going to be using.   We'll cover the various methods of obtaining a SAS later in the chapter.</p>
 <h2 id="uploading-a-file">Uploading a File<a class="headerlink" href="#uploading-a-file" title="Permanent link">&para;</a></h2>
-<p>The most normal tasks for dealing with files are the upload and download of files to blob storage.  There is
-a natural and consistent process to this which makes this recipe very repeatable.  First, deal with the things
-you need before you start:</p>
+<p>The most normal tasks for dealing with files are the upload and download of files to blob storage.  There is a natural and consistent process to this which makes this recipe very repeatable.  First, deal with the things you need before you start:</p>
 <ol>
 <li>Create an Azure Storage Account and link it to your Azure App Service.</li>
 <li>Decide how you want your files organized.</li>
-<li>Create a WebAPI to generate a SAS token for your upload or download.
-Blob storage is organized in a typical directory structure.  Each directory is called a container, and each file
-is a blob.  In the examples for this section, I am going to store each uploaded file in a container based on the
-authenticated user.  My WebAPI will create the appropriate container and then return an appropriate SAS token.</li>
+<li>Create a WebAPI to generate a SAS token for your upload or download.</li>
 </ol>
+<p>Blob storage is organized in a typical directory structure.  Each directory is called a container, and each file is a blob.  In the examples for this section, I am going to store each uploaded file in a container based on the authenticated user.  My WebAPI will create the appropriate container and then return an appropriate SAS token.</p>
 <p>We can set up our custom API as follows:</p>
 <pre><code class="csharp">namespace Backend.Controllers
 {
@@ -1502,41 +1439,24 @@ for full details on naming requirements.</p>
 <p>We can test this API using Postman.  First, generate an authentication token.  Then use Postman to
 do a GET of the <code>/api/GetStorageToken</code> endpoint:</p>
 <p><img alt="" src="../img/getstoragetoken-1.PNG" /></p>
-<p>There are two pieces of information we need here.  Firstly, the <code>uri</code> property provides the URI that we are going to
-use to upload the file.  Secondly, the <code>sasToken</code> is appended to the <code>uri</code> when uploading to provide a link to the
-policy.  Note that the token start and expiry time are encoded and readable in the sasToken.</p>
-<p>In real world applications, this is likely not the right method.  We might want to organize the files based on information
-that the mobile client provides us, for example.  We may also want to upload to a specific upload area and then download
-from another location, allowing processing of the files in between.  You may also want to append the uploaded file extension
-to the file before uploading.  There is no "one size fits all" token policy.  You must decide on the conditions under which
-you will allow upload and download capabilities and then provide the appropriate logic to generate the SAS token.</p>
+<p>There are two pieces of information we need here.  Firstly, the <code>uri</code> property provides the URI that we are going to use to upload the file.  Secondly, the <code>sasToken</code> is appended to the <code>uri</code> when uploading to provide a link to the policy.  Note that the token start and expiry time are encoded and readable in the sasToken.</p>
+<p>In real world applications, this is likely not the right method.  We might want to organize the files based on information that the mobile client provides us, for example.  We may also want to upload to a specific upload area and then download from another location, allowing processing of the files in between.  You may also want to append the uploaded file extension to the file before uploading.  There is no "one size fits all" token policy.  You must decide on the conditions under which you will allow upload and download capabilities and then provide the appropriate logic to generate the SAS token.</p>
 <h3 id="the-mobile-client">The Mobile Client<a class="headerlink" href="#the-mobile-client" title="Permanent link">&para;</a></h3>
-<p>Once we have the logic to generate a SAS token, we can turn our attention to the mobile clients.  We need to do three
-things for uploading a file to the service:</p>
+<p>Once we have the logic to generate a SAS token, we can turn our attention to the mobile clients.  We need to do three things for uploading a file to the service:</p>
 <ol>
 <li>Get a reference to the file (as a Stream object).</li>
 <li>Generate a SAS token using the custom API.</li>
 <li>Use the Azure Storage SDK to upload directly to the Azure Storage Account.</li>
 </ol>
-<p>You should not upload to a custom API in your mobile backend.  This needlessly ties up your mobile backend, causing your
-mobile backend to be less efficient at scaling.  Your mobile backend will not have all the facilities that the
-Azure Storage endpoint has provided either.  Azure Storage provides upload and download restarts and progress bar
-capabilities.</p>
-<p>Obtaining a reference to the file that you wish to upload is normally a per-platform API.  Obtaining a reference to a photo or video
-involves interacting with platform-specific APIs to provide access to camera and built-in photo storage capabilities on the
-phone. To support such a per-platform capability, we need to add an interface for the API to the <code>Abstractions\IPlatform.cs</code> file:</p>
+<p>You should not upload to a custom API in your mobile backend.  This needlessly ties up your mobile backend, causing your mobile backend to be less efficient at scaling.  Your mobile backend will not have all the facilities that the Azure Storage endpoint has provided either.  Azure Storage provides upload and download restarts and progress bar capabilities.</p>
+<p>Obtaining a reference to the file that you wish to upload is normally a per-platform API.  Obtaining a reference to a photo or video involves interacting with platform-specific APIs to provide access to camera and built-in photo storage capabilities on the phone. To support such a per-platform capability, we need to add an interface for the API to the <code>Abstractions\IPlatform.cs</code> file:</p>
 <pre><code class="csharp">Task&lt;Stream&gt; GetUploadFileAsync();
 </code></pre>
 
-<p>This API will interact with whatever photo sharing API is available on the device, open the requested file and return a standard
-<code>Stream</code> object.  Loading a media file is made much simpler using the cross-platform <a href="https://github.com/jamesmontemagno/MediaPlugin">Xamarin Media plugin</a>.  This plugin allows
-the user to take photos or video, or pick  the media file from a gallery.  It's available on NuGet, so add the <code>Xam.Plugin.Media</code>
-plugin to each of the platform-specific projects.</p>
+<p>This API will interact with whatever photo sharing API is available on the device, open the requested file and return a standard <code>Stream</code> object.  Loading a media file is made much simpler using the cross-platform <a href="https://github.com/jamesmontemagno/MediaPlugin">Xamarin Media plugin</a>.  This plugin allows the user to take photos or video, or pick  the media file from a gallery.  It's available on NuGet, so add the <code>Xam.Plugin.Media</code> plugin to each of the platform-specific projects.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>I still like separating out code that deals with the hardware of a mobile device into the platform-specific code.  You don't
-need to do such separation on this project.  I find that I inevitably have one thing or another that requires a platform-specific
-tweak, so starting with a platform-specific API is better.</p>
+<p>I still like separating out code that deals with the hardware of a mobile device into the platform-specific code.  You don't need to do such separation on this project.  I find that I inevitably have one thing or another that requires a platform-specific tweak, so starting with a platform-specific API is better.</p>
 </div>
 <p>The Xamarin Media plugin is used like this:</p>
 <pre><code class="csharp">await CrossMedia.Current.Initialize();
@@ -1547,9 +1467,7 @@ var stream = file.GetStream();
 
 <p>There are methods within the plugin to determine if a camera is available.  Different platforms require different permissions:</p>
 <h3 id="android">Android<a class="headerlink" href="#android" title="Permanent link">&para;</a></h3>
-<p>Android requires the  <code>WRITE_EXTERNAL_STORAGE</code>, <code>READ_EXTERNAL_STORAGE</code> and <code>CAMERA</code> permissions. If the mobile device is
-running Android M or later, the plugin will automatically prompt the user for runtime permissions.  You can set these permissions
-within Visual Studio:</p>
+<p>Android requires the  <code>WRITE_EXTERNAL_STORAGE</code>, <code>READ_EXTERNAL_STORAGE</code> and <code>CAMERA</code> permissions. If the mobile device is running Android M or later, the plugin will automatically prompt the user for runtime permissions.  You can set these permissions within Visual Studio:</p>
 <ul>
 <li>Double-click the <strong>Properties</strong> node within the Android project.</li>
 <li>Select <strong>Android Manifest</strong>.</li>
@@ -1557,8 +1475,7 @@ within Visual Studio:</p>
 <li>Save the Properties (you may have to right-click on the TaskList.Droid tab and click on <strong>Save Selected Items</strong>).</li>
 </ul>
 <h3 id="ios">iOS<a class="headerlink" href="#ios" title="Permanent link">&para;</a></h3>
-<p>Apple iOS requires the <strong>NSCameraUsageDescription</strong> and <strong>NSPhotoLibraryUsageDescription</strong> keys.  The string provided will be
-displayed to the user when they are prompted to provide permission.  You can set these keys within Visual Studio:</p>
+<p>Apple iOS requires the <strong>NSCameraUsageDescription</strong> and <strong>NSPhotoLibraryUsageDescription</strong> keys.  The string provided will be displayed to the user when they are prompted to provide permission.  You can set these keys within Visual Studio:</p>
 <ul>
 <li>Right-click on the <strong>Info.plist</strong> file and select <strong>Open with...</strong></li>
 <li>Choose the <strong>XML (Text) Editor</strong> then click <strong>OK</strong>.</li>
@@ -1573,8 +1490,7 @@ displayed to the user when they are prompted to provide permission.  You can set
 <ul>
 <li>Save and close the file.</li>
 </ul>
-<p>You can choose whatever string you want to display to the user.  For more information on iOS 10 privacy permissions, review
-the <a href="https://blog.xamarin.com/new-ios-10-privacy-permission-settings/">Xamarin Blog</a>.</p>
+<p>You can choose whatever string you want to display to the user.  For more information on iOS 10 privacy permissions, review the <a href="https://blog.xamarin.com/new-ios-10-privacy-permission-settings/">Xamarin Blog</a>.</p>
 <h3 id="universal-windows">Universal Windows<a class="headerlink" href="#universal-windows" title="Permanent link">&para;</a></h3>
 <p>Universal Windows may require the <strong>Pictures Library</strong> capability:</p>
 <ul>
@@ -1610,9 +1526,7 @@ the <a href="https://blog.xamarin.com/new-ios-10-privacy-permission-settings/">X
 </code></pre>
 
 <h3 id="uploading-a-file_1">Uploading a File<a class="headerlink" href="#uploading-a-file_1" title="Permanent link">&para;</a></h3>
-<p>We can now put the individual pieces together to actually do an upload.  In this example, we are going to use the photo picker to
-pick a photo and then upload it, displaying a progress bar as it happens.  We start with the XAML code in <code>Pages\TaskList.xaml</code>.  We
-need a button in the toolbar to initiate the file upload:</p>
+<p>We can now put the individual pieces together to actually do an upload.  In this example, we are going to use the photo picker to pick a photo and then upload it, displaying a progress bar as it happens.  We start with the XAML code in <code>Pages\TaskList.xaml</code>.  We need a button in the toolbar to initiate the file upload:</p>
 <pre><code class="xml">    &lt;ContentPage.ToolbarItems&gt;
         &lt;ToolbarItem Name=&quot;Refresh&quot;
                      Command=&quot;{Binding RefreshCommand}&quot;
@@ -1655,9 +1569,7 @@ need a button in the toolbar to initiate the file upload:</p>
     }
 </code></pre>
 
-<p>The <code>StorageTokenViewModel</code> is identical to the class in the <code>GetStorageTokenController.cs</code> controller in the Backend.  I've placed the class
-definition in the <code>Models</code> namespace for the client.  We could share this model between the backend and front end, but the case of sharing
-models is so rare I tend not to share the code.</p>
+<p>The <code>StorageTokenViewModel</code> is identical to the class in the <code>GetStorageTokenController.cs</code> controller in the Backend.  I've placed the class definition in the <code>Models</code> namespace for the client.  We could share this model between the backend and front end, but the case of sharing models is so rare I tend not to share the code.</p>
 <p>In the <code>TaskListViewModel.cs</code>, we can define a command that is called when the Add File button is clicked:</p>
 <pre><code class="csharp">    /// &lt;summary&gt;
     /// Reference to the Platform Provider
@@ -1711,8 +1623,7 @@ models is so rare I tend not to share the code.</p>
 
 <div class="admonition warn">
 <p class="admonition-title">Warn</p>
-<p>Azure Storage SDK support for PCL projects is only available in -preview editions.  When installing the SDK, ensure you check the
-"Include prerelease" box in the NuGet package manager.  The latest version with PCL (.NETPortable) support is v7.0.2-preview.</p>
+<p>Azure Storage SDK support for PCL projects is only available in -preview editions.  When installing the SDK, ensure you check the "Include prerelease" box in the NuGet package manager.  The latest version with PCL (.NETPortable) support is v7.0.2-preview.</p>
 </div>
 <p>You can look at the uploaded files in the Azure portal:</p>
 <ol>
@@ -1722,12 +1633,9 @@ models is so rare I tend not to share the code.</p>
 <li>Click your storage container (in this example, that's called <strong>userdata</strong>)</li>
 </ol>
 <p><img alt="" src="../img/storageinportal.PNG" /></p>
-<p>You will see a folder for each user account.  The folder is named for the SID of the account - not the username.  It's a good idea to
-store the user SID with other data about the user in a table within your database.   This allows you to associate a real user with their
-SID since a user will never know what their SID is.</p>
+<p>You will see a folder for each user account.  The folder is named for the SID of the account - not the username.  It's a good idea to store the user SID with other data about the user in a table within your database.   This allows you to associate a real user with their SID since a user will never know what their SID is.</p>
 <h3 id="implementing-a-progress-bar">Implementing a Progress bar<a class="headerlink" href="#implementing-a-progress-bar" title="Permanent link">&para;</a></h3>
-<p>It's common to want to see the progress of the upload while it is happening.  For that, we need a progress bar.  First, let's add a hidden
-progress bar to our <code>TaskList.xaml</code> page:</p>
+<p>It's common to want to see the progress of the upload while it is happening.  For that, we need a progress bar.  First, let's add a hidden progress bar to our <code>TaskList.xaml</code> page:</p>
 <pre><code class="xml">    &lt;ActivityIndicator HorizontalOptions=&quot;FillAndExpand&quot;
                         IsRunning=&quot;{Binding IsBusy}&quot;
                         IsVisible=&quot;{Binding IsBusy}&quot;
@@ -1739,8 +1647,7 @@ progress bar to our <code>TaskList.xaml</code> page:</p>
                     Progress=&quot;{Binding FileProgress}&quot; /&gt;
 </code></pre>
 
-<p>This comes with two new bindable properties.  <code>IsUploadingFile</code> is a <code>bool</code> and <code>FileProgress</code> is a <code>Double</code>.  <code>FileProgress</code> takes a value between
-0 and 1 to indicate how far along the progress bar should be.  This code should be in the <code>TaskListViewModel.cs</code> file:</p>
+<p>This comes with two new bindable properties.  <code>IsUploadingFile</code> is a <code>bool</code> and <code>FileProgress</code> is a <code>Double</code>.  <code>FileProgress</code> takes a value between 0 and 1 to indicate how far along the progress bar should be.  This code should be in the <code>TaskListViewModel.cs</code> file:</p>
 <pre><code class="csharp">    private bool isUploadingFile;
     public bool IsUploadingFile
     {
@@ -1854,14 +1761,10 @@ progress bar to our <code>TaskList.xaml</code> page:</p>
     }
 </code></pre>
 
-<p>The main work is done in the inner loop.  We split the media stream into 1024 byte blocks.  Each block is copied into a temporary buffer
-then transferred to cloud storage.  After each block is delivered, the <code>FileProgress</code> counter is updated which updates the progress bar.</p>
-<p>One of the secrets for doing block-based streaming uploads is the <code>GetBlockId()</code> method.  This properly formats the block ID (based on
-a rather convoluted method that ends up being Base-64 encoded).  If you do not get this right, you will instead get a rather cryptic
-message about the query parameter for the HTTP request being wrong.</p>
+<p>The main work is done in the inner loop.  We split the media stream into 1024 byte blocks.  Each block is copied into a temporary buffer then transferred to cloud storage.  After each block is delivered, the <code>FileProgress</code> counter is updated which updates the progress bar.</p>
+<p>One of the secrets for doing block-based streaming uploads is the <code>GetBlockId()</code> method.  This properly formats the block ID (based on a rather convoluted method that ends up being Base-64 encoded).  If you do not get this right, you will instead get a rather cryptic message about the query parameter for the HTTP request being wrong.</p>
 <h2 id="downloading-a-file">Downloading a File<a class="headerlink" href="#downloading-a-file" title="Permanent link">&para;</a></h2>
-<p>You can similarly download a file from blob storage.  The basics (such as the SAS token generator) are exactly
-the same as before.  To do the basic form:</p>
+<p>You can similarly download a file from blob storage.  The basics (such as the SAS token generator) are exactly the same as before.  To do the basic form:</p>
 <pre><code class="csharp">    // Get the SAS token from the backend
     var storageToken = await CloudService.GetSasTokenAsync(filename);
 
@@ -1905,8 +1808,7 @@ the same as before.  To do the basic form:</p>
     mediaStream.Dispose();
 </code></pre>
 
-<p>When downloading, you will need to update the <code>GetStorageTokenController</code> method to provide access to files.  One possibility is to
-provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing.</p>
+<p>When downloading, you will need to update the <code>GetStorageTokenController</code> method to provide access to files.  One possibility is to provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing.</p>
 <h2 id="table-controllers-and-webhooks">Table Controllers and Webhooks<a class="headerlink" href="#table-controllers-and-webhooks" title="Permanent link">&para;</a></h2>
 <p>I love writing asynchronous applications.  One of the four features I mentioned with Table Controllers is the
 Webhook.  In essence, if someone inserts, updates or deletes a record, you may want to do something asynchronously.
@@ -1916,7 +1818,7 @@ custom code to simulate an offline custom API.</p>
 event processing system over HTTP.  In this sample, we are going to generate a simple Webhook function that
 logs the inserted record, then adjust our table controller to call the Webhook when an insert happens.</p>
 <p>Let's first of all create a Function that handles the request.  Create a Function App, and then create a new
-function based on the <strong>Generic Webhook - C#</strong> template.  Call this function <code>InsertTodoItemWebhook</code>.  You
+function based on the <strong>Generic Webhook - CSharp</strong> template.  Call this function <code>InsertTodoItemWebhook</code>.  You
 can call this whatever you want, but the URI of your Webhook is based on the name of your function.</p>
 <p>Replace the body of the function with the following:</p>
 <pre><code class="csharp">#r &quot;Newtonsoft.Json&quot;
@@ -1984,12 +1886,7 @@ the response is sometimes returned to the user before the webhook is executed.</
 <!-- Images -->
 
 <!-- Links -->
-                
-                  
-                
               
-              
-                
               
             </article>
           </div>
@@ -2067,7 +1964,7 @@ the response is sometimes returned to the user before the webhook is executed.</
       
     </div>
     
-      <script src="../../assets/javascripts/application-7aa26ad9ec.js"></script>
+      <script src="../../assets/javascripts/application-30ac6a1727.js"></script>
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="../../js/highlight.pack.js"></script>

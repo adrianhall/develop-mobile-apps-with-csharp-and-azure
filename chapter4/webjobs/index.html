@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-1d1da4857d.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-66fa0d9bba.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
       
     
     
@@ -66,7 +66,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header" data-md-component="header">
+      <header class="md-header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -1013,8 +1013,6 @@
   
 </li>
       
-      
-      
     </ul>
   
 </nav>
@@ -1025,10 +1023,10 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
+               
+                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter4\webjobs.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+               
               
-                
-                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter4\webjobs.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
-                
                 
                   <h1>WebJobs</h1>
                 
@@ -1162,16 +1160,25 @@ created the storage account:</p>
 <li>
 <p>Fill in the <strong>Project name</strong> and <strong>WebJob name</strong> (if you named your project differently).</p>
 </li>
-<li>In <strong>WebJob run mode</strong>, select <strong>Run on a Schedule</strong>.</li>
-<li>Pick a schedluel.  I picked:<ul>
-<li><strong>Recurrence</strong> = <strong>Recurring Job</strong></li>
-<li><strong>No end date</strong> checked</li>
-<li><strong>Recur every</strong> = 1 days</li>
-<li><strong>Starting time</strong> = 3 a.m.</li>
-<li><strong>Ending time</strong> = 4 a.m.</li>
+<li>In <strong>WebJob run mode</strong>, select <strong>Run on Demand</strong>.</li>
 </ul>
-</li>
+<p>This creates two files:</p>
+<ul>
+<li>The <code>webjobs-list.json</code> in the Backend project.</li>
+<li>The <code>webjob-publish-settings.json</code> in the WebJob project.</li>
 </ul>
+<p>Visual Studio 2017 does not provide for running WebJobs on a scheduled basis.  You need to edit the <code>webjob-publish-settings.json</code> file.  For instance, to configure the WebJob as a scheduled job running once a day at 3am, use the following:</p>
+<pre><code class="text">{
+  &quot;$schema&quot;: &quot;http://schemastore.org/schemas/json/webjob-publish-settings.json&quot;,
+  &quot;webJobName&quot;: &quot;CleanupDatabaseWebJob&quot;,
+  &quot;startTime&quot;: &quot;2016-10-15T03:00:00-08:00&quot;,
+  &quot;endTime&quot;: &quot;2016-10-16T04:00:00-08:00&quot;,
+  &quot;jobRecurrenceFrequency&quot;: &quot;Day&quot;,
+  &quot;interval&quot;: 1,
+  &quot;runMode&quot;: &quot;Scheduled&quot;
+}
+</code></pre>
+
 <p>The limits for the ending time ensures that your WebJob doesn't run forever.  You may have a WebJob that runs
 a complicated report each night to consolidate a lot of data into something that can be downloaded by your
 mobile client.  These reports can sometimes run for hours.  You should place reasonable limits on your WebJob
@@ -1419,12 +1426,7 @@ are right for you:</p>
 <!-- Images -->
 
 <!-- Links -->
-                
-                  
-                
               
-              
-                
               
             </article>
           </div>
@@ -1502,7 +1504,7 @@ are right for you:</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application-7aa26ad9ec.js"></script>
+      <script src="../../assets/javascripts/application-30ac6a1727.js"></script>
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="../../js/highlight.pack.js"></script>
