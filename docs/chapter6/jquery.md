@@ -1,18 +1,10 @@
-# Single Page Applications
-
-One of the major changes that has happened within web applications in the past few years is the single page application, or SPA,
-coupled with the rise of JavaScript frameworks.  No-one can directly support all the JavaScript frameworks out there, but this
-section will cover a couple of the main ones - [jQuery][1], [React][2] and [Angular2][3].  Azure Mobile Apps has a [JavaScript SDK][4]
-that can be used for accessing table controllers and identity services within your mobile backend.
+One of the major changes that has happened within web applications in the past few years is the single page application, or SPA, coupled with the rise of JavaScript frameworks.  No-one can directly support all the JavaScript frameworks out there, but this section will cover a couple of the main ones - [jQuery][1], [React][2] and [Angular][3].  Azure Mobile Apps has a [JavaScript SDK][4] that can be used for accessing table controllers and identity services within your mobile backend.
 
 ## The JavaScript SDK and jQuery
 
-iQuery has a long history in web development at this point.  It is easy to pick up and functionally great for small
-applications.  The important thing to note here is that you cannot instantiate the Azure Mobile Apps client SDK until 
-all the scripts are loaded.  Fortunately, JavaScript (and jQuery) provide events when this happens.  
+jQuery has a long history in web development at this point.  It is easy to pick up and functionally great for small applications.  The important thing to note here is that you cannot instantiate the Azure Mobile Apps client SDK until all the scripts are loaded.  Fortunately, JavaScript (and jQuery) provide events when this happens.
 
-I tend to add SPA applications to ASP.NET MVC apps by making the main HTML page a View.  First, add a controller 
-called "Controllers\SPAController" with the following contents:
+I tend to add SPA applications to ASP.NET MVC apps by making the main HTML page a View.  First, add a controller called "Controllers\SPAController" with the following contents:
 
 ```csharp
 using System.Web.Mvc;
@@ -72,17 +64,11 @@ Also, create a directory `Views\SPA` and add a `JQuery.cshtml` file:
 </html>
 ```
 
-This will be accessed via the `/SPA/JQuery` path.  Unlike other (mostly component based) applications,
-jQuery uses mark-up extensively, so we are really setting up the basics of the application.  You can
-find the CSS on the [GitHub repository][5] as its contents are not germane to the discussion here.
+This will be accessed via the `/SPA/JQuery` path.  Unlike other (mostly component based) applications, jQuery uses mark-up extensively, so we are really setting up the basics of the application.  You can find the CSS on the [GitHub repository][5] as its contents are not germane to the discussion here.
 
-The main item to note in the scripts section is the path of the Azure Mobile Apps client.  This is loaded
-from the ZUMO CDN.  You can also download the JavaScript file (both minified and non-minified versions exist),
-and include it in your `Scripts` directory if you prefer a local copy.
+The main item to note in the scripts section is the path of the Azure Mobile Apps client.  This is loaded from the ZUMO CDN.  You can also download the JavaScript file (both minified and non-minified versions exist), and include it in your `Scripts` directory if you prefer a local copy.
 
-The `~/Content/spa/jquery/application.js` file contains our JavaScript code.  It starts with a standard [IIFE][6]
-(immediately invoked function expression) - a common method of wrapping code such that variables don't leak into
-the global namespace:
+The `~/Content/spa/jquery/application.js` file contains our JavaScript code.  It starts with a standard [IIFE][6] (immediately invoked function expression) - a common method of wrapping code such that variables don't leak into the global namespace:
 
 ```javascript
 (function () {
@@ -94,10 +80,7 @@ the global namespace:
 })();
 ```
 
-The important thing here is that we cannot invoke a client definition until the "DOMContentLoaded" event has fired,
-which ensures that all libraries (including those slower libraries loaded from a CDN) have been loaded and executed.
-This, in turn, ensures that the `WindowsAzure.MobileServiceClient` object is available.  The `onBrowserReady()` function
-will be called when this happens:
+We cannot create a client definition until the "DOMContentLoaded" event has fired, which ensures that all libraries (including those slower libraries loaded from a CDN) have been loaded and executed. This, in turn, ensures that the `WindowsAzure.MobileServiceClient` object is available.  The `onBrowserReady()` function will be called when this happens:
 
 ```javascript
     var client, table;
@@ -122,10 +105,7 @@ will be called when this happens:
     }
 ```
 
-Once the browser is ready for action, we create a `MobileServiceClient`, get a reference to the table, then wire up the rest
-of the UI that we need to handle.  You may notice that the API that the JavaScript SDK for Azure Mobile Apps exposes is very
-similar to the .NET SDK.  This is intentional across all the Azure Mobile Apps SDK.  If you know the API surface of one
-version, it's likely you can take that knowledge to the other SDKs.  You only have to learn the new programming language.
+Once the browser is ready for action, we create a `MobileServiceClient`, get a reference to the table, then wire up the rest of the UI that we need to handle.  You may notice that the API that the JavaScript SDK for Azure Mobile Apps exposes is very similar to the .NET SDK.  This is intentional across all the Azure Mobile Apps SDK.  If you know the API surface of one version, it's likely you can take that knowledge to the other SDKs.  You only have to learn the new programming language.
 
 ## Reading Table Data
 
@@ -181,17 +161,11 @@ We can see this more clearly when working with the `refreshDisplay()` function:
     }
 ```
 
-In the `refreshDisplay()` function, we can see the parallel with the LINQ language within the .NET world.  JavaScript
-does not have a LINQ library, so Azure Mobile Apps provides a simplified version of LINQ (called [QueryJS][7]) for
-use with Azure Mobile Apps.  Once you have set up the appropriate query, calling `.read()` will actually execute the
-HTTP GET to obtain the results.  The other two functions fill in the list of tasks with the appropriate HTML trimmings.
+In the `refreshDisplay()` function, we can see the parallel with the LINQ language within the .NET world.  JavaScript does not have a LINQ library, so Azure Mobile Apps provides a simplified version of LINQ (called [QueryJS][7]) for use with Azure Mobile Apps.  Once you have set up the appropriate query, calling `.read()` will actually execute the HTTP GET to obtain the results.  The other two functions fill in the list of tasks with the appropriate HTML trimmings.
 
-> There is no concept of "offline-sync" in web applications as there is not an equivalent of the SQLite database available.
+> There is no concept of "offline-sync" in the Azure Mobile Apps JavaScript SDK as there is not an equivalent of the SQLite database available.
 
-You can perform paging with `.skip(n)` and `.take(n)`, include the total number of records that would be returned without
-paging with `.includeTotalCount()`, order the returned results and filter by function instead of a specific value.  For
-example, let's say you had an orders table and you wanted to produce a paged list of results where the state was OPEN (a
-constant) that belonged to a specific user, ordered by their completion date?:
+You can perform paging with `.skip(n)` and `.take(n)`, include the total number of records that would be returned without paging with `.includeTotalCount()`, order the returned results and filter by function instead of a specific value.  For example, let's say you had an orders table and you wanted to produce a paged list of results where the state was OPEN (a constant) that belonged to a specific user, ordered by their completion date?:
 
 ```javascript
 function filter (userId, state) {
@@ -215,13 +189,11 @@ table
 
 You can get just the total count using `.take(0).includeTotalCount()`.
 
-QueryJS is extremely effective at (and optimized for) selecting the exact data you need to do live displays without extra
-data being transferred.
+QueryJS is extremely effective at (and optimized for) selecting the exact data you need to do live displays without extra data being transferred.
 
 ## Modifying Data
 
-In a similar way to the `.InsertAsync()`, `.UpdateAsync()` and `.DeleteAsync()` methods in the .NET SDK, there are methods
-for inserting, modifying and deleting data:
+In a similar way to the `.InsertAsync()`, `.UpdateAsync()` and `.DeleteAsync()` methods in the .NET SDK, there are methods for inserting, modifying and deleting data:
 
 ```javascript
     /**
@@ -302,12 +274,7 @@ for inserting, modifying and deleting data:
     }
 ```
 
-We insert data by passing the object to insert to `table.insert()`, modify with `table.update()`
-and delete with `table.del()`.  These functions all operate using promises.  Once the promise
-returns, we call the `refreshDisplay()` method to refresh the data.  In the case of the `.insert()`
-and `.update()` functions, the promise is called with the updated item (containing the extra fields
-that the server adds), allowing the code to update a cache if necessary and avoiding a round-trip for
-the search.
+We insert data by passing the object to insert to `table.insert()`, modify with `table.update()` and delete with `table.del()`.  These functions all operate using promises.  Once the promise returns, we call the `refreshDisplay()` method to refresh the data.  In the case of the `.insert()` and `.update()` functions, the promise is called with the updated item (containing the extra fields that the server adds), allowing the code to update a cache if necessary and avoiding a round-trip for the search.
 
 <!-- Links -->
 [1]: http://jquery.com/
