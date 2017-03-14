@@ -1,7 +1,4 @@
-Push Notifications for Windows are handled by one of two services. Use the _Microsoft Push Notification Service_ (or MPNS)
-for Windows Phone devices (not including Windows Phone 10).  Use _Windows Notification Service_ (or WNS) for Windows 10,
-including Phone, Universal Windows applications and Windows store applications.  Inevitably, this will mean you are more
-interested in WNS than MPNS.
+Push Notifications for Windows are handled by one of two services. Use the _Microsoft Push Notification Service_ (or MPNS) for Windows Phone devices (not including Windows Phone 10).  Use _Windows Notification Service_ (or WNS) for Windows 10, including Phone, Universal Windows applications and Windows store applications.  Inevitably, this will mean you are more interested in WNS than MPNS.
 
 ## Registering with WNS
 
@@ -12,15 +9,11 @@ There are a few steps for registering with WNS:
 * Configure Notification Hubs.
 * Finally, add code to your project to register and handle push notifications.
 
-If you are pushing to WNS, the application doesn't have to be a mobile app - it can be a Universal Windows app running on
-your laptop or desktop development computer.  This makes dealing with push notifications much easier than you would expect.
+If you are pushing to WNS, the application doesn't have to be a mobile app - it can be a Universal Windows app running on your laptop or desktop development computer.  This makes dealing with push notifications much easier than you would expect.
 
 ### Apply for a Windows Developer Account
 
-The first thing you need is a [Windows Developer Account][1].  This is a paid account, but the account is a one-time cost.
-If you have an MSDN subscription, the account is free.  Just go to the [MSDN Website], log in and check your MSDN Subscription.
-Under **My Account** there is a section entitled **Windows and Windows Phone developer accounts**.  Click on the **Get Code**
-link to get your registration code.  When you are prompted for payment, there is a place to put the code for a free
+The first thing you need is a [Windows Developer Account][1].  This is a paid account, but the account is a one-time cost.  If you have an MSDN subscription, the account is free.  Just go to the [MSDN Website][4], log in and check your MSDN Subscription.  Under **My Account** there is a section entitled **Windows and Windows Phone developer accounts**.  Click on the **Get Code** link to get your registration code.  When you are prompted for payment, there is a place to put the code for a free
 registration.
 
 !!! warn
@@ -43,14 +36,11 @@ To register your application with the Windows Store:
 
 * Click **Associate**.
 
-This will create a `Package.StoreAssociation.xml` file.  This file can easily be recreated by re-associating the app with the
-store.  You should not check this file into source code control.  If you use the [.gitignore generator][2], then it is automatically
-added to your .gitignore file.
+This will create a `Package.StoreAssociation.xml` file.  This file can easily be recreated by re-associating the app with the store.  You should not check this file into source code control.  If you use the [.gitignore generator][2], then it is automatically added to your .gitignore file.
 
 ### Add Push Notifications to your App registration
 
-Using a web browser, navigate to the [App Overview][3] page on the Windows Developer Center.  You will need to log in with the
-same account used for your Windows Developer Account.  Click the application you just associated.
+Using a web browser, navigate to the [App Overview][3] page on the Windows Developer Center.  You will need to log in with the same account used for your Windows Developer Account.  Click the application you just associated.
 
 ![][img3]
 
@@ -62,9 +52,7 @@ Click the **Live Services site** in the middle of the WNS section.
 
 ![][img5]
 
-Leave this page open, but make a note of the two values I have highlighted.  You will need these values when you register your
-WNS connection with the notification hub.  You should never reveal these values to anyone as they will enable anyone to
-impersonate your applications to the WNS push notification system, allowing them to push to your users.
+Leave this page open, but make a note of the two values I have highlighted.  You will need these values when you register your WNS connection with the notification hub.  You should never reveal these values to anyone as they will enable anyone to impersonate your applications to the WNS push notification system, allowing them to push to your users.
 
 ### Configure Notification Hubs
 
@@ -84,10 +72,7 @@ The Notification Hubs configuration follows a similar pattern to the other push 
 The notification hub will be updated with your security credentials.
 
 !!! tip
-    If you think your application secret has been compromised (or you publish it in a book), go back to the Live Services site
-    and click **Generate new password**.  Then click **Activate** next to your new application secret. Finally, click **Save**
-    at the bottom of the page. Copy the new secret into the **Security Key** field of your notification hub configuration for WNS
-    and click **Save** there to store the new security key.
+    If you think your application secret has been compromised (or you publish it in a book), go back to the Live Services site and click **Generate new password**.  Then click **Activate** next to your new application secret. Finally, click **Save** at the bottom of the page. Copy the new secret into the **Security Key** field of your notification hub configuration for WNS and click **Save** there to store the new security key.
 
 ### Register for Push Notifications in your App
 
@@ -103,9 +88,7 @@ Edit the `App.xaml.cs` file in your **TaskList.UWP** project.  Add the following
     }
 ```
 
-We have also made the `OnLaunched()` method asynchronous to accomodate the push notification channel manager.  The
-`PushNotificationChannelManager` class is in `Windows.Networking.PushNotifications`.  We are going to store the channel
-in the `UWPPlatformProvider`:
+We have also made the `OnLaunched()` method asynchronous to accomodate the push notification channel manager.  The `PushNotificationChannelManager` class is in `Windows.Networking.PushNotifications`.  We are going to store the channel in the `UWPPlatformProvider`:
 
 ```csharp
     public static PushNotificationChannel Channel { get; set; } = null;
@@ -114,8 +97,7 @@ in the `UWPPlatformProvider`:
 This will make the channel globally available to our push registration code.
 
 ## Registering with Azure Mobile Apps
-The registration code is also in the `UWPPlatformProvider` since it is part of the `IPlatformProvider` interface we have
-been using:
+The registration code is also in the `UWPPlatformProvider` since it is part of the `IPlatformProvider` interface we have been using:
 
 ```csharp
     public async Task RegisterForPushNotifications(MobileServiceClient client)
@@ -157,17 +139,14 @@ been using:
     }
 ```
 
-The template used by WNS is slightly different.  It is based on the regular `PushTemplate` used by iOS and Android,
-but it has an extra "Headers" field.  You must specify the `X-WNS-Type`, which can be one of the following:
+The template used by WNS is slightly different.  It is based on the regular `PushTemplate` used by iOS and Android, but it has an extra "Headers" field.  You must specify the `X-WNS-Type`, which can be one of the following:
 
 * wns/toast
 * wns/tile
 * wns/badge
 * wns/raw
 
-Each of these has their own properties and require a specific set of properties to be specified in the XML body.  As a
-result of this configuration, you don't need to code anything to receive push messages - UWP already knows how to decode
-and display them.  The `WindowsPushTemplate` is added to the `Abstractions\DeviceInstallation.cs` file:
+Each of these has their own properties and require a specific set of properties to be specified in the XML body.  As a result of this configuration, you don't need to code anything to receive push messages - UWP already knows how to decode and display them.  The `WindowsPushTemplate` is added to the `Abstractions\DeviceInstallation.cs` file:
 
 ```csharp
     public class WindowsPushTemplate : PushTemplate
@@ -208,5 +187,6 @@ The message will appear in the notification area as a "New Notification".
 [1]: https://dev.windows.com/en-us/overview
 [2]: https://www.gitignore.io/
 [3]: https://developer.microsoft.com/en-us/dashboard/apps/overview
+[4]: https://msdn.microsoft.com/en-us/default.aspx
 [Azure portal]: https://portal.azure.com
 

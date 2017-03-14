@@ -1,31 +1,22 @@
-At some point, you will likely want to pair your mobile application with a web interface.  This may be because you have a simplified
-mobile app whereas you may have a more fully featured app within the web.  For example,  I see this design featured prominently in
-fitness apps.  The mobile app is a news feed and recording device, whereas the web interface contains all the fitness analytics.  You
-may also have some sort of administrative interface that provides an alternate view of the data.
+At some point, you will likely want to pair your mobile application with a web interface.  This may be because you have a simplified mobile app whereas you may have a more fully featured app within the web.  For example,  I see this design featured prominently in fitness apps.  The mobile app is a news feed and recording device, whereas the web interface contains all the fitness analytics.  You may also have some sort of administrative interface that provides an alternate view of the data.
 
-Whatever the reason you decide to support web and mobile together, you will need to convert your Azure Mobile App backend to a fully-fledged
-ASP.NET MVC application.  Fortunately, the process of merging Azure Mobile Apps with an existing ASP.NET MVC application is simple.  Doing
-the reverse (merging MVC into Azure Mobile Apps) is considerably more complex.
+Whatever the reason you decide to support web and mobile together, you will need to convert your Azure Mobile App backend to a fully-fledged ASP.NET MVC application.  Fortunately, the process of merging Azure Mobile Apps with an existing ASP.NET MVC application is simple.  Doing the reverse (merging MVC into Azure Mobile Apps) is considerably more complex.
 
-Start by creating a new ASP.NET application with File -> New Project.  Select the **ASP.NET Web Application (.NET Framework)** project
-template.  Then select th **MVC** template.  Change the Authentication to **No Authentication**.
+Start by creating a new ASP.NET application with File -> New Project.  Select the **ASP.NET Web Application (.NET Framework)** project template.  Then select th **MVC** template.  Change the Authentication to **No Authentication**.
 
 ![][img1]
 
 Click **OK** to create the project.  Run your project to ensure it is working correctly.
 
 !!! info "Why is merging MVC into Azure Mobile Apps so hard?"
-    ASP.NET requires a large number of NuGet packages to implement MVC.  These are provided for you when you start from the
-    appropriate template, but you will need to add them yourself when you start from the Azure Mobile Apps template.
+    ASP.NET requires a large number of NuGet packages to implement MVC.  These are provided for you when you start from the appropriate template, but you will need to add them yourself when you start from the Azure Mobile Apps template.
 
-Now that you have an MVC project, let's add Azure Mobile Apps to it.  Start by adding the following two NuGet packages to your
-project:
+Now that you have an MVC project, let's add Azure Mobile Apps to it.  Start by adding the following two NuGet packages to your project:
 
 *  Microsoft.Azure.Mobile.Server.Quickstart
 *  Microsoft.Owin.Host.SystemWeb
 
-The Quickstart NuGet package contains dependencies for all the other Azure Mobile Apps SDK requirements.  If you want the
-big long list instead, add the following:
+The `Microsoft.Azure.Mobile.Server.Quickstart` NuGet package contains dependencies for all the other Azure Mobile Apps SDK requirements.  If you want the big long list instead, add the following:
 
 *  AutoMapper
 *  EntityFramework
@@ -41,21 +32,16 @@ big long list instead, add the following:
 *  Microsoft.Owin.Security
 *  Microsoft.WindowsAzure.ConfigurationManager
 *  Owin
-*  System.IdentityModel.Tokens.Jwt
+*  System.IdentityModel.Tokens.Jwt (v4.0.x - do not install v5.x)
 *  System.Spatial
 
 !!! warn "Custom Authentication"
-    If you are using custom authentication, then you need to produce the entire login flow for both web and mobile
-    sides.  There is no assistance provided with the platform.  You will also need to add the `Microsoft.Azure.Mobile.Server.Login`
-    package to your project.
+    If you are using custom authentication, then you need to produce the entire login flow for both web and mobile sides.  There is no assistance provided with the platform.  You will also need to add the `Microsoft.Azure.Mobile.Server.Login` package to your project.
 
-Using the Quickstart package is a serious time saver over having to type in 16 package names.  The SystemWeb package enables
-the use of the Owin Startup.cs class.  This is used to bootstrap the Azure Mobile Apps configuration.
+Using the Quickstart package is a serious time saver over having to type in 16 package names.  The SystemWeb package enables the use of the Owin Startup.cs class.  This is used to bootstrap the Azure Mobile Apps configuration.
 
 !!! tip "Upgrading to .NET 4.6"
-    If you want to run your ASP.NET service under .NET Framework 4.6, you can upgrade just about everything.  However, the
-    `System.IdentityModel.Tokens.Jwt` package should not be upgraded - leave it on the latest v4.x release.  In addition, do
-    not upgrade `AutoMapper` beyond v3.3.1 if you are using the `MappedEntityDomainManager` class.
+    If you want to run your ASP.NET service under .NET Framework 4.6, you can upgrade just about everything.  However, the `System.IdentityModel.Tokens.Jwt` package should not be upgraded - leave it on the latest v4.x release.  Do not upgrade `AutoMapper` beyond v3.3.1 if you are using the `MappedEntityDomainManager` class.
 
 You can then copy the the following files from your original Azure Mobile Apps server project to the new project.
 
@@ -83,8 +69,7 @@ namespace Backend
 }
 ```
 
-Note the addition of the `ConfigureMobileApp()` call.  If you are starting from the suggested template, this file does not exist and you
-will need to create it.
+Note the addition of the `ConfigureMobileApp()` call.  If you are starting from the suggested template, this file does not exist and you will need to create it.
 
 Finally, you must update the `Web.config` file.  Firstly, in the `<configSections>` tag, add the following to support Entity Framework:
 
@@ -100,7 +85,7 @@ Add the following `<connectionStrings>` section:
   </connectionStrings>
 ```
 
-Finally, add the following entries to the `<appSettings>` section:
+Add the following entries to the `<appSettings>` section:
 
 ```xml
   <appSettings>
@@ -119,15 +104,12 @@ The first appSetting key should already be present.  These changes can be copied
 
 ## Sharing the Database
 
-Underneath the covers, Azure Mobile Apps uses [EntityFramework][1] to access the database.  It requires certain adjustments to the models,
-as we discussed in [Chapter 3].  However, you can still use the same Entity Framework context to access the database.  There are some
-caveats that must be followed, however:
+Underneath the covers, Azure Mobile Apps uses [EntityFramework][1] to access the database.  It requires certain adjustments to the models, as we discussed in [Chapter 3][6].  However, you can still use the same Entity Framework context to access the database.  There are some caveats that must be followed, however:
 
 *  Inserts must set the fields that are not managed by the database (such as `Id`).
 *  Deletes must set the `Deleted` column if using Soft Delete, instead of directly deleting records.
 
-Before you get started, you have to enable EF code-first migrations.  If you don't, you will get an error about a duplicate clustered index
-in your application for each table based on EntityData.  To enable migrations:
+Before you get started, you have to enable EF code-first migrations.  If you don't, you will get an error about a duplicate clustered index in your application for each table based on EntityData.  To enable migrations:
 
 1.  Open the Package Manager Console in Visual Studio
 2.  Run `Enable-Migrations`
@@ -154,9 +136,7 @@ in your application for each table based on EntityData.  To enable migrations:
 
 This is an abbreviated set of instructions from our work in [Chapter 3][3].
 
-As an example, let's create a default view for handling our TodoItem controller.  In MVC, you need a Model, View and Controller class.  The
-Model will be handled by our existing `DataObjects\TodoItem.cs` class.  The Controller and View will be new classes.  Let's take a look at
-the replacement `HomeController.cs` class first:
+As an example, let's create a default view for handling our TodoItem controller.  In MVC, you need a Model, View and Controller class.  The Model will be handled by our existing `DataObjects\TodoItem.cs` class.  The Controller and View will be new classes.  Let's take a look at the replacement `HomeController.cs` class first:
 
 ```csharp
 using System.Linq;
@@ -203,13 +183,10 @@ namespace Backend.Controllers
 }
 ```
 
-I am using the existing MobileServiceContext as the Entity Framework context.  The list of tasks is taken directly from the `DbSet<>`
-that was established for the mobile backend table controller.  I also have a method for creating a new todo item within the controller.
-If you look for a tutorial on implementing CRUD in ASP.NET MVC, it's likely you will see code similar to this.
+I am using the existing MobileServiceContext as the Entity Framework context.  The list of tasks is taken directly from the `DbSet<>` that was established for the mobile backend table controller.  I also have a method for creating a new todo item within the controller.  If you look for a tutorial on implementing CRUD in ASP.NET MVC, it's likely you will see code similar to this.
 
 !!! info
-    I've removed some additional views from this backend (About and Contact) plus the links in the layout partial view.  This is just
-    to make the code cleaner.  You can leave them in if you desire.
+    I've removed some additional views from this backend (About and Contact) plus the links in the layout partial view.  This is just to make the code cleaner.  You can leave them in if you desire.
 
 The view in `Views\Home\Index.cshtml` is similarly changed:
 
@@ -260,25 +237,18 @@ The view in `Views\Home\Index.cshtml` is similarly changed:
 </div>
 ```
 
-The HTML classes are from [Bootstrap][2] - a common CSS framework.  The first row div encapsulates the form for adding a new todo item,
-and the second row div encapsulates the list.  If you enter some text into the box and click the submit button, it will be added to the
-database.
+The HTML classes are from [Bootstrap][2] - a common CSS framework.  The first row div encapsulates the form for adding a new todo item, and the second row div encapsulates the list.  If you enter some text into the box and click the submit button, it will be added to the database.
 
 ## Sharing Authentication
 
 !!! warn "Custom Authentication"
-    This section only pertains to using the standard authentication techniques provided with Azure App Service.  It does not pertain to
-    custom authentication.  If you are using custom authentication, then you need to produce the entire login flow for both web and mobile
-    sides.  There is no assistance provided with the platform.
+    This section only pertains to using the standard authentication techniques provided with Azure App Service.  It does not pertain to custom authentication.  If you are using custom authentication, then you need to produce the entire login flow for both web and mobile sides.  There is no assistance provided with the platform.
 
-As one would suspect, [setting up App Service Authentication][4], then adding an `[Authorize]` attribute to the `HomeController` is a good
-starting point for making our application authenticated.  However, it isn't enough.  If you just do this, you will got something like the
-following:
+As one would suspect, [setting up App Service Authentication][4], then adding an `[Authorize]` attribute to the `HomeController` is a good starting point for making our application authenticated.  However, it isn't enough.  If you just do this, you will got something like the following:
 
 ![][img2]
 
-In order to properly capture the login flow, we have to redirect a missing authentication to the appropriate authentication endpoint.  In
-ASP.NET, this functionality is configured within the `Web.config` file.  Locate the `<system.web>` section and add the following:
+In order to properly capture the login flow, we have to redirect a missing authentication to the appropriate authentication endpoint.  In ASP.NET, this functionality is configured within the `Web.config` file.  Locate the `<system.web>` section and add the following:
 
 ```xml
   <system.web>
@@ -290,27 +260,18 @@ ASP.NET, this functionality is configured within the `Web.config` file.  Locate 
   </system.web>
 ```
 
-The `<compilation>` and `<httpRuntime>` values should already be present.  The `<authentication>` section is new.  Once you deploy this code
-to Azure App Service, you will be redirected to your authentication provider.  Once the authentication process is complete, you will receive
-a page indicating successful authentication, with a link back to the website.
+The `<compilation>` and `<httpRuntime>` values should already be present.  The `<authentication>` section is new.  Once you deploy this code to Azure App Service, you will be redirected to your authentication provider.  Once the authentication process is complete, you will receive a page indicating successful authentication, with a link back to the website.
 
 !!! warn "Use a private browsing window for testing"
-    One of the major problems with using Azure AD for authentication as a developer is that the Azure Portal authentication uses the same
-    providers.  This can cause problems in your app.  Always use a private browsing window and/or a different browser for testing your code.
+    One of the major problems with using Azure AD for authentication as a developer is that the Azure Portal authentication uses the same providers.  This can cause problems in your app.  Always use a private browsing window and/or a different browser for testing your code.
 
 ### Using Anti-Forgery Tokens
 
-One of the gotchas for using ASP.NET MVC with Azure App Service Authentication is that the Anti-Forgery Token no longer works as advertised.  If
-you try to use the anti-forgery token on POST operations (and the associated `[ValidateAntiForgeryToken]` within your controller), you will receive
-the following exception:
+One of the gotchas for using ASP.NET MVC with Azure App Service Authentication is that the Anti-Forgery Token no longer works as advertised.  If you try to use the anti-forgery token on POST operations (and the associated `[ValidateAntiForgeryToken]` within your controller), you will receive the following exception:
 
 > A claim of type 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier' or 'http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider' was not present on the provided ClaimsIdentity. To enable anti-forgery token support with claims-based authentication, please verify that the configured claims provider is providing both of these claims on the ClaimsIdentity instances it generates. If the configured claims provider instead uses a different claim type as a unique identifier, it can be configured by setting the static property AntiForgeryConfig.UniqueClaimTypeIdentifier.
 
-Unfortunately, the logic here is wrong.  Check the [source code][5] and you will see that both listed claims must be present to not throw
-the exception.  The Azure App Service Authentication claims do not include the `identityprovider` claim.
-
-So much for the bug.  With the advent of .NET Core, I do not expect this bug to be fixed.  The workaround is to explicitly specify the identifier
-to use somewhere in your application startup:
+Unfortunately, the logic here is wrong.  Check the [source code][5] and you will see that both listed claims must be present to not throw the exception.  The Azure App Service Authentication claims do not include the `identityprovider` claim.  With the advent of .NET Core, I do not expect this bug to be fixed.  The workaround is to explicitly specify the identifier to use somewhere in your application startup:
 
 ```csharp
 AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
@@ -351,3 +312,4 @@ This will force the use of the (singular) claim rather than requiring both claim
 [3]: ../chapter3/server.md
 [4]: ../chapter2/authconcepts.md
 [5]: https://github.com/mono/aspnetwebstack/blob/6248bfd24c31356e75a31c1b1030d4d96f669a6a/src/System.Web.WebPages/Helpers/AntiXsrf/ClaimUidExtractor.cs#L78
+[6]: ../chapter3/dataconcepts.md
