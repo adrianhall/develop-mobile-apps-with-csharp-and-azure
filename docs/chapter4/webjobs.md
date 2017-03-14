@@ -134,13 +134,26 @@ To deploy a WebJob, we need to link it to our mobile backend:
     ![][img2]
 
 * Fill in the **Project name** and **WebJob name** (if you named your project differently).
-* In **WebJob run mode**, select **Run on a Schedule**.
-* Pick a schedluel.  I picked:
-    * **Recurrence** = **Recurring Job**
-    * **No end date** checked
-    * **Recur every** = 1 days
-    * **Starting time** = 3 a.m.
-    * **Ending time** = 4 a.m.
+* In **WebJob run mode**, select **Run on Demand**.
+
+This creates two files:
+
+* The `webjobs-list.json` in the Backend project.
+* The `webjob-publish-settings.json` in the WebJob project.
+
+Visual Studio 2017 does not provide for running WebJobs on a scheduled basis.  You need to edit the `webjob-publish-settings.json` file.  For instance, to configure the WebJob as a scheduled job running once a day at 3am, use the following:
+
+```text
+{
+  "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
+  "webJobName": "CleanupDatabaseWebJob",
+  "startTime": "2016-10-15T03:00:00-08:00",
+  "endTime": "2016-10-16T04:00:00-08:00",
+  "jobRecurrenceFrequency": "Day",
+  "interval": 1,
+  "runMode": "Scheduled"
+}
+```
 
 The limits for the ending time ensures that your WebJob doesn't run forever.  You may have a WebJob that runs
 a complicated report each night to consolidate a lot of data into something that can be downloaded by your
