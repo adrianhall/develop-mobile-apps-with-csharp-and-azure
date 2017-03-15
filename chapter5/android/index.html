@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-1d1da4857d.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-66fa0d9bba.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
       
     
     
@@ -66,7 +66,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header" data-md-component="header">
+      <header class="md-header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -1027,8 +1027,6 @@
   
 </li>
       
-      
-      
     </ul>
   
 </nav>
@@ -1039,10 +1037,10 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
+               
+                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5\android.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+               
               
-                
-                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5\android.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
-                
                 
                   <h1>Android Push</h1>
                 
@@ -1052,7 +1050,12 @@
 <p class="admonition-title">Warn</p>
 <p>Push notifications are one of those areas where it really pays to have a real device instead of an emulator.  It's frustrating to bump into so many issues with emulation, but it's almost inevitable.  If you are having problems, use a real device.</p>
 </div>
-<p>Before continuing, you will need an Android Emulator with the Google Play SDKs installed, or a real Android device.  You cannot use a vanilla emulator without the Google Play SDKs.  To set up an emulator with the appropriate SDKs, in Visual Studio:</p>
+<p>Before continuing, you will need an Android Emulator with the Google Play SDKs installed, or a real Android device.  You cannot use a vanilla emulator without the Google Play SDKs.  To set up an emulator with the appropriate SDKs.</p>
+<div class="admonition tip">
+<p class="admonition-title">Visual Studio 2017</p>
+<p>Visual Studio 2017 provides four emulators and all of them include the Google APIs already, so you can skip this section if you are using Visual Studio 2017.  You still need to create an appropriate emulator if you are using Visual Studio 2015 or earlier.</p>
+</div>
+<p>In Visual Studio:</p>
 <ul>
 <li>Click <strong>Tools</strong> -&gt; <strong>Android</strong> -&gt; <strong>Android SDK Manager</strong>.</li>
 <li>Expand <strong>Android 6.0 (API 23)</strong>.</li>
@@ -1102,7 +1105,7 @@ Other than these settings, there is a lot of flexibility.  Consult the <a href="
 <p><img alt="" src="../img/push-fcm-3.PNG" /></p>
 <p>Click on the <strong>CLOUD MESSAGING</strong> tab:</p>
 <p><img alt="" src="../img/push-fcm-4.PNG" /></p>
-<p>This gives you a server key and a sender ID.  We will need these later.</p>
+<p>This gives you a server key and a sender ID.  You need the "Legacy Server Key" if you have two keys listed.  We will need these later.</p>
 <h2 id="linking-notification-hubs-to-fcm">Linking Notification Hubs to FCM<a class="headerlink" href="#linking-notification-hubs-to-fcm" title="Permanent link">&para;</a></h2>
 <p>Now that you have the server key and sender ID, you can enter that information into Notification Hubs to enable it to push to your Android clients.</p>
 <ul>
@@ -1320,7 +1323,7 @@ namespace TaskList.Droid.Services
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
-                    Body = &quot;{\&quot;data\&quot;:{\&quot;message\&quot;:\&quot;$(messageParam)\&quot;}}&quot;
+                    Body = &quot;{&quot;&quot;data&quot;&quot;:{&quot;&quot;message&quot;&quot;:&quot;&quot;$(message)&quot;&quot;}}&quot;
                 };
                 installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
 
@@ -1411,12 +1414,7 @@ namespace TaskList.Droid.Services
 <!-- Images -->
 
 <!-- Links -->
-                
-                  
-                
               
-              
-                
               
             </article>
           </div>
@@ -1494,7 +1492,7 @@ namespace TaskList.Droid.Services
       
     </div>
     
-      <script src="../../assets/javascripts/application-7aa26ad9ec.js"></script>
+      <script src="../../assets/javascripts/application-30ac6a1727.js"></script>
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="../../js/highlight.pack.js"></script>
