@@ -160,7 +160,7 @@ but he puts out the great web extensions that make Visual Studio a major player 
 <!-- Links -->
 [mads]: http://madskristensen.net/
 [Bootstrap]: http://getbootstrap.com/
-[vsmc]: https://mobile.azure.com/
+[vsmc]: https://mobile.azure.com/signup?utm_medium=referral_link&utm_source=GitHub&utm_campaign=ZUMO%20Book
 
 [1]: https://github.com/madskristensen/IgnoreFiles
 [2]: https://marketplace.visualstudio.com/items?itemName=MadsKristensen.AddNewFile

@@ -147,7 +147,7 @@ SignalR later on in the chapter.
 [22]: https://www.smaato.com/
 [23]: http://adiquity.com/app-developers-overview/
 [24]: https://ogmobi.com/
-[25]: https://www.visualstudio.com/vs/mobile-center/
+[25]: https://mobile.azure.com/signup?utm_medium=referral_link&utm_source=GitHub&utm_campaign=ZUMO%20Book
 [26]: https://azure.microsoft.com/en-us/services/application-insights/
 [27]: http://www.opinionlab.com/tour/give-your-customer-a-voice/mobile-feedback/
 [28]: https://www.apptentive.com/
