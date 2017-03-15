@@ -409,6 +409,7 @@ One of the areas I love Visual Studio for the PC over the Mac edition is in publ
     ![Advanced Tools][img9]
 
     The page that loads should match https://{YourMobileApp}.scm.azurewebsites.net/.
+
 6. Select the **Debug Console** menu from the top and choose **CMD**.
 7. Within the file structure listing, click **site**, then **wwwroot**.
 9. Remove the **hostingstart.html** file; click the circle with a minus symbol in it to the left of that file and confirm the dialog to delete this file.
@@ -1253,14 +1254,14 @@ The following 7 chapters each take one aspect of the cloud services that can be 
 [img6]: img/dataconns-sqldb.PNG
 [img7]: img/dataconns-sqlsvr.PNG
 [img8]: img/dataconns_success.PNG
-[img9]: img/advanced-tools.PNG
-[img10]: img/files-deployed.PNG
-[img11]: img/change-target-framework.PNG
+[img9]: img/advanced-tools.png
+[img10]: img/files-deployed.png
+[img11]: img/change-target-framework.png
 [img12]: img/xamarin-studio-new-client-project.png
-[img13]: img/xamarin-studio-tasklist-project-layout.PNG
-[img14]: img/xamarin-studio-manage-nuget-packages.PNG
-[img15]: img/android-internet-permission.PNG
-[img16]: img/android-emulator-app.PNG
+[img13]: img/xamarin-studio-tasklist-project-layout.png
+[img14]: img/xamarin-studio-manage-nuget-packages.png
+[img15]: img/android-internet-permission.png
+[img16]: img/android-emulator-app.png
 [img24]: img/dataconns-sqldb.PNG
 [img25]: img/dataconns-sqlsvr.PNG
 [img26]: img/dataconns_success.PNG
