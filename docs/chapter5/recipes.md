@@ -15,8 +15,7 @@ To implement this sort of functionality within a cross-platform application, we 
 {
     "data": {
         "message": "$(message)",
-        "picture": "$(picture)",
-        "view": "$(viewid)"
+        "picture": "$(picture)"
     }
 }
 ```
@@ -27,8 +26,7 @@ To implement this sort of functionality within a cross-platform application, we 
 {
     "aps": {
         "alert": "$(message)",
-        "picture": "$(picture)",
-        "view": "$(viewid)"
+        "picture": "$(picture)"
     }
 }
 ```
@@ -55,21 +53,21 @@ Each of these formats can be specified in the appropriate registration call:
     // Android Version
     var genericTemplate = new PushTemplate
     {
-        Body = "{\"data\":{\"message\":\"$(message)\",\"picture\":\"$(picture)\",\"view\":\"$(viewid)\"}}"
+        Body = "{""data"":{""message"":""$(message)"",""picture"":""$(picture)""}}"
     };
     installation.Templates.Add("genericTemplate", genericTemplate);
 
     // iOS Version
     var genericTemplate = new PushTemplate
     {
-        Body = "{\"aps\":{\"alert\":\"$(message)\",\"picture\":\"$(picture)\",\"view\":\"$(viewid)\"}}"
+        Body = "{""aps"":{""alert"":""$(message)"",""picture"":""$(picture)""}}"
     };
     installation.Templates.Add("genericTemplate", genericTemplate);
 
     // Windows Version
     var genericTemplate = new WindowsPushTemplate
     {
-        Body = "<toast><visual><binding template=\"genericTemplate\"><image id=\"1\" src=\"$(picture)\"/><text id=\"1\">$(message)</text></binding></visual></toast>"
+        Body = "<toast><visual><binding template=""genericTemplate""><image id=""1"" src=""$(picture)""/><text id=""1"">$(message)</text></binding></visual></toast>"
     };
     genericTemplate.Headers.Add("X-WNS-Type", "wns/toast");
     installation.Templates.Add("genericTemplate", genericTemplate);
@@ -80,8 +78,7 @@ To push, we can use the same Test Send facility in the Azure Portal.  In the Tes
 ```text
 {
     "message": "Test Message",
-    "picture": "advertisement1",
-    "viewid": "advertising"
+    "picture": "http://r.ddmcdn.com/w_606/s_f/o_1/cx_0/cy_15/cw_606/ch_404/APL/uploads/2014/06/01-kitten-cuteness-1.jpg"
 }
 ```
 
@@ -91,21 +88,146 @@ We can take this a step further, however, by deep-linking.  Deep-linking is a te
 
 ### Deep Linking with Android
 
-Let's start our investigation with the Android code-base.  Our push notification is received by the `OnMessage()` method within the `GcmService` class in the `GcmHandler.cs` file.  We can easily extract the three fields we need to execute our deep-link:
+Let's start our investigation with the Android code-base.  Our push notification is received by the `OnMessage()` method within the `GcmService` class in the `GcmHandler.cs` file.  We can easily extract the two fields we need to execute our deep-link:
 
 ```csharp
-    protected override void OnMessage(Context context, Intent intent)
-    {
-        var message = intent.Extras.GetString("message");
-        var picture = intent.Extras.GetString("picture");
-        var view = intent.Extras.GetString("view");
-
-        // Rest of code
-    }
+protected override void OnMessage(Context context, Intent intent)
+{
+    Log.Info("GcmService", $"Message {intent.ToString()}");
+    var message = intent.Extras.GetString("message") ?? "Unknown Message";
+    var picture = intent.Extras.GetString("picture");
+    CreateNotification("TaskList", message, picture);
+}
 ```
+
+We can continue by implementing a special format of the notification message we used earlier to send a notification:
+
+```csharp
+private void CreateNotification(string title, string msg, string parameter = null)
+{
+    var startupIntent = new Intent(this, typeof(MainActivity));
+    startupIntent.PutExtra("param", parameter);
+
+    var stackBuilder = TaskStackBuilder.Create(this);
+    stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(MainActivity)));
+    stackBuilder.AddNextIntent(startupIntent);
+
+    var pendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.OneShot);
+    var notification = new Notification.Builder(this)
+        .SetContentIntent(pendingIntent)
+        .SetContentTitle(title)
+        .SetContentText(msg)
+        .SetSmallIcon(Resource.Drawable.icon)
+        .SetAutoCancel(true)
+        .Build();
+    var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+    notificationManager.Notify(0, notification);
+}
+```
+
+The additional piece is the `startupIntent`.  When the user clicks on open, the mobile app is called with the `startupIntent` included in the context.  We update the `OnCreate()` method with `MainActivity.cs` to read this intent:
+
+```csharp
+[Activity(Label = "TaskList.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+{
+    protected override void OnCreate(Bundle bundle)
+    {
+        base.OnCreate(bundle);
+
+        Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+        global::Xamarin.Forms.Forms.Init(this, bundle);
+
+        ((DroidPlatformProvider)DependencyService.Get<IPlatformProvider>()).Init(this);
+
+        string param = this.Intent.GetStringExtra("param");
+        LoadApplication(new App(loadParameter: param));
+    }
+}
+```
+
+The param string is null on the first start (or when the intent is not present).  This get's passed to our `App()` constructor (in the shared project):
+
+```csharp
+public App(string loadParameter = null)
+{
+    ServiceLocator.Instance.Add<ICloudService, AzureCloudService>();
+
+    if (loadParameter == null)
+    {
+        MainPage = new NavigationPage(new Pages.EntryPage());
+    }
+    else
+    {
+        MainPage = new NavigationPage(new Pages.PictureView(loadParameter));
+    }
+}
+```
+
+If the `App()` constructor is passed a non-null parameter, then we deep-link to a new page instead of going to the entry page.  Now all we need to do is create a XAML page as follows that loads a picture.  The `Pages.PictureView.xaml` is small enough since its only function is to display a picture:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TaskList.Pages.PictureView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Image x:Name="background" Source="{Binding PictureSource, Mode=OneWay}" />
+</ContentPage>
+```
+
+The code behind file looks similar to the `TaskDetail` page:
+
+```csharp
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace TaskList.Pages
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class PictureView : ContentPage
+    {
+        public PictureView(string picture)
+        {
+            InitializeComponent();
+            BindingContext = new ViewModels.PictureViewModel(picture);
+        }
+    }
+}
+```
+
+Finally, the view model should be familiar at this point:
+
+```csharp
+using TaskList.Abstractions;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class PictureViewModel : BaseViewModel
+    {
+        public PictureViewModel(string picture = null)
+        {
+            if (picture != null)
+            {
+                PictureSource = picture;
+            }
+            Title = "A Picture for you";
+        }
+
+        public string PictureSource { get; }
+    }
+}
+```
+
+If I were to continue, I would add some controls that allow me to go back to the task list (if I am logged in) or the entry page (if I am not logged in).
 
 !!! tip "Keep the Push Small"
     You should keep the push payload as small as possible.  There are limits and they vary by platform (but are in the range of 4-5Kb).  Note that I don't include the full URL of the picture, for example, nor do I include the picture as binary data.  This allows me to adjust to an appropriate image URLwithin the client.  This keeps the number of bytes in the push small, but also allows me to adjust the image for the platform, if necessary.
+
+### Deep Linking with iOS
+
 
 ## Push to Sync
 

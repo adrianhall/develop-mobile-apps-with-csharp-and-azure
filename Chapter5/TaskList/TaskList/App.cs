@@ -7,10 +7,18 @@ namespace TaskList
 {
     public class App : Application
     {
-        public App()
+        public App(string loadParameter = null)
         {
             ServiceLocator.Instance.Add<ICloudService, AzureCloudService>();
-            MainPage = new NavigationPage(new Pages.EntryPage());
+
+            if (loadParameter == null)
+            {
+                MainPage = new NavigationPage(new Pages.EntryPage());
+            }
+            else
+            {
+                MainPage = new NavigationPage(new Pages.PictureView(loadParameter));
+            }
         }
 
         protected override void OnStart()

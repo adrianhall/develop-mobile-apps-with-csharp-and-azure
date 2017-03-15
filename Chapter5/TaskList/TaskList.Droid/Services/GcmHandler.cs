@@ -19,7 +19,7 @@ namespace TaskList.Droid.Services
     public class GcmHandler : GcmBroadcastReceiverBase<GcmService>
     {
         // Replace with your Sender ID from the Firebase Console
-        public static string[] SenderId = new string[] { "493509995880" };
+        public static string[] SenderId = new string[] { "51628878377" };
 
     }
 
@@ -36,23 +36,30 @@ namespace TaskList.Droid.Services
         protected override void OnMessage(Context context, Intent intent)
         {
             Log.Info("GcmService", $"Message {intent.ToString()}");
+            var message = intent.Extras.GetString("message") ?? "Unknown Message";
+            var picture = intent.Extras.GetString("picture");
+            CreateNotification("TaskList", message, picture);
+        }
 
-            var message = intent.Extras.GetString("message");
+        private void CreateNotification(string title, string msg, string parameter = null)
+        {
+            var startupIntent = new Intent(this, typeof(MainActivity));
+            startupIntent.PutExtra("param", parameter);
 
-            var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
-            var uiIntent = new Intent(context, typeof(MainActivity));
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            var stackBuilder = TaskStackBuilder.Create(this);
+            stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(MainActivity)));
+            stackBuilder.AddNextIntent(startupIntent);
 
-            var notification = builder.SetContentIntent(PendingIntent.GetActivity(context, 0, uiIntent, 0))
-                .SetSmallIcon(Android.Resource.Drawable.SymDefAppIcon)
-                .SetTicker("TaskList")
-                .SetContentTitle("TaskList")
-                .SetContentText(message)
-                .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification))
+            var pendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.OneShot);
+            var notification = new Notification.Builder(this)
+                .SetContentIntent(pendingIntent)
+                .SetContentTitle(title)
+                .SetContentText(msg)
+                .SetSmallIcon(Resource.Drawable.icon)
                 .SetAutoCancel(true)
                 .Build();
-
-            notificationManager.Notify(1, notification);
+            var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+            notificationManager.Notify(0, notification);
         }
 
         protected override void OnError(Context context, string errorId)

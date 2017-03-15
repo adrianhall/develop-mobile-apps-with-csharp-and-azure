@@ -1,3 +1,5 @@
+#pragma warning disable RCS1090 // Call 'ConfigureAwait(false)'.
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,8 +9,6 @@ using Android.Content;
 using Android.Util;
 using Gcm.Client;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TaskList.Abstractions;
 using TaskList.Droid.Services;
 using Xamarin.Auth;
@@ -26,9 +26,7 @@ namespace TaskList.Droid.Services
             {
                 foreach (var acct in accounts)
                 {
-                    string token;
-
-                    if (acct.Properties.TryGetValue("token", out token))
+                    if (acct.Properties.TryGetValue("token", out string token))
                     {
                         return new MobileServiceUser(acct.Username)
                         {
@@ -87,7 +85,7 @@ namespace TaskList.Droid.Services
                     // Set up templates to request
                     var genericTemplate = new PushTemplate
                     {
-                        Body = "{\"data\":{\"message\":\"$(message)\",\"picture\":\"$(picture)\",\"view\":\"$(viewid)\"}}"
+                        Body = @"{""data"":{""message"":""$(message)"",""picture"":""$(picture)""}}"
                     };
                     installation.Templates.Add("genericTemplate", genericTemplate);
 

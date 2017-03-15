@@ -20,7 +20,8 @@ namespace TaskList.Droid
 
             ((DroidPlatformProvider)DependencyService.Get<IPlatformProvider>()).Init(this);
 
-            LoadApplication(new App());
+            string param = this.Intent.GetStringExtra("param");
+            LoadApplication(new App(loadParameter: param));
         }
     }
 }

@@ -41,9 +41,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -53,49 +52,39 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server.Authentication, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Authentication.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Authentication.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server.Authentication, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Authentication.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.Authentication.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server.CrossDomain, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.CrossDomain.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.CrossDomain.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server.CrossDomain, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.CrossDomain.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.CrossDomain.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server.Entity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Entity.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Entity.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server.Entity, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Entity.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.Entity.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server.Home, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Home.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Home.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server.Home, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Home.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.Home.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server.Notifications, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Notifications.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Notifications.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server.Notifications, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Notifications.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.Notifications.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server.Quickstart, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Quickstart.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Quickstart.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server.Quickstart, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Quickstart.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.Quickstart.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Server.Tables, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Tables.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.Tables.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.Mobile.Server.Tables, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Server.Tables.2.0.0\lib\net46\Microsoft.Azure.Mobile.Server.Tables.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.NotificationHubs, Version=2.16.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.NotificationHubs.1.0.7\lib\net45-full\Microsoft.Azure.NotificationHubs.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.Edm, Version=5.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.8.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.OData.5.8.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -122,9 +111,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.20511.1437, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.205111437\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.40306.1554, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.4.403061554\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -132,9 +120,8 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Spatial, Version=5.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.8.0\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
@@ -202,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\zumobook - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\zumobook-chapter5 - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

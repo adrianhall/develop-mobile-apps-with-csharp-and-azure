@@ -5,7 +5,12 @@ Push notifications for Android devices are handled by Firebase Cloud Messaging -
 !!! warn
     Push notifications are one of those areas where it really pays to have a real device instead of an emulator.  It's frustrating to bump into so many issues with emulation, but it's almost inevitable.  If you are having problems, use a real device.
 
-Before continuing, you will need an Android Emulator with the Google Play SDKs installed, or a real Android device.  You cannot use a vanilla emulator without the Google Play SDKs.  To set up an emulator with the appropriate SDKs, in Visual Studio:
+Before continuing, you will need an Android Emulator with the Google Play SDKs installed, or a real Android device.  You cannot use a vanilla emulator without the Google Play SDKs.  To set up an emulator with the appropriate SDKs.
+
+!!! tip "Visual Studio 2017"
+    Visual Studio 2017 provides four emulators and all of them include the Google APIs already, so you can skip this section if you are using Visual Studio 2017.  You still need to create an appropriate emulator if you are using Visual Studio 2015 or earlier.
+
+In Visual Studio:
 
 * Click **Tools** -> **Android** -> **Android SDK Manager**.
 * Expand **Android 6.0 (API 23)**.
@@ -64,7 +69,7 @@ Click on the **CLOUD MESSAGING** tab:
 
 ![][img4]
 
-This gives you a server key and a sender ID.  We will need these later.
+This gives you a server key and a sender ID.  You need the "Legacy Server Key" if you have two keys listed.  We will need these later.
 
 ## Linking Notification Hubs to FCM
 
@@ -298,7 +303,7 @@ Moving onto registration with Notification Hubs, we need to pass the registratio
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
-                    Body = "{\"data\":{\"message\":\"$(messageParam)\"}}"
+                    Body = "{""data"":{""message"":""$(message)""}}"
                 };
                 installation.Templates.Add("genericTemplate", genericTemplate);
 

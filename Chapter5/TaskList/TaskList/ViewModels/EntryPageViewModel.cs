@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable RCS1090 // Call 'ConfigureAwait(false)'.
+
+using System;
 using System.Threading.Tasks;
 using TaskList.Abstractions;
 using TaskList.Helpers;
@@ -13,13 +15,15 @@ namespace TaskList.ViewModels
             Title = "Task List";
             AppService = Locations.AppServiceUrl;
 
+#pragma warning disable RCS1174 // Remove redundant async/await.
             LoginCommand = new Command(async () => await ExecuteLoginCommand());
+#pragma warning restore RCS1174 // Remove redundant async/await.
         }
 
         public Command LoginCommand { get; }
         public string AppService { get; set; }
 
-        async Task ExecuteLoginCommand()
+        private async Task ExecuteLoginCommand()
         {
             if (IsBusy)
                 return;

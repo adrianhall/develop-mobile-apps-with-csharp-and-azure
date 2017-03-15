@@ -51,6 +51,9 @@
     <Compile Include="Pages\EntryPage.xaml.cs">
       <DependentUpon>EntryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PictureView.xaml.cs">
+      <DependentUpon>PictureView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TaskDetail.xaml.cs">
       <DependentUpon>TaskDetail.xaml</DependentUpon>
     </Compile>
@@ -61,10 +64,16 @@
     <Compile Include="Services\AzureCloudService.cs" />
     <Compile Include="Services\AzureCloudTable.cs" />
     <Compile Include="ViewModels\EntryPageViewModel.cs" />
+    <Compile Include="ViewModels\PictureViewModel.cs" />
     <Compile Include="ViewModels\TaskDetailViewModel.cs" />
     <Compile Include="ViewModels\TaskListViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\PictureView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAzure.Mobile, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.Mobile.Client.3.0.3\lib\portable-win+net45+wp8+wpa81+monotouch+monoandroid\Microsoft.WindowsAzure.Mobile.dll</HintPath>
