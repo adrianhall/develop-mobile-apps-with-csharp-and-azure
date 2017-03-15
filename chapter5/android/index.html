@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-1d1da4857d.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-66fa0d9bba.palette.css">
       
     
     
@@ -66,7 +66,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -1027,6 +1027,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -1037,27 +1039,20 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-               
-                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5\android.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
-               
               
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5\android.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
                 
                   <h1>Android Push</h1>
                 
-                <p>Push notifications for Android devices are handled by Firebase Cloud Messaging - a service run by Google.
-This service used to be called <em>Google Cloud Messaging</em> and nothing has really changed since they rebranded
-the service.  Google wanted to bundle all their mobile offerings under one roof.  Firebase Cloud Messaging
-can still be used independently of the rest of Firebase.</p>
+                <p>Push notifications for Android devices are handled by Firebase Cloud Messaging - a service run by Google.  This service used to be called <em>Google Cloud Messaging</em> and nothing has really changed since they rebranded the service.  Google wanted to bundle all their mobile offerings under one roof.  Firebase Cloud Messaging can still be used independently of the rest of Firebase.</p>
 <h2 id="preparing-for-development">Preparing for development<a class="headerlink" href="#preparing-for-development" title="Permanent link">&para;</a></h2>
 <div class="admonition warn">
 <p class="admonition-title">Warn</p>
-<p>Push notifications are one of those areas where it really pays to have a real device instead of an
-emulator.  It's frustrating to bump into so many issues with emulation, but it's almost inevitable.  If
-you are having problems, use a real device.</p>
+<p>Push notifications are one of those areas where it really pays to have a real device instead of an emulator.  It's frustrating to bump into so many issues with emulation, but it's almost inevitable.  If you are having problems, use a real device.</p>
 </div>
-<p>Before continuing, you will need an Android Emulator with the Google Play SDKs installed, or a real Android
-device.  You cannot use a vanilla emulator without the Google Play SDKs.  To set up an emulator with the
-appropriate SDKs, in Visual Studio:</p>
+<p>Before continuing, you will need an Android Emulator with the Google Play SDKs installed, or a real Android device.  You cannot use a vanilla emulator without the Google Play SDKs.  To set up an emulator with the appropriate SDKs, in Visual Studio:</p>
 <ul>
 <li>Click <strong>Tools</strong> -&gt; <strong>Android</strong> -&gt; <strong>Android SDK Manager</strong>.</li>
 <li>Expand <strong>Android 6.0 (API 23)</strong>.</li>
@@ -1068,11 +1063,8 @@ appropriate SDKs, in Visual Studio:</p>
 </ul>
 <p>Wait for the installation to complete, then close the Android SDK Manager.</p>
 <div class="admonition tip">
-<p class="admonition-title">Disable Android Emulator for Visual Studio</p>
-<p>The Android Virtual Device from Google and the Android Emulator for Visual Studio are incompatible with
-one another.  To use the Android Virtual Device, open a PowerShell prompt as an Administrator, then run
-the command  <code>bcdedit /set hypervisorlaunchtype off</code> and reboot.  You may also have to install <a href="https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager">Intel HAXM</a>,
-which is available for download through the Android SDK Manager but needs to be installed separately.</p>
+<p class="admonition-title">Disable Hyper-V</p>
+<p>The Android Virtual Device from Google is incompatible with Hyper-V.  To disable Hyper-V, open a PowerShell prompt as an Administrator, then run the command  <code>bcdedit /set hypervisorlaunchtype off</code> and reboot.  You may also have to install <a href="https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager">Intel HAXM</a>, which is available for download through the Android SDK Manager but may need to be installed separately, depending on how you installed the Android SDK.</p>
 </div>
 <ul>
 <li>Click <strong>Tools</strong> -&gt; <strong>Android</strong> -&gt; <strong>Android Emulator Manager</strong>.</li>
@@ -1095,40 +1087,24 @@ Other than these settings, there is a lot of flexibility.  Consult the <a href="
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Fixing Permission Denied</p>
-<p>You may get an error for <code>...\/system.img: Permission denied</code>.  To fix this, open up a File Explorer
-and go to <code>C:\Program Files (x86)\Android</code>.  Right-click on <code>android-sdk</code> and select <strong>Properties</strong>.  Click
-the <strong>Security</strong> tab, then <strong>Edit</strong>.  Highlight Users in the Group or user names box, select Allow Full control
-in the Permissions for Users box, then click <strong>OK</strong>.  Once the Security settings have been applied, you can
-try to start the emulator again.</p>
+<p>You may get an error for <code>...\/system.img: Permission denied</code>.  To fix this, open up a File Explorer and go to <code>C:\Program Files (x86)\Android</code>.  Right-click on <code>android-sdk</code> and select <strong>Properties</strong>.  Click the <strong>Security</strong> tab, then <strong>Edit</strong>.  Highlight Users in the Group or user names box, select Allow Full control in the Permissions for Users box, then click <strong>OK</strong>.  Once the Security settings have been applied, you can try to start the emulator again.</p>
 </div>
-<p>If the device starts and looks like a regular Android device, then you've completed the task.  You must
-have a working emulator or real device before continuing, so don't continue until you've got something
-working.</p>
+<p>If the device starts and looks like a regular Android device, then you've completed the task.  You must have a working emulator or real device before continuing, so don't continue until you've got something working.</p>
 <h2 id="registering-your-app-with-fcm">Registering your app with FCM<a class="headerlink" href="#registering-your-app-with-fcm" title="Permanent link">&para;</a></h2>
-<p>To start, you need a Firebase Developer Account.  Go to the <a href="https://firebase.google.com/console/">Firebase Developer Console</a> and sign in
-with a Google account.  If you have never been a Google developer before, the site will ask you to agree
-to their legal terms so your account can be converted to a developer account.</p>
-<p>Once done, create a Firebase application.  If you previously created a Google project for authentication,
-you can import the Google project instead.  The effect is the same - you need a Firebase project at the
-end.</p>
-<p>Click on <strong>Add Firebase to your Android app</strong>.  You aren't actually adding Firebase - just the push
-capabilities.</p>
+<p>To start, you need a Firebase Developer Account.  Go to the <a href="https://firebase.google.com/console/">Firebase Developer Console</a> and sign in with a Google account.  If you have never been a Google developer before, the site will ask you to agree to their legal terms so your account can be converted to a developer account.</p>
+<p>Once done, create a Firebase application.  If you previously created a Google project for authentication, you can import the Google project instead.  The effect is the same - you need a Firebase project at the end.</p>
+<p>Click on <strong>Add Firebase to your Android app</strong>.  You aren't actually adding Firebase - just the push capabilities.</p>
 <p><img alt="" src="../img/push-fcm-1.PNG" /></p>
-<p>The next screen is confusing - it's talking about Android native development and we are developing in
-Xamarin Forms.  We need to enter a namespace, so use the namespace of your application.  The actual
-value does not matter as we are not using the majority of the Firebase SDK:</p>
+<p>The next screen is confusing - it's talking about Android native development and we are developing in Xamarin Forms.  We need to enter a namespace, so use the namespace of your application.  The actual value does not matter as we are not using the majority of the Firebase SDK:</p>
 <p><img alt="" src="../img/push-fcm-2.PNG" /></p>
-<p>Click on <strong>ADD APP</strong>, then on <strong>CONTINUE</strong>, and finally <strong>FINISH</strong>.  The process will download a file:
-<code>google-services.json</code>, which is used by Android Studio in native applications.  The instructions along
-the way are also for Android Studio.</p>
+<p>Click on <strong>ADD APP</strong>, then on <strong>CONTINUE</strong>, and finally <strong>FINISH</strong>.  The process will download a file: <code>google-services.json</code>, which is used by Android Studio in native applications.  The instructions along the way are also for Android Studio.</p>
 <p>Once done, click on the cog next to your project name and select <strong>PROJECT SETTINGS</strong>.</p>
 <p><img alt="" src="../img/push-fcm-3.PNG" /></p>
 <p>Click on the <strong>CLOUD MESSAGING</strong> tab:</p>
 <p><img alt="" src="../img/push-fcm-4.PNG" /></p>
 <p>This gives you a server key and a sender ID.  We will need these later.</p>
 <h2 id="linking-notification-hubs-to-fcm">Linking Notification Hubs to FCM<a class="headerlink" href="#linking-notification-hubs-to-fcm" title="Permanent link">&para;</a></h2>
-<p>Now that you have the server key and sender ID, you can enter that information into Notification Hubs to
-enable it to push to your Android clients.</p>
+<p>Now that you have the server key and sender ID, you can enter that information into Notification Hubs to enable it to push to your Android clients.</p>
 <ul>
 <li>Log in to the <a href="https://portal.azure.com">Azure portal</a>.</li>
 <li>Find your App Service:<ul>
@@ -1145,12 +1121,8 @@ Which ever way you choose, enter the App Service.</li>
 </ul>
 <p>We can now turn our attention to the mobile client.</p>
 <h2 id="registering-for-push-notifications">Registering for Push Notifications<a class="headerlink" href="#registering-for-push-notifications" title="Permanent link">&para;</a></h2>
-<p>Registering for push notification is always a per-platform piece, so it has to go into the platform specific
-code.  We've seen what this means in terms of code before.  First, we create a new method definition in the
-<code>IPlatformProvider.cs</code> interface and the <code>ICloudService.cs</code> interface, then we update the <code>AzureCloudService.cs</code> to
-call the platform-specific code.  Finally, we need an platform-specific implementation.</p>
-<p>First, the <code>IPlatformProvider.cs</code> - I'm going to add a new method: <code>RegisterForPushNotifications()</code> that will
-do all the work for me:</p>
+<p>Registering for push notification is always a per-platform piece, so it has to go into the platform specific code.  We've seen what this means in terms of code before.  First, we create a new method definition in the <code>IPlatformProvider.cs</code> interface and the <code>ICloudService.cs</code> interface, then we update the <code>AzureCloudService.cs</code> to call the platform-specific code.  Finally, we need an platform-specific implementation.</p>
+<p>First, the <code>IPlatformProvider.cs</code> - I'm going to add a new method: <code>RegisterForPushNotifications()</code> that will do all the work for me:</p>
 <pre><code class="csharp">using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 
@@ -1171,8 +1143,7 @@ namespace TaskList.Abstractions
 }
 </code></pre>
 
-<p>The first four methods are from our authentication work.  The final method is our new method.  There is a
-similar method in the <code>ICloudService.cs</code> interface:</p>
+<p>The first four methods are from our authentication work.  The final method is our new method.  There is a similar method in the <code>ICloudService.cs</code> interface:</p>
 <pre><code class="csharp">using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using TaskList.Models;
@@ -1194,8 +1165,7 @@ namespace TaskList.Abstractions
 }
 </code></pre>
 
-<p>We also have a concrete implementation of this in <code>AzureCloudService.cs</code> that simply calls the platform
-specific version:</p>
+<p>We also have a concrete implementation of this in <code>AzureCloudService.cs</code> that simply calls the platform specific version:</p>
 <pre><code class="csharp">    public async Task RegisterForPushNotifications()
     {
         var platformProvider = DependencyService.Get&lt;IPlatformProvider&gt;();
@@ -1203,14 +1173,10 @@ specific version:</p>
     }
 </code></pre>
 
-<p>These are required irrespective of whether you are implementing iOS, Android, UWP or any combination of
-those platforms.  Let's now work with the Android platform-specific code.  Before we look at the platform
-specific code, we are going to need a library that implements the GCM/FCM library.</p>
+<p>These are required irrespective of whether you are implementing iOS, Android, UWP or any combination of those platforms.  Let's now work with the Android platform-specific code.  Before we look at the platform specific code, we are going to need a library that implements the GCM/FCM library.</p>
 <div class="admonition tip">
 <p class="admonition-title">Alternative Libraries</p>
-<p>We are going to use a fairly old and venerable GCM Client.  There is an official Xamarin client
-for <a href="https://console.firebase.google.com/">Google Play Services</a> for example.  Feel free to experiment with other libraries.  The
-process for registration tends to be very similar between SDKs.</p>
+<p>We are going to use a fairly old and venerable GCM Client.  There is an official Xamarin client for <a href="https://console.firebase.google.com/">Google Play Services</a> for example.  Feel free to experiment with other libraries.  The process for registration tends to be very similar between SDKs.</p>
 </div>
 <ul>
 <li>Right-click on <strong>Components</strong> in the <strong>TaskList.Droid</strong> project.</li>
@@ -1233,7 +1199,7 @@ process for registration tends to be very similar between SDKs.</p>
 
             // Register for push
             GcmClient.Register(RootView, GcmHandler.SenderId);
-            Debug.WriteLine($&quot;GcmClient: Registered for push with GCM: {GcmClient.GetRegistrationId(RootView)}&quot;);
+            Debug.WriteLine($&quot;GcmClient: Registered for push with FCM: {GcmClient.GetRegistrationId(RootView)}&quot;);
         }
         catch (Exception ex)
         {
@@ -1242,13 +1208,8 @@ process for registration tends to be very similar between SDKs.</p>
     }
 </code></pre>
 
-<p>Most of this <code>Init()</code> method existed before.  The <code>GcmClient</code> calls are new.  The first two calls
-ensure that the mobile device is capable of handling registrations and that the application is
-properly configured.  The <code>GcmClient.Register()</code> call registers with GCM.  I'm dumping the registration
-ID we get back to the debug channel.</p>
-<p>We also need to define a handler for the GCM calls.  GCM will send an out-of-band notification to the
-Android OS, which will figure out which application to wake up, and then call the defined handler.  Mine
-is in <code>Services\GcmHandler.cs</code>:</p>
+<p>Most of this <code>Init()</code> method existed before.  The <code>GcmClient</code> calls are new.  The first two calls ensure that the mobile device is capable of handling registrations and that the application is properly configured.  The <code>GcmClient.Register()</code> call registers with FCM.  I'm dumping the registration ID we get back to the debug channel.</p>
+<p>We also need to define a handler for the FCM calls.  FCM will send an out-of-band notification to the Android OS, which will figure out which application to wake up, and then call the defined handler.  Mine is in <code>Services\GcmHandler.cs</code>:</p>
 <pre><code class="csharp">using Android.App;
 using Android.Content;
 using Android.Util;
@@ -1300,7 +1261,7 @@ namespace TaskList.Droid.Services
 
         protected override void OnUnRegistered(Context context, string registrationId)
         {
-            Log.Info(&quot;GcmService&quot;, $&quot;Unregistered device from GCM&quot;);
+            Log.Info(&quot;GcmService&quot;, $&quot;Unregistered device from FCM&quot;);
             GcmService.RegistrationID = null;
         }
     }
@@ -1311,24 +1272,14 @@ namespace TaskList.Droid.Services
 <p class="admonition-title">Replace the SenderId</p>
 <p>You must replace the SenderId with your sender ID that you copied from the Firebase Console.</p>
 </div>
-<p>Let's start at the top.  In order to use push notifications from Firebase, we need to tell our application
-to ask for that permission.  We need the OS to wake us up (WAKE_LOCK), access the Internet (INTERNET), and
-handle push notifications (C2D_MESSAGE and RECEIVE).</p>
-<p>We use the GcmHandler to register a receiver.  This is done via the intents that are provided by the GcmClient
-package.  The class that will receive the events is the <code>GcmService</code> class.  There are four methods that must
-be defined there - registration, un-registration, messages and errors.  Right now, I'm just setting up some
-debug messages so I can see what is going on.</p>
+<p>Let's start at the top.  In order to use push notifications from Firebase, we need to tell our application to ask for that permission.  We need the OS to wake us up (WAKE_LOCK), access the Internet (INTERNET), and handle push notifications (C2D_MESSAGE and RECEIVE).</p>
+<p>We use the GcmHandler to register a receiver.  This is done via the intents that are provided by the GcmClient package.  The class that will receive the events is the <code>GcmService</code> class.  There are four methods that must be defined there - registration, un-registration, messages and errors.  Right now, I'm just setting up some debug messages so I can see what is going on.</p>
 <p>We can test this right now.  Place a breakpoint on each <code>Log</code> method, then run the app.</p>
 <div class="admonition tip">
 <p class="admonition-title">The application could not be started</p>
-<p>If you get the error "The application could not be started.  Ensure that the application has been installed
-to the target device and has a launchable activity (MainLauncher=true)".  This is because the Android system
-can't handle package names in upper case.  Right-click the <strong>TaskList.Droid</strong> project and select <strong>Properties</strong>
-then <strong>Android Manifest</strong>.  Change the <strong>Package name</strong> field to something lower case.</p>
+<p>If you get the error "The application could not be started.  Ensure that the application has been installed to the target device and has a launchable activity (MainLauncher=true)".  This is because the Android system can't handle package names in upper case.  Right-click the <strong>TaskList.Droid</strong> project and select <strong>Properties</strong> then <strong>Android Manifest</strong>.  Change the <strong>Package name</strong> field to something lower case.</p>
 </div>
-<p>Once the application launches, the <code>GcmService.OnRegistered()</code> method is hit immediately.  You will be able to see
-the registration ID.  Click on <strong>Continue</strong>.  The device is now registered with GCM.  Note the registration ID
-as you will need it in the next step.</p>
+<p>Once the application launches, the <code>GcmService.OnRegistered()</code> method is hit immediately.  You will be able to see the registration ID.  Click on <strong>Continue</strong>.  The device is now registered with FCM.  Note the registration ID as you will need it in the next step.</p>
 <p>Send an ad-hoc message as follows:</p>
 <ul>
 <li>Go to the <a href="https://console.firebase.google.com/">Firebase Developer Console</a>.</li>
@@ -1346,14 +1297,8 @@ as you will need it in the next step.</p>
 <p>Click <strong>Send</strong>.</p>
 </li>
 </ul>
-<p>At this point the breakpoint in <code>GcmService.OnMessage()</code> will be hit.  You can examine the push by looking at
-the <code>intent</code> variable.  Click on <strong>Stop</strong> to stop the application.</p>
-<p>Moving onto registration with Notification Hubs, we need to pass the registration ID we received from GCM to
-our mobile backend.  The App Service will ensure our device is registered properly.  We need to do this at
-the appropriate time, and that depends on a lot of factors.  There is no problem with registering multiple
-times if our requirements change.  In this app, I might choose to register at the beginning of the app, once
-the user has authenticated and if I had a settings page, when the settings changed.  This activity is done
-in the <code>Services\DroidPlatformProvider.cs</code> file:</p>
+<p>At this point the breakpoint in <code>GcmService.OnMessage()</code> will be hit.  You can examine the push by looking at the <code>intent</code> variable.  Click on <strong>Stop</strong> to stop the application.</p>
+<p>Moving onto registration with Notification Hubs, we need to pass the registration ID we received from FCM to our mobile backend.  The App Service will ensure our device is registered properly.  We need to do this at the appropriate time, and that depends on a lot of factors.  There is no problem with registering multiple times if our requirements change.  In this app, I might choose to register at the beginning of the app, once the user has authenticated and if I had a settings page, when the settings changed.  This activity is done in the <code>Services\DroidPlatformProvider.cs</code> file:</p>
 <pre><code class="csharp">    public async Task RegisterForPushNotifications(MobileServiceClient client)
     {
         if (GcmClient.IsRegistered(RootView))
@@ -1393,7 +1338,7 @@ in the <code>Services\DroidPlatformProvider.cs</code> file:</p>
         }
         else
         {
-            Log.Error(&quot;DroidPlatformProvider&quot;, $&quot;Not registered with GCM&quot;);
+            Log.Error(&quot;DroidPlatformProvider&quot;, $&quot;Not registered with FCM&quot;);
         }
     }
 </code></pre>
@@ -1402,9 +1347,7 @@ in the <code>Services\DroidPlatformProvider.cs</code> file:</p>
 <p class="admonition-title">Registering without Tags</p>
 <p>You can also register without tags using the commented-out single line of code <code>push.RegisterAsync(registrationId);</code></p>
 </div>
-<p>You should call <code>RegisterForPushNotifications()</code> whenever you feel that the definition of the push endpoint
-should change.  In my application, I added the registration after the <code>LoginAsync()</code> method in the
-<code>ViewModels\EntryPageViewModel.cs</code> file:</p>
+<p>You should call <code>RegisterForPushNotifications()</code> whenever you feel that the definition of the push endpoint should change.  In my application, I added the registration after the <code>LoginAsync()</code> method in the <code>ViewModels\EntryPageViewModel.cs</code> file:</p>
 <pre><code class="csharp">    async Task ExecuteLoginCommand()
     {
         if (IsBusy)
@@ -1429,35 +1372,18 @@ should change.  In my application, I added the registration after the <code>Logi
     }
 </code></pre>
 
-<p>Run the application again, with the same breakpoint in the <code>GcmService.OnMessage()</code> method.  You can remove
-the other breakpoints at this point.  Log into the application this time.  Let's explore some of the debugging
-tools for Notification Hubs.  Within Visual Studio, you can use <strong>View</strong> -&gt; <strong>Server Explorer</strong> to open the
-server explorer.  Expand the <strong>Azure</strong> node then the <strong>Notification Hubs</strong> node:</p>
+<p>Run the application again, with the same breakpoint in the <code>GcmService.OnMessage()</code> method.  You can remove the other breakpoints at this point.  Log into the application this time.  Let's explore some of the debugging tools for Notification Hubs.  Within Visual Studio, you can use <strong>View</strong> -&gt; <strong>Server Explorer</strong> to open the server explorer.  Expand the <strong>Azure</strong> node then the <strong>Notification Hubs</strong> node:</p>
 <p><img alt="" src="../img/push-nh-vs1.PNG" /></p>
-<p>Double-click on your Notification Hub to open the developer console.  This provides two functions.  Firstly, we
-can click on the <strong>Device Registrations</strong> tab:</p>
+<p>Double-click on your Notification Hub to open the developer console.  This provides two functions.  Firstly, we can click on the <strong>Device Registrations</strong> tab:</p>
 <p><img alt="" src="../img/push-nh-vs2.PNG" /></p>
-<p>We can see the registration of our test emulator device.  Note that our request for the <code>topic:Sports</code> tag has
-also been honored.  If we did not configure that tag within the Push blade in the portal, that would not have
-been added to our registration.</p>
-<p>We can also send to a specific device using the test send facility.  Click over to the <strong>Test Send</strong> facility.  Since
-we only have one device, we can use broadcast. Each installation will also be given a tag: <code>$InstallationId:{guid}</code>,
-where {guid} is the installation ID.  Select <strong>Google (GCM)</strong> -&gt; <strong>Default</strong> to send a message to GCM.  The body
-will be filled in for you.</p>
-<p>Since we have already set a breakpoint at the <code>OnMessage()</code> method in <code>GcmService.cs</code>, our app is running and we
-have entered the app and logged in, click <strong>Send</strong>.  The breakpoint should be triggered within a reasonable amount
-of time.  I'd like to say that it will be near instantaneous, but push notifications may take some time depending
-on what is happening within the push notification system at the time.  The push should not take more than a couple
-of minutes to arrive and will likely arrive much quicker.</p>
+<p>We can see the registration of our test emulator device.  Note that our request for the <code>topic:Sports</code> tag has also been honored.  If we did not configure that tag within the Push blade in the portal, that would not have been added to our registration.</p>
+<p>We can also send to a specific device using the test send facility.  Click over to the <strong>Test Send</strong> facility.  Since we only have one device, we can use broadcast. Each installation will also be given a tag: <code>$InstallationId:{guid}</code>, where {guid} is the installation ID.  Select <strong>Google (GCM)</strong> -&gt; <strong>Default</strong> to send a message to FCM.  The body will be filled in for you.</p>
+<p>Since we have already set a breakpoint at the <code>OnMessage()</code> method in <code>GcmService.cs</code>, our app is running and we have entered the app and logged in, click <strong>Send</strong>.  The breakpoint should be triggered within a reasonable amount of time.  I'd like to say that it will be near instantaneous, but push notifications may take some time depending on what is happening within the push notification system at the time.  The push should not take more than a couple of minutes to arrive and will likely arrive much quicker.</p>
 <p><img alt="" src="../img/push-nh-vs3.PNG" /></p>
 <p>We now have the full registration lifecycle working and we can do a test send to hit the right piece of code.</p>
 <h2 id="processing-a-push-notification">Processing a Push Notification<a class="headerlink" href="#processing-a-push-notification" title="Permanent link">&para;</a></h2>
-<p>Processing of push notifications is done within your mobile app, so you can process the push notifications however
-you want.  For example, you may want to silently pull a specific record from the server and insert it into your
-SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.</p>
-<p>In this example, we are going to show the message that comes in the <code>message</code> field of the data block.  There
-are more examples in the <a href="../recipes/">recipes section</a>.  The <code>OnMessage()</code> method in <code>GcmService.cs</code> is triggered
-on a push.  A simple notification looks like this:</p>
+<p>Processing of push notifications is done within your mobile app, so you can process the push notifications however you want.  For example, you may want to silently pull a specific record from the server and insert it into your SQLite offline cache when a push arrives, or you may want to pop up a message that opens the mobile app.</p>
+<p>In this example, we are going to show the message that comes in the <code>message</code> field of the data block.  There are more examples in the <a href="../recipes/">recipes section</a>.  The <code>OnMessage()</code> method in <code>GcmService.cs</code> is triggered on a push.  A simple notification looks like this:</p>
 <pre><code class="csharp">    protected override void OnMessage(Context context, Intent intent)
     {
         Log.Info(&quot;GcmService&quot;, $&quot;Message {intent.ToString()}&quot;);
@@ -1481,14 +1407,16 @@ on a push.  A simple notification looks like this:</p>
     }
 </code></pre>
 
-<p>The major thing to note here is how we get the contents of the message.  The data block from the Notification
-Hub is received by the Intent into the Extras property.  If you have other properties in that block, you can
-retrieve them the same way.  The message field is standard, but you can pass other things.  An example would
-be to pass the table name and ID of an inserted record.</p>
+<p>The major thing to note here is how we get the contents of the message.  The data block from the Notification Hub is received by the Intent into the Extras property.  If you have other properties in that block, you can retrieve them the same way.  The message field is standard, but you can pass other things.  An example would be to pass the table name and ID of an inserted record.</p>
 <!-- Images -->
 
 <!-- Links -->
+                
+                  
+                
               
+              
+                
               
             </article>
           </div>
@@ -1566,7 +1494,7 @@ be to pass the table name and ID of an inserted record.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application-30ac6a1727.js"></script>
+      <script src="../../assets/javascripts/application-7aa26ad9ec.js"></script>
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="../../js/highlight.pack.js"></script>

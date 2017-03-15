@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.2.0">
+      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e17eeafcbc.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-1d1da4857d.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-892b79c5c5.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-66fa0d9bba.palette.css">
       
     
     
@@ -66,7 +66,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -782,6 +782,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -1120,6 +1122,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -1130,31 +1134,17 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-               
-                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter6\react.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
-               
               
                 
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter6\react.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
                 <h1 id="react-applications">React Applications<a class="headerlink" href="#react-applications" title="Permanent link">&para;</a></h1>
-<p>There have been two major shifts in the way that JavaScript applications are built in the past few years.  The first is
-in the user of transpilers for compiling another variant of JavaScript into something that a browser can use.  There are
-languages that add whole new feature sets to the language, like <a href="http://coffeescript.org/">CoffeeScript</a>, <a href="https://www.typescriptlang.org/">TypeScript</a> and <a href="https://www.dartlang.org/">Dart</a>, plus
-others that extend JavaScript to include unsupported features of the JavaScript language early, like <a href="https://babeljs.io/">BabelJS</a> which
-provides access to the latest specifications for JavaScript on the current set of browsers.  The process of converting
-one of these languages into more normal JavaScript is called transpiling.  The resultant code is rarely readable.</p>
-<p>The other major shift is in the use of bundlers.  In prior iterations of the JavaScript language, there was no module
-system.  Developers included a number of <code>&lt;script&gt;</code> tags to load the code.  As JavaScript became more of a development
-platform, the size of the code grew and the need for a module system also grew.  There are three in general
-use - <a href="http://requirejs.org/">RequireJS</a>, <a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS</a> and <a href="http://exploringjs.com/es6/ch_modules.html">ES2015 modules</a>.  In general, developers will use a bundler like
-<a href="http://browserify.org/">Browserify</a> or <a href="https://webpack.github.io/">Webpack</a> to bundle their application source together so that it loads faster and they can
-take care of alternate module specifications like CommonJS and ES2015 modules.  (RequireJS doesn't require bundling).</p>
-<p>This brings us to <a href="https://facebook.github.io/react/">React</a> applications.  React is a newcomer to the JavaScript framework scene.  It provides a component
-model for your application.  It is generally paired with a <a href="https://facebook.github.io/flux/docs/in-depth-overview.html#content">Flux</a> state manager like <a href="http://redux.js.org/">Redux</a>.  Thus,
-most React applications can more properly be called React/Redux applications.  While React can be used with just straight
-JavaScript and script tags, it is more normal to use ES2015 syntax and a bundler like Webpack to distribute the application.</p>
+<p>There have been two major shifts in the way that JavaScript applications are built in the past few years.  The first is in the user of transpilers for compiling another variant of JavaScript into something that a browser can use.  There are languages that add whole new feature sets to the language, like <a href="http://coffeescript.org/">CoffeeScript</a>, <a href="https://www.typescriptlang.org/">TypeScript</a> and <a href="https://www.dartlang.org/">Dart</a>, plus others that extend JavaScript to include unsupported features of the JavaScript language early, like <a href="https://babeljs.io/">BabelJS</a> which provides access to the latest specifications for JavaScript on the current set of browsers.  The process of converting one of these languages into more normal JavaScript is called transpiling.  The resultant code is rarely readable.</p>
+<p>The other major shift is in the use of bundlers.  In prior iterations of the JavaScript language, there was no module system.  Developers included a number of <code>&lt;script&gt;</code> tags to load the code.  As JavaScript became more of a development platform, the size of the code grew and the need for a module system also grew.  There are three in general use - <a href="http://requirejs.org/">RequireJS</a>, <a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS</a> and <a href="http://exploringjs.com/es6/ch_modules.html">ES2015 modules</a>.  In general, developers will use a bundler like <a href="http://browserify.org/">Browserify</a> or <a href="https://webpack.github.io/">Webpack</a> to bundle their application source together so that it loads faster and they can take care of alternate module specifications like CommonJS and ES2015 modules.  (RequireJS doesn't require bundling).</p>
+<p>This brings us to <a href="https://facebook.github.io/react/">React</a> applications.  React is a newcomer to the JavaScript framework scene.  It provides a component model for your application.  It is generally paired with a <a href="https://facebook.github.io/flux/docs/in-depth-overview.html#content">Flux</a> state manager like <a href="http://redux.js.org/">Redux</a>.  Thus, most React applications can more properly be called React/Redux applications.  While React can be used with just straight JavaScript and script tags, it is more normal to use ES2015 syntax and a bundler like Webpack to distribute the application.</p>
 <h2 id="setting-up">Setting Up<a class="headerlink" href="#setting-up" title="Permanent link">&para;</a></h2>
-<p>In this example, we are going to walk through the set up of an application that uses Webpack and the BabelJS transpiler
-to build our web application into our MVC framework.</p>
+<p>In this example, we are going to walk through the set up of an application that uses Webpack and the BabelJS transpiler to build our web application into our MVC framework.</p>
 <h3 id="mvc-controller-view">MVC Controller &amp; View<a class="headerlink" href="#mvc-controller-view" title="Permanent link">&para;</a></h3>
 <p>As with the jQuery and Angular examples, we need a controller (within the <code>Controllers\SPAController.cs</code> file):</p>
 <pre><code class="csharp">    public ActionResult React()
@@ -1163,8 +1153,7 @@ to build our web application into our MVC framework.</p>
     }
 </code></pre>
 
-<p>We also need a suitable View.  This is similar in construction to the Angular view, but it requires some different
-elements, as is normal when you change a JavaScript framework.  This is <code>Views\SPA\React.cshtml</code>:</p>
+<p>We also need a suitable View.  This is similar in construction to the Angular view, but it requires some different elements, as is normal when you change a JavaScript framework.  This is <code>Views\SPA\React.cshtml</code>:</p>
 <pre><code class="html">@{
     Layout = null;
 }
@@ -1186,14 +1175,9 @@ elements, as is normal when you change a JavaScript framework.  This is <code>Vi
 &lt;/html&gt;
 </code></pre>
 
-<p>This view is much simpler than the Angular view because none of the markup for the actual application is contained
-within the view.  All markup is done by the React components in our code.  There are three files referenced in this
-file that do not yet exist.  The JavaScript files will be created by the Webpack bundler, and the <code>app.css</code> file is
-the <a href="https://github.com/Azure/azure-mobile-apps-quickstarts/blob/master/client/web/styles.css">regular CSS file</a> from the normal Quickstart application.</p>
+<p>This view is much simpler than the Angular view because none of the markup for the actual application is contained within the view.  All markup is done by the React components in our code.  There are three files referenced in this file that do not yet exist.  The JavaScript files will be created by the Webpack bundler, and the <code>app.css</code> file is the <a href="https://github.com/Azure/azure-mobile-apps-quickstarts/blob/master/client/web/styles.css">regular CSS file</a> from the normal Quickstart application.</p>
 <h3 id="setting-up-a-webpack-project">Setting up a Webpack project<a class="headerlink" href="#setting-up-a-webpack-project" title="Permanent link">&para;</a></h3>
-<p>There is some work to do in order to set up a reasonable Webpack-enabled project.  Let's first of all set up a basic
-React application in a new directory called <code>ReactClient</code>.  Here is the <code>ReactClient\app.jsx</code> file that will serve
-as our entry-point into the application:</p>
+<p>There is some work to do in order to set up a reasonable Webpack-enabled project.  Let's first of all set up a basic React application in a new directory called <code>ReactClient</code>.  Here is the <code>ReactClient\app.jsx</code> file that will serve as our entry-point into the application:</p>
 <pre><code class="javascript">import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -1203,13 +1187,8 @@ ReactDOM.render(
 );
 </code></pre>
 
-<p>Once we have the build correctly done, the application will insert the <code>&lt;h1&gt;In a React Application&lt;/h1&gt;</code> inside
-the <code>&lt;div id="app"&gt;&lt;/div&gt;</code> from the main page.  This is the most basic of React applications, but we can already
-see some things we may not have seen before.  The <code>import</code> statements bring in ES2015 modules for use.  Also, you
-can embed pseudo-HTML into a React application rendering method by using <a href="http://buildwithreact.com/tutorial/jsx">JSX</a>.  When the application is
-transpiled with BabelJS, this pseudo-HTML get compiled into normal JavaScript.</p>
-<p>There are three other files we want to produce that are build related.  The first is the <a href="https://babeljs.io/docs/usage/babelrc/">.babelrc</a> file.  This
-contains instructions to the BabelJS transpiler that tells it what specifications need to be transpiled:</p>
+<p>Once we have the build correctly done, the application will insert the <code>&lt;h1&gt;In a React Application&lt;/h1&gt;</code> inside the <code>&lt;div id="app"&gt;&lt;/div&gt;</code> from the main page.  This is the most basic of React applications, but we can already see some things we may not have seen before.  The <code>import</code> statements bring in ES2015 modules for use.  Also, you can embed pseudo-HTML into a React application rendering method by using <a href="http://buildwithreact.com/tutorial/jsx">JSX</a>.  When the application is transpiled with BabelJS, this pseudo-HTML get compiled into normal JavaScript.</p>
+<p>There are three other files we want to produce that are build related.  The first is the <a href="https://babeljs.io/docs/usage/babelrc/">.babelrc</a> file.  This contains instructions to the BabelJS transpiler that tells it what specifications need to be transpiled:</p>
 <pre><code class="text">{
     &quot;presets&quot;: [ &quot;es2015&quot;, &quot;react&quot; ],
     &quot;plugins&quot;: [
@@ -1219,12 +1198,8 @@ contains instructions to the BabelJS transpiler that tells it what specification
 }
 </code></pre>
 
-<p>Our application will be written in ES2015 syntax with React extensions (those are presets) and I write with a couple
-of specifications that may or may not make it into the next JavaScript specification, but are useful - <a href="https://babeljs.io/docs/plugins/transform-class-properties/">Class Properties</a>
-and <a href="https://babeljs.io/docs/plugins/transform-object-rest-spread/">Object Rest Spread</a>.  Although these are considered "experimental", they make your life much easier as a
-developer.</p>
-<p>The second file is <code>webpack.config.js</code>.  This is a JavaScript file that tells the Webpack system how to build the
-application.  Here is a suitable file for this application:</p>
+<p>Our application will be written in ES2015 syntax with React extensions (those are presets) and I write with a couple of specifications that may or may not make it into the next JavaScript specification, but are useful - <a href="https://babeljs.io/docs/plugins/transform-class-properties/">Class Properties</a> and <a href="https://babeljs.io/docs/plugins/transform-object-rest-spread/">Object Rest Spread</a>.  Although these are considered "experimental", they make your life much easier as a developer.</p>
+<p>The second file is <code>webpack.config.js</code>.  This is a JavaScript file that tells the Webpack system how to build the application.  Here is a suitable file for this application:</p>
 <pre><code class="javascript">'use strict';
 /* global __dirname */
 
@@ -1266,15 +1241,8 @@ var configuration = {
 module.exports = configuration;
 </code></pre>
 
-<p>There are three areas of the configuration object that are interesting.  The <code>entry</code> block contains the entry-point
-for the application, but it also contains a vendor array.  This array is the list of modules that will be placed into
-the <code>vendor.bundle.js</code> file.  When we add a new external module, we need to add it to the list so that it is included
-in the bundle.  The <code>module</code> section contains instructions on how to transpile the source files.  The single entry tells
-Webpack to run all JavaScript and JSX files through the BabelJS transpiler.  Finally, the <code>output</code> section tells
-Webpack where to store the output files.</p>
-<p>Our final file is <code>package.json</code>.  This is a fairly standard file for loading modules from the NPM repository.  You can
-create one using <code>npm init --yes</code>, then use <code>npm install modulename --save</code> to install the individual modules.  Alternatively,
-you can create the <code>package.json</code> file and then run <code>npm install</code> to install the modules that are named in the file.</p>
+<p>There are three areas of the configuration object that are interesting.  The <code>entry</code> block contains the entry-point for the application, but it also contains a vendor array.  This array is the list of modules that will be placed into the <code>vendor.bundle.js</code> file.  When we add a new external module, we need to add it to the list so that it is included in the bundle.  The <code>module</code> section contains instructions on how to transpile the source files.  The single entry tells Webpack to run all JavaScript and JSX files through the BabelJS transpiler.  Finally, the <code>output</code> section tells Webpack where to store the output files.</p>
+<p>Our final file is <code>package.json</code>.  This is a fairly standard file for loading modules from the NPM repository.  You can create one using <code>npm init --yes</code>, then use <code>npm install modulename --save</code> to install the individual modules.  Alternatively, you can create the <code>package.json</code> file and then run <code>npm install</code> to install the modules that are named in the file.</p>
 <pre><code class="text">{
   &quot;version&quot;: &quot;0.0.1&quot;,
   &quot;name&quot;: &quot;react-quickstart&quot;,
@@ -1301,47 +1269,28 @@ you can create the <code>package.json</code> file and then run <code>npm install
 <p>Run <code>npm install</code> in the <code>Backend</code> directory once you have saved this file.  It will download all the modules needed.</p>
 <div class="admonition tip">
 <p class="admonition-title">Visual Studio Extensions</p>
-<p>There are a number of Visual Studio extensions that can assist with this work.  Check out the <a href="../../vs_extensions/">Appendix</a> for
-more details on these.  You should definitely install the <a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a> extension before continuing though.</p>
+<p>There are a number of Visual Studio extensions that can assist with this work.  Check out the <a href="../../vs_extensions/">Appendix</a> for more details on these.  You should definitely install the <a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a> extension before continuing though.</p>
 </div>
-<p>Both <code>webpack.config.js</code> and <code>package.json</code> should be at the top of the directory tree, in the <code>Backend</code> folder.  The
-<code>.babeljs</code> file should be in the <code>ReactClient</code> directory.</p>
-<p>You should exclude any files that are not going to be distributed from the publication process.  This includes all three
-build files and the contents of the ReactClient directory.  Right-click on each object and select <strong>Properties...</strong>.  Set
-the <strong>Build Action</strong> to <strong>None</strong> and the <strong>Copy to Output Directory</strong> to <strong>Do not copy</strong>.</p>
+<p>Both <code>webpack.config.js</code> and <code>package.json</code> should be at the top of the directory tree, in the <code>Backend</code> folder.  The <code>.babeljs</code> file should be in the <code>ReactClient</code> directory.</p>
+<p>You should exclude any files that are not going to be distributed from the publication process.  This includes all three build files and the contents of the ReactClient directory.  Right-click on each object and select <strong>Properties...</strong>.  Set the <strong>Build Action</strong> to <strong>None</strong> and the <strong>Copy to Output Directory</strong> to <strong>Do not copy</strong>.</p>
 <div class="admonition warn">
 <p class="admonition-title">Add node_modules to .gitignore</p>
-<p>You should ensure you add the node_modules directory to your .gitignore file or it will be checked into source code.
-The node_modules is normally very large and you can easily regenerate it by running <code>npm install</code>.</p>
+<p>You should ensure you add the <code>node\_modules</code> directory to your .gitignore file or it will be checked into source code. The <code>node\_modules</code> is normally very large and you can easily regenerate it by running <code>npm install</code>.</p>
 </div>
 <h3 id="building-the-webpack-files-automatically">Building the Webpack files automatically<a class="headerlink" href="#building-the-webpack-files-automatically" title="Permanent link">&para;</a></h3>
-<p>If you have installed the <a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a>, you can build the entire JavaScript application within Visual Studio.
-Open the Task Runner Explorer (<strong>View</strong> &gt; <strong>Other Windows</strong> &gt; <strong>Task Runner Explorer</strong>).  There will be a <code>package.json</code>
-section with <strong>Defaults</strong> and <strong>Custom</strong> sections within.  In the <strong>Defaults</strong> section, right-click on <strong>install</strong> and
-select <strong>Run</strong>.  This will install all the npm packages you are missing.</p>
-<p>The next step is to do the first build.  Right-click on <strong>build</strong> in the <strong>Custom</strong> section and select <strong>Run</strong>.  This
-will generate the <code>vendor.bundle.js</code> and <code>app.js</code> files (plus their map equivalents).</p>
+<p>If you have installed the <a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a>, you can build the entire JavaScript application within Visual Studio.  Open the Task Runner Explorer (<strong>View</strong> -&gt; <strong>Other Windows</strong> -&gt; <strong>Task Runner Explorer</strong>).  There will be a <code>package.json</code> section with <strong>Defaults</strong> and <strong>Custom</strong> sections within.  In the <strong>Defaults</strong> section, right-click on <strong>install</strong> and select <strong>Run</strong>.  This will install all the npm packages you are missing.</p>
+<p>The next step is to do the first build.  Right-click on <strong>build</strong> in the <strong>Custom</strong> section and select <strong>Run</strong>.  This will generate the <code>vendor.bundle.js</code> and <code>app.js</code> files (plus their map equivalents).</p>
 <div class="admonition info">
 <p class="admonition-title">Map Files</p>
-<p>Since there is no direct correlation between what is running in the browser and what your source code looks like
-when using transpilers and bundlers, these tools produce map files.  This is a (generally much larger) file that
-tells the browser what line represents a piece of code in the browser.  They are not distributed (nor required)
-in a production build.</p>
+<p>Since there is no direct correlation between what is running in the browser and what your source code looks like when using transpilers and bundlers, these tools produce map files.  This is a (generally much larger) file that tells the browser what line represents a piece of code in the browser.  They are not distributed (nor required) in a production build.</p>
 </div>
-<p>As a one-time activity, we need to add the generated files to the project.  In the <strong>Solution Explorer</strong>, click on the
-<strong>Show All Files</strong> button (which is to the left of the spanner icon).  Expand <strong>Content</strong> &gt; <strong>spa</strong> &gt; <strong>react</strong> and you
-will see four files which have dotted icons:</p>
+<p>As a one-time activity, we need to add the generated files to the project.  In the <strong>Solution Explorer</strong>, click on the <strong>Show All Files</strong> button (which is to the left of the spanner icon).  Expand <strong>Content</strong> -&gt; <strong>spa</strong> -&gt; <strong>react</strong> and you will see four files which have dotted icons:</p>
 <p><img alt="" src="../img/show-all-files.PNG" /></p>
-<p>Right-click on each file and select <strong>Include in Project</strong>.  Ensure their <strong><em>Build Action</em>* is set to </strong>Content** in the
-Properties pane.</p>
-<p>Assuming all went well, you can now set up the build to happen automatically.  Right-click on <strong>build</strong> in the <strong>Custom</strong>
-section, then select <strong>Bindings</strong> &gt; <strong>Before Build</strong>.  This will generate the files on each build (before the build occurs).</p>
-<p>If you publish the project as this point, you will be able to browse to <code>/SPA/React</code> and see the following:</p>
+<p>Right-click on each file and select <strong>Include in Project</strong>.  Ensure their <strong><em>Build Action</em>* is set to </strong>Content** in the Properties pane.</p>
+<p>Assuming all went well, you can now set up the build to happen automatically.  Right-click on <strong>build</strong> in the <strong>Custom</strong> section, then select <strong>Bindings</strong> &gt; <strong>Before Build</strong>.  This will generate the files on each build (before the build occurs).  If you publish the project as this point, you will be able to browse to <code>/SPA/React</code> and see the following:</p>
 <p><img alt="" src="../img/react-intro.PNG" /></p>
 <h2 id="integrating-azure-mobile-apps">Integrating Azure Mobile Apps<a class="headerlink" href="#integrating-azure-mobile-apps" title="Permanent link">&para;</a></h2>
-<p>There are three parts to adding Azure Mobile Apps to a Redux: the store, the actions and the reducer.  The store is a
-central part of a redux application and you don't need to do anything special.  Here is the <code>ReactClient/redux/store.js</code>
-code:</p>
+<p>There are three parts to adding Azure Mobile Apps to a Redux: the store, the actions and the reducer.  The store is a central part of a redux application and you don't need to do anything special.  Here is the <code>ReactClient/redux/store.js</code> code:</p>
 <pre><code class="javascript">import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
@@ -1364,9 +1313,7 @@ export const store = reduxStore(appReducers);
 store.dispatch(todoActions.refreshTodoItems());
 </code></pre>
 
-<p>The only real addition is that we dispatch an action (which initiates a change in the store) when we start up.  This
-action is for refreshing the content from the mobile backend.  Our reducer converts the actions into changes in the
-store.  This is the <code>ReactClient/reducers/todo.js</code>:</p>
+<p>The only real addition is that we dispatch an action (which initiates a change in the store) when we start up.  This action is for refreshing the content from the mobile backend.  Our reducer converts the actions into changes in the store.  This is the <code>ReactClient/reducers/todo.js</code>:</p>
 <pre><code class="javascript">import constants from '../constants';
 
 const initialState = {
@@ -1413,9 +1360,7 @@ export default function todoReducers(state = initialState, action) {
 };
 </code></pre>
 
-<p>There is no network activity here because all the store changes are being done against a cached copy of the data.  You
-should not have to go to the cloud to fetch the data, except when refreshing the cache.  All the actual network activity
-happens inside the <code>ReactClient/actions/todo.js</code>:</p>
+<p>There is no network activity here because all the store changes are being done against a cached copy of the data.  You should not have to go to the cloud to fetch the data, except when refreshing the cache.  All the actual network activity happens inside the <code>ReactClient/actions/todo.js</code>:</p>
 <pre><code class="javascript">import * as WindowsAzure from 'azure-mobile-apps-client';
 import constants from '../constants';
 
@@ -1514,16 +1459,10 @@ export function refreshTodoItems() {
 }
 </code></pre>
 
-<p>Each action that is called by the client code kicks off a call into the standard Azure Mobile Apps JavaScript SDK
-to do the relevant change in the mobile backend.  When that returns, another action is dispatched to make the change
-in the store via the reducer.  In addition, we keep track of how many network requests are happening and we also
-handle errors via the <code>zumoError()</code> action.</p>
-<p>I have not included all the code in this chapter as much of it is fairly standard React/Redux, but it is available
-on <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter6/Backend">the GitHub repository</a> for the book.  Remember that you will have to update the <code>package.json</code> file and run
-<code>npm install</code> to install the additional libraries.</p>
+<p>Each action that is called by the client code kicks off a call into the standard Azure Mobile Apps JavaScript SDK to do the relevant change in the mobile backend.  When that returns, another action is dispatched to make the change in the store via the reducer.  In addition, we keep track of how many network requests are happening and we also handle errors via the <code>zumoError()</code> action.</p>
+<p>I have not included all the code in this chapter as much of it is fairly standard React/Redux, but it is available on <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter6/Backend">the GitHub repository</a> for the book.  Remember that you will have to update the <code>package.json</code> file and run <code>npm install</code> to install the additional libraries.</p>
 <h3 id="updating-webpack-for-azure-mobile-apps-javascript-sdk">Updating Webpack for Azure Mobile Apps JavaScript SDK<a class="headerlink" href="#updating-webpack-for-azure-mobile-apps-javascript-sdk" title="Permanent link">&para;</a></h3>
-<p>The Azure Mobile Apps JavaScript SDK requires an additional loader for Webpack to handle it.  Install the <code>json-loader</code>
-module using <code>npm install --save json-loader</code>, then add the following to the <code>loaders</code> section of the <code>webpack.config.js</code>:</p>
+<p>The Azure Mobile Apps JavaScript SDK requires an additional loader for Webpack to handle it.  Install the <code>json-loader</code> module using <code>npm install --save json-loader</code>, then add the following to the <code>loaders</code> section of the <code>webpack.config.js</code>:</p>
 <pre><code class="text">    module: {
         loaders: [
             { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
@@ -1533,13 +1472,16 @@ module using <code>npm install --save json-loader</code>, then add the following
 </code></pre>
 
 <p>Once the additional line is added, Webpack will handle the <code>azure-mobile-apps-client</code> without problems.</p>
-<p>There is a lot more to be said about the capabilities of React, Redux, BabelJS and Webpack that is beyond the scope
-of this book.  I hope you will take the opportunity to try the vibrant JavaScript community out as you build single
-page applications.</p>
+<p>There is a lot more to be said about the capabilities of React, Redux, BabelJS and Webpack that is beyond the scope of this book.  I hope you will take the opportunity to try the vibrant JavaScript community out as you build single page applications.</p>
 <!-- Images -->
 
 <!-- Links -->
+                
+                  
+                
               
+              
+                
               
             </article>
           </div>
@@ -1617,7 +1559,7 @@ page applications.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application-30ac6a1727.js"></script>
+      <script src="../../assets/javascripts/application-7aa26ad9ec.js"></script>
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="../../js/highlight.pack.js"></script>
