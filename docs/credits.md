@@ -10,6 +10,7 @@ particular order):
 - Fabio Cavalcante
 - James Montemagno
 - Kevin Hilscher
+- Marthin Freij
 - Mike James
 - Pierce Boggan
 - Steve Lee

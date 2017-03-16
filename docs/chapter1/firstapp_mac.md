@@ -1199,6 +1199,9 @@ The drop-down between the run button in the top left of Visual Studio for Mac an
 
 Watch the Output window.  If the debugger won't connect or the application won't start, you may need to restart your computer or the emulator to get the network working.
 
+!!! tip
+    I have had some reports of the TaskList app crashing when using an x86 emulator.  If you run into these problems, check out the [Android Tips][int-android-tips] section.
+
 If everything is working, you should see the Android Emulator display your mobile client:
 
 ![Android app running on emulator][img16]
@@ -1269,6 +1272,7 @@ The following 7 chapters each take one aspect of the cloud services that can be 
 
 [int-data]: ../chapter3/dataconcepts.md
 [int-firstapp-pc]: ./firstapp_pc.md
+[int-android-tips]: ../android_appendix.md
 
 [1]: https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/
 [2]: https://mockingbot.com/app/RQe0vlW0Hs8SchvHQ6d2W8995XNe8jK
