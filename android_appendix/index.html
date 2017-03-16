@@ -944,6 +944,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#unfortunately-your-app-has-stopped" title="Unfortunately, your app has stopped" class="md-nav__link">
+    Unfortunately, your app has stopped
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#missing-libaot-mscorlibdllso" title="Missing libaot-mscorlib.dll.so" class="md-nav__link">
     Missing libaot-mscorlib.dll.so
   </a>
@@ -1028,6 +1035,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#unfortunately-your-app-has-stopped" title="Unfortunately, your app has stopped" class="md-nav__link">
+    Unfortunately, your app has stopped
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#missing-libaot-mscorlibdllso" title="Missing libaot-mscorlib.dll.so" class="md-nav__link">
     Missing libaot-mscorlib.dll.so
   </a>
@@ -1066,6 +1080,19 @@
                 <h1 id="android-developer-notes">Android Developer Notes<a class="headerlink" href="#android-developer-notes" title="Permanent link">&para;</a></h1>
 <p>This chapter contains random notes that I discovered while developing mobile apps
 with Xamarin Forms on the Android platform.  I hope they are useful to you.</p>
+<h2 id="unfortunately-your-app-has-stopped">Unfortunately, your app has stopped<a class="headerlink" href="#unfortunately-your-app-has-stopped" title="Permanent link">&para;</a></h2>
+<p>Sometimes, when operating with Android emulators, things will just break.  Some of the ideas here may assist with getting things going again:</p>
+<ol>
+<li>
+<p>Don't use a Shared Mono Runtime</p>
+<p>In Visual Studio, right-click the Android project, then select <strong>Properties</strong> or <strong>Options</strong>.  In the <strong>Android Build</strong> section, select the <strong>General</strong> tab.  Uncheck the checkbox next to <strong>Use Shared Mono Runtime</strong>.</p>
+</li>
+<li>
+<p>Disable non-required ABIs</p>
+<p>Also in Visual Studio, right-click the Android project, then select <strong>Properties</strong> or <strong>Options</strong>.  In the <strong>Android Build</strong> section, select the <strong>Advanced</strong> tab.  Select only the ABIs that you are using.  For example, if you are running on the x86 emulator, you will want to disable the <strong>armeabi</strong> ABI.</p>
+</li>
+</ol>
+<p>Rebuild the entire project and then try running again.</p>
 <h2 id="missing-libaot-mscorlibdllso">Missing libaot-mscorlib.dll.so<a class="headerlink" href="#missing-libaot-mscorlibdllso" title="Permanent link">&para;</a></h2>
 <p>When running an application is debug mode, I sometimes saw the following deployment issue:</p>
 <pre><code class="bash">D/Mono    ( 1366): AOT module 'mscorlib.dll.so' not found: dlopen failed: library &quot;/data/app-lib/TaskList.Droid-2/libaot-mscorlib.dll.so&quot; not found
@@ -1080,7 +1107,7 @@ with Xamarin Forms on the Android platform.  I hope they are useful to you.</p>
 <li>Redeploy the application.</li>
 </ul>
 <h2 id="fixing-errors-with-the-visual-studio-emulator-for-android">Fixing Errors with the Visual Studio Emulator for Android<a class="headerlink" href="#fixing-errors-with-the-visual-studio-emulator-for-android" title="Permanent link">&para;</a></h2>
-<p>One of the issues I found while running on the Visual Studio Emulator for Android involved debugging.  The Android app 
+<p>One of the issues I found while running on the Visual Studio Emulator for Android involved debugging.  The Android app
 starts, then immediately closes and debugging stops.  In the output window, you see <code>Could not connect to the debugger</code>.
 To fix this:</p>
 <ul>
@@ -1093,14 +1120,14 @@ To fix this:</p>
 </ul>
 <p>It's a good idea to do this on all the emulators.  When you start the emulator, this error should be gone.</p>
 <h2 id="disabling-visual-studio-emulator-for-android">Disabling Visual Studio Emulator for Android<a class="headerlink" href="#disabling-visual-studio-emulator-for-android" title="Permanent link">&para;</a></h2>
-<p>There are two emulators for Android.  One is supplied by Microsoft (the Visual Studio Emulator for Android) and 
+<p>There are two emulators for Android.  One is supplied by Microsoft (the Visual Studio Emulator for Android) and
 one is supplied by Google (the Google Android Emulator).  You can only use one of them.  To enable the usage of
 the Google Android Emulator, you have to disable the Visual Studio Emulator for Android.</p>
 <p>To disable the Visual Studio Emulator for Android, disable Hyper-V with this command:</p>
 <pre><code>bcdedit /set hypervisorlaunchtype off
 </code></pre>
 
-<p>You should then reboot.  If you wish to switch back to using the Visual Studio Emulator for Android, set the 
+<p>You should then reboot.  If you wish to switch back to using the Visual Studio Emulator for Android, set the
 hypervisorlaunchtype to auto and reboot again.</p>
               
               
