@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace TaskList.iOS
 {
@@ -56,21 +57,58 @@ namespace TaskList.iOS
 		/// </summary>
 		public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
 		{
-			NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+			ProcessNotification(userInfo, false);
+		}
 
-			// The aps is a dictionary with the template values in it
-			// You can adjust this section to do whatever you need to with the push notification
-
-			string alert = string.Empty;
-			if (aps.ContainsKey(new NSString("alert")))
-				alert = (aps[new NSString("alert")] as NSString).ToString();
-
-			//show alert
-			if (!string.IsNullOrEmpty(alert))
+		private void ProcessNotification(NSDictionary options, bool fromFinishedLoading)
+		{
+			if (!(options != null && options.ContainsKey(new NSString("aps"))))
 			{
-				UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
-				avAlert.Show();
+				// Short circuit - nothing to do
+				return;
 			}
+
+			NSDictionary aps = options.ObjectForKey(new NSString("aps")) as NSDictionary;
+
+			// Obtain the alert and picture elements if they are there
+			var alertString = GetStringFromOptions(aps, "alert");
+			var pictureString = GetStringFromOptions(aps, "picture");
+
+			if (!fromFinishedLoading)
+			{
+				// Manually show an alert
+				if (!string.IsNullOrEmpty(alertString))
+				{
+					UIAlertView alertView = new UIAlertView(
+						"TaskList",
+						alertString,
+						null,
+						NSBundle.MainBundle.LocalizedString("Cancel", "Cancel"),
+						NSBundle.MainBundle.LocalizedString("OK", "OK")
+					);
+					alertView.Clicked += (sender, args) =>
+					{
+						if (args.ButtonIndex != alertView.CancelButtonIndex)
+						{
+							if (!string.IsNullOrEmpty(pictureString))
+							{
+								App.Current.MainPage = new NavigationPage(new Pages.PictureView(pictureString));
+							}
+						}
+					};
+					alertView.Show();
+				}
+			}
+		}
+
+		private string GetStringFromOptions(NSDictionary options, string key)
+		{
+			string v = string.Empty;
+			if (options.ContainsKey(new NSString(key)))
+			{
+				v = (options[new NSString(key)] as NSString).ToString();
+			}
+			return v;
 		}
     }
 }
