@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="49535AdrianHallMSFT.shellmonger.tasklist" Publisher="CN=7281A9B8-54D2-4BE0-9E0B-BFF1B86B2A7C" Version="1.1.0.0" />
-  <mp:PhoneIdentity PhoneProductId="d78a24ef-46e3-4afe-8bab-739362bff352" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="49535AdrianHallMSFT.38940F8081D2C" Publisher="CN=7281A9B8-54D2-4BE0-9E0B-BFF1B86B2A7C" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="1f703c76-fccb-4049-8dd6-2082962aa3c4" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>shellmonger.tasklist</DisplayName>
     <PublisherDisplayName>Adrian Hall (MSFT)</PublisherDisplayName>
