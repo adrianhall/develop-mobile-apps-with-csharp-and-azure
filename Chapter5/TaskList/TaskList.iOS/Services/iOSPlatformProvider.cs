@@ -90,7 +90,7 @@ namespace TaskList.iOS.Services
 					// Set up templates to request
 					PushTemplate genericTemplate = new PushTemplate
 					{
-						Body = "{\"aps\":{\"alert\":\"$(messageParam)\"}}"
+						Body = @"{""aps"":{""alert"":""$(message)"",""picture"":""$(picture)""}}"
 					};
 					installation.Templates.Add("genericTemplate", genericTemplate);
 					// Register with NH
@@ -105,6 +105,10 @@ namespace TaskList.iOS.Services
 				{
 					System.Diagnostics.Debug.Fail($"[iOSPlatformProvider]: Could not register with NH: {ex.Message}");
 				}
+			}
+			else
+			{
+				System.Diagnostics.Debug.WriteLine($"[iOSPlatformProvider]: Are you running in a simulator?  Push Notifications are not available");
 			}
 		}
 	}

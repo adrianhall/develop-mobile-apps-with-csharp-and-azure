@@ -71,8 +71,6 @@ namespace TaskList.iOS
 				UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
 				avAlert.Show();
 			}
-
-			// End of the user configurable piece
 		}
     }
 }
