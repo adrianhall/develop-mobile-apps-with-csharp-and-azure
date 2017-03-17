@@ -95,7 +95,7 @@ namespace TaskList.UWP.Services
                     // Set up templates to request
                     var genericTemplate = new WindowsPushTemplate
                     {
-                        Body = @"<toast><visual><binding template=""genericTemplate""><text id=""1"">$(message)</text></binding></visual></toast>"
+                        Body = @"<toast><visual><binding template=""genericTemplate""><text id=""1"">$(message)</text><image id=""2"" src=""$(picture)""/></binding></visual></toast>"
                     };
                     genericTemplate.Headers.Add("X-WNS-Type", "wns/toast");
 

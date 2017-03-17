@@ -228,6 +228,95 @@ If I were to continue, I would add some controls that allow me to go back to the
 
 ### Deep Linking with iOS
 
+Deep linking with iOS follows a similar pattern to Android.  The notification is received by `DidReceiveRemoteNotification()` method in the `AppDelegate.cs`, which we can then process to load the appropriate page from the background.
+
+First, update the `DidReceiveRemoteNotification()` method to call a new method we will define in a moment.  This allows us to call the notification processor from multiple places:
+
+```csharp
+/// <summary>
+/// Handler for Push Notifications
+/// </summary>
+public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+{
+    ProcessNotification(userInfo, false);
+}
+```
+
+This method is also defined in the `AppDelegate.cs` class:
+
+```csharp
+private void ProcessNotification(NSDictionary options, bool fromFinishedLoading)
+{
+    if (!(options != null && options.ContainsKey(new NSString("aps"))))
+    {
+        // Short circuit - nothing to do
+        return;
+    }
+
+    NSDictionary aps = options.ObjectForKey(new NSString("aps")) as NSDictionary;
+
+    // Obtain the alert and picture elements if they are there
+    var alertString = GetStringFromOptions(aps, "alert");
+    var pictureString = GetStringFromOptions(aps, "picture");
+
+    if (!fromFinishedLoading)
+    {
+        // Manually show an alert
+        if (!string.IsNullOrEmpty(alertString))
+        {
+            UIAlertView alertView = new UIAlertView(
+                "TaskList",
+                alertString,
+                null,
+                NSBundle.MainBundle.LocalizedString("Cancel", "Cancel"),
+                NSBundle.MainBundle.LocalizedString("OK", "OK")
+            );
+            alertView.Clicked += (sender, args) =>
+            {
+                if (args.ButtonIndex != alertView.CancelButtonIndex)
+                {
+                    if (!string.IsNullOrEmpty(pictureString))
+                    {
+                        App.Current.MainPage = new NavigationPage(new Pages.PictureView(pictureString));
+                    }
+                }
+            };
+            alertView.Show();
+        }
+    }
+}
+
+private string GetStringFromOptions(NSDictionary options, string key)
+{
+    string v = string.Empty;
+    if (options.ContainsKey(new NSString(key)))
+    {
+        v = (options[new NSString(key)] as NSString).ToString();
+    }
+    return v;
+}
+```
+
+This method checks to see if there is something to do.  If there is, it generates the alert as before.  This time, however, if the user clicks on OK, then it sets the current page to the same `PictureView` view that was used by the Android application.  The `GetStringFromOptions()` method is a convenience method for extracting strings from the push notification payload.
+
+Send the following push notification to receive the picture:
+
+```text
+{
+    "aps":{
+        "alert":"Notification Hub test notification",
+        "picture":"http://r.ddmcdn.com/w_606/s_f/o_1/cx_0/cy_15/cw_606/ch_404/APL/uploads/2014/06/01-kitten-cuteness-1.jpg"
+    }
+}
+```
+
+You should test this in the following cases:
+
+* The app is running and in the foreground.
+* The app is running, but in the background.
+* The app is not running at all.
+
+### Deep Linking with UWP
 
 ## Push to Sync
 
