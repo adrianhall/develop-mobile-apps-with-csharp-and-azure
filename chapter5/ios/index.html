@@ -1157,7 +1157,7 @@
           <div class="md-content">
             <article class="md-content__inner md-typeset">
                
-                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5/ios.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5\ios.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
                
               
                 
@@ -1210,7 +1210,7 @@
 <h3 id="create-a-certificate-for-the-push-channel">Create a certificate for the push channel<a class="headerlink" href="#create-a-certificate-for-the-push-channel" title="Permanent link">&para;</a></h3>
 <p>I mentioned earlier that APNS is certificate based.  That means that you need to generate an SSL certificate to fully configure push notifications:</p>
 <ol>
-<li>Staying in <strong>Certificates, Identifiers &amp; Profiles</strong>, click <em>All<strong> under the </strong>Certificates</em>* heading in the left hand menu.</li>
+<li>Staying in <strong>Certificates, Identifiers &amp; Profiles</strong>, click <strong>All</strong> under the <strong>Certificates</strong> heading in the left hand menu.</li>
 <li>Click on the <strong>+</strong> button in the top right corner.</li>
 <li>
 <p>Select the <strong>Apple Push Notification service SSL (Sandbox &amp; Production)</strong></p>
@@ -1238,13 +1238,14 @@
 <ol>
 <li>Open Keychain Access.</li>
 <li>Select <strong>My Certificates</strong> from the left hand menu</li>
-<li>Right click on the certificate you just generated and select <strong>Export...</strong>.</li>
+<li>Look for the certificate you just generated, and expand it to show the private key.</li>
+<li>Right-click the private key and select <strong>Export...</strong>.</li>
 <li>Select <strong>Personal Information Exchange (.p12)</strong> as the type and give it a name and location.</li>
 <li>Click <strong>Save</strong>.</li>
 <li>Enter a password (twice) to protect the certificate.</li>
 <li>Click <strong>OK</strong>.</li>
 </ol>
-<p>Now we can upload the certificate to Azure:</p>
+<p>Upload the certificate to Azure:</p>
 <ol>
 <li>Open and log into the <a href="../https;//portal.azure.com/">Azure portal</a>.</li>
 <li>Select <strong>Notification Hubs</strong>, then the notification hub that is connected to your mobile backend.</li>
@@ -1266,30 +1267,65 @@
 <p>It's important to figure out whether you are operating in the <em>Sandbox</em> (Development) or <em>Production</em> mode.  During development, it's likely that your device will be registered on the Apple Developer console and you will be operating in the sandbox.  Any device not listed with the developer console is considered "production".  You must update the certificate to a production certificate and specify the production mode when you release your app.</p>
 <p>Apple APNS provides two endpoints for pushing notifications.  If you use the wrong one, then APNS will return an error code.  This will cause Notification Hubs to delete the registration and your push will fail.</p>
 <h3 id="configure-your-application">Configure your application<a class="headerlink" href="#configure-your-application" title="Permanent link">&para;</a></h3>
-<p>Before we start with code, you will want a <em>Provisioning Profile</em>.  This small file is key to being able to use push notifications on your device.  You <strong>MUST</strong> have a real device at this point.  The easiest way for this to happen is to plug the iPhone or iPad that you want to use into your development system.  Once your device is recognized by iTunes, start XCode and look under <strong>Product</strong> &gt; <strong>Destination</strong>.  You should see the device listed there.  For more information on creating a Provisioning Profile, see the <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10">Apple documentation</a>.</p>
-<p>Moving on to our code, we need to configure the iOS project for push notifications.  This involves configuring the Bundle ID and enabling certain configuration settings required for handling push notifications.  Start by loading your project in Visual Studio for Mac.</p>
+<p>Before we start with code, you will want a <em>Provisioning Profile</em>.  This small file is key to being able to use push notifications on your device.  You <strong>MUST</strong> have a real device at this point.  The easiest way for this to happen is to plug the iPhone or iPad that you want to use into your development system.  Once your device is recognized by iTunes, close iTunes down and start XCode.</p>
+<p>First, locate the Device ID for your iDevice.  This can be found by opening <strong>Window</strong> -&gt; <strong>Devices</strong>.  Click on your iDevice in the left hand bar and copy the Identifier field.  There are several other ways of finding the device ID.  Refer to the <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10">Apple documentation</a> for the other ways.</p>
+<p>Once you have the Device ID, you can register the device as a development device.  Sign into the <a href="http://developer.apple.com/account">Apple Developer Portal</a>, then:</p>
 <ol>
-<li>Expand the <strong>TaskList.iOS</strong> project and open the <strong>Info.plist</strong> file.</li>
+<li>Under <strong>Devices</strong>, click <strong>All</strong>.</li>
+<li>Click the <strong>+</strong> button in the upper-right corner.</li>
+<li>Select <strong>Register Device</strong>.</li>
+<li>Enter a device name and the device ID you found earlier.</li>
+<li>Click <strong>Continue</strong>.</li>
+<li>Click <strong>Register</strong>.</li>
+<li>Click <strong>Done</strong>.</li>
+</ol>
+<p>Now, create a Provisioning Profile:</p>
+<ol>
+<li>Under <strong>Provisioning Profiles</strong>, click <strong>All</strong>.</li>
+<li>Click the <strong>+</strong> button in the upper-right corner.</li>
+<li>Select <strong>iOS App Development</strong>, then click <strong>Continue</strong>.</li>
+<li>Select the App ID you created earlier from the dropdown, then click <strong>Continue</strong>.</li>
+<li>Select the certificates you want to include, then click <strong>Continue</strong>.  If you are unsure, include them all.</li>
+<li>Select the device(s) you want to use, then click <strong>Continue</strong>.</li>
+<li>Enter a Profile name, then click <strong>Continue</strong>.</li>
+<li>You can (and should) download your provisioning profile to your local machine.</li>
+<li>Click <strong>Done</strong>.</li>
+</ol>
+<p>For more information on creating a Provisioning Profile, see the <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10">Apple documentation</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Download your Provisioning Profile to XCode</p>
+<p>You can also download your provisioning profile within XCode for later use.  Visual Studio for Mac will be able to more easily detect it.  Open XCode, then open <strong>XCode</strong> &gt; <strong>Preferences</strong>.  Click <strong>Accounts</strong>, then your account.  Click your Agent entry in the right hand panel, then click <strong>View Details</strong>.  Finally, click <strong>Download All Profiles</strong>.  Once the download is complete, you can close the windows and return to Visual Studio.</p>
+</div>
+<p>Next, configure the iOS project for push notifications.  Start by loading your project in Visual Studio for Mac.</p>
+<ol>
+<li>Expand the <strong>TaskList.iOS</strong> project and open the <code>Info.plist</code> file.</li>
 <li>
-<p>In the <strong>Identity</strong> section, fill in the <strong>Bundle ID</strong>.  It must match the App ID Suffix that you set earlier.</p>
+<p>In the <strong>Identity</strong> section, fill in the <strong>Bundle Identifier</strong>.  It must match the App ID Suffix that you set earlier.</p>
 <p><img alt="" src="../img/push-ios-6.PNG" /></p>
 </li>
 <li>
 <p>Scroll down until you see <strong>Background Modes</strong>.  Check the <strong>Enable Background Modes</strong> checkbox.</p>
+<div class="admonition tip">
+<p class="admonition-title">Adding an Account</p>
+<p>Visual Studio for Mac uses fastlane for account authentication.  You will be walked through the process of adding an account the first time, and prompted to select an account thereafter.  Note that fastlane does not work when your Apple ID has 2-factor authentication enabled.  <a href="http://osxdaily.com/2016/08/17/disable-two-factor-authentication-apple-id/">Turn 2FA off</a> before you try to add an account.</p>
+</div>
 </li>
 <li>
 <p>Check the <strong>Remote notifications</strong> checkbox.</p>
 <p><img alt="" src="../img/push-ios-7.PNG" /></p>
 </li>
 <li>
-<p>Right-click on the <strong>TaskList.iOS</strong> project, then select <strong>Options</strong>.</p>
+<p>Save and close the <code>Info.plist</code> file.</p>
 </li>
+<li>Right-click on the <strong>TaskList.iOS</strong> project, then select <strong>Options</strong>.</li>
 <li>Click <strong>iOS Bundle Signing</strong> in the left hand menu.</li>
+<li>Ensure the Platform is set to <strong>iPhone</strong> and not <em>iPhoneSimulator</em>.</li>
 <li>Select your Signing Identity and Provisioning Profile.</li>
+<li>Click <strong>OK</strong>.</li>
 </ol>
 <div class="admonition tip">
 <p class="admonition-title">Provisioning Profiles are frustrating</p>
-<p>If you find yourself going round and round in circles on getting the signing certificate and provisioning profile right, you are not alone.  This is possibly one of the most frustrating pieces of iOS development in general.  See this <a href="https://forums.xamarin.com/discussion/13497">Xamarin Forums post</a> for a good list of details.</p>
+<p>If you find yourself going round and round in circles on getting the signing certificate and provisioning profile right, you are not alone.  This is possibly one of the most frustrating pieces of iOS development.  See this <a href="https://forums.xamarin.com/discussion/13497">Xamarin Forums post</a> for a good list of details.</p>
 </div>
 <h3 id="code-the-push-handler">Code the push handler<a class="headerlink" href="#code-the-push-handler" title="Permanent link">&para;</a></h3>
 <p>The push handler is coded in the <code>AppDelegate.cs</code> file.  Unlike other platforms (like Android), you don't have to write code to define the push handler.  It's always in the same place.  Add the following code to the <code>AppDelegate.cs</code> file:</p>
@@ -1342,8 +1378,6 @@
             UIAlertView avAlert = new UIAlertView(&quot;Notification&quot;, alert, null, &quot;OK&quot;, null);
             avAlert.Show();
         }
-
-        // End of the user configurable piece
     }
 </code></pre>
 
@@ -1373,7 +1407,7 @@
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
-                    Body = &quot;{\&quot;aps\&quot;:{\&quot;alert\&quot;:\&quot;$(messageParam)\&quot;}}&quot;
+                    Body = @&quot;{&quot;&quot;aps&quot;&quot;:{&quot;&quot;alert&quot;&quot;:&quot;&quot;$(messageParam)&quot;&quot;}}&quot;
                 };
                 installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
 

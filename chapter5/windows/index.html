@@ -1143,7 +1143,7 @@
           <div class="md-content">
             <article class="md-content__inner md-typeset">
                
-                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5/windows.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter5\windows.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
                
               
                 
@@ -1253,7 +1253,7 @@ registration.</p>
                 // Set up templates to request
                 var genericTemplate = new WindowsPushTemplate
                 {
-                    Body = &quot;&lt;toast&gt;&lt;visual&gt;&lt;binding template=\&quot;genericTemplate\&quot;&gt;&lt;text id=\&quot;1\&quot;&gt;$(messageParam)&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;&quot;
+                    Body = @&quot;&lt;toast&gt;&lt;visual&gt;&lt;binding template=&quot;&quot;genericTemplate&quot;&quot;&gt;&lt;text id=&quot;&quot;1&quot;&quot;&gt;$(message)&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;&quot;
                 };
                 genericTemplate.Headers.Add(&quot;X-WNS-Type&quot;, &quot;wns/toast&quot;);
 
