@@ -118,7 +118,7 @@ The registration code is also in the `UWPPlatformProvider` since it is part of t
                 // Set up templates to request
                 var genericTemplate = new WindowsPushTemplate
                 {
-                    Body = "<toast><visual><binding template=\"genericTemplate\"><text id=\"1\">$(messageParam)</text></binding></visual></toast>"
+                    Body = @"<toast><visual><binding template=""genericTemplate""><text id=""1"">$(message)</text></binding></visual></toast>"
                 };
                 genericTemplate.Headers.Add("X-WNS-Type", "wns/toast");
 

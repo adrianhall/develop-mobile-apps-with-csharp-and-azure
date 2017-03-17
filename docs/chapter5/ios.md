@@ -48,7 +48,7 @@ Note that the Push Notifications capability will be listed as _Configurable_ unt
 
 I mentioned earlier that APNS is certificate based.  That means that you need to generate an SSL certificate to fully configure push notifications:
 
-1.  Staying in **Certificates, Identifiers & Profiles**, click *All** under the **Certificates** heading in the left hand menu.
+1.  Staying in **Certificates, Identifiers & Profiles**, click **All** under the **Certificates** heading in the left hand menu.
 2.  Click on the **+** button in the top right corner.
 3.  Select the **Apple Push Notification service SSL (Sandbox & Production)**
 
@@ -74,13 +74,14 @@ Notification Hubs requires you to upload the certificate as a .p12 (PKCS#12) fil
 
 1. Open Keychain Access.
 2. Select **My Certificates** from the left hand menu
-3. Right click on the certificate you just generated and select **Export...**.
-4. Select **Personal Information Exchange (.p12)** as the type and give it a name and location.
-5. Click **Save**.
-6. Enter a password (twice) to protect the certificate.
-7. Click **OK**.
+3. Look for the certificate you just generated, and expand it to show the private key.
+4. Right-click the private key and select **Export...**.
+5. Select **Personal Information Exchange (.p12)** as the type and give it a name and location.
+6. Click **Save**.
+7. Enter a password (twice) to protect the certificate.
+9. Click **OK**.
 
-Now we can upload the certificate to Azure:
+Upload the certificate to Azure:
 
 1. Open and log into the [Azure portal].
 2. Select **Notification Hubs**, then the notification hub that is connected to your mobile backend.
@@ -101,26 +102,62 @@ Apple APNS provides two endpoints for pushing notifications.  If you use the wro
 
 ### Configure your application
 
-Before we start with code, you will want a _Provisioning Profile_.  This small file is key to being able to use push notifications on your device.  You **MUST** have a real device at this point.  The easiest way for this to happen is to plug the iPhone or iPad that you want to use into your development system.  Once your device is recognized by iTunes, start XCode and look under **Product** > **Destination**.  You should see the device listed there.  For more information on creating a Provisioning Profile, see the [Apple documentation][4].
+Before we start with code, you will want a _Provisioning Profile_.  This small file is key to being able to use push notifications on your device.  You **MUST** have a real device at this point.  The easiest way for this to happen is to plug the iPhone or iPad that you want to use into your development system.  Once your device is recognized by iTunes, close iTunes down and start XCode.
 
-Moving on to our code, we need to configure the iOS project for push notifications.  This involves configuring the Bundle ID and enabling certain configuration settings required for handling push notifications.  Start by loading your project in Visual Studio for Mac.
+First, locate the Device ID for your iDevice.  This can be found by opening **Window** -> **Devices**.  Click on your iDevice in the left hand bar and copy the Identifier field.  There are several other ways of finding the device ID.  Refer to the [Apple documentation][4] for the other ways.
 
-1. Expand the **TaskList.iOS** project and open the **Info.plist** file.
-2. In the **Identity** section, fill in the **Bundle ID**.  It must match the App ID Suffix that you set earlier.
+Once you have the Device ID, you can register the device as a development device.  Sign into the [Apple Developer Portal][1], then:
+
+1.  Under **Devices**, click **All**.
+2.  Click the **+** button in the upper-right corner.
+3.  Select **Register Device**.
+4.  Enter a device name and the device ID you found earlier.
+5.  Click **Continue**.
+6.  Click **Register**.
+7.  Click **Done**.
+
+Now, create a Provisioning Profile:
+
+1.  Under **Provisioning Profiles**, click **All**.
+2.  Click the **+** button in the upper-right corner.
+3.  Select **iOS App Development**, then click **Continue**.
+4.  Select the App ID you created earlier from the dropdown, then click **Continue**.
+5.  Select the certificates you want to include, then click **Continue**.  If you are unsure, include them all.
+6.  Select the device(s) you want to use, then click **Continue**.
+7.  Enter a Profile name, then click **Continue**.
+8.  You can (and should) download your provisioning profile to your local machine.
+9.  Click **Done**.
+
+For more information on creating a Provisioning Profile, see the [Apple documentation][4].
+
+!!! tip "Download your Provisioning Profile to XCode"
+    You can also download your provisioning profile within XCode for later use.  Visual Studio for Mac will be able to more easily detect it.  Open XCode, then open **XCode** > **Preferences**.  Click **Accounts**, then your account.  Click your Agent entry in the right hand panel, then click **View Details**.  Finally, click **Download All Profiles**.  Once the download is complete, you can close the windows and return to Visual Studio.
+
+Next, configure the iOS project for push notifications.  Start by loading your project in Visual Studio for Mac.
+
+1.  Expand the **TaskList.iOS** project and open the `Info.plist` file.
+2.  In the **Identity** section, fill in the **Bundle Identifier**.  It must match the App ID Suffix that you set earlier.
 
     ![][img6]
 
-3. Scroll down until you see **Background Modes**.  Check the **Enable Background Modes** checkbox.
-4. Check the **Remote notifications** checkbox.
+3.  Scroll down until you see **Background Modes**.  Check the **Enable Background Modes** checkbox.
+
+    !!! tip "Adding an Account"
+        Visual Studio for Mac uses fastlane for account authentication.  You will be walked through the process of adding an account the first time, and prompted to select an account thereafter.  Note that fastlane does not work when your Apple ID has 2-factor authentication enabled.  [Turn 2FA off][7] before you try to add an account.
+
+4.  Check the **Remote notifications** checkbox.
 
     ![][img7]
 
-5. Right-click on the **TaskList.iOS** project, then select **Options**.
-6. Click **iOS Bundle Signing** in the left hand menu.
-7. Select your Signing Identity and Provisioning Profile.
+5.  Save and close the `Info.plist` file.
+6.  Right-click on the **TaskList.iOS** project, then select **Options**.
+7.  Click **iOS Bundle Signing** in the left hand menu.
+8.  Ensure the Platform is set to **iPhone** and not _iPhoneSimulator_.
+8.  Select your Signing Identity and Provisioning Profile.
+9.  Click **OK**.
 
 !!! tip "Provisioning Profiles are frustrating"
-    If you find yourself going round and round in circles on getting the signing certificate and provisioning profile right, you are not alone.  This is possibly one of the most frustrating pieces of iOS development in general.  See this [Xamarin Forums post][5] for a good list of details.
+    If you find yourself going round and round in circles on getting the signing certificate and provisioning profile right, you are not alone.  This is possibly one of the most frustrating pieces of iOS development.  See this [Xamarin Forums post][5] for a good list of details.
 
 ### Code the push handler
 
@@ -176,8 +213,6 @@ The push handler is coded in the `AppDelegate.cs` file.  Unlike other platforms 
             UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
             avAlert.Show();
         }
-
-        // End of the user configurable piece
     }
 ```
 
@@ -210,7 +245,7 @@ As with Android, I recommend using a `HttpClient` for registering with Notificat
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
-                    Body = "{\"aps\":{\"alert\":\"$(messageParam)\"}}"
+                    Body = @"{""aps"":{""alert"":""$(messageParam)""}}"
                 };
                 installation.Templates.Add("genericTemplate", genericTemplate);
 
@@ -317,3 +352,4 @@ Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Sect
 [4]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10
 [5]: https://forums.xamarin.com/discussion/13497
 [6]: https://developer.xamarin.com/guides/ios/application_fundamentals/backgrounding/part_3_ios_backgrounding_techniques/updating_an_application_in_the_background/
+[7]: http://osxdaily.com/2016/08/17/disable-two-factor-authentication-apple-id/

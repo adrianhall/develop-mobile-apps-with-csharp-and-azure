@@ -220,7 +220,7 @@ The `Installation` object is also available in the Notification Hubs SDK, but I 
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
-                    Body = "{""data"":{""message"":""$(messageParam)""}}"
+                    Body = @"{""data"":{""message"":""$(messageParam)""}}"
                 };
                 installation.Templates.Add("genericTemplate", genericTemplate);
 

@@ -49,7 +49,7 @@ namespace TaskList.Abstractions
     {
         public WindowsPushTemplate() : base()
         {
-            Headers = new Dictionary<string, string>();    
+            Headers = new Dictionary<string, string>();
         }
 
         [JsonProperty(PropertyName = "headers")]

@@ -16,7 +16,7 @@ namespace TaskList.ViewModels
 
         public TaskListViewModel()
         {
-            Debug.WriteLine("In TaskListViewMOdel");
+            Debug.WriteLine("In TaskListViewModel");
             cloudService = ServiceLocator.Instance.Resolve<ICloudService>();
             Table = cloudService.GetTable<TodoItem>();
 

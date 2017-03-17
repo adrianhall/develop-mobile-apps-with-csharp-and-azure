@@ -303,7 +303,7 @@ Moving onto registration with Notification Hubs, we need to pass the registratio
                 // Set up templates to request
                 PushTemplate genericTemplate = new PushTemplate
                 {
-                    Body = "{""data"":{""message"":""$(message)""}}"
+                    Body = @"{""data"":{""message"":""$(message)""}}"
                 };
                 installation.Templates.Add("genericTemplate", genericTemplate);
 
