@@ -4,6 +4,8 @@ using Android.Media;
 using Android.Support.V7.App;
 using Android.Util;
 using Gcm.Client;
+using TaskList.Models;
+using Xamarin.Forms;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
@@ -36,9 +38,22 @@ namespace TaskList.Droid.Services
         protected override void OnMessage(Context context, Intent intent)
         {
             Log.Info("GcmService", $"Message {intent.ToString()}");
-            var message = intent.Extras.GetString("message") ?? "Unknown Message";
-            var picture = intent.Extras.GetString("picture");
-            CreateNotification("TaskList", message, picture);
+            var op = intent.Extras.GetString("op");
+            if (op != null)
+            {
+                var syncMessage = new PushToSync()
+                {
+                    Table = intent.Extras.GetString("table"),
+                    Id = intent.Extras.GetString("id")
+                };
+                MessagingCenter.Send<PushToSync>(syncMessage, "ItemsChanged");
+            }
+            else
+            {
+                var message = intent.Extras.GetString("message") ?? "Unknown Message";
+                var picture = intent.Extras.GetString("picture");
+                CreateNotification("TaskList", message, picture);
+            }
         }
 
         private void CreateNotification(string title, string msg, string parameter = null)

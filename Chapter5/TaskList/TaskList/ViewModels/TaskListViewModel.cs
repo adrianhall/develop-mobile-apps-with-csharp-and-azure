@@ -29,6 +29,14 @@ namespace TaskList.ViewModels
 
             // Execute the refresh command
             RefreshCommand.Execute(null);
+            MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) =>
+            {
+                await ExecuteRefreshCommand();
+            });
+            MessagingCenter.Subscribe<PushToSync>(this, "ItemsChanged", async (sender) =>
+            {
+                await ExecuteRefreshCommand();
+            });
         }
 
         public ICloudTable<TodoItem> Table { get; set; }
@@ -130,15 +138,6 @@ namespace TaskList.ViewModels
             {
                 IsBusy = false;
             }
-        }
-
-        async Task RefreshList()
-        {
-            await ExecuteRefreshCommand();
-            MessagingCenter.Subscribe<TaskDetailViewModel>(this, "ItemsChanged", async (sender) =>
-            {
-                await ExecuteRefreshCommand();
-            });
         }
     }
 }

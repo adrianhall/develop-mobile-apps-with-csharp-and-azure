@@ -89,6 +89,12 @@ namespace TaskList.Droid.Services
                     };
                     installation.Templates.Add("genericTemplate", genericTemplate);
 
+                    var pushToSyncTemplate = new PushTemplate
+                    {
+                        Body = @"{""data"":{""op"":""$(op)"",""table"":""$(table)"",""id"":""$(id)""}}"
+                    };
+                    installation.Templates.Add("pushToSync", pushToSyncTemplate);
+
                     // Register with NH
                     var response = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
                         $"/push/installations/{client.InstallationId}",

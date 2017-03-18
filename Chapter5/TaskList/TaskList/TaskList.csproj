@@ -47,6 +47,7 @@
     <Compile Include="Helpers\ObservableRangeCollection.cs" />
     <Compile Include="Helpers\ServiceLocator.cs" />
     <Compile Include="Models\AppServiceIdentity.cs" />
+    <Compile Include="Models\PushToSync.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Pages\EntryPage.xaml.cs">
       <DependentUpon>EntryPage.xaml</DependentUpon>

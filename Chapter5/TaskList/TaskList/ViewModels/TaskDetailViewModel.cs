@@ -50,7 +50,7 @@ namespace TaskList.ViewModels
                 {
                     await Table.UpdateItemAsync(Item);
                 }
-                MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
+                MessagingCenter.Send(this, "ItemsChanged");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace TaskList.ViewModels
                 {
                     await Table.DeleteItemAsync(Item);
                 }
-                MessagingCenter.Send<TaskDetailViewModel>(this, "ItemsChanged");
+                MessagingCenter.Send(this, "ItemsChanged");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
             catch (Exception ex)

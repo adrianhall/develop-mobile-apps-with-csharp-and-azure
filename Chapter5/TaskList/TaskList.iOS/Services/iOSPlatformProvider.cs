@@ -93,6 +93,13 @@ namespace TaskList.iOS.Services
 						Body = @"{""aps"":{""alert"":""$(message)"",""picture"":""$(picture)""}}"
 					};
 					installation.Templates.Add("genericTemplate", genericTemplate);
+
+                    PushTemplate pushToSyncTemplate = new PushTemplate
+                    {
+                        Body = @"{""aps"":{""op"":""$(op)"",""table"":""$(table)"",""id"":""$(id)""},""content-available"":1}"
+                    }
+                    installation.Templates.Add("pushToSync", pushToSyncTemplate);
+
 					// Register with NH
 					var recordedInstallation = await client.InvokeApiAsync<DeviceInstallation, DeviceInstallation>(
 						$"/push/installations/{client.InstallationId}",

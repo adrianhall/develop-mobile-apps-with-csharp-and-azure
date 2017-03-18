@@ -5,30 +5,32 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;
+using TaskList.ViewModels;
+using TaskList.Models;
 
 namespace TaskList.iOS
 {
-    // The UIApplicationDelegate for the application. This class is responsible for launching the
-    // User Interface of the application, as well as listening (and optionally responding) to
-    // application events from iOS.
-    [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
-    {
+	// The UIApplicationDelegate for the application. This class is responsible for launching the
+	// User Interface of the application, as well as listening (and optionally responding) to
+	// application events from iOS.
+	[Register("AppDelegate")]
+	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+	{
 		public static NSData PushDeviceToken { get; private set; } = null;
 
-        //
-        // This method is invoked when the application has loaded and is ready to run. In this
-        // method you should instantiate the window, load the UI into it and then make the window
-        // visible.
-        //
-        // You have 17 seconds to return from this method, or iOS will terminate your application.
-        //
-        public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
-        {
-            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+		//
+		// This method is invoked when the application has loaded and is ready to run. In this
+		// method you should instantiate the window, load the UI into it and then make the window
+		// visible.
+		//
+		// You have 17 seconds to return from this method, or iOS will terminate your application.
+		//
+		public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
+		{
+			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
-            global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+			global::Xamarin.Forms.Forms.Init();
+			LoadApplication(new App());
 
 			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
 			{
@@ -39,8 +41,8 @@ namespace TaskList.iOS
 				UIApplication.SharedApplication.RegisterForRemoteNotifications();
 			}
 
-            return base.FinishedLaunching(uiApplication, launchOptions);
-        }
+			return base.FinishedLaunching(uiApplication, launchOptions);
+		}
 
 		/// <summary>
 		/// Called when the push notification system is registered
@@ -70,15 +72,14 @@ namespace TaskList.iOS
 
 			NSDictionary aps = options.ObjectForKey(new NSString("aps")) as NSDictionary;
 
-			// Obtain the alert and picture elements if they are there
-			var alertString = GetStringFromOptions(aps, "alert");
-			var pictureString = GetStringFromOptions(aps, "picture");
-
 			if (!fromFinishedLoading)
 			{
+				var alertString = GetStringFromOptions(aps, "alert");
 				// Manually show an alert
 				if (!string.IsNullOrEmpty(alertString))
 				{
+					var pictureString = GetStringFromOptions(aps, "picture");
+
 					UIAlertView alertView = new UIAlertView(
 						"TaskList",
 						alertString,
@@ -98,6 +99,17 @@ namespace TaskList.iOS
 					};
 					alertView.Show();
 				}
+
+				var opString = GetStringFromOptions(aps, "op");
+				if (!string.IsNullOrEmpty(opString) && opString.Equals("sync"))
+				{
+					var syncMessage = new PushToSync()
+					{
+						Table = GetStringFromOptions(aps, "table"),
+						Id = GetStringFromOptions(aps, "id")
+					};
+					MessagingCenter.Send<PushToSync>(syncMessage, "ItemsChanged");
+				}
 			}
 		}
 
@@ -110,5 +122,5 @@ namespace TaskList.iOS
 			}
 			return v;
 		}
-    }
+	}
 }
