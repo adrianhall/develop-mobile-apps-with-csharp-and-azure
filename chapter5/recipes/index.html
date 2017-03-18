@@ -676,6 +676,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#deep-linking-with-uwp" title="Deep Linking with UWP" class="md-nav__link">
+    Deep Linking with UWP
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -684,13 +691,6 @@
         <li class="md-nav__item">
   <a href="#push-to-sync" title="Push to Sync" class="md-nav__link">
     Push to Sync
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#secure-push" title="Secure Push" class="md-nav__link">
-    Secure Push
   </a>
   
 </li>
@@ -1071,6 +1071,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#deep-linking-with-uwp" title="Deep Linking with UWP" class="md-nav__link">
+    Deep Linking with UWP
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1079,13 +1086,6 @@
         <li class="md-nav__item">
   <a href="#push-to-sync" title="Push to Sync" class="md-nav__link">
     Push to Sync
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#secure-push" title="Secure Push" class="md-nav__link">
-    Secure Push
   </a>
   
 </li>
@@ -1108,10 +1108,6 @@
                   <h1>Push Recipes</h1>
                 
                 <p>This section is dedicated to exploring various common recipes for push notifications and how we can achieve those recipes through cross-platform code.</p>
-<div class="admonition warn">
-<p class="admonition-title">Incomplete Section</p>
-<p>This section is incomplete and still in progress.  Please do not rely on any information within this section.</p>
-</div>
 <h2 id="marketing-push">Marketing Push<a class="headerlink" href="#marketing-push" title="Permanent link">&para;</a></h2>
 <p>The most common requirement for push notifications is to alert users of a special offer or other marketing information.  The general idea is that the marketing person will create a "campaign" that includes a push notification.  When the user receives the push notification, they will accept it.  If a user accepts the push notification, the mobile app will deep-link into a specific page and store the fact that the user viewed the page within the database.</p>
 <p>To implement this sort of functionality within a cross-platform application, we need to implement <strong>Templates</strong>.  We gave demonstrations of the implementation of the templates while we were discussing the various platform implementations.  However, we didn't actually use them.  A template is provides by the mobile client when registering.  Let's take a look at a typical template as implemented by each platform:</p>
@@ -1134,13 +1130,17 @@
 </code></pre>
 
 <p><strong>Windows</strong>:</p>
-<pre><code class="xml">&lt;toast&gt;
-    &lt;visual&gt;
-        &lt;binding template=&quot;genericTemplate&quot;&gt;
-            &lt;image id=&quot;1&quot; src=&quot;$(picture)&quot; /&gt;
-            &lt;text id=&quot;2&quot;&gt;$(message)&lt;/text&gt;
-        &lt;/binding&gt;
-    &lt;/visual&gt;
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;toast launch=&quot;zumobook&quot;&gt;
+  &lt;visual&gt;
+    &lt;binding template=&quot;ToastGeneric&quot;&gt;
+      &lt;text&gt;$(message)&lt;/text&gt;
+    &lt;/binding&gt;
+  &lt;/visual&gt;
+  &lt;actions&gt;
+    &lt;action content=&quot;Open&quot; arguments=&quot;$(picture)&quot; /&gt;
+    &lt;action content=&quot;Cancel&quot; arguments=&quot;cancel&quot; /&gt;
+  &lt;/actions&gt;
 &lt;/toast&gt;
 </code></pre>
 
@@ -1152,27 +1152,38 @@
 <pre><code class="csharp">    // Android Version
     var genericTemplate = new PushTemplate
     {
-        Body = &quot;{&quot;&quot;data&quot;&quot;:{&quot;&quot;message&quot;&quot;:&quot;&quot;$(message)&quot;&quot;,&quot;&quot;picture&quot;&quot;:&quot;&quot;$(picture)&quot;&quot;}}&quot;
+        Body = @&quot;{&quot;&quot;data&quot;&quot;:{&quot;&quot;message&quot;&quot;:&quot;&quot;$(message)&quot;&quot;,&quot;&quot;picture&quot;&quot;:&quot;&quot;$(picture)&quot;&quot;}}&quot;
     };
     installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
 
     // iOS Version
     var genericTemplate = new PushTemplate
     {
-        Body = &quot;{&quot;&quot;aps&quot;&quot;:{&quot;&quot;alert&quot;&quot;:&quot;&quot;$(message)&quot;&quot;,&quot;&quot;picture&quot;&quot;:&quot;&quot;$(picture)&quot;&quot;}}&quot;
+        Body = @&quot;{&quot;&quot;aps&quot;&quot;:{&quot;&quot;alert&quot;&quot;:&quot;&quot;$(message)&quot;&quot;,&quot;&quot;picture&quot;&quot;:&quot;&quot;$(picture)&quot;&quot;}}&quot;
     };
     installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
 
     // Windows Version
     var genericTemplate = new WindowsPushTemplate
     {
-        Body = &quot;&lt;toast&gt;&lt;visual&gt;&lt;binding template=&quot;&quot;genericTemplate&quot;&quot;&gt;&lt;image id=&quot;&quot;1&quot;&quot; src=&quot;&quot;$(picture)&quot;&quot;/&gt;&lt;text id=&quot;&quot;1&quot;&quot;&gt;$(message)&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;&quot;
+        Body = @&quot;&lt;?xml version=&quot;&quot;1.0&quot;&quot; encoding=&quot;&quot;utf-8&quot;&quot;?&gt;
+&lt;toast launch=&quot;&quot;zumobook&quot;&quot;&gt;
+  &lt;visual&gt;
+    &lt;binding template=&quot;&quot;ToastGeneric&quot;&quot;&gt;
+      &lt;text&gt;$(message)&lt;/text&gt;
+    &lt;/binding&gt;
+  &lt;/visual&gt;
+  &lt;actions&gt;
+    &lt;action content=&quot;&quot;Open&quot;&quot; arguments=&quot;&quot;$(picture)&quot;&quot; /&gt;
+    &lt;action content=&quot;&quot;Cancel&quot;&quot; arguments=&quot;&quot;cancel&quot;&quot; /&gt;
+  &lt;/actions&gt;
+&lt;/toast&gt;&quot;
     };
     genericTemplate.Headers.Add(&quot;X-WNS-Type&quot;, &quot;wns/toast&quot;);
     installation.Templates.Add(&quot;genericTemplate&quot;, genericTemplate);
 </code></pre>
 
-<p>To push, we can use the same Test Send facility in the Azure Portal.  In the Test Send screen, set the <strong>Platforms</strong> field to be <strong>Custom Template</strong>, and the payload to be a JSON document with the three fields:</p>
+<p>To push, we can use the same Test Send facility in the Azure Portal.  In the Test Send screen, set the <strong>Platforms</strong> field to be <strong>Custom Template</strong>, and the payload to be a JSON document with the two fields:</p>
 <pre><code class="text">{
     &quot;message&quot;: &quot;Test Message&quot;,
     &quot;picture&quot;: &quot;http://r.ddmcdn.com/w_606/s_f/o_1/cx_0/cy_15/cw_606/ch_404/APL/uploads/2014/06/01-kitten-cuteness-1.jpg&quot;
@@ -1307,10 +1318,317 @@ namespace TaskList.ViewModels
 <p>You should keep the push payload as small as possible.  There are limits and they vary by platform (but are in the range of 4-5Kb).  Note that I don't include the full URL of the picture, for example, nor do I include the picture as binary data.  This allows me to adjust to an appropriate image URLwithin the client.  This keeps the number of bytes in the push small, but also allows me to adjust the image for the platform, if necessary.</p>
 </div>
 <h3 id="deep-linking-with-ios">Deep Linking with iOS<a class="headerlink" href="#deep-linking-with-ios" title="Permanent link">&para;</a></h3>
+<p>Deep linking with iOS follows a similar pattern to Android.  The notification is received by <code>DidReceiveRemoteNotification()</code> method in the <code>AppDelegate.cs</code>, which we can then process to load the appropriate page from the background.</p>
+<p>First, update the <code>DidReceiveRemoteNotification()</code> method to call a new method we will define in a moment.  This allows us to call the notification processor from multiple places:</p>
+<pre><code class="csharp">/// &lt;summary&gt;
+/// Handler for Push Notifications
+/// &lt;/summary&gt;
+public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action&lt;UIBackgroundFetchResult&gt; completionHandler)
+{
+    ProcessNotification(userInfo, false);
+}
+</code></pre>
+
+<p>This method is also defined in the <code>AppDelegate.cs</code> class:</p>
+<pre><code class="csharp">private void ProcessNotification(NSDictionary options, bool fromFinishedLoading)
+{
+    if (!(options != null &amp;&amp; options.ContainsKey(new NSString(&quot;aps&quot;))))
+    {
+        // Short circuit - nothing to do
+        return;
+    }
+
+    NSDictionary aps = options.ObjectForKey(new NSString(&quot;aps&quot;)) as NSDictionary;
+
+    // Obtain the alert and picture elements if they are there
+    var alertString = GetStringFromOptions(aps, &quot;alert&quot;);
+    var pictureString = GetStringFromOptions(aps, &quot;picture&quot;);
+
+    if (!fromFinishedLoading)
+    {
+        // Manually show an alert
+        if (!string.IsNullOrEmpty(alertString))
+        {
+            UIAlertView alertView = new UIAlertView(
+                &quot;TaskList&quot;,
+                alertString,
+                null,
+                NSBundle.MainBundle.LocalizedString(&quot;Cancel&quot;, &quot;Cancel&quot;),
+                NSBundle.MainBundle.LocalizedString(&quot;OK&quot;, &quot;OK&quot;)
+            );
+            alertView.Clicked += (sender, args) =&gt;
+            {
+                if (args.ButtonIndex != alertView.CancelButtonIndex)
+                {
+                    if (!string.IsNullOrEmpty(pictureString))
+                    {
+                        App.Current.MainPage = new NavigationPage(new Pages.PictureView(pictureString));
+                    }
+                }
+            };
+            alertView.Show();
+        }
+    }
+}
+
+private string GetStringFromOptions(NSDictionary options, string key)
+{
+    string v = string.Empty;
+    if (options.ContainsKey(new NSString(key)))
+    {
+        v = (options[new NSString(key)] as NSString).ToString();
+    }
+    return v;
+}
+</code></pre>
+
+<p>This method checks to see if there is something to do.  If there is, it generates the alert as before.  This time, however, if the user clicks on OK, then it sets the current page to the same <code>PictureView</code> view that was used by the Android application.  The <code>GetStringFromOptions()</code> method is a convenience method for extracting strings from the push notification payload.</p>
+<p>Send the following push notification to receive the picture:</p>
+<pre><code class="text">{
+    &quot;aps&quot;:{
+        &quot;alert&quot;:&quot;Notification Hub test notification&quot;,
+        &quot;picture&quot;:&quot;http://r.ddmcdn.com/w_606/s_f/o_1/cx_0/cy_15/cw_606/ch_404/APL/uploads/2014/06/01-kitten-cuteness-1.jpg&quot;
+    }
+}
+</code></pre>
+
+<p>You should test this in the following cases:</p>
+<ul>
+<li>The app is running and in the foreground.</li>
+<li>The app is running, but in the background.</li>
+<li>The app is not running at all.</li>
+</ul>
+<h3 id="deep-linking-with-uwp">Deep Linking with UWP<a class="headerlink" href="#deep-linking-with-uwp" title="Permanent link">&para;</a></h3>
+<p>Universal Windows is perhaps the most complete story for notifications out there.  Firstly, let's construct our notification.  On the <strong>Test Send</strong> blade within your notification hub in the Azure portal, choose <strong>Windows</strong> as the platform and cut and paste the following into the Payload:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;toast launch=&quot;zumobook&quot;&gt;
+  &lt;visual&gt;
+    &lt;binding template=&quot;ToastGeneric&quot;&gt;
+      &lt;text&gt;This is a simple toast notification example&lt;/text&gt;
+    &lt;/binding&gt;
+  &lt;/visual&gt;
+  &lt;actions&gt;
+    &lt;action content=&quot;Open&quot; arguments=&quot;http://static.boredpanda.com/blog/wp-content/uploads/2016/08/cute-kittens-7-57b30aa10707a__605.jpg&quot; /&gt;
+    &lt;action content=&quot;Cancel&quot; arguments=&quot;cancel&quot; /&gt;
+  &lt;/actions&gt;
+&lt;/toast&gt;
+</code></pre>
+
+<p>This payload provides a textual response with two buttons - an open button and a cancel button.  The most important part of this, however, is the <code>launch="zumobook"</code>.  If the user clicks on Open, the application it is associated with is launched via the <code>OnActivated()</code> method, and the toast information is passed into that method.  This method is located in the <code>App.xaml.cs</code> file of the TaskList.UWP project:</p>
+<pre><code class="csharp">protected override void OnActivated(IActivatedEventArgs args)
+{
+    if (args.Kind == ActivationKind.ToastNotification)
+    {
+        var toastArgs = args as ToastNotificationActivatedEventArgs;
+        Xamarin.Forms.Application.Current.MainPage = new Xamarin.Forms.NavigationPage(
+            new Pages.PictureView(toastArgs.Argument));
+    }
+}
+</code></pre>
+
+<p>The only real problem here is that there is a conflict within this file between the standard <code>Frame</code> object and the Xamarin Forms version of the <code>Frame</code> object.  If you use <code>using Xamarin.Forms;</code> in this file, you have to fully qualify conflicting classes.  It's just as easy to fully-qualify the specific Xamarin Forms classes when they are needed, as I did above.</p>
 <h2 id="push-to-sync">Push to Sync<a class="headerlink" href="#push-to-sync" title="Permanent link">&para;</a></h2>
 <p>Sometimes, you want to alert the user that there is something new for that user.  When the user is alerted, acceptance of the push notification indicates that the user wants to go to the app and synchronize the database before viewing the data.</p>
-<h2 id="secure-push">Secure Push<a class="headerlink" href="#secure-push" title="Permanent link">&para;</a></h2>
-<p>Push notifications are insecure.  They appear on the front page of the lock screen and anyone can open them in a multi-user environment (where a mobile device is shared by a community of users).  In these cases, you may want to ensure that the push notification is only opened by the user for which it was intended.</p>
+<p>Push to Sync is very similar to the Marketing Push, but there are some caveats.  In general, the synchronization process should happen within 30 seconds.  That's not very long in the mobile world.  So, what do you do?</p>
+<p>Firstly, let's look at the code for the server-side.  We need to generate an asynchronous push whenever a record is updated.  We will pass the ID of the updated record with the push.  Here is an example table controller:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Microsoft.Azure.Mobile.Server;
+using Backend.DataObjects;
+using Backend.Models;
+using Microsoft.Azure.Mobile.Server.Config;
+using Microsoft.Azure.NotificationHubs;
+using System.Collections.Generic;
+using System;
+
+namespace Backend.Controllers
+{
+    [Authorize]
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request, enableSoftDelete: true);
+        }
+
+        // GET tables/TodoItem
+        public IQueryable&lt;TodoItem&gt; GetAllTodoItems()
+        {
+            return Query();
+        }
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id)
+        {
+            return Lookup(id);
+        }
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public async Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch)
+        {
+            var item = await UpdateAsync(id, patch);
+            await PushToSyncAsync(&quot;todoitem&quot;, item.Id);
+            return item;
+        }
+
+        // POST tables/TodoItem
+        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            await PushToSyncAsync(&quot;todoitem&quot;, item.Id);
+            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public async Task DeleteTodoItem(string id)
+        {
+            await PushToSyncAsync(&quot;todoitem&quot;, id);
+            await DeleteAsync(id);
+        }
+
+        private async Task PushToSyncAsync(string table, string id)
+        {
+            var appSettings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+            var nhName = appSettings.NotificationHubName;
+            var nhConnection = appSettings.Connections[MobileAppSettingsKeys.NotificationHubConnectionString].ConnectionString;
+
+            // Create a new Notification Hub client
+            var hub = NotificationHubClient.CreateClientFromConnectionString(nhConnection, nhName);
+
+            // Create a template message
+            var templateParams = new Dictionary&lt;string, string&gt;();
+            templateParams[&quot;op&quot;] = &quot;sync&quot;;
+            templateParams[&quot;table&quot;] = table;
+            templateParams[&quot;id&quot;] = id;
+
+            // Send the template message
+            try
+            {
+                var result = await hub.SendTemplateNotificationAsync(templateParams);
+                Configuration.Services.GetTraceWriter().Info(result.State.ToString());
+            }
+            catch (Exception ex)
+            {
+                Configuration.Services.GetTraceWriter().Error(ex.Message, null, &quot;PushToSync Error&quot;);
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>The important code here is the <code>PushToSyncAsync()</code> method.  This does the actual push to your clients.  In this version, any client that has registered a template with the <code>$(op)</code>, <code>$(table)</code> and <code>$(id)</code> variables will get the push notification.  The Notifications Hub SDK <code>SendTemplateNotificationAsync()</code> method can also send to a list of devices and a tag expression via various overloads.</p>
+<p>We have to also register a new template.  Here are the two versions:</p>
+<pre><code class="csharp">// Android version
+var pushToSyncTemplate = new PushTemplate
+{
+    Body = @&quot;{&quot;&quot;data&quot;&quot;:{&quot;&quot;op&quot;&quot;:&quot;&quot;$(op)&quot;&quot;,&quot;&quot;table&quot;&quot;:&quot;&quot;$(table)&quot;&quot;,&quot;&quot;id&quot;&quot;:&quot;&quot;$(id)&quot;&quot;}}&quot;
+};
+installation.Templates.Add(&quot;pushToSync&quot;, pushToSyncTemplate);
+
+// iOS version
+PushTemplate pushToSyncTemplate = new PushTemplate
+{
+    Body = @&quot;{&quot;&quot;aps&quot;&quot;:{&quot;&quot;op&quot;&quot;:&quot;&quot;$(op)&quot;&quot;,&quot;&quot;table&quot;&quot;:&quot;&quot;$(table)&quot;&quot;,&quot;&quot;id&quot;&quot;:&quot;&quot;$(id)&quot;&quot;},&quot;&quot;content-available&quot;&quot;:1}&quot;
+}
+installation.Templates.Add(&quot;pushToSync&quot;, pushToSyncTemplate);
+</code></pre>
+
+<div class="admonition info">
+<p class="admonition-title">What about Universal Windows</p>
+<p>You can do some remarkable things with Universal Windows, but you have to resort to raw pushes.  At that 
+point, you can decide what to put in the payload.  When running, these are handled the same way as the 
+marketing push.  For more information, see <a href="https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/tiles-and-notifications-raw-notification-overview">the WNS documentation</a>.</p>
+</div>
+<p>The Push to Sync message needs to be handled by the TaskList view.  The easiest mechanism of communicating with the view is to use the <code>MessagingCenter</code>.  The TaskList view already has the appropriate code to refresh the list when it receives a message:</p>
+<pre><code class="csharp">    // Execute the refresh command
+    RefreshCommand.Execute(null);
+    MessagingCenter.Subscribe&lt;TaskDetailViewModel&gt;(this, &quot;ItemsChanged&quot;, async (sender) =&gt;
+    {
+        await ExecuteRefreshCommand();
+    });
+</code></pre>
+
+<p>We can add an appropriate push-to-sync version like this:</p>
+<pre><code class="csharp">    MessageCenter.Subscribe&lt;PushToSync&gt;(this, &quot;ItemsChanged&quot;, async (sender) =&gt; 
+    {
+        await ExecuteRefreshCommand();
+    });
+</code></pre>
+
+<p>This is the same code, but listens for a notification from a different class.  That class is defined in the shared project <code>Models</code> folder:</p>
+<pre><code class="csharp">namespace TaskList.Models
+{
+    public class PushToSync
+    {
+        public string Table { get; set; }
+        public string Id { get; set; }
+    }
+}
+</code></pre>
+
+<p>When the MessagingCenter is sent a message for push-to-sync, it will execute the refresh command, thus refreshing the data.  All that remains is to actually send that message in response to the notification.  For Android, this is done in the <code>Services\GcmHandler.cs</code> file in the <code>OnMessage()</code> method:</p>
+<pre><code class="csharp">    protected override void OnMessage(Context context, Intent intent)
+    {
+        Log.Info(&quot;GcmService&quot;, $&quot;Message {intent.ToString()}&quot;);
+        var op = intent.Extras.GetString(&quot;op&quot;);
+        if (op != null)
+        {
+            var syncMessage = new PushToSync()
+            {
+                Table = intent.Extras.GetString(&quot;table&quot;),
+                Id = intent.Extras.GetString(&quot;id&quot;)
+            };
+            MessagingCenter.Send&lt;PushToSync&gt;(syncMessage, &quot;ItemsChanged&quot;);
+        }
+        else
+        {
+            var message = intent.Extras.GetString(&quot;message&quot;) ?? &quot;Unknown Message&quot;;
+            var picture = intent.Extras.GetString(&quot;picture&quot;);
+            CreateNotification(&quot;TaskList&quot;, message, picture);
+        }
+    }
+</code></pre>
+
+<p>For iOS, the send happens in the <code>ProcessNotification()</code> method of the <code>AppDelegate.cs</code> class:</p>
+<pre><code class="csharp">    private void ProcessNotification(NSDictionary options, bool fromFinishedLoading)
+    {
+        if (!(options != null &amp;&amp; options.ContainsKey(new NSString(&quot;aps&quot;))))
+            return;
+
+        NSDictionary aps = options.ObjectForKey(new NSString(&quot;aps&quot;)) as NSDictionary;
+        if (!fromFinishedLoading)
+        {
+            var alertString = GetStringFromOptions(aps, &quot;alert&quot;);
+            if (!string.IsNullOrEmpty(alertString))
+            {
+                // Create the alert (removed for brevity)
+            }
+
+            var opString = GetStringFromOptions(aps, &quot;op&quot;);
+            if (!string.IsNullOrEmpty(opString) &amp;&amp; opString.Equals(&quot;sync&quot;))
+            {
+                var syncMessage = new PushToSync()
+                {
+                    Table = GetStringFromOptions(aps, &quot;table&quot;),
+                    Id = GetStringFromOptions(aps, &quot;id&quot;)
+                };
+                MessagingCenter.Send&lt;PushToSync&gt;(syncMessage, &quot;ItemsChanged&quot;);
+            }
+        }
+    }
+</code></pre>
+
+<p>When a client inserts or updates a record into the database on the server, <code>PushToSync()</code> is called.  That emits a push notification in the proper form defined within the mobile app.  When the mobile app receives that push notification, it sends an "ItemsChanged" event to the messaging center.  The TaskList view subscribes to those events and performs a sync in response to that event.</p>
+<p>There are several things we could do to this code, including:</p>
+<ul>
+<li>Push to the UserId that owns the record only - this will reduce the number of pushes that happen.</li>
+<li>Only pull the specific record on the specific table that is needed.  This is available in the sender object.</li>
+</ul>
 <!-- Links -->
               
               
