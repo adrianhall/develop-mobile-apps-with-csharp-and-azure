@@ -14,3 +14,5 @@ particular order):
 - Mike James
 - Pierce Boggan
 - Steve Lee
+
+In addition, several people helped by correcting formatting and spelling mistakes.  A huge thank you to everyone who participated in this book.  It would not have been possible without you.
