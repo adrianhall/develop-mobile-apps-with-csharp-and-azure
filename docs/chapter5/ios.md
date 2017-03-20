@@ -26,10 +26,9 @@ Registering an App ID is handled on the [Apple Developer Portal][1].  Apple does
 2. In the left-hand menu, click **Certificates, IDs & Profiles**.
 3. In the left-hand menu, **Identifiers**, click **App IDs**.
 4. Click the **+** button in the top right corner.
-5. You can pick either a wildcard App ID or an explicit App ID.  I'm going to use an Explicit App ID for this app.
-6. Fill in the form:
+5. Fill in the form:
     * The App ID Description is not used and can be set to anything (subject to validation rules)
-    * Choose an **Explicit App ID** for this app.  (The alternative is a wildcard App ID, which isn't covered here).
+    * Choose an **Explicit App ID** for this app.
     * Enter the App ID suffix according to the rules.  I used `com.shellmonger.tasklist`.
 
         ![][img1]
@@ -38,9 +37,9 @@ Registering an App ID is handled on the [Apple Developer Portal][1].  Apple does
 
         ![][img2]
 
-7. Click **Continue** when the form is complete.
-8. Make a note of the **Identifier** in the next screen, then click **Register**.
-9. Click **Done**.
+6. Click **Continue** when the form is complete.
+7. Make a note of the **Identifier** in the next screen, then click **Register**.
+8. Click **Done**.
 
 Note that the Push Notifications capability will be listed as _Configurable_ until you create a certificate that is used for push notifications.  Once that happens, the capability will be listed as _Enabled_.
 
