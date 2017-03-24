@@ -152,6 +152,9 @@ Creating an Azure Media Services account is very similar to other Azure resource
 
 The Media Services accounts may take a couple of minutes to create.  Do not continue until the deployment is complete.
 
+!!! tip "Testing tools for Media Services"
+    If you intend to do any development in Azure Media Services, you should download and become familiar with the [Azure Media Services Explorer][5]. this is a test tool for Windows that allows you to upload, download, process, encode and package assets ith Azure Media Services.  You should also grow a collection of test videos.  A great starting point are [these videos from TechSlides][4].
+
 You could stop here and do all the work manually.  If you wish to check out the full set of tutorials, follow the official documentation:
 
 * [Uploading Assets](https://docs.microsoft.com/en-us/azure/media-services/media-services-portal-upload-files)
@@ -218,3 +221,4 @@ Let's take a look at the first step.  I'm creating an Azure Function called `cre
 [2]: https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/media-functions-for-logic-app
 [3]: https://docs.microsoft.com/en-us/azure/media-services/media-services-custom-mes-presets-with-dotnet
 [4]: http://techslides.com/sample-webm-ogg-and-mp4-video-files-for-html5
+[5]: http://aka.ms/amse
