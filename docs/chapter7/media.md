@@ -160,37 +160,7 @@ You could stop here and do all the work manually.  If you wish to check out the 
 
 ### The Azure Functions
 
-Fortunately for us, Azure Media Services has constructed [several capable samples][1] for encoding videos, so I'm going to use one of these as a model.  The first function I am going to create reads from a blob storage and writes out to a queue element when complete.  
-
-*  Open the Function App.
-*  Click **+ New Function**.  
-*  Choose the **BlobTrigger-CSharp** template.
-*  Enter _ProcessIncomingMedia_ as the function name.
-*  Enter _incoming/{name}_ as the Path.
-*  Click **new** next to the Storage account connection box.
-*  Select your storage account from the list.
-*  Click **Create**
-
-On the right side of the window, note the **View Files** link.  Click on **View files**, then select `function.json`.  This shows the configuration file for the function.  Specifically, it lists the bindings - both input and output bindings are listed here.  You can use this fact to develop functions with appropriate bindings outside of the Azure portal, including within Visual Studio.  You can also use this format to integrate with a continuous deployment mechanism just like any other Azure App Service.  For my purposes, I want the input binding to be called `incomingFile`, so change the `function.json` to look like this:
-
-```text
-{
-  "bindings": [
-    {
-      "name": "incomingFile",
-      "type": "blobTrigger",
-      "direction": "in",
-      "path": "incoming/{name}",
-      "connection": "zumomediach7_STORAGE"
-    }
-  ],
-  "disabled": false
-}
-```
-
-You will only have to change the `name` parameter.  The other pieces, especially the connection, should be left alone.
-
-Before we can go any further, we need to be able to access the Media Services account.  Just like an Azure Storage account, we need an account name and a key.  We created the account name during the creation of the Media Services resource.  To get the account key:
+Now that I have a Media Services account, I need to set up the Azure Functions App so that my Functions can access the various resources.  Specifically, I need access to the Azure Storage connection string (which we will deal with later) and the Media Services account information.  Just like an Azure Storage account, we need an account name and a key.  We created the account name during the creation of the Media Services resource.  To get the account key:
 
 *  Open the resource group, then open the Media Services resource.
 *  Click **Account keys** in the left hand menu.
@@ -207,165 +177,22 @@ Azure App Service underpins both Azure Mobile Apps and Azure Functions.  You can
 *  Click **Save**.
 *  Close the Application settings blade.
 
-Getting back to our function, click on the **Develop** tab to bring up the code editor for the `run.csx` file.
+Let's get back to the process I am trying to implement.  When a user uploads a video file into the `incoming` container within Azure Storage, I need to automatically:
 
-```csharp
-#r "Microsoft.WindowsAzure.Storage"
+*  Create a Media Services Asset.
+*  Copy the incoming video into the Asset blob.
+*  Synchronize the Asset blob with Media Services.
+*  Submit an encoding job.
+*  Wait for the encoding job to be complete.
+*  Publish the Asset.
+*  Insert the URL for the published asset into the Mobile Apps database.
 
-using System;
-using Microsoft.Azure;
-using Microsoft.WindowsAzure.MediaServices.Client;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage.Auth;
+Media encoding jobs can take a long time, and Azure Functions have finite running times, so we will need to work around this by checking the job on a regular basis.  As a result, we are going to have several small functions.
 
-private static readonly string mediaAccountName = Environment.GetEnvironmentVariable("MediaServicesAccountName");
-private static readonly string mediaAccountKey = Environment.GetEnvironmentVariable("MediaServicesAccountKey");
-private static readonly string storageConnectionString = Environment.GetEnvironmentVariable("zumomediach7_STORAGE");
+!!! tip "Example Functions for Media Services"
+    Azure Media Services provides a number of resources in the [Azure-Samples][1] repository.  Most of the samples provided here were adapted from this GitHub repository.  I particularly like the [Logic Apps edition of the encoding pipeline][2] as it provides a visual understanding of the process.
 
-public static async Task Run(CloudBlockBlob incomingFile, TraceWriter log)
-{
-    log.Info($"Blob Trigger: {incomingFile.Name} to be processed");
-    log.Info($"Using Media Services account {mediaAccountName}");
-
-    var mediaCredentials = new MediaServicesCredentials(mediaAccountName, mediaAccountKey);
-    var context = new CloudMediaContext(mediaCredentials);
-
-    // Step 1: Copy the Blob into the new Asset for the Job
-    IAsset asset;
-    try {
-        // Get a reference to the storage account
-        var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-
-        // Create a new asset
-        asset = context.Assets.Create(incomingFile.Name, AssetCreationOptions.None);
-        var writePolicy = context.AccessPolicies.Create("writePolicy", TimeSpan.FromHours(4), AccessPermissions.Write);
-        var locator = context.Locators.CreateLocator(LocatorType.Sas, asset, writePolicy);
-        var blobStorage = storageAccount.CreateCloudBlobClient();
-
-        // Get the destination asset container reference
-        var containerName = (new Uri(locator.Path)).Segments[1];
-        var assetContainer = blobStorage.GetContainerReference(containerName);
-        assetContainer.CreateIfNotExists();
-
-        // Copy the blob to the destination
-        var destinationBlob = assetContainer.GetBlockBlobReference(incomingFile.Name);
-        using (var stream = await incomingFile.OpenReadAsync()) {
-            await destinationBlob.UploadFromStreamAsync(stream);
-        }
-
-        // Create an asset file
-        var assetFile = asset.AssetFiles.Create(incomingFile.Name);
-        assetFile.ContentFileSize = incomingFile.Properties.Length;
-        assetFile.MimeType = "video/mp4";
-        assetFile.IsPrimary = true;
-        assetFile.Update();
-        asset.Update();
-
-        // Clean up
-        locator.Delete();
-        writePolicy.Delete();
-
-        log.Info($"Asset copied to {asset.Id}");
-    } catch (Exception ex) {
-        log.Error($"Copy Failed: {ex.Message}");
-        throw ex;
-    }
-
-    // Step 2: Create an encoding job
-    var job = context.Jobs.Create("Some description");
-    var processor = context.MediaProcessors
-        .Where(p => p.Name == "Media Encoder Standard")
-        .ToList()
-        .OrderBy(p => new Version(p.Version))
-        .LastOrDefault();
-    var preset = File.ReadAllText("./preset.json");
-
-    var task = job.Tasks.AddNew("Encode with custom preset", processor, preset, TaskOptions.None);
-    task.InputAssets.Add(asset);
-    task.OutputAssets.AddNew(incomingFile.Name, AssetCreationOptions.None);
-    job.Submit();
-}
-```
-
-Once you save this code, click the **Logs** link at the bottom.  Note that there are several namespaces that do not exist.  These are from the Media Services SDK, which we need to bring in via a `project.json` file.  Click **View files** in the side bar, then click **Add** and enter the name `project.json`.  The contents of `project.json` are as follows:
-
-```text
-{
-  "frameworks": {
-    "net46":{
-      "dependencies": {
-        "windowsazure.mediaservices": "3.8.0.5",
-        "windowsazure.mediaservices.extensions": "3.8.0.3"
-      }
-    }
-   }
-}
-```
-
-This is akin to using the NuGet package manager.  Anything you specify in the `project.json` file is automatically included by reference so you don't need a `#r` directive at the top of the file. Once you save the file, the system will download and install the new packages, then it will rerun the code.  You should see `Compilation succeeded` in the logs window.
-
-Finally, we need a JSON file that describes the encoding job.  This is the file `preset.json` that was referenced in the code.  Open up **View Files** and add the `preset.json` file with the following contents:
-
-```text
-{
-  "Version": 1.0,
-  "Codecs": [
-    {
-      "KeyFrameInterval": "00:00:02",
-      "StretchMode": "AutoSize",
-      "SceneChangeDetection": true,
-      "H264Layers": [
-        {
-          "Profile": "Auto",
-          "Level": "auto",
-          "Bitrate": 4500,
-          "MaxBitrate": 4500,
-          "BufferWindow": "00:00:05",
-          "Width": 1280,
-          "Height": 720,
-          "BFrames": 3,
-          "ReferenceFrames": 3,
-          "AdaptiveBFrame": true,
-          "Type": "H264Layer",
-          "FrameRate": "0/1"
-        }
-      ],
-      "Type": "H264Video"
-    },
-    {
-      "Profile": "AACLC",
-      "Channels": 2,
-      "SamplingRate": 48000,
-      "Bitrate": 128,
-      "Type": "AACAudio"
-    }
-  ],
-  "Outputs": [
-    {
-      "FileName": "{Basename}_{Width}x{Height}_{VideoBitrate}.mp4",
-      "Format": {
-        "Type": "MP4Format"
-      }
-    }
-  ]
-}
-```
-
-For more information on what this preset does, check out the [Media Services documentation][3].
-
-!!! tip "Sample Videos"
-    To test media encoding, you need videos.  You can find some sample videos on [TechSlides][4].
-
-To test the encoding, upload a test video into the incoming container of your blob storage.  My favorite way of doing this is to use the **Cloud Explorer** built into Visual Studio.
-
-*  Open Visual Studio.
-*  Select **View** -> **Cloud Explorer**.
-*  Click on the user icon, select your Azure subscription, then click **Apply**.
-*  Expand your Azure subscription, then **Storage Accounts**, your storage account, **Blob Containers**.
-*  Double-click the **incoming** container to open the container panel.
-
-You can upload your test video from here.  Once uploaded, check the Logs section of your Azure Function to see the processing steps.  The code includes enough logging that you will be able to see the progress of the function.
+Let's take a look at the first step.  I'm creating an Azure Function called `create-media-asset`.
 
 ** TO BE CONTINUED **
 
@@ -388,6 +215,6 @@ You can upload your test video from here.  Once uploaded, check the Logs section
 [Azure Function App]: https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview
 [Samples GitHub repository]: https://github.com/Azure-Samples/media-services-dotnet-functions-integration
 [1]: https://github.com/Azure-Samples/media-services-dotnet-functions-integration
-[2]: https://github.com/Azure-Samples/media-services-dotnet-functions-integration/blob/master/100-basic-encoding/helpers/copyBlobHelpers.csx
+[2]: https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/media-functions-for-logic-app
 [3]: https://docs.microsoft.com/en-us/azure/media-services/media-services-custom-mes-presets-with-dotnet
 [4]: http://techslides.com/sample-webm-ogg-and-mp4-video-files-for-html5
