@@ -3,6 +3,7 @@
 I got a lot of assistance during the writing of this book.  The following people assisted (in no
 particular order):
 
+- Austin Emser
 - Chris Gillum
 - Chris Risner
 - Donna Malayeri
