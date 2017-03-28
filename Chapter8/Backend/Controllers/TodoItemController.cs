@@ -21,7 +21,19 @@ namespace Backend.Controllers
             DomainManager = new EntityDomainManager<TodoItem>(context, Request, enableSoftDelete: true);
         }
 
-        public string UserId => ((ClaimsPrincipal)User).FindFirst(ClaimTypes.NameIdentifier).Value;
+        public string UserId
+        {
+            get
+            {
+                if (User == null)
+                {
+                    throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                }
+                var principal = User as ClaimsPrincipal;
+                Claim cl = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                return cl?.Value;
+            }
+        }
 
         public void ValidateOwner(string id)
         {

@@ -154,9 +154,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="AutoMapper.Net4">
-      <HintPath>..\packages\AutoMapper.5.2.0\lib\net40\AutoMapper.Net4.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
