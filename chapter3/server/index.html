@@ -1635,10 +1635,9 @@ ON
 AFTER
     INSERT
 AS BEGIN
-    DECLARE @itemid AS BIGINT
-    SELECT @itemid = inserted.id FROM inserted
     INSERT INTO [mobile].[SysProps_TodoItems] ([Item_Id], [UpdatedAt])
-        VALUES (@itemid, CONVERT(DATETIMEOFFSET(7), SYSUTCDATETIME()));
+    SELECT inserted.id, CONVERT(DATETIMEOFFSET(7), SYSUTCDATETIME())
+    FROM inserted
 END
 GO
 
@@ -1667,9 +1666,8 @@ ON
 AFTER
     DELETE
 AS BEGIN
-    DECLARE @itemid AS BIGINT
-    SELECT @itemid = deleted.id from deleted
-    DELETE FROM [mobile].[SysProps_TodoItems] WHERE [Item_Id] = @itemid
+    DELETE FROM [mobile].[SysProps_TodoItems] 
+    WHERE [Item_Id] IN (select deleted.id from deleted)
 END
 GO
 </code></pre>
