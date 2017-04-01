@@ -687,8 +687,60 @@ One of the test artifacts is called the **REPL** - it's a command line utility f
 ```
 
 All this test does right now is invoke the Repl so we can discover the under-the-covers identities of the various components of the page.  Ensure you have built the Android project, then go to the Test Explorer and click **Run All** to discover the tests.   The first thing you will note is that there are two sets of tests run - one for iOS and one for Android.  The iOS ones will always fail because "iOS tests are not supported on Windows."  That's why I'm only working with Android here.
+
+!!! warn "TO BE CONTINUED"
+    This section is incomplete.
+
 ## End to End Testing
 
+!!! warn "TO BE CONTINUED"
+    This section is incomplete.
+
+## Distributing your Mobile Client to Beta Users
+
+There are a number of services that will distribute your client applications to your beta users.  Since I am working primarily within Azure and the Microsoft family of products, I'm going to use [Visual Studio Mobile Center][vsmc].  As of writing, Visual Studio Mobile Center is in preview, but already supports a large number of highly desirable features.  One of these features is beta distribution.  To create an application:
+
+1.  Sign in to [Visual Studio Mobile Center][vsmc-login].  You will need to create an account if you have not already done so.
+2.  Click **Add new** -> **Add new app**.
+3.  Give your app a name and select the OS (iOS or Android) and Platform (Xamarin). 
+4.  Click **Add new app** at the bottom of the page.
+
+!!! tip "Create two apps if you distribute both iOS and Android apps"
+    If you are distributing both an iOS and an Android app, you will need to create two apps - one for the iOS edition and one for the Android edition.
+
+At this point, the cloud infrastructure necessary to handle the mobile client app is created.  We can move on to the distribution phase.  We need to create a group and invite some beta users to our group before doing a distribution:
+
+1.  Click the **Distribute** icon (it looks like three arrow pointing up if your menu is collapsed).
+2.  Click **New Group**.
+3.  Name your group something like **Beta Testers**.
+4.  Enter a comma-delimited list of email addresses to invite users to join the group. 
+5.  Click **Create Group**.
+
+!!! tip "Collect and register UDID for iOS Distribution"
+    Another quirk of the iOS ecosystem.  You will need to [register the UDID][9] for each iOS beta tester.  Apple does not allow software to be installed on non-registered devices except via the App Store.
+
+A group called `Collaborators` is created and maintained by default.  This contains a list of people whom you are collaborating with via Visual Studio Mobile Center.  The APK or IPA file must be generated first.
+
+*  Open your solution in Visual Studio 2017.
+*  Select the **Release**, **Any CPU**, **TaskList.Android** configuration in the menu bar (for Android).
+*  Right-click the TaskList.Android project and select **Rebuild**.
+*  Once the build is complete, click **Build** -> **Archive...**.
+*  Once the archive is created, click **Open Folder**.
+
+The process is similar for iOS.  You must build for a device and will only be able to distribute to registered devices.   Now that we have an APK file:
+
+1.  Return to the [Visual Studio Mobile Center][vsmc-login] and select your app.
+2.  Click **Distribute** in the left-hand sidebar.
+3.  Click the group you created.
+4.  Click **Distribute new release**.
+5.  Drag and drop the APK file from the open folder to the landing area (or click upload and find your APK file).
+6.  Wait for the APK file to be uploaded.  A thin blue bar above the landing area is used to indicate progress.
+7.  While you wait, type in some release note into the box provided.
+8.  Click **Next**.
+9.  Click **Next** again, as the group is already selected. 
+10. Click **Distribute**.
+
+Your beta testers will now get an email telling them there is a new app available and how to download it.  
 
 <!-- Images -->
 [img1]: img/test-explorer.PNG
@@ -703,3 +755,7 @@ All this test does right now is invoke the Repl so we can discover the under-the
 [6]: https://docs.microsoft.com/en-us/visualstudio/test/walkthrough-creating-and-running-unit-tests-for-managed-code
 [7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter8
 [8]: ../chapter1/firstapp_pc.md
+[9]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10
+
+[vsmc]: https://mobile.azure.com/signup?utm_medium=referral_link&utm_source=GitHub&utm_campaign=ZUMO%20Book
+[vsmc-login]: https://mobile.azure.com?utm_medium=referral_link&utm_source=GitHub&utm_campaign=ZUMO%20Book

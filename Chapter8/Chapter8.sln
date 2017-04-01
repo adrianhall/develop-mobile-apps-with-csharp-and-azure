@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{FF52C52C-72F5-4C1C-BA1E-2267265A10B4}"
 EndProject
@@ -20,6 +20,7 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TaskList\TaskList\TaskList.projitems*{18350712-714d-4201-8174-929e9de9e6c5}*SharedItemsImports = 4
+		TaskList\TaskList\TaskList.projitems*{24fe2f45-1531-431b-a8e7-46085ffd2353}*SharedItemsImports = 4
 		TaskList\TaskList\TaskList.projitems*{3440feae-e7d0-4944-acd7-a6bf5c70e4da}*SharedItemsImports = 4
 		TaskList\TaskList\TaskList.projitems*{5894387f-01b2-4b92-98cb-1fdca6be34bb}*SharedItemsImports = 13
 	EndGlobalSection
