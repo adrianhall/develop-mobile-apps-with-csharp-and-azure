@@ -404,13 +404,291 @@ As with all other testing, ensure you think about all the things that could happ
 
 ## Testing your Mobile Client
 
+Testing your mobile client will generally be a multi-part affair:
+
+1.  Implement mock data services and test the UI in isolation.
+2.  Implement unit tests for the non-UI components.
+3.  Do end-to-end tests to ensure both client and server work together.
+
+Unit tests for non-UI code is the same as the server-side code.  You need to write the tests in a unit test framework like [xUnit][2] or [MSTest][6].  Use [Test-driven development][4] to ensure that your code is living up to its contract.
+
 ### Using Mock Data Services
 
-### Unit Testing
+Unfortunately, setting up repeatable unit tests becomes increasingly difficult in a client-server application such as a cloud-enabled mobile app.  For these aspects, you want to mock the data services.  If you have followed along from the beginning, we've actually done a lot of the hard work for this.
 
+*  Create an Interface that represents the interface to the data service.
+*  Create a concrete implementation of that interface.
+*  Use a dependency injection service to inject the concrete implementation.
+
+The whole idea here is that changing just one line of code will enable you to update from the mock implementation to the cloud implementation.  This allows you to develop the UI independently of the backend communication code, and allows you to do repeatable UI tests later on.
+
+Let's take a look at an example.  In [my Chapter8 project][7], I've got the Xamarin Forms application from [the very first chapter][8].  In the shared `TaskList` project, there is an `Abstractions` folder that contains the definitions for `ICloudService`:
+
+```csharp
+namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable<T> GetTable<T>() where T : TableData;
+    }
+}
+```
+
+There is also a definition for `ICloudTable`:
+
+```csharp
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudTable<T> where T : TableData
+    {
+        Task<T> CreateItemAsync(T item);
+        Task<T> ReadItemAsync(string id);
+        Task<T> UpdateItemAsync(T item);
+        Task DeleteItemAsync(T item);
+        Task<ICollection<T>> ReadAllItemsAsync();
+    }
+}
+```
+
+The important part of this is this.  The only place where the concrete edition, `AzureCloudService()`, is mentioned is in the `App.cs` file:
+
+```csharp
+using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            CloudService = new AzureCloudService();
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+```
+
+Everywhere else uses the `ICloudService` interface and does not mention the concrete version.  The application sets up the cloud service and every other class uses it.  This allows us to set up a mock cloud service as follows.  First, let's define the `MockCloudService`:
+
+```csharp
+using System.Collections.Generic;
+using TaskList.Abstractions;
+
+namespace TaskList.Services
+{
+    public class MockCloudService : ICloudService
+    {
+        public Dictionary<string, object> tables = new Dictionary<string, object>();
+
+        public ICloudTable<T> GetTable<T>() where T : TableData
+        {
+            var tableName = typeof(T).Name;
+            if (!tables.ContainsKey(tableName))
+            {
+                var table = new MockCloudTable<T>();
+                tables[tableName] = table;
+            }
+            return (ICloudTable<T>)tables[tableName];
+        }
+    }
+}
+
+```
+
+It's very similar to the `AzureCloudService` class, but there is no `MobileServiceClient`.  Instead, we store the cloud table instances in a dictionary to ensure successive calls to `GetTable<>()` return the same singleton reference.  We aren't using the backend service.  Similarly, we use a `Dictionary<>` to hold the items instead of the backend service in the `MockCloudTable` class:
+
+```csharp
+using Microsoft.WindowsAzure.MobileServices;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+
+namespace TaskList.Services
+{
+    public class MockCloudTable<T> : ICloudTable<T> where T : TableData
+    {
+        private Dictionary<string, T> items = new Dictionary<string, T>();
+        private int currentVersion = 1;
+
+        public async Task<T> CreateItemAsync(T item)
+        {
+            item.Id = Guid.NewGuid().ToString("N");
+            item.CreatedAt = DateTimeOffset.Now;
+            item.UpdatedAt = DateTimeOffset.Now;
+            item.Version = ToVersionString(currentVersion++);
+            items.Add(item.Id, item);
+            return item;
+        }
+
+        public async Task DeleteItemAsync(T item)
+        {
+            if (item.Id == null)
+            {
+                throw new NullReferenceException();
+            }
+            if (items.ContainsKey(item.Id))
+            {
+                items.Remove(item.Id);
+            }
+            else
+            {
+                throw new MobileServiceInvalidOperationException("Not Found", null, null);
+            }
+        }
+
+        public async Task<ICollection<T>> ReadAllItemsAsync()
+        {
+            List<T> allItems = new List<T>(items.Values);
+            return allItems;
+        }
+
+        public async Task<T> ReadItemAsync(string id)
+        {
+            if (items.ContainsKey(id))
+            {
+                return items[id];
+            }
+            else
+            {
+                throw new MobileServiceInvalidOperationException("Not Found", null, null);
+            }
+        }
+
+        public async Task<T> UpdateItemAsync(T item)
+        {
+            if (item.Id == null)
+            {
+                throw new NullReferenceException();
+            }
+            if (items.ContainsKey(item.Id))
+            {
+                item.UpdatedAt = DateTimeOffset.Now;
+                item.Version = ToVersionString(currentVersion++);
+                items[item.Id] = item;
+                return item;
+            }
+            else
+            {
+                throw new MobileServiceInvalidOperationException("Not Found", null, null);
+            }
+        }
+
+        private byte[] ToVersionString(int i)
+        {
+            byte[] b = BitConverter.GetBytes(i);
+            string str = Convert.ToBase64String(b);
+            return Encoding.ASCII.GetBytes(str);
+        }
+    }
+}
+```
+
+The mock service is instantiated within the `App.cs` file:
+
+```csharp
+using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+#if USE_MOCK_SERVICES
+            CloudService = new MockCloudService();
+#else
+            CloudService = new AzureCloudService();
+#endif
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+```
+
+Finally, I need to actually define `USE_MOCK_SERVICES` somewhere.  Right-click the project and select **Properties**.  Click **Build**.  Add the `USE_MOCK_SERVICES` to the **Conditional compilation symbols** (which is a semi-colon separated list).  Save the properties then rebuild the project you modified.  You can run this version without any backend at all.  It will not persist the data, but that's the point of mock data services.
+
+!!! tip "Use a new Configuration"
+    Another, more advanced, way of accomplishing this is to set up a new configuration.  You can see the configuration is "Active (Debug)".  You can add another configuration to this list called "Mock Services" by using the **Build** > **Configuration Manager...**.  When you select that configuration, the mock services will automatically be brought in.
+
+### UI Testing
+
+The mock services are a tool to enable UI unit testing.  UI testing is unit testing for your UI.  These are small tests that are executed on a real device and check to see if your main UI flows work as expected.  There are actually a few ways of creating tests. I'm going to produce a simple test.  In the test, I will simulate clicking on the entry button and ensuring that the task list page is produced.  This test can then be run against one or more devices.  Let's start by creating a `TaskList.Tests` project:
+
+*  Right-click the solution and select **Add** -> **New Project...**
+*  In the **Installed** > **Visual C#** > **Cross-Platform** node of the tree, select **UI Test App (Xamarin.UITest | Cross-Platform)**.
+*  Give it a snappy name, like `TaskList.Tests`, then click **OK**.
+*  Wait for the project to be created.
+*  Right-click the **References** node in the newly created project and select **Add Reference...**.
+*  Click **Projects** in the left hand side-bar.
+*  Click **TaskList.Android**.  Ensure there is a checked box next to the TaskList.Android project.
+*  Click **OK**.
+
+We are only going to test the Android edition of the project in this walkthrough, mostly because I do most of my work on a PC.  The same methodology can be used for iOS, however.
+
+The project contains two source files - `AppInitializer.cs` and `Tests.cs`.  This latter one is where we are going to spend the majority of our time, but we need to modify the former first.
+
+*  Right-click on the `TaskList.Android` project and select **Properties**.
+*  Click **Android Manifest**.
+*  Put a simple string in the **Package name** box (or copy what is there if it is not blank).  I used `tasklist`.
+*  Save the properties with Ctrl-S.
+
+Now, edit the `AppInitializer.cs` file in the test project:
+
+```csharp
+using Xamarin.UITest;
+
+namespace TaskList.Tests
+{
+    public class AppInitializer
+    {
+        public static IApp StartApp(Platform platform)
+        {
+            if (platform == Platform.Android)
+            {
+                return ConfigureApp
+                    .Android
+                    .InstalledApp("tasklist")
+                    .StartApp();
+            }
+
+            return ConfigureApp
+                .iOS
+                .StartApp();
+        }
+    }
+}
+```
+
+The string provided to the `InstalledApp()` must be the same as the package name you have in the Android Manifest.  Ensure you rebuild both the Android project and the test project after this change.
+
+One of the test artifacts is called the **REPL** - it's a command line utility for browsing the internals of the app in a way we can interact use to write the tests.  Let's start with a test that is added to the `Tests.cs` class:
+
+```csharp
+    [Test]
+    public void AppInvokesRepl()
+    {
+        app.Repl();
+    }
+```
+
+All this test does right now is invoke the Repl so we can discover the under-the-covers identities of the various components of the page.  Ensure you have built the Android project, then go to the Test Explorer and click **Run All** to discover the tests.   The first thing you will note is that there are two sets of tests run - one for iOS and one for Android.  The iOS ones will always fail because "iOS tests are not supported on Windows."  That's why I'm only working with Android here.
 ## End to End Testing
 
-### Introduction to Xamarin Test Cloud
 
 <!-- Images -->
 [img1]: img/test-explorer.PNG
@@ -422,3 +700,6 @@ As with all other testing, ensure you think about all the things that could happ
 [3]: http://xunit.github.io/docs/getting-started-desktop.html
 [4]: https://en.wikipedia.org/wiki/Test-driven_development
 [5]: https://github.com/dariusz-wozniak/List-of-Testing-Tools-and-Frameworks-for-.NET/blob/master/README.md
+[6]: https://docs.microsoft.com/en-us/visualstudio/test/walkthrough-creating-and-running-unit-tests-for-managed-code
+[7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter8
+[8]: ../chapter1/firstapp_pc.md
