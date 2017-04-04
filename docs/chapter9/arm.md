@@ -400,6 +400,17 @@ Watch the output window for a progress report on your deployment.  Once complete
 
 ## Deploying an ARM Template on MacOS
 
+The Mac does not come with the tools necessary to deploy ARM templates, so you will need to download and install them first.  In a Terminal window:
+
+```text
+adrian$ curl -L https://aka.ms/InstallAzureCli | bash
+adrian$ exec -l $SHELL
+```
+
+The first command does the actual installation.  It will ask you questions about where to install and confirm that it can write to files.  In general, pressing Enter will do the right thing.  The second command restarts your shell.  After the installation is complete, run `az` in your Terminal window to ensure the installation was successful.
+
+The next step is to login to Azure with the CLI.  Use the `az login` command from the Terminal window.  This command will output a code to use in the next step. 
+
 !!! warn "To Be Continued"
     This section is incomplete.  Please check back later.
     
