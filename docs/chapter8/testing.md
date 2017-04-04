@@ -742,6 +742,60 @@ The process is similar for iOS.  You must build for a device and will only be ab
 
 Your beta testers will now get an email telling them there is a new app available and how to download it.  
 
+## Crash Reporting
+
+Once your application is out in the wild, whether it be with your beta testers, your employees or the general public via a public app store, you want to ensure it is working.  You can do all the testing available to you and there will still be some combination of factors that may cause your application to crash.  Your users will most likely just delete your application at that point, so it's a good idea to collect the cause of the crash before they do that.  Visual Studio Mobile Center has an answer here as well - Crash Reporting.
+
+To integrate crash reporting, add the Mobile Center SDK to your project, then add a single line of code to your application.  We've already created a Visual Studio Mobile Center app for beta distribution (which we covered above), so we'll use the same application.
+
+1. Return to the [Visual Studio Mobile Center][vsmc-login] and select your app.
+2. If you were at another beacon, click **Getting Started**.
+3. Click **Manage app**.
+4. Copy the App secret somewhere accessible - we will need it in a few moments.
+5. Open the mobile app project in Visual Studio 2017 or Visual Studio for Mac.
+6. Right-click the solution and select **Manage NuGet Packages for Solution...**.
+7. Click **Browse**, then search for **Microsoft.Azure.Mobile.Crashes**.
+8. Install the `Microsoft.Azure.Mobile.Crashes` package into the Android and iOS projects.
+
+If you have both an iOS and Android app, make note of BOTH app secrets - one from each app within Mobile Center.
+
+Once the package(s) are installed, open `App.cs` in the shared project.  Add the `MobileCenter.Start` line at the start of the constructor:
+
+```csharp
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Crashes;
+using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            MobileCenter.Start("android=609b2734-0353-4e71-a654-fedd9df1632a", typeof(Crashes));
+
+#if USE_MOCK_SERVICES
+            CloudService = new MockCloudService();
+#else
+            CloudService = new AzureCloudService();
+#endif
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+```
+
+Replace the app secret placeholders with your app secrets.
+
+!!! tip "Integrate Analytics too!"
+    The same Mobile Center SDK will also provide Analytics.  Follow the instructions for Xamarin Forms in the Getting Started page for your app within Mobile Center.
+
+Eventually, your app is going to crash.  When this happens, the crash will appear in the **Creshes** service within Mobile Center, allowing you to see what type of mobile device was being used, the version of the app being run and the stack trace of the app at that point.  Visual Studio Mobile Center also groups like crashes together so that you can see commonality between crashes and better target your bug fixing.  
+
 <!-- Images -->
 [img1]: img/test-explorer.PNG
 [img2]: img/failed-tests.PNG

@@ -197,8 +197,8 @@ Media encoding jobs can take a long time, and Azure Functions have finite runnin
 
 Let's take a look at the first step.  I'm creating an Azure Function called `create-media-asset`.
 
-** TO BE CONTINUED **
-
+!!! warn "To Be Continued"
+    This section is not complete as yet.  Please check back soon!
 
 
 <!-- Images -->
