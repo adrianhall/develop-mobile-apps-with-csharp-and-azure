@@ -884,8 +884,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#unit-testing_1" title="Unit Testing" class="md-nav__link">
-    Unit Testing
+  <a href="#ui-testing" title="UI Testing" class="md-nav__link">
+    UI Testing
   </a>
   
 </li>
@@ -900,18 +900,19 @@
     End to End Testing
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#introduction-to-xamarin-test-cloud" title="Introduction to Xamarin Test Cloud" class="md-nav__link">
-    Introduction to Xamarin Test Cloud
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distributing-your-mobile-client-to-beta-users" title="Distributing your Mobile Client to Beta Users" class="md-nav__link">
+    Distributing your Mobile Client to Beta Users
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#crash-reporting" title="Crash Reporting" class="md-nav__link">
+    Crash Reporting
+  </a>
   
 </li>
       
@@ -1115,8 +1116,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#unit-testing_1" title="Unit Testing" class="md-nav__link">
-    Unit Testing
+  <a href="#ui-testing" title="UI Testing" class="md-nav__link">
+    UI Testing
   </a>
   
 </li>
@@ -1131,18 +1132,19 @@
     End to End Testing
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#introduction-to-xamarin-test-cloud" title="Introduction to Xamarin Test Cloud" class="md-nav__link">
-    Introduction to Xamarin Test Cloud
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distributing-your-mobile-client-to-beta-users" title="Distributing your Mobile Client to Beta Users" class="md-nav__link">
+    Distributing your Mobile Client to Beta Users
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#crash-reporting" title="Crash Reporting" class="md-nav__link">
+    Crash Reporting
+  </a>
   
 </li>
       
@@ -1535,10 +1537,370 @@ namespace Backend.Tests.Controllers
 
 <p>As with all other testing, ensure you think about all the things that could happen here, and test them all.  Ensure that the appropriate response is always returned and that you are never leave your server or a connected client in a bad state.  A big example of this in the case of mobile apps:  If a response is meant to be a JSON encoded version of an object on your client, ensure it can be deserialized to that object under all conditions.</p>
 <h2 id="testing-your-mobile-client">Testing your Mobile Client<a class="headerlink" href="#testing-your-mobile-client" title="Permanent link">&para;</a></h2>
+<p>Testing your mobile client will generally be a multi-part affair:</p>
+<ol>
+<li>Implement mock data services and test the UI in isolation.</li>
+<li>Implement unit tests for the non-UI components.</li>
+<li>Do end-to-end tests to ensure both client and server work together.</li>
+</ol>
+<p>Unit tests for non-UI code is the same as the server-side code.  You need to write the tests in a unit test framework like <a href="https://xunit.github.io/">xUnit</a> or <a href="https://docs.microsoft.com/en-us/visualstudio/test/walkthrough-creating-and-running-unit-tests-for-managed-code">MSTest</a>.  Use <a href="https://en.wikipedia.org/wiki/Test-driven_development">Test-driven development</a> to ensure that your code is living up to its contract.</p>
 <h3 id="using-mock-data-services">Using Mock Data Services<a class="headerlink" href="#using-mock-data-services" title="Permanent link">&para;</a></h3>
-<h3 id="unit-testing_1">Unit Testing<a class="headerlink" href="#unit-testing_1" title="Permanent link">&para;</a></h3>
+<p>Unfortunately, setting up repeatable unit tests becomes increasingly difficult in a client-server application such as a cloud-enabled mobile app.  For these aspects, you want to mock the data services.  If you have followed along from the beginning, we've actually done a lot of the hard work for this.</p>
+<ul>
+<li>Create an Interface that represents the interface to the data service.</li>
+<li>Create a concrete implementation of that interface.</li>
+<li>Use a dependency injection service to inject the concrete implementation.</li>
+</ul>
+<p>The whole idea here is that changing just one line of code will enable you to update from the mock implementation to the cloud implementation.  This allows you to develop the UI independently of the backend communication code, and allows you to do repeatable UI tests later on.</p>
+<p>Let's take a look at an example.  In <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter8">my Chapter8 project</a>, I've got the Xamarin Forms application from <a href="../../chapter1/firstapp_pc/">the very first chapter</a>.  In the shared <code>TaskList</code> project, there is an <code>Abstractions</code> folder that contains the definitions for <code>ICloudService</code>:</p>
+<pre><code class="csharp">namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
+    }
+}
+</code></pre>
+
+<p>There is also a definition for <code>ICloudTable</code>:</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudTable&lt;T&gt; where T : TableData
+    {
+        Task&lt;T&gt; CreateItemAsync(T item);
+        Task&lt;T&gt; ReadItemAsync(string id);
+        Task&lt;T&gt; UpdateItemAsync(T item);
+        Task DeleteItemAsync(T item);
+        Task&lt;ICollection&lt;T&gt;&gt; ReadAllItemsAsync();
+    }
+}
+</code></pre>
+
+<p>The important part of this is this.  The only place where the concrete edition, <code>AzureCloudService()</code>, is mentioned is in the <code>App.cs</code> file:</p>
+<pre><code class="csharp">using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            CloudService = new AzureCloudService();
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+</code></pre>
+
+<p>Everywhere else uses the <code>ICloudService</code> interface and does not mention the concrete version.  The application sets up the cloud service and every other class uses it.  This allows us to set up a mock cloud service as follows.  First, let's define the <code>MockCloudService</code>:</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using TaskList.Abstractions;
+
+namespace TaskList.Services
+{
+    public class MockCloudService : ICloudService
+    {
+        public Dictionary&lt;string, object&gt; tables = new Dictionary&lt;string, object&gt;();
+
+        public ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData
+        {
+            var tableName = typeof(T).Name;
+            if (!tables.ContainsKey(tableName))
+            {
+                var table = new MockCloudTable&lt;T&gt;();
+                tables[tableName] = table;
+            }
+            return (ICloudTable&lt;T&gt;)tables[tableName];
+        }
+    }
+}
+
+</code></pre>
+
+<p>It's very similar to the <code>AzureCloudService</code> class, but there is no <code>MobileServiceClient</code>.  Instead, we store the cloud table instances in a dictionary to ensure successive calls to <code>GetTable&lt;&gt;()</code> return the same singleton reference.  We aren't using the backend service.  Similarly, we use a <code>Dictionary&lt;&gt;</code> to hold the items instead of the backend service in the <code>MockCloudTable</code> class:</p>
+<pre><code class="csharp">using Microsoft.WindowsAzure.MobileServices;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+
+namespace TaskList.Services
+{
+    public class MockCloudTable&lt;T&gt; : ICloudTable&lt;T&gt; where T : TableData
+    {
+        private Dictionary&lt;string, T&gt; items = new Dictionary&lt;string, T&gt;();
+        private int currentVersion = 1;
+
+        public async Task&lt;T&gt; CreateItemAsync(T item)
+        {
+            item.Id = Guid.NewGuid().ToString(&quot;N&quot;);
+            item.CreatedAt = DateTimeOffset.Now;
+            item.UpdatedAt = DateTimeOffset.Now;
+            item.Version = ToVersionString(currentVersion++);
+            items.Add(item.Id, item);
+            return item;
+        }
+
+        public async Task DeleteItemAsync(T item)
+        {
+            if (item.Id == null)
+            {
+                throw new NullReferenceException();
+            }
+            if (items.ContainsKey(item.Id))
+            {
+                items.Remove(item.Id);
+            }
+            else
+            {
+                throw new MobileServiceInvalidOperationException(&quot;Not Found&quot;, null, null);
+            }
+        }
+
+        public async Task&lt;ICollection&lt;T&gt;&gt; ReadAllItemsAsync()
+        {
+            List&lt;T&gt; allItems = new List&lt;T&gt;(items.Values);
+            return allItems;
+        }
+
+        public async Task&lt;T&gt; ReadItemAsync(string id)
+        {
+            if (items.ContainsKey(id))
+            {
+                return items[id];
+            }
+            else
+            {
+                throw new MobileServiceInvalidOperationException(&quot;Not Found&quot;, null, null);
+            }
+        }
+
+        public async Task&lt;T&gt; UpdateItemAsync(T item)
+        {
+            if (item.Id == null)
+            {
+                throw new NullReferenceException();
+            }
+            if (items.ContainsKey(item.Id))
+            {
+                item.UpdatedAt = DateTimeOffset.Now;
+                item.Version = ToVersionString(currentVersion++);
+                items[item.Id] = item;
+                return item;
+            }
+            else
+            {
+                throw new MobileServiceInvalidOperationException(&quot;Not Found&quot;, null, null);
+            }
+        }
+
+        private byte[] ToVersionString(int i)
+        {
+            byte[] b = BitConverter.GetBytes(i);
+            string str = Convert.ToBase64String(b);
+            return Encoding.ASCII.GetBytes(str);
+        }
+    }
+}
+</code></pre>
+
+<p>The mock service is instantiated within the <code>App.cs</code> file:</p>
+<pre><code class="csharp">using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+#if USE_MOCK_SERVICES
+            CloudService = new MockCloudService();
+#else
+            CloudService = new AzureCloudService();
+#endif
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+</code></pre>
+
+<p>Finally, I need to actually define <code>USE_MOCK_SERVICES</code> somewhere.  Right-click the project and select <strong>Properties</strong>.  Click <strong>Build</strong>.  Add the <code>USE_MOCK_SERVICES</code> to the <strong>Conditional compilation symbols</strong> (which is a semi-colon separated list).  Save the properties then rebuild the project you modified.  You can run this version without any backend at all.  It will not persist the data, but that's the point of mock data services.</p>
+<div class="admonition tip">
+<p class="admonition-title">Use a new Configuration</p>
+<p>Another, more advanced, way of accomplishing this is to set up a new configuration.  You can see the configuration is "Active (Debug)".  You can add another configuration to this list called "Mock Services" by using the <strong>Build</strong> &gt; <strong>Configuration Manager...</strong>.  When you select that configuration, the mock services will automatically be brought in.</p>
+</div>
+<h3 id="ui-testing">UI Testing<a class="headerlink" href="#ui-testing" title="Permanent link">&para;</a></h3>
+<p>The mock services are a tool to enable UI unit testing.  UI testing is unit testing for your UI.  These are small tests that are executed on a real device and check to see if your main UI flows work as expected.  There are actually a few ways of creating tests. I'm going to produce a simple test.  In the test, I will simulate clicking on the entry button and ensuring that the task list page is produced.  This test can then be run against one or more devices.  Let's start by creating a <code>TaskList.Tests</code> project:</p>
+<ul>
+<li>Right-click the solution and select <strong>Add</strong> -&gt; <strong>New Project...</strong></li>
+<li>In the <strong>Installed</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Cross-Platform</strong> node of the tree, select <strong>UI Test App (Xamarin.UITest | Cross-Platform)</strong>.</li>
+<li>Give it a snappy name, like <code>TaskList.Tests</code>, then click <strong>OK</strong>.</li>
+<li>Wait for the project to be created.</li>
+<li>Right-click the <strong>References</strong> node in the newly created project and select <strong>Add Reference...</strong>.</li>
+<li>Click <strong>Projects</strong> in the left hand side-bar.</li>
+<li>Click <strong>TaskList.Android</strong>.  Ensure there is a checked box next to the TaskList.Android project.</li>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<p>We are only going to test the Android edition of the project in this walkthrough, mostly because I do most of my work on a PC.  The same methodology can be used for iOS, however.</p>
+<p>The project contains two source files - <code>AppInitializer.cs</code> and <code>Tests.cs</code>.  This latter one is where we are going to spend the majority of our time, but we need to modify the former first.</p>
+<ul>
+<li>Right-click on the <code>TaskList.Android</code> project and select <strong>Properties</strong>.</li>
+<li>Click <strong>Android Manifest</strong>.</li>
+<li>Put a simple string in the <strong>Package name</strong> box (or copy what is there if it is not blank).  I used <code>tasklist</code>.</li>
+<li>Save the properties with Ctrl-S.</li>
+</ul>
+<p>Now, edit the <code>AppInitializer.cs</code> file in the test project:</p>
+<pre><code class="csharp">using Xamarin.UITest;
+
+namespace TaskList.Tests
+{
+    public class AppInitializer
+    {
+        public static IApp StartApp(Platform platform)
+        {
+            if (platform == Platform.Android)
+            {
+                return ConfigureApp
+                    .Android
+                    .InstalledApp(&quot;tasklist&quot;)
+                    .StartApp();
+            }
+
+            return ConfigureApp
+                .iOS
+                .StartApp();
+        }
+    }
+}
+</code></pre>
+
+<p>The string provided to the <code>InstalledApp()</code> must be the same as the package name you have in the Android Manifest.  Ensure you rebuild both the Android project and the test project after this change.</p>
+<p>One of the test artifacts is called the <strong>REPL</strong> - it's a command line utility for browsing the internals of the app in a way we can interact use to write the tests.  Let's start with a test that is added to the <code>Tests.cs</code> class:</p>
+<pre><code class="csharp">    [Test]
+    public void AppInvokesRepl()
+    {
+        app.Repl();
+    }
+</code></pre>
+
+<p>All this test does right now is invoke the Repl so we can discover the under-the-covers identities of the various components of the page.  Ensure you have built the Android project, then go to the Test Explorer and click <strong>Run All</strong> to discover the tests.   The first thing you will note is that there are two sets of tests run - one for iOS and one for Android.  The iOS ones will always fail because "iOS tests are not supported on Windows."  That's why I'm only working with Android here.</p>
+<div class="admonition warn">
+<p class="admonition-title">TO BE CONTINUED</p>
+<p>This section is incomplete.</p>
+</div>
 <h2 id="end-to-end-testing">End to End Testing<a class="headerlink" href="#end-to-end-testing" title="Permanent link">&para;</a></h2>
-<h3 id="introduction-to-xamarin-test-cloud">Introduction to Xamarin Test Cloud<a class="headerlink" href="#introduction-to-xamarin-test-cloud" title="Permanent link">&para;</a></h3>
+<div class="admonition warn">
+<p class="admonition-title">TO BE CONTINUED</p>
+<p>This section is incomplete.</p>
+</div>
+<h2 id="distributing-your-mobile-client-to-beta-users">Distributing your Mobile Client to Beta Users<a class="headerlink" href="#distributing-your-mobile-client-to-beta-users" title="Permanent link">&para;</a></h2>
+<p>There are a number of services that will distribute your client applications to your beta users.  Since I am working primarily within Azure and the Microsoft family of products, I'm going to use <a href="https://mobile.azure.com/signup?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a>.  As of writing, Visual Studio Mobile Center is in preview, but already supports a large number of highly desirable features.  One of these features is beta distribution.  To create an application:</p>
+<ol>
+<li>Sign in to <a href="https://mobile.azure.com?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a>.  You will need to create an account if you have not already done so.</li>
+<li>Click <strong>Add new</strong> -&gt; <strong>Add new app</strong>.</li>
+<li>Give your app a name and select the OS (iOS or Android) and Platform (Xamarin). </li>
+<li>Click <strong>Add new app</strong> at the bottom of the page.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Create two apps if you distribute both iOS and Android apps</p>
+<p>If you are distributing both an iOS and an Android app, you will need to create two apps - one for the iOS edition and one for the Android edition.</p>
+</div>
+<p>At this point, the cloud infrastructure necessary to handle the mobile client app is created.  We can move on to the distribution phase.  We need to create a group and invite some beta users to our group before doing a distribution:</p>
+<ol>
+<li>Click the <strong>Distribute</strong> icon (it looks like three arrow pointing up if your menu is collapsed).</li>
+<li>Click <strong>New Group</strong>.</li>
+<li>Name your group something like <strong>Beta Testers</strong>.</li>
+<li>Enter a comma-delimited list of email addresses to invite users to join the group. </li>
+<li>Click <strong>Create Group</strong>.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Collect and register UDID for iOS Distribution</p>
+<p>Another quirk of the iOS ecosystem.  You will need to <a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10">register the UDID</a> for each iOS beta tester.  Apple does not allow software to be installed on non-registered devices except via the App Store.</p>
+</div>
+<p>A group called <code>Collaborators</code> is created and maintained by default.  This contains a list of people whom you are collaborating with via Visual Studio Mobile Center.  The APK or IPA file must be generated first.</p>
+<ul>
+<li>Open your solution in Visual Studio 2017.</li>
+<li>Select the <strong>Release</strong>, <strong>Any CPU</strong>, <strong>TaskList.Android</strong> configuration in the menu bar (for Android).</li>
+<li>Right-click the TaskList.Android project and select <strong>Rebuild</strong>.</li>
+<li>Once the build is complete, click <strong>Build</strong> -&gt; <strong>Archive...</strong>.</li>
+<li>Once the archive is created, click <strong>Open Folder</strong>.</li>
+</ul>
+<p>The process is similar for iOS.  You must build for a device and will only be able to distribute to registered devices.   Now that we have an APK file:</p>
+<ol>
+<li>Return to the <a href="https://mobile.azure.com?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> and select your app.</li>
+<li>Click <strong>Distribute</strong> in the left-hand sidebar.</li>
+<li>Click the group you created.</li>
+<li>Click <strong>Distribute new release</strong>.</li>
+<li>Drag and drop the APK file from the open folder to the landing area (or click upload and find your APK file).</li>
+<li>Wait for the APK file to be uploaded.  A thin blue bar above the landing area is used to indicate progress.</li>
+<li>While you wait, type in some release note into the box provided.</li>
+<li>Click <strong>Next</strong>.</li>
+<li>Click <strong>Next</strong> again, as the group is already selected. </li>
+<li>Click <strong>Distribute</strong>.</li>
+</ol>
+<p>Your beta testers will now get an email telling them there is a new app available and how to download it.  </p>
+<h2 id="crash-reporting">Crash Reporting<a class="headerlink" href="#crash-reporting" title="Permanent link">&para;</a></h2>
+<p>Once your application is out in the wild, whether it be with your beta testers, your employees or the general public via a public app store, you want to ensure it is working.  You can do all the testing available to you and there will still be some combination of factors that may cause your application to crash.  Your users will most likely just delete your application at that point, so it's a good idea to collect the cause of the crash before they do that.  Visual Studio Mobile Center has an answer here as well - Crash Reporting.</p>
+<p>To integrate crash reporting, add the Mobile Center SDK to your project, then add a single line of code to your application.  We've already created a Visual Studio Mobile Center app for beta distribution (which we covered above), so we'll use the same application.</p>
+<ol>
+<li>Return to the <a href="https://mobile.azure.com?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> and select your app.</li>
+<li>If you were at another beacon, click <strong>Getting Started</strong>.</li>
+<li>Click <strong>Manage app</strong>.</li>
+<li>Copy the App secret somewhere accessible - we will need it in a few moments.</li>
+<li>Open the mobile app project in Visual Studio 2017 or Visual Studio for Mac.</li>
+<li>Right-click the solution and select <strong>Manage NuGet Packages for Solution...</strong>.</li>
+<li>Click <strong>Browse</strong>, then search for <strong>Microsoft.Azure.Mobile.Crashes</strong>.</li>
+<li>Install the <code>Microsoft.Azure.Mobile.Crashes</code> package into the Android and iOS projects.</li>
+</ol>
+<p>If you have both an iOS and Android app, make note of BOTH app secrets - one from each app within Mobile Center.</p>
+<p>Once the package(s) are installed, open <code>App.cs</code> in the shared project.  Add the <code>MobileCenter.Start</code> line at the start of the constructor:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Crashes;
+using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            MobileCenter.Start(&quot;android=609b2734-0353-4e71-a654-fedd9df1632a&quot;, typeof(Crashes));
+
+#if USE_MOCK_SERVICES
+            CloudService = new MockCloudService();
+#else
+            CloudService = new AzureCloudService();
+#endif
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+</code></pre>
+
+<p>Replace the app secret placeholders with your app secrets.</p>
+<div class="admonition tip">
+<p class="admonition-title">Integrate Analytics too!</p>
+<p>The same Mobile Center SDK will also provide Analytics.  Follow the instructions for Xamarin Forms in the Getting Started page for your app within Mobile Center.</p>
+</div>
+<p>Eventually, your app is going to crash.  When this happens, the crash will appear in the <strong>Creshes</strong> service within Mobile Center, allowing you to see what type of mobile device was being used, the version of the app being run and the stack trace of the app at that point.  Visual Studio Mobile Center also groups like crashes together so that you can see commonality between crashes and better target your bug fixing.  </p>
 <!-- Images -->
 
 <!-- Links -->

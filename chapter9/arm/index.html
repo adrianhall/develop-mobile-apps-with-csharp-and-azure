@@ -896,6 +896,53 @@
     Creating an ARM Template
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters-and-variables" title="Parameters and Variables" class="md-nav__link">
+    Parameters and Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources" title="Resources" class="md-nav__link">
+    Resources
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-sql-database" title="The SQL Database" class="md-nav__link">
+    The SQL Database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service-plan" title="The Azure App Service Plan" class="md-nav__link">
+    The Azure App Service Plan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service" title="The Azure App Service" class="md-nav__link">
+    The Azure App Service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1052,6 +1099,53 @@
     Creating an ARM Template
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters-and-variables" title="Parameters and Variables" class="md-nav__link">
+    Parameters and Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources" title="Resources" class="md-nav__link">
+    Resources
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-sql-database" title="The SQL Database" class="md-nav__link">
+    The SQL Database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service-plan" title="The Azure App Service Plan" class="md-nav__link">
+    The Azure App Service Plan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service" title="The Azure App Service" class="md-nav__link">
+    The Azure App Service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1084,10 +1178,379 @@
               
                 
                 <h1 id="repeatable-deployments">Repeatable Deployments<a class="headerlink" href="#repeatable-deployments" title="Permanent link">&para;</a></h1>
+<p>You've finally got to the point where you want to release your app to the general public.  Congratulations!  I'm not going to cover releasing to the App Store in this section.  Each App Store has their own rules and requirements for apps and they change all the time.  You will need to follow their instructions.  If you haven't already, make sure you have a paid developer account for this activity.</p>
+<p>That doesn't mean that you can't deal with the backend.  Now that your app is in production, you want your backend in production as well.  That means being as hands-off as possible and ensuring that human error does not cause a significant downtime.  We've heard about various outages as a result of human error.  Make sure that doesn't happen to you.  Fortunately, Azure has a number of facilities to ensure that you can automate the process.</p>
 <h2 id="options-for-deployment">Options for Deployment<a class="headerlink" href="#options-for-deployment" title="Permanent link">&para;</a></h2>
+<p>When deploying the backend, you want a repeatable process.  Ideally, you want a set of scripts that you check into source code that describes the deployment of Azure resources.  Once you have set up your environment, you can use continuous deployment (in the next section) to actually perform the deployments.  However, you still want to automate the deployment of a new set of resources.</p>
+<p>Fortunately, Azure (in common with any reasonable cloud service) has tools to do this.  In essence, the tools consist of a file - the <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview">Azure Resource Manager</a> Template, and a set of PowerShell or command-line tools to deploy a new service.  Every time you create a mobile app in Azure App Service, Azure Resource Manager handles the actual provisioning behind the scenes.  It is much faster to use an ARM template rather than the point-and-click mechanism we have been using thus far.</p>
 <h2 id="creating-an-arm-template">Creating an ARM Template<a class="headerlink" href="#creating-an-arm-template" title="Permanent link">&para;</a></h2>
+<p>Let's start by examining a typical application - our Task List backend.  We've set this up a number of times within this book, so you should be familiar with it.  It has these resources within a resource group:</p>
+<ul>
+<li>Azure App Service with type=mobile</li>
+<li>Azure App Service Plan</li>
+<li>SQL Azure Logical Server</li>
+<li>SQL Azure Database</li>
+</ul>
+<p>ARM templates have three distinct sections:</p>
+<ul>
+<li>Parameters provide information about the deployment set in a single place.</li>
+<li>Variables are computed parameters.</li>
+<li>Resources list the resources necessary to be deployed.</li>
+</ul>
+<p>A typical (empty) ARM template looks like this:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+    },
+    &quot;variables&quot;: {
+    },
+    &quot;resources&quot;: [
+    ]
+}
+</code></pre>
+
+<p>There is also an <code>outputs</code> section, but I find most templates do not require this section.</p>
+<h3 id="parameters-and-variables">Parameters and Variables<a class="headerlink" href="#parameters-and-variables" title="Permanent link">&para;</a></h3>
+<p>If I am creating a deployment called <code>zumobook</code>, then I always name the resources like this:</p>
+<ul>
+<li>Resource Group = zumobook</li>
+<li>Azure App Service = zumobook</li>
+<li>App Service Plan = zumobook-plan</li>
+<li>SQL Azure Logical Server = zumobook-sql</li>
+<li>SQL Azure Database = zumobook-db</li>
+</ul>
+<p>All the resources are based on the root name of the deployment.  Ideally, the deployment name would be a parameter (something I specify) and the other names would be computed.  In addition, I always make the administrator login for the SQL Azure Logical Server be <code>azure</code> and I specify the password.  Let's take a look at what that would look like:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;sqlServerAdminLogin&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;azure&quot;
+        },
+        &quot;sqlServerAdminPassword&quot;: {
+            &quot;type&quot;: &quot;securestring&quot;
+        }
+    },
+    &quot;variables&quot;: {
+        &quot;appServiceName&quot;: &quot;parameters('serviceName')&quot;,
+        &quot;appServicePlanName&quot;: &quot;[concat(parameters('serviceName), '-plan')]&quot;,
+        &quot;sqlServerName&quot;: &quot;[concat(parameters('serviceName), '-sql')]&quot;,
+        &quot;sqlDbName&quot;: &quot;[concat(parameters('serviceName), '-db')]&quot;
+    },
+    &quot;resources&quot;: [
+    ]
+}
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Variable Functions</p>
+<p>Note the <code>concat()</code> is a template function.  You can find the large list of template functions in the <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions">Azure Resource Manager documentation</a>.</p>
+</div>
+<p>As a best practice, I abstract anything I would normally enter in creating the resource and make it either a parameter or a variable, depending on the circumstance.  I try to reduce the number of parameters and make as much as I can either a default value or a variable.  For example, one of the things that we need to set when configuring a SQL Azure database is the database size.  I could just specify this in bytes, but specifying the size in Mb is a better experience:</p>
+<pre><code class="text">    &quot;parameters&quot;: {
+        &quot;sqlDbSizeMb&quot; {
+            &quot;type&quot;: &quot;int&quot;,
+            &quot;minValue&quot;: 1,
+            &quot;maxValue&quot;: 20,
+            &quot;description&quot;: &quot;Size of the database in Mb&quot;,
+            &quot;defaultValue&quot;: 5
+        }
+    },
+    &quot;variables&quot;: {
+        &quot;sqlDbSize&quot;: &quot;[mul(parameters('sqlDbSizeMb'), 1048576)]&quot;
+    }
+</code></pre>
+
+<h3 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h3>
+<p>Resources describe the deployment of individual resources and their dependency.  There are, inevitably, more resources than you expect.   Each resource has an <code>apiVersion</code>, formatted as a date, that describes the format of the resource.  Each resource also has a <code>name</code> and a <code>type</code> plus a number of other elements that describe configuration elements.  Finally, there is an optional <code>dependsOn</code> that ensures that resources are not configured until their dependent resources are deployed.  If, for example, I look at my deployment, I can represent this as a tree:</p>
+<ul>
+<li>Resource Group<ul>
+<li>App Service Plan<ul>
+<li>App Service<ul>
+<li>App Settings</li>
+<li>Connection Strings</li>
+<li>Continuous Deployment Source</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SQL Azure Logical Server<ul>
+<li>SQL Database</li>
+<li>SQL Server Firewall Rules</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Let's look at each resource in turn.</p>
+<h4 id="the-sql-database">The SQL Database<a class="headerlink" href="#the-sql-database" title="Permanent link">&para;</a></h4>
+<p>There are actually three resources for the SQL Database - the server, the database and the firewall rule to allow other resources to connect to it:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;location&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;South Central US&quot;
+        },
+        &quot;sqlServerAdminLogin&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;azure&quot;
+        },
+        &quot;sqlServerAdminPassword&quot;: {
+            &quot;type&quot;: &quot;securestring&quot;
+        },
+        &quot;sqlDbSizeMb&quot; {
+            &quot;type&quot;: &quot;int&quot;,
+            &quot;minValue&quot;: 1,
+            &quot;maxValue&quot;: 20,
+            &quot;description&quot;: &quot;Size of the database in Mb&quot;,
+            &quot;defaultValue&quot;: 2
+        },
+        &quot;sqlDbCollation&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;SQL_Latin1_General_CP1_CI_AS&quot;
+        },
+        &quot;sqlDbEdition&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;Basic&quot;
+        },
+        &quot;sqlDbServiceObjectiveId&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;dd6d99bb-f193-4ec1-86f2-43d3bccbc49c&quot;
+        },
+    },
+    &quot;variables&quot;: {
+        &quot;sqlDbSize&quot;: &quot;[mul(parameters('sqlDbSizeMb'), 1048576)]&quot;,
+        &quot;sqlServerName&quot;: &quot;[concat(parameters('serviceName), '-sql')]&quot;,
+        &quot;sqlDbName&quot;: &quot;[concat(parameters('serviceName), '-db')]&quot;
+    },
+    &quot;resources&quot;: [
+        {
+            &quot;apiVersion&quot;: &quot;2014-04-01-preview&quot;,
+            &quot;name&quot;: &quot;[variables('sqlServerName')]&quot;,
+            &quot;type&quot;: &quot;Microsoft.Sql/servers&quot;,
+            &quot;location&quot;: &quot;[parameters('location')]&quot;,
+            &quot;properties&quot;: {
+                &quot;administratorLogin&quot;: &quot;[parameters('sqlServerAdminLogin')]&quot;,
+                &quot;administratorPassword&quot;: &quot;[parameters('sqlServerAdminPassword')]&quot;
+            },
+            &quot;resources&quot;: [
+                {
+                    &quot;apiVersion&quot;: &quot;2015-05-01-preview&quot;,
+                    &quot;name&quot;: &quot;[variables('sqlDbName')]&quot;,
+                    &quot;type&quot;: &quot;databases&quot;,
+                    &quot;location&quot;: &quot;[parameters('location')]&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;edition&quot;: &quot;[parameters('sqlDbEdition')]&quot;,
+                        &quot;collation&quot;: &quot;[parameters('sqlDbCollation')]&quot;,
+                        &quot;maxSizeBytes&quot;: &quot;[variables('sqlDbSize')]&quot;,
+                        &quot;requestedServiceObjectiveId&quot;: &quot;[parameters('sqlDbServiceObjectiveId')]&quot;
+                    }
+                },
+                {
+                    &quot;apiVersion&quot;: &quot;2014-04-01-preview&quot;,
+                    &quot;name&quot;: &quot;SQLServerFirewallRules&quot;,
+                    &quot;type&quot;: &quot;firewallrules&quot;,
+                    &quot;location&quot;: &quot;[parameters('location')]&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;endIpAddress&quot;: &quot;0.0.0.0&quot;,
+                        &quot;startIpAddress&quot;: &quot;0.0.0.0&quot;
+                    }
+                }
+            ]
+        },
+    ]
+}
+</code></pre>
+
+<p>This is a fairly lengthy example, but it incorporates a few things.  Firstly, note that I use the <code>[variables()]</code> and <code>[parameters()]</code> to bring in the variables and parameters respectively.  I also have embedded resources here.  The resource heirarchy is a tree-structure.  Each embedded resource has a <code>dependsOn</code> array that has the parent as a dependent resource.</p>
+<p>You are probably wondering where you can get this information for any resource.  Microsoft Azure has a site called <a href="https://resources.azure.com/">resources.azure.com</a>.  This contains the resources that you currently have configured on your subscription.  You can set the deployment up by hand and then look at the resources to get the details:</p>
+<p><img alt="Azure Resource Manager" src="../img/resource-explorer-sql.PNG" /></p>
+<p>In this example, I'm showing the resource for the database.  I can extract the various pieces based on what I have set to get to this point - everything else is defaulted.  In addition, note that I can see the <code>apiVersion</code> at the top of the resource manager within the URL for the resource definition.</p>
+<h4 id="the-azure-app-service-plan">The Azure App Service Plan<a class="headerlink" href="#the-azure-app-service-plan" title="Permanent link">&para;</a></h4>
+<p>My next resource is the App Service Plan.  Unlike the database (which has a definite heirarchy), the App Service Plan is separate because many App Services can use the same App Service Plan.  You can think of the App Service Plan as the set of virtual machines that belong in a single scale set, and the App Services as the web sites running on top of that scale set.  The App Service Plan looks like this:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;location&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;South Central US&quot;
+        },
+        &quot;sku&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;allowedValues&quot;: [
+                &quot;Free&quot;,
+                &quot;Shared&quot;,
+                &quot;Basic&quot;,
+                &quot;Standard&quot;
+            ],
+            &quot;defaultValue&quot;: &quot;Basic&quot;
+        },
+        &quot;workerSize&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;allowedValues&quot;: [
+                &quot;0&quot;, &quot;1&quot;, &quot;2&quot;
+            ],
+            &quot;defaultValue&quot;: &quot;0&quot;
+        }
+    },
+     &quot;variables&quot;: {
+        &quot;appServicePlanName&quot;: &quot;[concat(parameters('serviceName), '-plan')]&quot;,
+    },
+    &quot;resources&quot;: [
+        {
+            &quot;apiVersion&quot;: &quot;2015-08-01&quot;,
+            &quot;name&quot;: &quot;[variables('appServicePlanName')]&quot;,
+            &quot;type&quot;: &quot;Microsoft.Web/serverFarms&quot;,
+            &quot;location&quot;: &quot;[parameters('location')]&quot;,
+            &quot;properties&quot;: {
+                &quot;name&quot;: &quot;[parameters('appServicePlanName')]&quot;,
+                &quot;sku&quot;: &quot;[parameters('sku')]&quot;,
+                &quot;workerSize&quot;: &quot;[parameters('workerSize')]&quot;,
+                &quot;numberOfWorkers&quot;: 1
+            }
+        }
+    ]   
+}
+</code></pre>
+
+<p>The <code>hostingPlanName</code> is the name of the hosting plan.  This is normally something like F1, B2, or P3.  The first letter indicates the SKU and the number indicates the size of the worker.  The size of the worker is always one less than the number that is displayed within the Azure portal.</p>
+<h4 id="the-azure-app-service">The Azure App Service<a class="headerlink" href="#the-azure-app-service" title="Permanent link">&para;</a></h4>
+<p>The Azure App Service is </p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;location&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;South Central US&quot;
+        },
+        &quot;sqlServerAdminLogin&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;azure&quot;
+        },
+        &quot;sqlServerAdminPassword&quot;: {
+            &quot;type&quot;: &quot;securestring&quot;
+        },
+        &quot;deploymentRepoUrl&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;deploymentRepoBranch&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;master&quot;
+        }
+    },
+    &quot;variables&quot;: {
+        &quot;appServiceName&quot;: &quot;parameters('serviceName')&quot;,
+        &quot;appServicePlanName&quot;: &quot;[concat(parameters('serviceName), '-plan')]&quot;,
+        &quot;sqlServerName&quot;: &quot;[concat(parameters('serviceName), '-sql')]&quot;,
+        &quot;sqlDbName&quot;: &quot;[concat(parameters('serviceName), '-db')]&quot;
+    },
+    &quot;resources&quot;: [
+        {
+            &quot;apiVersion&quot;: &quot;2015-04-01&quot;,
+            &quot;name&quot;: &quot;[variables('appServiceName')]&quot;,
+            &quot;type&quot;: &quot;Microsoft.Web/sites&quot;,
+            &quot;location&quot;: &quot;[parameters('location')]&quot;,
+            &quot;dependsOn&quot;: [
+                &quot;[resourceId('Microsoft.Web/serverFarms', parameters('appServicePlanName'))]&quot;
+            ],
+            &quot;properties&quot;: {
+                &quot;serverFarmId&quot;: &quot;[parameters('appServicePlanName')]&quot;
+            },
+            &quot;resources&quot;: [
+                {
+                    &quot;apiVersion&quot;: &quot;2015-04-01&quot;,
+                    &quot;name&quot;: &quot;connectionstrings&quot;,
+                    &quot;type&quot;: &quot;config&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]&quot;,
+                        &quot;[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;MS_TableConnectionString&quot;: { &quot;value&quot;: &quot;[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]&quot;, &quot;type&quot;: &quot;SQLAzure&quot; }
+                    }
+                },
+                {
+                    &quot;apiVersion&quot;: &quot;2015-04-01&quot;,
+                    &quot;name&quot;: &quot;web&quot;,
+                    &quot;type&quot;: &quot;sourcecontrols&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]&quot;,
+                        &quot;[resourceId('Microsoft.Web/Sites/config', variables('appServiceName'), 'connectionstrings')]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;RepoUrl&quot;: &quot;[parameters('deploymentRepoUrl')]&quot;,
+                        &quot;branch&quot;: &quot;[parameters('deploymentRepoBranch')]&quot;
+                    }
+                }
+            ]
+        },
+    ]
+}
+</code></pre>
+
+<p>In this case, we've got two dependent resources - one to set up the connection string to the database and the other to set up continuous deployment.  Both of those dependent resources have the normal <code>dependsOn</code> terms to ensure that the resources linked exist.</p>
+<p>You can combine all three sections - the SQL Server, App Service Plan and App Service together.  There are overlapping parameters and variables.  You just need one copy.</p>
 <h2 id="deploying-an-arm-template-on-windows">Deploying an ARM Template on Windows<a class="headerlink" href="#deploying-an-arm-template-on-windows" title="Permanent link">&para;</a></h2>
+<p>Creating an Azure Resource Manager template on Windows can be done several ways, but my favorite is to use Visual Studio.</p>
+<ol>
+<li>Start up Visual Studio 2017 and open your solution.</li>
+<li>Right-click your solution and select <strong>Add</strong> -&gt; <strong>New Project...</strong>.</li>
+<li>Select <strong>Installed</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Cloud</strong> &gt; <strong>Azure Resource Group</strong>.</li>
+<li>Give the project a name, then click <strong>OK</strong></li>
+<li>Select a template (I use <strong>Web app + SQL</strong> normally as a starting point), then click <strong>OK</strong>.</li>
+</ol>
+<p>Three files are created within the project:</p>
+<ul>
+<li>Deploy-AzureResourceGroup.ps1</li>
+<li>WebSiteSQLDatabase.json (or similar)</li>
+<li>WebSiteSQLDatbase.parameters.json (or similar)</li>
+</ul>
+<p>The <code>WebSiteSQLDatabase.json</code> is the ARM template.  The <code>.parameters.json</code> file contains the parameters for an unattended deployment.  Since the parameters contains the SQL server password, we need to be careful to ensure that the database password does not end up checked into source code.  Finally, the <code>Deploy-AzureResourceGroup.ps1</code> file is a handy PowerShell script for deploying to Azure.  Running it will be the equivalent of doing a deployment via Visual Studio.</p>
+<p>You can now edit the ARM template to include any additional resources you need.  You can also edit the <code>.parameters.json</code> file to set standard values for any parameters you wish, if they don't change very often, although you won't need to do this as there is an easier way of setting parameters as we shall see.</p>
+<p>There are two steps to deploying this ARM template: Validation and Deployment.  To validate the template, right-click the project and select <strong>Validate</strong>.</p>
+<p><img alt="Deployment Validation Step 1" src="../img/validation-step1.PNG" /></p>
+<p>Click into the <strong>Resource group</strong> and select <strong>Create new</strong>.  This allows you to select a resource group name and a location.  Once you have done that, click <strong>Create</strong>.</p>
+<p>The next step is to click <strong>Edit Parameters...</strong>.  This edit the <code>.parameters.json</code> file:</p>
+<p><img alt="Deployment Validation Step 2" src="../img/validation-step2.PNG" /></p>
+<p>Note that we need to set a <code>hostingPlanName</code>, as indicated by the red exclamation error mark.  We can also set any other values we want.  Anything that has a null value should be entered.  Click <strong>Save</strong> when complete.</p>
+<div class="admonition warn">
+<p class="admonition-title">Do not save password as plain text</p>
+<p>It's likely that these files will end up in source control.  You should never save passwords as plain text in any file that is going to end up in a source control repository.</p>
+</div>
+<p>Finally, click <strong>Validate</strong>.  You may get validation errors - fix the validation errors before continuing.  Once you have validated successfully, right-click the deployment project and select <strong>Deploy</strong>, then select the resource group you entered during validation.  You may have to type the SQL administrator password multiple times.</p>
+<p>Watch the output window for a progress report on your deployment.  Once complete, log into the <a href="https://portal.azure.com/">Azure portal</a> to check the resources.  Also check that the resources match what you were expecting within the <a href="https://resources.azure.com/">Azure Resource Explorer</a>.</p>
 <h2 id="deploying-an-arm-template-on-macos">Deploying an ARM Template on MacOS<a class="headerlink" href="#deploying-an-arm-template-on-macos" title="Permanent link">&para;</a></h2>
+<div class="admonition warn">
+<p class="admonition-title">To Be Continued</p>
+<p>This section is incomplete.  Please check back later.</p>
+</div>
+<!-- Images -->
+
+<!-- Links -->
               
               
             </article>
