@@ -268,7 +268,7 @@ My next resource is the App Service Plan.  Unlike the database (which has a defi
                 "numberOfWorkers": 1
             }
         }
-    ]   
+    ]
 }
 ```
 
@@ -276,7 +276,7 @@ The `hostingPlanName` is the name of the hosting plan.  This is normally somethi
 
 #### The Azure App Service
 
-The Azure App Service is 
+The Azure App Service is
 
 ```text
 {
@@ -409,18 +409,125 @@ adrian$ exec -l $SHELL
 
 The first command does the actual installation.  It will ask you questions about where to install and confirm that it can write to files.  In general, pressing Enter will do the right thing.  The second command restarts your shell.  After the installation is complete, run `az` in your Terminal window to ensure the installation was successful.
 
-The next step is to login to Azure with the CLI.  Use the `az login` command from the Terminal window.  This command will output a code to use in the next step. 
+The next step is to login to Azure with the CLI.  Use the `az login` command from the Terminal window.  This command will output a code to use in the next step.
 
-!!! warn "To Be Continued"
-    This section is incomplete.  Please check back later.
-    
+![az login output][img4]
+
+Note the code that is produced.  Now go to [http://aka.ms/devicelogin][devicelogin] and enter the code in the box provided.
+
+![az devicelogin page][img5]
+
+Enter the code, press enter, then click **Continue**.  You will be asked to authenticate to Azure.  Once that is complete, the terminal window will continue and you will be logged into Azure.  The `az login` command will provide a little piece of JSON to show you the subscription information to which you connected.
+
+Deploying a set of resources is a two-step process on the command-line.  Firstly, you need to create a resource group.  Then you need to deploy the resources within that resource group.  To create a resource group, use:
+
+```text
+az group create -l westus -n MyResourceGroup
+```
+
+You can get a list of locations that are available to you using:
+
+```text
+az account list-locations | grep name
+```
+
+Take a look at the response from the `az group create` command.  Ensure that the `provisioningState` property is something that indicates success.
+
+Now that we have a resource group, we can deploy our resources.  Edit the `.parameters.json` file to contain the values for your parameters.  For example:
+
+```text
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "hostingPlanName": {
+      "value": "Chapter8-plan"
+    },
+    "skuName": {
+      "value": "B1"
+    },
+    "skuCapacity": {
+      "value": 1
+    },
+    "administratorLogin": {
+      "value": "azure"
+    },
+    "administratorLoginPassword": {
+      "value": "myPassword"
+    },
+    "databaseName": {
+      "value": "ZUMOAPPDB"
+    },
+    "edition": {
+      "value": "Basic"
+    }
+  }
+}
+```
+
+!!! warn "Do not check in passwords!"
+    If your parameters file contains password, do not check it in to source code control.
+
+You can now deploy the service with the following:
+
+```text
+az group deployment create --resource-group MyResourceGroup
+    --mode Complete
+    --parameters @WebSiteSQLDatabase.parameters.json
+    --template-file WebSiteSQLDatabase.json
+    --verbose
+```
+
+Although I have split this command over multiple lines, you should enter this command on one line.
+
+!!! tip "Use --mode to maintain deployments"
+    There are two modes for ARM deployments.  **Complete** will remove any resources that are not listed in your ARM template.  **Incremental** will only add resources to the resource group.  You can use these two modes to effectively maintain the resources in the resource group using only the command line.
+
+At this point, the deployment will kick off.  It's a long running process, so expect a delay of a few minutes before it returns information.  This deployment is (deliberately) going to fail so we can see what happens when it goes wrong and how to fix it.
+
+The response after this first run is this:
+
+```text
+The deployment operation failed, because it was unable to cleanup. Please see https://aka.ms/arm-debug for usage details.  Correlation ID: aed1850d-22ca-4e28-b7fa-83a2ac587867
+```
+
+Start by logging into the [Azure portal], then go to the resource group was just created, then click **Deployments**.  Select the latest deployment.
+
+![az cli deployment failed][img6]
+
+Click on the failed request:
+
+![az cli deployment failed][img7]
+
+The failed request is a lot clearer than the original failure message.  In this case, the password we entered for the SQL database did not meet the complexity requirements.  This is easily updated within the parameters file.  Then re-run the deployment.
+
+## Creating the ARM Template
+
+One of the issues with ARM templates is their actual creation.  There are three methods of creating ARM templates:
+
+1.  Create a new Resource Group within Visual Studio (covered above)
+2.  Export a template from a Resource Group.
+    *  Log in to the [Azure portal].
+    *  Select your resource group.
+    *  In the menu, click **Automation Scripts**.
+    *  Click **Download**.
+3.  Download [a starter template from GitHub][4].
+
+Which ever mechanism you choose to create the template, you will still need to edit the result by hand for your individual requirements.
+
 <!-- Images -->
 [img1]: ./img/resource-explorer-sql.PNG
 [img2]: ./img/validation-step1.PNG
 [img3]: ./img/validation-step2.PNG
+[img4]: ./img/azcli-login-1.PNG
+[img5]: ./img/azcli-login-2.PNG
+[img6]: ./img/azcli-deploy-failed-1.PNG
+[img7]: ./img/azcli-deploy-failed-2.PNG
 
 <!-- Links -->
 [Azure portal]: https://portal.azure.com/
+[devicelogin]: http://aka.ms/devicelogin/
 [1]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview
 [2]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions
 [3]: https://resources.azure.com/
+[4]: https://azure.microsot.com/resources/templates/

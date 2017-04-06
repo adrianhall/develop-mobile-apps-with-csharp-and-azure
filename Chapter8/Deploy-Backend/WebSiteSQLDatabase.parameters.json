@@ -5,14 +5,23 @@
     "hostingPlanName": {
       "value": "Chapter8-plan"
     },
+    "skuName": {
+      "value": "B1"
+    },
+    "skuCapacity": {
+      "value": 1
+    },
     "administratorLogin": {
       "value": "azure"
     },
-    "databaseName": {
-      "value": "Chapter8-db"
+    "administratorLoginPassword": {
+      "value": "myC0mpl3xPa$$word"
     },
-    "skuName": {
-      "value": "B1"
+    "databaseName": {
+      "value": "ZUMOAPPDB"
+    },
+    "edition": {
+      "value": "Basic"
     }
   }
 }
