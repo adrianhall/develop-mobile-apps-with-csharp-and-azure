@@ -959,6 +959,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#creating-the-arm-template" title="Creating the ARM Template" class="md-nav__link">
+    Creating the ARM Template
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1162,6 +1169,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#creating-the-arm-template" title="Creating the ARM Template" class="md-nav__link">
+    Creating the ARM Template
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1173,7 +1187,7 @@
           <div class="md-content">
             <article class="md-content__inner md-typeset">
                
-                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter9\arm.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+                 <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter9/arm.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
                
               
                 
@@ -1429,13 +1443,13 @@
                 &quot;numberOfWorkers&quot;: 1
             }
         }
-    ]   
+    ]
 }
 </code></pre>
 
 <p>The <code>hostingPlanName</code> is the name of the hosting plan.  This is normally something like F1, B2, or P3.  The first letter indicates the SKU and the number indicates the size of the worker.  The size of the worker is always one less than the number that is displayed within the Azure portal.</p>
 <h4 id="the-azure-app-service">The Azure App Service<a class="headerlink" href="#the-azure-app-service" title="Permanent link">&para;</a></h4>
-<p>The Azure App Service is </p>
+<p>The Azure App Service is</p>
 <pre><code class="text">{
     &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
     &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
@@ -1544,10 +1558,97 @@
 <p>Finally, click <strong>Validate</strong>.  You may get validation errors - fix the validation errors before continuing.  Once you have validated successfully, right-click the deployment project and select <strong>Deploy</strong>, then select the resource group you entered during validation.  You may have to type the SQL administrator password multiple times.</p>
 <p>Watch the output window for a progress report on your deployment.  Once complete, log into the <a href="https://portal.azure.com/">Azure portal</a> to check the resources.  Also check that the resources match what you were expecting within the <a href="https://resources.azure.com/">Azure Resource Explorer</a>.</p>
 <h2 id="deploying-an-arm-template-on-macos">Deploying an ARM Template on MacOS<a class="headerlink" href="#deploying-an-arm-template-on-macos" title="Permanent link">&para;</a></h2>
+<p>The Mac does not come with the tools necessary to deploy ARM templates, so you will need to download and install them first.  In a Terminal window:</p>
+<pre><code class="text">adrian$ curl -L https://aka.ms/InstallAzureCli | bash
+adrian$ exec -l $SHELL
+</code></pre>
+
+<p>The first command does the actual installation.  It will ask you questions about where to install and confirm that it can write to files.  In general, pressing Enter will do the right thing.  The second command restarts your shell.  After the installation is complete, run <code>az</code> in your Terminal window to ensure the installation was successful.</p>
+<p>The next step is to login to Azure with the CLI.  Use the <code>az login</code> command from the Terminal window.  This command will output a code to use in the next step.</p>
+<p><img alt="az login output" src="../img/azcli-login-1.PNG" /></p>
+<p>Note the code that is produced.  Now go to <a href="http://aka.ms/devicelogin/">http://aka.ms/devicelogin</a> and enter the code in the box provided.</p>
+<p><img alt="az devicelogin page" src="../img/azcli-login-2.PNG" /></p>
+<p>Enter the code, press enter, then click <strong>Continue</strong>.  You will be asked to authenticate to Azure.  Once that is complete, the terminal window will continue and you will be logged into Azure.  The <code>az login</code> command will provide a little piece of JSON to show you the subscription information to which you connected.</p>
+<p>Deploying a set of resources is a two-step process on the command-line.  Firstly, you need to create a resource group.  Then you need to deploy the resources within that resource group.  To create a resource group, use:</p>
+<pre><code class="text">az group create -l westus -n MyResourceGroup
+</code></pre>
+
+<p>You can get a list of locations that are available to you using:</p>
+<pre><code class="text">az account list-locations | grep name
+</code></pre>
+
+<p>Take a look at the response from the <code>az group create</code> command.  Ensure that the <code>provisioningState</code> property is something that indicates success.</p>
+<p>Now that we have a resource group, we can deploy our resources.  Edit the <code>.parameters.json</code> file to contain the values for your parameters.  For example:</p>
+<pre><code class="text">{
+  &quot;$schema&quot;: &quot;https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#&quot;,
+  &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+  &quot;parameters&quot;: {
+    &quot;hostingPlanName&quot;: {
+      &quot;value&quot;: &quot;Chapter8-plan&quot;
+    },
+    &quot;skuName&quot;: {
+      &quot;value&quot;: &quot;B1&quot;
+    },
+    &quot;skuCapacity&quot;: {
+      &quot;value&quot;: 1
+    },
+    &quot;administratorLogin&quot;: {
+      &quot;value&quot;: &quot;azure&quot;
+    },
+    &quot;administratorLoginPassword&quot;: {
+      &quot;value&quot;: &quot;myPassword&quot;
+    },
+    &quot;databaseName&quot;: {
+      &quot;value&quot;: &quot;ZUMOAPPDB&quot;
+    },
+    &quot;edition&quot;: {
+      &quot;value&quot;: &quot;Basic&quot;
+    }
+  }
+}
+</code></pre>
+
 <div class="admonition warn">
-<p class="admonition-title">To Be Continued</p>
-<p>This section is incomplete.  Please check back later.</p>
+<p class="admonition-title">Do not check in passwords!</p>
+<p>If your parameters file contains password, do not check it in to source code control.</p>
 </div>
+<p>You can now deploy the service with the following:</p>
+<pre><code class="text">az group deployment create --resource-group MyResourceGroup
+    --mode Complete
+    --parameters @WebSiteSQLDatabase.parameters.json
+    --template-file WebSiteSQLDatabase.json
+    --verbose
+</code></pre>
+
+<p>Although I have split this command over multiple lines, you should enter this command on one line.</p>
+<div class="admonition tip">
+<p class="admonition-title">Use --mode to maintain deployments</p>
+<p>There are two modes for ARM deployments.  <strong>Complete</strong> will remove any resources that are not listed in your ARM template.  <strong>Incremental</strong> will only add resources to the resource group.  You can use these two modes to effectively maintain the resources in the resource group using only the command line.</p>
+</div>
+<p>At this point, the deployment will kick off.  It's a long running process, so expect a delay of a few minutes before it returns information.  This deployment is (deliberately) going to fail so we can see what happens when it goes wrong and how to fix it.</p>
+<p>The response after this first run is this:</p>
+<pre><code class="text">The deployment operation failed, because it was unable to cleanup. Please see https://aka.ms/arm-debug for usage details.  Correlation ID: aed1850d-22ca-4e28-b7fa-83a2ac587867
+</code></pre>
+
+<p>Start by logging into the <a href="https://portal.azure.com/">Azure portal</a>, then go to the resource group was just created, then click <strong>Deployments</strong>.  Select the latest deployment.</p>
+<p><img alt="az cli deployment failed" src="../img/azcli-deploy-failed-1.PNG" /></p>
+<p>Click on the failed request:</p>
+<p><img alt="az cli deployment failed" src="../img/azcli-deploy-failed-2.PNG" /></p>
+<p>The failed request is a lot clearer than the original failure message.  In this case, the password we entered for the SQL database did not meet the complexity requirements.  This is easily updated within the parameters file.  Then re-run the deployment.</p>
+<h2 id="creating-the-arm-template">Creating the ARM Template<a class="headerlink" href="#creating-the-arm-template" title="Permanent link">&para;</a></h2>
+<p>One of the issues with ARM templates is their actual creation.  There are three methods of creating ARM templates:</p>
+<ol>
+<li>Create a new Resource Group within Visual Studio (covered above)</li>
+<li>Export a template from a Resource Group.<ul>
+<li>Log in to the <a href="https://portal.azure.com/">Azure portal</a>.</li>
+<li>Select your resource group.</li>
+<li>In the menu, click <strong>Automation Scripts</strong>.</li>
+<li>Click <strong>Download</strong>.</li>
+</ul>
+</li>
+<li>Download <a href="https://azure.microsot.com/resources/templates/">a starter template from GitHub</a>.</li>
+</ol>
+<p>Which ever mechanism you choose to create the template, you will still need to edit the result by hand for your individual requirements.</p>
 <!-- Images -->
 
 <!-- Links -->
