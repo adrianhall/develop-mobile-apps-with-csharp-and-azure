@@ -824,6 +824,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#create-a-media-services-asset" title="Create a Media Services Asset" class="md-nav__link">
+    Create a Media Services Asset
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1065,6 +1072,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#create-a-media-services-asset" title="Create a Media Services Asset" class="md-nav__link">
+    Create a Media Services Asset
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1103,8 +1117,7 @@
 <p>As you can see, there are many more services in use in this example than our previous examples:</p>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts">Azure Media Services</a> is used for video encoding and streaming endpoints.</li>
-<li><a href="https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-what-are-logic-apps">Azure Logic Apps</a> is used for workflow automation.</li>
-<li><a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview">Azure Functions</a> are used for automated individual steps.</li>
+<li><a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview">Azure Functions</a> are used for automation.</li>
 <li><a href="https://azure.microsoft.com/en-us/services/cognitive-services/">Cognitive Services</a> are used to extract information from the videos.</li>
 <li><a href="https://docs.microsoft.com/en-us/azure/app-service/app-service-value-prop-what-is">Azure App Service</a> is used to act as a coordinator for the mobile app.</li>
 <li><a href="https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search">Azure Search</a> is used as our full text search engine.</li>
@@ -1258,7 +1271,7 @@ namespace Backend.Controllers
 </ul>
 <p>Let's get back to the process I am trying to implement.  When a user uploads a video file into the <code>incoming</code> container within Azure Storage, I need to automatically:</p>
 <ul>
-<li>Create a Media Services Asset.</li>
+<li><a href="#create-a-media-services-asset">Create a Media Services Asset</a>.</li>
 <li>Copy the incoming video into the Asset blob.</li>
 <li>Synchronize the Asset blob with Media Services.</li>
 <li>Submit an encoding job.</li>
@@ -1271,7 +1284,66 @@ namespace Backend.Controllers
 <p class="admonition-title">Example Functions for Media Services</p>
 <p>Azure Media Services provides a number of resources in the <a href="https://github.com/Azure-Samples/media-services-dotnet-functions-integration">Azure-Samples</a> repository.  Most of the samples provided here were adapted from this GitHub repository.  I particularly like the <a href="https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/media-functions-for-logic-app">Logic Apps edition of the encoding pipeline</a> as it provides a visual understanding of the process.</p>
 </div>
-<p>Let's take a look at the first step.  I'm creating an Azure Function called <code>create-media-asset</code>.</p>
+<h3 id="create-a-media-services-asset">Create a Media Services Asset<a class="headerlink" href="#create-a-media-services-asset" title="Permanent link">&para;</a></h3>
+<p>Let's take a look at the first step.  I'm creating an Azure Function called <code>create-media-asset</code>.  It will be triggered when a video file is placed into the incoming container of the storage account.  When it is triggered, it will run the function and output any necessary information that needs to be passed on to the next function in a queue object.</p>
+<p>Start by creating a new function from the <strong>BlobTrigger-CSharp</strong> template.  Ensure you create a new Storage account connection to support the connection to the right Azure Storage container.  Once created, you can click on the <strong>View files</strong> link on the right side of the <strong>Develop</strong> tab. There is a <code>function.json</code> file and a <code>run.csx</code> file.  These are the files that define the function.  The Azure Media Services SDK is not available by default in Azure Functions.  Add the SDK with a <code>project.json</code> file.  Click on <strong>Add</strong> in the <strong>View files</strong> area to add the file.  Then set the contents to the following:</p>
+<pre><code class="text">{
+    &quot;frameworks&quot;: {
+        &quot;net46&quot;: {
+            &quot;dependencies&quot;: {
+                &quot;windowsazure.mediaservices&quot;: &quot;3.8.0.5&quot;,
+                &quot;windowsazure.mediaservices.extensions&quot;: &quot;3.8.0.3&quot;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>The <code>function.json</code> file describes the input and output bindings for the function.  In this case, we have an inbound blob trigger and an outbound queue:</p>
+<pre><code class="text">{
+  &quot;bindings&quot;: [
+    {
+      &quot;name&quot;: &quot;myBlob&quot;,
+      &quot;type&quot;: &quot;blobTrigger&quot;,
+      &quot;direction&quot;: &quot;in&quot;,
+      &quot;path&quot;: &quot;incoming/{name}&quot;,
+      &quot;connection&quot;: &quot;zumobook_STORAGE&quot;
+    },
+    {
+      &quot;type&quot;: &quot;queue&quot;,
+      &quot;name&quot;: &quot;queueItem&quot;,
+      &quot;queueName&quot;: &quot;copy-incoming-queue&quot;,
+      &quot;connection&quot;:&quot;zumobook_STORAGE&quot;,
+      &quot;direction&quot;: &quot;out&quot;
+    }
+  ],
+  &quot;disabled&quot;: false
+}
+</code></pre>
+
+<p>Finally, the code is stored in <code>run.csx</code>:</p>
+<pre><code class="csharp">using Microsoft.WindowsAzure.MediaServices.Client;
+
+private static readonly string mediaAccountName = Environment.GetEnvironmentVariable(&quot;MediaServicesAccountName&quot;);
+private static readonly string mediaAccountKey = Environment.GetEnvironmentVariable(&quot;MediaServicesAccountKey&quot;);
+
+public static void Run(Stream myBlob, string name, out string queueItem, TraceWriter log)
+{
+    log.Info($&quot;create-media-asset received file {name}&quot;);
+    log.Info($&quot;Using Media Services Account {mediaAccountName}&quot;);
+
+    MediaServicesCredentials credentials = new MediaServicesCredentials(mediaAccountName, mediaAccountKey);
+    CloudMediaContext context = new CloudMediaContext(credentials);
+    IAsset newAsset = context.Assets.Create(name, AssetCreationOptions.None);
+
+    log.Info($&quot;Asset Id = {newAsset.Id}, Path = {newAsset.Uri}&quot;);
+    queueItem = $&quot;id={newAsset.Id};path={newAsset.Uri.Segments[1]}&quot;;
+}
+</code></pre>
+
+<p>Once you have saved each file, you can use the <strong>Cloud Explorer</strong> or <strong>Server Explorer</strong> within Visual Studio to upload a video to the incoming container.  If you take a look at the logs for the function execution, you will see the following:</p>
+<p><img alt="" src="../img/create-media-asset.PNG" /></p>
+<p>Back in the <strong>Cloud Explorer</strong>, you can expand the queues and take a peek at the <code>copy-incoming-queue</code> to see the queue message waiting for processing.</p>
 <div class="admonition warn">
 <p class="admonition-title">To Be Continued</p>
 <p>This section is not complete as yet.  Please check back soon!</p>
