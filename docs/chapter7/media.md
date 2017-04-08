@@ -181,7 +181,7 @@ Azure App Service underpins both Azure Mobile Apps and Azure Functions.  You can
 
 Let's get back to the process I am trying to implement.  When a user uploads a video file into the `incoming` container within Azure Storage, I need to automatically:
 
-*  Create a Media Services Asset.
+*  <a href="#create-a-media-services-asset">Create a Media Services Asset</a>.
 *  Copy the incoming video into the Asset blob.
 *  Synchronize the Asset blob with Media Services.
 *  Submit an encoding job.
