@@ -882,18 +882,6 @@
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../realtime/" title="Real-time Notifications" class="md-nav__link">
-      Real-time Notifications
-    </a>
-  </li>
-
-        
       </ul>
     </nav>
   </li>
@@ -1193,7 +1181,7 @@
                 
                 <p>When developing mobile applications, certain cloud services - data access, authentication and push notifications - almost always make their way into the requirements for the mobile backend.  However, there are a number of other Azure services that can also make an appearance.</p>
 <p>Azure has a number of "platform as a service" type services.  We've built Azure Mobile Apps on top of some of them - App Service and Notification Hubs.  PaaS, as it is known, is a microservice where you don't have to deal with the underlying operating system or scaling issues.  While we won't cover all possible Azure services, it's worth mentioning a few of the more useful ones here.  In addition, there are some things you can't get from Azure.  We'll take a look at those later on.</p>
-<p>We will be covering <a href="../search/">Search</a>, <a href="../realtime/">Realtime Communications</a> and <a href="../media/">Video</a> services within this chapter in more depth.</p>
+<p>We will be covering <a href="../search/">Search</a>, <a href="./realtime.md">Realtime Communications</a> and <a href="../media/">Video</a> services within this chapter in more depth.</p>
 <h2 id="azure-services">Azure Services<a class="headerlink" href="#azure-services" title="Permanent link">&para;</a></h2>
 <p>The following services are available with your Azure subscription.  The all incur some kind of cost, although search has a free tier.</p>
 <h3 id="cognitive-services">Cognitive Services<a class="headerlink" href="#cognitive-services" title="Permanent link">&para;</a></h3>
@@ -1233,7 +1221,7 @@ are quite a few "standards" here:</p>
 <li><a href="http://signalr.net/">SignalR</a></li>
 <li><a href="http://socket.io/">socket.io</a></li>
 </ul>
-<p>WebRTC uses UDP underneath, so it's better for lossy communication with low latency - for example, audio or video.  WebSockets (and the frameworks that depend on it, like socket.io and SignalR) use TCP.  This means higher latency, but lossless communication.  Since we are developing an ASP.NET mobile backend and using C# for the mobile application, SignalR would be more appropriate to use.  We'll do a more <a href="../realtime/">in-depth study</a> of SignalR later on in the chapter.</p>
+<p>WebRTC uses UDP underneath, so it's better for lossy communication with low latency - for example, audio or video.  WebSockets (and the frameworks that depend on it, like socket.io and SignalR) use TCP.  This means higher latency, but lossless communication.  Since we are developing an ASP.NET mobile backend and using C# for the mobile application, SignalR would be more appropriate to use. You can find <a href="https://github.com/schneidenbach/Xamarin-Forms-and-SignalR-Example">a full example of integrating SignalR with Xamarin Forms on GitHub</a>.</p>
 <!-- Links -->
               
               
