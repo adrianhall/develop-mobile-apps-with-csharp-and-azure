@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
 using TaskList.Abstractions;
 using TaskList.Services;
@@ -12,8 +13,8 @@ namespace TaskList
 
         public App()
         {
-            MobileCenter.Start("android={your-android-app-secret};ios={your-ios-app-secret}",
-                typeof(Crashes));
+            MobileCenter.Start("android=609b2734-0353-4e71-a654-fedd9df1632a;ios=af1c12ba-85ae-4be8-b5cd-73fe79c9f697",
+                typeof(Analytics), typeof(Crashes));
 
 #if USE_MOCK_SERVICES
             CloudService = new MockCloudService();

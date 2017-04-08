@@ -5,11 +5,11 @@ namespace TaskList.Services
 {
     public class AzureCloudService : ICloudService
     {
-        MobileServiceClient client;
+        private readonly MobileServiceClient client;
 
         public AzureCloudService()
         {
-            client = new MobileServiceClient(@"https://ZUMOAPPURL.azurewebsites.net");
+            client = new MobileServiceClient(@"https://webSitehuufamnlr7fzu.azurewebsites.net");
         }
 
         public ICloudTable<T> GetTable<T>() where T : TableData

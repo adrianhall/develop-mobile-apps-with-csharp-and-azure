@@ -54,8 +54,7 @@ pages:
     - Chapter 9 - Going to Production:
         - Repeatable Deployments: chapter9/arm.md
         - Safe Deployments: chapter9/appsvc.md
-        - Monitoring: chapter9/monitoring.md
-        - Troubleshooting: chapter9/troubleshooting.md
+        - Monitoring and Troubleshooting: chapter9/monitoring.md
     - Xamarin Forms Tips: xamarin_tips.md
     - Android Developer Notes: android_appendix.md
     - Visual Studio Extensions: vs_extensions.md
