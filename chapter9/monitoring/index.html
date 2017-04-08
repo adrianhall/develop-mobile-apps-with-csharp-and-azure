@@ -19,7 +19,7 @@
     
     
       
-        <title>Monitoring - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+        <title>Monitoring and Troubleshooting - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
       
     
     
@@ -88,7 +88,7 @@
                 </span>
               
             
-            Monitoring
+            Monitoring and Troubleshooting
           
         </span>
       </div>
@@ -891,11 +891,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="toc">
-        Monitoring
+        Monitoring and Troubleshooting
       </label>
     
-    <a href="./" title="Monitoring" class="md-nav__link md-nav__link--active">
-      Monitoring
+    <a href="./" title="Monitoring and Troubleshooting" class="md-nav__link md-nav__link--active">
+      Monitoring and Troubleshooting
     </a>
     
       
@@ -913,12 +913,52 @@
     Monitoring your Backend
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-application-insights-instance" title="Create an Application Insights Instance" class="md-nav__link">
+    Create an Application Insights Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-application-insights-to-your-mobile-backend" title="Add Application Insights to your Mobile Backend" class="md-nav__link">
+    Add Application Insights to your Mobile Backend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewing-application-insights-data" title="Viewing Application Insights Data" class="md-nav__link">
+    Viewing Application Insights Data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#monitoring-your-mobile-clients" title="Monitoring your Mobile Clients" class="md-nav__link">
     Monitoring your Mobile Clients
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crash-reporting" title="Crash Reporting" class="md-nav__link">
+    Crash Reporting
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -929,22 +969,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#and-in-closing" title="And in closing" class="md-nav__link">
+    And in closing
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../troubleshooting/" title="Troubleshooting" class="md-nav__link">
-      Troubleshooting
-    </a>
   </li>
 
         
@@ -1038,6 +1073,33 @@
     Monitoring your Backend
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-application-insights-instance" title="Create an Application Insights Instance" class="md-nav__link">
+    Create an Application Insights Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-application-insights-to-your-mobile-backend" title="Add Application Insights to your Mobile Backend" class="md-nav__link">
+    Add Application Insights to your Mobile Backend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewing-application-insights-data" title="Viewing Application Insights Data" class="md-nav__link">
+    Viewing Application Insights Data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1045,11 +1107,31 @@
     Monitoring your Mobile Clients
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crash-reporting" title="Crash Reporting" class="md-nav__link">
+    Crash Reporting
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#best-practices" title="Best Practices" class="md-nav__link">
     Best Practices
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#and-in-closing" title="And in closing" class="md-nav__link">
+    And in closing
   </a>
   
 </li>
@@ -1069,10 +1151,179 @@
                
               
                 
-                <h1 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">&para;</a></h1>
+                <h1 id="monitoring-and-troubleshooting">Monitoring and Troubleshooting<a class="headerlink" href="#monitoring-and-troubleshooting" title="Permanent link">&para;</a></h1>
+<p>The last two topics are joined together - monitoring and troubleshooting.  There are many reasons for monitoring:</p>
+<ul>
+<li>To gain marketing information into your userbase.</li>
+<li>To detect potential security threats.</li>
+<li>To detect problems in your code.</li>
+</ul>
+<p>This latter reason is the reason most developers want to monitor their mobile app.  However, there is much to be gained from monitoring your mobile app for marketing purposes, and security should be a top-of-mind issue for everyone with an app that others use.  Security is generally monitored at the mobile backend.  Marketing information is gleaned from monitoring the usage of the mobile client, and problems can occur anywhere in your code base.</p>
+<p>You should always monitor as close to your mobile backend as possible.  If you monitor your mobile backend from another provider (for example), you will be paying for network charges needlessly.  Except in rare cases (such as the recently advertised Amazon outages), the cloud provider will keep the cloud operating without any involvement from you.  Even in those cases where there is an outage at the cloud provider, you will not be able to prevent the outage simply by having monitoring elsewhere.</p>
+<p>Since the preferred hosting platform for Azure Mobile Apps is Azure App Service, this means using the analytics platform provided by Azure.  This consists of two parts:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/azure/application-insights/app-insights-overview">Application Insights</a> for monitoring and troubleshooting the mobile backend.</li>
+<li><a href="https://mobile.azure.com/signup?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> for monitoring and troubleshooting the mobile client.</li>
+</ul>
 <h2 id="monitoring-your-backend">Monitoring your Backend<a class="headerlink" href="#monitoring-your-backend" title="Permanent link">&para;</a></h2>
+<p>There is a lot of <a href="https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-monitor">monitoring built into Azure App Service</a>.  For these tools, you don't have to do anything.  They are always available.  However, there are certain pieces of information that are not going to be available.  For instance, you will not be able to correlate uploads with users since Azure App Service really doesn't know anything about users.  For this reason, it's a good idea to integrate <a href="https://docs.microsoft.com/en-us/azure/application-insights/app-insights-overview">Application Insights</a> into your mobile backend.  This is a two-step process:</p>
+<ol>
+<li>Create an Application Insights instance in your Azure resource group.</li>
+<li>Add Application Insights to your mobile backend project.</li>
+</ol>
+<p>There is more to Application Insights than the basics we are going to cover here, including <a href="https://docs.microsoft.com/en-us/azure/application-insights/app-insights-api-custom-events-metrics">custom events</a>, <a href="https://docs.microsoft.com/en-us/azure/application-insights/app-insights-api-filtering-sampling">filtering</a>, and <a href="https://docs.microsoft.com/en-us/azure/application-insights/app-insights-scom">integration with other platforms</a>.  Application Insights is a powerful service and we will only be able to scratch the surface of it.</p>
+<div class="admonition tip">
+<p class="admonition-title">Automate Application Insights creation with ARM</p>
+<p>Just like all other Azure resources, you can create an Application Insights with an automated deployment via an ARM template.</p>
+</div>
+<h3 id="create-an-application-insights-instance">Create an Application Insights Instance<a class="headerlink" href="#create-an-application-insights-instance" title="Permanent link">&para;</a></h3>
+<p>Start by opening the <a href="https://portal.azure.com">Azure portal</a>, then:</p>
+<ul>
+<li>Open your resource group.</li>
+<li>Click <strong>Add</strong>.</li>
+<li>Search for then click <strong>Application Insights</strong>.</li>
+<li>Click <strong>Create</strong>.</li>
+<li>Enter a name for the resource.  Pick <strong>ASP.NET web application</strong> for the application type.</li>
+<li>Select the nearest location to your mobile backend.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Application Insights isn't everywhere</p>
+<p>Application Insights can only be placed in larger regions where storage and compute capacity is large.  That means your Application Insights will probably not be in the same location as your mobile backend.</p>
+</div>
+<ul>
+<li>Once you have set the required configuration, click <strong>Create</strong>.</li>
+</ul>
+<p>There won't be any data until you have connected your mobile backend to the Application Insights resource.</p>
+<h3 id="add-application-insights-to-your-mobile-backend">Add Application Insights to your Mobile Backend<a class="headerlink" href="#add-application-insights-to-your-mobile-backend" title="Permanent link">&para;</a></h3>
+<p>Let's continue with our cloud backend that we developed for <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter8/Backend">Chapter 8</a>.  Open your solution in Visual Studio, right-click the project and select <strong>Add</strong> -&gt; <strong>Application Insights Telemetry...</strong>.</p>
+<p><img alt="" src="../img/add-ai.PNG" /></p>
+<p>Once added, the configuration process will start.  Click <strong>Start Free</strong>.</p>
+<p><img alt="" src="../img/add-ai-2.PNG" /></p>
+<p>If you need to, select and authenticate to the right Azure account and select your subscription.  In the <strong>Resource</strong> drop-down, select the Application Insights resource you just created.  Then click <strong>Register</strong>.  This will add the appropriate NuGet packages to your project and configure most of what is required in the source code.  Once the process is complete, click <strong>Finish</strong>.</p>
+<p>You can optionally enable trace collection.  This allows you to search the output from <code>System.Diagnostics</code>, enabling you to capture even more information.  Diagnostic data is generally verbose and slows the service down.  The free tier of Application Insights is limited to 1Gb/month, so this step is optional.</p>
+<p>Your last remaining step is to publish your site to Azure App Service, which we have done many times during the course of the book.</p>
+<h3 id="viewing-application-insights-data">Viewing Application Insights Data<a class="headerlink" href="#viewing-application-insights-data" title="Permanent link">&para;</a></h3>
+<p>The Application Insights data is available through the <a href="https://portal.azure.com">Azure portal</a> or within Visual Studio.  Before we go any further, generate some Application Insights data by using your mobile app.  Once done, you can review the Application Insights data by right-clicking on your backend project and choosing <strong>Application Insights</strong> -&gt; <strong>Open Application Insights Portal</strong>.  The same page is available by clicking the Application Insights resource in your resource group.</p>
+<p>Application Insights is constantly changing, so take some time to learn about the metrics and reports you can view using the portal.</p>
 <h2 id="monitoring-your-mobile-clients">Monitoring your Mobile Clients<a class="headerlink" href="#monitoring-your-mobile-clients" title="Permanent link">&para;</a></h2>
+<p>Monitoring your mobile client is important to gather usage and marketing data about your users.  You can also find out how your users are actually using your mobile app.  This allows you to target additional improvements in areas that people find useful and perhaps remove or improve areas that are less used.  To integrate monitoring, first create a <a href="https://mobile.azure.com/signup?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> app as we described in the <a href="../../chapter8/testing/#distributing-your-mobile-client-to-beta-users">Testing</a> section.</p>
+<ol>
+<li>Return to the <a href="https://mobile.azure.com?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> and select your app.</li>
+<li>If you were at another beacon, click <strong>Getting Started</strong>.</li>
+<li>Click <strong>Manage app</strong>.</li>
+<li>Copy the App secret somewhere accessible - we will need it in a few moments.</li>
+<li>Open the mobile app project in Visual Studio 2017 or Visual Studio for Mac.</li>
+<li>Right-click the solution and select <strong>Manage NuGet Packages for Solution...</strong>.</li>
+<li>Click <strong>Browse</strong>, then search for <strong>Microsoft.Azure.Mobile.Analytics</strong>.</li>
+<li>Install the <code>Microsoft.Azure.Mobile.Analytics</code> package into the Android and iOS projects.</li>
+</ol>
+<p>Once the package(s) are installed, open <code>App.cs</code> in the shared project.  Add the <code>MobileCenter.Start</code> line at the start of the constructor:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            MobileCenter.Start(&quot;android=609b2734-0353-4e71-a654-fedd9df1632a&quot;, typeof(Analytics));
+
+#if USE_MOCK_SERVICES
+            CloudService = new MockCloudService();
+#else
+            CloudService = new AzureCloudService();
+#endif
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+</code></pre>
+
+<p>When you start your app, the analytics service will send a session start message to Visual Studio Mobile Center, allowing you to get basic demographics about your mobile app usage, such as how many distinct users you have, where they are located, and what device(s) they are using.  To get this level of information, visit the Analytics page in the Visual Studio Mobile Center portal.</p>
+<p>You can get better analytics by defining custom events.  An event is a custom interaction with the content in your app that allows you to better understand your user's behavior.  For example, you may want to understand what sort of things your users are uploading - are they uploading from the camera or picking a picture?  You will not be able to get this information from the server.  The server will only be able to tell that the user uploaded a picture.  To use custom events, you can use the <code>trackEvent()</code> method, like this:</p>
+<pre><code class="csharp">// at the top of the file:
+// using Microsoft.Azure.Mobile.Analytics
+
+Analytics.TrackEvent(&quot;FILE_UPLOAD&quot;, new Dictionary&lt;string, string&gt; {
+    { &quot;Source&quot;, &quot;Camera&quot; },
+    { &quot;FileName&quot;, &quot;pic1.jpg&quot; }
+});  
+</code></pre>
+
+<p>To analyze custom events, go to the Events page in the Visual Studio Mobile Center portal.  The events are attached to a session so you can report on the number of distinct users using a camera for upload, for example.  Custom Events are limited by your imagination, but they do have a cost associated with them - each event does cost a small amount of bandwidth to the user.</p>
+<div class="admonition tip">
+<p class="admonition-title">Other Analytics Limits</p>
+<p>You can only produce 200 custom event types per app.  The "FILE_UPLOAD" is an event type.  There is a total maximum of 256 characters per event type.  Each property name and value must be less than 64 characters.</p>
+</div>
+<h3 id="crash-reporting">Crash Reporting<a class="headerlink" href="#crash-reporting" title="Permanent link">&para;</a></h3>
+<p>Once your application is out in the wild, whether it be with your beta testers, your employees or the general public via a public app store, you want to ensure it is working.  You can do all the testing available to you and there will still be some combination of factors that may cause your application to crash.  Your users will most likely just delete your application at that point, so it's a good idea to collect the cause of the crash before they do that.  </p>
+<p>To integrate crash reporting, add the Mobile Center SDK to your project, then add a single line of code to your application.  We've already <a href="../../chapter8/testing/#distributing-your-mobile-client-to-beta-users">created a Visual Studio Mobile Center app</a> for beta distribution (which we covered above), so we'll use the same application.</p>
+<ol>
+<li>Return to the <a href="https://mobile.azure.com?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> and select your app.</li>
+<li>If you were at another beacon, click <strong>Getting Started</strong>.</li>
+<li>Click <strong>Manage app</strong>.</li>
+<li>Copy the App secret somewhere accessible - we will need it in a few moments.</li>
+<li>Open the mobile app project in Visual Studio 2017 or Visual Studio for Mac.</li>
+<li>Right-click the solution and select <strong>Manage NuGet Packages for Solution...</strong>.</li>
+<li>Click <strong>Browse</strong>, then search for <strong>Microsoft.Azure.Mobile.Crashes</strong>.</li>
+<li>Install the <code>Microsoft.Azure.Mobile.Crashes</code> package into the Android and iOS projects.</li>
+</ol>
+<p>If you have both an iOS and Android app, make note of BOTH app secrets - one from each app within Mobile Center.</p>
+<p>Once the package(s) are installed, open <code>App.cs</code> in the shared project.  Add the <code>MobileCenter.Start</code> line at the start of the constructor:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
+using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            MobileCenter.Start(&quot;android=609b2734-0353-4e71-a654-fedd9df1632a&quot;, 
+                typeof(Analytics), typeof(Crashes));
+
+#if USE_MOCK_SERVICES
+            CloudService = new MockCloudService();
+#else
+            CloudService = new AzureCloudService();
+#endif
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+    }
+}
+</code></pre>
+
+<p>I am combining analytics with crash reporting here.  You can choose to integrate analytics, crash reporting or both by adjusting the <code>MobileCenter.Start()</code> call.  Replace the app secret placeholders with your app secrets.</p>
+<p>Eventually, your app is going to crash.  When this happens, the crash will appear in the <strong>Crashes</strong> service within Mobile Center, allowing you to see what type of mobile device was being used, the version of the app being run and the stack trace of the app at that point.  Visual Studio Mobile Center also groups like crashes together so that you can see commonality between crashes and better target your bug fixing.  </p>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<p>There is, thankfully, a short list of best practices to close out the book:</p>
+<ul>
+<li>Integrate Analytics and Crash Reporting in every mobile app.</li>
+<li>Integrate Application Insights into your mobile backend.</li>
+<li>Investigate every single crash reported by your mobile app.</li>
+<li>Use UI Testing to re-create the crash.</li>
+<li>Use a bug tracking system such as the one integrated into GitHub or Visual Studio Team Services.</li>
+<li>Investigate every <em>500 Internal Server Error</em> produced by your mobile backend.  It means your server crashed.</li>
+</ul>
+<h2 id="and-in-closing">And in closing<a class="headerlink" href="#and-in-closing" title="Permanent link">&para;</a></h2>
+<p>Thank you for taking the time to read this book.  I hope you found it informative.  </p>
+<p>Now go and make awesome mobile apps!</p>
+<p><img alt="" src="../img/the-end.jpg" /></p>
+<!-- Images -->
+
+<!-- Links -->
               
               
             </article>
@@ -1101,13 +1352,13 @@
           </a>
         
         
-          <a href="../troubleshooting/" title="Troubleshooting" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Troubleshooting
+                Xamarin Forms Tips
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

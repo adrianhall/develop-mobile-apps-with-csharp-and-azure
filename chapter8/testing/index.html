@@ -909,13 +909,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#crash-reporting" title="Crash Reporting" class="md-nav__link">
-    Crash Reporting
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -977,20 +970,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter9/monitoring/" title="Monitoring" class="md-nav__link">
-      Monitoring
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../chapter9/troubleshooting/" title="Troubleshooting" class="md-nav__link">
-      Troubleshooting
+    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
     </a>
   </li>
 
@@ -1137,13 +1118,6 @@
         <li class="md-nav__item">
   <a href="#distributing-your-mobile-client-to-beta-users" title="Distributing your Mobile Client to Beta Users" class="md-nav__link">
     Distributing your Mobile Client to Beta Users
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#crash-reporting" title="Crash Reporting" class="md-nav__link">
-    Crash Reporting
   </a>
   
 </li>
@@ -1853,54 +1827,6 @@ namespace TaskList.Tests
 <li>Click <strong>Distribute</strong>.</li>
 </ol>
 <p>Your beta testers will now get an email telling them there is a new app available and how to download it.  </p>
-<h2 id="crash-reporting">Crash Reporting<a class="headerlink" href="#crash-reporting" title="Permanent link">&para;</a></h2>
-<p>Once your application is out in the wild, whether it be with your beta testers, your employees or the general public via a public app store, you want to ensure it is working.  You can do all the testing available to you and there will still be some combination of factors that may cause your application to crash.  Your users will most likely just delete your application at that point, so it's a good idea to collect the cause of the crash before they do that.  Visual Studio Mobile Center has an answer here as well - Crash Reporting.</p>
-<p>To integrate crash reporting, add the Mobile Center SDK to your project, then add a single line of code to your application.  We've already created a Visual Studio Mobile Center app for beta distribution (which we covered above), so we'll use the same application.</p>
-<ol>
-<li>Return to the <a href="https://mobile.azure.com?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> and select your app.</li>
-<li>If you were at another beacon, click <strong>Getting Started</strong>.</li>
-<li>Click <strong>Manage app</strong>.</li>
-<li>Copy the App secret somewhere accessible - we will need it in a few moments.</li>
-<li>Open the mobile app project in Visual Studio 2017 or Visual Studio for Mac.</li>
-<li>Right-click the solution and select <strong>Manage NuGet Packages for Solution...</strong>.</li>
-<li>Click <strong>Browse</strong>, then search for <strong>Microsoft.Azure.Mobile.Crashes</strong>.</li>
-<li>Install the <code>Microsoft.Azure.Mobile.Crashes</code> package into the Android and iOS projects.</li>
-</ol>
-<p>If you have both an iOS and Android app, make note of BOTH app secrets - one from each app within Mobile Center.</p>
-<p>Once the package(s) are installed, open <code>App.cs</code> in the shared project.  Add the <code>MobileCenter.Start</code> line at the start of the constructor:</p>
-<pre><code class="csharp">using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Crashes;
-using TaskList.Abstractions;
-using TaskList.Services;
-using Xamarin.Forms;
-
-namespace TaskList
-{
-    public class App : Application
-    {
-        public static ICloudService CloudService { get; set; }
-
-        public App()
-        {
-            MobileCenter.Start(&quot;android=609b2734-0353-4e71-a654-fedd9df1632a&quot;, typeof(Crashes));
-
-#if USE_MOCK_SERVICES
-            CloudService = new MockCloudService();
-#else
-            CloudService = new AzureCloudService();
-#endif
-            MainPage = new NavigationPage(new Pages.EntryPage());
-        }
-    }
-}
-</code></pre>
-
-<p>Replace the app secret placeholders with your app secrets.</p>
-<div class="admonition tip">
-<p class="admonition-title">Integrate Analytics too!</p>
-<p>The same Mobile Center SDK will also provide Analytics.  Follow the instructions for Xamarin Forms in the Getting Started page for your app within Mobile Center.</p>
-</div>
-<p>Eventually, your app is going to crash.  When this happens, the crash will appear in the <strong>Creshes</strong> service within Mobile Center, allowing you to see what type of mobile device was being used, the version of the app being run and the stack trace of the app at that point.  Visual Studio Mobile Center also groups like crashes together so that you can see commonality between crashes and better target your bug fixing.  </p>
 <!-- Images -->
 
 <!-- Links -->
