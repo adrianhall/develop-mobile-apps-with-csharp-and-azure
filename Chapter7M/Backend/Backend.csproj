@@ -205,6 +205,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\zumobook-mobile - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\zumomediach7 - Web Deploy.pubxml" />
     <Content Include="searchIndex.json" />
   </ItemGroup>

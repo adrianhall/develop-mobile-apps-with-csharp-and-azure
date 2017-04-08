@@ -1,0 +1,10 @@
+{
+    "frameworks": {
+        "net46": {
+            "dependencies": {
+                "windowsazure.mediaservices": "3.8.0.5",
+                "windowsazure.mediaservices.extensions": "3.8.0.3"
+            }
+        }
+    }
+}

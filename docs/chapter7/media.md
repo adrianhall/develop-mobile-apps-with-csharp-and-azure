@@ -24,8 +24,7 @@ On the client side, we will use the Azure Search instance to find apps, display 
 As you can see, there are many more services in use in this example than our previous examples:
 
 * [Azure Media Services] is used for video encoding and streaming endpoints.
-* [Azure Logic Apps] is used for workflow automation.
-* [Azure Functions] are used for automated individual steps.
+* [Azure Functions] are used for automation.
 * [Cognitive Services] are used to extract information from the videos.
 * [Azure App Service] is used to act as a coordinator for the mobile app.
 * [Azure Search] is used as our full text search engine.
@@ -195,7 +194,76 @@ Media encoding jobs can take a long time, and Azure Functions have finite runnin
 !!! tip "Example Functions for Media Services"
     Azure Media Services provides a number of resources in the [Azure-Samples][1] repository.  Most of the samples provided here were adapted from this GitHub repository.  I particularly like the [Logic Apps edition of the encoding pipeline][2] as it provides a visual understanding of the process.
 
-Let's take a look at the first step.  I'm creating an Azure Function called `create-media-asset`.
+### Create a Media Services Asset
+
+Let's take a look at the first step.  I'm creating an Azure Function called `create-media-asset`.  It will be triggered when a video file is placed into the incoming container of the storage account.  When it is triggered, it will run the function and output any necessary information that needs to be passed on to the next function in a queue object.
+
+Start by creating a new function from the **BlobTrigger-CSharp** template.  Ensure you create a new Storage account connection to support the connection to the right Azure Storage container.  Once created, you can click on the **View files** link on the right side of the **Develop** tab. There is a `function.json` file and a `run.csx` file.  These are the files that define the function.  The Azure Media Services SDK is not available by default in Azure Functions.  Add the SDK with a `project.json` file.  Click on **Add** in the **View files** area to add the file.  Then set the contents to the following:
+
+```text
+{
+    "frameworks": {
+        "net46": {
+            "dependencies": {
+                "windowsazure.mediaservices": "3.8.0.5",
+                "windowsazure.mediaservices.extensions": "3.8.0.3"
+            }
+        }
+    }
+}
+```
+
+The `function.json` file describes the input and output bindings for the function.  In this case, we have an inbound blob trigger and an outbound queue:
+
+```text
+{
+  "bindings": [
+    {
+      "name": "myBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "incoming/{name}",
+      "connection": "zumobook_STORAGE"
+    },
+    {
+      "type": "queue",
+      "name": "queueItem",
+      "queueName": "copy-incoming-queue",
+      "connection":"zumobook_STORAGE",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}
+```
+
+Finally, the code is stored in `run.csx`:
+
+```csharp
+using Microsoft.WindowsAzure.MediaServices.Client;
+
+private static readonly string mediaAccountName = Environment.GetEnvironmentVariable("MediaServicesAccountName");
+private static readonly string mediaAccountKey = Environment.GetEnvironmentVariable("MediaServicesAccountKey");
+
+public static void Run(Stream myBlob, string name, out string queueItem, TraceWriter log)
+{
+    log.Info($"create-media-asset received file {name}");
+    log.Info($"Using Media Services Account {mediaAccountName}");
+
+    MediaServicesCredentials credentials = new MediaServicesCredentials(mediaAccountName, mediaAccountKey);
+    CloudMediaContext context = new CloudMediaContext(credentials);
+    IAsset newAsset = context.Assets.Create(name, AssetCreationOptions.None);
+
+    log.Info($"Asset Id = {newAsset.Id}, Path = {newAsset.Uri}");
+    queueItem = $"id={newAsset.Id};path={newAsset.Uri.Segments[1]}";
+}
+```
+
+Once you have saved each file, you can use the **Cloud Explorer** or **Server Explorer** within Visual Studio to upload a video to the incoming container.  If you take a look at the logs for the function execution, you will see the following:
+
+![][img4]
+
+Back in the **Cloud Explorer**, you can expand the queues and take a peek at the `copy-incoming-queue` to see the queue message waiting for processing.
 
 !!! warn "To Be Continued"
     This section is not complete as yet.  Please check back soon!
@@ -205,6 +273,7 @@ Let's take a look at the first step.  I'm creating an Azure Function called `cre
 [img1]: ./img/media-plan.PNG
 [img2]: ./img/media-rg-view.PNG
 [img3]: ./img/media-create.PNG
+[img4]: ./img/create-media-asset.PNG
 
 <!-- Azure Service Definition Overviews -->
 [Azure Media Services]: https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts

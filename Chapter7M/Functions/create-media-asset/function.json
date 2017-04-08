@@ -1,0 +1,19 @@
+{
+  "bindings": [
+    {
+      "name": "myBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "incoming/{name}",
+      "connection": "zumobook_STORAGE"
+    },
+    {
+      "type": "queue",
+      "name": "queueItem",
+      "queueName": "copy-incoming-queue",
+      "connection":"zumobook_STORAGE",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}
