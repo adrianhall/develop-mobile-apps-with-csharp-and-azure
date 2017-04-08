@@ -47,7 +47,6 @@ pages:
         - Useful Azure Services: chapter7/services.md
         - Azure Search: chapter7/search.md
         - Media Services: chapter7/media.md
-        - Real-time Notifications: chapter7/realtime.md
     - Chapter 8 - Developing An App:
         - The Development Environment: chapter8/developing.md
         - Testing your Application: chapter8/testing.md

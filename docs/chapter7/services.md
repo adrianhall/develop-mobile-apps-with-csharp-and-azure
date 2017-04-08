@@ -69,7 +69,7 @@ are quite a few "standards" here:
 * [SignalR][14]
 * [socket.io][15]
 
-WebRTC uses UDP underneath, so it's better for lossy communication with low latency - for example, audio or video.  WebSockets (and the frameworks that depend on it, like socket.io and SignalR) use TCP.  This means higher latency, but lossless communication.  Since we are developing an ASP.NET mobile backend and using C# for the mobile application, SignalR would be more appropriate to use.  We'll do a more [in-depth study][2] of SignalR later on in the chapter.
+WebRTC uses UDP underneath, so it's better for lossy communication with low latency - for example, audio or video.  WebSockets (and the frameworks that depend on it, like socket.io and SignalR) use TCP.  This means higher latency, but lossless communication.  Since we are developing an ASP.NET mobile backend and using C# for the mobile application, SignalR would be more appropriate to use. You can find [a full example of integrating SignalR with Xamarin Forms on GitHub][29].
 
 <!-- Links -->
 [1]: ./search.md
@@ -100,3 +100,4 @@ WebRTC uses UDP underneath, so it's better for lossy communication with low late
 [26]: https://azure.microsoft.com/en-us/services/application-insights/
 [27]: http://www.opinionlab.com/tour/give-your-customer-a-voice/mobile-feedback/
 [28]: https://www.apptentive.com/
+[29]: https://github.com/schneidenbach/Xamarin-Forms-and-SignalR-Example
