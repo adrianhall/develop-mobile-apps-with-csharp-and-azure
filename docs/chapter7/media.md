@@ -206,10 +206,15 @@ Now that we have the trigger, we need to continue building the Logic App based o
 
     The Name can be added by clicking **Add dynamic content**, then finding the appropriate field.
 
-After `create-empty-asset` has been complete, you may want to click **Save** to save your work.  Then continue by clicking **+ New step**, then **Add an action**.  The next step is a **Create blob** step.  You can use the search box to find actions to perform.  
+After `create-empty-asset` has been complete, you may want to click **Save** to save your work.  Then continue by clicking **+ New step**, then **Add an action**.  The next step is a **Create blob** step.  You can use the search box to find actions to perform.  The Create blob step should look like this when you are finished.
 
+![][img6]
 
-The Create blob step should look like this when you are finished.
+When you do configure this step in the Logic Apps Designer, you will note that the `containerPath` is not available from the dynamic content.  When the Webhook returns, it provides a JSON response.  The JSON response is documented at the top of the code of each Azure Function.  To enter this value, switch to the **Code view**, find the **Create_blob** action, look for the `queries` section, then insert the following value:
+
+![][img7]
+
+Once you have entered the value, click **Save**, then **Designer** to switch back to the designer view.
 
 
 !!! warn "To Be Continued"
@@ -222,6 +227,8 @@ The Create blob step should look like this when you are finished.
 [img3]: ./img/media-create.PNG
 [img4]: ./img/logic-app-flow.png
 [img5]: ./img/create-empty-asset.PNG
+[img6]: ./img/create-blob.PNG
+[img7]: ./img/create-blob-2.PNG
 
 <!-- Azure Service Definition Overviews -->
 [Azure Media Services]: https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts
