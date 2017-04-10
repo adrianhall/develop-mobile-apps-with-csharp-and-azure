@@ -132,7 +132,7 @@ There are three new pieces to this code.  The first piece is to check to see if 
     iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and
     use the Entitlements.plist file as a custom entitlements list.  
 
-Visual Studio for the PC doesn't provide a lot of ssistance with the entitlements.  However, Visual Studio for Mac has a great editor for the entitlement, so this is one time I'd suggest going over to the Mac to do something.  Make sure you have created an Apple Developer account and created a provisioning profile.  These are pre-requisites to using the Keychain.
+Visual Studio for the PC doesn't provide a lot of assistance with the entitlements.  However, Visual Studio for Mac has a great editor for the entitlement, so this is one time I'd suggest going over to the Mac to do something.  Make sure you have created an Apple Developer account and created a provisioning profile.  These are pre-requisites to using the Keychain.
 
 1. Right-click the **TaskList.iOS** project to open the options pane and select **Options** 
 2. Select the **iOS Bundle Signing** menu option.
