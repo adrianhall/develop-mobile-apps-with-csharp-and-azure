@@ -167,14 +167,50 @@ There is an [excellent sample][2] that uses Azure Functions and Azure Logic Apps
 
 ![Logic App Flow][img4]
 
-To create this flow:
+To create this flow, first create the Azure Functions required by the flow in the Function App.  There are five Functions that are required:
 
-1. Create the Azure Functions required by the flow.  
-    *  The source code is in [the referenced project][2]. 
-    *  When creating each function,use the **GenericWebhook-CSharp** template.
-    *  After creating each function, use the **App Service Editor** (with the Functions settings) to edit the files.  This allows you to create the shared folder and any other files necessary.
-    *  Ensure the Functions compile before going further.  
-2. 
+*  check-job-status
+*  create-empty-asset
+*  publish-asset
+*  submit-job
+*  sync-asset
+
+Start by creating the `shared` and `presets` folders.  You can do this using the **App Service Editor**, which is located in the **Function app settings**.  Just create each file and then copy-and-paste the contents into the file.
+
+The source code for each function is in [the referenced project][2].  Create the Function from the **GenericWebhook-CSharp** template.  Then add the `project.json` file, which is needed to load the Media Services SDK from NuGet.  Once you save the `project.json` file, let the NuGet restore happen before continuing.  You can check the Log window to ensure it is complete.  Finally, copy-and-paste the code for the `run.csx` file.  
+
+Next, create a **Logic App**:
+
+1.  Close the Function App to return to your Resource Group.
+2.  Click **Add** at the top of the blade.
+3.  Search for and select **Logic App**.
+4.  Click **Create**.
+5.  Give it a name (like `zumobook-logicapp`) and ensure the location is the same as all your other resources, then click **Create**.
+
+After deployment, we can set up the logic app.  Click the newly created logic app to open the **Logic Apps Designer**.   The first thing you want to add is a **Trigger** - something that triggers the execution of the workflow.  You can upload a file to OneDrive or Dropbox, for example.   In this example, I'm going to use my OneDrive `IncomingVideos` folder:
+
+*  Find and click **OneDrive**.  You may have to click **SEE MORE** to find it.
+*  Sign in to create a connection to OneDrive.  You will also have to authorize Logic Apps to access your information.
+*  Click the folder icon to Select a Folder.  Click **>** next to Root, then **IncomingVideos**.  It will be listed as `/IncomingVideos`.
+
+Now that we have the trigger, we need to continue building the Logic App based on the diagram above.   There are a few types of steps - a Function step (where an Azure Function is called via a Webhook):
+
+*  Click **+ New step**, then **Add an action**.
+*  Find and click **Azure Functions** (you may have to click **SEE MORE**).
+*  Click **Azure Functions - Choose an Azure function**.  If you only have one Function App, it will be added automatically, otherwise, select the required Function App name.
+*  Click **Azure Functions - {your Function App}**.  It will load the list of functions.
+*  Click the name of the function you wish to add as the step.  The first one is `create-empty-asset`.
+*  Enter the Request Body based on the comment at the top of each Azure Function.  For instance, the `create-empty-asset` should look like this:
+
+    ![][img5]
+
+    The Name can be added by clicking **Add dynamic content**, then finding the appropriate field.
+
+After `create-empty-asset` has been complete, you may want to click **Save** to save your work.  Then continue by clicking **+ New step**, then **Add an action**.  The next step is a **Create blob** step.  You can use the search box to find actions to perform.  
+
+
+The Create blob step should look like this when you are finished.
+
 
 !!! warn "To Be Continued"
     This section is not complete as yet.  Please check back soon!
@@ -185,6 +221,7 @@ To create this flow:
 [img2]: ./img/media-rg-view.PNG
 [img3]: ./img/media-create.PNG
 [img4]: ./img/logic-app-flow.png
+[img5]: ./img/create-empty-asset.PNG
 
 <!-- Azure Service Definition Overviews -->
 [Azure Media Services]: https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts
