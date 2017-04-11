@@ -193,6 +193,9 @@ After deployment, we can set up the logic app.  Click the newly created logic ap
 *  Sign in to create a connection to OneDrive.  You will also have to authorize Logic Apps to access your information.
 *  Click the folder icon to Select a Folder.  Click **>** next to Root, then **IncomingVideos**.  It will be listed as `/IncomingVideos`.
 
+!!! tip "Use the folder picker"
+    Some of the triggers will encode the arguments.  Use the folder picker rather than typing in the box if your trigger doesn't seem to fire successfully.
+
 Now that we have the trigger, we need to continue building the Logic App based on the diagram above.   There are a few types of steps - a Function step (where an Azure Function is called via a Webhook):
 
 *  Click **+ New step**, then **Add an action**.
@@ -347,7 +350,11 @@ Before we can try this pipeline out, the other resources must be specified as Ap
 *  `MediaServicesStorageAccountKey` is the primary key for your Azure Storage resource.
 *  `MS_TableConnectionString` is the connection string to your video database (from your App Service).
 
-Once these are set, you are ready to test your logic app.  Drop a video file onto your IncomingVideos folder.
+Once these are set, you are ready to test your logic app.  Go to the Logic Apps Designer and click **Run**.  This allows you to monitor the progress of the workflow live.  Then drop a video file in the /IncomingVideos folder of your OneDrive connection and watch the process.  It's likely that something will go wrong the first time.  In the case of Azure Functions, the error will be displayed:
+
+![][img8] 
+
+If the error is in a Logic App provided trigger, then consult the Diagnostics and Log search menu items under Monitoring.  For the Azure Functions triggers, it is more informative to consult the error logs in the Function App.  Open the **Monitor** tab to check the logs for the latest run.  Also, you can create a test run with the appropriate input object and/or place more logging in the Azure Function.  I faked this error by removing the `AMSAccount` application setting.  If you have copied the source code directly, it's likely that any errors will be in the app settings.
 
 
 !!! warn "To Be Continued"
@@ -362,6 +369,7 @@ Once these are set, you are ready to test your logic app.  Drop a video file ont
 [img5]: ./img/create-empty-asset.PNG
 [img6]: ./img/create-blob.PNG
 [img7]: ./img/create-blob-2.PNG
+[img8]: ./img/logicapp-error.PNG
 
 <!-- Azure Service Definition Overviews -->
 [Azure Media Services]: https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts
