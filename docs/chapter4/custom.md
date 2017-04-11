@@ -254,7 +254,7 @@ then a Bad Request response is sent.
 
 ### Handling POST Requests
 
-GET and DELETE requests take parameters on the URI.  These cam ne dealt with via the automatic conversion to
+GET and DELETE requests take parameters on the URI.  These can be dealt with via the automatic conversion to
 method parameters or they can be handled via LINQ queries on the request object, as we observed in the prior
 section.  POST requests, by contrast, allow you to submit a JSON body for processing.  This is useful when we
 want to submit multiple JSON objects for processing.  For example, one of the common requirements we have is
