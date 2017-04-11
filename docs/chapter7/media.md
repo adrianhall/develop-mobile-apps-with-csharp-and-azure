@@ -356,6 +356,8 @@ Once these are set, you are ready to test your logic app.  Go to the Logic Apps 
 
 If the error is in a Logic App provided trigger, then consult the Diagnostics and Log search menu items under Monitoring.  For the Azure Functions triggers, it is more informative to consult the error logs in the Function App.  Open the **Monitor** tab to check the logs for the latest run.  Also, you can create a test run with the appropriate input object and/or place more logging in the Azure Function.  I faked this error by removing the `AMSAccount` application setting.  If you have copied the source code directly, it's likely that any errors will be in the app settings.
 
+Once you have a clean run of the media encoding pipeline, you will see a published video in Azure Media Services Explorer and exploring the database should show the appropriate values within the Videos table.
+
 
 !!! warn "To Be Continued"
     This section is not complete as yet.  Please check back soon!
