@@ -214,7 +214,140 @@ When you do configure this step in the Logic Apps Designer, you will note that t
 
 ![][img7]
 
-Once you have entered the value, click **Save**, then **Designer** to switch back to the designer view.
+Once you have entered the value, click **Save**, then **Designer** to switch back to the designer view.  Continue to add `sync-asset` as an action.  The request body will have to be set within the code view as it relies on the output of `create-empty-asset`.  Set the `body` section to:
+
+```text
+    "body": {
+        "assetId": "@{body('create-empty-asset')['assetId']}"
+    }
+```
+
+!!! tip "Use the template to create everything for you!"
+    The [sample][2] has a "Deploy to Azure" button that allows you to create all the functions and the logic app in one swoop.  It's great to understand how Logic Apps are put together, but if you would rather get on with it, just use the shortcut.
+
+Linking the `submit-job` next, set the `body` in the Code view as follows:
+
+```text
+    "body": {
+        "assetId": "@{body('create-empty-asset')['assetId']}",
+        "mesPreset": "Adaptive Streaming"
+    }
+```
+
+The next step is an "Until" step.  You are not limited to just a straight step-flow with Logic Apps.  You can do loops and conditional execution as well.  In this case, the `submit-job` Azure Function kicks off an encoding job for the incoming video.  However, the process to encode that video can take some time.  Even a small video can take upwards of 15 minutes to encode because of queuing and process limitations.  The **Add a do until** step is in the "More" section after you click **+ New step**.  Start by clicking on **Add an action** within the Until loop.  Add the `check-job-status` Azure Function with a request body:
+
+```text
+    "body": {
+        "jobId": "@{body('submit-job')['jobId']}"
+    }
+```
+
+While you are in the code view, set the "expression" field for the Until loop to the following:
+
+```text
+    "expression": "@equals(body('check-job-status')['isRunning'], 'False')",
+```
+
+!!! tip "Check the template if you get lost!"
+    You can configure everything within the **Code view**, so if you get lost, just use copy-and-paste to configure each step within the logic app.
+
+After the Until loop, we can add a Condition to check if the `isSuccessful` field returned by the latest invocation of `check-job-status` was true.  Click on **Edit in advanced mode** and enter the condition `@equals(body('check-job-status')['isSuccessful'], 'True')`.  You now have two sections - a YES and a NO section.  My NO section uses "Outlook.com - Send an email" to send me an email.  I use the **File name** field in the body to indicate what file was problematic.
+
+On the YES side, I am going to add multiple steps.  Firstly, I will add an Azure Function for `publish-asset` with a body:
+
+```text
+    "body": {
+        "assetId": "@{body('submit-job')['mes']['assetId']}"
+    }
+```
+
+Technically, this is now a complete encoding pipeline.  However, I also want to put the asset into the database so that my client can download it.  In the canonical example, the URL of the encoded video is published at `@{body('publish-asset')['playerUrl']}`.  I can pass that into a new Azure Function that inserts it into the database.  I can create a new function from directly within the Logic App.  However, there are a number of problems with that.  Firstly, it creates a Node.js function and I like C#.  Secondly, the code editor leaves a lot to be desired.  It's a small text box with no Intellisense.  Use the **Save** button to save your Logic App, then close the Logic Apps Designer and switch over to your Azure Function App.
+
+!!! tip "Additional Resources Created"
+    If you have created your Logic App correctly, you will note additional resources have been created for the connections to the Azure Blob storage, OneDrive and potentially Outlook.  These are part of your Logic App and should not be configured separately.
+
+Use the **GenericWebHook-CSharp** template to create a Function called `insert-into-database`.  The code for the Webhook is as follows:
+
+```csharp
+/*
+This function check a job status.
+
+Input:
+{
+    "fileName": "some-name", 
+    "url": "some-url"
+ }
+
+Output:
+{
+    "dbId": "some-guid"         // The new object reference
+ }
+*/
+#r "Newtonsoft.Json"
+#r "System.Data"
+
+using System;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Net;
+using Newtonsoft.Json;
+
+public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
+{
+    log.Info($"Webhook was triggered!");
+
+    string jsonContent = await req.Content.ReadAsStringAsync();
+    dynamic data = JsonConvert.DeserializeObject(jsonContent);
+
+    if (data.url == null || data.fileName == null) {
+        return req.CreateResponse(HttpStatusCode.BadRequest, new {
+            error = "Please pass all properties in the input object"
+        });
+    }
+
+    var connectionString = ConfigurationManager.ConnectionStrings["MS_TableConnectionString"].ConnectionString;
+    log.Info($"Using Connection String {connectionString}");
+
+    var dbId = Guid.NewGuid().ToString("N");
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        using (var sqlCommand = sqlConnection.CreateCommand())
+        {
+            log.Info("Initiating SQL Connection");
+            sqlConnection.Open();
+
+            log.Info("Executing SQL Statement");
+            sqlCommand.CommandText = $"INSERT INTO [dbo].[Videos] ([Id], [Filename], [VideoUri]) VALUES ('{dbId}', '{data.fileName}', '{data.url}')";
+            var rowsAffected = sqlCommand.ExecuteNonQuery();
+            log.Info($"{rowsAffected} rows inserted.");
+
+            sqlConnection.Close();
+        }
+    }
+    return req.CreateResponse(HttpStatusCode.OK, new {
+        greeting = $"{dbId}"
+    });
+}
+```
+
+This inserts a record into the Videos table with the filename and URI specified.  I can now add this function to the YES column in my Logic App by specifying the following body in the Code view:
+
+```text
+    "body": {
+        "fileName": "@{triggerOutputs()['headers']['x-ms-file-name']}",
+        "url": "@{body('publish-asset')['playerUrl']}"
+    }
+```
+
+Before we can try this pipeline out, the other resources must be specified as Application Settings inside the Function App:
+
+*  `AMSAccount` is the name of your Media Services resource.
+*  `AMSKey` is the primary key for your Media Services resource.
+*  `MediaServicesStorageAccountName` is the name of your Azure Storage resource.
+*  `MediaServicesStorageAccountKey` is the primary key for your Azure Storage resource.
+*  `MS_TableConnectionString` is the connection string to your video database (from your App Service).
+
+Once these are set, you are ready to test your logic app.  Drop a video file onto your IncomingVideos folder.
 
 
 !!! warn "To Be Continued"
