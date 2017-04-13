@@ -408,4 +408,4 @@ Now that the backend has been brought online and we can populate it with videos,
 [3]: https://docs.microsoft.com/en-us/azure/media-services/media-services-custom-mes-presets-with-dotnet
 [4]: http://techslides.com/sample-webm-ogg-and-mp4-video-files-for-html5
 [5]: http://aka.ms/amse
-[6]:
+[6]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chap7m-init/Chapter7M
