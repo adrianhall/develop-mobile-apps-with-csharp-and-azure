@@ -70,6 +70,9 @@ Notification Hubs has three tiers which give you increasing numbers of pushes, p
 
 When considering architecture, you should use one Notification Hub per mobile backend.  Notification Hub namespaces are used for deployment grouping.  For example, you might want to give a different namespace to each tenant in a multi-tenant environment.
 
+!!! info "App Service Push is Global to the App Service"
+    If you run your App Service with multiple slots (see [Chapter 9](../chapter9/appsvc.md) for details on slots), then note that the configuration of App Service Push is global to all slots within your App Service.
+
 Once your notification hub has been created, you will see both the hub and the namespace listed in your resource group.  Note that we have not actually linked the notification hub to any platform notification services yet.  We will do that later.
 
 ## Configuring Push Registration
