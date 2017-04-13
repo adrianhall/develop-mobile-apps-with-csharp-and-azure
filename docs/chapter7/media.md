@@ -312,21 +312,31 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     log.Info($"Using Connection String {connectionString}");
 
     var dbId = Guid.NewGuid().ToString("N");
-    using (var sqlConnection = new SqlConnection(connectionString))
+    try 
     {
-        using (var sqlCommand = sqlConnection.CreateCommand())
+        using (var sqlConnection = new SqlConnection(connectionString))
         {
-            log.Info("Initiating SQL Connection");
-            sqlConnection.Open();
+            using (var sqlCommand = sqlConnection.CreateCommand())
+            {
+                log.Info("Initiating SQL Connection");
+                sqlConnection.Open();
 
-            log.Info("Executing SQL Statement");
-            sqlCommand.CommandText = $"INSERT INTO [dbo].[Videos] ([Id], [Filename], [VideoUri]) VALUES ('{dbId}', '{data.fileName}', '{data.url}')";
-            var rowsAffected = sqlCommand.ExecuteNonQuery();
-            log.Info($"{rowsAffected} rows inserted.");
+                log.Info("Executing SQL Statement");
+                sqlCommand.CommandText = $"INSERT INTO [dbo].[Videos] ([Id], [Deleted], [Filename], [VideoUri]) VALUES ('{dbId}', 0, '{data.fileName}', '{data.url}')";
+                var rowsAffected = sqlCommand.ExecuteNonQuery();
+                log.Info($"{rowsAffected} rows inserted.");
 
-            sqlConnection.Close();
+                sqlConnection.Close();
+            }
         }
     }
+    catch (Exception ex) 
+    {
+        return req.CreateResponse(HttpStatusCode.BadRequest, new {
+            error = ex.Message
+        });
+    }
+
     return req.CreateResponse(HttpStatusCode.OK, new {
         greeting = $"{dbId}"
     });
