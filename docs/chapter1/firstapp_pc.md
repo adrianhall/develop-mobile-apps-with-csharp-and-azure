@@ -1074,7 +1074,23 @@ When you click the **Local Machine** button to start the application, Visual Stu
 
 ### Building the Client for Android
 
-Building Android with Visual Studio is almost as easy as building the Universal Windows version of the mobile client.  First, we need to set the minimum SDK version.  Azure Mobile Apps only works with API level 19 or above and the provided template set the minimum SDK version to API level 15.  Open the `Properties\AndroidManifest.xml` file in the **TaskList.Android** project and update the `uses-sdk` element:
+Prior to building the Android version of the application, we need to make two additional changes.  Go to your Android project and open the **MainActivity.cs** file.  In the **OnCreate** method we need to add an initalizer for our Mobile Apps SDK:
+
+```csharp
+protected override void OnCreate(Bundle bundle)
+{
+    TabLayoutResource = Resource.Layout.Tabbar;
+    ToolbarResource = Resource.Layout.Toolbar;
+    base.OnCreate(bundle);
+
+    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+    LoadApplication(new App());
+}
+```
+
+We also need to set the minimum API version.  Azure Mobile Apps only works with API level 19 or above and the provided template set the minimum SDK version to API level 15.  Open the `Properties\AndroidManifest.xml` file in the **TaskList.Android** project and update the `uses-sdk` element:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -1135,13 +1151,13 @@ Before long, you should see the following:
 
 ![iOS Simulator Runtime Error][img21]
 
-At some point, you will need a platform initialization call on all platforms.  It's best to add it now.  In TaskList.Droid, this should be added in `MainActivity.cs` and in TaskList.iOS, it's `AppDelegate.cs`.  In each of these files, there is a line that initializes the Xamarin Forms system.
+You need a platform initialization call on most platforms for offline sync, and you always need a platform initializer for iOS. In TaskList.Droid, this should be added in `MainActivity.cs` and in TaskList.iOS, it's `AppDelegate.cs`.  In each of these files, there is a line that initializes the Xamarin Forms system.
 
 ```csharp
 // Android Version
 global::Xamarin.Forms.Forms.Init(this, bundle);
 // iOS Version
-global::Xamarin.Forms.Forms.Init ();
+global::Xamarin.Forms.Forms.Init();
 ```
 
 Immediately before this line, you should add the  initializer for Azure Mobile Apps. It's important that the Azure Mobile Apps subsystem is initialized prior to Xamarin Forms being initialized and any UI code being called.
