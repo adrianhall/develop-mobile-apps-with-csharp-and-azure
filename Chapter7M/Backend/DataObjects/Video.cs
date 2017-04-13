@@ -6,6 +6,6 @@ namespace Backend.DataObjects
     {
         public string Filename { get; set; }
 
-        public string ImageUri { get; set; }
+        public string VideoUri { get; set; }
     }
 }

@@ -18,10 +18,6 @@ namespace VideoApp.ViewModels
             cloudService = ServiceLocator.Resolve<ICloudService>();
             Table = cloudService.GetTable<Video>();
             Title = "Videos";
-            items.CollectionChanged += (sender, e) =>
-            {
-                Debug.WriteLine("[Videos] Items have changed");
-            };
 
             RefreshCommand = new Command(async () => await ExecuteRefreshCommand());
             RefreshCommand.Execute(null);
@@ -56,12 +52,6 @@ namespace VideoApp.ViewModels
 
             try
             {
-                var identity = await cloudService.GetIdentityAsync();
-                if (identity != null)
-                {
-                    var name = identity.UserClaims.FirstOrDefault(c => c.Type.Equals("name")).Value;
-                    Title = $"Tasks for {name}";
-                }
                 var list = await Table.ReadAllItemsAsync();
                 Items.ReplaceRange(list);
             }

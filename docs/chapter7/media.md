@@ -356,7 +356,16 @@ Once these are set, you are ready to test your logic app.  Go to the Logic Apps 
 
 If the error is in a Logic App provided trigger, then consult the Diagnostics and Log search menu items under Monitoring.  For the Azure Functions triggers, it is more informative to consult the error logs in the Function App.  Open the **Monitor** tab to check the logs for the latest run.  Also, you can create a test run with the appropriate input object and/or place more logging in the Azure Function.  I faked this error by removing the `AMSAccount` application setting.  If you have copied the source code directly, it's likely that any errors will be in the app settings.
 
-Once you have a clean run of the media encoding pipeline, you will see a published video in Azure Media Services Explorer and exploring the database should show the appropriate values within the Videos table.
+!!! tip "Insert-to-Database Failures"
+    The `insert-to-database` function and the logic app will fail because the database is not created until the first request by a client.  You can either pre-create the database or use the client that is developed before you try out the encoding pipeline.
+
+## The Video Mobile App
+
+Now that the backend has been brought online and we can populate it with videos, it's time to turn our attention to the client app.  I've started with an app very similar to the Task List.  The models are slightly different (since the data set is different), but ultimately, the app provides a list of videos to play.  You can find [the starting project on GitHub][6]. 
+
+!!! tip "Use the starting point to create the database"
+    In the last section, I mentioned that one of the functions would not work because the database was not created until the first client request.  You can use the starting point for the project to create the necessary database.  Create all the backend resources, then run the client to create the database, then test out the encoding pipeline.
+
 
 
 !!! warn "To Be Continued"
@@ -389,3 +398,4 @@ Once you have a clean run of the media encoding pipeline, you will see a publish
 [3]: https://docs.microsoft.com/en-us/azure/media-services/media-services-custom-mes-presets-with-dotnet
 [4]: http://techslides.com/sample-webm-ogg-and-mp4-video-files-for-html5
 [5]: http://aka.ms/amse
+[6]:
