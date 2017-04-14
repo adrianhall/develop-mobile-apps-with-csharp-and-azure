@@ -348,7 +348,7 @@ This inserts a record into the Videos table with the filename and URI specified.
 ```text
     "body": {
         "fileName": "@{triggerOutputs()['headers']['x-ms-file-name']}",
-        "url": "@{body('publish-asset')['playerUrl']}"
+        "url": "@{body('publish-asset')['smoothUrl']}"
     }
 ```
 
