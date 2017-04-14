@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="VideoApp.Pages.VideoDetail"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:roxv="clr-namespace:Rox;assembly=Rox.Xamarin.Video.Portable"
+    Title="{Binding Title}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <roxv:VideoView
+                x:Name="VideoView"
+                Grid.Row="0"
+                Grid.Column="0"
+                AutoPlay="{Binding AutoPlay}"
+                FullScreen="{Binding FullScreen, Mode=TwoWay}"
+                LoopPlay="{Binding LoopPlay}"
+                Muted="{Binding Muted, Mode=TwoWay}"
+                Position="{Binding Position, Mode=TwoWay}"
+                PositionInterval="{Binding PositionInterval, Mode=TwoWay}"
+                PropertyChangedCommand="{Binding PropertyChangedCommand}"
+                ShowController="{Binding ShowController}"
+                Source="{Binding VideoSource}"
+                Volume="{Binding Volume, Mode=TwoWay}" />
+
+            <StackLayout Grid.Row="1" Grid.Column="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Source:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Text="{Binding EntrySource}" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="Position:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Slider
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Maximum="{Binding SliderDuration, Mode=TwoWay}"
+                        Minimum="0"
+                        Value="{Binding SliderPosition, Mode=TwoWay}" />
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding EntryPositionInterval}"
+                        VerticalOptions="Center"
+                        WidthRequest="100" />
+                </Grid>
+                <StackLayout Orientation="Horizontal">
+                    <Button Command="{Binding PlayCommand}" Text="Play" />
+                    <Button Command="{Binding PauseCommand}" Text="Pause" />
+                    <Button Command="{Binding StopCommand}" Text="Stop" />
+                    <Label
+                        Text="State:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Label
+                        Text="{Binding LabelVideoStatus}"
+                        TextColor="Red"
+                        VerticalOptions="Center" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Text="Show:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding ShowController}" />
+                    <Label
+                        Text="Auto:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding AutoPlay}" />
+                    <Label
+                        Text="Loop:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding LoopPlay}" />
+                    <Label
+                        Text="Full:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding FullScreen, Mode=TwoWay}" />
+                </StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Mute:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Switch
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        IsToggled="{Binding Muted, Mode=TwoWay}" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Text="Volume:"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Slider
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="{Binding SliderVolume, Mode=TwoWay}" />
+                </Grid>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

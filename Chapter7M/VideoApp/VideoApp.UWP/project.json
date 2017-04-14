@@ -4,6 +4,7 @@
     "Microsoft.Azure.Mobile.Client.SQLiteStore": "3.1.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Newtonsoft.Json": "9.0.1",
+    "Rox.Xamarin.Video": "2.1.0",
     "Xamarin.Forms": "2.3.4.224"
   },
   "frameworks": {

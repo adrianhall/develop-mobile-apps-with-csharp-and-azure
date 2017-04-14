@@ -41,7 +41,7 @@ namespace VideoApp.ViewModels
             set
             {
                 SetProperty(ref selectedItem, value, "SelectedItem");
-                // Do something here
+                Application.Current.MainPage.Navigation.PushAsync(new Pages.VideoDetail(selectedItem));
             }
         }
 
