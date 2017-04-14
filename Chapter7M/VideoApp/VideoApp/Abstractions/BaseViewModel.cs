@@ -38,11 +38,7 @@ namespace VideoApp.Abstractions
 
         public void OnPropertyChanged(string propName)
         {
-            if (PropertyChanged == null)
-            {
-                return;
-            }
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
     }
