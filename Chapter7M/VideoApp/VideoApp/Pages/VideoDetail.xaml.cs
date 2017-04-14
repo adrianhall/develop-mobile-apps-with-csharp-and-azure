@@ -1,5 +1,4 @@
-﻿using Rox;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace VideoApp.Pages
@@ -10,12 +9,7 @@ namespace VideoApp.Pages
 		public VideoDetail (Models.Video video)
 		{
 			InitializeComponent ();
-			BindingContext = new ViewModels.VideoDetailViewModel(this.GetVideoView(), video);
-		}
-
-		public VideoView GetVideoView()
-		{
-			return VideoView;
+			BindingContext = new ViewModels.VideoDetailViewModel(video);
 		}
 	}
 }

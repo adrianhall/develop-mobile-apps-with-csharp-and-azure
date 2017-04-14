@@ -376,7 +376,46 @@ Now that the backend has been brought online and we can populate it with videos,
 !!! tip "Use the starting point to create the database"
     In the last section, I mentioned that one of the functions would not work because the database was not created until the first client request.  You can use the starting point for the project to create the necessary database.  Create all the backend resources, then run the client to create the database, then test out the encoding pipeline.
 
-To play a video, you need to have a video player and there are several to choose from in the Xamarin Forms world.  The one I will be using in this example is the cross-platform [Rox.Xamarin.Video][7] package from NuGet.
+To play a video, you need to have a video player and there are several to choose from in the Xamarin Forms world.  The one I will be using in this example is the cross-platform [Plugin.MediaManager][7] package from NuGet.  To implement this:
+
+1.  Add the `Plugin.MediaManager` NuGet package to the client projects.
+2.  Add a `VideoDetail.xaml` page to the shared project which plays a provided video.
+3.  Wire the `VideoDetail.xaml` page to the `VideoList.xaml` page.
+4.  Ensure the platform-specific initialization is performed.
+
+The `Plugin.MediaManager` NuGet package can easily be added:
+
+*  Right-click on the solution within Visual Studio 2017.
+*  Click **Manage NuGet Packages for Solution...**.
+*  Click **Browse**, then search for **Plugin.MediaManager**.
+*  Select **Plugin.MediaManager**;  check the box next to each platform project, then click **Install**.
+
+![][img9]
+
+You will need to approve the installation.  Once the installation is complete, move on to creating the `VideoDetail.xaml` page.  This consists of three parts.  The XAML and backing file are a standard content page.  The `VideoDetail.xaml.cs` backing file looks just like the `TaskDetail.xaml.cs` file that has been in use so far:
+
+```csharp
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace VideoApp.Pages
+{
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class VideoDetail : ContentPage
+	{
+		public VideoDetail (Models.Video video)
+		{
+			InitializeComponent ();
+			BindingContext = new ViewModels.VideoDetailViewModel(video);
+		}
+	}
+}
+```
+
+The XAML is taken from the [MediaManager Sample][8]:
+
+```xml
+```
 
 !!! warn "To Be Continued"
     This section is not complete as yet.  Please check back soon!
@@ -391,6 +430,7 @@ To play a video, you need to have a video player and there are several to choose
 [img6]: ./img/create-blob.PNG
 [img7]: ./img/create-blob-2.PNG
 [img8]: ./img/logicapp-error.PNG
+[img9]: ./img/nuget-mediamanager-install.PNG
 
 <!-- Azure Service Definition Overviews -->
 [Azure Media Services]: https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts
@@ -409,4 +449,5 @@ To play a video, you need to have a video player and there are several to choose
 [4]: http://techslides.com/sample-webm-ogg-and-mp4-video-files-for-html5
 [5]: http://aka.ms/amse
 [6]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chap7m-init/Chapter7M
-[7]: https://www.nuget.org/packages/Rox.Xamarin.Video/
+[7]: https://www.nuget.org/packages/Plugin.MediaManager/
+[8]: https://github.com/martijn00/XamarinMediaManager/blob/develop/Samples/Forms/MediaForms/MediaFormsPage.xaml
