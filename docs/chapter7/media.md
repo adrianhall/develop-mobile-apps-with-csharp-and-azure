@@ -391,7 +391,6 @@ The XAML is taken from the [MediaManager Sample][8]:
 [Azure Functions]: https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview
 [Cognitive Services]: https://azure.microsoft.com/en-us/services/cognitive-services/
 [Azure App Service]: https://docs.microsoft.com/en-us/azure/app-service/app-service-value-prop-what-is
-[Azure Search]: https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search
 [Azure Storage]: https://docs.microsoft.com/en-us/azure/storage/storage-introduction
 [SQL Azure]: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-technical-overview
 [Azure Function App]: https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview
@@ -402,5 +401,5 @@ The XAML is taken from the [MediaManager Sample][8]:
 [4]: http://techslides.com/sample-webm-ogg-and-mp4-video-files-for-html5
 [5]: http://aka.ms/amse
 [6]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chap7m-init/Chapter7M
-[7]: https://www.nuget.org/packages/Plugin.MediaManager/
+[7]: https://blog.xamarin.com/play-audio-and-video-with-the-mediamanager-plugin-for-xamarin/
 [8]: https://github.com/martijn00/XamarinMediaManager/blob/develop/Samples/Forms/MediaForms/MediaFormsPage.xaml
