@@ -28,7 +28,6 @@ As you can see, there are many more services in use in this example than our pre
 * [Azure Functions] are used for automation.
 * [Cognitive Services] are used to extract information from the videos.
 * [Azure App Service] is used to act as a coordinator for the mobile app.
-* [Azure Search] is used as our full text search engine.
 * [Azure Storage] is used to store the individual video assets and for some queuing capabilities.
 * [SQL Azure] is used as the backing store for the Azure Mobile Apps data store.
 
@@ -47,7 +46,6 @@ Let's take each of these in turn.   The configuration of most of the services  h
 Before I start with the new services, I need an [Azure Storage] account, an [Azure Search] instance and an [Azure Function App].  I've covered all these items in previous sections, so I won't go into them here. The configuration is as follows:
 
 * My [Azure Storage] account called `zumomediach7.core.windows.net` as **General Purpose** storage with **LRS** replication.
-* My [Azure Search] instance called `zumomediach7.search.windows.net` in the **Free** pricing tier.
 * My [Azure Functions] app called `zumomediach7-functions.azurewebsites.net` in the **Consumption Plan**.  I'm
    using my `zumomediach7` storage account.
 * My [SQL Azure] service is called `zumomediach7.database.windows.net`.
@@ -55,7 +53,7 @@ Before I start with the new services, I need an [Azure Storage] account, an [Azu
 * My [Azure App Service] is created via the **Mobile App** template and called `zumomediach7.azurewebsites.net`.  It
     has an **B1 Basic** app service plan associated with it.
 
-In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu option.  I've also added a query key to my Azure Search instance and provided a pair of App Settings in the App Service - `SEARCH_APIKEY` holds the query key and `SEARCH_ENDPOINT` holds the URI of my service.
+In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu option.  
 
 Our resource group looks quite extensive now:
 
@@ -64,15 +62,6 @@ Our resource group looks quite extensive now:
 Configuration for the services is as follows:
 
 **Azure Storage** has a container for incoming videos called `incoming`.
-
-**Azure Search** has an index with the following fields:
-
-| Field Name | Type | Attributes |
-| --- | --- | --- |
-| videoId | Edm.String | Key, Retrievable |
-| audio | Edm.String | Retrievable, Filterable, Searchable |
-
-The `audio` field is new and will be populated with the textual content from analysis of the video.
 
 **Azure App Service** has a basic TableController which is based on the following DTO model:
 
@@ -90,49 +79,13 @@ namespace Backend.DataObjects
 }
 ```
 
-I also have a custom API that returns my search settings.  I'll add any settings I need to transmit to my mobile app into this same controller so that they can easily be retrieved from the mobile app:
-
-```csharp
-using System;
-using System.Web.Http;
-using Microsoft.Azure.Mobile.Server.Config;
-
-namespace Backend.Controllers
-{
-    [MobileAppController]
-    public class SettingsController : ApiController
-    {
-        private Controllers.Settings _pSettings;
-
-        public SettingsController()
-        {
-            _pSettings = new Controllers.Settings
-            {
-                SearchApiKey = Environment.GetEnvironmentVariable("SEARCH_APIKEY"),
-                SearchEndpoint = Environment.GetEnvironmentVariable("SEARCH_ENDPOINT")
-            };
-        }
-
-        // GET api/Settings
-        public Controllers.Settings Get()
-        {
-            return _pSettings;
-        }
-    }
-
-    public class Settings
-    {
-        public string SearchEndpoint { get; set; }
-        public string SearchApiKey { get; set; }
-    }
-}
-```
-
 This encompasses information from the majority of the book thus far.  If you are uncertain on how to perform any of this configuration, review the appropriate sections of the book:
 
 * [Chapter 1](../chapter1/firstapp_pc.md) covers creating a Mobile App.
 * [Chapter 4](../chapter4/functions.md) covers Azure Functions.
-* [This chapter](./search.md) covers Azure Search.
+
+!!! info "Azure Search is there"
+    One of the things I've added into this project that I don't describe is the integration with Azure Search.  I use this to integrate Cognitive Services with the solution so that I can search for videos based on their content (audio, video or metadata).  You can use this as a research project.
 
 ### Creating an Azure Media Services account
 
@@ -383,7 +336,7 @@ To play a video, you need to have a video player and there are several to choose
 3.  Wire the `VideoDetail.xaml` page to the `VideoList.xaml` page.
 4.  Ensure the platform-specific initialization is performed.
 
-The `Plugin.MediaManager` NuGet package can easily be added:
+The `Plugin.MediaManager` NuGet package can be easily added:
 
 *  Right-click on the solution within Visual Studio 2017.
 *  Click **Manage NuGet Packages for Solution...**.

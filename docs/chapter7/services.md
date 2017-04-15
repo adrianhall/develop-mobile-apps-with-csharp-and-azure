@@ -2,7 +2,7 @@ When developing mobile applications, certain cloud services - data access, authe
 
 Azure has a number of "platform as a service" type services.  We've built Azure Mobile Apps on top of some of them - App Service and Notification Hubs.  PaaS, as it is known, is a microservice where you don't have to deal with the underlying operating system or scaling issues.  While we won't cover all possible Azure services, it's worth mentioning a few of the more useful ones here.  In addition, there are some things you can't get from Azure.  We'll take a look at those later on.
 
-We will be covering [Search][1], [Realtime Communications][2] and [Video][3] services within this chapter in more depth.
+We will be covering [Search][1] and [Video][3] services within this chapter in more depth.
 
 ## Azure Services
 
@@ -73,7 +73,6 @@ WebRTC uses UDP underneath, so it's better for lossy communication with low late
 
 <!-- Links -->
 [1]: ./search.md
-[2]: ./realtime.md
 [3]: ./media.md
 [4]: https://azure.microsoft.com/en-us/services/service-fabric/
 [5]: https://azure.microsoft.com/en-us/services/traffic-manager/
