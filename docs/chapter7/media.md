@@ -342,33 +342,34 @@ The `Plugin.MediaManager` NuGet package can be easily added:
 *  Click **Manage NuGet Packages for Solution...**.
 *  Click **Browse**, then search for **Plugin.MediaManager**.
 *  Select **Plugin.MediaManager**;  check the box next to each platform project, then click **Install**.
+*  Repeat for **Plugin.MediaManager.Forms**.
 
 ![][img9]
 
-You will need to approve the installation.  Once the installation is complete, move on to creating the `VideoDetail.xaml` page.  This consists of three parts.  The XAML and backing file are a standard content page.  The `VideoDetail.xaml.cs` backing file looks just like the `TaskDetail.xaml.cs` file that has been in use so far:
+You will need to approve the installation.  Once the installation is complete, move on to creating the `VideoDetail.xaml` page.  This file (and its accompanying backing file) are taken from the [MediaManager Sample][8]:
+
+Its accompanying backing source code is as follows:
 
 ```csharp
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace VideoApp.Pages
-{
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class VideoDetail : ContentPage
-	{
-		public VideoDetail (Models.Video video)
-		{
-			InitializeComponent ();
-			BindingContext = new ViewModels.VideoDetailViewModel(video);
-		}
-	}
-}
 ```
 
-The XAML is taken from the [MediaManager Sample][8]:
+The same code that was used for the `TaskList` to `TaskDetail` navigation in the TaskList app can be used to switch to the `VideoDetail` page.  In the `VideoLisViewModel.cs` file, replace the `SelectedItem` property with this:
 
-```xml
+```csharp
+    Video selectedItem;
+    public Video SelectedItem
+    {
+        get { return selectedItem; }
+        set
+        {
+            SetProperty(ref selectedItem, value, "SelectedItem");
+            Application.Current.MainPage.Navigation.PushAsync(new Pages.VideoDetail(selectedItem));
+        }
+    }
 ```
+
+I have not included any code in the `VideoDetail.xaml` page to go back to the list page.  This is easily achieved by adding another control (perhaps a close button or a back button) to the `VideoDetail.xaml` file.
+
 
 !!! warn "To Be Continued"
     This section is not complete as yet.  Please check back soon!

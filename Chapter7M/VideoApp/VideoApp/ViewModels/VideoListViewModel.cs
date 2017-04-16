@@ -11,7 +11,7 @@ namespace VideoApp.ViewModels
 {
     public class VideoListViewModel : BaseViewModel
     {
-        ICloudService cloudService;
+        private readonly ICloudService cloudService;
 
         public VideoListViewModel()
         {
@@ -26,15 +26,14 @@ namespace VideoApp.ViewModels
         public ICloudTable<Video> Table { get; set; }
         public Command RefreshCommand { get; }
 
-
-        ObservableRangeCollection<Video> items = new ObservableRangeCollection<Video>();
+        private ObservableRangeCollection<Video> items = new ObservableRangeCollection<Video>();
         public ObservableRangeCollection<Video> Items
         {
             get { return items; }
             set { SetProperty(ref items, value, "Items"); }
         }
 
-        Video selectedItem;
+        private Video selectedItem;
         public Video SelectedItem
         {
             get { return selectedItem; }
@@ -45,7 +44,7 @@ namespace VideoApp.ViewModels
             }
         }
 
-        async Task ExecuteRefreshCommand()
+        private async Task ExecuteRefreshCommand()
         {
             if (IsBusy) return;
             IsBusy = true;

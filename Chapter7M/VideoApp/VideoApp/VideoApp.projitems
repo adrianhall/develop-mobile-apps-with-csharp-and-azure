@@ -31,7 +31,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureCloudService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureCloudTable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\VideoDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\VideoListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
