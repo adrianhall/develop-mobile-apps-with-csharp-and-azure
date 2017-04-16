@@ -11,7 +11,7 @@ Most of the code within the mobile backend is pulled from libraries - ASP.NET, E
 *  Filters, Transforms and Actions associated with your table controllers.
 *  Custom APIs.
 
-Later, we will cover End to End Testing scenarios, where you will test the client in combination with your server.  This is when the actual server is exercised fully by your client and is a much better test of the overall functionality of your server.
+You should also do "end-to-end" testing.  This is where you use UI testing to test both the client and the server at the same time.   End to end testing is a much better test of the overall functionality of your server.
 
 In addition, your mobile backend will come under a lot of strain after you go to production.  You should plan on a load test prior to each major release in a staging environment that is identical to your production environment.  We'll cover this later in the book.
 
@@ -236,7 +236,7 @@ The first and last are the typical authenticated and anonymous access tests.  Th
 !!! tip "Install the same NuGet packages"
     Unlike the scaffolded project for Azure Mobile Apps or ASP.NET MVC, no additional packages are added to the test project, which means you will need to figure out which packages you need to simulate the requirements for the test.  Don't guess.  Look at the packages that are in your project under test and duplicate them.  Right-click the solution and select **Manage NuGet Packages** to get a good idea of what your test package is missing.  Under the **Installed** list, you can tell what packages are required and which projects have them installed.
 
-To test authentication, I need to mock the `ClaimsIdentity`.  I put this in a utility class:
+Mock the `ClaimsIdentity` to test authentication:
 
 ```csharp
 using System.Security.Claims;
@@ -640,58 +640,15 @@ The mock services are a tool to enable UI unit testing.  UI testing is unit test
 
 We are only going to test the Android edition of the project in this walkthrough, mostly because I do most of my work on a PC.  The same methodology can be used for iOS, however.
 
-The project contains two source files - `AppInitializer.cs` and `Tests.cs`.  This latter one is where we are going to spend the majority of our time, but we need to modify the former first.
+The project contains two source files - `AppInitializer.cs` and `Tests.cs`.  This latter file is where we are going to write the tests.  The most efficient way of writing tests is to use the [Xamarin Test Recorder][10].  The workflow for using Xamarin Test Recorder is:
 
-*  Right-click on the `TaskList.Android` project and select **Properties**.
-*  Click **Android Manifest**.
-*  Put a simple string in the **Package name** box (or copy what is there if it is not blank).  I used `tasklist`.
-*  Save the properties with Ctrl-S.
+1.  If needed, export the mobile client so that it can be used on a device.
+2.  Start Xamarin Test Recorder
+3.  Specify the application to be tested and the device to run the aplication on.
+4.  Interact with the application.  The Test Recorder will create a C# test method.
+5.  Incorporate the test into a Xamarin UITest project.
 
-Now, edit the `AppInitializer.cs` file in the test project:
-
-```csharp
-using Xamarin.UITest;
-
-namespace TaskList.Tests
-{
-    public class AppInitializer
-    {
-        public static IApp StartApp(Platform platform)
-        {
-            if (platform == Platform.Android)
-            {
-                return ConfigureApp
-                    .Android
-                    .InstalledApp("tasklist")
-                    .StartApp();
-            }
-
-            return ConfigureApp
-                .iOS
-                .StartApp();
-        }
-    }
-}
-```
-
-The string provided to the `InstalledApp()` must be the same as the package name you have in the Android Manifest.  Ensure you rebuild both the Android project and the test project after this change.
-
-One of the test artifacts is called the **REPL** - it's a command line utility for browsing the internals of the app in a way we can interact use to write the tests.  Let's start with a test that is added to the `Tests.cs` class:
-
-```csharp
-    [Test]
-    public void AppInvokesRepl()
-    {
-        app.Repl();
-    }
-```
-
-All this test does right now is invoke the Repl so we can discover the under-the-covers identities of the various components of the page.  Ensure you have built the Android project, then go to the Test Explorer and click **Run All** to discover the tests.   The first thing you will note is that there are two sets of tests run - one for iOS and one for Android.  The iOS ones will always fail because "iOS tests are not supported on Windows."  That's why I'm only working with Android here.
-
-!!! warn "TO BE CONTINUED"
-    This section is incomplete.
-
-## End to End Testing
+We already have the UITest project, so let's walk through the process of creating a simple test case for the process of creating a new task.
 
 !!! warn "TO BE CONTINUED"
     This section is incomplete.
@@ -757,6 +714,6 @@ Your beta testers will now get an email telling them there is a new app availabl
 [7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter8
 [8]: ../chapter1/firstapp_pc.md
 [9]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10
-
+[10]: https://developer.xamarin.com/guides/testcloud/testrecorder/
 [vsmc]: https://mobile.azure.com/signup?utm_medium=referral_link&utm_source=GitHub&utm_campaign=ZUMO%20Book
 [vsmc-login]: https://mobile.azure.com?utm_medium=referral_link&utm_source=GitHub&utm_campaign=ZUMO%20Book

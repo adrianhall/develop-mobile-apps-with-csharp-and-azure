@@ -208,6 +208,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <None Include="Properties\PublishProfiles\webSitecoktqqpz3mcog - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\webSitehuufamnlr7fzu-staging - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>

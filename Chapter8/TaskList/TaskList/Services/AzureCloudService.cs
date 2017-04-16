@@ -9,7 +9,7 @@ namespace TaskList.Services
 
         public AzureCloudService()
         {
-            client = new MobileServiceClient(@"https://webSitehuufamnlr7fzu.azurewebsites.net");
+            client = new MobileServiceClient(@"https://websitecoktqqpz3mcog.azurewebsites.net");
         }
 
         public ICloudTable<T> GetTable<T>() where T : TableData
