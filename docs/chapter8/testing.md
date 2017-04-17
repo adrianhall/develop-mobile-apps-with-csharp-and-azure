@@ -703,7 +703,7 @@ You can run this as long as you adjust the `AppInitializer.cs` file as follows:
 
 Replace the `tasklist.tasklist` with the package name of your app.  You can retrieve this in the **Properties** > **Android Manifest** page for the `TaskList.Android` app.  Use the **Test Explorer** to run the test.  You will see that the clicks are performed as expected.
 
-Let's take this a little further.  Let's say that rather than just clicking a few times, we wanted to ensure that the text box was filled with the text.  To uniquely identify a view, we need to add an `AutomationId` to the view.  Adjust the `TaskDetail.xaml` file in the shared project as follows:
+Let's take this a little further.  Let's say that rather than just clicking a few times, we wanted to ensure that the text box was filled with the text that is expected via an assertion.  To uniquely identify a view, we need to add an `AutomationId` to the view.  Adjust the `TaskDetail.xaml` file in the shared project as follows:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -738,10 +738,37 @@ Let's take this a little further.  Let's say that rather than just clicking a fe
 </ContentPage>
 ```
 
-Note line 10.  I've explicitly added an `AutomationId` to the entry text.  
+Note line 10.  I've explicitly added an `AutomationId` to the entry text.  I can now adjust the test to use this:
 
-!!! warn "TO BE CONTINUED"
-    This section is incomplete.
+```csharp
+    [Test]
+    public void NewTest()
+    {
+        app.Tap(x => x.Text("Login"));
+        app.Screenshot("Logged in - initial list of items");
+        app.Tap(x => x.Text("Add New Item"));
+        app.Screenshot("Empty detail record");
+
+        AppResult[] results = app.Query("entrytext");
+        Assert.AreEqual(1, results.Length);
+        Assert.AreEqual("New Item", results[0].Text);
+
+        app.Tap(x => x.Text("Save"));
+        app.Screenshot("Back at list of items");
+    }
+```
+
+!!! tip "Run tests on Visual Studio Mobile Center"
+    Although this process is good, it requires that you own a large number of devices and you manually test.  Visual Studio Mobile Center (introduced below) has a test facility that allows you to run the same tests on hundreds of real devices and get reports of failures.  Combine this with crash and analytics reporting and you will have a robust release testing mechanism for your product.
+
+You can now create a complete set of tests:
+
+*  Unit tests for the custom code in the mobile backend.
+*  Unit tests with a mocked backend for the mobile client.
+*  UI tests with a mocked backend for the mobile client.
+*  End to End UI tests with a test backend and known dataset.
+
+When you are in the normal development cycle, you should be doing the first three on a very regular basis throughout the day.  You should perform end to end tests with the known test backend across a wide variety of devices before every release to the public app store.
 
 ## Distributing your Mobile Client to Beta Users
 

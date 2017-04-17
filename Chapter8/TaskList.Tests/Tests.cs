@@ -36,7 +36,11 @@ namespace TaskList.Tests
             app.Screenshot("Logged in - initial list of items");
             app.Tap(x => x.Text("Add New Item"));
             app.Screenshot("Empty detail record");
+
             AppResult[] results = app.Query("entrytext");
+            Assert.AreEqual(1, results.Length);
+            Assert.AreEqual("New Item", results[0].Text);
+
             app.Tap(x => x.Text("Save"));
             app.Screenshot("Back at list of items");
         }
