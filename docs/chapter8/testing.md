@@ -689,18 +689,56 @@ You can take screen shots, by adding `app.Screenshot("description");` in between
 !!! info "Platform Support"
     Xamarin Test Recorder supports iOS and Android.  You cannot record an iOS UITest on the PC.  If you want to use one platform for recording tests, use a Mac.
 
-Let's take this a little further.  Let's say that rather than just clicking a few times, we wanted to ensure that the text box was filled with the text.  To do this, we need to switch over to the REPL to identify the Ids of the various elements.  Create a new test called `Repl()`:
+You can run this as long as you adjust the `AppInitializer.cs` file as follows:
 
 ```csharp
-    [Test]
-    public void Repl()
+    if (platform == Platform.Android)
     {
-        app.Repl();
+        return ConfigureApp
+            .Android
+            .InstalledApp("tasklist.tasklist")
+            .StartApp();
     }
 ```
 
-Now use the **Test Explorer** to run just that one test.
+Replace the `tasklist.tasklist` with the package name of your app.  You can retrieve this in the **Properties** > **Android Manifest** page for the `TaskList.Android` app.  Use the **Test Explorer** to run the test.  You will see that the clicks are performed as expected.
 
+Let's take this a little further.  Let's say that rather than just clicking a few times, we wanted to ensure that the text box was filled with the text.  To uniquely identify a view, we need to add an `AutomationId` to the view.  Adjust the `TaskDetail.xaml` file in the shared project as follows:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TaskList.Pages.TaskDetail"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" Spacing="10">
+            <Label Text="What should I be doing?" />
+            <Entry x:AutomationId="entrytext" Text="{Binding Item.Text}" />
+            <Label Text="Completed?" />
+            <Switch IsToggled="{Binding Item.Complete}" />
+            <StackLayout VerticalOptions="CenterAndExpand" />
+            <StackLayout Orientation="Vertical" VerticalOptions="End">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                    <Button
+                        BackgroundColor="#A6E55E"
+                        Command="{Binding SaveCommand}"
+                        Text="Save"
+                        TextColor="White" />
+                    <Button
+                        BackgroundColor="Red"
+                        Command="{Binding DeleteCommand}"
+                        Text="Delete"
+                        TextColor="White" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+```
+
+Note line 10.  I've explicitly added an `AutomationId` to the entry text.  
 
 !!! warn "TO BE CONTINUED"
     This section is incomplete.
@@ -757,6 +795,7 @@ Your beta testers will now get an email telling them there is a new app availabl
 [img2]: img/failed-tests.PNG
 [img3]: img/xtr-1.PNG
 [img4]: img/xtr-2.PNG
+[img5]: img/xuitest-1.PNG
 
 <!-- Links -->
 [1]: https://msdn.microsoft.com/en-us/library/hh694602.aspx
