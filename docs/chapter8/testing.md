@@ -715,7 +715,7 @@ Let's take this a little further.  Let's say that rather than just clicking a fe
     <ContentPage.Content>
         <StackLayout Padding="10" Spacing="10">
             <Label Text="What should I be doing?" />
-            <Entry x:AutomationId="entrytext" Text="{Binding Item.Text}" />
+            <Entry AutomationId="entrytext" Text="{Binding Item.Text}" />
             <Label Text="Completed?" />
             <Switch IsToggled="{Binding Item.Complete}" />
             <StackLayout VerticalOptions="CenterAndExpand" />
