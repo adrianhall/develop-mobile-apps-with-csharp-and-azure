@@ -128,9 +128,7 @@ namespace TaskList.Droid.Services
 There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry, it will be overwritten.  Finally, there is a method called `IsTokenExpired()` whose only job is to check to see if a token is expired or not.  This same code can be used in the `Services/iOSLoginProvider.cs`.  The only difference is in the `AccountStore.Create()` call (as discussed earlier).
 
 !!! warn "Update Entitlements for iOS 10"
-    You may notice that you are not able to use `AccountStore.Save()` in the iOS 10 Simulator.  A change to the
-    iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and
-    use the Entitlements.plist file as a custom entitlements list.  
+    You may notice that you are not able to use `AccountStore.Save()` in the iOS 10 Simulator.  A change to the iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and use the Entitlements.plist file as a custom entitlements list.  
 
 Visual Studio for the PC doesn't provide a lot of assistance with the entitlements.  However, Visual Studio for Mac has a great editor for the entitlement, so this is one time I'd suggest going over to the Mac to do something.  Make sure you have created an Apple Developer account and created a provisioning profile.  These are pre-requisites to using the Keychain.
 
@@ -487,25 +485,16 @@ public async Task<MobileServiceUser> LoginAsync()
 }
 ```
 
-For full disclosure, I've also moved the `IsTokenExpired()` method from the platform-specific code to the
-shared project, and updated the `ICloudService.cs` to match the new signature of `LoginAsync()`.  The process
-follows the best practices:
+For full disclosure, I've also moved the `IsTokenExpired()` method from the platform-specific code to the shared project, and updated the `ICloudService.cs` to match the new signature of `LoginAsync()`.  The process follows the best practices:
 
 * Check for a stored token - if one exists, try to refresh it.
 * If the token (that potentially just got refreshed) is not expired, continue using it.
 * If not, ask the user for credentials.
 * If we get a valid token back, store it in the secure store for next time.
 
-There is another place that we must consider refresh tokens.  During a HTTP request to our mobile backend, it is
-possible that the token has expired since our last request.  The request will return a 401 Unauthorized response
-in this case.  We need to trap that and perform a login request.  The login request will either refresh the
-token or prompt the user for new credentials.  We can then continue with the request as before.
+There is another place that we must consider refresh tokens.  During a HTTP request to our mobile backend, it is possible that the token has expired since our last request.  The request will return a 401 Unauthorized response in this case.  We need to trap that and perform a login request.  The login request will either refresh the token or prompt the user for new credentials.  We can then continue with the request as before.
 
-The Azure Mobile Apps SDK contains a mechanism for hooking into the HTTP workflow using a `DelegatingHandler`. A
-delegating handler is a base type for a HTTP handler that allows us to process the request and response from the
-HTTP client object before (and after) it finally get processed.  It's used for adding additional headers to the
-request or logging the request and response, for example.  We are going to use it to validate the response and
-re-submit the request (after login) if the request comes back as a 401 Unauthorized.
+The Azure Mobile Apps SDK contains a mechanism for hooking into the HTTP workflow using a `DelegatingHandler`. A delegating handler is a base type for a HTTP handler that allows us to process the request and response from the HTTP client object before (and after) it finally get processed.  It's used for adding additional headers to the request or logging the request and response, for example.  We are going to use it to validate the response and re-submit the request (after login) if the request comes back as a 401 Unauthorized.
 
 We start with the adjustment to the `Services\AzureCloudService.cs` constructor:
 
@@ -597,22 +586,14 @@ namespace TaskList.Helpers
 }
 ```
 
-There is no in-built method for cloning a `HttpRequestMessage` object.  Fortunately [Stack Overflow][34] provided
-an answer that seems to work.  Running this code will now pass every single non-login request through the delegating
-handler.  If we get an Unauthorized at any point, the login flow (which includes an implicit refresh token) will
-be triggered.
+There is no in-built method for cloning a `HttpRequestMessage` object.  Fortunately [Stack Overflow][34] provided an answer that seems to work.  Running this code will now pass every single non-login request through the delegating handler.  If we get an Unauthorized at any point, the login flow (which includes an implicit refresh token) will be triggered.
 
 !!! info
-    There are two HTTPClient objects created inside of the `MobileServiceClient` object. One is for all the non-login
-    flows and it supports the delegating handlers.  However there is another one for login flows.  The one for login
-    flows does not support delegating handlers.  This means you don't have to worry about cyclical references within the
-    delegating handler (where a login flow triggers another login flow).
+    There are two HTTPClient objects created inside of the `MobileServiceClient` object. One is for all the non-login flows and it supports the delegating handlers.  However there is another one for login flows.  The one for login flows does not support delegating handlers.  This means you don't have to worry about cyclical references within the delegating handler (where a login flow triggers another login flow).
 
 ## Logging out
 
-There is a dirty little secret within the Azure Mobile Apps Client SDK.  Calling `LogoutAsync()` does not actually
-invalidate the token you are using.  It simply removes it from the `MobileServiceClient` context.  Don't believe
-me?  Here is [the code][35]:
+There is a dirty little secret within the Azure Mobile Apps Client SDK.  Calling `LogoutAsync()` does not actually invalidate the token you are using.  It simply removes it from the `MobileServiceClient` context.  Don't believe me?  Here is [the code][35]:
 
 ```csharp
         /// <summary>
@@ -625,9 +606,7 @@ me?  Here is [the code][35]:
         }
 ```
 
-When you actually think about it, this makes sense.  You can get logged in via five different supported identity
-providers via a web-flow.  In this case, you are logging your **browser** out of the identity provider.  Do you
-really want to log out of Facebook when you log out of your app?
+When you actually think about it, this makes sense.  You can get logged in via five different supported identity providers via a web-flow.  In this case, you are logging your **browser** out of the identity provider.  Do you really want to log out of Facebook when you log out of your app?
 
 So, how do you log out?  You should:
 
@@ -638,11 +617,7 @@ So, how do you log out?  You should:
 
 ### Invalidating the token on the mobile backend.
 
-Calling the `/.auth/logout` endpoint on the Azure App Service mobile backend will remove the entry
-on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted,
-will still authorize the user.  The refresh token is stored in the token store. The user submitting the
-token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after
-it was created), the logout is complete.
+Calling the `/.auth/logout` endpoint on the Azure App Service mobile backend will remove the entry on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted, will still authorize the user.  The refresh token is stored in the token store. The user submitting the token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after it was created), the logout is complete.
 
 We need to do a HTTP client call for this purpose:
 
@@ -735,13 +710,9 @@ public async Task LogoutAsync()
 }
 ```
 
-This does three of the four providers.  If your identity provider supports an app-level logout, then you
-should call that where indicated.  This is probably going to be platform-specific code, so you will want
-to add a method to the `ILoginProvider.cs` interface and add a concrete implementation to each platform
-project.
+This does three of the four providers.  If your identity provider supports an app-level logout, then you should call that where indicated.  This is probably going to be platform-specific code, so you will want to add a method to the `ILoginProvider.cs` interface and add a concrete implementation to each platform project.
 
-I've also added a logout button to my `Pages\TaskList.xaml` ([view code][36]) and added the event handler
-for the logout button to the `ViewModels\EntryPageViewModel.cs` ([view code][37]).
+I've also added a logout button to my `Pages\TaskList.xaml` ([view code][36]) and added the event handler for the logout button to the `ViewModels\EntryPageViewModel.cs` ([view code][37]).
 
 <!-- Images -->
 [img59]: img/aad-add-key.PNG

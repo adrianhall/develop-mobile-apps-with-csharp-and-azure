@@ -19,22 +19,17 @@ The only claims are the ones in the token, and none of them match the `RoleClaim
 
 ## Obtaining User Claims
 
-At some point you are going to need to deal with something other than the claims that are in the token passed for
-authentication.  Fortunately, the Authentication / Authorization feature has an endpoint for that at `/.auth/me`:
+At some point you are going to need to deal with something other than the claims that are in the token passed for authentication.  Fortunately, the Authentication / Authorization feature has an endpoint for that at `/.auth/me`:
 
 ![The /.auth/me endpoint][img57]
 
-Of course, the `/.auth/me` endpoint is not of any use if you cannot access it.  The most use of this information is
-gained during authorization on the server and we will cover this use later on.  However, there are reasons to pull
-this information on the client as well.  For example, we may want to make the List View title be our name instead of
+Of course, the `/.auth/me` endpoint is not of any use if you cannot access it.  The most use of this information is gained during authorization on the server and we will cover this use later on.  However, there are reasons to pull this information on the client as well.  For example, we may want to make the List View title be our name instead of
 "Tasks".
 
 !!! warn
     You can't use the /.auth/me endpoint when using custom authentication.
 
-Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can
-decode the JSON object, we need to define the models.  This is done in the shared **TaskList** project.  I've defined
-this in `Models\AppServiceIdentity.cs`.
+Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can decode the JSON object, we need to define the models.  This is done in the shared **TaskList** project.  I've defined this in `Models\AppServiceIdentity.cs`.
 
 ```csharp
 using System.Collections.Generic;
@@ -68,8 +63,7 @@ namespace TaskList.Models
 }
 ```
 
-This matches the JSON format from the `/.auth/me` call we did earlier.   This is going to be a part of the
-ICloudService as follows:
+This matches the JSON format from the `/.auth/me` call we did earlier.   This is going to be a part of the ICloudService as follows:
 
 ```csharp
 using System.Threading.Tasks;
@@ -113,11 +107,7 @@ public async Task<AppServiceIdentity> GetIdentityAsync()
 }
 ```
 
-Note that there is no reason to instantiate your own `HttpClient()`.  The Azure Mobile Apps SDK has a method for
-invoking custom API calls (as we shall see later on).  However, if you prefix the path with a slash, it will execute
-a HTTP GET for any API with any authentication that is currently in force.  We can leverage this to call the
-`/.auth/me` endpoint and decode the response in one line of code.  Adjust the `ExecuteRefreshCommand()` method in
-the `ViewModels\TaskListViewModel.cs` file to take advantage of this:
+Note that there is no reason to instantiate your own `HttpClient()`.  The Azure Mobile Apps SDK has a method for invoking custom API calls (as we shall see later on).  However, if you prefix the path with a slash, it will execute a HTTP GET for any API with any authentication that is currently in force.  We can leverage this to call the `/.auth/me` endpoint and decode the response in one line of code.  Adjust the `ExecuteRefreshCommand()` method in the `ViewModels\TaskListViewModel.cs` file to take advantage of this:
 
 ```csharp
 async Task ExecuteRefreshCommand()
@@ -179,7 +169,7 @@ var identity = await User.GetAppServiceIdentityAsync<AzureActiveDirectoryCredent
 There is one `Credentials` class for each supported authentication technique - Azure Active Directory, Facebook, Google, Microsoft Account and Twitter.  These are in the **Microsoft.Azure.Mobile.Server.Authentication** namespace.  They all follow the same pattern as the model we created for the client - there are Provider, UserId and UserClaims properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId is pulled out of the response for Azure AD.
 
 !!! tip
-    You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into this more in a later chapter.
+    You can use the AccessToken property to do Graph API lookups for most providers.  Use the Graph SDK provided by the authentication provider for this purpose; either in the mobile backend or the client.
 
 ## Adding Group Claims to the Request
 
@@ -250,10 +240,7 @@ async Task<bool> IsAuthorizedAsync()
 }
 ```
 
-The `UserClaims` object is an `IEnumerable` that contains objects with a Type and a Value.  The Type for the group
-claims is `groups`.  Once we have this knowledge, we can use a LINQ query to obtain a count of the claims that match
-the conditions we want to test.  The Value we use is the Object ID of the group.  This is available in the
-**PROPERTIES** tab of the group.
+The `UserClaims` object is an `IEnumerable` that contains objects with a Type and a Value.  The Type for the group claims is `groups`.  Once we have this knowledge, we can use a LINQ query to obtain a count of the claims that match the conditions we want to test.  The Value we use is the Object ID of the group.  This is available in the **PROPERTIES** tab of the group.
 
 We can prevent a new record being added by adjusting the `PostTodoItem()` method:
 
@@ -269,9 +256,7 @@ public async Task<IHttpActionResult> PostTodoItem(TodoItem item)
 }
 ```
 
-Unfortunately, most of the table controller methods do not return an `IHttpActionResult`, so this has limited value.
-What would be better would be an `[Authorize]` attribute that tests the claims for us.  For instance, we should be
-able to do the following:
+Unfortunately, most of the table controller methods do not return an `IHttpActionResult`, so this has limited value.  What would be better would be an `[Authorize]` attribute that tests the claims for us.  For instance, we should be able to do the following:
 
 ```csharp
 [AuthorizeClaims("groups", "01f214a9-af1f-4bdd-938f-3f16749aef0e")]
@@ -327,23 +312,16 @@ namespace Backend.Helpers
 }
 ```
 
-This is the same type of authorization filter attribute that the officially provided `AuthorizeAttribute` is based
-on.  However, the AuthorizeAttribute is synchronous.  We require an asynchronous version of the attribute, so we
-cannot use a sub-class of the AuthorizeAttribute.  Aside from that note, this uses virtually the same code that we
-used in the `IsAythorizedAsync()` method we developped earlier.
+This is the same type of authorization filter attribute that the officially provided `AuthorizeAttribute` is based on.  However, the AuthorizeAttribute is synchronous.  We require an asynchronous version of the attribute, so we cannot use a sub-class of the AuthorizeAttribute.  Aside from that note, this uses virtually the same code that we used in the `IsAythorizedAsync()` method we developped earlier.
 
-We can now use this attribute for testing any claim.  For example, our claims has the identity provider as a claim.
-We can use the following:
+We can now use this attribute for testing any claim.  For example, our claims has the identity provider as a claim.  We can use the following:
 
 ```csharp
 [AuthorizeClaims("http://schemas.microsoft.com/identity/claims/identityprovider", "live.com")]
 ```
 
 !!! tip
-    If you want to test other claims that are not provided, you can enable the **Read Directory Data** permission in
-    the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about
-    caching results or minting a new ZUMO token (just like we did in the custom authentication case) for
-    performance reasons.
+    If you want to test other claims that are not provided, you can enable the **Read Directory Data** permission in the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about caching results or minting a new ZUMO token (just like we did in the custom authentication case) for performance reasons.
 
 <!-- Images -->
 [img1]: img/aad-ibiza-editmanifest.PNG
