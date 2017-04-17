@@ -2,7 +2,7 @@
 
 namespace TaskList.Tests
 {
-    public class AppInitializer
+    public static class AppInitializer
     {
         public static IApp StartApp(Platform platform)
         {
@@ -10,7 +10,7 @@ namespace TaskList.Tests
             {
                 return ConfigureApp
                     .Android
-                    .InstalledApp("tasklist")
+                    .InstalledApp("tasklist.tasklist")
                     .StartApp();
             }
 

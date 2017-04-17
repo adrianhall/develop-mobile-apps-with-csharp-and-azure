@@ -3,8 +3,8 @@
 
   <style name="MainTheme" parent="MainTheme.Base">
   </style>
-  <!-- Base theme applied no matter what API -->
-  <style name="MainTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-    <item name="windowActionBar">false</item>
+
+  <style name="MainTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Place default stuff here-->
   </style>
 </resources>

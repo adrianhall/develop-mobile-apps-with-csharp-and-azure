@@ -170,7 +170,7 @@
             "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
           ],
           "properties": {
-            "DefaultConnection": {
+            "MS_TableConnectionString": {
               "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
               "type": "SQLServer"
             }

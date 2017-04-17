@@ -62,11 +62,17 @@
                     Command="{Binding RefreshCommand}"
                     Text="Refresh"
                     TextColor="White" />
-                <ActivityIndicator
-                    HorizontalOptions="End"
-                    IsRunning="{Binding IsBusy, Mode=OneWay}"
-                    VerticalOptions="Center"
-                    Color="Black" />
+                <ContentView>
+                    <OnPlatform x:TypeArguments="View">
+                        <OnPlatform.WinPhone>
+                            <ActivityIndicator
+                                HorizontalOptions="End"
+                                IsRunning="{Binding IsBusy, Mode=OneWay}"
+                                VerticalOptions="Center"
+                                Color="Black" />
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </ContentView>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

@@ -640,6 +640,9 @@ The mock services are a tool to enable UI unit testing.  UI testing is unit test
 
 We are only going to test the Android edition of the project in this walkthrough, mostly because I do most of my work on a PC.  The same methodology can be used for iOS, however.
 
+!!! tip "Use NUnit v2.x"
+    Xamarin.UITest does not support NUnit 3.x - make sure you do not upgrade the NUnit framework beyond the latest v2.x release when updating your NuGet packages.
+
 The project contains two source files - `AppInitializer.cs` and `Tests.cs`.  This latter file is where we are going to write the tests.  The most efficient way of writing tests is to use the [Xamarin Test Recorder][10].  The workflow for using Xamarin Test Recorder is:
 
 1.  If needed, export the mobile client so that it can be used on a device.
@@ -648,7 +651,56 @@ The project contains two source files - `AppInitializer.cs` and `Tests.cs`.  Thi
 4.  Interact with the application.  The Test Recorder will create a C# test method.
 5.  Incorporate the test into a Xamarin UITest project.
 
-We already have the UITest project, so let's walk through the process of creating a simple test case for the process of creating a new task.
+We already have the UITest project, so let's walk through the process of creating a simple test case for the process of creating a new task.  Open the `Tests.cs` file.  Note the "lightning" icon next to each `[TestFixture]` attribute:
+
+![][img3]
+
+Switch to a Release build in the configuration manager (or on the toolbar), then right-click the `TaskList.Android` project and select **Build** to build the project.  Now that you have a working app, click the lightning icon next to the `TestFixture` for the Android platform, then select **Record new test** -> **Build TaskList.Android project**.  
+
+![][img4]
+
+This will start your project in the selected device - normally an emulator.  It will also create a `NewTest()` method.  In the emulator, click on the Login button, followed by Add New Item, followed by Save.  When you are done, switch back to the Visual Studio instance, click on the spanner next at the bottom of the file and select **Stop Recording**. The following code will be generated:
+
+```csharp
+    [Test]
+    public void NewTest()
+    {
+        app.Tap(x => x.Text("Login"));
+        app.Tap(x => x.Text("Add New Item"));
+        app.Tap(x => x.Text("Save"));
+    }
+```
+
+You can take screen shots, by adding `app.Screenshot("description");` in between each step:
+
+```csharp
+    [Test]
+    public void NewTest()
+    {
+        app.Tap(x => x.Text("Login"));
+        app.Screenshot("Logged in - initial list of items");
+        app.Tap(x => x.Text("Add New Item"));
+        app.Screenshot("Empty detail record");
+        app.Tap(x => x.Text("Save"));
+        app.Screenshot("Back at list of items");
+    }
+```
+
+!!! info "Platform Support"
+    Xamarin Test Recorder supports iOS and Android.  You cannot record an iOS UITest on the PC.  If you want to use one platform for recording tests, use a Mac.
+
+Let's take this a little further.  Let's say that rather than just clicking a few times, we wanted to ensure that the text box was filled with the text.  To do this, we need to switch over to the REPL to identify the Ids of the various elements.  Create a new test called `Repl()`:
+
+```csharp
+    [Test]
+    public void Repl()
+    {
+        app.Repl();
+    }
+```
+
+Now use the **Test Explorer** to run just that one test.
+
 
 !!! warn "TO BE CONTINUED"
     This section is incomplete.
@@ -703,6 +755,8 @@ Your beta testers will now get an email telling them there is a new app availabl
 <!-- Images -->
 [img1]: img/test-explorer.PNG
 [img2]: img/failed-tests.PNG
+[img3]: img/xtr-1.PNG
+[img4]: img/xtr-2.PNG
 
 <!-- Links -->
 [1]: https://msdn.microsoft.com/en-us/library/hh694602.aspx

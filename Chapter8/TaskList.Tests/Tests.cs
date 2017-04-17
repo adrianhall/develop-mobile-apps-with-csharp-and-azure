@@ -1,14 +1,16 @@
 ﻿using NUnit.Framework;
+using System.Diagnostics;
 using Xamarin.UITest;
+using Xamarin.UITest.Queries;
 
 namespace TaskList.Tests
 {
     [TestFixture(Platform.Android)]
-    [TestFixture(Platform.iOS)]
+    //[TestFixture(Platform.iOS)]
     public class Tests
     {
-        IApp app;
-        Platform platform;
+        private IApp app;
+        private readonly Platform platform;
 
         public Tests(Platform platform)
         {
@@ -28,8 +30,22 @@ namespace TaskList.Tests
         }
 
         [Test]
-        public void AppInvokesRepl()
+        public void NewTest()
         {
+            app.Tap(x => x.Text("Login"));
+            app.Screenshot("Logged in - initial list of items");
+            app.Tap(x => x.Text("Add New Item"));
+            app.Screenshot("Empty detail record");
+            AppResult[] results = app.Query("entrytext");
+            app.Tap(x => x.Text("Save"));
+            app.Screenshot("Back at list of items");
+        }
+
+        [Test]
+        public void Repl()
+        {
+            app.Tap(x => x.Text("Login"));
+            app.Tap(x => x.Text("Add New Item"));
             app.Repl();
         }
     }
