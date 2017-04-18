@@ -10,7 +10,7 @@ namespace VideoApp.Droid.Services
 {
     public class DroidLoginProvider : ILoginProvider
     {
-        private readonly string AccountStoreId = "videos";
+        //private readonly string AccountStoreId = "videos";
 
         public Task<MobileServiceUser> LoginAsync(MobileServiceClient client)
         {
