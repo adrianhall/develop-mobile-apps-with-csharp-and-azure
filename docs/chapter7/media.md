@@ -301,9 +301,17 @@ This inserts a record into the Videos table with the filename and URI specified.
 ```text
     "body": {
         "fileName": "@{triggerOutputs()['headers']['x-ms-file-name']}",
-        "url": "@{body('publish-asset')['smoothUrl']}"
+        "url": "@{body('publish-asset')['pathUrl']}"
     }
 ```
+
+There are three URLs that are returned by the previous step:
+
+*  `pathUrl` is the path to the assets (but not the filename).
+*  `smoothUrl` is the real-time streaming endpoint.
+*  `playerUrl` is a web-page with an embedded player.
+
+You need to use the corresponding URL for your implementation.  If you are unsure, then store both the pathUrl and smoothUrl in the database (which will require a modification of the model).  The `playerUrl` can be computed on the client if you need it.
 
 Before we can try this pipeline out, the other resources must be specified as Application Settings inside the Function App:
 
@@ -328,48 +336,6 @@ Now that the backend has been brought online and we can populate it with videos,
 
 !!! tip "Use the starting point to create the database"
     In the last section, I mentioned that one of the functions would not work because the database was not created until the first client request.  You can use the starting point for the project to create the necessary database.  Create all the backend resources, then run the client to create the database, then test out the encoding pipeline.
-
-To play a video, you need to have a video player and there are several to choose from in the Xamarin Forms world.  The one I will be using in this example is the cross-platform [Plugin.MediaManager][7] package from NuGet.  To implement this:
-
-1.  Add the `Plugin.MediaManager` NuGet package to the client projects.
-2.  Add a `VideoDetail.xaml` page to the shared project which plays a provided video.
-3.  Wire the `VideoDetail.xaml` page to the `VideoList.xaml` page.
-4.  Ensure the platform-specific initialization is performed.
-
-The `Plugin.MediaManager` NuGet package can be easily added:
-
-*  Right-click on the solution within Visual Studio 2017.
-*  Click **Manage NuGet Packages for Solution...**.
-*  Click **Browse**, then search for **Plugin.MediaManager**.
-*  Select **Plugin.MediaManager**;  check the box next to each platform project, then click **Install**.
-*  Repeat for **Plugin.MediaManager.Forms**.
-
-![][img9]
-
-You will need to approve the installation.  Once the installation is complete, move on to creating the `VideoDetail.xaml` page.  This file (and its accompanying backing file) are taken from the [MediaManager Sample][8]:
-
-Its accompanying backing source code is as follows:
-
-```csharp
-```
-
-The same code that was used for the `TaskList` to `TaskDetail` navigation in the TaskList app can be used to switch to the `VideoDetail` page.  In the `VideoLisViewModel.cs` file, replace the `SelectedItem` property with this:
-
-```csharp
-    Video selectedItem;
-    public Video SelectedItem
-    {
-        get { return selectedItem; }
-        set
-        {
-            SetProperty(ref selectedItem, value, "SelectedItem");
-            Application.Current.MainPage.Navigation.PushAsync(new Pages.VideoDetail(selectedItem));
-        }
-    }
-```
-
-I have not included any code in the `VideoDetail.xaml` page to go back to the list page.  This is easily achieved by adding another control (perhaps a close button or a back button) to the `VideoDetail.xaml` file.
-
 
 !!! warn "To Be Continued"
     This section is not complete as yet.  Please check back soon!
