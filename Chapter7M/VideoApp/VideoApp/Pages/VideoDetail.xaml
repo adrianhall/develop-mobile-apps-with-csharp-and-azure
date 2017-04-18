@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="VideoApp.Pages.VideoDetail"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:inthehand="clr-namespace:InTheHand.Forms;assembly=InTheHand.Forms">
+    <StackLayout>
+        <inthehand:MediaElement
+            x:Name="mediaPlayer"
+            AreTransportControlsEnabled="true"
+            HeightRequest="240"
+            HorizontalOptions="Fill"
+            IsLooping="False"
+            VerticalOptions="Center" />
+    </StackLayout>
+</ContentPage>

@@ -7,8 +7,13 @@ using Xamarin.Forms;
 
 namespace VideoApp.Droid
 {
-	[Activity (Label = "VideoApp", Icon = "@drawable/icon", Theme="@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	[Activity (
+        Label = "VideoApp",
+        Icon = "@drawable/icon",
+        Theme="@style/MainTheme",
+        MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -17,6 +22,8 @@ namespace VideoApp.Droid
 			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
+
+            InTheHand.Forms.Platform.Android.InTheHandForms.Init();
 
 			var loginProvider = (DroidLoginProvider)DependencyService.Get<ILoginProvider>();
 			loginProvider.Init(this);
