@@ -1096,6 +1096,10 @@ worry about what platform they are on.  In addition, NH has support for tagging 
 </ul>
 <p>Notification Hubs has three tiers which give you increasing numbers of pushes, plus additional features.  The <em>Free</em> tier provides just push services.  The <em>Basic</em> tier gives you the more pushes plus the opportunity to buy additional pushes. Telemetry, scheduled push and multi-tenancy are only provided in the <em>Standard</em> tier, which should be your choice for production workloads.</p>
 <p>When considering architecture, you should use one Notification Hub per mobile backend.  Notification Hub namespaces are used for deployment grouping.  For example, you might want to give a different namespace to each tenant in a multi-tenant environment.</p>
+<div class="admonition info">
+<p class="admonition-title">App Service Push is Global to the App Service</p>
+<p>If you run your App Service with multiple slots (see <a href="../../chapter9/appsvc/">Chapter 9</a> for details on slots), then note that the configuration of App Service Push is global to all slots within your App Service.</p>
+</div>
 <p>Once your notification hub has been created, you will see both the hub and the namespace listed in your resource group.  Note that we have not actually linked the notification hub to any platform notification services yet.  We will do that later.</p>
 <h2 id="configuring-push-registration">Configuring Push Registration<a class="headerlink" href="#configuring-push-registration" title="Permanent link">&para;</a></h2>
 <p>Push registration is generally handled by the mobile backend, and there is a feature of the App Service for this purpose.  Although it is possible, resist trying to get mobile clients to register with the notification hub directly.</p>

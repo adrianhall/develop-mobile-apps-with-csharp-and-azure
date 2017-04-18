@@ -1084,20 +1084,15 @@
 <p><img alt="Claims output" src="../img/user-claims.PNG" /></p>
 <p>The only claims are the ones in the token, and none of them match the <code>RoleClaimType</code>, so we can't use roles either. Clearly, we are going to have to do something else.</p>
 <h2 id="obtaining-user-claims">Obtaining User Claims<a class="headerlink" href="#obtaining-user-claims" title="Permanent link">&para;</a></h2>
-<p>At some point you are going to need to deal with something other than the claims that are in the token passed for
-authentication.  Fortunately, the Authentication / Authorization feature has an endpoint for that at <code>/.auth/me</code>:</p>
+<p>At some point you are going to need to deal with something other than the claims that are in the token passed for authentication.  Fortunately, the Authentication / Authorization feature has an endpoint for that at <code>/.auth/me</code>:</p>
 <p><img alt="The /.auth/me endpoint" src="../img/auth-me.PNG" /></p>
-<p>Of course, the <code>/.auth/me</code> endpoint is not of any use if you cannot access it.  The most use of this information is
-gained during authorization on the server and we will cover this use later on.  However, there are reasons to pull
-this information on the client as well.  For example, we may want to make the List View title be our name instead of
+<p>Of course, the <code>/.auth/me</code> endpoint is not of any use if you cannot access it.  The most use of this information is gained during authorization on the server and we will cover this use later on.  However, there are reasons to pull this information on the client as well.  For example, we may want to make the List View title be our name instead of
 "Tasks".</p>
 <div class="admonition warn">
 <p class="admonition-title">Warn</p>
 <p>You can't use the /.auth/me endpoint when using custom authentication.</p>
 </div>
-<p>Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can
-decode the JSON object, we need to define the models.  This is done in the shared <strong>TaskList</strong> project.  I've defined
-this in <code>Models\AppServiceIdentity.cs</code>.</p>
+<p>Since identity provider claims can be anything, they are transferred as a list within a JSON object.  Before we can decode the JSON object, we need to define the models.  This is done in the shared <strong>TaskList</strong> project.  I've defined this in <code>Models\AppServiceIdentity.cs</code>.</p>
 <pre><code class="csharp">using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -1129,8 +1124,7 @@ namespace TaskList.Models
 }
 </code></pre>
 
-<p>This matches the JSON format from the <code>/.auth/me</code> call we did earlier.   This is going to be a part of the
-ICloudService as follows:</p>
+<p>This matches the JSON format from the <code>/.auth/me</code> call we did earlier.   This is going to be a part of the ICloudService as follows:</p>
 <pre><code class="csharp">using System.Threading.Tasks;
 using TaskList.Models;
 
@@ -1170,11 +1164,7 @@ public async Task&lt;AppServiceIdentity&gt; GetIdentityAsync()
 }
 </code></pre>
 
-<p>Note that there is no reason to instantiate your own <code>HttpClient()</code>.  The Azure Mobile Apps SDK has a method for
-invoking custom API calls (as we shall see later on).  However, if you prefix the path with a slash, it will execute
-a HTTP GET for any API with any authentication that is currently in force.  We can leverage this to call the
-<code>/.auth/me</code> endpoint and decode the response in one line of code.  Adjust the <code>ExecuteRefreshCommand()</code> method in
-the <code>ViewModels\TaskListViewModel.cs</code> file to take advantage of this:</p>
+<p>Note that there is no reason to instantiate your own <code>HttpClient()</code>.  The Azure Mobile Apps SDK has a method for invoking custom API calls (as we shall see later on).  However, if you prefix the path with a slash, it will execute a HTTP GET for any API with any authentication that is currently in force.  We can leverage this to call the <code>/.auth/me</code> endpoint and decode the response in one line of code.  Adjust the <code>ExecuteRefreshCommand()</code> method in the <code>ViewModels\TaskListViewModel.cs</code> file to take advantage of this:</p>
 <pre><code class="csharp">async Task ExecuteRefreshCommand()
 {
     if (IsBusy)
@@ -1226,7 +1216,7 @@ the <code>ViewModels\TaskListViewModel.cs</code> file to take advantage of this:
 <p>There is one <code>Credentials</code> class for each supported authentication technique - Azure Active Directory, Facebook, Google, Microsoft Account and Twitter.  These are in the <strong>Microsoft.Azure.Mobile.Server.Authentication</strong> namespace.  They all follow the same pattern as the model we created for the client - there are Provider, UserId and UserClaims properties.  The token and any special information will be automatically decoded for you.  For instance, the TenantId is pulled out of the response for Azure AD.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>You can use the AccessToken property to do Graph API lookups for most providers in a custom API. We'll get into this more in a later chapter.</p>
+<p>You can use the AccessToken property to do Graph API lookups for most providers.  Use the Graph SDK provided by the authentication provider for this purpose; either in the mobile backend or the client.</p>
 </div>
 <h2 id="adding-group-claims-to-the-request">Adding Group Claims to the Request<a class="headerlink" href="#adding-group-claims-to-the-request" title="Permanent link">&para;</a></h2>
 <p>There are times when you want to add something else to the token that is returned from Azure AD. The most common requirement is to add group information to the response so you can handle group-based authorization.</p>
@@ -1292,10 +1282,7 @@ based on these claims.  This can be done in a relatively basic manner by impleme
 }
 </code></pre>
 
-<p>The <code>UserClaims</code> object is an <code>IEnumerable</code> that contains objects with a Type and a Value.  The Type for the group
-claims is <code>groups</code>.  Once we have this knowledge, we can use a LINQ query to obtain a count of the claims that match
-the conditions we want to test.  The Value we use is the Object ID of the group.  This is available in the
-<strong>PROPERTIES</strong> tab of the group.</p>
+<p>The <code>UserClaims</code> object is an <code>IEnumerable</code> that contains objects with a Type and a Value.  The Type for the group claims is <code>groups</code>.  Once we have this knowledge, we can use a LINQ query to obtain a count of the claims that match the conditions we want to test.  The Value we use is the Object ID of the group.  This is available in the <strong>PROPERTIES</strong> tab of the group.</p>
 <p>We can prevent a new record being added by adjusting the <code>PostTodoItem()</code> method:</p>
 <pre><code class="csharp">public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
 {
@@ -1308,9 +1295,7 @@ the conditions we want to test.  The Value we use is the Object ID of the group.
 }
 </code></pre>
 
-<p>Unfortunately, most of the table controller methods do not return an <code>IHttpActionResult</code>, so this has limited value.
-What would be better would be an <code>[Authorize]</code> attribute that tests the claims for us.  For instance, we should be
-able to do the following:</p>
+<p>Unfortunately, most of the table controller methods do not return an <code>IHttpActionResult</code>, so this has limited value.  What would be better would be an <code>[Authorize]</code> attribute that tests the claims for us.  For instance, we should be able to do the following:</p>
 <pre><code class="csharp">[AuthorizeClaims(&quot;groups&quot;, &quot;01f214a9-af1f-4bdd-938f-3f16749aef0e&quot;)]
 public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
 {
@@ -1362,21 +1347,14 @@ namespace Backend.Helpers
 }
 </code></pre>
 
-<p>This is the same type of authorization filter attribute that the officially provided <code>AuthorizeAttribute</code> is based
-on.  However, the AuthorizeAttribute is synchronous.  We require an asynchronous version of the attribute, so we
-cannot use a sub-class of the AuthorizeAttribute.  Aside from that note, this uses virtually the same code that we
-used in the <code>IsAythorizedAsync()</code> method we developped earlier.</p>
-<p>We can now use this attribute for testing any claim.  For example, our claims has the identity provider as a claim.
-We can use the following:</p>
+<p>This is the same type of authorization filter attribute that the officially provided <code>AuthorizeAttribute</code> is based on.  However, the AuthorizeAttribute is synchronous.  We require an asynchronous version of the attribute, so we cannot use a sub-class of the AuthorizeAttribute.  Aside from that note, this uses virtually the same code that we used in the <code>IsAythorizedAsync()</code> method we developped earlier.</p>
+<p>We can now use this attribute for testing any claim.  For example, our claims has the identity provider as a claim.  We can use the following:</p>
 <pre><code class="csharp">[AuthorizeClaims(&quot;http://schemas.microsoft.com/identity/claims/identityprovider&quot;, &quot;live.com&quot;)]
 </code></pre>
 
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If you want to test other claims that are not provided, you can enable the <strong>Read Directory Data</strong> permission in
-the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about
-caching results or minting a new ZUMO token (just like we did in the custom authentication case) for
-performance reasons.</p>
+<p>If you want to test other claims that are not provided, you can enable the <strong>Read Directory Data</strong> permission in the Azure Active Directory permissions and do a query against the Azure Active Directory.  You should think about caching results or minting a new ZUMO token (just like we did in the custom authentication case) for performance reasons.</p>
 </div>
 <!-- Images -->
 

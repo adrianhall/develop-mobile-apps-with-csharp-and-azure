@@ -884,13 +884,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#end-to-end-testing" title="End to End Testing" class="md-nav__link">
-    End to End Testing
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#distributing-your-mobile-client-to-beta-users" title="Distributing your Mobile Client to Beta Users" class="md-nav__link">
     Distributing your Mobile Client to Beta Users
   </a>
@@ -1097,13 +1090,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#end-to-end-testing" title="End to End Testing" class="md-nav__link">
-    End to End Testing
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#distributing-your-mobile-client-to-beta-users" title="Distributing your Mobile Client to Beta Users" class="md-nav__link">
     Distributing your Mobile Client to Beta Users
   </a>
@@ -1134,7 +1120,7 @@
 <li>Filters, Transforms and Actions associated with your table controllers.</li>
 <li>Custom APIs.</li>
 </ul>
-<p>Later, we will cover End to End Testing scenarios, where you will test the client in combination with your server.  This is when the actual server is exercised fully by your client and is a much better test of the overall functionality of your server.</p>
+<p>You should also do "end-to-end" testing.  This is where you use UI testing to test both the client and the server at the same time.   End to end testing is a much better test of the overall functionality of your server.</p>
 <p>In addition, your mobile backend will come under a lot of strain after you go to production.  You should plan on a load test prior to each major release in a staging environment that is identical to your production environment.  We'll cover this later in the book.</p>
 <h3 id="unit-testing">Unit Testing<a class="headerlink" href="#unit-testing" title="Permanent link">&para;</a></h3>
 <p>Let's take a simple example of an app that we developed back in Chapter 3.  We used the data connections to develop a personal todo store - one in which the users ID is associated with each submitted record and the user could only see their own records.  The table controller looked like the following:</p>
@@ -1348,7 +1334,7 @@ namespace Backend.Tests.Extensions
 <p class="admonition-title">Install the same NuGet packages</p>
 <p>Unlike the scaffolded project for Azure Mobile Apps or ASP.NET MVC, no additional packages are added to the test project, which means you will need to figure out which packages you need to simulate the requirements for the test.  Don't guess.  Look at the packages that are in your project under test and duplicate them.  Right-click the solution and select <strong>Manage NuGet Packages</strong> to get a good idea of what your test package is missing.  Under the <strong>Installed</strong> list, you can tell what packages are required and which projects have them installed.</p>
 </div>
-<p>To test authentication, I need to mock the <code>ClaimsIdentity</code>.  I put this in a utility class:</p>
+<p>Mock the <code>ClaimsIdentity</code> to test authentication:</p>
 <pre><code class="csharp">using System.Security.Claims;
 
 namespace Backend.Tests.Utilities
@@ -1718,57 +1704,123 @@ namespace TaskList
 <li>Click <strong>OK</strong>.</li>
 </ul>
 <p>We are only going to test the Android edition of the project in this walkthrough, mostly because I do most of my work on a PC.  The same methodology can be used for iOS, however.</p>
-<p>The project contains two source files - <code>AppInitializer.cs</code> and <code>Tests.cs</code>.  This latter one is where we are going to spend the majority of our time, but we need to modify the former first.</p>
-<ul>
-<li>Right-click on the <code>TaskList.Android</code> project and select <strong>Properties</strong>.</li>
-<li>Click <strong>Android Manifest</strong>.</li>
-<li>Put a simple string in the <strong>Package name</strong> box (or copy what is there if it is not blank).  I used <code>tasklist</code>.</li>
-<li>Save the properties with Ctrl-S.</li>
-</ul>
-<p>Now, edit the <code>AppInitializer.cs</code> file in the test project:</p>
-<pre><code class="csharp">using Xamarin.UITest;
-
-namespace TaskList.Tests
-{
-    public class AppInitializer
-    {
-        public static IApp StartApp(Platform platform)
-        {
-            if (platform == Platform.Android)
-            {
-                return ConfigureApp
-                    .Android
-                    .InstalledApp(&quot;tasklist&quot;)
-                    .StartApp();
-            }
-
-            return ConfigureApp
-                .iOS
-                .StartApp();
-        }
-    }
-}
-</code></pre>
-
-<p>The string provided to the <code>InstalledApp()</code> must be the same as the package name you have in the Android Manifest.  Ensure you rebuild both the Android project and the test project after this change.</p>
-<p>One of the test artifacts is called the <strong>REPL</strong> - it's a command line utility for browsing the internals of the app in a way we can interact use to write the tests.  Let's start with a test that is added to the <code>Tests.cs</code> class:</p>
+<div class="admonition tip">
+<p class="admonition-title">Use NUnit v2.x</p>
+<p>Xamarin.UITest does not support NUnit 3.x - make sure you do not upgrade the NUnit framework beyond the latest v2.x release when updating your NuGet packages.</p>
+</div>
+<p>The project contains two source files - <code>AppInitializer.cs</code> and <code>Tests.cs</code>.  This latter file is where we are going to write the tests.  The most efficient way of writing tests is to use the <a href="https://developer.xamarin.com/guides/testcloud/testrecorder/">Xamarin Test Recorder</a>.  The workflow for using Xamarin Test Recorder is:</p>
+<ol>
+<li>If needed, export the mobile client so that it can be used on a device.</li>
+<li>Start Xamarin Test Recorder</li>
+<li>Specify the application to be tested and the device to run the aplication on.</li>
+<li>Interact with the application.  The Test Recorder will create a C# test method.</li>
+<li>Incorporate the test into a Xamarin UITest project.</li>
+</ol>
+<p>We already have the UITest project, so let's walk through the process of creating a simple test case for the process of creating a new task.  Open the <code>Tests.cs</code> file.  Note the "lightning" icon next to each <code>[TestFixture]</code> attribute:</p>
+<p><img alt="" src="../img/xtr-1.PNG" /></p>
+<p>Switch to a Release build in the configuration manager (or on the toolbar), then right-click the <code>TaskList.Android</code> project and select <strong>Build</strong> to build the project.  Now that you have a working app, click the lightning icon next to the <code>TestFixture</code> for the Android platform, then select <strong>Record new test</strong> -&gt; <strong>Build TaskList.Android project</strong>.  </p>
+<p><img alt="" src="../img/xtr-2.PNG" /></p>
+<p>This will start your project in the selected device - normally an emulator.  It will also create a <code>NewTest()</code> method.  In the emulator, click on the Login button, followed by Add New Item, followed by Save.  When you are done, switch back to the Visual Studio instance, click on the spanner next at the bottom of the file and select <strong>Stop Recording</strong>. The following code will be generated:</p>
 <pre><code class="csharp">    [Test]
-    public void AppInvokesRepl()
+    public void NewTest()
     {
-        app.Repl();
+        app.Tap(x =&gt; x.Text(&quot;Login&quot;));
+        app.Tap(x =&gt; x.Text(&quot;Add New Item&quot;));
+        app.Tap(x =&gt; x.Text(&quot;Save&quot;));
     }
 </code></pre>
 
-<p>All this test does right now is invoke the Repl so we can discover the under-the-covers identities of the various components of the page.  Ensure you have built the Android project, then go to the Test Explorer and click <strong>Run All</strong> to discover the tests.   The first thing you will note is that there are two sets of tests run - one for iOS and one for Android.  The iOS ones will always fail because "iOS tests are not supported on Windows."  That's why I'm only working with Android here.</p>
-<div class="admonition warn">
-<p class="admonition-title">TO BE CONTINUED</p>
-<p>This section is incomplete.</p>
+<p>You can take screen shots, by adding <code>app.Screenshot("description");</code> in between each step:</p>
+<pre><code class="csharp">    [Test]
+    public void NewTest()
+    {
+        app.Tap(x =&gt; x.Text(&quot;Login&quot;));
+        app.Screenshot(&quot;Logged in - initial list of items&quot;);
+        app.Tap(x =&gt; x.Text(&quot;Add New Item&quot;));
+        app.Screenshot(&quot;Empty detail record&quot;);
+        app.Tap(x =&gt; x.Text(&quot;Save&quot;));
+        app.Screenshot(&quot;Back at list of items&quot;);
+    }
+</code></pre>
+
+<div class="admonition info">
+<p class="admonition-title">Platform Support</p>
+<p>Xamarin Test Recorder supports iOS and Android.  You cannot record an iOS UITest on the PC.  If you want to use one platform for recording tests, use a Mac.</p>
 </div>
-<h2 id="end-to-end-testing">End to End Testing<a class="headerlink" href="#end-to-end-testing" title="Permanent link">&para;</a></h2>
-<div class="admonition warn">
-<p class="admonition-title">TO BE CONTINUED</p>
-<p>This section is incomplete.</p>
+<p>You can run this as long as you adjust the <code>AppInitializer.cs</code> file as follows:</p>
+<pre><code class="csharp">    if (platform == Platform.Android)
+    {
+        return ConfigureApp
+            .Android
+            .InstalledApp(&quot;tasklist.tasklist&quot;)
+            .StartApp();
+    }
+</code></pre>
+
+<p>Replace the <code>tasklist.tasklist</code> with the package name of your app.  You can retrieve this in the <strong>Properties</strong> &gt; <strong>Android Manifest</strong> page for the <code>TaskList.Android</code> app.  Use the <strong>Test Explorer</strong> to run the test.  You will see that the clicks are performed as expected.</p>
+<p>Let's take this a little further.  Let's say that rather than just clicking a few times, we wanted to ensure that the text box was filled with the text that is expected via an assertion.  To uniquely identify a view, we need to add an <code>AutomationId</code> to the view.  Adjust the <code>TaskDetail.xaml</code> file in the shared project as follows:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;ContentPage
+    x:Class=&quot;TaskList.Pages.TaskDetail&quot;
+    xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+    Title=&quot;{Binding Title}&quot;&gt;
+    &lt;ContentPage.Content&gt;
+        &lt;StackLayout Padding=&quot;10&quot; Spacing=&quot;10&quot;&gt;
+            &lt;Label Text=&quot;What should I be doing?&quot; /&gt;
+            &lt;Entry AutomationId=&quot;entrytext&quot; Text=&quot;{Binding Item.Text}&quot; /&gt;
+            &lt;Label Text=&quot;Completed?&quot; /&gt;
+            &lt;Switch IsToggled=&quot;{Binding Item.Complete}&quot; /&gt;
+            &lt;StackLayout VerticalOptions=&quot;CenterAndExpand&quot; /&gt;
+            &lt;StackLayout Orientation=&quot;Vertical&quot; VerticalOptions=&quot;End&quot;&gt;
+                &lt;StackLayout HorizontalOptions=&quot;Center&quot; Orientation=&quot;Horizontal&quot;&gt;
+                    &lt;Button
+                        BackgroundColor=&quot;#A6E55E&quot;
+                        Command=&quot;{Binding SaveCommand}&quot;
+                        Text=&quot;Save&quot;
+                        TextColor=&quot;White&quot; /&gt;
+                    &lt;Button
+                        BackgroundColor=&quot;Red&quot;
+                        Command=&quot;{Binding DeleteCommand}&quot;
+                        Text=&quot;Delete&quot;
+                        TextColor=&quot;White&quot; /&gt;
+                &lt;/StackLayout&gt;
+            &lt;/StackLayout&gt;
+        &lt;/StackLayout&gt;
+    &lt;/ContentPage.Content&gt;
+&lt;/ContentPage&gt;
+</code></pre>
+
+<p>Note line 10.  I've explicitly added an <code>AutomationId</code> to the entry text.  I can now adjust the test to use this:</p>
+<pre><code class="csharp">    [Test]
+    public void NewTest()
+    {
+        app.Tap(x =&gt; x.Text(&quot;Login&quot;));
+        app.Screenshot(&quot;Logged in - initial list of items&quot;);
+        app.Tap(x =&gt; x.Text(&quot;Add New Item&quot;));
+        app.Screenshot(&quot;Empty detail record&quot;);
+
+        AppResult[] results = app.Query(&quot;entrytext&quot;);
+        Assert.AreEqual(1, results.Length);
+        Assert.AreEqual(&quot;New Item&quot;, results[0].Text);
+
+        app.Tap(x =&gt; x.Text(&quot;Save&quot;));
+        app.Screenshot(&quot;Back at list of items&quot;);
+    }
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Run tests on Visual Studio Mobile Center</p>
+<p>Although this process is good, it requires that you own a large number of devices and you manually test.  Visual Studio Mobile Center (introduced below) has a test facility that allows you to run the same tests on hundreds of real devices and get reports of failures.  Combine this with crash and analytics reporting and you will have a robust release testing mechanism for your product.</p>
 </div>
+<p>You can now create a complete set of tests:</p>
+<ul>
+<li>Unit tests for the custom code in the mobile backend.</li>
+<li>Unit tests with a mocked backend for the mobile client.</li>
+<li>UI tests with a mocked backend for the mobile client.</li>
+<li>End to End UI tests with a test backend and known dataset.</li>
+</ul>
+<p>When you are in the normal development cycle, you should be doing the first three on a very regular basis throughout the day.  You should perform end to end tests with the known test backend across a wide variety of devices before every release to the public app store.</p>
 <h2 id="distributing-your-mobile-client-to-beta-users">Distributing your Mobile Client to Beta Users<a class="headerlink" href="#distributing-your-mobile-client-to-beta-users" title="Permanent link">&para;</a></h2>
 <p>There are a number of services that will distribute your client applications to your beta users.  Since I am working primarily within Azure and the Microsoft family of products, I'm going to use <a href="https://mobile.azure.com/signup?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a>.  As of writing, Visual Studio Mobile Center is in preview, but already supports a large number of highly desirable features.  One of these features is beta distribution.  To create an application:</p>
 <ol>

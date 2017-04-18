@@ -818,21 +818,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-azure-functions" title="The Azure Functions" class="md-nav__link">
-    The Azure Functions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-a-media-services-asset" title="Create a Media Services Asset" class="md-nav__link">
-    Create a Media Services Asset
+  <a href="#the-encoding-pipeline" title="The Encoding Pipeline" class="md-nav__link">
+    The Encoding Pipeline
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-video-mobile-app" title="The Video Mobile App" class="md-nav__link">
+    The Video Mobile App
+  </a>
   
 </li>
       
@@ -1066,21 +1066,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-azure-functions" title="The Azure Functions" class="md-nav__link">
-    The Azure Functions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-a-media-services-asset" title="Create a Media Services Asset" class="md-nav__link">
-    Create a Media Services Asset
+  <a href="#the-encoding-pipeline" title="The Encoding Pipeline" class="md-nav__link">
+    The Encoding Pipeline
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-video-mobile-app" title="The Video Mobile App" class="md-nav__link">
+    The Video Mobile App
+  </a>
   
 </li>
       
@@ -1117,10 +1117,10 @@
 <p>As you can see, there are many more services in use in this example than our previous examples:</p>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts">Azure Media Services</a> is used for video encoding and streaming endpoints.</li>
+<li><a href="https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-what-are-logic-apps">Azure Logic Apps</a> are used for workflow automation.</li>
 <li><a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview">Azure Functions</a> are used for automation.</li>
 <li><a href="https://azure.microsoft.com/en-us/services/cognitive-services/">Cognitive Services</a> are used to extract information from the videos.</li>
 <li><a href="https://docs.microsoft.com/en-us/azure/app-service/app-service-value-prop-what-is">Azure App Service</a> is used to act as a coordinator for the mobile app.</li>
-<li><a href="https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search">Azure Search</a> is used as our full text search engine.</li>
 <li><a href="https://docs.microsoft.com/en-us/azure/storage/storage-introduction">Azure Storage</a> is used to store the individual video assets and for some queuing capabilities.</li>
 <li><a href="https://docs.microsoft.com/en-us/azure/sql-database/sql-database-technical-overview">SQL Azure</a> is used as the backing store for the Azure Mobile Apps data store.</li>
 </ul>
@@ -1130,10 +1130,9 @@
 <p>The other flow is from the mobile client - it connects to the App Service and makes requests based on what it needs to do.  In this case, we have a set of data tables for providing data about the video and a few custom APIs for handling search and video streaming.</p>
 <p>Let's take each of these in turn.   The configuration of most of the services  have already been discussed, so I will not go over them and only provide the options I used.  This includes Storage, Search, SQL Azure, and Functions.</p>
 <h3 id="creating-pre-requisite-services">Creating pre-requisite services<a class="headerlink" href="#creating-pre-requisite-services" title="Permanent link">&para;</a></h3>
-<p>Before I start with the new services, I need an <a href="https://docs.microsoft.com/en-us/azure/storage/storage-introduction">Azure Storage</a> account, an <a href="https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search">Azure Search</a> instance and an <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview">Azure Function App</a>.  I've covered all these items in previous sections, so I won't go into them here. The configuration is as follows:</p>
+<p>Before I start with the new services, I need an <a href="https://docs.microsoft.com/en-us/azure/storage/storage-introduction">Azure Storage</a> account, an [Azure Search] instance and an <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview">Azure Function App</a>.  I've covered all these items in previous sections, so I won't go into them here. The configuration is as follows:</p>
 <ul>
 <li>My <a href="https://docs.microsoft.com/en-us/azure/storage/storage-introduction">Azure Storage</a> account called <code>zumomediach7.core.windows.net</code> as <strong>General Purpose</strong> storage with <strong>LRS</strong> replication.</li>
-<li>My <a href="https://docs.microsoft.com/en-us/azure/search/search-what-is-azure-search">Azure Search</a> instance called <code>zumomediach7.search.windows.net</code> in the <strong>Free</strong> pricing tier.</li>
 <li>My <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview">Azure Functions</a> app called <code>zumomediach7-functions.azurewebsites.net</code> in the <strong>Consumption Plan</strong>.  I'm
    using my <code>zumomediach7</code> storage account.</li>
 <li>My <a href="https://docs.microsoft.com/en-us/azure/sql-database/sql-database-technical-overview">SQL Azure</a> service is called <code>zumomediach7.database.windows.net</code>.</li>
@@ -1141,34 +1140,11 @@
 <li>My <a href="https://docs.microsoft.com/en-us/azure/app-service/app-service-value-prop-what-is">Azure App Service</a> is created via the <strong>Mobile App</strong> template and called <code>zumomediach7.azurewebsites.net</code>.  It
     has an <strong>B1 Basic</strong> app service plan associated with it.</li>
 </ul>
-<p>In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu option.  I've also added a query key to my Azure Search instance and provided a pair of App Settings in the App Service - <code>SEARCH_APIKEY</code> holds the query key and <code>SEARCH_ENDPOINT</code> holds the URI of my service.</p>
+<p>In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu option.  </p>
 <p>Our resource group looks quite extensive now:</p>
 <p><img alt="" src="../img/media-rg-view.PNG" /></p>
 <p>Configuration for the services is as follows:</p>
 <p><strong>Azure Storage</strong> has a container for incoming videos called <code>incoming</code>.</p>
-<p><strong>Azure Search</strong> has an index with the following fields:</p>
-<table>
-<thead>
-<tr>
-<th>Field Name</th>
-<th>Type</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>videoId</td>
-<td>Edm.String</td>
-<td>Key, Retrievable</td>
-</tr>
-<tr>
-<td>audio</td>
-<td>Edm.String</td>
-<td>Retrievable, Filterable, Searchable</td>
-</tr>
-</tbody>
-</table>
-<p>The <code>audio</code> field is new and will be populated with the textual content from analysis of the video.</p>
 <p><strong>Azure App Service</strong> has a basic TableController which is based on the following DTO model:</p>
 <pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
 
@@ -1183,48 +1159,15 @@ namespace Backend.DataObjects
 }
 </code></pre>
 
-<p>I also have a custom API that returns my search settings.  I'll add any settings I need to transmit to my mobile app into this same controller so that they can easily be retrieved from the mobile app:</p>
-<pre><code class="csharp">using System;
-using System.Web.Http;
-using Microsoft.Azure.Mobile.Server.Config;
-
-namespace Backend.Controllers
-{
-    [MobileAppController]
-    public class SettingsController : ApiController
-    {
-        private Controllers.Settings _pSettings;
-
-        public SettingsController()
-        {
-            _pSettings = new Controllers.Settings
-            {
-                SearchApiKey = Environment.GetEnvironmentVariable(&quot;SEARCH_APIKEY&quot;),
-                SearchEndpoint = Environment.GetEnvironmentVariable(&quot;SEARCH_ENDPOINT&quot;)
-            };
-        }
-
-        // GET api/Settings
-        public Controllers.Settings Get()
-        {
-            return _pSettings;
-        }
-    }
-
-    public class Settings
-    {
-        public string SearchEndpoint { get; set; }
-        public string SearchApiKey { get; set; }
-    }
-}
-</code></pre>
-
 <p>This encompasses information from the majority of the book thus far.  If you are uncertain on how to perform any of this configuration, review the appropriate sections of the book:</p>
 <ul>
 <li><a href="../../chapter1/firstapp_pc/">Chapter 1</a> covers creating a Mobile App.</li>
 <li><a href="../../chapter4/functions/">Chapter 4</a> covers Azure Functions.</li>
-<li><a href="../search/">This chapter</a> covers Azure Search.</li>
 </ul>
+<div class="admonition info">
+<p class="admonition-title">Azure Search is there</p>
+<p>One of the things I've added into this project that I don't describe is the integration with Azure Search.  I use this to integrate Cognitive Services with the solution so that I can search for videos based on their content (audio, video or metadata).  You can use this as a research project.</p>
+</div>
 <h3 id="creating-an-azure-media-services-account">Creating an Azure Media Services account<a class="headerlink" href="#creating-an-azure-media-services-account" title="Permanent link">&para;</a></h3>
 <p>So far, we've done a lot of infrastructure work.  We've generated an Azure Mobile App that our mobile app can use to retrieve information about the videos, generated an Azure Search instance with a suitable index, and a storage account for processing the videos.  We now want to move onto the meat of this section - working with video.  In order to do that, we will need an Azure Media Services account.</p>
 <p>Creating an Azure Media Services account is very similar to other Azure resources.  Log in to the [Azure Portal] and open the resource group you are using to hold all the resources for this application.</p>
@@ -1251,99 +1194,204 @@ namespace Backend.Controllers
 <li><a href="https://docs.microsoft.com/en-us/azure/media-services/media-services-portal-encode">Encoding Assets</a></li>
 <li><a href="https://docs.microsoft.com/en-us/azure/media-services/media-services-portal-publish">Publish Assets</a></li>
 </ul>
-<h3 id="the-azure-functions">The Azure Functions<a class="headerlink" href="#the-azure-functions" title="Permanent link">&para;</a></h3>
-<p>Now that I have a Media Services account, I need to set up the Azure Functions App so that my Functions can access the various resources.  Specifically, I need access to the Azure Storage connection string (which we will deal with later) and the Media Services account information.  Just like an Azure Storage account, we need an account name and a key.  We created the account name during the creation of the Media Services resource.  To get the account key:</p>
+<h3 id="the-encoding-pipeline">The Encoding Pipeline<a class="headerlink" href="#the-encoding-pipeline" title="Permanent link">&para;</a></h3>
+<p>There is an <a href="https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/media-functions-for-logic-app">excellent sample</a> that uses Azure Functions and Azure Logic Apps as a media workflow.  The Azure Functions do the actual processing, using the Azure Media Services SDK to communicate with the Media Services resource, and the Logic App (below) is used to control the workflow and ensure it works properly.</p>
+<p><img alt="Logic App Flow" src="../img/logic-app-flow.png" /></p>
+<p>To create this flow, first create the Azure Functions required by the flow in the Function App.  There are five Functions that are required:</p>
 <ul>
-<li>Open the resource group, then open the Media Services resource.</li>
-<li>Click <strong>Account keys</strong> in the left hand menu.</li>
-<li>Copy the <strong>PRIMARY KEY</strong> into your clipboard.</li>
+<li>check-job-status</li>
+<li>create-empty-asset</li>
+<li>publish-asset</li>
+<li>submit-job</li>
+<li>sync-asset</li>
 </ul>
-<p>Azure App Service underpins both Azure Mobile Apps and Azure Functions.  You can set application settings in the portal and they appear as environment variables in your code.  To set the appropriate application settings:</p>
+<p>Start by creating the <code>shared</code> and <code>presets</code> folders.  You can do this using the <strong>App Service Editor</strong>, which is located in the <strong>Function app settings</strong>.  Just create each file and then copy-and-paste the contents into the file.</p>
+<p>The source code for each function is in <a href="https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/media-functions-for-logic-app">the referenced project</a>.  Create the Function from the <strong>GenericWebhook-CSharp</strong> template.  Then add the <code>project.json</code> file, which is needed to load the Media Services SDK from NuGet.  Once you save the <code>project.json</code> file, let the NuGet restore happen before continuing.  You can check the Log window to ensure it is complete.  Finally, copy-and-paste the code for the <code>run.csx</code> file.  </p>
+<p>Next, create a <strong>Logic App</strong>:</p>
+<ol>
+<li>Close the Function App to return to your Resource Group.</li>
+<li>Click <strong>Add</strong> at the top of the blade.</li>
+<li>Search for and select <strong>Logic App</strong>.</li>
+<li>Click <strong>Create</strong>.</li>
+<li>Give it a name (like <code>zumobook-logicapp</code>) and ensure the location is the same as all your other resources, then click <strong>Create</strong>.</li>
+</ol>
+<p>After deployment, we can set up the logic app.  Click the newly created logic app to open the <strong>Logic Apps Designer</strong>.   The first thing you want to add is a <strong>Trigger</strong> - something that triggers the execution of the workflow.  You can upload a file to OneDrive or Dropbox, for example.   In this example, I'm going to use my OneDrive <code>IncomingVideos</code> folder:</p>
 <ul>
-<li>Open the resource group, then open the Function App.</li>
-<li>Click <strong>Function app settings</strong> at the bottom left of the window.</li>
-<li>Click the <strong>Configure app settings</strong> button.</li>
-<li>Scroll down to the <strong>App settings</strong> area.</li>
-<li>Enter <strong>MediaServicesAccountName</strong> in the key box, and the name of your Media Services account in the value box.</li>
-<li>A new line will appear.  Enter <strong>MediaServicesAccountKey</strong> in the new key box, and the primary key you copied above in the new value box.</li>
-<li>Click <strong>Save</strong>.</li>
-<li>Close the Application settings blade.</li>
+<li>Find and click <strong>OneDrive</strong>.  You may have to click <strong>SEE MORE</strong> to find it.</li>
+<li>Sign in to create a connection to OneDrive.  You will also have to authorize Logic Apps to access your information.</li>
+<li>Click the folder icon to Select a Folder.  Click <strong>&gt;</strong> next to Root, then <strong>IncomingVideos</strong>.  It will be listed as <code>/IncomingVideos</code>.</li>
 </ul>
-<p>Let's get back to the process I am trying to implement.  When a user uploads a video file into the <code>incoming</code> container within Azure Storage, I need to automatically:</p>
-<ul>
-<li><a href="#create-a-media-services-asset">Create a Media Services Asset</a>.</li>
-<li>Copy the incoming video into the Asset blob.</li>
-<li>Synchronize the Asset blob with Media Services.</li>
-<li>Submit an encoding job.</li>
-<li>Wait for the encoding job to be complete.</li>
-<li>Publish the Asset.</li>
-<li>Insert the URL for the published asset into the Mobile Apps database.</li>
-</ul>
-<p>Media encoding jobs can take a long time, and Azure Functions have finite running times, so we will need to work around this by checking the job on a regular basis.  As a result, we are going to have several small functions.</p>
 <div class="admonition tip">
-<p class="admonition-title">Example Functions for Media Services</p>
-<p>Azure Media Services provides a number of resources in the <a href="https://github.com/Azure-Samples/media-services-dotnet-functions-integration">Azure-Samples</a> repository.  Most of the samples provided here were adapted from this GitHub repository.  I particularly like the <a href="https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/media-functions-for-logic-app">Logic Apps edition of the encoding pipeline</a> as it provides a visual understanding of the process.</p>
+<p class="admonition-title">Use the folder picker</p>
+<p>Some of the triggers will encode the arguments.  Use the folder picker rather than typing in the box if your trigger doesn't seem to fire successfully.</p>
 </div>
-<h3 id="create-a-media-services-asset">Create a Media Services Asset<a class="headerlink" href="#create-a-media-services-asset" title="Permanent link">&para;</a></h3>
-<p>Let's take a look at the first step.  I'm creating an Azure Function called <code>create-media-asset</code>.  It will be triggered when a video file is placed into the incoming container of the storage account.  When it is triggered, it will run the function and output any necessary information that needs to be passed on to the next function in a queue object.</p>
-<p>Start by creating a new function from the <strong>BlobTrigger-CSharp</strong> template.  Ensure you create a new Storage account connection to support the connection to the right Azure Storage container.  Once created, you can click on the <strong>View files</strong> link on the right side of the <strong>Develop</strong> tab. There is a <code>function.json</code> file and a <code>run.csx</code> file.  These are the files that define the function.  The Azure Media Services SDK is not available by default in Azure Functions.  Add the SDK with a <code>project.json</code> file.  Click on <strong>Add</strong> in the <strong>View files</strong> area to add the file.  Then set the contents to the following:</p>
-<pre><code class="text">{
-    &quot;frameworks&quot;: {
-        &quot;net46&quot;: {
-            &quot;dependencies&quot;: {
-                &quot;windowsazure.mediaservices&quot;: &quot;3.8.0.5&quot;,
-                &quot;windowsazure.mediaservices.extensions&quot;: &quot;3.8.0.3&quot;
+<p>Now that we have the trigger, we need to continue building the Logic App based on the diagram above.   There are a few types of steps - a Function step (where an Azure Function is called via a Webhook):</p>
+<ul>
+<li>Click <strong>+ New step</strong>, then <strong>Add an action</strong>.</li>
+<li>Find and click <strong>Azure Functions</strong> (you may have to click <strong>SEE MORE</strong>).</li>
+<li>Click <strong>Azure Functions - Choose an Azure function</strong>.  If you only have one Function App, it will be added automatically, otherwise, select the required Function App name.</li>
+<li>Click <strong>Azure Functions - {your Function App}</strong>.  It will load the list of functions.</li>
+<li>Click the name of the function you wish to add as the step.  The first one is <code>create-empty-asset</code>.</li>
+<li>
+<p>Enter the Request Body based on the comment at the top of each Azure Function.  For instance, the <code>create-empty-asset</code> should look like this:</p>
+<p><img alt="" src="../img/create-empty-asset.PNG" /></p>
+<p>The Name can be added by clicking <strong>Add dynamic content</strong>, then finding the appropriate field.</p>
+</li>
+</ul>
+<p>After <code>create-empty-asset</code> has been complete, you may want to click <strong>Save</strong> to save your work.  Then continue by clicking <strong>+ New step</strong>, then <strong>Add an action</strong>.  The next step is a <strong>Create blob</strong> step.  You can use the search box to find actions to perform.  The Create blob step should look like this when you are finished.</p>
+<p><img alt="" src="../img/create-blob.PNG" /></p>
+<p>When you do configure this step in the Logic Apps Designer, you will note that the <code>containerPath</code> is not available from the dynamic content.  When the Webhook returns, it provides a JSON response.  The JSON response is documented at the top of the code of each Azure Function.  To enter this value, switch to the <strong>Code view</strong>, find the <strong>Create_blob</strong> action, look for the <code>queries</code> section, then insert the following value:</p>
+<p><img alt="" src="../img/create-blob-2.PNG" /></p>
+<p>Once you have entered the value, click <strong>Save</strong>, then <strong>Designer</strong> to switch back to the designer view.  Continue to add <code>sync-asset</code> as an action.  The request body will have to be set within the code view as it relies on the output of <code>create-empty-asset</code>.  Set the <code>body</code> section to:</p>
+<pre><code class="text">    &quot;body&quot;: {
+        &quot;assetId&quot;: &quot;@{body('create-empty-asset')['assetId']}&quot;
+    }
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Use the template to create everything for you!</p>
+<p>The <a href="https://github.com/Azure-Samples/media-services-dotnet-functions-integration/tree/master/media-functions-for-logic-app">sample</a> has a "Deploy to Azure" button that allows you to create all the functions and the logic app in one swoop.  It's great to understand how Logic Apps are put together, but if you would rather get on with it, just use the shortcut.</p>
+</div>
+<p>Linking the <code>submit-job</code> next, set the <code>body</code> in the Code view as follows:</p>
+<pre><code class="text">    &quot;body&quot;: {
+        &quot;assetId&quot;: &quot;@{body('create-empty-asset')['assetId']}&quot;,
+        &quot;mesPreset&quot;: &quot;Adaptive Streaming&quot;
+    }
+</code></pre>
+
+<p>The next step is an "Until" step.  You are not limited to just a straight step-flow with Logic Apps.  You can do loops and conditional execution as well.  In this case, the <code>submit-job</code> Azure Function kicks off an encoding job for the incoming video.  However, the process to encode that video can take some time.  Even a small video can take upwards of 15 minutes to encode because of queuing and process limitations.  The <strong>Add a do until</strong> step is in the "More" section after you click <strong>+ New step</strong>.  Start by clicking on <strong>Add an action</strong> within the Until loop.  Add the <code>check-job-status</code> Azure Function with a request body:</p>
+<pre><code class="text">    &quot;body&quot;: {
+        &quot;jobId&quot;: &quot;@{body('submit-job')['jobId']}&quot;
+    }
+</code></pre>
+
+<p>While you are in the code view, set the "expression" field for the Until loop to the following:</p>
+<pre><code class="text">    &quot;expression&quot;: &quot;@equals(body('check-job-status')['isRunning'], 'False')&quot;,
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Check the template if you get lost!</p>
+<p>You can configure everything within the <strong>Code view</strong>, so if you get lost, just use copy-and-paste to configure each step within the logic app.</p>
+</div>
+<p>After the Until loop, we can add a Condition to check if the <code>isSuccessful</code> field returned by the latest invocation of <code>check-job-status</code> was true.  Click on <strong>Edit in advanced mode</strong> and enter the condition <code>@equals(body('check-job-status')['isSuccessful'], 'True')</code>.  You now have two sections - a YES and a NO section.  My NO section uses "Outlook.com - Send an email" to send me an email.  I use the <strong>File name</strong> field in the body to indicate what file was problematic.</p>
+<p>On the YES side, I am going to add multiple steps.  Firstly, I will add an Azure Function for <code>publish-asset</code> with a body:</p>
+<pre><code class="text">    &quot;body&quot;: {
+        &quot;assetId&quot;: &quot;@{body('submit-job')['mes']['assetId']}&quot;
+    }
+</code></pre>
+
+<p>Technically, this is now a complete encoding pipeline.  However, I also want to put the asset into the database so that my client can download it.  In the canonical example, the URL of the encoded video is published at <code>@{body('publish-asset')['playerUrl']}</code>.  I can pass that into a new Azure Function that inserts it into the database.  I can create a new function from directly within the Logic App.  However, there are a number of problems with that.  Firstly, it creates a Node.js function and I like C#.  Secondly, the code editor leaves a lot to be desired.  It's a small text box with no Intellisense.  Use the <strong>Save</strong> button to save your Logic App, then close the Logic Apps Designer and switch over to your Azure Function App.</p>
+<div class="admonition tip">
+<p class="admonition-title">Additional Resources Created</p>
+<p>If you have created your Logic App correctly, you will note additional resources have been created for the connections to the Azure Blob storage, OneDrive and potentially Outlook.  These are part of your Logic App and should not be configured separately.</p>
+</div>
+<p>Use the <strong>GenericWebHook-CSharp</strong> template to create a Function called <code>insert-into-database</code>.  The code for the Webhook is as follows:</p>
+<pre><code class="csharp">/*
+This function check a job status.
+
+Input:
+{
+    &quot;fileName&quot;: &quot;some-name&quot;, 
+    &quot;url&quot;: &quot;some-url&quot;
+ }
+
+Output:
+{
+    &quot;dbId&quot;: &quot;some-guid&quot;         // The new object reference
+ }
+*/
+#r &quot;Newtonsoft.Json&quot;
+#r &quot;System.Data&quot;
+
+using System;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Net;
+using Newtonsoft.Json;
+
+public static async Task&lt;object&gt; Run(HttpRequestMessage req, TraceWriter log)
+{
+    log.Info($&quot;Webhook was triggered!&quot;);
+
+    string jsonContent = await req.Content.ReadAsStringAsync();
+    dynamic data = JsonConvert.DeserializeObject(jsonContent);
+
+    if (data.url == null || data.fileName == null) {
+        return req.CreateResponse(HttpStatusCode.BadRequest, new {
+            error = &quot;Please pass all properties in the input object&quot;
+        });
+    }
+
+    var connectionString = ConfigurationManager.ConnectionStrings[&quot;MS_TableConnectionString&quot;].ConnectionString;
+    log.Info($&quot;Using Connection String {connectionString}&quot;);
+
+    var dbId = Guid.NewGuid().ToString(&quot;N&quot;);
+    try 
+    {
+        using (var sqlConnection = new SqlConnection(connectionString))
+        {
+            using (var sqlCommand = sqlConnection.CreateCommand())
+            {
+                log.Info(&quot;Initiating SQL Connection&quot;);
+                sqlConnection.Open();
+
+                log.Info(&quot;Executing SQL Statement&quot;);
+                sqlCommand.CommandText = $&quot;INSERT INTO [dbo].[Videos] ([Id], [Deleted], [Filename], [VideoUri]) VALUES ('{dbId}', 0, '{data.fileName}', '{data.url}')&quot;;
+                var rowsAffected = sqlCommand.ExecuteNonQuery();
+                log.Info($&quot;{rowsAffected} rows inserted.&quot;);
+
+                sqlConnection.Close();
             }
         }
     }
-}
-</code></pre>
-
-<p>The <code>function.json</code> file describes the input and output bindings for the function.  In this case, we have an inbound blob trigger and an outbound queue:</p>
-<pre><code class="text">{
-  &quot;bindings&quot;: [
+    catch (Exception ex) 
     {
-      &quot;name&quot;: &quot;myBlob&quot;,
-      &quot;type&quot;: &quot;blobTrigger&quot;,
-      &quot;direction&quot;: &quot;in&quot;,
-      &quot;path&quot;: &quot;incoming/{name}&quot;,
-      &quot;connection&quot;: &quot;zumobook_STORAGE&quot;
-    },
-    {
-      &quot;type&quot;: &quot;queue&quot;,
-      &quot;name&quot;: &quot;queueItem&quot;,
-      &quot;queueName&quot;: &quot;copy-incoming-queue&quot;,
-      &quot;connection&quot;:&quot;zumobook_STORAGE&quot;,
-      &quot;direction&quot;: &quot;out&quot;
+        return req.CreateResponse(HttpStatusCode.BadRequest, new {
+            error = ex.Message
+        });
     }
-  ],
-  &quot;disabled&quot;: false
+
+    return req.CreateResponse(HttpStatusCode.OK, new {
+        greeting = $&quot;{dbId}&quot;
+    });
 }
 </code></pre>
 
-<p>Finally, the code is stored in <code>run.csx</code>:</p>
-<pre><code class="csharp">using Microsoft.WindowsAzure.MediaServices.Client;
-
-private static readonly string mediaAccountName = Environment.GetEnvironmentVariable(&quot;MediaServicesAccountName&quot;);
-private static readonly string mediaAccountKey = Environment.GetEnvironmentVariable(&quot;MediaServicesAccountKey&quot;);
-
-public static void Run(Stream myBlob, string name, out string queueItem, TraceWriter log)
-{
-    log.Info($&quot;create-media-asset received file {name}&quot;);
-    log.Info($&quot;Using Media Services Account {mediaAccountName}&quot;);
-
-    MediaServicesCredentials credentials = new MediaServicesCredentials(mediaAccountName, mediaAccountKey);
-    CloudMediaContext context = new CloudMediaContext(credentials);
-    IAsset newAsset = context.Assets.Create(name, AssetCreationOptions.None);
-
-    log.Info($&quot;Asset Id = {newAsset.Id}, Path = {newAsset.Uri}&quot;);
-    queueItem = $&quot;id={newAsset.Id};path={newAsset.Uri.Segments[1]}&quot;;
-}
+<p>This inserts a record into the Videos table with the filename and URI specified.  I can now add this function to the YES column in my Logic App by specifying the following body in the Code view:</p>
+<pre><code class="text">    &quot;body&quot;: {
+        &quot;fileName&quot;: &quot;@{triggerOutputs()['headers']['x-ms-file-name']}&quot;,
+        &quot;url&quot;: &quot;@{body('publish-asset')['pathUrl']}&quot;
+    }
 </code></pre>
 
-<p>Once you have saved each file, you can use the <strong>Cloud Explorer</strong> or <strong>Server Explorer</strong> within Visual Studio to upload a video to the incoming container.  If you take a look at the logs for the function execution, you will see the following:</p>
-<p><img alt="" src="../img/create-media-asset.PNG" /></p>
-<p>Back in the <strong>Cloud Explorer</strong>, you can expand the queues and take a peek at the <code>copy-incoming-queue</code> to see the queue message waiting for processing.</p>
+<p>There are three URLs that are returned by the previous step:</p>
+<ul>
+<li><code>pathUrl</code> is the path to the assets (but not the filename).</li>
+<li><code>smoothUrl</code> is the real-time streaming endpoint.</li>
+<li><code>playerUrl</code> is a web-page with an embedded player.</li>
+</ul>
+<p>You need to use the corresponding URL for your implementation.  If you are unsure, then store both the pathUrl and smoothUrl in the database (which will require a modification of the model).  The <code>playerUrl</code> can be computed on the client if you need it.</p>
+<p>Before we can try this pipeline out, the other resources must be specified as Application Settings inside the Function App:</p>
+<ul>
+<li><code>AMSAccount</code> is the name of your Media Services resource.</li>
+<li><code>AMSKey</code> is the primary key for your Media Services resource.</li>
+<li><code>MediaServicesStorageAccountName</code> is the name of your Azure Storage resource.</li>
+<li><code>MediaServicesStorageAccountKey</code> is the primary key for your Azure Storage resource.</li>
+<li><code>MS_TableConnectionString</code> is the connection string to your video database (from your App Service).</li>
+</ul>
+<p>Once these are set, you are ready to test your logic app.  Go to the Logic Apps Designer and click <strong>Run</strong>.  This allows you to monitor the progress of the workflow live.  Then drop a video file in the /IncomingVideos folder of your OneDrive connection and watch the process.  It's likely that something will go wrong the first time.  In the case of Azure Functions, the error will be displayed:</p>
+<p><img alt="" src="../img/logicapp-error.PNG" /> </p>
+<p>If the error is in a Logic App provided trigger, then consult the Diagnostics and Log search menu items under Monitoring.  For the Azure Functions triggers, it is more informative to consult the error logs in the Function App.  Open the <strong>Monitor</strong> tab to check the logs for the latest run.  Also, you can create a test run with the appropriate input object and/or place more logging in the Azure Function.  I faked this error by removing the <code>AMSAccount</code> application setting.  If you have copied the source code directly, it's likely that any errors will be in the app settings.</p>
+<div class="admonition tip">
+<p class="admonition-title">Insert-to-Database Failures</p>
+<p>The <code>insert-to-database</code> function and the logic app will fail because the database is not created until the first request by a client.  You can either pre-create the database or use the client that is developed before you try out the encoding pipeline.</p>
+</div>
+<h2 id="the-video-mobile-app">The Video Mobile App<a class="headerlink" href="#the-video-mobile-app" title="Permanent link">&para;</a></h2>
+<p>Now that the backend has been brought online and we can populate it with videos, it's time to turn our attention to the client app.  I've started with an app very similar to the Task List.  The models are slightly different (since the data set is different), but ultimately, the app provides a list of videos to play.  You can find <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chap7m-init/Chapter7M">the starting project on GitHub</a>. </p>
+<div class="admonition tip">
+<p class="admonition-title">Use the starting point to create the database</p>
+<p>In the last section, I mentioned that one of the functions would not work because the database was not created until the first client request.  You can use the starting point for the project to create the necessary database.  Create all the backend resources, then run the client to create the database, then test out the encoding pipeline.</p>
+</div>
 <div class="admonition warn">
 <p class="admonition-title">To Be Continued</p>
 <p>This section is not complete as yet.  Please check back soon!</p>

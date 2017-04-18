@@ -2186,7 +2186,21 @@ namespace TaskList.ViewModels
 <p><img alt="Setting the Build options" src="../img/img29.PNG" /></p>
 <p>When you click the <strong>Local Machine</strong> button to start the application, Visual Studio will automatically build and deploy your app.</p>
 <h3 id="building-the-client-for-android">Building the Client for Android<a class="headerlink" href="#building-the-client-for-android" title="Permanent link">&para;</a></h3>
-<p>Building Android with Visual Studio is almost as easy as building the Universal Windows version of the mobile client.  First, we need to set the minimum SDK version.  Azure Mobile Apps only works with API level 19 or above and the provided template set the minimum SDK version to API level 15.  Open the <code>Properties\AndroidManifest.xml</code> file in the <strong>TaskList.Android</strong> project and update the <code>uses-sdk</code> element:</p>
+<p>Prior to building the Android version of the application, we need to make two additional changes.  Go to your Android project and open the <strong>MainActivity.cs</strong> file.  In the <strong>OnCreate</strong> method we need to add an initalizer for our Mobile Apps SDK:</p>
+<pre><code class="csharp">protected override void OnCreate(Bundle bundle)
+{
+    TabLayoutResource = Resource.Layout.Tabbar;
+    ToolbarResource = Resource.Layout.Toolbar;
+    base.OnCreate(bundle);
+
+    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+    LoadApplication(new App());
+}
+</code></pre>
+
+<p>We also need to set the minimum API version.  Azure Mobile Apps only works with API level 19 or above and the provided template set the minimum SDK version to API level 15.  Open the <code>Properties\AndroidManifest.xml</code> file in the <strong>TaskList.Android</strong> project and update the <code>uses-sdk</code> element:</p>
 <pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
     &lt;uses-sdk android:minSdkVersion=&quot;19&quot; /&gt;
@@ -2232,11 +2246,11 @@ namespace TaskList.ViewModels
 <p>Once you have selected the iPhoneSimulator configuration, re-build the mobile application.  It should work this time.  Run the simulator using the normal Visual Studio method.  Visual Studio 2017 will connect to the Mac to run the simulator but display the simulator on your PC.</p>
 <p>Before long, you should see the following:</p>
 <p><img alt="iOS Simulator Runtime Error" src="../img/ios-missing-nuget.PNG" /></p>
-<p>At some point, you will need a platform initialization call on all platforms.  It's best to add it now.  In TaskList.Droid, this should be added in <code>MainActivity.cs</code> and in TaskList.iOS, it's <code>AppDelegate.cs</code>.  In each of these files, there is a line that initializes the Xamarin Forms system.</p>
+<p>You need a platform initialization call on most platforms for offline sync, and you always need a platform initializer for iOS. In TaskList.Droid, this should be added in <code>MainActivity.cs</code> and in TaskList.iOS, it's <code>AppDelegate.cs</code>.  In each of these files, there is a line that initializes the Xamarin Forms system.</p>
 <pre><code class="csharp">// Android Version
 global::Xamarin.Forms.Forms.Init(this, bundle);
 // iOS Version
-global::Xamarin.Forms.Forms.Init ();
+global::Xamarin.Forms.Forms.Init();
 </code></pre>
 
 <p>Immediately before this line, you should add the  initializer for Azure Mobile Apps. It's important that the Azure Mobile Apps subsystem is initialized prior to Xamarin Forms being initialized and any UI code being called.</p>
