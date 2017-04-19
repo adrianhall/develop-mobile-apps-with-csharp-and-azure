@@ -23,8 +23,6 @@ namespace VideoApp.Droid
 
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
 
-            InTheHand.Forms.Platform.Android.InTheHandForms.Init();
-
 			var loginProvider = (DroidLoginProvider)DependencyService.Get<ILoginProvider>();
 			loginProvider.Init(this);
 

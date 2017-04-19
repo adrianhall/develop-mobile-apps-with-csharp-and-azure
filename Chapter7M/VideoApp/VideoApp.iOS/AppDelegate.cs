@@ -24,8 +24,8 @@ namespace VideoApp.iOS
 		{
 			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			global::Xamarin.Forms.Forms.Init ();
-			LoadApplication (new VideoApp.App());
 
+			LoadApplication (new VideoApp.App());
 			return base.FinishedLaunching (uiApplication, launchOptions);
 		}
 	}

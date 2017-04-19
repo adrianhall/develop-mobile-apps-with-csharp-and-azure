@@ -52,12 +52,6 @@
     <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.5.233-pre1\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
     </Reference>
-    <Reference Include="InTheHand.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\InTheHand.Forms.1.0.2017.0306\lib\MonoAndroid\InTheHand.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="InTheHand.Forms.Platform.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\InTheHand.Forms.1.0.2017.0306\lib\MonoAndroid\InTheHand.Forms.Platform.Android.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.Mobile.Client.4.0.0-alpha-001\lib\monoandroid44\Microsoft.Azure.Mobile.Client.dll</HintPath>
     </Reference>
