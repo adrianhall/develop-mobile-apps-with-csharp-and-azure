@@ -53,7 +53,7 @@ Before I start with the new services, I need an [Azure Storage] account, an [Azu
 * My [Azure App Service] is created via the **Mobile App** template and called `zumomediach7.azurewebsites.net`.  It
     has an **B1 Basic** app service plan associated with it.
 
-In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu option.  
+In addition, I've linked the SQL Azure database and storage accounts to the App Service via the Data Connections menu option.
 
 Our resource group looks quite extensive now:
 
@@ -130,7 +130,7 @@ To create this flow, first create the Azure Functions required by the flow in th
 
 Start by creating the `shared` and `presets` folders.  You can do this using the **App Service Editor**, which is located in the **Function app settings**.  Just create each file and then copy-and-paste the contents into the file.
 
-The source code for each function is in [the referenced project][2].  Create the Function from the **GenericWebhook-CSharp** template.  Then add the `project.json` file, which is needed to load the Media Services SDK from NuGet.  Once you save the `project.json` file, let the NuGet restore happen before continuing.  You can check the Log window to ensure it is complete.  Finally, copy-and-paste the code for the `run.csx` file.  
+The source code for each function is in [the referenced project][2].  Create the Function from the **GenericWebhook-CSharp** template.  Then add the `project.json` file, which is needed to load the Media Services SDK from NuGet.  Once you save the `project.json` file, let the NuGet restore happen before continuing.  You can check the Log window to ensure it is complete.  Finally, copy-and-paste the code for the `run.csx` file.
 
 Next, create a **Logic App**:
 
@@ -230,7 +230,7 @@ This function check a job status.
 
 Input:
 {
-    "fileName": "some-name", 
+    "fileName": "some-name",
     "url": "some-url"
  }
 
@@ -265,7 +265,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     log.Info($"Using Connection String {connectionString}");
 
     var dbId = Guid.NewGuid().ToString("N");
-    try 
+    try
     {
         using (var sqlConnection = new SqlConnection(connectionString))
         {
@@ -283,7 +283,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
             }
         }
     }
-    catch (Exception ex) 
+    catch (Exception ex)
     {
         return req.CreateResponse(HttpStatusCode.BadRequest, new {
             error = ex.Message
@@ -323,7 +323,7 @@ Before we can try this pipeline out, the other resources must be specified as Ap
 
 Once these are set, you are ready to test your logic app.  Go to the Logic Apps Designer and click **Run**.  This allows you to monitor the progress of the workflow live.  Then drop a video file in the /IncomingVideos folder of your OneDrive connection and watch the process.  It's likely that something will go wrong the first time.  In the case of Azure Functions, the error will be displayed:
 
-![][img8] 
+![][img8]
 
 If the error is in a Logic App provided trigger, then consult the Diagnostics and Log search menu items under Monitoring.  For the Azure Functions triggers, it is more informative to consult the error logs in the Function App.  Open the **Monitor** tab to check the logs for the latest run.  Also, you can create a test run with the appropriate input object and/or place more logging in the Azure Function.  I faked this error by removing the `AMSAccount` application setting.  If you have copied the source code directly, it's likely that any errors will be in the app settings.
 
@@ -332,14 +332,103 @@ If the error is in a Logic App provided trigger, then consult the Diagnostics an
 
 ## The Video Mobile App
 
-Now that the backend has been brought online and we can populate it with videos, it's time to turn our attention to the client app.  I've started with an app very similar to the Task List.  The models are slightly different (since the data set is different), but ultimately, the app provides a list of videos to play.  You can find [the starting project on GitHub][6]. 
+Now that the backend has been brought online and we can populate it with videos, it's time to turn our attention to the client app.  I've started with an app very similar to the Task List.  The models are slightly different (since the data set is different), but ultimately, the app provides a list of videos to play.  You can find [the starting project on GitHub][6].
 
 !!! tip "Use the starting point to create the database"
     In the last section, I mentioned that one of the functions would not work because the database was not created until the first client request.  You can use the starting point for the project to create the necessary database.  Create all the backend resources, then run the client to create the database, then test out the encoding pipeline.
 
-!!! warn "To Be Continued"
-    This section is not complete as yet.  Please check back soon!
+You can integrate any video player that supports a streaming endpoint, and there are several to choose from - each with their own complexities for integration.  For simplicity, I am going to integrate the Azure Media Services Player - a web-based streaming media player which I will integrate into a `WebView` within the page.  Let's start by hooking up a new view in the shared project.  The new view is called `Pages/VideoDetail.xaml`:
 
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="VideoApp.Pages.VideoDetail"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <StackLayout>
+        <WebView
+            x:Name="browser"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand" />
+    </StackLayout>
+</ContentPage>
+```
+
+This page creates a `WebView` that occupies the entire page.  There is a backing C# source file as well that implements the viewer:
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace VideoApp.Pages
+{
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class VideoDetail : ContentPage
+	{
+		public VideoDetail (Models.Video video)
+		{
+			InitializeComponent ();
+
+            var htmlSource = new HtmlWebViewSource();
+            var sourceInfo = @"
+<html>
+    <head>
+        <title>Test</title>
+        <link href=""https://amp.azure.net/libs/amp/1.8.3/skins/amp-default/azuremediaplayer.min.css"" rel=""stylesheet"">
+        <script src=""https://amp.azure.net/libs/amp/1.8.3/azuremediaplayer.min.js""></script>
+     </head>
+    <body>
+        <video id=""azuremediaplayer"" class=""azuremediaplayer amp-default-skin amp-big-play-centered"" tabindex=""0""></video>
+        <script>
+var myOptions = {
+	""nativeControlsForTouch"": false,
+    controls: true,
+	autoplay: true,
+	width: ""640"",
+	height: ""400"",
+};
+myPlayer = amp(""azuremediaplayer"", myOptions);
+myPlayer.src([
+    {
+    src: ""{Binding Source}"",
+    type: ""application/vnd.ms-sstr+xml""
+    }
+]);
+        </script>
+    </body>
+</html>
+";
+            htmlSource.Html = sourceInfo.Replace("{Binding Source}", video.VideoUri);
+            browser.Source = htmlSource;
+		}
+	}
+}
+```
+
+The HTML and Javascript libraries that I use here are provided by Azure Media Services.  You can find them as follows:
+
+1.  Start [Azure Media Services Explorer][5] and connect to your Media Services account.
+2.  Right-click a published video, then select **Playback** -> **with Azure Media Player**.
+3.  A web-page will open.  Click **Code** -> **Get Player Code** (under the video).
+
+The code will be displayed:
+
+![][img10]
+
+I replaced the `src` object with something I can string-replace later on.  The player is completely cross-platform.  You do, however, have to specify the height and width.  One of the advantages of using a native control is that it will set the height and width for you.
+
+### Wrap Up
+
+Obviously, this isn't the prettiest app that has been produced.  However, it is functional and it demonstrates the basic capabilities.  We don't have to stop where we did, however.
+
+*  We could use [Cognitive Services] to extract the audio track and submit to an [Azure Search][9] facility.  We could then allow searching of the Azure Search facility to come up with a list of videos that match based on the audio track.  This is, quite frankly, something that still amazes me and something that we could not do without the Azure Cloud.  The [Cognitive Services integration][2] is available as the advanced option in the sample for the media processing workflow.
+*  We could adjust the `insert-into-database` Function to extract metadata from the MP4 file.  The MP4 file contains a whole host of information.  This can be inserted into the database so you can display it.  You could also add a JSON file in the upload to provide additional content that is inserted into the database.
+*  We could provide ratings and other controls on the list.  This can be stored on the mobile backend as well to provide information to other users.
+
+Video media is one of those areas of development that is complex to understand and implement, but has so much potential in the mobile space.
 
 <!-- Images -->
 [img1]: ./img/media-plan.PNG
@@ -351,6 +440,7 @@ Now that the backend has been brought online and we can populate it with videos,
 [img7]: ./img/create-blob-2.PNG
 [img8]: ./img/logicapp-error.PNG
 [img9]: ./img/nuget-mediamanager-install.PNG
+[img10]: ./img/code-for-amsplayer.PNG
 
 <!-- Azure Service Definition Overviews -->
 [Azure Media Services]: https://docs.microsoft.com/en-us/azure/media-services/media-services-concepts
@@ -370,3 +460,4 @@ Now that the backend has been brought online and we can populate it with videos,
 [6]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/chap7m-init/Chapter7M
 [7]: https://blog.xamarin.com/play-audio-and-video-with-the-mediamanager-plugin-for-xamarin/
 [8]: https://github.com/martijn00/XamarinMediaManager/blob/develop/Samples/Forms/MediaForms/MediaFormsPage.xaml
+[9]: ./search.md

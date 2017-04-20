@@ -14,7 +14,7 @@ namespace VideoApp.Pages
 			InitializeComponent ();
 
             var htmlSource = new HtmlWebViewSource();
-            htmlSource.Html = @"
+            var sourceInfo = @"
 <html>
     <head>
         <title>Test</title>
@@ -35,7 +35,7 @@ var myOptions = {
 myPlayer = amp(""azuremediaplayer"", myOptions);
 myPlayer.src([
     {
-    src: ""http://zumobook.streaming.mediaservices.windows.net/b45bc4e8-4a78-4691-9cf3-cf6a10ba36d5/toystory.ism/manifest"",
+    src: ""{Binding Source}"",
     type: ""application/vnd.ms-sstr+xml""
     }
 ]);
@@ -43,6 +43,7 @@ myPlayer.src([
     </body>
 </html>
 ";
+            htmlSource.Html = sourceInfo.Replace("{Binding Source}", video.VideoUri);
             browser.Source = htmlSource;
 		}
 	}
