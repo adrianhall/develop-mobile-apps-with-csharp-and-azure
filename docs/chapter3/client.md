@@ -203,7 +203,7 @@ Next, we must define the behavior for the ListView:
                                     Mode=TwoWay}">
     <ListView.Behaviors>
         <behaviors:EventToCommandBehavior Command="{Binding LoadMoreCommand}"
-                                                Converter="{StaticResource ItemVisibilityConverter"
+                                                Converter="{StaticResource ItemVisibilityConverter}"
                                                 EventName="ItemAppearing" />
     </ListView.Behaviors>
 ```
