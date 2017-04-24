@@ -497,7 +497,7 @@ The push of the operations queue up to the mobile backend is handled by a single
     }
 ```
 
-note that if the mobile client tries to pull data while there are pending operations in the operations quuee, the Azure Mobile Apps client SDK will perform an implicit push.  You can check the state of the operations queue with:
+note that if the mobile client tries to pull data while there are pending operations in the operations queue, the Azure Mobile Apps client SDK will perform an implicit push.  You can check the state of the operations queue with:
 
 ```csharp
 if (Client.SyncContext.PendingOperations > 0) {
