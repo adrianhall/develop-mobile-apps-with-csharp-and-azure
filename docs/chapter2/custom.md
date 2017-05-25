@@ -437,7 +437,7 @@ There are a couple of services that I can use to get around these concerns.  The
 sign-in and sign-up flow to your application.  The user can enter a username or password, or, at your option, add on
 support for one or more social providers.  In addition, there is support for branding the sign-in process, doing email
 verification of sign-ups and automatic password resets via email.  The Azure AD B2C sign-in / sign-up process is
-primarily a server-flow proecss, so we will be able to add support in our app with just one line of code.
+primarily a server-flow process, so we will be able to add support in our app with just one line of code.
 
 ### The Minimal Setup of Azure AD B2C
 
