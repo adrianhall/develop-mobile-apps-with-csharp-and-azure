@@ -630,11 +630,11 @@ There are two bindings.  These are bound from the view-model.  We've already see
 The other part of the XAML is the code-behind file.  Because we are moving all of the non-UI code into a view-model, the code-behind file is trivial:
 
 ```csharp
-using TodoList.ViewModels;
+using TaskList.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TodoList.Pages
+namespace TaskList.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EntryPage : ContentPage
@@ -755,11 +755,11 @@ Note that the `ListView` object has a "pull-to-refresh" option that I have wired
 The code behind in `Pages\TaskList.xaml.cs`:
 
 ```csharp
-using TodoList.ViewModels;
+using TaskList.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TodoList.Pages
+namespace TaskList.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TaskList : ContentPage
@@ -917,12 +917,12 @@ Finally, there is the TaskDetail page.  This is defined in the `Pages\TaskDetail
 This page is a simple form with just two buttons that need to have commands wired up.  However, this page is used for both the "Add New Item" gesture and the "Edit Item" gesture.  As a result of this, we need to handle the passing of the item to be edited.  This is done in the `Pages\TaskDetail.xaml.cs` code-behind file:
 
 ```csharp
-using TodoList.Models;
-using TodoList.ViewModels;
+using TaskList.Models;
+using TaskList.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TodoList.Pages
+namespace TaskList.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TaskDetail : ContentPage
@@ -1065,7 +1065,7 @@ If you need to build the project, ensure you redeploy the project after building
 *  Select **Build** -> **Configuration Manager...**
 *  Set the **Active solution platform** to **Any CPU**.
 *  Uncheck all the boxes under **Build** and **Deploy**.
-*  Check the boxes for **TodoList.UWP** under to **Build** and **Deploy**.
+*  Check the boxes for **TaskList.UWP** under to **Build** and **Deploy**.
 *  Click **Close**.
 
   ![Setting the Build options][img29]
@@ -1096,7 +1096,7 @@ We also need to set the minimum API version.  Azure Mobile Apps only works with 
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 	<uses-sdk android:minSdkVersion="19" />
-	<application android:label="TodoList.Android"></application>
+	<application android:label="TaskList.Android"></application>
 </manifest>
 ```
 
