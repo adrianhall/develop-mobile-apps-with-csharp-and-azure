@@ -188,7 +188,7 @@ When we look at the `Delete` and `Patch` methods, we only have to validate that 
 id we are updating.  For that, I write a custom validation method.  This method is in the table controller:
 
 ```csharp
-public void ValidateOwner(string id)
+private void ValidateOwner(string id)
 {
     var result = Lookup(id).Queryable.PerUserFilter(UserId).FirstOrDefault<TodoItem>();
     if (result == null)
