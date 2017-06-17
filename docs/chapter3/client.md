@@ -389,7 +389,7 @@ To effect the offline sync, the Azure Mobile Apps client SDK keeps a table in th
 
 ### Configuring the Local SQLite database
 
-We must initialize the local database before we can use it.  This happens on start up and the Azure Mobile Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the database is deceptively simple.  Install the `Mirosoft.Azure.Mobile.Client.SQLiteStore` package to all the client projects.
+We must initialize the local database before we can use it.  This happens on start up and the Azure Mobile Apps SDK knows enough of the models to understand the basics of maintaining the database.  Initializing the database is deceptively simple.  Install the `Microsoft.Azure.Mobile.Client.SQLiteStore` package to all the client projects.
 
 !!! tip
     The `Microsoft.Azure.Mobile.Client` package v3.0.2 drastically improved the startup experience for offline sync. Make sure you are using it.  If you are using an earlier version, additional steps are required for initializing your offline cache.
