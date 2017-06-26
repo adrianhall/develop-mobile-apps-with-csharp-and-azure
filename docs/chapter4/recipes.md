@@ -153,13 +153,9 @@ namespace Backend.Controllers
 }
 ```
 
-The `ConnectionString` property is the pointer to where the Azure Storage account is located and how to
-access it.  the `StorageAccount` is a reference to that Azure Storage account.  Finally, the `BlobClient`
-is an object used for accessing blob storage.  We can access any WebAPI methods in this class by using
-the endpoint `/api/GetStorageToken` within our mobile client or using Postman.
+The `ConnectionString` property is the pointer to where the Azure Storage account is located and how to access it.  the `StorageAccount` is a reference to that Azure Storage account.  Finally, the `BlobClient` is an object used for accessing blob storage.  We can access any WebAPI methods in this class by using the endpoint `/api/GetStorageToken` within our mobile client or using Postman.
 
-Azure Storage doesn't have a true heirarchial container system.  It does have containers and directories
-to organize things though, so we are going to use that:
+Azure Storage doesn't have a true heirarchial container system.  It does have containers and directories to organize things though, so we are going to use that:
 
 ```csharp
     private const string containerName = "userdata";
@@ -201,15 +197,10 @@ to organize things though, so we are going to use that:
     }
 ```
 
-The main piece of work in this API is generating the policy that is then signed and returned to
-the user as the SAS Token.  The mobile device has permission to read, write and create the blob
-that we have defined for the next 60 minutes.  I've provided a policy that starts in the past in
-case there is a little amount of clock-skew between the mobile device and the backend.
+The main piece of work in this API is generating the policy that is then signed and returned to the user as the SAS Token.  The mobile device has permission to read, write and create the blob that we have defined for the next 60 minutes.  I've provided a policy that starts in the past in case there is a little amount of clock-skew between the mobile device and the backend.
 
 !!! warn
-    Container names must be a valid DNS name.  The most notable requirement here is between 3
-    and 64 lower-case letters.  Container names are case-sensitive.  Check [the documentation][2]
-    for full details on naming requirements.
+    Container names must be a valid DNS name.  The most notable requirement here is between 3 and 64 lower-case letters.  Container names are case-sensitive.  Check [the documentation][2] for full details on naming requirements.
 
 The `StorageTokenViewModel` is used for serialization purposes:
 
@@ -638,7 +629,7 @@ Similarly, you can also produce a progress bar:
     mediaStream.Dispose();
 ```
 
-When downloading, you will need to update the `GetStorageTokenController` method to provide access to files.  One possibility is to provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing.
+When downloading, you will need to update the `GetStorageTokenController` method to provide access to files.  One possibility is to provide read/write access to the entire container, allowing the mobile device to get a directory listing for browsing, for example.  You need to decide what permissions your mobile client needs, and provide a SAS token with those permissions.  Primarily, this is done by altering the policy that is generated when you retrieve the SAS token.
 
 ## Table Controllers and Webhooks
 
