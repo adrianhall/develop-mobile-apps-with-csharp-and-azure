@@ -387,7 +387,7 @@ To create and link the database:
 
     ![SQL Server Configuration][img25]
 
-    - EClick **Select** to close the SQL Database blade.
+    - Click **Select** to close the SQL Database blade.
     - Click the **Connection string** box.
     - Enter the username and password you set up for the SQL logical server.
     - Click **OK**.  The username and password will be validated before proceeding.
