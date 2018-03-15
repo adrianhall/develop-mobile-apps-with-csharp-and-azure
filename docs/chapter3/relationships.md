@@ -1,32 +1,17 @@
 # Relationships
 
-One of the biggest benefits to using a SQL database over a NoSQL store is relationships between entities.  Relationships
-provide the ability to normalize the data, allowing you to store the minimal amount of data for a specific use case on
-the mobile device.  This reduces bandwidth usage and memory usage on the device.  Relationships are a good thing.
+One of the biggest benefits to using a SQL database over a NoSQL store is relationships between entities.  Relationships provide the ability to normalize the data, allowing you to store the minimal amount of data for a specific use case on the mobile device.  This reduces bandwidth usage and memory usage on the device.  Relationships are a good thing.
 
-Unfortunately, relationships between tables are hard when one is working within an offline context.  This is primarily
-caused by the need for resilience.  Because we can do many updates to the tables on the offline client, the transactions
-that update the tables need to be co-ordinated.  This is practically impossible in an offline context where one of the
+Unfortunately, relationships between tables are hard when one is working within an offline context.  This is primarily caused by the need for resilience.  Because we can do many updates to the tables on the offline client, the transactions that update the tables need to be co-ordinated.  This is practically impossible in an offline context where one of the
 goals in bandwidth performance.
 
-Azure Mobile Apps, when used in an offline context, has an operations table.  As you do each operation against a table,
-an entry is made in the operations table.  The operations table is then replayed in order to the mobile backend to
-effect changes in the remote database.  However, this also has the effect that we do not have transactions to allow the
-updating of multiple tables within the database at the same time.  Each record in each table is updated individually.
-The push process that offline sync uses has major ramifications for how relationships between tables work.  Specifically,
-only 1-way relationships will work in an offline sync world.
+Azure Mobile Apps, when used in an offline context, has an operations table.  As you do each operation against a table, an entry is made in the operations table.  The operations table is then replayed in order to the mobile backend to effect changes in the remote database.  However, this also has the effect that we do not have transactions to allow the updating of multiple tables within the database at the same time.  Each record in each table is updated individually.  The push process that offline sync uses has major ramifications for how relationships between tables work.  Specifically, only 1-way relationships will work in an offline sync world.
 
 !!! note "1-Way Relationships"
-    You can define relationships in Entity Framework with or without a virtual back-reference.  Relationships 
-    without the virtual back-reference are known as 2-way relationships (because you can get back to the original 
-    model).  Relationships with only a forward reference (and no knowledge of the original model) are said to have 
-    a 1-way relationship.  A database model with only 1-way relationships can generally be represented with a tree 
+    You can define relationships in Entity Framework with or without a virtual back-reference.  Relationships with the virtual back-reference are known as 2-way relationships (because you can get back to the original model).  Relationships with only a forward reference (and no knowledge of the original model) are said to have a 1-way relationship.  A database model with only 1-way relationships can generally be represented with a tree
     structure.
 
-Let's take a quick example.  We've been using the "task list" scenario for our testing thus far.  Let's say that each
-task could be assigned a tag from a list of tags.   We can use a 1-way 1:1 relationship between the tasks and the tags.
-To do that, we would store the Id of the tag in the task model.  If, however, we could attach many tags to a single
-task, that would be a 1:Many relationship.
+Let's take a quick example.  We've been using the "task list" scenario for our testing thus far.  Let's say that each task could be assigned a tag from a list of tags.   We can use a 1-way 1:1 relationship between the tasks and the tags. To do that, we would store the Id of the tag in the task model.  If, however, we could attach many tags to a single task, that would be a 1:Many relationship.
 
 ## 1:1 Relationships
 
@@ -35,23 +20,23 @@ Let's take a look at our task list example, from the perspective of the models o
 ```csharp
 using Microsoft.Azure.Mobile.Server;
 using System.ComponentModel.DataAnnotations.Schema;
- 
+
 namespace ComplexTypes.DataObjects
 {
     public class Tag : EntityData
     {
         public string TagName { get; set; }
     }
- 
+
     public class TodoItem : EntityData
     {
         public string Text { get; set; }
- 
+
         public bool Complete { get; set; }
- 
+
         #region Relationships
         public string TagId { get; set; }
- 
+
         [ForeignKey("TagId")]
         public Tag Tag { get; set; }
         #endregion
@@ -85,20 +70,20 @@ When you are developing the mobile client, the `Tag` is removed from the model:
 
 ```csharp
 using TaskList.Helpers;
- 
+
 namespace TaskList.Models
 {
     public class Tag : TableData
     {
         public string TagName { get; set; }
     }
- 
+
     public class TodoItem : TableData
     {
         public string Text { get; set; }
 
         public bool Complete { get; set; }
- 
+
         public string TagId { get; set; }
     }
 }
@@ -182,7 +167,7 @@ If we use Postman to do a GET /tables/Message, we get the following:
 
 Note that the `tags` field is not even produced.  The Azure Mobile Apps Server SDK depends on multiple frameworks.  It
 uses Entity Framework for data access, for instance.  It also uses the standard Microsoft OData server to translate
-OData queries into results.  This has a side effect that the rules of the Microsoft OData server must be followed.  
+OData queries into results.  This has a side effect that the rules of the Microsoft OData server must be followed.
 Specifically, this means that collections, such as the list of tags, will not be produced unless you explicitly expand
 them.  You can do this on the URL by using the `$expand` parameter:
 

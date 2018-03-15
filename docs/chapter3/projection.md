@@ -49,9 +49,7 @@ projections.
 
 ### Per-User Data
 
-The first projection that pretty much everyone implements is the **Per-User Data** projection.  In this
-recipe, we want the user to only see records that they have inserted.  For example, let's update our
-TodoItem table to support per-user data.  This involves three parts:
+The first projection that pretty much everyone implements is the **Per-User Data** projection.  In this recipe, we want the user to only see records that they have inserted.  For example, let's update our TodoItem table to support per-user data.  This involves three parts:
 
 * A **Filter** that limits data to only the logged in user.
 * A **Transform** that updates an inserted record with the logged in user.
@@ -247,9 +245,7 @@ In this case:
 * We want to allow the mobile client to submit new accounts for any group to which he belongs.
 * Updates and Deletes should not adjust the group field.
 
-The limit will be implemented as a filter.  The update and insert methods will require a
-validation method (comparing the submitted group with the list of groups to which the user
-belongs).
+The limit will be implemented as a filter.  The update and insert methods will require a validation method (comparing the submitted group with the list of groups to which the user belongs).
 
 We have another table in `DataObjects\Example.cs`.  Let's extend it to support a GroupId:
 
@@ -290,10 +286,7 @@ public async Task<List<string>> GetGroups()
 ```
 
 !!! tip
-    If you are using claims as part of your security model, you should add the claims that you are
-    using to the identity token that is used for authentication.  You can do this with custom authentication
-    by calling LoginAsync() twice - once for the standard login method and the second time to adjust the
-    token through the custom auth.
+    If you are using claims as part of your security model, you should add the claims that you are using to the identity token that is used for authentication.  You can do this with custom authentication by calling LoginAsync() twice - once for the standard login method and the second time to adjust the token through the custom auth.
 
 Our filter is defined as a LINQ extension (just like in the per-user filter) in `Extensions\ExampleExtensions.cs`:
 
@@ -513,14 +506,9 @@ namespace Chapter3.DataObjects
 }
 ```
 
-This is not based on `EntityData` because I am not going to expose this table to the
-mobile client.  It's purely for determining what records I am going to show to the
-mobile client.  In this example, I will maintain the data in this table manually.
-A "real" application would have some sort of custom workflow to add friends and get
-the friends to approve the connection.
+This is not based on `EntityData` because I am not going to expose this table to the mobile client.  It's purely for determining what records I am going to show to the mobile client.  In this example, I will maintain the data in this table manually. A "real" application would have some sort of custom workflow to add friends and get the friends to approve the connection.
 
-To get the list of "friends I can see", I will request a list of the `FriendId` field
-where the `UserId` is my UserId.
+To get the list of "friends I can see", I will request a list of the `FriendId` field where the `UserId` is my UserId.
 
 The final table in the trio is the `Messages` table.  This will be downloaded to the
 mobile client so it has to be based on the `EntityData` base class.  In addition, the
@@ -561,9 +549,7 @@ public async Task<IHttpActionResult> PostMessage(Message item)
 }
 ```
 
-The filter is a little harder.  We are going to use the [_Fluent Syntax_][linq-fluent] for LINQ to provide the right logic.
-The Fluent Syntax is also known as "Query Syntax" or the "declarative syntax", depending on the author.  The extension
-method looks like this:
+The filter is a little harder.  We are going to use the [_Fluent Syntax_][linq-fluent] for LINQ to provide the right logic. The Fluent Syntax is also known as "Query Syntax" or the "declarative syntax", depending on the author.  The extension method looks like this:
 
 ```csharp
 using Chapter3.DataObjects;

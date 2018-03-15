@@ -204,7 +204,7 @@ Visual Studio provides scaffolding for a new table controller.  Select it and th
 The dialog asks for the model (which is actually a DTO) and the data context (which is already created).
 Once you select the model, the controller name is created for you.  You can change it if you like, but
 it's common practice to not do this.
- 
+
 Once the scaffolding is finished, you can look at your newly created table controller.  We do want to do one change.  We want to enable soft delete so that our table controller supports offline sync scenarios properly.  To do this, go into the `Initialize()` method and change the constructor of the `EntityDomainManager`.  The completed table controller looks like this:
 
 ```csharp
@@ -350,9 +350,7 @@ separation of the database table from the mobile system columns.
     The Database First and Code First approaches to Entity Framework are mutually exclusive.  You need
     to decide which one you want to use and stick with it.
 
-To use "Database First", you first set up the database.  Then you create a Model and update the DbContext
-object.  For example, out `Example` model from before can be represented by the following database
-schema:
+To use "Database First", you first set up the database.  Then you create a Model and update the DbContext object.  For example, our `Example` model from before can be represented by the following database schema:
 
 ```sql
 CREATE TABLE [dbo].[Examples] (
@@ -537,7 +535,7 @@ ON
 AFTER
     DELETE
 AS BEGIN
-    DELETE FROM [mobile].[SysProps_TodoItems] 
+    DELETE FROM [mobile].[SysProps_TodoItems]
 	WHERE [Item_Id] IN (select deleted.id from deleted)
 END
 GO
