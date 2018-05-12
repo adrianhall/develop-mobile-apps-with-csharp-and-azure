@@ -309,7 +309,7 @@ to access the WEB application.
 It starts with configuring a server-flow to protect the resource.  We've already done that above. Then configure
 a "Native Application" and give it permissions to the web application:
 
-* Log on to the [Azure portal]portal].
+* Log on to the [Azure portal][portal].
 * Select **Azure Active Directory** from the left hand menu.
 * Click **App registrations**.
 
