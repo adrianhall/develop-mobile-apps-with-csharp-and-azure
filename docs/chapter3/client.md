@@ -137,7 +137,7 @@ public interface ICloudTable<T> where T : TableData
 }
 ```
 
-The `ReadItemsAsync()` method is our new method here.  The concrete implementation usese `.Skip()` and `.Take()` to return just the data that is required:
+The `ReadItemsAsync()` method is our new method here. The concrete implementation uses `.Skip()` and `.Take()` to return just the data that is required:
 
 ```csharp
 public async Task<ICollection<T>> ReadItemsAsync(int start, int count)
