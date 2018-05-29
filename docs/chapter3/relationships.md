@@ -56,7 +56,7 @@ If we take a look at records through Postman, we will get the following:
 Note that the first item has a reference to a tag, by virtue of the TagId.  The second item does not have a tag assigned,
 so the value of TagId is null.
 
-When we implement the client, we are going to download these tables indepdendently.  The linkage and relationships between
+When we implement the client, we are going to download these tables independently.  The linkage and relationships between
 the tables is lost when going from the backend to the offline client.  We have to link them together ourselves.  This is
 why the "1-way" relationship is necessary.  In a 2-way relationship, a tag and task would have to be created at the same
 time as part of an SQL transaction.  In a 1-way relationship, the tag can be created THEN the task that has the relationship
