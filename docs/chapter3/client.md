@@ -118,7 +118,7 @@ public async Task<ICollection<T>> ReadAllItemsAsync()
 }
 ```
 
-This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the first will bring down 50 records, the second 25 records and the third no reocrds.  Why not stop at the second request?  We expect this code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The only way of knowing for sure that you have received all the records is to do a request and be told there is no more.
+This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the first will bring down 50 records, the second 25 records and the third no records.  Why not stop at the second request?  We expect this code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The only way of knowing for sure that you have received all the records is to do a request and be told there is no more.
 
 This code could be simplified quite a bit.  The reason I am not doing so is that this is not how you would want to do the transfer of items in a real application.  Doing this will tie up the UI thread of your application for quite a while as the `AzureCloudTable` downloads all the data.  Consider if there were thousands of entries?  This method would be problematic very quickly.
 
@@ -137,7 +137,7 @@ public interface ICloudTable<T> where T : TableData
 }
 ```
 
-The `ReadItemsAsync()` method is our new method here.  The concrete implementation usese `.Skip()` and `.Take()` to return just the data that is required:
+The `ReadItemsAsync()` method is our new method here. The concrete implementation uses `.Skip()` and `.Take()` to return just the data that is required:
 
 ```csharp
 public async Task<ICollection<T>> ReadItemsAsync(int start, int count)
