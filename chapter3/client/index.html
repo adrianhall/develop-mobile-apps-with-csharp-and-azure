@@ -1423,7 +1423,7 @@ namespace TaskList.Services
 }
 </code></pre>
 
-<p>This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the first will bring down 50 records, the second 25 records and the third no reocrds.  Why not stop at the second request?  We expect this code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The only way of knowing for sure that you have received all the records is to do a request and be told there is no more.</p>
+<p>This code will always make a minimum of 2 requests if there is any data.  If you have 75 records, three requests will be made - the first will bring down 50 records, the second 25 records and the third no records.  Why not stop at the second request?  We expect this code to run on a live system.  The OData subsystem is allowed to return less than the requested value and it will do so for a variety of reasons.  For example, it may be configured with a maximum transfer size and the records won't fit into the transfer buffer.  The only way of knowing for sure that you have received all the records is to do a request and be told there is no more.</p>
 <p>This code could be simplified quite a bit.  The reason I am not doing so is that this is not how you would want to do the transfer of items in a real application.  Doing this will tie up the UI thread of your application for quite a while as the <code>AzureCloudTable</code> downloads all the data.  Consider if there were thousands of entries?  This method would be problematic very quickly.</p>
 <p>The alternative is to incrementally load the data as it is needed.  This means that your UI thread will pause as the data is loaded, but the resulting UI will be less memory hungry and overall more responsive.  We start by adjusting our <code>Abstractions\ICloudTable.cs</code> to add a method signature for returning paged data:</p>
 <pre><code class="csharp">public interface ICloudTable&lt;T&gt; where T : TableData
@@ -1438,7 +1438,7 @@ namespace TaskList.Services
 }
 </code></pre>
 
-<p>The <code>ReadItemsAsync()</code> method is our new method here.  The concrete implementation usese <code>.Skip()</code> and <code>.Take()</code> to return just the data that is required:</p>
+<p>The <code>ReadItemsAsync()</code> method is our new method here. The concrete implementation uses <code>.Skip()</code> and <code>.Take()</code> to return just the data that is required:</p>
 <pre><code class="csharp">public async Task&lt;ICollection&lt;T&gt;&gt; ReadItemsAsync(int start, int count)
 {
     return await table.Skip(start).Take(count).ToListAsync();
