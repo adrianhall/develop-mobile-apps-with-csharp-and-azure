@@ -4,7 +4,7 @@ repo_url: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azur
 repo_name: GitHub
 site_author: Adrian Hall
 copyright: 'Copyright &copy; 2017 Adrian Hall'
-pages:
+nav:
     - Getting Started: index.md
     - Chapter 1 - Introduction:
         - Your First App - PC Edition: chapter1/firstapp_pc.md
@@ -70,7 +70,8 @@ extra:
     - type: 'twitter'
       link: 'https://twitter.com/FizzyInTheHall'
 markdown_extensions:
-    - toc(permalink=true)
+    - toc:
+        permalink: true
     - fenced_code
     - admonition
 extra_css:

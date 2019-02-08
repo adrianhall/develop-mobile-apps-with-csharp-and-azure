@@ -8,7 +8,13 @@ You can find [the book online](https://adrianhall.github.io/develop-mobile-apps-
 
 ## Building the book
 
-The book uses [MkDocs](http://www.mkdocs.org) for the content.  To build the static site, use:
+The book uses [MkDocs](http://www.mkdocs.org) for the content.  Install pre-requisites with the following:
+
+```
+pip install [--user] mkdocs mkdocs-material
+```
+
+To build the static site, use:
 
 ```
 mkdocs build --clean
