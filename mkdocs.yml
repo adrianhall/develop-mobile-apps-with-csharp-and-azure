@@ -1,0 +1,83 @@
+site_name: Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+site_url: https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/
+repo_url: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure
+repo_name: GitHub
+site_author: Adrian Hall
+copyright: 'Copyright &copy; 2017 Adrian Hall'
+pages:
+    - Getting Started: index.md
+    - Chapter 1 - Introduction:
+        - Your First App - PC Edition: chapter1/firstapp_pc.md
+        - Your First App - Mac Edition: chapter1/firstapp_mac.md
+    - Chapter 2 - Authentication:
+        - Concepts: chapter2/authconcepts.md
+        - Authentication in the Backend: chapter2/backend.md
+        - Enterprise Authentication: chapter2/enterprise.md
+        - Social Authentication: chapter2/social.md
+        - Debugging Authentication: chapter2/debugging.md
+        - Custom Authentication: chapter2/custom.md
+        - Claims and Authorization: chapter2/authorization.md
+        - Tokens in Real Apps: chapter2/realworld.md
+        - Best Practices: chapter2/bestpractices.md
+    - Chapter 3 - Data Access and Offline Sync:
+        - Concepts: chapter3/dataconcepts.md
+        - Implementing Table Controllers: chapter3/server.md
+        - Data Projection and Queries: chapter3/projection.md
+        - The Mobile Client: chapter3/client.md
+        - Relationships: chapter3/relationships.md
+        - The Domain Manager: chapter3/domainmgr.md
+    - Chapter 4 - Server Side Code:
+        - Options for Server Code: chapter4/options.md
+        - Custom HTTP Endpoints: chapter4/custom.md
+        - WebJobs: chapter4/webjobs.md
+        - Functions: chapter4/functions.md
+        - Recipes: chapter4/recipes.md
+    - Chapter 5 - Push Notifications:
+        - Concepts: chapter5/concepts.md
+        - Android Push: chapter5/android.md
+        - iOS Push: chapter5/ios.md
+        - Windows Push: chapter5/windows.md
+        - Push Recipes: chapter5/recipes.md
+    - Chapter 6 - Combining Web and Mobile Apps:
+        - MVC Applications: chapter6/mvc.md
+        - jQuery Applications: chapter6/jquery.md
+        - Angular Applications: chapter6/angular.md
+        - React Applications: chapter6/react.md
+    - Chapter 7 - Other Useful Services:
+        - Useful Azure Services: chapter7/services.md
+        - Azure Search: chapter7/search.md
+        - Media Services: chapter7/media.md
+    - Chapter 8 - Developing An App:
+        - The Development Environment: chapter8/developing.md
+        - Testing your Application: chapter8/testing.md
+    - Chapter 9 - Going to Production:
+        - Repeatable Deployments: chapter9/arm.md
+        - Safe Deployments: chapter9/appsvc.md
+        - Monitoring and Troubleshooting: chapter9/monitoring.md
+    - Xamarin Forms Tips: xamarin_tips.md
+    - Android Developer Notes: android_appendix.md
+    - Visual Studio Extensions: vs_extensions.md
+    - References: references.md
+    - Credits: credits.md
+theme: material
+extra:
+    palette:
+      primary: 'red'
+      accent: 'deep purple'
+    social:
+    - type: 'github'
+      link: 'https://github.com/adrianhall'
+    - type: 'twitter'
+      link: 'https://twitter.com/FizzyInTheHall'
+markdown_extensions:
+    - toc(permalink=true)
+    - fenced_code
+    - admonition
+extra_css:
+  - css/extra.css
+  - css/vs.css
+extra_javascript:
+  - js/highlight.pack.js
+google_analytics:
+  - 'UA-93366112-1'
+  - 'auto'

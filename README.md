@@ -1,10 +1,23 @@
-# Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+# Welcome to my book
 
-Thank you for your interest in my book.  I have moved (or am in the process of moving) all my repositories to GitLab, as I like an independent source code repository (and I pay for that).
+This is the main source files for my book - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure.  I'm intending on developing this with some help from my friends.  Content is welcome - just do a PR and I will work with you.
 
-Please point your browser at the following:
+## Finding the book
 
-* The site is at https://adrianhall.gitlab.io/develop-mobile-apps-with-csharp-and-azure/
-* The repository is at https://gitlab.com/adrianhall/develop-mobile-apps-with-csharp-and-azure 
+You can find [the book online](https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/).
 
-One of the great things about the new GitLab is that CI/CD is included, so the site is updated automatically when I merge.  Feel free to do a pull request over there!
+## Building the book
+
+The book uses [MkDocs](http://www.mkdocs.org) for the content.  To build the static site, use:
+
+```
+mkdocs build --clean
+```
+
+To serve the static site locally, use:
+
+```
+mkdocs serve
+```
+
+The site will be on http://localhost:8000.  The main site is automatically built when I merge changes into the master branch on GitLab.
