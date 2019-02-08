@@ -1,0 +1,1954 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter2/realworld/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Tokens in Real Apps - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#caching-tokens" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Tokens in Real Apps
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+      Your First App - PC Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../enterprise/" title="Enterprise Authentication" class="md-nav__link">
+      Enterprise Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Tokens in Real Apps
+      </label>
+    
+    <a href="./" title="Tokens in Real Apps" class="md-nav__link md-nav__link--active">
+      Tokens in Real Apps
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#caching-tokens" title="Caching Tokens" class="md-nav__link">
+    Caching Tokens
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refresh-tokens" title="Refresh Tokens" class="md-nav__link">
+    Refresh Tokens
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-refresh-tokens" title="Configuring Refresh Tokens" class="md-nav__link">
+    Configuring Refresh Tokens
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-refresh-tokens" title="Using Refresh Tokens" class="md-nav__link">
+    Using Refresh Tokens
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-out" title="Logging out" class="md-nav__link">
+    Logging out
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invalidating-the-token-on-the-mobile-backend" title="Invalidating the token on the mobile backend." class="md-nav__link">
+    Invalidating the token on the mobile backend.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-the-token-from-the-local-secure-cache-store" title="Removing the token from the local secure cache store." class="md-nav__link">
+    Removing the token from the local secure cache store.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementing-a-logoutasync-method" title="Implementing a LogoutAsync() method." class="md-nav__link">
+    Implementing a LogoutAsync() method.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bestpractices/" title="Best Practices" class="md-nav__link">
+      Best Practices
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+      Useful Azure Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/arm/" title="Repeatable Deployments" class="md-nav__link">
+      Repeatable Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/appsvc/" title="Safe Deployments" class="md-nav__link">
+      Safe Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#caching-tokens" title="Caching Tokens" class="md-nav__link">
+    Caching Tokens
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refresh-tokens" title="Refresh Tokens" class="md-nav__link">
+    Refresh Tokens
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-refresh-tokens" title="Configuring Refresh Tokens" class="md-nav__link">
+    Configuring Refresh Tokens
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-refresh-tokens" title="Using Refresh Tokens" class="md-nav__link">
+    Using Refresh Tokens
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-out" title="Logging out" class="md-nav__link">
+    Logging out
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invalidating-the-token-on-the-mobile-backend" title="Invalidating the token on the mobile backend." class="md-nav__link">
+    Invalidating the token on the mobile backend.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-the-token-from-the-local-secure-cache-store" title="Removing the token from the local secure cache store." class="md-nav__link">
+    Removing the token from the local secure cache store.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementing-a-logoutasync-method" title="Implementing a LogoutAsync() method." class="md-nav__link">
+    Implementing a LogoutAsync() method.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter2/realworld.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Tokens in Real Apps</h1>
+                
+                <h2 id="caching-tokens">Caching Tokens<a class="headerlink" href="#caching-tokens" title="Permanent link">&para;</a></h2>
+<p>You will notice that we have to log in with every start of the application.  The token that is generated has a lifetime that is provided and controlled by the identity provider.  Some providers have a relatively short lifetime.  For example, Azure Active Directory tokens have a lifetime of 1 hour.  Others are incredibly long.  Facebook has an expiry time of 60 days.</p>
+<p>Irrespective of the lifespan of the token, we will want to store it securely and re-use it when we can.  Xamarin has provided a nice component, <a href="https://components.xamarin.com/gettingstarted/xamarin.auth">Xamarin.Auth</a>, that provides such as secure store in a cross-platform manner.  It starts with an account store:</p>
+<pre><code class="csharp">// For iOS:
+var accountStore = AccountStore.Create();
+// For Android:
+var accountStore = AccountStore.Create(Context);
+</code></pre>
+
+<p>We can then store the token with the following:</p>
+<pre><code class="csharp">accountStore.Save(account, &quot;descriptor&quot;);
+</code></pre>
+
+<p>The descriptor is a string that allows us to find the token again.  The account (which is an <code>Account</code> object) is uniquely identified by a key composed of the account's Username property and the descriptor.  The Account class is provided with Xamarin.Auth.  Storage is backed by the <a href="https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html">Keychain</a> on iOS and the <a href="http://developer.android.com/reference/java/security/KeyStore.html">KeyStore</a> on Android.</p>
+<p>To get the token back, we use the following:</p>
+<pre><code class="csharp">var accounts = accountStore.FindAccountsForService(&quot;descriptor&quot;);
+</code></pre>
+
+<p>When we receive the token back from the key store, we will want to check the expiry time to ensure the token has not expired.  As a result, there is a little bit more code to caching code than one would expect.</p>
+<p>Let's start with the Android version in <strong>TaskList.Droid</strong>.  As with all the other login code, we are adjusting the <code>LoginAsync()</code> method in <code>Services\DroidLoginProvider.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Droid.Services;
+using TaskList.Helpers;
+using Xamarin.Auth;
+
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        public Context RootView { get; private set; }
+
+        public AccountStore AccountStore { get; private set; }
+
+        public void Init(Context context)
+        {
+            RootView = context;
+            AccountStore = AccountStore.Create(context);
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Check if the token is available within the key store
+            var accounts = AccountStore.FindAccountsForService(&quot;tasklist&quot;);
+            if (accounts != null)
+            {
+                foreach (var acct in accounts)
+                {
+                    string token;
+
+                    if (acct.Properties.TryGetValue(&quot;token&quot;, out token))
+                    {
+                        if (!IsTokenExpired(token))
+                        {
+                            client.CurrentUser = new MobileServiceUser(acct.Username);
+                            client.CurrentUser.MobileServiceAuthenticationToken = token;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Server Flow
+            await client.LoginAsync(RootView, &quot;aad&quot;);
+
+            // Store the new token within the store
+            var account = new Account(client.CurrentUser.UserId);
+            account.Properties.Add(&quot;token&quot;, client.CurrentUser.MobileServiceAuthenticationToken);
+            AccountStore.Save(account, &quot;tasklist&quot;);
+        }
+
+        bool IsTokenExpired(string token)
+        {
+            // Get just the JWT part of the token (without the signature).
+            var jwt = token.Split(new Char[] { '.' })[1];
+
+            // Undo the URL encoding.
+            jwt = jwt.Replace('-', '+').Replace('_', '/');
+            switch (jwt.Length % 4)
+            {
+                case 0: break;
+                case 2: jwt += &quot;==&quot;; break;
+                case 3: jwt += &quot;=&quot;; break;
+                default:
+                    throw new ArgumentException(&quot;The token is not a valid Base64 string.&quot;);
+            }
+
+            // Convert to a JSON String
+            var bytes = Convert.FromBase64String(jwt);
+            string jsonString = UTF8Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+
+            // Parse as JSON object and get the exp field value,
+            // which is the expiration date as a JavaScript primative date.
+            JObject jsonObj = JObject.Parse(jsonString);
+            var exp = Convert.ToDouble(jsonObj[&quot;exp&quot;].ToString());
+
+            // Calculate the expiration by adding the exp value (in seconds) to the
+            // base date of 1/1/1970.
+            DateTime minTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var expire = minTime.AddSeconds(exp);
+            return (expire &lt; DateTime.UtcNow);
+        }
+    }
+}
+</code></pre>
+
+<p>There are three new pieces to this code.  The first piece is to check to see if there is an existing token in the KeyStore.  If there is, we check the expiry time and then set up the Azure Mobile Apps client with the username and token from the KeyStore.  If there isn't, we do the normal authentication process.  If the authentication process is successful, we reach the second piece, which is to store the token within the KeyStore.  If there is an existing entry, it will be overwritten.  Finally, there is a method called <code>IsTokenExpired()</code> whose only job is to check to see if a token is expired or not.  This same code can be used in the <code>Services/iOSLoginProvider.cs</code>.  The only difference is in the <code>AccountStore.Create()</code> call (as discussed earlier).</p>
+<div class="admonition warn">
+<p class="admonition-title">Update Entitlements for iOS 10</p>
+<p>You may notice that you are not able to use <code>AccountStore.Save()</code> in the iOS 10 Simulator.  A change to the iOS entitlements has caused this change.  You must add keychain access to your Entitlements.plist file, and use the Entitlements.plist file as a custom entitlements list.  </p>
+</div>
+<p>Visual Studio for the PC doesn't provide a lot of assistance with the entitlements.  However, Visual Studio for Mac has a great editor for the entitlement, so this is one time I'd suggest going over to the Mac to do something.  Make sure you have created an Apple Developer account and created a provisioning profile.  These are pre-requisites to using the Keychain.</p>
+<ol>
+<li>Right-click the <strong>TaskList.iOS</strong> project to open the options pane and select <strong>Options</strong> </li>
+<li>Select the <strong>iOS Bundle Signing</strong> menu option.</li>
+<li>Select <strong>iPhoneSimulator</strong> for the Platform.</li>
+<li>Click the <strong>...</strong> button next to <strong>Custom Entitlements</strong>.</li>
+<li>Select the <strong>Entitlements.plist</strong> file, then click <strong>Open</strong>.</li>
+<li>Save the properties (I used Ctrl-S for this)</li>
+<li>Find and open the <strong>Entitlements.plist</strong> file in the <strong>TaskList.iOS</strong> project.</li>
+<li>In the <strong>Keychain</strong> sction, check the box next to <strong>Enable Keychain Access Groups</strong>.  This may require additional setup and linking to a provisioning profile.</li>
+<li>Save the file and re-build your project.</li>
+</ol>
+<p>Xamarin.Auth only support iOS and Android.  We need to turn to an alternate library for token caching on Universal Windows.  The standard library has a package called <a href="https://msdn.microsoft.com/library/windows/apps/windows.security.credentials.passwordvault.aspx">PasswordVault</a> that can be used identically to the <a href="http://developer.android.com/reference/java/security/KeyStore.html">KeyStore</a> and <a href="https://developer.apple.com/library/ios/#documentation/security/Reference/keychainservices/Reference/reference.html">Keychain</a> libraries.  Here is the Universal Windows version of the same code in <code>Services\UWPLoginProvider.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.UWP.Services;
+using Windows.Security.Credentials;
+
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+        public PasswordVault PasswordVault { get; private set; }
+
+        public UWPLoginProvider()
+        {
+            PasswordVault = new PasswordVault();
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Check if the token is available within the password vault
+            var acct = PasswordVault.FindAllByResource(&quot;tasklist&quot;).FirstOrDefault();
+            if (acct != null)
+            {
+                var token = PasswordVault.Retrieve(&quot;tasklist&quot;, acct.UserName).Password;
+                if (token != null &amp;&amp; token.Length &gt; 0 &amp;&amp; !IsTokenExpired(token))
+                {
+                    client.CurrentUser = new MobileServiceUser(acct.UserName);
+                    client.CurrentUser.MobileServiceAuthenticationToken = token;
+                    return;
+                }
+            }
+
+            // Server-Flow Version
+            await client.LoginAsync(&quot;aad&quot;);
+
+            // Store the token in the password vault
+            PasswordVault.Add(new PasswordCredential(&quot;tasklist&quot;,
+                client.CurrentUser.UserId,
+                client.CurrentUser.MobileServiceAuthenticationToken));
+        }
+
+        bool IsTokenExpired(string token)
+        {
+            /* Copy code from DroidLoginProvider */
+        }
+    }
+}
+</code></pre>
+
+<p>The PasswordVault replaces the KeyStore (Android) and Keychain (iOS), but the concepts are the same.  All three
+mechanisms provide the basic functionality of storing client secrets securely.</p>
+<h2 id="refresh-tokens">Refresh Tokens<a class="headerlink" href="#refresh-tokens" title="Permanent link">&para;</a></h2>
+<p>The token cache checks the token to see if it is expired and prompts the user if the token is no longer valid.  Since the life of a token is inevitably short (maybe one hour), this will still mean that the user is prompted for new credentials most of the time.  In addition, we have an issue when the app is running for a long time.  What happens if the user leaves the app running for 2 hours?  The token we received at the start of the session will be invalid halfway through the session and we will have to restart the app in order to continue.  Both of these situations are undesirable from the point of view of the user.  Access tokens eventually expire and we need to explicitly deal with this situation.</p>
+<p>The first part of the solution is to request a <em>Refresh Token</em>.  This is something the identity provider issues when the scope of the request includes an offline scope.  Only certain identity providers include the ability to request refresh tokens.  For server-flow:</p>
+<ul>
+<li>Google: Append the "access_type=offline" to the request.</li>
+<li>Microsoft Account: Select the wl.offline_access scope in the Azure management portal.</li>
+<li>Azure AD: Configure Azure AD to support access to the Graph API.</li>
+</ul>
+<p>Facebook and Twitter do not provider refresh tokens.  Once you have the refresh tokens, you can simply call the refresh API in the Azure Mobile Apps SDK to refresh the token.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Refresh Tokens are one area that require special consideration when using Custom Authentication.  Just like with the /.auth/me endpoint, you are on your own when it comes to handling token expiry for custom authentication.</p>
+</div>
+<h3 id="configuring-refresh-tokens">Configuring Refresh Tokens<a class="headerlink" href="#configuring-refresh-tokens" title="Permanent link">&para;</a></h3>
+<p>You can add the additional information to a Google request with the following code snippet:</p>
+<pre><code class="csharp">client.LoginAsync(&quot;google&quot;, new Dictionary&lt;string, string&gt;
+{
+    { &quot;access_type&quot;, &quot;offline&quot; }
+});
+</code></pre>
+
+<p>Azure Active Directory is perhaps the trickiest to configure.</p>
+<ul>
+<li>Log on to the <a href="https://portal.azure.com/">Azure portal</a>.</li>
+<li>Navigate to your Azure Active Directory.</li>
+<li>Click <strong>App registrations</strong>, then your WEB application</li>
+<li>Click <strong>Keys</strong>.</li>
+<li>
+<p>Enter a friendly name.  Pick <em>2 years</em> in the Expiry duration</p>
+<p><img alt="AAD - Add a Key" src="../img/aad-add-key.PNG" /></p>
+</li>
+<li>
+<p>Click <strong>Save</strong>.  The key will be generated for you.  Copy the key (you will need it below).</p>
+</li>
+<li>Go to <strong>App Services</strong>, then your App Service.</li>
+<li>Click <strong>Resource explorer</strong> in the menu, then <strong>Go</strong>.</li>
+<li>In the Resource Explorer, expand <strong>config</strong> and select <strong>authsettings</strong>.</li>
+<li>Click on <strong>Edit</strong>.</li>
+<li>Set the clientSecret to the key you copied from above.</li>
+<li>Set the additionalLoginParams to <code>["response_type=code id_token"]</code>.</li>
+</ul>
+<p><img alt="AAD: Resource Explorer View" src="../img/aad-resource-explorer.PNG" /></p>
+<ul>
+<li>Click the <strong>Read/Write</strong> toggle button at the top of the page.</li>
+<li>Click the <strong>PUT</strong> button.</li>
+</ul>
+<p>The next time the user logs into our web app side, there will be a one-time prompt to consent to graph API access.
+Once granted, the App Service Authentication / Authorization service will start requesting and receiving refresh
+tokens.  Once you go through this process and re-authenticate, you will be able to see the refresh token in the output of the <code>/.auth/me</code> endpoint:</p>
+<p><img alt="AAD: Refresh Tokens" src="../img/aad-refresh-token.PNG" /></p>
+<p>Refresh tokens have a different expiry time to the identity token.  The refresh token theoretically lives forever,
+but there are "non-use expiry" times. This varies by identity provider.</p>
+<ul>
+<li>Google: 6 months</li>
+<li>Microsoft Account: 24 hours</li>
+<li>Azure Active Directory: 90 days</li>
+</ul>
+<p>In addition, there may be other reasons why a token can be invalidated.  For instance, Google provides 25 refresh
+tokens per user.  If the user requests more than the limit, the oldest token is invalidated.  You should refer
+to the OAuth documentation for the identity provider.</p>
+<h3 id="using-refresh-tokens">Using Refresh Tokens<a class="headerlink" href="#using-refresh-tokens" title="Permanent link">&para;</a></h3>
+<p>The Azure Mobile Apps Client SDK has a built in method for refreshing tokens for you.  It assumes that you are using
+a supported identity provider (Azure Active Directory, Google or Microsoft Account), and have configured the identity
+provider to generate the refresh token.  To refresh a token, use:</p>
+<pre><code class="csharp">client.RefreshUserAsync();
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you get the error "You do not have permission to view this directory or page" when accessing the refresh
+endpoint, there are no refresh tokens for your user in the token store.  This could be because the user has
+yet to re-authenticate (causing a new refresh token to be generated), the provider is not set up to generate
+refresh tokens or the provider does not support refresh tokens.</p>
+</div>
+<p>We can easily add this to the login process in the platform-specific provider.  Rather than provide the same logic
+over and over, we can extend the <code>ILoginProvider</code> to do the base operations for us then implement the logic once
+in the <code>AzureCloudService</code>.  The <code>Abstractions\ILoginProvider.cs</code> interface now looks like this:</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+
+namespace TaskList.Abstractions
+{
+    public interface ILoginProvider
+    {
+        MobileServiceUser RetrieveTokenFromSecureStore();
+
+        void StoreTokenInSecureStore(MobileServiceUser user);
+
+        Task&lt;MobileServiceUser&gt; LoginAsync(MobileServiceClient client);
+    }
+}
+</code></pre>
+
+<p>Since the <code>RefreshUserAsync()</code> method is purely contained within the Azure Mobile Apps Client SDK and requires
+no changes between platforms, we don't need a special platform-specific version.  Each method of the interface
+is one of the primitives we have already discussed.  For example, the Android version in  <code>Services\DroidLoginProvider.cs</code>
+now looks like this:</p>
+<pre><code class="csharp">[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        #region ILoginProvider Interface
+        public MobileServiceUser RetrieveTokenFromSecureStore()
+        {
+            var accounts = AccountStore.FindAccountsForService(&quot;tasklist&quot;);
+            if (accounts != null)
+            {
+                foreach (var acct in accounts)
+                {
+                    string token;
+
+                    if (acct.Properties.TryGetValue(&quot;token&quot;, out token))
+                    {
+                        return new MobileServiceUser(acct.Username)
+                        {
+                            MobileServiceAuthenticationToken = token
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void StoreTokenInSecureStore(MobileServiceUser user)
+        {
+            var account = new Account(user.UserId);
+            account.Properties.Add(&quot;token&quot;, user.MobileServiceAuthenticationToken);
+            AccountStore.Save(account, &quot;tasklist&quot;);
+        }
+
+        public async Task&lt;MobileServiceUser&gt; LoginAsync(MobileServiceClient client)
+        {
+            // Server Flow
+            return await client.LoginAsync(RootView, &quot;aad&quot;);
+        }
+        #endregion
+
+        public Context RootView { get; private set; }
+
+        public AccountStore AccountStore { get; private set; }
+
+        public void Init(Context context)
+        {
+            RootView = context;
+            AccountStore = AccountStore.Create(context);
+        }
+    }
+}
+</code></pre>
+
+<p>The iOS version is practically the same because we are using the common Xamarin.Auth portable library.  The
+difference is in the methods outside of the ILoginProvider interface:</p>
+<pre><code class="csharp">public UIViewController RootView =&gt; UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+public AccountStore AccountStore { get; private set; }
+
+public iOSLoginProvider()
+{
+    AccountStore = AccountStore.Create();
+}
+</code></pre>
+
+<p>Finally, the Universal Windows version (in <code>Services\UWPLoginProvider.cs</code>) is significantly different in the
+secure store implementation:</p>
+<pre><code class="csharp">[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+        public PasswordVault PasswordVault { get; private set; }
+
+        public UWPLoginProvider()
+        {
+            PasswordVault = new PasswordVault();
+        }
+
+        #region ILoginProvider Interface
+        public MobileServiceUser RetrieveTokenFromSecureStore()
+        {
+            try
+            {
+                // Check if the token is available within the password vault
+                var acct = PasswordVault.FindAllByResource(&quot;tasklist&quot;).FirstOrDefault();
+                if (acct != null)
+                {
+                    var token = PasswordVault.Retrieve(&quot;tasklist&quot;, acct.UserName).Password;
+                    if (token != null &amp;&amp; token.Length &gt; 0)
+                    {
+                        return new MobileServiceUser(acct.UserName)
+                        {
+                            MobileServiceAuthenticationToken = token
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;Error retrieving existing token: {ex.Message}&quot;);
+            }
+            return null;
+        }
+
+        public void StoreTokenInSecureStore(MobileServiceUser user)
+        {
+            PasswordVault.Add(new PasswordCredential(&quot;tasklist&quot;, user.UserId, user.MobileServiceAuthenticationToken));
+        }
+
+        public async Task&lt;MobileServiceUser&gt; LoginAsync(MobileServiceClient client)
+        {
+            // Server-Flow Version
+            return await client.LoginAsync(&quot;aad&quot;);
+        }
+        #endregion
+    }
+}
+</code></pre>
+
+<p>We can swap out the server-flow Azure Active Directory login method with any of the client-flow, server-flow or
+custom flows that we have been discussing thus far across all three platform-specific implementations.</p>
+<p>The common flow handles all the logic for us.  This is the <code>LoginAsync()</code> method in the <code>Services\AzureCloudService.cs</code>
+class:</p>
+<pre><code class="csharp">public async Task&lt;MobileServiceUser&gt; LoginAsync()
+{
+    var loginProvider = DependencyService.Get&lt;ILoginProvider&gt;();
+
+    client.CurrentUser = loginProvider.RetrieveTokenFromSecureStore();
+    if (client.CurrentUser != null)
+    {
+        // User has previously been authenticated - try to Refresh the token
+        try
+        {
+            var refreshed = await client.RefreshUserAsync();
+            if (refreshed != null)
+            {
+                loginProvider.StoreTokenInSecureStore(refreshed);
+                return refreshed;
+            }
+        }
+        catch (Exception refreshException)
+        {
+            Debug.WriteLine($&quot;Could not refresh token: {refreshException.Message}&quot;);
+        }
+    }
+
+    if (client.CurrentUser != null &amp;&amp; !IsTokenExpired(client.CurrentUser.MobileServiceAuthenticationToken))
+    {
+        // User has previously been authenticated, no refresh is required
+        return client.CurrentUser;
+    }
+
+    // We need to ask for credentials at this point
+    await loginProvider.LoginAsync(client);
+    if (client.CurrentUser != null)
+    {
+        // We were able to successfully log in
+        loginProvider.StoreTokenInSecureStore(client.CurrentUser);
+    }
+    return client.CurrentUser;
+}
+</code></pre>
+
+<p>For full disclosure, I've also moved the <code>IsTokenExpired()</code> method from the platform-specific code to the shared project, and updated the <code>ICloudService.cs</code> to match the new signature of <code>LoginAsync()</code>.  The process follows the best practices:</p>
+<ul>
+<li>Check for a stored token - if one exists, try to refresh it.</li>
+<li>If the token (that potentially just got refreshed) is not expired, continue using it.</li>
+<li>If not, ask the user for credentials.</li>
+<li>If we get a valid token back, store it in the secure store for next time.</li>
+</ul>
+<p>There is another place that we must consider refresh tokens.  During a HTTP request to our mobile backend, it is possible that the token has expired since our last request.  The request will return a 401 Unauthorized response in this case.  We need to trap that and perform a login request.  The login request will either refresh the token or prompt the user for new credentials.  We can then continue with the request as before.</p>
+<p>The Azure Mobile Apps SDK contains a mechanism for hooking into the HTTP workflow using a <code>DelegatingHandler</code>. A delegating handler is a base type for a HTTP handler that allows us to process the request and response from the HTTP client object before (and after) it finally get processed.  It's used for adding additional headers to the request or logging the request and response, for example.  We are going to use it to validate the response and re-submit the request (after login) if the request comes back as a 401 Unauthorized.</p>
+<p>We start with the adjustment to the <code>Services\AzureCloudService.cs</code> constructor:</p>
+<pre><code class="csharp">public AzureCloudService()
+{
+    client = new MobileServiceClient(Locations.AppServiceUrl, new AuthenticationDelegatingHandler());
+
+    if (Locations.AlternateLoginHost != null)
+        client.AlternateLoginHost = new Uri(Locations.AlternateLoginHost);
+}
+</code></pre>
+
+<p>The <code>AuthenticationDelegatingHandler()</code> is the new piece here.  This is the delegating handler that we are going
+to implement to handle the re-try logic.  I've placed the code in <code>Helpers\AuthenticationDelegatingHandler.cs</code>:</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+
+namespace TaskList.Helpers
+{
+    class AuthenticationDelegatingHandler : DelegatingHandler
+    {
+        protected override async Task&lt;HttpResponseMessage&gt; SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            // Clone the request, in case we need to re-issue it
+            var clone = await CloneHttpRequestMessageAsync(request);
+            // Now do the request
+            var response = await base.SendAsync(request, cancellationToken);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                // The request resulted in a 401 Unauthorized.  We need to do a LoginAsync,
+                // which will do the Refresh if appropriate, or ask for credentials if not.
+                var user = await ServiceLocator.Instance.Resolve&lt;ICloudService&gt;().LoginAsync();
+
+                // Now, retry the request with the cloned request.  The only thing we have
+                // to do is replace the X-ZUMO-AUTH header with the new auth token.
+                clone.Headers.Remove(&quot;X-ZUMO-AUTH&quot;);
+                clone.Headers.Add(&quot;X-ZUMO-AUTH&quot;, user.MobileServiceAuthenticationToken);
+                response = await base.SendAsync(clone, cancellationToken);
+            }
+
+            return response;
+        }
+
+        /// &lt;summary&gt;
+        /// Clone a HttpRequestMessage
+        /// Credit: http://stackoverflow.com/questions/25044166/how-to-clone-a-httprequestmessage-when-the-original-request-has-content
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;req&quot;&gt;The request&lt;/param&gt;
+        /// &lt;returns&gt;A copy of the request&lt;/returns&gt;
+        public static async Task&lt;HttpRequestMessage&gt; CloneHttpRequestMessageAsync(HttpRequestMessage req)
+        {
+            HttpRequestMessage clone = new HttpRequestMessage(req.Method, req.RequestUri);
+
+            // Copy the request's content (via a MemoryStream) into the cloned object
+            var ms = new MemoryStream();
+            if (req.Content != null)
+            {
+                await req.Content.CopyToAsync(ms).ConfigureAwait(false);
+                ms.Position = 0;
+                clone.Content = new StreamContent(ms);
+
+                // Copy the content headers
+                if (req.Content.Headers != null)
+                    foreach (var h in req.Content.Headers)
+                        clone.Content.Headers.Add(h.Key, h.Value);
+            }
+
+
+            clone.Version = req.Version;
+
+            foreach (KeyValuePair&lt;string, object&gt; prop in req.Properties)
+                clone.Properties.Add(prop);
+
+            foreach (KeyValuePair&lt;string, IEnumerable&lt;string&gt;&gt; header in req.Headers)
+                clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
+
+            return clone;
+        }
+    }
+}
+</code></pre>
+
+<p>There is no in-built method for cloning a <code>HttpRequestMessage</code> object.  Fortunately <a href="http://stackoverflow.com/questions/25044166/how-to-clone-a-httprequestmessage-when-the-original-request-has-content">Stack Overflow</a> provided an answer that seems to work.  Running this code will now pass every single non-login request through the delegating handler.  If we get an Unauthorized at any point, the login flow (which includes an implicit refresh token) will be triggered.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>There are two HTTPClient objects created inside of the <code>MobileServiceClient</code> object. One is for all the non-login flows and it supports the delegating handlers.  However there is another one for login flows.  The one for login flows does not support delegating handlers.  This means you don't have to worry about cyclical references within the delegating handler (where a login flow triggers another login flow).</p>
+</div>
+<h2 id="logging-out">Logging out<a class="headerlink" href="#logging-out" title="Permanent link">&para;</a></h2>
+<p>There is a dirty little secret within the Azure Mobile Apps Client SDK.  Calling <code>LogoutAsync()</code> does not actually invalidate the token you are using.  It simply removes it from the <code>MobileServiceClient</code> context.  Don't believe me?  Here is <a href="https://github.com/Azure/azure-mobile-apps-net-client/blob/master/src/Microsoft.WindowsAzure.MobileServices/MobileServiceClient.cs">the code</a>:</p>
+<pre><code class="csharp">        /// &lt;summary&gt;
+        /// Log a user out.
+        /// &lt;/summary&gt;
+        public Task LogoutAsync()
+        {
+            this.CurrentUser = null;
+            return Task.FromResult(0);
+        }
+</code></pre>
+
+<p>When you actually think about it, this makes sense.  You can get logged in via five different supported identity providers via a web-flow.  In this case, you are logging your <strong>browser</strong> out of the identity provider.  Do you really want to log out of Facebook when you log out of your app?</p>
+<p>So, how do you log out?  You should:</p>
+<ul>
+<li>Call the identity provider logout method (if appropriate).  Many identity providers don't provide this.</li>
+<li>Invalidate the token on the mobile backend.</li>
+<li>Remove the token from the local secure cache store.</li>
+<li>Finally, call the <code>LogoutAsync()</code> method on the <code>MobileServiceClient</code>.</li>
+</ul>
+<h3 id="invalidating-the-token-on-the-mobile-backend">Invalidating the token on the mobile backend.<a class="headerlink" href="#invalidating-the-token-on-the-mobile-backend" title="Permanent link">&para;</a></h3>
+<p>Calling the <code>/.auth/logout</code> endpoint on the Azure App Service mobile backend will remove the entry on the token store.  However, it does not (currently) invalidate the token.  The token, if submitted, will still authorize the user.  The refresh token is stored in the token store. The user submitting the token will be unable to refresh the token.  Once the ZUMO token has expired (which happens an hour after it was created), the logout is complete.</p>
+<p>We need to do a HTTP client call for this purpose:</p>
+<pre><code class="csharp">// Invalidate the token on the mobile backend
+var authUri = new Uri($&quot;{client.MobileAppUri}/.auth/logout&quot;);
+using (var httpClient = new HttpClient())
+{
+    httpClient.DefaultRequestHeaders.Add(&quot;X-ZUMO-AUTH&quot;, client.CurrentUser.MobileServiceAuthenticationToken);
+    await httpClient.GetAsync(authUri);
+}
+</code></pre>
+
+<h3 id="removing-the-token-from-the-local-secure-cache-store">Removing the token from the local secure cache store.<a class="headerlink" href="#removing-the-token-from-the-local-secure-cache-store" title="Permanent link">&para;</a></h3>
+<p>For this part of the process, We can add a new method to the <code>ILoginProvider.cs</code> interface:</p>
+<pre><code class="csharp">void RemoveTokenFromSecureStore();
+</code></pre>
+
+<p>For Android and iOS, the concrete implementation looks like this:</p>
+<pre><code class="csharp">public void RemoveTokenFromSecureStore()
+{
+    var accounts = AccountStore.FindAccountsForService(&quot;tasklist&quot;);
+    if (accounts != null)
+    {
+        foreach (var acct in accounts)
+        {
+            AccountStore.Delete(acct, &quot;tasklist&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>For Universal Windows, the concrete implementation is a bit different:</p>
+<pre><code class="csharp">public void RemoveTokenFromSecureStore()
+{
+    try
+    {
+        // Check if the token is available within the password vault
+        var acct = PasswordVault.FindAllByResource(&quot;tasklist&quot;).FirstOrDefault();
+        if (acct != null)
+        {
+            PasswordVault.Remove(acct);
+        }
+    }
+    catch (Exception ex)
+    {
+        Debug.WriteLine($&quot;Error retrieving existing token: {ex.Message}&quot;);
+    }
+}
+</code></pre>
+
+<h3 id="implementing-a-logoutasync-method">Implementing a LogoutAsync() method.<a class="headerlink" href="#implementing-a-logoutasync-method" title="Permanent link">&para;</a></h3>
+<p>I've added the following to the <code>ICloudService</code> interface:</p>
+<pre><code class="csharp">Task LogoutAsync();
+</code></pre>
+
+<p>This has a concrete implementation in <code>Services\AzureCloudService.cs</code>:</p>
+<pre><code class="csharp">public async Task LogoutAsync()
+{
+    if (client.CurrentUser == null || client.CurrentUser.MobileServiceAuthenticationToken == null)
+        return;
+
+    // Log out of the identity provider (if required)
+
+    // Invalidate the token on the mobile backend
+    var authUri = new Uri($&quot;{client.MobileAppUri}/.auth/logout&quot;);
+    using (var httpClient = new HttpClient())
+    {
+        httpClient.DefaultRequestHeaders.Add(&quot;X-ZUMO-AUTH&quot;, client.CurrentUser.MobileServiceAuthenticationToken);
+        await httpClient.GetAsync(authUri);
+    }
+
+    // Remove the token from the cache
+    DependencyService.Get&lt;ILoginProvider&gt;().RemoveTokenFromSecureStore();
+
+    // Remove the token from the MobileServiceClient
+    await client.LogoutAsync();
+}
+</code></pre>
+
+<p>This does three of the four providers.  If your identity provider supports an app-level logout, then you should call that where indicated.  This is probably going to be platform-specific code, so you will want to add a method to the <code>ILoginProvider.cs</code> interface and add a concrete implementation to each platform project.</p>
+<p>I've also added a logout button to my <code>Pages\TaskList.xaml</code> (<a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/Pages/TaskList.xaml#L12">view code</a>) and added the event handler for the logout button to the <code>ViewModels\EntryPageViewModel.cs</code> (<a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/ViewModels/TaskListViewModel.cs#L112">view code</a>).</p>
+<!-- Images -->
+
+<!-- Links -->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../authorization/" title="Claims and Authorization" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Claims and Authorization
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../bestpractices/" title="Best Practices" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Best Practices
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1348 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter9/appsvc/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Safe Deployments - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#safe-deployments" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Safe Deployments
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+      Your First App - PC Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/enterprise/" title="Enterprise Authentication" class="md-nav__link">
+      Enterprise Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/realworld/" title="Tokens in Real Apps" class="md-nav__link">
+      Tokens in Real Apps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/bestpractices/" title="Best Practices" class="md-nav__link">
+      Best Practices
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+      Useful Azure Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10" checked>
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../arm/" title="Repeatable Deployments" class="md-nav__link">
+      Repeatable Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Safe Deployments
+      </label>
+    
+    <a href="./" title="Safe Deployments" class="md-nav__link md-nav__link--active">
+      Safe Deployments
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-slots" title="Using Slots" class="md-nav__link">
+    Using Slots
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices-3-slots" title="Best Practices: 3 Slots" class="md-nav__link">
+    Best Practices: 3 Slots
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practices-continuous-deployment" title="Best Practices: Continuous Deployment" class="md-nav__link">
+    Best Practices: Continuous Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scaling-your-site" title="Scaling your Site" class="md-nav__link">
+    Scaling your Site
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices-for-production-apps" title="Best Practices for Production Apps" class="md-nav__link">
+    Best Practices for Production Apps
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-slots" title="Using Slots" class="md-nav__link">
+    Using Slots
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices-3-slots" title="Best Practices: 3 Slots" class="md-nav__link">
+    Best Practices: 3 Slots
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practices-continuous-deployment" title="Best Practices: Continuous Deployment" class="md-nav__link">
+    Best Practices: Continuous Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scaling-your-site" title="Scaling your Site" class="md-nav__link">
+    Scaling your Site
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices-for-production-apps" title="Best Practices for Production Apps" class="md-nav__link">
+    Best Practices for Production Apps
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter9/appsvc.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="safe-deployments">Safe Deployments<a class="headerlink" href="#safe-deployments" title="Permanent link">&para;</a></h1>
+<p>At some point, you will have a production app that needs updating.  Hopefully, you will have many thousands of users by that point and they are clamouring for an update.  If this is you, congratulations.  You have a successful mobile app.  Now, how do you update your app without your users noticing?</p>
+<p>A big part of the success of any update process is to ensure your Entity Framework code is appropriately updating the database and that the database can handle both the old schema and new schema.  That means being able to cope with optional fields, and using default values.  It also means ensuring that you are using automatic code-first migrations, which I covered way back in <a href="../../chapter3/server/">Chapter 3</a>. </p>
+<p>In this section, we will cover two topics:</p>
+<ul>
+<li>How do I upgrade my mobile backend without my users noticing?</li>
+<li>How do I scale my site to elastically manage load?</li>
+</ul>
+<p>Fortunately, Azure App Service has built-in features for both these questions.</p>
+<h2 id="using-slots">Using Slots<a class="headerlink" href="#using-slots" title="Permanent link">&para;</a></h2>
+<p>Let's start with upgrading the mobile backend.  The feature that we are going to use is <strong>Deployment Slots</strong>.  A slot is a second (or third or fourth) copy of your mobile backend that shares all (or most) of the settings of the original, but runs different code.  Slots is available in Standard and above App Service Plans.  A Standard App Service has 5 slots and a Premium App Service has 20 slots. If your site is not running on a Standard service, use <strong>Scale Up</strong> to change the App Service Plan to a Standard or better plan.</p>
+<div class="admonition tip">
+<p class="admonition-title">Check your App Service Plan</p>
+<p>Each App Service Plan has a number of slots.  This is the number of web sites or mobile backends you can run on the same App Service Plan.  Remember an App Service Plan is a set of virtual machines that run the same set of web sites.   The slot is also a web site.</p>
+</div>
+<p>Let's say you want to deploy your site with zero downtime.  Establish a slot called "staging":</p>
+<ul>
+<li>Open your App Service in the <a href="https://portal.azure.com">Azure portal</a>.</li>
+<li>Click <strong>Deployment slots</strong>.</li>
+<li>Click <strong>Add Slot</strong>.</li>
+<li>Enter <code>staging</code> in the <strong>Name</strong> field.</li>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<p>This is a one-time activity.  If the main site is called <code>mywebsite.azurewebsites.net</code>, then the new slot will be called <code>mywebsite-staging.azurewebsites.net</code>.  We can deploy the server to the new slot in almost exactly the same way as before.  Instead of selecting your website, expand the website, select <strong>Deployment Slots</strong> then the name of the slot that was created:</p>
+<p>![Select the slot][img]</p>
+<div class="admonition tip">
+<p class="admonition-title">Update your client to use -staging</p>
+<p>You can produce a test version of your mobile client that uses the staging slot as the URL.  This allows you to do ad-hoc testing prior to doing the update to production.</p>
+</div>
+<p>Once the mobile backend is deployed to the staging slot, you can do any testing required before deploying to production.  The next step is to turn staging into production:</p>
+<ul>
+<li>Open your App Service in the <a href="https://portal.azure.com">Azure portal</a>.</li>
+<li>Click <strong>Deployment slots</strong>.</li>
+<li>Click <strong>Swap</strong>.</li>
+<li>Select the Source and Destination slots to swap.</li>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<p>At this point, the internal routing will swap the two services.  Existing requests that are already being handled by the old server will be completed on the old server, but new requests will be handled by the new server.  Once the swap is complete, there will be no more requests being dealt with on the old server.  </p>
+<p>If your test client (configured to use the -staging URL) is run, it will be using the old server.  The old server is in the -staging slot now.</p>
+<h3 id="best-practices-3-slots">Best Practices: 3 Slots<a class="headerlink" href="#best-practices-3-slots" title="Permanent link">&para;</a></h3>
+<p>I recommend using three slots:</p>
+<ul>
+<li>Production</li>
+<li>Staging</li>
+<li>LastKnownGood</li>
+</ul>
+<p>When you swap the slot, do two swaps:</p>
+<ul>
+<li>First, deploy your new server to <em>Staging</em>.</li>
+<li>Then, swap <em>Production</em> with <em>Staging</em>.  Your new server is now in production.</li>
+<li>Finally, swap <em>Staging</em> with <em>LastKnownGood</em>.  This saves the (working) production server.</li>
+</ul>
+<p>If your new server runs into problems and you have to switch back to the old server, it is stored away in the <em>LastKnownGood</em> slot.  You can restore the old (working) server by swapping <em>LastKnownGood</em> with <em>Production</em>.</p>
+<h3 id="best-practices-continuous-deployment">Best Practices: Continuous Deployment<a class="headerlink" href="#best-practices-continuous-deployment" title="Permanent link">&para;</a></h3>
+<p>I also recommend linking a Continuous Deployment stream to the staging slot, rather than deploying via Visual Studio.  Continuous Deployment automatically deploys code from a source code repository like GitHub or Visual Studio Team Services.  To link staging to a GitHub repository:</p>
+<ul>
+<li>Open your App Service in the <a href="https://portal.azure.com">Azure portal</a>.</li>
+<li>Click <strong>Deployment slots</strong>.</li>
+<li>Click the staging slot name.</li>
+<li>Click <strong>Deployment options</strong>.</li>
+<li>Click <strong>Choose Source</strong>, then select GitHub.</li>
+<li>If necessary, click <strong>Authorization</strong> to log in to GitHub.</li>
+<li>If necessary, click <strong>Choose your organization</strong> to select a GitHub organization.</li>
+<li>Click <strong>Choose project</strong> and select your GitHub repository.</li>
+<li>Click <strong>Choose branch</strong> and select the branch you wish to deploy.</li>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<p>The service will download the latest source code from the specified branch, build the server and deploy it.  You can check the status of the deployment through <strong>Deployment options</strong> on the staging slot as well.</p>
+<p>As a best practice, create a new branch (I call my branch "azure") and deploy that branch.  When you wish to update the deployed server, merge from the master branch to the azure branch and then push to the remote repository.  This will then be picked up by your App Service and the new service will be deployed.</p>
+<p>By combining continuous deployment with slots, you can have control over the deployment to staging and control the production deployment easily.  This is a powerful "DevOps" combination of features.</p>
+<h2 id="scaling-your-site">Scaling your Site<a class="headerlink" href="#scaling-your-site" title="Permanent link">&para;</a></h2>
+<p>I hope that your mobile app is wildly successful.  If it is, one copy of the server will not be enough to handle the connections.  You will need to scale both the mobile backend and the database.  How will you know when to scale?</p>
+<ul>
+<li>For the App Service, keep an eye on the <strong>Metrics per Instance (App Service plan)</strong>.  If your production service is getting close to 80% CPU or close to memory limits, it's probably time to scale the site.</li>
+<li>For the database, check the <strong>Query Performance Insight</strong>.  Your database is limited to a certain number of DTUs (database transaction units - a blend of CPU and I/O operations).</li>
+</ul>
+<p>In a production app, you want to scale your mobile backend according to demand.  This means that the service spins up additional copies of the App Service as needed.  To set up automatic scaling for an App Service:</p>
+<ul>
+<li>Open your App Service in the <a href="https://portal.azure.com">Azure portal</a>.</li>
+<li>Click **Scale out (App Service plan).</li>
+<li>Select <strong>CPU Percentage</strong> in the <strong>Scale by</strong> drop-down.</li>
+<li>Select a minimum and maximum number of instances (for example, 1-10 for a standard App Service Plan).</li>
+<li>Select a target range for CPU (for example, 50-75%)</li>
+<li>Optionally, fill in the <strong>Notifications</strong> section.</li>
+<li>Click <strong>Save</strong>.</li>
+</ul>
+<p>The App Service Plan will try and keep an appropriate number of instances such that the CPU is kept in the specified range.  If the average CPU drops below the threshold, the App Service Plan will take one of the instances out of server.  No new connections will be sent to the instance, the existing requests will be allowed to complete.  Once all connections are complete, the instance will be turned off.   You only pay for the instances that are actually running.</p>
+<p>You can choose to send an email when a scale event happens.  You can also configure a Webhook so that your operations group is notified more broadly.  For example, you could use this facility to run an Azure Function that sends a notification to a Slack channel when an instance is added, or when more the last instance is added (indicating extreme load where your users are going to be impacted).</p>
+<h2 id="best-practices-for-production-apps">Best Practices for Production Apps<a class="headerlink" href="#best-practices-for-production-apps" title="Permanent link">&para;</a></h2>
+<p>We've mentioned a few best practices here, so here is a wrap-up:</p>
+<ul>
+<li>Run production apps on Standard or Premium App Services.</li>
+<li>Set up automatic scaling based on CPU percentage.</li>
+<li>Set up alerting so that you are informed when the last instance is added.</li>
+<li>Use three slots (production, staging and lastknowngood) to ensure no downtime.</li>
+<li>Use continuous deployment to the staging slot rather than deploy from Visual Studio.</li>
+</ul>
+<p>Follow these best practices and you will ensure your users are not limited by mobile backend deployments or load.</p>
+<!-- Images -->
+
+<!-- Links -->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../arm/" title="Repeatable Deployments" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Repeatable Deployments
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../monitoring/" title="Monitoring and Troubleshooting" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Monitoring and Troubleshooting
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>

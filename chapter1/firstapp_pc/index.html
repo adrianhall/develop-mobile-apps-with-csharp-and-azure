@@ -1,0 +1,2426 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter1/firstapp_pc/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Your First App - PC Edition - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#your-first-mobile-app" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Your First App - PC Edition
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Your First App - PC Edition
+      </label>
+    
+    <a href="./" title="Your First App - PC Edition" class="md-nav__link md-nav__link--active">
+      Your First App - PC Edition
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-mobile-backend" title="The Mobile Backend" class="md-nav__link">
+    The Mobile Backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-simple-azure-mobile-apps-backend" title="Creating a Simple Azure Mobile Apps Backend" class="md-nav__link">
+    Creating a Simple Azure Mobile Apps Backend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-an-azure-app-service-for-mobile-apps" title="Building an Azure App Service for Mobile Apps" class="md-nav__link">
+    Building an Azure App Service for Mobile Apps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploying-the-azure-mobile-apps-backend" title="Deploying the Azure Mobile Apps Backend" class="md-nav__link">
+    Deploying the Azure Mobile Apps Backend
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-the-mobile-client" title="Building The Mobile Client" class="md-nav__link">
+    Building The Mobile Client
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-the-common-library" title="Building the Common Library" class="md-nav__link">
+    Building the Common Library
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-an-azure-mobile-apps-connection" title="Building an Azure Mobile Apps Connection" class="md-nav__link">
+    Building an Azure Mobile Apps Connection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-ui-for-the-app" title="Building the UI for the App" class="md-nav__link">
+    Building the UI for the App
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-client-for-universal-windows" title="Building the Client for Universal Windows" class="md-nav__link">
+    Building the Client for Universal Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-client-for-android" title="Building the Client for Android" class="md-nav__link">
+    Building the Client for Android
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-client-for-ios" title="Building the Client for iOS" class="md-nav__link">
+    Building the Client for iOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-final-thoughts" title="Some Final Thoughts" class="md-nav__link">
+    Some Final Thoughts
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/enterprise/" title="Enterprise Authentication" class="md-nav__link">
+      Enterprise Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/realworld/" title="Tokens in Real Apps" class="md-nav__link">
+      Tokens in Real Apps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/bestpractices/" title="Best Practices" class="md-nav__link">
+      Best Practices
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+      Useful Azure Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/arm/" title="Repeatable Deployments" class="md-nav__link">
+      Repeatable Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/appsvc/" title="Safe Deployments" class="md-nav__link">
+      Safe Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-mobile-backend" title="The Mobile Backend" class="md-nav__link">
+    The Mobile Backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-simple-azure-mobile-apps-backend" title="Creating a Simple Azure Mobile Apps Backend" class="md-nav__link">
+    Creating a Simple Azure Mobile Apps Backend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-an-azure-app-service-for-mobile-apps" title="Building an Azure App Service for Mobile Apps" class="md-nav__link">
+    Building an Azure App Service for Mobile Apps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploying-the-azure-mobile-apps-backend" title="Deploying the Azure Mobile Apps Backend" class="md-nav__link">
+    Deploying the Azure Mobile Apps Backend
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-the-mobile-client" title="Building The Mobile Client" class="md-nav__link">
+    Building The Mobile Client
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-the-common-library" title="Building the Common Library" class="md-nav__link">
+    Building the Common Library
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-an-azure-mobile-apps-connection" title="Building an Azure Mobile Apps Connection" class="md-nav__link">
+    Building an Azure Mobile Apps Connection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-ui-for-the-app" title="Building the UI for the App" class="md-nav__link">
+    Building the UI for the App
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-client-for-universal-windows" title="Building the Client for Universal Windows" class="md-nav__link">
+    Building the Client for Universal Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-client-for-android" title="Building the Client for Android" class="md-nav__link">
+    Building the Client for Android
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-client-for-ios" title="Building the Client for iOS" class="md-nav__link">
+    Building the Client for iOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-final-thoughts" title="Some Final Thoughts" class="md-nav__link">
+    Some Final Thoughts
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter1/firstapp_pc.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="your-first-mobile-app">Your First Mobile App<a class="headerlink" href="#your-first-mobile-app" title="Permanent link">&para;</a></h1>
+<p>There is a lot of detail to absorb about the possible services that the mobile client can consume and I will go into significant depth on those subjects. First, wouldn't it be nice to write some code and get something working?  Microsoft Azure has a great <a href="https://azure.microsoft.com/en-us/documentation/learning-paths/appservice-mobileapps/">first-steps tutorial</a> that takes you via the quickest possible route from creating a mobile backend to having a functional backend.  I would like to take things a little slower so that we can understand what is going on while we are doing the process.  We will have practically the same application at the end.  The primary reason for going through this slowly is to ensure that all our build and run processes are set up properly.  If this is the first mobile app you have ever written, you will see that there are quite a few things that need to be set up.  This chapter covers the set up required for a Windows PC.  If you wish to develop your applications on a Mac, then skip to the <a href="../firstapp_mac/">next section</a>.</p>
+<p>The application we are going to build together is a simple task list.  The mobile client will have three screens - an entry screen, a task list and a task details page.  I have mocked these pages up using <a href="https://mockingbot.com/app/RQe0vlW0Hs8SchvHQ6d2W8995XNe8jK">MockingBot</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Mocking your screens before you start coding is a great habit to get into. There are some great tools available including free tools like <a href="https://mockingbot.com/">MockingBot</a>.  Doing mockups before you start coding is a good way to prevent wasted time later on.</p>
+</div>
+<p><img alt="Application Mockups for the Task List" src="../img/pic1.PNG" /></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you are using iOS, then you may want to remove the back button as the style guides suggest you don't need one.  Other platforms will need it though, so it's best to start with the least common denominator.  It's the same reason I add a refresh button even though it's only valid on Windows Phone!</p>
+</div>
+<p>My ideas for this app include:</p>
+<ul>
+<li>Tapping on a task title in the task list will bring up the details page.</li>
+<li>Toggling the completed link in the task list will set the completed flag.</li>
+<li>Tapping the spinner will initiate a network refresh.</li>
+</ul>
+<p>Now that we have our client screens planned out, we can move onto the thinking about the mobile backend.</p>
+<h2 id="the-mobile-backend">The Mobile Backend<a class="headerlink" href="#the-mobile-backend" title="Permanent link">&para;</a></h2>
+<p>The mobile backend is an ASP.NET WebApi that is served from within Azure App Service: a highly scalable and redundant web hosting facility that supports all the major web languages (like ASP.NET, Node, PHP and Python).  Azure Mobile Apps is an SDK (which is available in ASP.NET and Node) that runs on top of Azure App Service.</p>
+<h3 id="creating-a-simple-azure-mobile-apps-backend">Creating a Simple Azure Mobile Apps Backend<a class="headerlink" href="#creating-a-simple-azure-mobile-apps-backend" title="Permanent link">&para;</a></h3>
+<p>Microsoft Azure has included a comprehensive starter kit template in the Azure SDK.  To get started:</p>
+<ol>
+<li>Fire up Visual Studio.</li>
+<li>Add a new project with File -&gt; New -&gt; Project...</li>
+<li>
+<p>In the <strong>New Project</strong> window:</p>
+<ul>
+<li>Open up Templates -&gt; Visual C# -&gt; Web and select <strong>ASP.NET Web Application (.NET Framework)</strong>.</li>
+<li>Enter <strong>Backend</strong> for the Name and <strong>Chapter1</strong> for the Solution name.</li>
+<li>Select <strong>.NET Framework 4.6</strong> in the framework dropdown at the top.</li>
+<li>Pick a suitable directory for the Location field.</li>
+<li>Click OK.</li>
+</ul>
+<p><img alt="New Project Form" src="../img/pic2.PNG" /></p>
+</li>
+<li>
+<p>In the <strong>New ASP.NET Web Application</strong> window:</p>
+<ul>
+<li>Click <strong>Azure Mobile App</strong>.</li>
+<li>Do <strong>NOT</strong> check "Host in the cloud" or any other checkboxes.</li>
+<li>Click OK.</li>
+</ul>
+</li>
+</ol>
+<p>At this point, Visual Studio will create your backend project.</p>
+<p>There are a few files of which you should take note.  The Mobile Apps SDK is initialized within <code>App_Start\Startup.MobileApp.cs</code> (with the call to the configuration routine happening within <code>Startup.cs</code>).  The default startup routine is reasonable but it hides what it is doing behind extension methods.  This technique is fairly common in ASP.NET programs.  Let's expand the configuration routine to only include what we need:</p>
+<pre><code class="csharp">public static void ConfigureMobileApp(IAppBuilder app)
+{
+    var config = new HttpConfiguration();
+    var mobileConfig = new MobileAppConfiguration();
+
+    mobileConfig
+        .AddTablesWithEntityFramework()
+        .ApplyTo(config);
+
+    Database.SetInitializer(new MobileServiceInitializer());
+
+    app.UseWebApi(config);
+}
+</code></pre>
+
+<p>The minimal version of the mobile backend initialization is actually shorter than the original.  It also only includes a data access layer.  Other services like authentication, storage and push notifications are not configured.</p>
+<p>There is another method in the <code>App_Start\Startup.MobileApp.cs</code> file for seeding data into the database for us.  We can leave that alone for now, but remember it is there in case you need to seed data into a new database for your own backend.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>We refer to "seeding data" into a database.  This means that we are going to introduce some data into the database so that we aren't operating on an empty database. The data will be there when we query the database later on.</p>
+</div>
+<p>The next important file is the <code>DbContext</code> - located in <code>Models\MobileServiceContext.cs</code>. Azure Mobile Apps is heavily dependent on <a href="https://msdn.microsoft.com/en-us/data/ef">Entity Framework v6.x</a> and the <code>DbContext</code> is a central part of that library.  Fortunately, we don't need to do anything to this file right now.</p>
+<p>Finally, we get to the meat of the backend.  The whole point of this demonstration is to project a single database table - the TodoItem table - into the mobile realm with the aid of an opinionated <a href="http://www.odata.org/documentation/odata-version-3-0/">OData v3</a> feed.  To that end, we need three items:</p>
+<ul>
+<li>A <code>DbSet&lt;&gt;</code> within the <code>DbContext</code></li>
+<li>A Data Transfer Object (or DTO)</li>
+<li>A Table Controller</li>
+</ul>
+<p>When we create the project, a sample of each one of these for the TodoItem table is added for us.  You can see the <code>DbSet&lt;&gt;</code> in the <code>Models\MobileServiceContext.cs</code> file, for example.  Let's take a look at the DTO and Table Controller for this example table as well.  The DTO for the TodoItem table is located within the <code>DataObjects</code> directory:</p>
+<pre><code class="csharp">using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.DataObjects
+{
+    public class TodoItem : EntityData
+    {
+        public string Text { get; set; }
+
+        public bool Complete { get; set; }
+    }
+}
+</code></pre>
+
+<p>Note that the model uses <code>EntityData</code> as a base class.  The <code>EntityData</code> class adds five additional properties to the class - we'll discuss those in more details during the <a href="../../chapter3/dataconcepts/">Data Access and Offline Sync</a> chapter.</p>
+<p>Finally, let's look at the table controller for the example TodoItem table.  This is located in <code>Controllers\TodoItemController.cs</code>:</p>
+<pre><code class="csharp">using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.OData;
+using Backend.DataObjects;
+using Backend.Models;
+using Microsoft.Azure.Mobile.Server;
+
+namespace Backend.Controllers
+{
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            MobileServiceContext context = new MobileServiceContext();
+            DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request);
+        }
+
+        // GET tables/TodoItem
+        public IQueryable&lt;TodoItem&gt; GetAllTodoItems() =&gt; Query();
+
+        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public SingleResult&lt;TodoItem&gt; GetTodoItem(string id) =&gt; Lookup(id);
+
+        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task&lt;TodoItem&gt; PatchTodoItem(string id, Delta&lt;TodoItem&gt; patch) =&gt; UpdateAsync(id, patch);
+
+        // POST tables/TodoItem
+        public async Task&lt;IHttpActionResult&gt; PostTodoItem(TodoItem item)
+        {
+            TodoItem current = await InsertAsync(item);
+            return CreatedAtRoute(&quot;Tables&quot;, new { id = current.Id }, current);
+        }
+
+        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task DeleteTodoItem(string id) =&gt; DeleteAsync(id);
+    }
+}
+</code></pre>
+
+<p>The <code>TableController</code> is the central processing for the database access layer.  It handles all the OData capabilities for us and exposes these as REST endpoints within our WebAPI.  This means that the actual code for this controller is tiny - just 12 lines of code.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><a href="http://www.odata.org/documentation/odata-version-3-0/">OData</a> is a specification for accessing table data on the Internet.  It provides a mechanism for querying and manipulating data within a table.  Entity Framework is a common data access layer for ASP.NET applications.</p>
+</div>
+<p>We can build the project at this point.  If Visual Studio hasn't done so already, the missing NuGet packages for Azure Mobile Apps will be downloaded.  There should not be any errors.  If there are, check the typing for any changes you made.</p>
+<h3 id="building-an-azure-app-service-for-mobile-apps">Building an Azure App Service for Mobile Apps<a class="headerlink" href="#building-an-azure-app-service-for-mobile-apps" title="Permanent link">&para;</a></h3>
+<p>The next step in the process is to build the resources on Azure that will run your mobile backend.  Start by logging into the <a href="https://portal.azure.com/">Azure Portal</a>, then follow these instructions:</p>
+<ol>
+<li>Click the big <strong>+ New</strong> button in the top-left corner.</li>
+<li>Click <strong>Web + Mobile</strong>, then <strong>Mobile App</strong>.</li>
+<li>
+<p>Enter a unique name in the <strong>App name</strong> box.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Since the name doesn't matter and it has to be unique, you can use <a href="https://guidgenerator.com/">a GUID generator</a> to generate a unique name. GUIDs are not the best names to use when you need to actually find resources, but using a GUID prevents conflicts when deploying, so I prefer them as a naming scheme. You can prefix the GUID  (example: chapter1-GUID) to aid in discovery later on.  Generally, the first four digits of a GUID are enough to identify individual resources.</p>
+</div>
+</li>
+<li>
+<p>If you have more than one subscription (for example, you have a trial and an MSDN subscription), then ensure you select the right subscription in the <strong>Subscription</strong> drop-down.</p>
+</li>
+<li>
+<p>Select <strong>Create new</strong> under resource group and enter a name for this mobile application.</p>
+<div class="admonition info">
+<p class="admonition-title">Resource Groups</p>
+<p>Resource groups are great for grouping all the resources associated with a mobile application together.  During development, it means you can delete all the resources in one operation.  For production, it means you can see how much the service is costing you and how the resources are being used.</p>
+</div>
+</li>
+<li>
+<p>Finally, select or create a new <strong>App Service Plan</strong>.</p>
+<div class="admonition info">
+<p class="admonition-title">App Service Plan</p>
+<p>The App Service Plan is the thing that actually bills you - not the web or mobile backend.  You can run a number of web or mobile backends on the same App Service Plan.</p>
+</div>
+<p>I tend to create a new App Service Plan for each mobile application.  This is because the App Service Plan lives inside the Resource Group that you create.  The process for creating an App Service Plan is straight forward.  You have two decisions to make.  The first decision is where is the service going to run.  In a production environment, the correct choice is "near your customers".  "Close to the developers" is a good choice during development.  Unfortunately, neither of those is an option you can actually choose in the portal, so you will have to translate into some sort of geographic location.  With 16 regions to choose from, you have a lot of choice.</p>
+<p>The second decision you have to make is what to run the service on; also known as the Pricing tier.   If you Click <strong>View all</strong>, you will see you have lots of choices.  F1 Free and D1 Shared, for example, run on shared resources and are CPU limited. You should avoid these as the service will stop responding when you are over the CPU quota.  That leaves Basic, Standard and Premium.  Basic has no automatic scaling and can run up to 3 instances - perfect for development tasks.  Standard and Premium both have automatic scaling, automatic backups, and large amounts of storage; they differ in features: the number of sites or instances you can run on them, for example.  Finally, there is a number after the plan.  This tells you how big the virtual machine is that the plan is running on.  The numbers differ by number of cores and memory.</p>
+<p>For our purposes, an F1 Free site is enough to run this small demonstration project.  More complex development projects should use something in the Basic range of pricing plans.  Production apps should be set up in Standard or Premium pricing plans.</p>
+</li>
+<li>
+<p>Once you have created your app service plan and saved it, Click <strong>Create</strong>.</p>
+</li>
+</ol>
+<p>The creation of the service can take a couple of minutes.  You can monitor the process of deployment by clicking on the Notifications icon.  This is in the top bar on the right-hand side and looks like a Bell.  Clicking on a specific notification will provide more information about the activity.  Once you have created your app service, the App Service blade will open.</p>
+<p>We will also want a place to store our data.  This role is taken on by a SQL Azure instance.  We could link an existing database if we had one defined.  However, we can also create a test database.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Creating a Test Database through the App Service Data Connections (as I describe here) allows you to create a free database.  This option is not normally available through other SQL database creation flows.</p>
+</div>
+<p>Before we can create a database, we need to create a logical server for the database.  The SQL Server (the logical server) sets the region and the login credentials for all the contained databases:</p>
+<ol>
+<li>Click <strong>Resource groups</strong> in the left hand side menu.</li>
+<li>Click the resource group you created.</li>
+<li>Click <strong>Add</strong> at the top of the blade.</li>
+<li>Enter <strong>SQL Server</strong> into the search box, then press Enter.</li>
+<li>Click <strong>SQL Server (logical server)</strong>.</li>
+<li>Click <strong>Create</strong>.</li>
+<li>Enter the information required by the form:<ul>
+<li>A server name (which must be unique in the world - this is a great place to use a GUID).</li>
+<li>A username and password for accessing the databases on the server.</li>
+<li>Select the existing resource group.</li>
+<li>Pick the same Location as you did for the App Service Plan.</li>
+</ul>
+</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>Once the deployment has completed, you can move on to creating and linking a database.  You can check the status of the deployment by clicking on the icon that looks like a bell in the top banner.</p>
+<p>To create and link the database:</p>
+<ol>
+<li>Click <strong>Resource groups</strong> in the left hand side menu.</li>
+<li>Click the resource group you created.</li>
+<li>
+<p>Click the App Service your created.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you pinned your App Service to the dashboard, you can Click the pinned App Service instead.  It will bring you to the same place.</p>
+</div>
+</li>
+<li>
+<p>Click <strong>Data connections</strong> in the <strong>MOBILE</strong> menu.  You can also search for Data connections in the left hand menu.</p>
+</li>
+<li>
+<p>Click <strong>Add</strong>.</p>
+<ul>
+<li>In the <strong>Type</strong> box, select <strong>SQL Database</strong>.</li>
+<li>Click the unconfigured <strong>SQL Database</strong> link:</li>
+</ul>
+<p><img alt="Data Connection" src="../img/dataconns-sqldb.PNG" /></p>
+<ul>
+<li>In the <strong>Database</strong> blade, select <strong>Create a new database</strong>.</li>
+<li>Enter a name for the database (like <strong>chapter1-db</strong>).</li>
+<li>Click the Target server box and select the logical server you created earlier.</li>
+<li>Select a Pricing Tier, then click <strong>Apply</strong>.</li>
+</ul>
+<p><img alt="SQL Server Configuration" src="../img/dataconns-sqlsvr.PNG" /></p>
+<ul>
+<li>Click <strong>Select</strong> to close the SQL Database blade.</li>
+<li>Click the <strong>Connection string</strong> box.</li>
+<li>Enter the username and password you set up for the SQL logical server.</li>
+<li>Click <strong>OK</strong>.  The username and password will be validated before proceeding.</li>
+<li>Click <strong>OK</strong> to close the Add data connection blade.</li>
+</ul>
+</li>
+</ol>
+<p>This produces another deployment step that creates a SQL database with your settings and binds it to the App Service.  Once complete, the connection <strong>MS_TableConnectionString</strong> will be listed in Data Connections blade.</p>
+<p><img alt="Successful Data Connection" src="../img/dataconns_success.PNG" /></p>
+<h3 id="deploying-the-azure-mobile-apps-backend">Deploying the Azure Mobile Apps Backend<a class="headerlink" href="#deploying-the-azure-mobile-apps-backend" title="Permanent link">&para;</a></h3>
+<p>Deploying to Azure as a developer can be accomplished while entirely within Visual Studio:</p>
+<ol>
+<li>Right-Click the <strong>Backend</strong> project, then select <strong>Publish...</strong>.</li>
+<li>
+<p>The following will be shown:</p>
+<p><img alt="Publish Dialog" src="../img/pic3.PNG" /></p>
+<p>If you have an earlier version of Visual Studio, a different screen will be shown.  If Azure App Service is not listed, ensure you have the latest version of Azure SDK installed - at least v2.9.</p>
+</li>
+<li>
+<p>Click <strong>Microsoft Azure App Service</strong>.</p>
+</li>
+<li>Click <strong>Select Existing</strong>, then click <strong>Publish</strong>.</li>
+<li>You may be prompted to enter your Azure credentials here.  Enter the same information that you enter to access the Azure Portal.</li>
+<li>In the lower box, expand the resource group that you created and select the app service you created in the portal.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+<p>Visual Studio will open a browser pointing to the root of your Azure App Service.  Add <code>/tables/todoitem?ZUMO-API-VERSION=2.0.0</code> to the end of the URL.  This will show the JSON contents of the table that was defined as a table controller in the backend.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>You will see the word ZUMO all over the SDK, including in optional HTTP headers and throughout the SDK source code.  ZUMO was the original code name within Microsoft for A<b>ZU</b>re <b>MO</b>bile.</p>
+</div>
+<h2 id="building-the-mobile-client">Building The Mobile Client<a class="headerlink" href="#building-the-mobile-client" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>When you compile a Xamarin.Forms application for a specific platform, you are producing a true native application for that platform - whether it be iOS, Android or Windows</p>
+</div>
+<p>Now that the mobile backend is created and deployed, we can move onto the client side of things.  Right-Click the solution and select <strong>Add</strong> -&gt; <strong>New Project...</strong>. This will bring up the familiar New Project dialog.  Select <strong>Visual C#</strong> -&gt; <strong>Cross-Platform</strong> -&gt; <strong>Cross Platform App (Xamarin.Forms or Native)</strong>. Give the project a name, then Click <strong>OK</strong>.</p>
+<p><img alt="Creating the Xamarin Forms Project" src="../img/new-xf-project.PNG" /></p>
+<p>In the <strong>New Cross Platform App</strong> window, select <strong>Blank App</strong>, and use <strong>Xamarin.Forms</strong> as the UI technology, and a <strong>Shared Project</strong> for the code sharing strategy.</p>
+<p><img alt="Creating the Xamarin Forms Project" src="../img/new-xplat-app.PNG" /></p>
+<p>Project creation will take longer than you expect, but there is a lot going on.  If you have never created a mobile or UWP project before, you will be prompted to turn on Windows 10 Developer Mode:</p>
+<p><img alt="Turn on Developer Mode" src="../img/win10-developermode.PNG" /></p>
+<p>Developer mode in Windows 10 allows you to run unsigned binaries for development purposes and to turn on debugging so that you can step through your UWP programs within Visual Studio.  Visual Studio may also just bring up the appropriate Settings page where you can turn on Developer mode.</p>
+<p>We will also get asked to choose what version of the Universal Windows platform we want to target:</p>
+<p><img alt="UWP Platform Chooser" src="../img/pick-uwp-platform.PNG" /></p>
+<p>Version 10240 was the first version of Windows 10 that was released to the general public, so that's a good minimum version to pick.  In general, the defaults for the Universal Windows Platform choice are good enough.</p>
+<p>Xamarin allows us to build iOS applications directly from Visual Studio. For this to work, we must have access to a Mac. This could be anything from a MacBook Air/Pro, to a Mac Mini in a drawer or closet in the office, or maybe even a <a href="http://www.macincloud.com/">Mac in the cloud</a>.  The Xamarin tools use SSH to connect to the Mac, which must be <a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/">configured to build iOS apps from Visual Studio</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you don't have a Mac and are not interested in building iOS applications, don't give up now!  You can cancel through the Mac specific project setup and continue with building a great Android and Universal Windows app.  You can also use <a href="https://mobile.azure.com/signup?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> to build an iOS project.  You can delete the iOS specific project after it has been created.</p>
+</div>
+<p>When prompted about the Xamarin Mac Agent, Click <strong>OK</strong> to get the list of local mac agents:</p>
+<p><img alt="Xamarin Mac Agent - Host List" src="../img/xamarin-mac-agent.PNG" /></p>
+<p>Highlight your mac (in case there are multiples), then Click <strong>Connect...</strong>.  If your mac is not listed or you are using a Mac in the cloud, then you can always enter the IP address for your mac.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For more troubleshooting tips, visit <a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/troubleshooting/">The Xamarin Troubleshooting Site</a>.</p>
+</div>
+<p>You will be prompted for your username and password:</p>
+<p><img alt="Xamarin Mac Agent - Login" src="../img/xamarin-mac-login.PNG" /></p>
+<p>Just enter the (real) username and password for your account on your mac and click on <strong>Login</strong>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Apple tries very hard to hide the real username of your account from you.  The easiest way to find your mac username is to open up the Finder.  The name next to your home icon is the name of your account.</p>
+</div>
+<p>If the connection is successful, you will see a green icon in the Xamarin Visual Studio toolbar area. It may take a minute or two to connect and verify that the mac can be used.</p>
+<p><img alt="Xamarin Mac Agent - Success" src="../img/img8.PNG" /></p>
+<p>Once the project is created, you will see that four new projects have been created: a common library which you named plus one project for each platform that has been chosen.  Since we chose a project with three platforms, we get four projects:</p>
+<p><img alt="The TaskList Project Layout" src="../img/xf-newsolution.PNG" /></p>
+<p>Most of our work will happen in the common library.  However, we can introduce platform-specific code at any point.  The platform-specific code is stored in the platform-specific project.</p>
+<p>There is one final item we must do before we leave the set up of the project.  There are a number of platform upgrades that inevitably have to happen.  The Xamarin Platform is updated much more often than the Visual Studio plugin - the updates are released via NuGet: the standard method of distributing libraries for .NET applications.</p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Although it is tempting, do not include a v1.x version of the Mobile Client. This is for the earlier Azure Mobile Services.  There are many differences between the wire protocols of the two products.</p>
+</div>
+<p>You can install the NuGet packages by right-clicking on the solution and selecting <strong>Manage NuGet Packages for Solution...</strong>.</p>
+<p><img alt="Manage NuGet Packages" src="../img/nuget-mobileinstall.PNG" /></p>
+<p>You can generally select all the updates.  However, do <strong>NOT</strong> update the Jwt package (System.IdentityModel.Tokens.Jwt) as this will break the server project.  You can update the System.IdentityModel.Tokens.Jwt to the latest v4.x release. Do <strong>NOT</strong> install a v5.x release.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Android generally has more updates than the other platforms.  Ensure that you update the main Xamarin.Forms package and then refresh the update list.  This will ensure the right list of packages is updated.</p>
+</div>
+<p>You should also install the <code>Microsoft.Azure.Mobile.Client</code> library in all the client projects.</p>
+<h3 id="building-the-common-library">Building the Common Library<a class="headerlink" href="#building-the-common-library" title="Permanent link">&para;</a></h3>
+<p>There are two parts that we must concentrate on within the common library.  The first is the connection to Azure Mobile Apps and the second is in the pages that the user interacts with.  In both cases, there are best practices to observe.</p>
+<h4 id="building-an-azure-mobile-apps-connection">Building an Azure Mobile Apps Connection<a class="headerlink" href="#building-an-azure-mobile-apps-connection" title="Permanent link">&para;</a></h4>
+<p>We will rely on interfaces for defining the shape for the class for any service that we interact with.  This is really not important in small projects like this one.  This technique allows us to mock the backend service, as we shall see later on.  Mocking the backend service is a great technique to rapidly iterate on the front end mobile client without getting tied into what the backend is doing.</p>
+<p>Let's start with the cloud service - this is defined in <code>Abstractions\ICloudService.cs</code>.  It is used for initializing the connection and getting a table definition:</p>
+<pre><code class="csharp">namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
+    }
+}
+</code></pre>
+
+<p>The <code>ICloudTable</code> generic interface represents a CRUD interface into a table and is defined in <code>Abstractions\ICloudTable.cs</code>:</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudTable&lt;T&gt; where T : TableData
+    {
+        Task&lt;T&gt; CreateItemAsync(T item);
+        Task&lt;T&gt; ReadItemAsync(string id);
+        Task&lt;T&gt; UpdateItemAsync(T item);
+        Task DeleteItemAsync(T item);
+
+        Task&lt;ICollection&lt;T&gt;&gt; ReadAllItemsAsync();
+    }
+}
+</code></pre>
+
+<p>The <code>ICloudTable&lt;T&gt;</code> interface defines the normal CRUD operations: Create, Read, Update and Delete.  However, it does so asynchronously.  We are dealing with network operations in general so it is easy for those operations to tie up the UI thread for an appreciable amount of time.  Making them async provides the ability to respond to other events.  I also provide a <code>ReadAllItemsAsync()</code> method that returns a collection of all the items.</p>
+<p>There are some fields that every single record within an Azure Mobile Apps table provides.  These fields are required for offline sync capabilities like incremental sync and conflict resolution.  The fields are provided by an abstract base class on the client called <code>TableData</code>:</p>
+<pre><code class="csharp">using System;
+
+namespace TaskList.Abstractions
+{
+    public abstract class TableData
+    {
+        public string Id { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public byte[] Version { get; set; }
+    }
+}
+</code></pre>
+
+<p>As we will learn when we deal with <a href="../../chapter3/dataconcepts/">table data</a>, these fields need to be defined with the same name and semantics as on the server.  Our model on the server was sub-classed from <code>EntityData</code> and the <code>EntityData</code> class on the server defines these fields.</p>
+<p>It's tempting to call the client version of the class the same as the server version.  If we did that, the models on both the client and server would look the same.  However, I find that this confuses the issue.  The models on the client and server are not the same.  They are missing the <code>Deleted</code> flag and they do not contain any relationship information on the client.  I choose to deliberately call the base class something else on the client to avoid this confusion.</p>
+<p>We will be adding to these interfaces in future chapters as we add more capabilities to the application.</p>
+<p>The concrete implementations of these classes are similarly easily defined.  The Azure Mobile Apps Client SDK does most of the work for us.  Here is the concrete implementation of the <code>ICloudService</code> (in <code>Services\AzureCloudService.cs</code>):</p>
+<pre><code class="csharp">using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+
+namespace TaskList.Services
+{
+    public class AzureCloudService : ICloudService
+    {
+        MobileServiceClient client;
+
+        public AzureCloudService()
+        {
+            client = new MobileServiceClient(&quot;https://my-backend.azurewebsites.net&quot;);
+        }
+
+        public ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData
+        {
+            return new AzureCloudTable&lt;T&gt;(client);
+        }
+    }
+}
+</code></pre>
+
+<div class="admonition warn">
+<p class="admonition-title">Ensure you use HTTPS</p>
+<p>If you copy the URL on the Overview page of your App Service, you will get the http version of the endpoint.  You must provide the https version of the endpoint when using App Service.  The http endpoint redirects to https and the standard HttpClient does not handle redirects.</p>
+</div>
+<p>The Azure Mobile Apps Client SDK takes a lot of the pain out of communicating with the mobile backend that we have already published.  Just swap out the name of your mobile backend and the rest is silently dealt with.</p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>The name <code>Microsoft.WindowsAzure.MobileServices</code> is a hold-over from the old Azure Mobile Services code-base.  Don't be fooled - clients for Azure Mobile Services are not interchangeable with clients for Azure Mobile Apps.</p>
+</div>
+<p>We also need a concrete implementation of the <code>ICloudTable&lt;T&gt;</code> interface (in <code>Services\AzureCloudTable.cs</code>):</p>
+<pre><code class="csharp">using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+
+namespace TaskList.Services
+{
+    public class AzureCloudTable&lt;T&gt; : ICloudTable&lt;T&gt; where T : TableData
+    {
+        MobileServiceClient client;
+        IMobileServiceTable&lt;T&gt; table;
+
+        public AzureCloudTable(MobileServiceClient client)
+        {
+            this.client = client;
+            this.table = client.GetTable&lt;T&gt;();
+        }
+
+        #region ICloudTable implementation
+        public async Task&lt;T&gt; CreateItemAsync(T item)
+        {
+            await table.InsertAsync(item);
+            return item;
+        }
+
+        public async Task DeleteItemAsync(T item)
+        {
+            await table.DeleteAsync(item);
+        }
+
+        public async Task&lt;ICollection&lt;T&gt;&gt; ReadAllItemsAsync()
+        {
+            return await table.ToListAsync();
+        }
+
+        public async Task&lt;T&gt; ReadItemAsync(string id)
+        {
+            return await table.LookupAsync(id);
+        }
+
+        public async Task&lt;T&gt; UpdateItemAsync(T item)
+        {
+          await table.UpdateAsync(item);
+          return item;
+        }
+        #endregion
+    }
+}
+</code></pre>
+
+<p>It's important to note here that the Azure Mobile Apps Client SDK does a lot of the work for us.  In fact, we are just wrapping the basic interface here.  This won't normally be the case, but you can see that the majority of the code for dealing with the remote server is done for us.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can use a shorthand (called a lambda expression) for methods with only one line. For instance, the delete method could just as easily have been written as:</p>
+<p><code>public async Task DeleteItemAsync(T item) =&gt; await table.DeleteAsync(item);</code></p>
+<p>You may see this sort of short hand in samples.</p>
+</div>
+<p>We also need to create the model that we will use for the data.  This should look very similar to the model on the server - including having the same name and fields.  In this case, it's <code>Models\TodoItem.cs</code>:</p>
+<pre><code class="csharp">using TaskList.Abstractions
+
+namespace TaskList.Models
+{
+    public class TodoItem : TableData
+    {
+        public string Text { get; set; }
+        public bool Complete { get; set; }
+    }
+}
+</code></pre>
+
+<p>We have a final piece of code to write before we move on to the views, but it's an important piece.  The <code>ICloudService</code> must be a singleton in the client.  We will add authentication and offline sync capabilities in future versions of this code.  The singleton becomes critical when using those features.  For right now, it's good practice and saves on memory if you only have one copy of the <code>ICloudService</code> in your mobile client.  Since there is only one copy of the <code>App.cs</code> in any given app, I can place it there.  Ideally, I'd use some sort of dependency injection system or a singleton manager to deal with this.  Here is the <code>App.cs</code>:</p>
+<pre><code class="csharp">using TaskList.Abstractions;
+using TaskList.Services;
+using Xamarin.Forms;
+
+namespace TaskList
+{
+    public class App : Application
+    {
+        public static ICloudService CloudService { get; set; }
+
+        public App()
+        {
+            CloudService = new AzureCloudService();
+            MainPage = new NavigationPage(new Pages.EntryPage());
+        }
+
+        // There are lifecycle methods here...
+    }
+}
+</code></pre>
+
+<p>We haven't written <code>Pages.EntryPage</code> yet, but that's coming.  The original <code>App.cs</code> class file had several methods for handling lifecycle events like starting, suspending or resuming the app.  I did not touch those methods for this example.</p>
+<h4 id="building-the-ui-for-the-app">Building the UI for the App<a class="headerlink" href="#building-the-ui-for-the-app" title="Permanent link">&para;</a></h4>
+<p>Earlier, I showed the mockup for my UI.  It included three pages - an entry page, a list page and a detail page.  These pages have three elements - a XAML definition file, a (simple) code-behind file and a view model.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This book is not intending to introduce you to everything that there is to know about Xamarin and UI programming with XAML.  If you wish to have that sort of introduction, then I recommend reading the excellent book by Charles Petzold: <a href="https://developer.xamarin.com/guides/xamarin-forms/creating-mobile-apps-xamarin-forms/">Creating Mobile Apps with Xamarin.Forms</a>.</p>
+</div>
+<p>I tend to use MVVM (or Model-View-ViewModel) for UI development in Xamarin based applications.  It's a nice clean pattern and is well understood and documented.  In MVVM, there is a 1:1 correlation between the view and the view-model, 2-way communication between the view and the view-model and properties within the view-model are bound directly to UI elements.  In general (and in all my code), view-models expose an INotifyPropertyChanged event to tell the UI that something within the view-model has been changed.</p>
+<p>To do this, we will use a <code>BaseViewModel</code> class that implements the base functionality for each view.  Aside from the <code>INotifyPropertyChanged</code> interface, there are some common properties we need for each page.  Each page needs a title, for example, and each page needs an indicator of network activity.  These can be placed in the <code>Abstractions\BaseViewModel.cs</code> class:</p>
+<pre><code class="csharp">using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace TaskList.Abstractions
+{
+    public class BaseViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        string _propTitle = string.Empty;
+        bool _propIsBusy;
+
+        public string Title
+        {
+            get { return _propTitle; }
+            set { SetProperty(ref _propTitle, value, &quot;Title&quot;); }
+        }
+
+        public bool IsBusy
+        {
+            get { return _propIsBusy; }
+            set { SetProperty(ref _propIsBusy, value, &quot;IsBusy&quot;); }
+        }
+
+        protected void SetProperty&lt;T&gt;(ref T store, T value, string propName, Action onChanged = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(store, value))
+                return;
+            store = value;
+            if (onChanged != null)
+                onChanged();
+            OnPropertyChanged(propName);
+        }
+
+        public void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged == null)
+                return;
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+    }
+}
+</code></pre>
+
+<p>This is a fairly common <code>INotifyPropertyChanged</code> interface implementation pattern.  Each property that we want to expose is a standard property, but the <code>set</code> operation is replaced by the <code>SetProperty()</code> call.  The <code>SetProperty()</code> call deals with the notification; calling the event emitter if the property has changed value.  We only need two properties on the <code>BaseViewModel</code>: the title and the network indicator.</p>
+<p>I tend to write my apps in two stages.  I concentrate on the functionality of the app in the first stage.  There is no fancy graphics, custom UI widgets, or anything else to clutter the thinking.   The page is all about the functionality of the various interactions.  Once I have the functionality working, I work on the styling of the page.  We won't be doing any styling work in the demonstration apps that we write during the course of this book.</p>
+<p>The EntryPage has just one thing to do.  It provides a button that enters the app. When we cover authentication later on, we'll use this to log in to the backend.  If you are looking at the perfect app, this is a great place to put the introductory screen.</p>
+<p>Creating a XAML file is relatively simple.  First, create a <code>Pages</code> directory to hold the pages of our application.  Then right-Click the <code>Pages</code> directory in the solution explorer and choose <strong>Add</strong> -&gt; <strong>New Item...</strong>.  In the <strong>Add New Item</strong> dialog, pick <strong>Visual C#</strong> -&gt; <strong>Cross-Platform</strong> -&gt; <strong>Forms Blank Content Page Xaml</strong>.  Name the new page <code>EntryPage.xaml</code>.  This will create two files - <code>EntryPage.xaml</code> and <code>EntryPage.xaml.cs</code>.  Let's center a button on the page and wire it up with a command.  Here is the <code>Pages\EntryPage.xaml</code> file:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;ContentPage xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+             x:Class=&quot;TaskList.Pages.EntryPage&quot;
+             Title=&quot;{Binding Title}&quot;&gt;
+    &lt;ContentPage.Content&gt;
+        &lt;StackLayout HorizontalOptions=&quot;Center&quot;
+                     Orientation=&quot;Vertical&quot;
+                     VerticalOptions=&quot;Center&quot;&gt;
+            &lt;Button BackgroundColor=&quot;Teal&quot;
+                    BorderRadius=&quot;10&quot;
+                    Command=&quot;{Binding LoginCommand}&quot;
+                    Text=&quot;Login&quot;
+                    TextColor=&quot;White&quot; /&gt;
+        &lt;/StackLayout&gt;
+    &lt;/ContentPage.Content&gt;
+&lt;/ContentPage&gt;
+</code></pre>
+
+<p>There are a couple of interesting things to note here.  The <code>StackLayout</code> element is our layout element.  It occupies the entire screen (since it is a direct child of the content page) and the options just center whatever the contents are.  The only contents are a button.</p>
+<p>There are two bindings.  These are bound from the view-model.  We've already seen the Title property - this is a text field that specifies the title of the page. The other binding is a login command.  When the button is tapped, the login command will be run.  We'll get onto that in the view-model later.</p>
+<p>The other part of the XAML is the code-behind file.  Because we are moving all of the non-UI code into a view-model, the code-behind file is trivial:</p>
+<pre><code class="csharp">using TodoList.ViewModels;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace TodoList.Pages
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class EntryPage : ContentPage
+    {
+        public EntryPage ()
+        {
+            InitializeComponent ();
+            BindingContext = new EntryPageViewModel();
+        }
+    }
+}
+</code></pre>
+
+<p>This is a recipe that will be repeated over and over again for the code-behind when you are using a XAML-based project with MVVM.  We initialize the UI, then bind all the bindings to a new instantiation of the view model.</p>
+<p>Talking of which, the view-model needs just to handle the login click.  Note that the location or namespace is <code>TaskList.ViewModels</code>.  I'm of two minds about location. There tends to be a 1:1 relationship between the XAML file and the View Model, so it makes sense that they are stored together.  However, just about all the sample code that I see has the view-models in a separate namespace.  Which one is correct? I'll go with copying the samples for now.  Here is the code for <code>ViewModels\EntryPageViewModel.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class EntryPageViewModel : BaseViewModel
+    {
+        public EntryPageViewModel()
+        {
+            Title = &quot;Task List&quot;;
+        }
+
+        Command loginCmd;
+        public Command LoginCommand =&gt; loginCmd ?? (loginCmd = new Command(async () =&gt; await ExecuteLoginCommand().ConfigureAwait(false)));
+
+        async Task ExecuteLoginCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;[Login] Error = {ex.Message}&quot;);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>This is a fairly simple view-model but there are some patterns here that are worth explaining.  Firstly, note the way we create the <code>LoginCommand</code> property. This is the property that is bound to the <code>Command</code> parameter in the <code>Button</code> of our view.  This recipe is the method of invoking a UI action asynchronously. It isn't important now, but we will want this technique repeatedly as our UI actions kick off network activity.</p>
+<p>The second is the pattern for the <code>ExecuteLoginCommand</code> method.  Firstly, I ensure nothing else is happening by checking the IsBusy flag.   If nothing is happening, I set the IsBusy flag.  Then I do what I need to do in a try/catch block.  If an exception is thrown, I deal with it.  Most of the time this involves displaying an error condition.  There are several cross-platform dialog packages to choose from or you can roll your own.  That is not covered here.  We just write a debug log statement so we can see the result in the debug log.  Once everything is done, we clear the IsBusy flag.</p>
+<p>The only thing we are doing now is swapping out our main page for a new main page.  This is where we will attach authentication later on.</p>
+<p>The next page is the Task List page, which is in <code>Pages\TaskList.xaml</code>:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;ContentPage xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+             x:Class=&quot;TaskList.Pages.TaskList&quot;
+             Title=&quot;{Binding Title}&quot;&gt;
+  &lt;ContentPage.Content&gt;
+    &lt;StackLayout&gt;
+      &lt;ListView BackgroundColor=&quot;#7F7F7F&quot;
+                CachingStrategy=&quot;RecycleElement&quot;
+                IsPullToRefreshEnabled=&quot;True&quot;
+                IsRefreshing=&quot;{Binding IsBusy, Mode=OneWay}&quot;
+                ItemsSource=&quot;{Binding Items}&quot;
+                RefreshCommand=&quot;{Binding RefreshCommand}&quot;
+                RowHeight=&quot;50&quot;
+                SelectedItem=&quot;{Binding SelectedItem, Mode=TwoWay}&quot;&gt;
+        &lt;ListView.ItemTemplate&gt;
+          &lt;DataTemplate&gt;
+            &lt;ViewCell&gt;
+              &lt;StackLayout HorizontalOptions=&quot;FillAndExpand&quot;
+                           Orientation=&quot;Horizontal&quot;
+                           Padding=&quot;10&quot;
+                           VerticalOptions=&quot;CenterAndExpand&quot;&gt;
+                &lt;Label HorizontalOptions=&quot;FillAndExpand&quot;
+                       Text=&quot;{Binding Text}&quot;
+                       TextColor=&quot;#272832&quot; /&gt;
+                &lt;Switch IsToggled=&quot;{Binding Complete, Mode=OneWay}&quot; /&gt;
+              &lt;/StackLayout&gt;
+            &lt;/ViewCell&gt;
+          &lt;/DataTemplate&gt;
+        &lt;/ListView.ItemTemplate&gt;
+      &lt;/ListView&gt;
+      &lt;StackLayout HorizontalOptions=&quot;Center&quot;
+                   Orientation=&quot;Horizontal&quot;&gt;
+        &lt;Button BackgroundColor=&quot;Teal&quot;
+                Command=&quot;{Binding AddNewItemCommand}&quot;
+                Text=&quot;Add New Item&quot;
+                TextColor=&quot;White&quot; /&gt;
+      &lt;/StackLayout&gt;
+    &lt;/StackLayout&gt;
+  &lt;/ContentPage.Content&gt;
+&lt;/ContentPage&gt;
+</code></pre>
+
+<p>Note that some bindings here are one-way.  This means that the value in the view-model drives the value in the UI.  There is nothing within the UI that you can do to alter the state of the underlying property.  Some bindings are two-way. Doing something in the UI (for example, toggling the switch) alters the underlying property.</p>
+<p>This view is a little more complex.  It can be split into two parts - the list at the top of the page and the button area at the bottom of the page.  The list area uses a template to help with the display of each item.</p>
+<p>Note that the <code>ListView</code> object has a "pull-to-refresh" option that I have wired up so that when pulled, it calls the RefreshCommand.  It also has an indicator that I have wired up to the IsBusy indicator.  Anyone who is familiar with the iOS "pull-to-refresh" gesture can probably guess what this does.</p>
+<p>The code behind in <code>Pages\TaskList.xaml.cs</code>:</p>
+<pre><code class="csharp">using TodoList.ViewModels;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace TodoList.Pages
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class TaskList : ContentPage
+    {
+        public TaskList ()
+        {
+            InitializeComponent ();
+            BindingContext = new TaskListViewModel();
+        }
+    }
+}
+
+</code></pre>
+
+<p>There is a view-model that goes along with the view (in <code>ViewModels\TaskListViewModel.cs</code>):</p>
+<pre><code class="csharp">using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using TaskList.Models;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class TaskListViewModel : BaseViewModel
+    {
+        public TaskListViewModel()
+        {
+            Title = &quot;Task List&quot;;
+            RefreshList();
+        }
+
+        ObservableCollection&lt;TodoItem&gt; items = new ObservableCollection&lt;TodoItem&gt;();
+        public ObservableCollection&lt;TodoItem&gt; Items
+        {
+            get { return items; }
+            set { SetProperty(ref items, value, &quot;Items&quot;); }
+        }
+
+        TodoItem selectedItem;
+        public TodoItem SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                SetProperty(ref selectedItem, value, &quot;SelectedItem&quot;);
+                if (selectedItem != null)
+                {
+                    Application.Current.MainPage.Navigation.PushAsync(new Pages.TaskDetail(selectedItem));
+                    SelectedItem = null;
+                }
+            }
+        }
+
+        Command refreshCmd;
+        public Command RefreshCommand =&gt; refreshCmd ?? (refreshCmd = new Command(async () =&gt; await ExecuteRefreshCommand()));
+
+        async Task ExecuteRefreshCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                var table = App.CloudService.GetTable&lt;TodoItem&gt;();
+                var list = await table.ReadAllItemsAsync();
+                Items.Clear();
+                foreach (var item in list)
+                    Items.Add(item);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;[TaskList] Error loading items: {ex.Message}&quot;);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        Command addNewCmd;
+        public Command AddNewItemCommand =&gt; addNewCmd ?? (addNewCmd = new Command(async () =&gt; await ExecuteAddNewItemCommand()));
+
+        async Task ExecuteAddNewItemCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new Pages.TaskDetail());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;[TaskList] Error in AddNewItem: {ex.Message}&quot;);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        async Task RefreshList()
+        {
+            await ExecuteRefreshCommand();
+            MessagingCenter.Subscribe&lt;TaskDetailViewModel&gt;(this, &quot;ItemsChanged&quot;, async (sender) =&gt;
+            {
+                await ExecuteRefreshCommand();
+            });
+        }
+    }
+}
+</code></pre>
+
+<p>This is a combination of the patterns we have seen earlier.  The Add New Item and Refresh commands should be fairly normal patterns now.  We navigate to the detail page (more on that later) in the case of selecting an item (which occurs when the UI sets the <code>SelectedItem</code> property through a two-way binding) and when the user clicks on the Add New Item button.  When the Refresh button is clicked (or when the user opens the view for the first time), the list is refreshed.  It is fairly common to use an <code>ObservableCollection</code> or another class that uses the <code>ICollectionChanged</code> event handler for the list storage.  Doing so allows the UI to react to changes in the items.</p>
+<p>Note the use of the <code>ICloudTable</code> interface here.  We are using the <code>ReadAllItemsAsync()</code> method to get a list of items, then we copy the items we received into the  ObservableCollection`.</p>
+<p>Finally, there is the TaskDetail page.  This is defined in the <code>Pages\TaskDetail.xaml</code> file:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;ContentPage xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+             x:Class=&quot;TaskList.Pages.TaskDetail&quot;
+             Title=&quot;{Binding Title}&quot;&gt;
+  &lt;ContentPage.Content&gt;
+    &lt;StackLayout Padding=&quot;10&quot; Spacing=&quot;10&quot;&gt;
+      &lt;Label Text=&quot;What should I be doing?&quot;/&gt;
+      &lt;Entry Text=&quot;{Binding Item.Text}&quot;/&gt;
+      &lt;Label Text=&quot;Completed?&quot;/&gt;
+      &lt;Switch IsToggled=&quot;{Binding Item.Complete}&quot;/&gt;
+      &lt;StackLayout VerticalOptions=&quot;CenterAndExpand&quot;/&gt;
+      &lt;StackLayout Orientation=&quot;Vertical&quot; VerticalOptions=&quot;End&quot;&gt;
+        &lt;StackLayout HorizontalOptions=&quot;Center&quot; Orientation=&quot;Horizontal&quot;&gt;
+          &lt;Button BackgroundColor=&quot;#A6E55E&quot;
+                  Command=&quot;{Binding SaveCommand}&quot;
+                  Text=&quot;Save&quot; TextColor=&quot;White&quot;/&gt;
+          &lt;Button BackgroundColor=&quot;Red&quot;
+                  Command=&quot;{Binding DeleteCommand}&quot;
+                  Text=&quot;Delete&quot; TextColor=&quot;White&quot;/&gt;
+        &lt;/StackLayout&gt;
+      &lt;/StackLayout&gt;
+    &lt;/StackLayout&gt;
+  &lt;/ContentPage.Content&gt;
+&lt;/ContentPage&gt;
+</code></pre>
+
+<p>This page is a simple form with just two buttons that need to have commands wired up.  However, this page is used for both the "Add New Item" gesture and the "Edit Item" gesture.  As a result of this, we need to handle the passing of the item to be edited.  This is done in the <code>Pages\TaskDetail.xaml.cs</code> code-behind file:</p>
+<pre><code class="csharp">using TodoList.Models;
+using TodoList.ViewModels;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace TodoList.Pages
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class TaskDetail : ContentPage
+    {
+        public TaskDetail (TodoItem item = null)
+        {
+            InitializeComponent ();
+            BindingContext = new TaskDetailViewModel(item);
+        }
+    }
+}
+
+</code></pre>
+
+<p>The item that is passed in from the <code>TaskList</code> page is used to create a specific view-model for that item.  The view-model is similarly configured to use that item:</p>
+<pre><code class="csharp">using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using TaskList.Abstractions;
+using TaskList.Models;
+using Xamarin.Forms;
+
+namespace TaskList.ViewModels
+{
+    public class TaskDetailViewModel : BaseViewModel
+    {
+        ICloudTable&lt;TodoItem&gt; table = App.CloudService.GetTable&lt;TodoItem&gt;();
+
+        public TaskDetailViewModel(TodoItem item = null)
+        {
+            if (item != null)
+            {
+                Item = item;
+                Title = item.Text;
+            }
+            else
+            {
+                Item = new TodoItem { Text = &quot;New Item&quot;, Complete = false };
+                Title = &quot;New Item&quot;;
+            }
+        }
+
+        public TodoItem Item { get; set; }
+
+        Command cmdSave;
+        public Command SaveCommand =&gt; cmdSave ?? (cmdSave = new Command(async () =&gt; await ExecuteSaveCommand()));
+
+        async Task ExecuteSaveCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                if (Item.Id == null)
+                {
+                    await table.CreateItemAsync(Item);
+                }
+                else
+                {
+                    await table.UpdateItemAsync(Item);
+                }
+                MessagingCenter.Send&lt;TaskDetailViewModel&gt;(this, &quot;ItemsChanged&quot;);
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;[TaskDetail] Save error: {ex.Message}&quot;);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        Command cmdDelete;
+        public Command DeleteCommand =&gt; cmdDelete ?? (cmdDelete = new Command(async () =&gt; await ExecuteDeleteCommand()));
+
+        async Task ExecuteDeleteCommand()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+
+            try
+            {
+                if (Item.Id != null)
+                {
+                    await table.DeleteItemAsync(Item);
+                }
+                MessagingCenter.Send&lt;TaskDetailViewModel&gt;(this, &quot;ItemsChanged&quot;);
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($&quot;[TaskDetail] Save error: {ex.Message}&quot;);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>The save command uses the <code>ICloudTable</code> interface again - this time doing either <code>CreateItemAsync()</code> or <code>UpdateItemAsync()</code> to create or update the item.  The delete command, as you would expect, deletes the item with the <code>DeleteItemAsync()</code> method.</p>
+<p>The final thing to note from our views is that I am using the <code>MessagingCenter</code> to communicate between the TaskDetail and TaskList views.  If I change the item in the <code>TaskDetail</code> list, then I want to update the list in the <code>TaskList</code> view.</p>
+<p>Note that all the code we have added to the solution thus far is in the common <code>TaskList</code> project.  Nothing is required for this simple example in a platform specific project.  That isn't normal, as we shall see in later chapters.</p>
+<h3 id="building-the-client-for-universal-windows">Building the Client for Universal Windows<a class="headerlink" href="#building-the-client-for-universal-windows" title="Permanent link">&para;</a></h3>
+<p>I tend to start by building the Universal Windows mobile client.  I'm using Visual Studio, after all, and I don't need to use any emulator.  To build the clients:</p>
+<ul>
+<li>Right-Click the <strong>TaskList.UWP (Universal Windows)</strong> project, then select <strong>Set as StartUp Project</strong>.</li>
+<li>Right-Click the <strong>TaskList.UWP (Universal Windows)</strong> project again, then select <strong>Build</strong>.</li>
+<li>Once the build is complete, Right-Click the <strong>TaskList.UWP (Universal Windows)</strong> project again, then select <strong>Deploy</strong>.</li>
+<li>Click the <strong>Local Machine</strong> button in your command bar to run the application.</li>
+</ul>
+<p>Ignore the warning <strong>APPX0108</strong> produced during the build.  It warns that your certificate has expired (you don't have one yet).  You can still run the application because you have turned Developer mode on in the Windows Settings.</p>
+<p>Here are the three screen screens we generated on Windows:</p>
+<p><img alt="Screen shots for Windows UWP" src="../img/uwp-final.png" /></p>
+<p>There are some problems with the UWP version.  Most notably, the "pull-to-refresh" gesture does not exist, so we will need to set up an alternate gesture.  This could be as easy as adding a refresh button right next to the Add New Item button.  In addition, there is no indication of network activity - this manifests as a significant delay between the TaskList page appearing and the data appearing in the list.</p>
+<p>Aside from this, I did do some styling work to ensure that the final version looked like my mock-ups (with the exception of the UI form of the switch, which is platform dependent).  If you want to see what I did to correct this, check out the final version of <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1">the Chapter 1 sample</a> on GitHub.</p>
+<div class="admonition tip">
+<p class="admonition-title">Building for On-Premise</p>
+<p>If you want to run your backend using on-premise resources (for example, Azure Stack or a local IIS service), your UWP application will need the <strong>Private Networks</strong> capability.  You can add this in the <code>Package.appxmanifest</code> file.  Choose the <strong>Capabilities</strong> tab and add the required capability.</p>
+</div>
+<p>If you need to build the project, ensure you redeploy the project after building.  It's a step that is easy to miss and can cause some consternation as you change the code and it doesn't seem to have an effect on the application.  To aid you in this:</p>
+<ul>
+<li>Select <strong>Build</strong> -&gt; <strong>Configuration Manager...</strong></li>
+<li>Set the <strong>Active solution platform</strong> to <strong>Any CPU</strong>.</li>
+<li>Uncheck all the boxes under <strong>Build</strong> and <strong>Deploy</strong>.</li>
+<li>Check the boxes for <strong>TodoList.UWP</strong> under to <strong>Build</strong> and <strong>Deploy</strong>.</li>
+<li>Click <strong>Close</strong>.</li>
+</ul>
+<p><img alt="Setting the Build options" src="../img/img29.PNG" /></p>
+<p>When you click the <strong>Local Machine</strong> button to start the application, Visual Studio will automatically build and deploy your app.</p>
+<h3 id="building-the-client-for-android">Building the Client for Android<a class="headerlink" href="#building-the-client-for-android" title="Permanent link">&para;</a></h3>
+<p>Prior to building the Android version of the application, we need to make two additional changes.  Go to your Android project and open the <strong>MainActivity.cs</strong> file.  In the <strong>OnCreate</strong> method we need to add an initalizer for our Mobile Apps SDK:</p>
+<pre><code class="csharp">protected override void OnCreate(Bundle bundle)
+{
+    TabLayoutResource = Resource.Layout.Tabbar;
+    ToolbarResource = Resource.Layout.Toolbar;
+    base.OnCreate(bundle);
+
+    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+    LoadApplication(new App());
+}
+</code></pre>
+
+<p>We also need to set the minimum API version.  Azure Mobile Apps only works with API level 19 or above and the provided template set the minimum SDK version to API level 15.  Open the <code>Properties\AndroidManifest.xml</code> file in the <strong>TaskList.Android</strong> project and update the <code>uses-sdk</code> element:</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;uses-sdk android:minSdkVersion=&quot;19&quot; /&gt;
+    &lt;application android:label=&quot;TodoList.Android&quot;&gt;&lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre>
+
+<p>Once that is done:</p>
+<ul>
+<li>Right-Click the <strong>TaskList.Droid</strong> project, then select <strong>Set as StartUp Project</strong>.</li>
+<li>Right-Click the <strong>TaskList.Droid</strong> project again, then select <strong>Build</strong>.</li>
+</ul>
+<div class="admonition warn">
+<p class="admonition-title">Updating Xamarin.Android Support Packages</p>
+<p>If you use NuGet to update the referenced packages, ensure all the Xamarin Android support packages are the same version.  Your build will fail if this is not the case.</p>
+</div>
+<p>You may see build failures for a variety of reasons.  Generally, a search on the Xamarin Forums will turn up the root cause of the failure.  Xamarin Android builds seem to have more errors than either Windows or iOS, but they are easily correctable issues with the environment.</p>
+<p>In Visual Studio 2017, we use the Google Emulator for Android to test our Android application.  Four devices will be defined for you by default:</p>
+<p><img alt="Android Device Run" src="../img/img30.PNG" /></p>
+<p>Select the <strong>VisualStudio_android-23_x86_phone</strong> emulator.</p>
+<div class="admonition tip">
+<p class="admonition-title">Disable Hyper-V before using the Google Emulator</p>
+<p>The Google Android Emulator is incompatible with Hyper-V.  If you see deployment errors, check the output window.  You may see a message asking you to disable Hyper-V.  Open up a PowerShell prompt with "Run as Administrator" and type <code>bcdedit /set hypervisorlaunchtype off</code>, then restart your computer.  When the computer is restarted, Hyper-V will not be running.</p>
+</div>
+<p>If everything is working, you should see the Google Android Emulator display your mobile client:</p>
+<p><img alt="Android Final" src="../img/droid-final.PNG" /></p>
+<p>Note that the task list view is a "light" style and the rest of the app is a "dark" style.  This is because the default styling on an Android device is dark.  We are using the default styling on two of the pages and specifying colors on the list page.  Fortunately, Xamarin Forms allows for <a href="https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/">platform-specific styling</a>.  The <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1">final sample</a> has platform-specific styling for the list page.</p>
+<h3 id="building-the-client-for-ios">Building the Client for iOS<a class="headerlink" href="#building-the-client-for-ios" title="Permanent link">&para;</a></h3>
+<p>Finally, we get to the iOS platform.  You will need to ensure your Mac is turned on and accessible via ssh, that it has XCode installed (and you have run XCode once so that you can accept the license agreement), and it has Visual Studio for Mac installed.</p>
+<div class="admonition tip">
+<p class="admonition-title">Use Visual Studio Mobile Center for Mac Builds</p>
+<p>If you don't have a Mac handy, you can use <a href="https://mobile.azure.com/signup?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Visual Studio Mobile Center</a> to build your iOS version.  You will need a signing certificate for this as you will obviously not have access to the iOS Simulator that is available on a Mac.</p>
+</div>
+<p>When you created the projects, you were asked to link Visual Studio to your mac.  This linkage is used for building the project.  In essence, the entire project is sent to the Mac and the build tools that are supplied with Visual Studio for Mac are used to build the project.</p>
+<ul>
+<li>Right-click the <strong>TaskList.iOS</strong> project and select <strong>Set as StartUp Project</strong>.</li>
+<li>Right-click the <strong>TaskList.iOS</strong> project and select <strong>Build</strong>.</li>
+</ul>
+<p>You knew it was not going to be that easy, right?  Here are the errors that I received when building for the first time:</p>
+<p><img alt="iOS First Build Errors" src="../img/ios-build-errors.PNG" /></p>
+<p>The error about <em>No valid iOS code signing keys found in keychain</em> is because we selected (by default) a package to deploy onto an iPhone and have not signed  up for an Apple Developer Account and linked it to our Mac development environment.  To fix this, select the "iPhoneSimulator" Configuration:</p>
+<p><img alt="Select iPhone Simulator" src="../img/select-ios-simulator.PNG" /></p>
+<p>Once you have selected the iPhoneSimulator configuration, re-build the mobile application.  It should work this time.  Run the simulator using the normal Visual Studio method.  Visual Studio 2017 will connect to the Mac to run the simulator but display the simulator on your PC.</p>
+<p>Before long, you should see the following:</p>
+<p><img alt="iOS Simulator Runtime Error" src="../img/ios-missing-nuget.PNG" /></p>
+<p>You need a platform initialization call on most platforms for offline sync, and you always need a platform initializer for iOS. In TaskList.Droid, this should be added in <code>MainActivity.cs</code> and in TaskList.iOS, it's <code>AppDelegate.cs</code>.  In each of these files, there is a line that initializes the Xamarin Forms system.</p>
+<pre><code class="csharp">// Android Version
+global::Xamarin.Forms.Forms.Init(this, bundle);
+// iOS Version
+global::Xamarin.Forms.Forms.Init();
+</code></pre>
+
+<p>Immediately before this line, you should add the  initializer for Azure Mobile Apps. It's important that the Azure Mobile Apps subsystem is initialized prior to Xamarin Forms being initialized and any UI code being called.</p>
+<pre><code class="csharp">Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+</code></pre>
+
+<p>This initializer is not required on the UWP project.  Once this is done and you have re-built the project, you can see the fruits of your labor.  The final product screens look like this:</p>
+<p><img alt="iOS Final Screens" src="../img/ios-final.PNG" /></p>
+<h2 id="some-final-thoughts">Some Final Thoughts<a class="headerlink" href="#some-final-thoughts" title="Permanent link">&para;</a></h2>
+<p>If you have got through the entire process outlined in this Chapter and built the application for each platform, then congratulations.  There are a lot of places where things can go wrong.  You are really integrating the build systems across Visual Studio, Android, Xamarin, and XCode.</p>
+<p>Fortunately, once these are set up, it's likely that they will continue working and you won't have to think too much about them again. The Android and iOS build tools and simulators will just work.</p>
+<p>If you would rather develop code on your mac, the next sectiom is for you - it gets into the nitty gritty of developing the exact same app, but using Visual Studio for Mac instead.</p>
+<p>The following 7 chapters each take one aspect of the cloud services that can be provided to mobile apps and explores it in detail, using an Azure Mobile App as a beginning. You can jump around at this point, but be aware that we expect you to cover these topics in order. If you do the data chapter before covering authentication, it's likely you will have missed important functionality in your app to complete the work.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../.." title="Getting Started" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Getting Started
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../firstapp_mac/" title="Your First App - Mac Edition" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Your First App - Mac Edition
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>

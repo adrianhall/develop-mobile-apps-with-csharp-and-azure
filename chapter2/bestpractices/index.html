@@ -1,0 +1,1383 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter2/bestpractices/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Best Practices - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#best-practices" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Best Practices
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+      Your First App - PC Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../enterprise/" title="Enterprise Authentication" class="md-nav__link">
+      Enterprise Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../realworld/" title="Tokens in Real Apps" class="md-nav__link">
+      Tokens in Real Apps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Best Practices
+      </label>
+    
+    <a href="./" title="Best Practices" class="md-nav__link md-nav__link--active">
+      Best Practices
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" title="Best Practices" class="md-nav__link">
+    Best Practices
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dont-store-passwords" title="Don't store passwords" class="md-nav__link">
+    Don't store passwords
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-the-client-sdk-provided-by-the-identity-provider" title="Use the client SDK provided by the Identity Provider" class="md-nav__link">
+    Use the client SDK provided by the Identity Provider
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swap-the-identity-provider-access-token-for-a-zumo-token" title="Swap the Identity Provider access token for a ZUMO token." class="md-nav__link">
+    Swap the Identity Provider access token for a ZUMO token.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforce-security-at-the-server" title="Enforce Security at the Server" class="md-nav__link">
+    Enforce Security at the Server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#securely-store-tokens" title="Securely Store Tokens" class="md-nav__link">
+    Securely Store Tokens
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-https-only" title="Use https only" class="md-nav__link">
+    Use https only
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle-expiring-tokens" title="Handle Expiring Tokens" class="md-nav__link">
+    Handle Expiring Tokens
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authenticating-your-app" title="Authenticating Your App" class="md-nav__link">
+    Authenticating Your App
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+      Useful Azure Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/arm/" title="Repeatable Deployments" class="md-nav__link">
+      Repeatable Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/appsvc/" title="Safe Deployments" class="md-nav__link">
+      Safe Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" title="Best Practices" class="md-nav__link">
+    Best Practices
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dont-store-passwords" title="Don't store passwords" class="md-nav__link">
+    Don't store passwords
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-the-client-sdk-provided-by-the-identity-provider" title="Use the client SDK provided by the Identity Provider" class="md-nav__link">
+    Use the client SDK provided by the Identity Provider
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swap-the-identity-provider-access-token-for-a-zumo-token" title="Swap the Identity Provider access token for a ZUMO token." class="md-nav__link">
+    Swap the Identity Provider access token for a ZUMO token.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforce-security-at-the-server" title="Enforce Security at the Server" class="md-nav__link">
+    Enforce Security at the Server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#securely-store-tokens" title="Securely Store Tokens" class="md-nav__link">
+    Securely Store Tokens
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-https-only" title="Use https only" class="md-nav__link">
+    Use https only
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle-expiring-tokens" title="Handle Expiring Tokens" class="md-nav__link">
+    Handle Expiring Tokens
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authenticating-your-app" title="Authenticating Your App" class="md-nav__link">
+    Authenticating Your App
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter2/bestpractices.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Best Practices</h1>
+                
+                <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<p>We've covered a lot of ground with authentication and authorization, so I wanted to cover some of the
+best practices that I generally advise when thinking about this topic.</p>
+<h3 id="dont-store-passwords">Don't store passwords<a class="headerlink" href="#dont-store-passwords" title="Permanent link">&para;</a></h3>
+<p>I can't really advise on which identity provider is best for your mobile application.  However, I can
+clearly say that delegating the security of the identity database to someone who has that as their full
+time job is an excellent idea.</p>
+<p>Choosing an identity provider is not easy.  Here are my choices:</p>
+<ol>
+<li>If you need enterprise authentication, use <strong>Azure Active Directory</strong>.</li>
+<li>If you need a specific social identity provider (for example, Facebook or Google), use that.</li>
+<li>If you need multiple social identity providers, <strong>Auth0</strong> is an excellent choice.</li>
+<li>If you need usernames and password, use <strong>Azure Active Directory B2C</strong>.</li>
+</ol>
+<p>Storing usernames and passwords in your own database is a bad idea and should be avoided.  Avoid using Microsoft Account and Twitter authentication providers.  Their implementation has limitations that will be a concern if you ever try to share an authentication provider between two different backends or apps.</p>
+<h3 id="use-the-client-sdk-provided-by-the-identity-provider">Use the client SDK provided by the Identity Provider<a class="headerlink" href="#use-the-client-sdk-provided-by-the-identity-provider" title="Permanent link">&para;</a></h3>
+<p>Your first step should be getting an access token from the identity provider itself.  You will see the
+most integrated experience if you use their SDK.</p>
+<ol>
+<li>For <strong>Azure Active Directory</strong>, that SDK is <a href="https://www.nuget.org/packages/Microsoft.IdentityModel.Clients.ActiveDirectory/">ADAL</a>.</li>
+<li>For <strong>Facebook</strong>, check out <a href="https://www.nuget.org/packages/Xamarin.Facebook.iOS/">Xamarin.Facebook.iOS</a> or <a href="https://www.nuget.org/packages/Xamarin.Facebook.Android/">Xamarin.Facebook.Android</a>.</li>
+<li>For <strong>Google</strong>, check out <a href="https://www.nuget.org/packages/Google.Apis.Core/">Google APIs Core Client Library</a>.</li>
+<li>For <strong>Auth0</strong>, check out the <a href="https://components.xamarin.com/view/auth0client">Auth0 Xamarin Component</a>.</li>
+<li>For <strong>Azure Active Directory B2C</strong>, use <a href="https://www.nuget.org/packages/Microsoft.IdentityModel.Clients.ActiveDirectory/">ADAL</a>.</li>
+</ol>
+<h3 id="swap-the-identity-provider-access-token-for-a-zumo-token">Swap the Identity Provider access token for a ZUMO token.<a class="headerlink" href="#swap-the-identity-provider-access-token-for-a-zumo-token" title="Permanent link">&para;</a></h3>
+<p>Never use the token provided by the identity provider for anything other than requesting access to
+the resource.  Use a short lived token (an hour is the standard) that is minted just for the purpose
+of providing that access.  If you are not using an identity provider that is explicitly supported
+by Azure App Service, use a custom authentication provider to mint your own token.</p>
+<h3 id="enforce-security-at-the-server">Enforce Security at the Server<a class="headerlink" href="#enforce-security-at-the-server" title="Permanent link">&para;</a></h3>
+<p>There is no easy way to say this.  There are bad guys out there, and they are after your data.  You
+should not assume that someone is using your client.  It could just be someone with a REST client.
+Ensure you enforce security on your server.  You can do this easily by using the <code>[Authorize]</code>
+attribute, the <code>[AuthorizeClaims()]</code> attribute we developed in the Authorization section or your
+own custom authorization attribute.</p>
+<p>Monitoring the server is just as important as enforcing security.  The Azure App Service Authentication
+service outputs quite a bit of logging about who is logging in (and who is denied), so you can get some
+good intelligence out of the logs when you mine them properly.</p>
+<h3 id="securely-store-tokens">Securely Store Tokens<a class="headerlink" href="#securely-store-tokens" title="Permanent link">&para;</a></h3>
+<p>The decisions we make are always a trade-off between convenience and security.  One such decision is
+if we should store tokens with the app.  On the one hand, it's convenient to allow the app to remember
+the login and to not ask us to log in again with each app start.  On the other hand, that fact opens
+up a security hole that a determined hacker can exploit.  We can have convenience while still having
+security by utilizing the secure stores that each platform provides to store secrets like the access
+token.</p>
+<h3 id="use-https-only">Use https only<a class="headerlink" href="#use-https-only" title="Permanent link">&para;</a></h3>
+<p>This should go without saying.  Always use https communication.  Most security professionals start off
+their security career with learning "Security at Rest &amp; Security in Transit".  In practical terms, storing
+secrets (like tokens) securely and using HTTPS as a transport mechanism satisfies both claims.</p>
+<p>Don't stop with security there though.  HTTPS is just a medium through which secure communications can
+take place.  There are a wide range of protocols and ciphers that can be used to encrypt the traffic.
+Some are  considered less secure and not to be used.  Azure App Service provides a default set of protocols
+and ciphers to support backwards compatibility with older browsers.  You can adjust the ciphers in use
+by your App Service.  For information on this, refer to the <a href="https://azure.microsoft.com/en-us/documentation/articles/app-service-app-service-environment-custom-settings/">Azure Documentation</a>.</p>
+<h3 id="handle-expiring-tokens">Handle Expiring Tokens<a class="headerlink" href="#handle-expiring-tokens" title="Permanent link">&para;</a></h3>
+<p>Unless you are using an identity provider that doesn't support refresh tokens (like Facebook or Twitter),
+you should handle refresh tokens by silently calling the refresh action.  Tokens are going to expire.
+This is a fact of the token specifications.  You need to deal with expiring tokens and act accordingly.</p>
+<p>If you do need to use an identity provider that does not support refresh tokens, you are going to have
+to ask for credentials whenever the token expires.  You don't get out of determining the user experience
+when tokens expire just because you are using Facebook or Twitter.</p>
+<h2 id="authenticating-your-app">Authenticating Your App<a class="headerlink" href="#authenticating-your-app" title="Permanent link">&para;</a></h2>
+<p>My final word on authentication has to do with authenticating your app.  I get the same request every
+week.  How do I implement an API key for my app?  When I probe a little, I get a few reasons for this
+request:</p>
+<ol>
+<li>I want to ensure my app is the only one accessing my backend because the data is important.</li>
+<li>I don't want my users to log in as it is inconvenient.</li>
+<li>I want to monetize my app, and I can't do that if anyone can copy it.</li>
+</ol>
+<p>API keys are used by multi-tenant systems to route requests for data to the appropriate data store.  For
+example, the very popular <a href="https://github.com/ParsePlatform/parse-server">Parse Server</a> used to have an API key because all clients connected to the
+same <code>parse.com</code> service.  Once the <a href="https://github.com/ParsePlatform/parse-server">Parse Server</a> was open-sourced, the API key went away.  It was no
+longer needed to route the request.  In the same way, the Azure App Service has a unique name - the URL
+of the service, so it doesn't need an API key to route the information.</p>
+<p>An API key does not prevent a rogue client from accessing your data.  If you did use an API key for security,
+you can easily get the API key for the app by putting together a "man in the middle proxy".  One such proxy
+is <a href="http://www.telerik.com/fiddler">Telerik Fiddler</a>.  One of its features is "Security Testing" which amounts to a man-in-the-middle
+decryption technique.  This <a href="https://aurir.wordpress.com/2010/03/22/tutorial-getting-android-emulator-working-with-fiddler-http-proxy-tool/">works with the Android emulator</a> as well.  For iOS, you can use <a href="https://www.charlesproxy.com/documentation/faqs/using-charles-from-an-iphone/">Charles</a>.</p>
+<p>So, how do you authenticate your app?  Step back a moment.  What are you monetizing or protecting?  It's
+likely the data within the mobile backend.  Protect that data by authenticating your users.   If you absolutely
+must monetize your app, then there are ways to do it, and we will discuss those later in the book.</p>
+<!-- Links -->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../realworld/" title="Tokens in Real Apps" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Tokens in Real Apps
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Concepts
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>

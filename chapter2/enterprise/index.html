@@ -1,0 +1,1759 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter2/enterprise/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Enterprise Authentication - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#enterprise-authentication" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Enterprise Authentication
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+      Your First App - PC Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Enterprise Authentication
+      </label>
+    
+    <a href="./" title="Enterprise Authentication" class="md-nav__link md-nav__link--active">
+      Enterprise Authentication
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#enterprise-authentication" title="Enterprise Authentication" class="md-nav__link">
+    Enterprise Authentication
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-active-directory-server-flow-setup" title="Azure Active Directory: Server-Flow setup" class="md-nav__link">
+    Azure Active Directory: Server-Flow setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-authentication-to-a-mobile-client" title="Adding Authentication to a Mobile Client" class="md-nav__link">
+    Adding Authentication to a Mobile Client
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-active-directory-client-flow-setup" title="Azure Active Directory: Client-Flow Setup" class="md-nav__link">
+    Azure Active Directory: Client-Flow Setup
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../realworld/" title="Tokens in Real Apps" class="md-nav__link">
+      Tokens in Real Apps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bestpractices/" title="Best Practices" class="md-nav__link">
+      Best Practices
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+      Useful Azure Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/arm/" title="Repeatable Deployments" class="md-nav__link">
+      Repeatable Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/appsvc/" title="Safe Deployments" class="md-nav__link">
+      Safe Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#enterprise-authentication" title="Enterprise Authentication" class="md-nav__link">
+    Enterprise Authentication
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-active-directory-server-flow-setup" title="Azure Active Directory: Server-Flow setup" class="md-nav__link">
+    Azure Active Directory: Server-Flow setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-authentication-to-a-mobile-client" title="Adding Authentication to a Mobile Client" class="md-nav__link">
+    Adding Authentication to a Mobile Client
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-active-directory-client-flow-setup" title="Azure Active Directory: Client-Flow Setup" class="md-nav__link">
+    Azure Active Directory: Client-Flow Setup
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter2/enterprise.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Enterprise Authentication</h1>
+                
+                <h2 id="enterprise-authentication">Enterprise Authentication<a class="headerlink" href="#enterprise-authentication" title="Permanent link">&para;</a></h2>
+<p>Enterprise Authentication is handled by Azure Active Directory, which is fairly commonly configured within Azure.  Every Azure subscription has a default directory associated with it that you can leverage for this section.  In addition, if your organization has an Office 365 subscription, this will likely be tied to an Azure Active Directory domain to allow enterprise sign-in.  In either case, you have a directory you can use for providing authentication to your app.</p>
+<p>In general, you will need to get special permissions to update the directory. If you want to use your organizations corporate directory, then you are likely to have to get your IT department involved to set it up.</p>
+<h2 id="azure-active-directory-server-flow-setup">Azure Active Directory: Server-Flow setup<a class="headerlink" href="#azure-active-directory-server-flow-setup" title="Permanent link">&para;</a></h2>
+<p>The Azure Active Directory server-flow is perhaps the easiest of all the authentication methods to configure.  No
+matter if you are doing a client flow or server flow, you need to set up the server flow first.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>We recommend that you implement Client Flow in any non-trivial application.</p>
+</div>
+<p>If you are using your default directory and you want to add a couple of test users, you will need to set those up
+first.   Start by logging in to the <a href="https://portal.azure.com/">Azure portal</a>.</p>
+<ol>
+<li>In the left-hand menu, click <strong>More services</strong>.</li>
+<li>Enter <strong>Active Directory</strong> in the search box, then click <strong>Azure Active Directory</strong>.</li>
+<li>(Optional) If you need to manage a different directory to the default directory, click <strong>Switch directory</strong> and choose a different directory.</li>
+<li>
+<p>Click <strong>Users and groups</strong>, then <strong>All users</strong>.</p>
+<p><img alt="AzureAD: All Users" src="../img/aad-ibiza-allusers.PNG" /></p>
+</li>
+<li>
+<p>Click <strong>Add</strong>.</p>
+<p><img alt="AzureAD: Add User" src="../img/aad-ibiza-adduser.PNG" /></p>
+</li>
+<li>
+<p>Fill in the information.  Ensure you add the user to a group, if necessary.  You can also add additional information (like a real name) in the <strong>Profile</strong> section.</p>
+</li>
+<li>Check <strong>Show Password</strong> and make a note of the new password.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>Repeat for each test user you wish to use.  Once done, move onto configuring your App Service for authentication:</p>
+<ol>
+<li>Click <strong>All resources</strong> in the left hand menu.</li>
+<li>Click your App Service or Mobile App.</li>
+<li>Search for and click <strong>Authentication / Authorization</strong> (it's under SETTINGS).</li>
+<li>Change App Service Authentication to <strong>On</strong>. </li>
+<li>Ensure the <strong>Action to take when request is not authenticated</strong> is set to <strong>Allow Anonymous requests</strong>.</li>
+<li>Click <strong>Azure Active Directory</strong>.</li>
+<li>
+<p>Click <strong>Express</strong>.</p>
+<p><img alt="AzureAD: Configuration" src="../img/ent-dev-3.PNG" /></p>
+</li>
+<li>
+<p>All the information is filled in for you.  Click <strong>OK</strong>, then <strong>Save</strong>.</p>
+</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Make sure you create the app service in the right directory / subscription.  If you have access to more than one directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.</p>
+</div>
+<p>There is also an <strong>Advanced</strong> track.  This is used in client-flow situations and in situations where you have more
+than one directory.  The Express flow is great for getting started quickly.</p>
+<div class="admonition info">
+<p class="admonition-title">Preview Portal Access</p>
+<p>Azure Active Directory portal access is in preview right now.  Certain things can only be done through
+the <a href="https://manage.windowsazure.com/">Azure Classic Portal</a>.  The list of things that cannot be done in the Azure Portal
+is thankfully dwindling.</p>
+</div>
+<p>You can walk through a server-flow authentication to test that you have all the settings correct.  Point your browser at https://<em>yoursite</em>.azurewebsites.net/.auth/login/aad.  The browser will take you through an authentication flow before giving you a successful authentication image:</p>
+<p><img alt="AzureAD: Success" src="../img/auth-success.PNG" /></p>
+<p>If you get an error akin to "We are having problems signing you in", use an Incognito or InPrivate browsing window.</p>
+<h2 id="adding-authentication-to-a-mobile-client">Adding Authentication to a Mobile Client<a class="headerlink" href="#adding-authentication-to-a-mobile-client" title="Permanent link">&para;</a></h2>
+<p>Now that the backend is completely configured, we can move our attention to the mobile client.  We are going to be
+using the same mobile client that we developed in the first chapter, but we are now going to add authentication to
+it.  Web views are one of those items that are platform dependent. Fortunately for us, Xamarin has already thought
+of this and provided a facility for running platform specific code called the <a href="https://developer.xamarin.com/guides/xamarin-forms/dependency-service/">DependencyService</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If we run our application right now, clicking on the "Enter the App" button will result in an error.  We will be
+able to see the Unauthorized error in the debug window of Visual Studio.</p>
+</div>
+<p>Our first step is to define an <code>Abstractions\ILoginProvider.cs</code> interface within the  shared project:</p>
+<pre><code class="csharp">using Microsoft.WindowsAzure.MobileServices;
+using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    public interface ILoginProvider
+    {
+        Task LoginAsync(MobileServiceClient client);
+    }
+}
+</code></pre>
+
+<p>Next, we are going to extend our <code>Abstractions\ICloudService.cs</code> interface so that the main application can call
+the login routine:</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+
+namespace TaskList.Abstractions
+{
+    public interface ICloudService
+    {
+        ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData;
+
+        Task LoginAsync();
+    }
+}
+</code></pre>
+
+<p>Our code will call <code>LoginAsync()</code> in the <code>ICloudService</code>, which will get the platform-specific version of the
+login provider and call <code>LoginAsync()</code> there, but with our defined mobile service client.  That is defined in the
+<code>Services\AzureCloudService.cs</code> class:</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using Xamarin.Forms;
+
+namespace TaskList.Services
+{
+    public class AzureCloudService : ICloudService
+    {
+        MobileServiceClient client;
+
+        public AzureCloudService()
+        {
+            client = new MobileServiceClient(Locations.AppServiceUrl);
+        }
+
+        public ICloudTable&lt;T&gt; GetTable&lt;T&gt;() where T : TableData =&gt; new AzureCloudTable&lt;T&gt;(client);
+
+        public Task LoginAsync()
+        {
+            var loginProvider = DependencyService.Get&lt;ILoginProvider&gt;();
+            return loginProvider.LoginAsync(client);
+        }
+    }
+}
+</code></pre>
+
+<p>The method looks up the platform dependent version of the login provider and executes the login method, passing
+along the client (which we will need later).</p>
+<p>Finally, we will want to easily instantiate the cloud provider.  In the shared project, add the following to the
+constructor for <code>App.cs</code>:</p>
+<pre><code class="csharp">    public App()
+    {
+        ServiceLocator.Instance.Add&lt;ICloudService, AzureCloudService&gt;();
+        MainPage = new NavigationPage(new Pages.EntryPage());
+    }
+</code></pre>
+
+<p>The <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/Helpers/ServiceLocator.cs">ServiceLocator</a> class is used to manage the singletons in an application.  The cloud service object can now be retrieved in any view using the following snippet:</p>
+<pre><code class="csharp">    ICloudService cloudService = ServiceLocator.Instance.Resolve&lt;ICloudService&gt;();
+</code></pre>
+
+<p>We will need to do this in the <code>ViewModels/TaskDetailViewModel.cs</code> and <code>ViewModels/TaskKListViewModel.cs</code> classes.  Refer to the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">project in GitHub</a> if you run into issues here.</p>
+<p>In each platform-specific project, we need to define a concrete implementation of the login provider that uses a web view to hold the actual authentication flow.  Here is the droid <code>Services\DroidLoginProvider.cs</code> (in the
+TaskList.Droid project):</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+using Android.Content;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+using TaskList.Droid.Services;
+
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        Context context;
+
+        public void Init(Context context)
+        {
+            this.context = context;
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            await client.LoginAsync(context, &quot;aad&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>Let us take a closer look at this implementation.  The <code>LoginAsync()</code> method on the Azure Mobile Apps client object takes the Android context (which is normally the main window) and a provider - we can pick any of "facebook", "google", "microsoftaccount", "twitter" or "aad" depending on what we have defined in the Azure App Service.  The clever piece is the <code>Xamarin.Forms.Dependency</code> call at the top - that registers the class as a platform service so we can access it through the Xamarin dependency service.</p>
+<p>Note that we need an extra initialization routine for Android that must be called prior the login provider being
+called to pass along the main window of the app (also known as the context).  This is done in the <code>MainActivity.cs</code>
+file <strong>after</strong> the Xamarin Forms initialization call.  The dependency service is not set up until after the Xamarin
+Forms library is initialized, so we will not be able to get the login provider reference before that point:</p>
+<pre><code class="csharp">protected override void OnCreate(Bundle bundle)
+{
+    base.OnCreate(bundle);
+
+    Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+
+    ((DroidLoginProvider)DependencyService.Get&lt;ILoginProvider&gt;()).Init(this);
+
+    LoadApplication(new App());
+}
+</code></pre>
+
+<p>iOS is similar, but does not require the initialization step in the main startup class.  The login provider class
+is in <code>Services\iOSLoginProvider.cs</code> (in the <strong>TaskList.iOS</strong> project):</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+using TaskList.iOS.Services;
+using UIKit;
+
+[assembly: Xamarin.Forms.Dependency(typeof(iOSLoginProvider))]
+namespace TaskList.iOS.Services
+{
+    public class iOSLoginProvider : ILoginProvider
+    {
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            await client.LoginAsync(RootView, &quot;aad&quot;);
+        }
+
+        public UIViewController RootView =&gt; UIApplication.SharedApplication.KeyWindow.RootViewController;
+    }
+}
+</code></pre>
+
+<p>Note that we are using the same pattern here for registering the concrete implementation with the dependency service,
+so we can get it the same way. Finally, here is the UWP <code>Services\UWPLoginProvider.cs</code> (in the TaskList.UWP project):</p>
+<pre><code class="csharp">using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using TaskList.Abstractions;
+using TaskList.UWP.Services;
+
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            await client.LoginAsync(&quot;aad&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>Now that we have all the platform-specific login routines registered, we can move on to adding the login routine to
+the UI.  We have already got a button on the entry page to enter the app.  It makes sense to wire up that button so
+that it logs us in as well. The Command for the login button is in the <code>ViewModels\EntryPageViewModel.cs</code>:</p>
+<pre><code class="csharp">async Task ExecuteLoginCommand()
+{
+    if (IsBusy)
+        return;
+    IsBusy = true;
+
+    try
+    {
+        var cloudService = ServiceLocator.Instance.Resolve&lt;ICloudService&gt;();
+        await cloudService.LoginAsync();
+        Application.Current.MainPage = new NavigationPage(new Pages.TaskList());
+    }
+    catch (Exception ex)
+    {
+        Debug.WriteLine($&quot;[ExecuteLoginCommand] Error = {ex.Message}&quot;);
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
+</code></pre>
+
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>ServiceLocator</code> class is a basic singleton handler.  It is available in the <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2">Chapter2</a> project.  It
+returns the concrete version of the cloud service, just like the Singleton version we defined in Chapter1.</p>
+</div>
+<p>When you run the application, clicking on the "Enter the App" button will now present you with an Authenticate window:</p>
+<p><img alt="AAD Authenticate" src="../img/aad-logon-window.PNG" /></p>
+<p>Going through the authentication process will get you to the task list again.  If the authentication process fails,
+then <code>LoginAsync()</code> will throw an error, which is caught at the ViewModel.  Right now, the <code>EntryPageViewModel</code>
+does nothing more than print a diagnostic message to the debug window of Visual Studio.</p>
+<h2 id="azure-active-directory-client-flow-setup">Azure Active Directory: Client-Flow Setup<a class="headerlink" href="#azure-active-directory-client-flow-setup" title="Permanent link">&para;</a></h2>
+<p>Configuring Azure Active Directory for client-flow is a three-step process.  First, we need to create a WEB
+application.  This represents the resource: in our case, the resource is the Azure Mobile Apps backend.  Then
+we need to create a NATIVE application.  This represents the client: in our case, the ADAL (Active Directory
+Access Library) library will need this information.  Finally, we need to give the NATIVE application permission
+to access the WEB application.</p>
+<p>It starts with configuring a server-flow to protect the resource.  We've already done that above. Then configure
+a "Native Application" and give it permissions to the web application:</p>
+<ul>
+<li>Log on to the <a href="https://portal.azure.com/">Azure portal</a>.</li>
+<li>Select <strong>Azure Active Directory</strong> from the left hand menu.</li>
+<li>Click <strong>App registrations</strong>.</li>
+</ul>
+<p><img alt="Azure AD Apps" src="../img/aad-ibiza-allapps.PNG" /></p>
+<ul>
+<li>Note that our existing web application is already there.  You will see more applications, depending on what you
+  have set up.</li>
+<li>Click <strong>+ Add</strong> at the top of the page.</li>
+</ul>
+<p><img alt="Azure AD Apps - Add an App" src="../img/aad-ibiza-addanapp.PNG" /></p>
+<ul>
+<li>Enter a name for the app registration.  Select <strong>Native</strong> as the application type.  Enter a valid URI in the Redirect URI.  It can be anything, but it has to be valid.</li>
+<li>Click <strong>Create</strong>.</li>
+<li>In the <strong>Settings</strong> blade, click <strong>Redirect URIs</strong>.</li>
+<li>Add a Redirect URI of the form: <code>https://yoursite.azurewebsites.net/.auth/login/done</code>.</li>
+</ul>
+<p><img alt="Azure AD Apps - Native App Redirect URI Added" src="../img/aad-apps-6.PNG" /></p>
+<ul>
+<li>Click <strong>Save</strong>.</li>
+<li>Click <strong>Required permissions</strong>.</li>
+<li>Click <strong>+ Add</strong>.</li>
+<li>Click <strong>Select an API</strong>.</li>
+<li>
+<p>Enter the name of your web application in the search box, and press Enter.</p>
+<p><img alt="Azure AD Apps - Permissions" src="../img/aad-ibiza-appperms1.PNG" /></p>
+</li>
+<li>
+<p>Click the name of your web application, then click <strong>Select</strong>.</p>
+</li>
+<li>
+<p>You will be taken to <strong>Select permissions</strong>.  Click <strong>Access <em>your web application</em></strong></p>
+<p><img alt="Azure AD Apps - Permissions" src="../img/aad-ibiza-appperms2.PNG" /></p>
+</li>
+<li>
+<p>Click <strong>Select</strong>, then <strong>Done</strong>.</p>
+</li>
+</ul>
+<p>So, what did we just do there?  We created a new Azure AD app for the native application.  We then gave permission
+for the native application to access resources that are protected by the web application.  In our Azure App Service, we configured the service so that the Azure AD web application is used to protect our resources.  The net effect is that our native application OR our web application can access the App Service resources that are protected via the <code>[Authorize]</code> attribute.</p>
+<p>Before continuing, you will need the <strong>Application ID</strong> and the <strong>Redirect URI</strong> for the NATIVE application.  The Application ID for the native app is available in the <strong>Properties</strong> section of the <strong>Settings</strong> blade in the App Registrations blade:</p>
+<p><img alt="Azure AD Apps - The Application ID" src="../img/aad-ibiza-appid.PNG" /></p>
+<p>You can enter
+these into the <code>Helpers\Locations.cs</code> file in the shared project:</p>
+<pre><code class="csharp">namespace TaskList.Helpers
+{
+    public static class Locations
+    {
+        public static readonly string AppServiceUrl = &quot;https://zumobook-chapter2.azurewebsites.net&quot;;
+
+        public static readonly string AadClientId = &quot;0c3309fe-e392-4ca5-8d54-55f69ae1e0f8&quot;;
+
+        public static readonly string AadRedirectUri = &quot;https://zumobook-chapter2.azurewebsites.net/.auth/login/done&quot;;
+
+        public static readonly string AadAuthority = &quot;https://login.windows.net/photoadrianoutlook.onmicrosoft.com&quot;;
+    }
+}
+</code></pre>
+
+<p>The <strong>AadClientId</strong> and <strong>AadRedirectUri</strong> must match what was configured in Azure AD for the native app.  The
+other piece of information we need to add is the Azure AD Authority for the directory.  This is available in the <strong>Domain names</strong> blade within the Azure Active Directory blade.</p>
+<p>Add the <strong>Microsoft.IdentityModel.Clients.ActiveDirectory</strong> NuGet package using <strong>Manage NuGet Packages...</strong> to
+each platform project.  This package contains the ADAL library as a portable class library.</p>
+<p><img alt="Azure AD - Add ADAL Library" src="../img/adal-client-1.PNG" /></p>
+<p>Now you can add the client flow to each project.  Start with the login provider in the <strong>TaskList.UWP</strong> project,
+located in the <code>Services\UWPLoginProvider.cs</code> file:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.UWP.Services;
+
+[assembly: Xamarin.Forms.Dependency(typeof(UWPLoginProvider))]
+namespace TaskList.UWP.Services
+{
+    public class UWPLoginProvider : ILoginProvider
+    {
+
+        /// &lt;summary&gt;
+        /// Login via ADAL
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;(async) token from the ADAL process&lt;/returns&gt;
+        public async Task&lt;string&gt; LoginADALAsync()
+        {
+            Uri returnUri = new Uri(Locations.AadRedirectUri);
+
+            var authContext = new AuthenticationContext(Locations.AadAuthority);
+            if (authContext.TokenCache.ReadItems().Count() &gt; 0)
+            {
+                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+            }
+            var authResult = await authContext.AcquireTokenAsync(
+                Locations.AppServiceUrl, /* The resource we want to access  */
+                Locations.AadClientId,   /* The Client ID of the Native App */
+                returnUri,               /* The Return URI we configured    */
+                new PlatformParameters(PromptBehavior.Auto, false));
+            return authResult.AccessToken;
+        }
+
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            var accessToken = await LoginADALAsync();
+            var zumoPayload = new JObject()
+            {
+                [&quot;access_token&quot;] = accessToken
+            };
+            await client.LoginAsync(&quot;aad&quot;, zumoPayload);
+
+            // Server-Flow Version
+            // await client.LoginAsync(&quot;aad&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>The <code>LoginADALAsync()</code> method does the actual client-flow - using the ADAL library to authenticate the user and
+return the access token.  The <code>LoginAsync()</code> method initiates the client-flow.  It uses the token it receives
+from the client-flow to log in to the App Service, by packaging the token into a JSON object.  I have placed
+the client and server flow next to each other so you can compare the two.</p>
+<p>In the <strong>TaskList.Droid</strong> project, we need to deal with the <code>Context</code>, as is common with Android libraries.  The
+client flow in <code>Services\DroidLoginProvider.cs</code> is remarkably similar though:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Droid.Services;
+using TaskList.Helpers;
+
+[assembly: Xamarin.Forms.Dependency(typeof(DroidLoginProvider))]
+namespace TaskList.Droid.Services
+{
+    public class DroidLoginProvider : ILoginProvider
+    {
+        Context context;
+
+        public void Init(Context context)
+        {
+            this.context = context;
+        }
+
+        /// &lt;summary&gt;
+        /// Login via ADAL
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;(async) token from the ADAL process&lt;/returns&gt;
+        public async Task&lt;string&gt; LoginADALAsync()
+        {
+            Uri returnUri = new Uri(Locations.AadRedirectUri);
+
+            var authContext = new AuthenticationContext(Locations.AadAuthority);
+            if (authContext.TokenCache.ReadItems().Count() &gt; 0)
+            {
+                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+            }
+            var authResult = await authContext.AcquireTokenAsync(
+                Locations.AppServiceUrl, /* The resource we want to access  */
+                Locations.AadClientId,   /* The Client ID of the Native App */
+                returnUri,               /* The Return URI we configured    */
+                new PlatformParameters((Activity)context));
+            return authResult.AccessToken;
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            // Client Flow
+            var accessToken = await LoginADALAsync();
+            var zumoPayload = new JObject();
+            zumoPayload[&quot;access_token&quot;] = accessToken;
+            await client.LoginAsync(&quot;aad&quot;, zumoPayload);
+
+            // Server-Flow Version
+            // await client.LoginAsync(context, &quot;aad&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>The only real difference between this one and the Universal Windows edition is the PlatformParameters. We need to
+pass in the context of the MainActivity (which is passed in through the <code>Init()</code> call).  However, we must also handle
+the response from the ADAL library.  This is done in <code>MainActivity.cs</code>. Add the following method to the <code>MainActivity</code>
+class:</p>
+<pre><code class="csharp">protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+{
+    base.OnActivityResult(requestCode, resultCode, data);
+    AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
+}
+</code></pre>
+
+<p>Finally, the iOS version also requires access to the root view, so its <code>PlatformParameters</code> are also slightly
+different.  Here is <code>Services\iOSLoginProvider.cs</code>:</p>
+<pre><code class="csharp">using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using TaskList.Abstractions;
+using TaskList.Helpers;
+using TaskList.iOS.Services;
+using UIKit;
+
+[assembly: Xamarin.Forms.Dependency(typeof(iOSLoginProvider))]
+namespace TaskList.iOS.Services
+{
+    public class iOSLoginProvider : ILoginProvider
+    {
+        /// &lt;summary&gt;
+        /// Login via ADAL
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;(async) token from the ADAL process&lt;/returns&gt;
+        public async Task&lt;string&gt; LoginADALAsync(UIViewController view)
+        {
+            Uri returnUri = new Uri(Locations.AadRedirectUri);
+
+            var authContext = new AuthenticationContext(Locations.AadAuthority);
+            if (authContext.TokenCache.ReadItems().Count() &gt; 0)
+            {
+                authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+            }
+            var authResult = await authContext.AcquireTokenAsync(
+                Locations.AppServiceUrl, /* The resource we want to access  */
+                Locations.AadClientId,   /* The Client ID of the Native App */
+                returnUri,               /* The Return URI we configured    */
+                new PlatformParameters(view));
+            return authResult.AccessToken;
+        }
+
+        public async Task LoginAsync(MobileServiceClient client)
+        {
+            var rootView = UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+            // Client Flow
+            var accessToken = await LoginADALAsync(rootView);
+            var zumoPayload = new JObject();
+            zumoPayload[&quot;access_token&quot;] = accessToken;
+            await client.LoginAsync(&quot;aad&quot;, zumoPayload);
+
+            // Server Flow
+            //await client.LoginAsync(rootView, &quot;aad&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>Note that we can balance the needs of each platform by using the dependency service.  The code that is unique to
+the platform is minimized and stored with the platform.</p>
+<p>If you aren't interested in social authentication (Facebook, Google, Microsoft or Twitter authentication providers),
+you can <a href="../debugging/">skip the Social Authentication section</a>.</p>
+<!-- Images -->
+
+<!-- External Links -->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../backend/" title="Authentication in the Backend" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Authentication in the Backend
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../social/" title="Social Authentication" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Social Authentication
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>

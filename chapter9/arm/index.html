@@ -1,0 +1,1790 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter9/arm/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Repeatable Deployments - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#repeatable-deployments" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Repeatable Deployments
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+      Your First App - PC Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/enterprise/" title="Enterprise Authentication" class="md-nav__link">
+      Enterprise Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/realworld/" title="Tokens in Real Apps" class="md-nav__link">
+      Tokens in Real Apps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/bestpractices/" title="Best Practices" class="md-nav__link">
+      Best Practices
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+      Useful Azure Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10" checked>
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Repeatable Deployments
+      </label>
+    
+    <a href="./" title="Repeatable Deployments" class="md-nav__link md-nav__link--active">
+      Repeatable Deployments
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#options-for-deployment" title="Options for Deployment" class="md-nav__link">
+    Options for Deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-an-arm-template" title="Creating an ARM Template" class="md-nav__link">
+    Creating an ARM Template
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters-and-variables" title="Parameters and Variables" class="md-nav__link">
+    Parameters and Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources" title="Resources" class="md-nav__link">
+    Resources
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-sql-database" title="The SQL Database" class="md-nav__link">
+    The SQL Database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service-plan" title="The Azure App Service Plan" class="md-nav__link">
+    The Azure App Service Plan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service" title="The Azure App Service" class="md-nav__link">
+    The Azure App Service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-an-arm-template-on-windows" title="Deploying an ARM Template on Windows" class="md-nav__link">
+    Deploying an ARM Template on Windows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-an-arm-template-on-macos" title="Deploying an ARM Template on MacOS" class="md-nav__link">
+    Deploying an ARM Template on MacOS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-arm-template" title="Creating the ARM Template" class="md-nav__link">
+    Creating the ARM Template
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../appsvc/" title="Safe Deployments" class="md-nav__link">
+      Safe Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#options-for-deployment" title="Options for Deployment" class="md-nav__link">
+    Options for Deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-an-arm-template" title="Creating an ARM Template" class="md-nav__link">
+    Creating an ARM Template
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters-and-variables" title="Parameters and Variables" class="md-nav__link">
+    Parameters and Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources" title="Resources" class="md-nav__link">
+    Resources
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-sql-database" title="The SQL Database" class="md-nav__link">
+    The SQL Database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service-plan" title="The Azure App Service Plan" class="md-nav__link">
+    The Azure App Service Plan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-azure-app-service" title="The Azure App Service" class="md-nav__link">
+    The Azure App Service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-an-arm-template-on-windows" title="Deploying an ARM Template on Windows" class="md-nav__link">
+    Deploying an ARM Template on Windows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-an-arm-template-on-macos" title="Deploying an ARM Template on MacOS" class="md-nav__link">
+    Deploying an ARM Template on MacOS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-arm-template" title="Creating the ARM Template" class="md-nav__link">
+    Creating the ARM Template
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter9/arm.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="repeatable-deployments">Repeatable Deployments<a class="headerlink" href="#repeatable-deployments" title="Permanent link">&para;</a></h1>
+<p>You've finally got to the point where you want to release your app to the general public.  Congratulations!  I'm not going to cover releasing to the App Store in this section.  Each App Store has their own rules and requirements for apps and they change all the time.  You will need to follow their instructions.  If you haven't already, make sure you have a paid developer account for this activity.</p>
+<p>That doesn't mean that you can't deal with the backend.  Now that your app is in production, you want your backend in production as well.  That means being as hands-off as possible and ensuring that human error does not cause a significant downtime.  We've heard about various outages as a result of human error.  Make sure that doesn't happen to you.  Fortunately, Azure has a number of facilities to ensure that you can automate the process.</p>
+<h2 id="options-for-deployment">Options for Deployment<a class="headerlink" href="#options-for-deployment" title="Permanent link">&para;</a></h2>
+<p>When deploying the backend, you want a repeatable process.  Ideally, you want a set of scripts that you check into source code that describes the deployment of Azure resources.  Once you have set up your environment, you can use continuous deployment (in the next section) to actually perform the deployments.  However, you still want to automate the deployment of a new set of resources.</p>
+<p>Fortunately, Azure (in common with any reasonable cloud service) has tools to do this.  In essence, the tools consist of a file - the <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview">Azure Resource Manager</a> Template, and a set of PowerShell or command-line tools to deploy a new service.  Every time you create a mobile app in Azure App Service, Azure Resource Manager handles the actual provisioning behind the scenes.  It is much faster to use an ARM template rather than the point-and-click mechanism we have been using thus far.</p>
+<h2 id="creating-an-arm-template">Creating an ARM Template<a class="headerlink" href="#creating-an-arm-template" title="Permanent link">&para;</a></h2>
+<p>Let's start by examining a typical application - our Task List backend.  We've set this up a number of times within this book, so you should be familiar with it.  It has these resources within a resource group:</p>
+<ul>
+<li>Azure App Service with type=mobile</li>
+<li>Azure App Service Plan</li>
+<li>SQL Azure Logical Server</li>
+<li>SQL Azure Database</li>
+</ul>
+<p>ARM templates have three distinct sections:</p>
+<ul>
+<li>Parameters provide information about the deployment set in a single place.</li>
+<li>Variables are computed parameters.</li>
+<li>Resources list the resources necessary to be deployed.</li>
+</ul>
+<p>A typical (empty) ARM template looks like this:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+    },
+    &quot;variables&quot;: {
+    },
+    &quot;resources&quot;: [
+    ]
+}
+</code></pre>
+
+<p>There is also an <code>outputs</code> section, but I find most templates do not require this section.</p>
+<h3 id="parameters-and-variables">Parameters and Variables<a class="headerlink" href="#parameters-and-variables" title="Permanent link">&para;</a></h3>
+<p>If I am creating a deployment called <code>zumobook</code>, then I always name the resources like this:</p>
+<ul>
+<li>Resource Group = zumobook</li>
+<li>Azure App Service = zumobook</li>
+<li>App Service Plan = zumobook-plan</li>
+<li>SQL Azure Logical Server = zumobook-sql</li>
+<li>SQL Azure Database = zumobook-db</li>
+</ul>
+<p>All the resources are based on the root name of the deployment.  Ideally, the deployment name would be a parameter (something I specify) and the other names would be computed.  In addition, I always make the administrator login for the SQL Azure Logical Server be <code>azure</code> and I specify the password.  Let's take a look at what that would look like:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;sqlServerAdminLogin&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;azure&quot;
+        },
+        &quot;sqlServerAdminPassword&quot;: {
+            &quot;type&quot;: &quot;securestring&quot;
+        }
+    },
+    &quot;variables&quot;: {
+        &quot;appServiceName&quot;: &quot;parameters('serviceName')&quot;,
+        &quot;appServicePlanName&quot;: &quot;[concat(parameters('serviceName), '-plan')]&quot;,
+        &quot;sqlServerName&quot;: &quot;[concat(parameters('serviceName), '-sql')]&quot;,
+        &quot;sqlDbName&quot;: &quot;[concat(parameters('serviceName), '-db')]&quot;
+    },
+    &quot;resources&quot;: [
+    ]
+}
+</code></pre>
+
+<div class="admonition tip">
+<p class="admonition-title">Variable Functions</p>
+<p>Note the <code>concat()</code> is a template function.  You can find the large list of template functions in the <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions">Azure Resource Manager documentation</a>.</p>
+</div>
+<p>As a best practice, I abstract anything I would normally enter in creating the resource and make it either a parameter or a variable, depending on the circumstance.  I try to reduce the number of parameters and make as much as I can either a default value or a variable.  For example, one of the things that we need to set when configuring a SQL Azure database is the database size.  I could just specify this in bytes, but specifying the size in Mb is a better experience:</p>
+<pre><code class="text">    &quot;parameters&quot;: {
+        &quot;sqlDbSizeMb&quot; {
+            &quot;type&quot;: &quot;int&quot;,
+            &quot;minValue&quot;: 1,
+            &quot;maxValue&quot;: 20,
+            &quot;description&quot;: &quot;Size of the database in Mb&quot;,
+            &quot;defaultValue&quot;: 5
+        }
+    },
+    &quot;variables&quot;: {
+        &quot;sqlDbSize&quot;: &quot;[mul(parameters('sqlDbSizeMb'), 1048576)]&quot;
+    }
+</code></pre>
+
+<h3 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h3>
+<p>Resources describe the deployment of individual resources and their dependency.  There are, inevitably, more resources than you expect.   Each resource has an <code>apiVersion</code>, formatted as a date, that describes the format of the resource.  Each resource also has a <code>name</code> and a <code>type</code> plus a number of other elements that describe configuration elements.  Finally, there is an optional <code>dependsOn</code> that ensures that resources are not configured until their dependent resources are deployed.  If, for example, I look at my deployment, I can represent this as a tree:</p>
+<ul>
+<li>Resource Group<ul>
+<li>App Service Plan<ul>
+<li>App Service<ul>
+<li>App Settings</li>
+<li>Connection Strings</li>
+<li>Continuous Deployment Source</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SQL Azure Logical Server<ul>
+<li>SQL Database</li>
+<li>SQL Server Firewall Rules</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Let's look at each resource in turn.</p>
+<h4 id="the-sql-database">The SQL Database<a class="headerlink" href="#the-sql-database" title="Permanent link">&para;</a></h4>
+<p>There are actually three resources for the SQL Database - the server, the database and the firewall rule to allow other resources to connect to it:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;location&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;South Central US&quot;
+        },
+        &quot;sqlServerAdminLogin&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;azure&quot;
+        },
+        &quot;sqlServerAdminPassword&quot;: {
+            &quot;type&quot;: &quot;securestring&quot;
+        },
+        &quot;sqlDbSizeMb&quot; {
+            &quot;type&quot;: &quot;int&quot;,
+            &quot;minValue&quot;: 1,
+            &quot;maxValue&quot;: 20,
+            &quot;description&quot;: &quot;Size of the database in Mb&quot;,
+            &quot;defaultValue&quot;: 2
+        },
+        &quot;sqlDbCollation&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;SQL_Latin1_General_CP1_CI_AS&quot;
+        },
+        &quot;sqlDbEdition&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;Basic&quot;
+        },
+        &quot;sqlDbServiceObjectiveId&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;dd6d99bb-f193-4ec1-86f2-43d3bccbc49c&quot;
+        },
+    },
+    &quot;variables&quot;: {
+        &quot;sqlDbSize&quot;: &quot;[mul(parameters('sqlDbSizeMb'), 1048576)]&quot;,
+        &quot;sqlServerName&quot;: &quot;[concat(parameters('serviceName), '-sql')]&quot;,
+        &quot;sqlDbName&quot;: &quot;[concat(parameters('serviceName), '-db')]&quot;
+    },
+    &quot;resources&quot;: [
+        {
+            &quot;apiVersion&quot;: &quot;2014-04-01-preview&quot;,
+            &quot;name&quot;: &quot;[variables('sqlServerName')]&quot;,
+            &quot;type&quot;: &quot;Microsoft.Sql/servers&quot;,
+            &quot;location&quot;: &quot;[parameters('location')]&quot;,
+            &quot;properties&quot;: {
+                &quot;administratorLogin&quot;: &quot;[parameters('sqlServerAdminLogin')]&quot;,
+                &quot;administratorPassword&quot;: &quot;[parameters('sqlServerAdminPassword')]&quot;
+            },
+            &quot;resources&quot;: [
+                {
+                    &quot;apiVersion&quot;: &quot;2015-05-01-preview&quot;,
+                    &quot;name&quot;: &quot;[variables('sqlDbName')]&quot;,
+                    &quot;type&quot;: &quot;databases&quot;,
+                    &quot;location&quot;: &quot;[parameters('location')]&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;edition&quot;: &quot;[parameters('sqlDbEdition')]&quot;,
+                        &quot;collation&quot;: &quot;[parameters('sqlDbCollation')]&quot;,
+                        &quot;maxSizeBytes&quot;: &quot;[variables('sqlDbSize')]&quot;,
+                        &quot;requestedServiceObjectiveId&quot;: &quot;[parameters('sqlDbServiceObjectiveId')]&quot;
+                    }
+                },
+                {
+                    &quot;apiVersion&quot;: &quot;2014-04-01-preview&quot;,
+                    &quot;name&quot;: &quot;SQLServerFirewallRules&quot;,
+                    &quot;type&quot;: &quot;firewallrules&quot;,
+                    &quot;location&quot;: &quot;[parameters('location')]&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;endIpAddress&quot;: &quot;0.0.0.0&quot;,
+                        &quot;startIpAddress&quot;: &quot;0.0.0.0&quot;
+                    }
+                }
+            ]
+        },
+    ]
+}
+</code></pre>
+
+<p>This is a fairly lengthy example, but it incorporates a few things.  Firstly, note that I use the <code>[variables()]</code> and <code>[parameters()]</code> to bring in the variables and parameters respectively.  I also have embedded resources here.  The resource heirarchy is a tree-structure.  Each embedded resource has a <code>dependsOn</code> array that has the parent as a dependent resource.</p>
+<p>You are probably wondering where you can get this information for any resource.  Microsoft Azure has a site called <a href="https://resources.azure.com/">resources.azure.com</a>.  This contains the resources that you currently have configured on your subscription.  You can set the deployment up by hand and then look at the resources to get the details:</p>
+<p><img alt="Azure Resource Manager" src="../img/resource-explorer-sql.PNG" /></p>
+<p>In this example, I'm showing the resource for the database.  I can extract the various pieces based on what I have set to get to this point - everything else is defaulted.  In addition, note that I can see the <code>apiVersion</code> at the top of the resource manager within the URL for the resource definition.</p>
+<h4 id="the-azure-app-service-plan">The Azure App Service Plan<a class="headerlink" href="#the-azure-app-service-plan" title="Permanent link">&para;</a></h4>
+<p>My next resource is the App Service Plan.  Unlike the database (which has a definite heirarchy), the App Service Plan is separate because many App Services can use the same App Service Plan.  You can think of the App Service Plan as the set of virtual machines that belong in a single scale set, and the App Services as the web sites running on top of that scale set.  The App Service Plan looks like this:</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;location&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;South Central US&quot;
+        },
+        &quot;sku&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;allowedValues&quot;: [
+                &quot;Free&quot;,
+                &quot;Shared&quot;,
+                &quot;Basic&quot;,
+                &quot;Standard&quot;
+            ],
+            &quot;defaultValue&quot;: &quot;Basic&quot;
+        },
+        &quot;workerSize&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;allowedValues&quot;: [
+                &quot;0&quot;, &quot;1&quot;, &quot;2&quot;
+            ],
+            &quot;defaultValue&quot;: &quot;0&quot;
+        }
+    },
+     &quot;variables&quot;: {
+        &quot;appServicePlanName&quot;: &quot;[concat(parameters('serviceName), '-plan')]&quot;,
+    },
+    &quot;resources&quot;: [
+        {
+            &quot;apiVersion&quot;: &quot;2015-08-01&quot;,
+            &quot;name&quot;: &quot;[variables('appServicePlanName')]&quot;,
+            &quot;type&quot;: &quot;Microsoft.Web/serverFarms&quot;,
+            &quot;location&quot;: &quot;[parameters('location')]&quot;,
+            &quot;properties&quot;: {
+                &quot;name&quot;: &quot;[parameters('appServicePlanName')]&quot;,
+                &quot;sku&quot;: &quot;[parameters('sku')]&quot;,
+                &quot;workerSize&quot;: &quot;[parameters('workerSize')]&quot;,
+                &quot;numberOfWorkers&quot;: 1
+            }
+        }
+    ]
+}
+</code></pre>
+
+<p>The <code>hostingPlanName</code> is the name of the hosting plan.  This is normally something like F1, B2, or P3.  The first letter indicates the SKU and the number indicates the size of the worker.  The size of the worker is always one less than the number that is displayed within the Azure portal.</p>
+<h4 id="the-azure-app-service">The Azure App Service<a class="headerlink" href="#the-azure-app-service" title="Permanent link">&para;</a></h4>
+<p>The Azure App Service is</p>
+<pre><code class="text">{
+    &quot;$schema&quot;: &quot;http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;serviceName&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;location&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;South Central US&quot;
+        },
+        &quot;sqlServerAdminLogin&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;azure&quot;
+        },
+        &quot;sqlServerAdminPassword&quot;: {
+            &quot;type&quot;: &quot;securestring&quot;
+        },
+        &quot;deploymentRepoUrl&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;deploymentRepoBranch&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;master&quot;
+        }
+    },
+    &quot;variables&quot;: {
+        &quot;appServiceName&quot;: &quot;parameters('serviceName')&quot;,
+        &quot;appServicePlanName&quot;: &quot;[concat(parameters('serviceName), '-plan')]&quot;,
+        &quot;sqlServerName&quot;: &quot;[concat(parameters('serviceName), '-sql')]&quot;,
+        &quot;sqlDbName&quot;: &quot;[concat(parameters('serviceName), '-db')]&quot;
+    },
+    &quot;resources&quot;: [
+        {
+            &quot;apiVersion&quot;: &quot;2015-04-01&quot;,
+            &quot;name&quot;: &quot;[variables('appServiceName')]&quot;,
+            &quot;type&quot;: &quot;Microsoft.Web/sites&quot;,
+            &quot;location&quot;: &quot;[parameters('location')]&quot;,
+            &quot;dependsOn&quot;: [
+                &quot;[resourceId('Microsoft.Web/serverFarms', parameters('appServicePlanName'))]&quot;
+            ],
+            &quot;properties&quot;: {
+                &quot;serverFarmId&quot;: &quot;[parameters('appServicePlanName')]&quot;
+            },
+            &quot;resources&quot;: [
+                {
+                    &quot;apiVersion&quot;: &quot;2015-04-01&quot;,
+                    &quot;name&quot;: &quot;connectionstrings&quot;,
+                    &quot;type&quot;: &quot;config&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]&quot;,
+                        &quot;[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;MS_TableConnectionString&quot;: { &quot;value&quot;: &quot;[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]&quot;, &quot;type&quot;: &quot;SQLAzure&quot; }
+                    }
+                },
+                {
+                    &quot;apiVersion&quot;: &quot;2015-04-01&quot;,
+                    &quot;name&quot;: &quot;web&quot;,
+                    &quot;type&quot;: &quot;sourcecontrols&quot;,
+                    &quot;dependsOn&quot;: [
+                        &quot;[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]&quot;,
+                        &quot;[resourceId('Microsoft.Web/Sites/config', variables('appServiceName'), 'connectionstrings')]&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;RepoUrl&quot;: &quot;[parameters('deploymentRepoUrl')]&quot;,
+                        &quot;branch&quot;: &quot;[parameters('deploymentRepoBranch')]&quot;
+                    }
+                }
+            ]
+        },
+    ]
+}
+</code></pre>
+
+<p>In this case, we've got two dependent resources - one to set up the connection string to the database and the other to set up continuous deployment.  Both of those dependent resources have the normal <code>dependsOn</code> terms to ensure that the resources linked exist.</p>
+<p>You can combine all three sections - the SQL Server, App Service Plan and App Service together.  There are overlapping parameters and variables.  You just need one copy.</p>
+<h2 id="deploying-an-arm-template-on-windows">Deploying an ARM Template on Windows<a class="headerlink" href="#deploying-an-arm-template-on-windows" title="Permanent link">&para;</a></h2>
+<p>Creating an Azure Resource Manager template on Windows can be done several ways, but my favorite is to use Visual Studio.</p>
+<ol>
+<li>Start up Visual Studio 2017 and open your solution.</li>
+<li>Right-click your solution and select <strong>Add</strong> -&gt; <strong>New Project...</strong>.</li>
+<li>Select <strong>Installed</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Cloud</strong> &gt; <strong>Azure Resource Group</strong>.</li>
+<li>Give the project a name, then click <strong>OK</strong></li>
+<li>Select a template (I use <strong>Web app + SQL</strong> normally as a starting point), then click <strong>OK</strong>.</li>
+</ol>
+<p>Three files are created within the project:</p>
+<ul>
+<li>Deploy-AzureResourceGroup.ps1</li>
+<li>WebSiteSQLDatabase.json (or similar)</li>
+<li>WebSiteSQLDatbase.parameters.json (or similar)</li>
+</ul>
+<p>The <code>WebSiteSQLDatabase.json</code> is the ARM template.  The <code>.parameters.json</code> file contains the parameters for an unattended deployment.  Since the parameters contains the SQL server password, we need to be careful to ensure that the database password does not end up checked into source code.  Finally, the <code>Deploy-AzureResourceGroup.ps1</code> file is a handy PowerShell script for deploying to Azure.  Running it will be the equivalent of doing a deployment via Visual Studio.</p>
+<p>You can now edit the ARM template to include any additional resources you need.  You can also edit the <code>.parameters.json</code> file to set standard values for any parameters you wish, if they don't change very often, although you won't need to do this as there is an easier way of setting parameters as we shall see.</p>
+<p>There are two steps to deploying this ARM template: Validation and Deployment.  To validate the template, right-click the project and select <strong>Validate</strong>.</p>
+<p><img alt="Deployment Validation Step 1" src="../img/validation-step1.PNG" /></p>
+<p>Click into the <strong>Resource group</strong> and select <strong>Create new</strong>.  This allows you to select a resource group name and a location.  Once you have done that, click <strong>Create</strong>.</p>
+<p>The next step is to click <strong>Edit Parameters...</strong>.  This edit the <code>.parameters.json</code> file:</p>
+<p><img alt="Deployment Validation Step 2" src="../img/validation-step2.PNG" /></p>
+<p>Note that we need to set a <code>hostingPlanName</code>, as indicated by the red exclamation error mark.  We can also set any other values we want.  Anything that has a null value should be entered.  Click <strong>Save</strong> when complete.</p>
+<div class="admonition warn">
+<p class="admonition-title">Do not save password as plain text</p>
+<p>It's likely that these files will end up in source control.  You should never save passwords as plain text in any file that is going to end up in a source control repository.</p>
+</div>
+<p>Finally, click <strong>Validate</strong>.  You may get validation errors - fix the validation errors before continuing.  Once you have validated successfully, right-click the deployment project and select <strong>Deploy</strong>, then select the resource group you entered during validation.  You may have to type the SQL administrator password multiple times.</p>
+<p>Watch the output window for a progress report on your deployment.  Once complete, log into the <a href="https://portal.azure.com/">Azure portal</a> to check the resources.  Also check that the resources match what you were expecting within the <a href="https://resources.azure.com/">Azure Resource Explorer</a>.</p>
+<h2 id="deploying-an-arm-template-on-macos">Deploying an ARM Template on MacOS<a class="headerlink" href="#deploying-an-arm-template-on-macos" title="Permanent link">&para;</a></h2>
+<p>The Mac does not come with the tools necessary to deploy ARM templates, so you will need to download and install them first.  In a Terminal window:</p>
+<pre><code class="text">adrian$ curl -L https://aka.ms/InstallAzureCli | bash
+adrian$ exec -l $SHELL
+</code></pre>
+
+<p>The first command does the actual installation.  It will ask you questions about where to install and confirm that it can write to files.  In general, pressing Enter will do the right thing.  The second command restarts your shell.  After the installation is complete, run <code>az</code> in your Terminal window to ensure the installation was successful.</p>
+<p>The next step is to login to Azure with the CLI.  Use the <code>az login</code> command from the Terminal window.  This command will output a code to use in the next step.</p>
+<p><img alt="az login output" src="../img/azcli-login-1.PNG" /></p>
+<p>Note the code that is produced.  Now go to <a href="http://aka.ms/devicelogin/">http://aka.ms/devicelogin</a> and enter the code in the box provided.</p>
+<p><img alt="az devicelogin page" src="../img/azcli-login-2.PNG" /></p>
+<p>Enter the code, press enter, then click <strong>Continue</strong>.  You will be asked to authenticate to Azure.  Once that is complete, the terminal window will continue and you will be logged into Azure.  The <code>az login</code> command will provide a little piece of JSON to show you the subscription information to which you connected.</p>
+<p>Deploying a set of resources is a two-step process on the command-line.  Firstly, you need to create a resource group.  Then you need to deploy the resources within that resource group.  To create a resource group, use:</p>
+<pre><code class="text">az group create -l westus -n MyResourceGroup
+</code></pre>
+
+<p>You can get a list of locations that are available to you using:</p>
+<pre><code class="text">az account list-locations | grep name
+</code></pre>
+
+<p>Take a look at the response from the <code>az group create</code> command.  Ensure that the <code>provisioningState</code> property is something that indicates success.</p>
+<p>Now that we have a resource group, we can deploy our resources.  Edit the <code>.parameters.json</code> file to contain the values for your parameters.  For example:</p>
+<pre><code class="text">{
+  &quot;$schema&quot;: &quot;https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#&quot;,
+  &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+  &quot;parameters&quot;: {
+    &quot;hostingPlanName&quot;: {
+      &quot;value&quot;: &quot;Chapter8-plan&quot;
+    },
+    &quot;skuName&quot;: {
+      &quot;value&quot;: &quot;B1&quot;
+    },
+    &quot;skuCapacity&quot;: {
+      &quot;value&quot;: 1
+    },
+    &quot;administratorLogin&quot;: {
+      &quot;value&quot;: &quot;azure&quot;
+    },
+    &quot;administratorLoginPassword&quot;: {
+      &quot;value&quot;: &quot;myPassword&quot;
+    },
+    &quot;databaseName&quot;: {
+      &quot;value&quot;: &quot;ZUMOAPPDB&quot;
+    },
+    &quot;edition&quot;: {
+      &quot;value&quot;: &quot;Basic&quot;
+    }
+  }
+}
+</code></pre>
+
+<div class="admonition warn">
+<p class="admonition-title">Do not check in passwords!</p>
+<p>If your parameters file contains password, do not check it in to source code control.</p>
+</div>
+<p>You can now deploy the service with the following:</p>
+<pre><code class="text">az group deployment create --resource-group MyResourceGroup
+    --mode Complete
+    --parameters @WebSiteSQLDatabase.parameters.json
+    --template-file WebSiteSQLDatabase.json
+    --verbose
+</code></pre>
+
+<p>Although I have split this command over multiple lines, you should enter this command on one line.</p>
+<div class="admonition tip">
+<p class="admonition-title">Use --mode to maintain deployments</p>
+<p>There are two modes for ARM deployments.  <strong>Complete</strong> will remove any resources that are not listed in your ARM template.  <strong>Incremental</strong> will only add resources to the resource group.  You can use these two modes to effectively maintain the resources in the resource group using only the command line.</p>
+</div>
+<p>At this point, the deployment will kick off.  It's a long running process, so expect a delay of a few minutes before it returns information.  This deployment is (deliberately) going to fail so we can see what happens when it goes wrong and how to fix it.</p>
+<p>The response after this first run is this:</p>
+<pre><code class="text">The deployment operation failed, because it was unable to cleanup. Please see https://aka.ms/arm-debug for usage details.  Correlation ID: aed1850d-22ca-4e28-b7fa-83a2ac587867
+</code></pre>
+
+<p>Start by logging into the <a href="https://portal.azure.com/">Azure portal</a>, then go to the resource group was just created, then click <strong>Deployments</strong>.  Select the latest deployment.</p>
+<p><img alt="az cli deployment failed" src="../img/azcli-deploy-failed-1.PNG" /></p>
+<p>Click on the failed request:</p>
+<p><img alt="az cli deployment failed" src="../img/azcli-deploy-failed-2.PNG" /></p>
+<p>The failed request is a lot clearer than the original failure message.  In this case, the password we entered for the SQL database did not meet the complexity requirements.  This is easily updated within the parameters file.  Then re-run the deployment.</p>
+<h2 id="creating-the-arm-template">Creating the ARM Template<a class="headerlink" href="#creating-the-arm-template" title="Permanent link">&para;</a></h2>
+<p>One of the issues with ARM templates is their actual creation.  There are three methods of creating ARM templates:</p>
+<ol>
+<li>Create a new Resource Group within Visual Studio (covered above)</li>
+<li>Export a template from a Resource Group.<ul>
+<li>Log in to the <a href="https://portal.azure.com/">Azure portal</a>.</li>
+<li>Select your resource group.</li>
+<li>In the menu, click <strong>Automation Scripts</strong>.</li>
+<li>Click <strong>Download</strong>.</li>
+</ul>
+</li>
+<li>Download <a href="https://azure.microsot.com/resources/templates/">a starter template from GitHub</a>.</li>
+</ol>
+<p>Which ever mechanism you choose to create the template, you will still need to edit the result by hand for your individual requirements.</p>
+<!-- Images -->
+
+<!-- Links -->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../chapter8/testing/" title="Testing your Application" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Testing your Application
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../appsvc/" title="Safe Deployments" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Safe Deployments
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>

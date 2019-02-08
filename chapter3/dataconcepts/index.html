@@ -1,0 +1,1630 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter3/dataconcepts/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Concepts - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#data-access-concepts" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Concepts
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+      Your First App - PC Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/enterprise/" title="Enterprise Authentication" class="md-nav__link">
+      Enterprise Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/realworld/" title="Tokens in Real Apps" class="md-nav__link">
+      Tokens in Real Apps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/bestpractices/" title="Best Practices" class="md-nav__link">
+      Best Practices
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Concepts
+      </label>
+    
+    <a href="./" title="Concepts" class="md-nav__link md-nav__link--active">
+      Concepts
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tables-entities-and-properties" title="Tables, Entities and Properties" class="md-nav__link">
+    Tables, Entities and Properties
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-id-field" title="The Id field" class="md-nav__link">
+    The Id field
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-updatedat-field" title="The UpdatedAt field" class="md-nav__link">
+    The UpdatedAt field
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-version-field" title="The Version field" class="md-nav__link">
+    The Version field
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-deleted-field" title="The Deleted field" class="md-nav__link">
+    The Deleted field
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-data-access-protocol" title="The Data Access Protocol" class="md-nav__link">
+    The Data Access Protocol
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filtering-data" title="Filtering Data" class="md-nav__link">
+    Filtering Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paging-results" title="Paging Results" class="md-nav__link">
+    Paging Results
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offline-synchronization" title="Offline synchronization" class="md-nav__link">
+    Offline synchronization
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+      Useful Azure Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/arm/" title="Repeatable Deployments" class="md-nav__link">
+      Repeatable Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/appsvc/" title="Safe Deployments" class="md-nav__link">
+      Safe Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tables-entities-and-properties" title="Tables, Entities and Properties" class="md-nav__link">
+    Tables, Entities and Properties
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-id-field" title="The Id field" class="md-nav__link">
+    The Id field
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-updatedat-field" title="The UpdatedAt field" class="md-nav__link">
+    The UpdatedAt field
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-version-field" title="The Version field" class="md-nav__link">
+    The Version field
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-deleted-field" title="The Deleted field" class="md-nav__link">
+    The Deleted field
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-data-access-protocol" title="The Data Access Protocol" class="md-nav__link">
+    The Data Access Protocol
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filtering-data" title="Filtering Data" class="md-nav__link">
+    Filtering Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paging-results" title="Paging Results" class="md-nav__link">
+    Paging Results
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offline-synchronization" title="Offline synchronization" class="md-nav__link">
+    Offline synchronization
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter3/dataconcepts.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="data-access-concepts">Data Access Concepts<a class="headerlink" href="#data-access-concepts" title="Permanent link">&para;</a></h1>
+<p>At some point in the development of your application, you are going to want to store or retrieve data.  This could be
+as simple as a key-value store for storing personal settings, or as complex as a multi-table customer relationship
+database.  The key ingredient to all these scenarios is structured data.  I say <em>structured</em> here deliberately.  It
+is an important concept.  Most applications you write will require data in some sort of form that your application
+understands.</p>
+<p>It's very tempting to use an unstructured data source (like NoSQL).  I'm a big fan of NoSQL stores since they free
+me up to concentrate on the mobile client without worrying about the data format. After all, you can store whatever
+entities you want in a NoSQL data source.  However, this is really just an example of sloppy programming.  Most
+developers that use NoSQL are storing structured data in that NoSQL store to get around the problem that you actually
+have to decide what data you want to store in the database.  For this reason, I prefer a SQL database.  It ensures
+that I am thinking about the data format up front.  It also helps to ensure that a bad actor is not going to store
+data I don't expect in my store.</p>
+<p>This isn't to say that NoSQL doesn't have its place.  There are times when you need to store structured data where
+the data format varies between each entity that you are storing.  This tends to be an outlier situation though.</p>
+<h2 id="tables-entities-and-properties">Tables, Entities and Properties<a class="headerlink" href="#tables-entities-and-properties" title="Permanent link">&para;</a></h2>
+<p>When we talk about data, we tend to talk in terms of <em>Tables</em>, <em>Entities</em> and <em>Properties</em>.  These have equivalents
+in the SQL world (tables, rows and fields).  A <em>Table</em> is a collection of <em>Entities</em> that share a common format.  That
+format is described in terms of <em>Properties</em>.  Properties are basic types (like strings, numbers, booleans and dates).</p>
+<p>We create a <em>Table Controller</em> to expose the tables to a mobile client.  A <em>Table Controller</em> is a REST endpoint
+that implements an <a href="http://www.odata.org/documentation/odata-version-3-0/">OData v3</a> interface.  OData is a standard interface to table data that allows the client to
+perform CRUD (create, read, update and delete) operations on the data.  In addition, it provides for a standard
+way for querying the data.  More normally, the <em>Table Controller</em> is accessed through the Azure Mobile Apps Client
+SDK.  We saw an example of this in Chapter 1 when we first introduced the mobile client.</p>
+<p>Azure Mobile Apps also deals with tables in a manner that enables offline synchronization of the data.  That means
+it must be opinionated about the data format.  Specifically,</p>
+<ul>
+<li>There are four system properties on each entity.</li>
+<li>There are limitations on relationships between tables.</li>
+<li>Complex types need special handling.</li>
+</ul>
+<p>Let's take each of these in turn.  We implemented this <em>Model</em> within the mobile client in Chapter 1:</p>
+<pre><code class="csharp">using TaskList.Abstractions;
+
+namespace TaskList.Models
+{
+    public class TodoItem : TableData
+    {
+        public string Text { get; set; }
+
+        public bool Complete { get; set; }
+    }
+}
+</code></pre>
+
+<p>It's a fairly basic model class.  Note the <code>TableData</code> base class.  I often say that Azure Mobile Apps implements
+an opinionated version of OData. What I mean by that is that the protocol expects certain system fields to be present
+during the transfer.  The <code>TableData</code> class is a base class that implements that specification. It looks like this:</p>
+<pre><code class="csharp">using System;
+
+namespace TaskList.Abstractions
+{
+    public abstract class TableData
+    {
+        public string Id { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public byte[] Version { get; set; }
+    }
+}
+</code></pre>
+
+<p>The server side version adds another field - the <code>Deleted</code> boolean.  This is described in the <code>ITableData</code> interface
+that is provided with the Azure Mobile Apps Server SDK.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The Azure Mobile Apps SDK uses <code>DateTimeOffset</code> instead of <code>DateTime</code>.  A DateTime object is time
+zone aware, and time zone definitions change over time.  The DateTimeOffset does not know anything
+about time zones.  The DateTime representation can change depending on where you are.  The DateTimeOffset
+will never change.  This makes it a better choice for these things.  You will see dates stored in UTC in
+your database as a result of this.</p>
+</div>
+<p>Each element of the TableData (and ITableData) has a purpose, nominally to deal with situations with Offline Sync.</p>
+<h3 id="the-id-field">The Id field<a class="headerlink" href="#the-id-field" title="Permanent link">&para;</a></h3>
+<p>One of the common questions is this:  Can I use an auto-incrementing integer as an Id field?  Let's take a look at
+a simple situation.  You have two clients writing to the same table.  It might look something like this:</p>
+<p><img alt="" src="../img/id-reason.PNG" /></p>
+<p>Device A inserts a new record in to the database, with ID 1.  Device B is also inserting and decides to do ID 1
+as well.  This causes an immediate conflict that must be resolved.  We could fix this by requiring that new inserts
+do not insert an ID.  However, this can cause problems in offline cases, where you may be inserting many records
+and have to refer back to them during your offline state.</p>
+<p>The compromise here is to use a globally unique ID.  The <a href="https://msdn.microsoft.com/en-us/library/system.guid(v=vs.110).aspx">GUID</a> is a well-known algorithm and easily generated in
+offline scenarios.  This is stored as a string during transfer.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can specify an Id field when creating an Entity.  However, you must ensure that it is globally unique.</p>
+</div>
+<h3 id="the-updatedat-field">The UpdatedAt field<a class="headerlink" href="#the-updatedat-field" title="Permanent link">&para;</a></h3>
+<p>One of the concepts that is always top of mind is ensuring that we are a good mobile citizen.  This means that we
+care about bandwidth utilization.  Reducing transfer size is good for your users.  They use less of their data
+allowance and save time by transferring less.  One of the key components to reduce bandwidth utilization is <em>Incremental
+Sync</em>.  With each record, we record the date it was last updated.  This is generally done for us as a database
+trigger, so we never have to worry about setting this value.  When we synchronize our table, only the records
+that have been updated since the last synchronization are requested.</p>
+<p>The UpdatedAt field contains the date and time that the record was updated within the central (server-side)
+database.  Do not maintain this field yourself.  If you need a "last updated timestamp" for the client-side
+insert, update or delete methods, you must generate it yourself.</p>
+<h3 id="the-version-field">The Version field<a class="headerlink" href="#the-version-field" title="Permanent link">&para;</a></h3>
+<p>The Version field is all about conflict detection.  Let's take two devices requesting the same table again:</p>
+<p><img alt="" src="../img/version-reason.PNG" /></p>
+<p>In this diagram, Device A submits the first version of the entity.  Device B then updates the entity and posts
+it back.  This is accepted because Device B is sending the same version, so the server knows that this is an
+update to the latest version.  The server will send back a response with the updated version so that Device B
+knows that it has the latest version.</p>
+<p>Later on, Device A sends an update to the same entity.  It, however, still has version 1 of the entity.  The
+server will reject that because of a version mismatch.</p>
+<p>The Version field is maintained by the central (sever-side) SDK.  Do not maintain this field yourself.</p>
+<h3 id="the-deleted-field">The Deleted field<a class="headerlink" href="#the-deleted-field" title="Permanent link">&para;</a></h3>
+<p>When you are operating a service with an offline scope, you can't just delete entities.  If an entity is deleted
+on Device A, it is then removed from the server.  The server does not know to send an update to that entity
+to Device B because it no longer exists.  For this reason, we never delete entities.  We use <em>Soft Delete</em>.
+Soft Delete is a feature whereby entities are marked as deleted by setting the Deleted flag to true.  When you
+query the server, the deleted records are not shown unless you explicitly ask for them.  This is done as part
+of the offline sync process.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The UpdatedAt and Version fields are maintained by the Azure Mobile Apps Domain Manager, generally by
+triggers within the database.  You must not set these fields yourself.  </p>
+</div>
+<h2 id="the-data-access-protocol">The Data Access Protocol<a class="headerlink" href="#the-data-access-protocol" title="Permanent link">&para;</a></h2>
+<p>Given any particular table, there are a few endpoints that are important.  Given our TodoItem table from Chapter 1:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/tables/todoitem</td>
+<td>Query the table</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Retrieve a single entity</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/tables/todoitem</td>
+<td>Add a new entity</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Update an existing entity</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Deletes an existing entity</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/tables/todoitem/<em>id</em></td>
+<td>Undelete a previously deleted entity</td>
+</tr>
+</tbody>
+</table>
+<p>We can take a look at each of these in turn with the Azure App Service.  These can be done with Postman easily.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The first request to a new Azure App Service will take some time, especially if the site has to set up the database.</p>
+</div>
+<p>Let's start with a basic Query operation:</p>
+<p><img alt="" src="../img/table-ops-1.PNG" /></p>
+<p>We always get an array of elements back.  These contain five system properties.  We didn't mention createdAt
+earlier - it's optional and will be maintained for you if you don't use it.  In addition, we have the fields
+that were in our model.  If there are no elements in a table, we get an empty array.  If the table does not
+exist, we will get a <code>404 Not Found</code> error.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Any operation can also return a <code>401 Unauthorized</code> if you are not allowed to do the operation with the
+current authentication, <code>400 Bad Request</code> if you supplied bad data and <code>500 Internal Server Error</code> if
+the server crashed.</p>
+</div>
+<p>We can also do a GET for an Id:</p>
+<p><img alt="" src="../img/table-ops-2.PNG" /></p>
+<p>The return is the entity serialized as an object.  If the Id does not exist, then a <code>404 Not Found</code> is
+returned.</p>
+<p>Adding an item requires a POST:</p>
+<p><img alt="" src="../img/table-ops-3.PNG" /></p>
+<p>Note that you do not need to provide all the fields.  In particular, the system fields will be automatically
+filled in for you.  Any fields with a default value will be similarly auto-created.  It is fairly easy to
+generate a <code>400 Bad Request</code> when updating or inserting data.  For example, if you submit a string when a number
+is expected or submit a malformed date, you can expect a <code>400 Bad Request</code>.  On success, the response has a
+Location field in the headers:</p>
+<p><img alt="" src="../img/table-ops-4.PNG" /></p>
+<p>This is the URI of the entity.  You can do a GET on this location to get the entity again.  Updating an entity
+involves sending the updated fields to the <em>Id</em> endpoint with the changed properties:</p>
+<p><img alt="" src="../img/table-ops-5.PNG" /></p>
+<p>Note that you do not need to send the entire entity - just the properties that are changed.  The new entity is
+returned on success.  As with the insert operation, data format errors will result in a <code>400 Bad Request</code>.  Note,
+however, that if you do not submit a <code>version</code> field, no conflict handling is done and the server just accepts
+the record.  We can fix this with server code later on by requiring a version field on updates.</p>
+<p>Deletion is fairly straight forward.  The main different is that it returns a <code>204 No Content</code>.</p>
+<p><img alt="" src="../img/table-ops-6.PNG" /></p>
+<p>The table controller does not support soft delete out of the box.  If you have followed the sequence, the
+record we just deleted is gone.  You can verify this using a SQL Browser.  To enable soft delete, you need
+to adjust the domain manager in the TodoItemController:</p>
+<pre><code class="csharp">protected override void Initialize(HttpControllerContext controllerContext)
+{
+    base.Initialize(controllerContext);
+    MobileServiceContext context = new MobileServiceContext();
+    DomainManager = new EntityDomainManager&lt;TodoItem&gt;(context, Request, enableSoftDelete: true);
+}
+</code></pre>
+
+<p>Adding the <code>enableSoftDelete</code> parameter and setting it to true will enable the appropriate logic in the
+domain manager.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>We haven't introduced the <strong>Domain Manager</strong> yet.  Azure Mobile Apps doesn't really care what sort of
+data store you are using on the backend.  It proxies all requests through a class that implements the
+<code>IDomainManager</code> interface.  Azure Mobile Apps Server SDK supplies one such domain manager - the
+<code>EntityDomainManager</code> uses Entity Framework underneath for this purpose.</p>
+</div>
+<p>Go through the same process of adding and deleting an entity.  You can see the entity by using the SQL Server Object
+Explorer in Visual Studio:</p>
+<ul>
+<li>Go to <strong>Server Explorer</strong>.</li>
+<li>Expand <strong>Azure</strong> and <strong>SQL Databases</strong>.</li>
+<li>Select your database, then right-click and select <strong>Open in SQL Server Object Explorer</strong>.</li>
+<li>You will be prompted for your username and password.  Enter them, then click <strong>OK</strong>.</li>
+<li>You may be prompted to update the firewall for SQL access.  Select <strong>My Client IP</strong>, then <strong>OK</strong>.</li>
+<li>Expand your database node, then <strong>Tables</strong>.</li>
+<li>Right-click on <strong>dbo.TodoItems</strong> and select <strong>View Data</strong>.</li>
+</ul>
+<p>I find the SQL Server Object Explorer to be relatively slow when it comes to database options.  However, it doesn't
+require any additional installs.  You can also use SQL Server Management Studio if you have it installed.  You will
+need to <a href="https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/">update the firewall</a> for access (something the SQL Server Object Explorer will do for you).</p>
+<p><img alt="" src="../img/table-ops-7.PNG" /></p>
+<p>Note the third record has the Deleted column set to true.  We will not see that record when we do a query.  We can
+see the deleted records only if we use the parameter <code>__includeDeleted=true</code>:</p>
+<p><img alt="" src="../img/table-ops-8.PNG" /></p>
+<p>We can now undelete that record by POSTing to the <em>Id</em> endpoint:</p>
+<p><img alt="" src="../img/table-ops-9.PNG" /></p>
+<p>A success results in a <code>201 Created</code> response, with a failure resulting in a <code>404 Not Found</code> response (assuming the
+failure is because the Id does not exist in the table).</p>
+<h2 id="filtering-data">Filtering Data<a class="headerlink" href="#filtering-data" title="Permanent link">&para;</a></h2>
+<p>If you have followed along, we have three entities in our table now.  We can do searches by utilizing the OData
+<code>$filter</code> operator as a query:</p>
+<p><img alt="" src="../img/table-srch-1.PNG" /></p>
+<p>The <code>$filter</code> parameter takes an <a href="http://www.odata.org/documentation/odata-version-3-0/url-conventions/#url5">OData filter</a> and returns the list of entities that match the search.  The Azure
+Mobile Apps SDK supports quite a bit of the OData v3 specification that is supported by the <a href="https://www.nuget.org/packages/Microsoft.Data.OData/">Microsoft.Data.OData</a>
+package, but not everything.  There are features of the OData package that are explicitly disabled because they
+do not work in an offline context.  OData was defined as a method of transferring data between client and server
+in an online context so we can expect some things to work differently.</p>
+<p>We can also select specific fields by using the <code>$select</code> clause:</p>
+<p><img alt="" src="../img/table-srch-2.PNG" /></p>
+<h2 id="paging-results">Paging Results<a class="headerlink" href="#paging-results" title="Permanent link">&para;</a></h2>
+<p>At some point, we are going to bump into an in-built limit of the server.  You can clearly see this by inserting
+a lot of entities then querying the results.  Once the number of entities gets above 50, paging will occur.  You
+can adjust the paging size on the server by adding an <code>[EnableQuery()]</code> attribute to the class.  For example, the
+following will set the page size at 10:</p>
+<pre><code class="csharp">namespace Chapter3.Controllers
+{
+    [EnableQuery(PageSize=10)]
+    public class TodoItemController : TableController&lt;TodoItem&gt;
+    {
+</code></pre>
+
+<p>You cannot make the page size infinite, so you should always implement paging controls in your mobile client.</p>
+<p>We can always receive the number of records that would have been sent if paging had not been in place by including
+<code>$inlinecount=allpages</code> with the query.  The query response turns into an object with two properties - the <code>results</code>
+property contains the array of results.  This is the same response as we received before.  There is now another
+property called <code>count</code> that contains the count of the records:</p>
+<p><img alt="" src="../img/table-srch-3.PNG" /></p>
+<p>We can implement paging by using <code>$top</code> and <code>$skip</code> parameters. The <code>$top</code> parameter tells the server how many
+entities you want to return.  The <code>$skip</code> parameter tells the server how many entities to skip before it starts
+counting.</p>
+<p>For example, let's say you wanted to receive individual entities.  You could request:</p>
+<ul>
+<li><code>/tables/todoitem?$top=1&amp;$skip=0</code></li>
+<li><code>/tables/todoitem?$top=1&amp;$skip=1</code></li>
+<li><code>/tables/todoitem?$top=1&amp;$skip=2</code></li>
+<li><code>/tables/todoitem?$top=1&amp;$skip=3</code></li>
+</ul>
+<p>At this point, no entities would be returned and you would know you are at the end.</p>
+<div class="admonition warn">
+<p class="admonition-title">Warn</p>
+<p>Although it is tempting to suggest removing the limit on the number of entities that can be returned (so you
+can receive all entities in one shot), it's better to implement paging.  The Azure App Service will run in a
+smaller App Service Plan because it won't require as much memory.  You will be able to support more users and
+your code will be more resilient to network issues that occur during transmission.</p>
+</div>
+<h2 id="offline-synchronization">Offline synchronization<a class="headerlink" href="#offline-synchronization" title="Permanent link">&para;</a></h2>
+<p>One of the many reasons that developers choose the Azure Mobile Apps SDK is that it natively supports offline
+sync.  Offline sync provides a number of benefits.  It improves app responsiveness by caching server data
+locally on the device.  It allows the app to survive network issues including little or no connectivity, and it
+allows the developer to decide when to synchronize, thus allowing the deferral of large updates to when there
+is wifi available, for example.  The Azure Mobile Apps SDKs provide incremental sync (thereby ensuring the minimal
+amount of mobile data is used), optimistic concurrency and conflict resolution.</p>
+<p>To do this, Azure Mobile Apps provides a SQLite based backing store for data persistence on the mobile client.  You
+don't have to use SQLite, but it's built in and there are very few reasons to not use it.  If you are using iOS,
+the implementation is based on Core Data (which is itself based on SQLite).</p>
+<p>When you perform changes to an offline table, a <em>Sync Context</em> is created along side the offline table. One of the
+elements of this sync context is an <em>Operation Queue</em>.  This is an ordered list of Create, Update and Delete
+operations against the offline table.  When you <em>PUSH</em> the Sync Context, the list of creates, updates and Deletes
+are sent one by one to the Azure App Service, which then executes them as if they were done online.  Nothing is
+sent to the Azure App Service until your call to <em>PUSH</em>.</p>
+<p>To retrieve entities, your mobile client will perform a <em>PULL</em> against a query.  The query is based on the filter
+that we reviewed earlier.  By default, all properties of all entities are pulled down.  An <em>Implicit Push</em> happens
+if there are entities in the operation queue at the time of a pull request.  If you specify a query name (which is
+just a text string) to the <code>PullAsync()</code> method, the mobile client will do an <em>Incremental Sync</em>.  In this case,
+the latest <code>UpdatedAt</code> timestamp that the mobile client saw is recorded in the <em>Sync Context</em> (and associated with
+the query name).  This allows the pull operation to pick up where it left off.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The query name must be unique within a Sync Context for incremental sync to work.</p>
+</div>
+<p>The sync process implements <em>Optimistic Concurrency</em>.  With optimistic concurrency, the mobile client assumes that
+its change is valid.  Conflicts are handled only on push operations.  If the mobile client submits a record with
+a <code>version</code> field that does not match the server version field, the server will return a 409 or 412 response code.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>What's the difference between 409 and 412?  Most of the time, you will see 412 Precondition Failed.  This
+means the ETag of the request did not match.  The ETag is a header that is equivalent to the version value.
+409 Conflict occurs when you don't submit an ETag but do submit a version field in the update.</p>
+</div>
+<p>If no version field (or ETag header) is submitted, the client entity is used for the create or update irrespective
+of the value on the server.</p>
+<!-- Images -->
+
+<!-- Links -->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../chapter2/bestpractices/" title="Best Practices" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Best Practices
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../server/" title="Implementing Table Controllers" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Implementing Table Controllers
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>

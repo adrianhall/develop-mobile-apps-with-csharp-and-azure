@@ -1,0 +1,1383 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter7/services/">
+      
+      
+        <meta name="author" content="Adrian Hall">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+    
+    
+      
+        <title>Useful Azure Services - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/vs.css">
+    
+    
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#azure-services" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+              </span>
+              <span class="md-header-nav__topic">
+                Useful Azure Services
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Chapter 1 - Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Chapter 1 - Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+      Your First App - PC Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+      Your First App - Mac Edition
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Chapter 2 - Authentication
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Chapter 2 - Authentication
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/backend/" title="Authentication in the Backend" class="md-nav__link">
+      Authentication in the Backend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/enterprise/" title="Enterprise Authentication" class="md-nav__link">
+      Enterprise Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/social/" title="Social Authentication" class="md-nav__link">
+      Social Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/debugging/" title="Debugging Authentication" class="md-nav__link">
+      Debugging Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/custom/" title="Custom Authentication" class="md-nav__link">
+      Custom Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/authorization/" title="Claims and Authorization" class="md-nav__link">
+      Claims and Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/realworld/" title="Tokens in Real Apps" class="md-nav__link">
+      Tokens in Real Apps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter2/bestpractices/" title="Best Practices" class="md-nav__link">
+      Best Practices
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Chapter 3 - Data Access and Offline Sync
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Chapter 3 - Data Access and Offline Sync
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/dataconcepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/server/" title="Implementing Table Controllers" class="md-nav__link">
+      Implementing Table Controllers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/projection/" title="Data Projection and Queries" class="md-nav__link">
+      Data Projection and Queries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/client/" title="The Mobile Client" class="md-nav__link">
+      The Mobile Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/relationships/" title="Relationships" class="md-nav__link">
+      Relationships
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter3/domainmgr/" title="The Domain Manager" class="md-nav__link">
+      The Domain Manager
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Chapter 4 - Server Side Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Chapter 4 - Server Side Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+      Options for Server Code
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+      Custom HTTP Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+      WebJobs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+      Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Chapter 5 - Push Notifications
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Chapter 5 - Push Notifications
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+      Android Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+      iOS Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+      Windows Push
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+      Push Recipes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Chapter 6 - Combining Web and Mobile Apps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Chapter 6 - Combining Web and Mobile Apps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+      MVC Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+      jQuery Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+      Angular Applications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+      React Applications
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8" checked>
+    
+    <label class="md-nav__link" for="nav-8">
+      Chapter 7 - Other Useful Services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Chapter 7 - Other Useful Services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Useful Azure Services
+      </label>
+    
+    <a href="./" title="Useful Azure Services" class="md-nav__link md-nav__link--active">
+      Useful Azure Services
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#azure-services" title="Azure Services" class="md-nav__link">
+    Azure Services
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cognitive-services" title="Cognitive Services" class="md-nav__link">
+    Cognitive Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-delivery-networks-and-traffic-manager" title="Content Delivery Networks and Traffic Manager" class="md-nav__link">
+    Content Delivery Networks and Traffic Manager
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentdb" title="DocumentDB" class="md-nav__link">
+    DocumentDB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#media-services" title="Media services" class="md-nav__link">
+    Media services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search" title="Search" class="md-nav__link">
+    Search
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-fabric" title="Service Fabric" class="md-nav__link">
+    Service Fabric
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-azure-services" title="Non-Azure Services" class="md-nav__link">
+    Non-Azure Services
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#customer-feedback" title="Customer Feedback" class="md-nav__link">
+    Customer Feedback
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-app-purchases-and-mobile-advertising" title="In App Purchases and Mobile Advertising" class="md-nav__link">
+    In App Purchases and Mobile Advertising
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-communications" title="Real-time Communications" class="md-nav__link">
+    Real-time Communications
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../search/" title="Azure Search" class="md-nav__link">
+      Azure Search
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../media/" title="Media Services" class="md-nav__link">
+      Media Services
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Chapter 8 - Developing An App
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Chapter 8 - Developing An App
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+      The Development Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+      Testing your Application
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Chapter 9 - Going to Production
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Chapter 9 - Going to Production
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/arm/" title="Repeatable Deployments" class="md-nav__link">
+      Repeatable Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/appsvc/" title="Safe Deployments" class="md-nav__link">
+      Safe Deployments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+      Monitoring and Troubleshooting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+      Xamarin Forms Tips
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+      Android Developer Notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+      Visual Studio Extensions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../references/" title="References" class="md-nav__link">
+      References
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
+      Credits
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#azure-services" title="Azure Services" class="md-nav__link">
+    Azure Services
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cognitive-services" title="Cognitive Services" class="md-nav__link">
+    Cognitive Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-delivery-networks-and-traffic-manager" title="Content Delivery Networks and Traffic Manager" class="md-nav__link">
+    Content Delivery Networks and Traffic Manager
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentdb" title="DocumentDB" class="md-nav__link">
+    DocumentDB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#media-services" title="Media services" class="md-nav__link">
+    Media services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search" title="Search" class="md-nav__link">
+    Search
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-fabric" title="Service Fabric" class="md-nav__link">
+    Service Fabric
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-azure-services" title="Non-Azure Services" class="md-nav__link">
+    Non-Azure Services
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#customer-feedback" title="Customer Feedback" class="md-nav__link">
+    Customer Feedback
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-app-purchases-and-mobile-advertising" title="In App Purchases and Mobile Advertising" class="md-nav__link">
+    In App Purchases and Mobile Advertising
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-communications" title="Real-time Communications" class="md-nav__link">
+    Real-time Communications
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter7/services.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Useful Azure Services</h1>
+                
+                <p>When developing mobile applications, certain cloud services - data access, authentication and push notifications - almost always make their way into the requirements for the mobile backend.  However, there are a number of other Azure services that can also make an appearance.</p>
+<p>Azure has a number of "platform as a service" type services.  We've built Azure Mobile Apps on top of some of them - App Service and Notification Hubs.  PaaS, as it is known, is a microservice where you don't have to deal with the underlying operating system or scaling issues.  While we won't cover all possible Azure services, it's worth mentioning a few of the more useful ones here.  In addition, there are some things you can't get from Azure.  We'll take a look at those later on.</p>
+<p>We will be covering <a href="../search/">Search</a> and <a href="../media/">Video</a> services within this chapter in more depth.</p>
+<h2 id="azure-services">Azure Services<a class="headerlink" href="#azure-services" title="Permanent link">&para;</a></h2>
+<p>The following services are available with your Azure subscription.  The all incur some kind of cost, although search has a free tier.</p>
+<h3 id="cognitive-services">Cognitive Services<a class="headerlink" href="#cognitive-services" title="Permanent link">&para;</a></h3>
+<p>Machine Learning has been a hot topic in development circles recently.  It's highly complex and very specific to the application being handled.  Fortunately, some applications are relatively easily generalized.  For example, if I want to speak to my app (for example, like Siri or Cortana), then I can use <a href="https://azure.microsoft.com/en-us/services/cognitive-services/">Cognitive Services</a> to process the speech.  There are SDKs for speech processing, textual language analytics and image processing.  The image processing SDKs are particularly useful for mobile photo applications.</p>
+<h3 id="content-delivery-networks-and-traffic-manager">Content Delivery Networks and Traffic Manager<a class="headerlink" href="#content-delivery-networks-and-traffic-manager" title="Permanent link">&para;</a></h3>
+<p>I hope your application is successful.  If you enjoy worldwide success or your mobile backend just can't go down, you will want to augment the single region solution with multiple region availability.  Perhaps you just want an automated failover to another region within the country, or perhaps you want to support other continents with closer capabilities.  Whatever the reason, you will want to take a look at <a href="https://azure.microsoft.com/en-us/services/traffic-manager/">Traffic Manager</a>, which routes a HTTP request to the closest service endpoint.</p>
+<p>In addition, you may want to make static assets available closer to the user.  You can't do anything about dynamic content.  However, static assets like images, videos or long-lived documents can be published to a <a href="https://azure.microsoft.com/en-us/services/cdn/">Content Delivery Network</a> or CDN.  The Azure CDN uses multiple providers (Akamai and Verizon) so that you can choose the footprint and costs that you need.</p>
+<h3 id="documentdb">DocumentDB<a class="headerlink" href="#documentdb" title="Permanent link">&para;</a></h3>
+<p>We have concentrated on integrating SQL services with offline-sync capabilities in this book.  However, there is a whole different paradigm for storing data on the server, mostly known as NoSQL stores.  These use JSON blobs to store their data.  Their main advantage is that you don't have to think about the schema of the data.    The Azure entry into this market is called <a href="https://azure.microsoft.com/en-us/services/documentdb/">DocumentDB</a>.  It's highly scalable, geo-replicated, and allows you to define business logic in JavaScript to be run on the server (as stored procedures and triggers).</p>
+<p>NoSQL databases tend to be prevalent in gaming, social data and IoT applications.  SQL tends to be more prevalent in web and enterprise applications.  Both types of data store have their place in the development world.  It really depends on what sort of work load you are considering with your app.  For assistance with the choice, check out the <a href="https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-vs-sql">NoSQL vs. SQL</a> article.</p>
+<h3 id="media-services">Media services<a class="headerlink" href="#media-services" title="Permanent link">&para;</a></h3>
+<p>One of the major pieces of functionality that I see in a lot of mobile applications is video.  It may be an advertisement, a training video, or a major video platform like Netflix or Hulu.  Video is a complex subject and can take up <a href="https://www.amazon.com/Technology-Video-Audio-Streaming/dp/0240805801/ref">a book</a> just by itself.  Fortunately, <a href="https://azure.microsoft.com/en-us/services/media-services/">Azure Media Services</a> simplifies the process by providing a scalable platform for video encoding and streaming to your mobile clients.  It also integrates media analytics, the ability to use cognitive services, and content protection in the platform.  We are going to go <a href="../media/">more in-depth</a> in Media Services later on.</p>
+<h3 id="search">Search<a class="headerlink" href="#search" title="Permanent link">&para;</a></h3>
+<p>If you have some sort of catalog (for example, a shopping cart or video library), then it's likely you will want to search within the catalog or library.  This is where <a href="https://azure.microsoft.com/en-us/services/traffic-manager/">Azure Search</a> comes in.  It is a platform service that implements an easily consumed API for searching your catalog.  This goes beyond basic SQL queries and gets into natural language processing, fuzzy search, proximity search, term boosting and regular expressions.  It supports 56 languages and provides feedback to your user in terms of search suggestions, highlighting and faceted navigation.  We are going to do a more <a href="../search/">in-depth study</a> of Azure Search later in the chapter.</p>
+<h3 id="service-fabric">Service Fabric<a class="headerlink" href="#service-fabric" title="Permanent link">&para;</a></h3>
+<p>Not all mobile applications are straight-forward view-based applications.  Some are games, for example, or highly scalable interactive platforms.  When you need custom microservices on the backend, then <a href="https://azure.microsoft.com/en-us/services/service-fabric/">Azure Service Fabric</a> will provide an architectural framework for developing the most complex, low-latency, data-intensive scenarios.  In these cases, a simple CRUD model is never going to be enough architecturally for the job of powering your backend.  However, such complexity comes at a cost.  In this case, the cost is the developer time necessry to invest in a highly scalable custom backend for your data flows.  If you think that you need more than basic CRUD style APIs because of latency concerns, then Service Fabric is the appropriate service.</p>
+<h2 id="non-azure-services">Non-Azure Services<a class="headerlink" href="#non-azure-services" title="Permanent link">&para;</a></h2>
+<p>Please note that I do not receive compensation and do not endorse any of the companies or products listed in this section.  Please do your research and ensure that the product will assist you.</p>
+<h3 id="customer-feedback">Customer Feedback<a class="headerlink" href="#customer-feedback" title="Permanent link">&para;</a></h3>
+<p>You can get some information from your customers without asking.  Crash analytics and page-use analytics can be driven by code within your application and submitted in real-time or batched to an application analytics package like <a href="https://mobile.azure.com/signup?utm_medium=referral_link&amp;utm_source=GitHub&amp;utm_campaign=ZUMO%20Book">Mobile Center</a> or <a href="https://azure.microsoft.com/en-us/services/application-insights/">App Insights</a>.  You may, however, need to ask your customers to leave feedback.  It could be as simple as a button click (like the Visual Studio happy face / sad face), or it may be more extensive, providing support capabilities, star ratings, and free-form text.  You can use these insights to drive UX improvements or features of your mobile app.</p>
+<p>Some companies that provide mobile-based feedback systems include <a href="http://www.opinionlab.com/tour/give-your-customer-a-voice/mobile-feedback/">OpinionLab</a> and <a href="https://www.apptentive.com/">Apptentive</a>.</p>
+<h3 id="in-app-purchases-and-mobile-advertising">In App Purchases and Mobile Advertising<a class="headerlink" href="#in-app-purchases-and-mobile-advertising" title="Permanent link">&para;</a></h3>
+<p>One of the big topics that mobile application developers face is how to monetize (i.e. get paid) their app.  Mobile app buyers do not like paying a lot for an app, so supplementary income comes from in-app purchases and mobile advertising.  In-app purchases (or In-app billing, as Android folks call it) are driven via an SDK provided by the mobile platform - <a href="https://www.raywenderlich.com/122144/in-app-purchase-tutorial">iOS</a> or <a href="https://developer.android.com/google/play/billing/billing_integrate.html">Android</a>.  You will need to integrate these SDKs into the platform-specific project, and Xamarin has some tools to assist for <a href="https://developer.xamarin.com/guides/ios/application_fundamentals/in-app_purchasing/">iOS</a> and <a href="https://components.xamarin.com/gettingstarted/xamarin.inappbilling">Android</a>.</p>
+<p>Mobile Advertising is another good area for investigation.  There are a number of considerations when choosing a mobile advertising partner (which is the partner who will feed your app advertisements to display and pay you for their display).  The good news for most mobile app developers is that you can use the social authentication provider as a hint as to which mobile ad provider is going to be appropriate:</p>
+<ul>
+<li>Facebook uses <a href="https://developers.facebook.com/products/ads/">Facebook App Ads</a></li>
+<li>Google uses <a href="https://www.google.com/admob/">AdMob</a></li>
+</ul>
+<p>There are also other mobile ad providers, like <a href="https://ogmobi.com/">OGMobi</a>, <a href="https://www.smaato.com/">Smaato</a> and <a href="http://adiquity.com/app-developers-overview/">AdIquity</a>, should you not be using one of these social auth providers.  It is not uncommon to see top-20 lists of mobile ad networks, so do some research - in particular, pay attention to the "fill rate" for customers in your area and the performance of the network (which is generally referred to as eCPM or effective cost per mille - one thousand impressions).  Your mobile ad performance will be less if the advertisements being offered by the network are not appropriate for your customers.</p>
+<p>In general, you will need to integrate the ad network SDK into your application and add view elements to your pages where the mobile ads will be displayed.</p>
+<h3 id="real-time-communications">Real-time Communications<a class="headerlink" href="#real-time-communications" title="Permanent link">&para;</a></h3>
+<p>You might want to get an instant alert of a pending change to a table, or perhaps produce the next great chat app.  Real-time Communications keeps a TCP or UDP channel open to the mobile client for communications, allowing you to send instant alerts to the connected mobile clients.  This enables quite a few collaborative use cases. There
+are quite a few "standards" here:</p>
+<ul>
+<li><a href="https://webrtc.org/">WebRTC</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/websockets/basics/">WebSockets</a></li>
+<li><a href="http://signalr.net/">SignalR</a></li>
+<li><a href="http://socket.io/">socket.io</a></li>
+</ul>
+<p>WebRTC uses UDP underneath, so it's better for lossy communication with low latency - for example, audio or video.  WebSockets (and the frameworks that depend on it, like socket.io and SignalR) use TCP.  This means higher latency, but lossless communication.  Since we are developing an ASP.NET mobile backend and using C# for the mobile application, SignalR would be more appropriate to use. You can find <a href="https://github.com/schneidenbach/Xamarin-Forms-and-SignalR-Example">a full example of integrating SignalR with Xamarin Forms on GitHub</a>.</p>
+<!-- Links -->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../chapter6/react/" title="React Applications" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                React Applications
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../search/" title="Azure Search" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Azure Search
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Adrian Hall
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="../../js/highlight.pack.js"></script>
+      
+    
+  </body>
+</html>
