@@ -148,7 +148,7 @@ You can read this information using the Azure Mobile Apps Client SDK once you ha
 the same model classes:
 
 ```csharp
-var configuration = await client.InvokeAsync<ConfigViewModel>("config", HttpMethod.Get, null);
+var configuration = await client.InvokeApiAsync<ConfigViewModel>("config", HttpMethod.Get, null);
 ```
 
 You must specify a class that deserializes the JSON that is produced by your API.  If you use the same classes,
