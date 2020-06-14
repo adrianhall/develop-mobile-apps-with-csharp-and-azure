@@ -831,7 +831,7 @@ Your beta testers will now get an email telling them there is a new app availabl
 [4]: https://en.wikipedia.org/wiki/Test-driven_development
 [5]: https://github.com/dariusz-wozniak/List-of-Testing-Tools-and-Frameworks-for-.NET/blob/master/README.md
 [6]: https://docs.microsoft.com/en-us/visualstudio/test/walkthrough-creating-and-running-unit-tests-for-managed-code
-[7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter8
+[7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/Chapter8
 [8]: ../chapter1/firstapp_pc.md
 [9]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW10
 [10]: https://developer.xamarin.com/guides/testcloud/testrecorder/

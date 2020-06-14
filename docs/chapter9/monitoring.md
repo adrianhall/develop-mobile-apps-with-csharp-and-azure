@@ -216,4 +216,4 @@ Now go and make awesome mobile apps!
 [4]: https://docs.microsoft.com/en-us/azure/application-insights/app-insights-api-custom-events-metrics
 [5]: https://docs.microsoft.com/en-us/azure/application-insights/app-insights-api-filtering-sampling
 [6]: https://docs.microsoft.com/en-us/azure/application-insights/app-insights-scom
-[7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter8/Backend
+[7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/Chapter8/Backend

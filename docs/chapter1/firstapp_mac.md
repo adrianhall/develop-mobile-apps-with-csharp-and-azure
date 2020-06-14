@@ -1282,9 +1282,9 @@ The following 7 chapters each take one aspect of the cloud services that can be 
 [6]: https://portal.azure.com/
 [7]: https://guidgenerator.com/
 [8]: https://developer.xamarin.com/guides/xamarin-forms/creating-mobile-apps-xamarin-forms/
-[9]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1
+[9]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/main/Chapter1
 [10]: https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/
 [11]: https://developer.apple.com/
 [12]: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html#//apple_ref/doc/uid/TP40012582-CH31-SW6
-[13]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1/Backend/Web.config
+[13]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/main/Chapter1/Backend/Web.config
 [vsmac]: https://www.visualstudio.com/vs/visual-studio-mac/

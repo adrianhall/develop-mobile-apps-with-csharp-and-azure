@@ -297,5 +297,5 @@ When using authentication this way, it is vital that you have a singleton model 
 [4]: https://vslive.com/Blogs/News-and-Tips/2016/02/4-Must-Read-Angular-Blogs.aspx
 [5]: https://github.com/tastejs/todomvc/tree/gh-pages/examples/angularjs
 [6]: http://todomvc.com/
-[7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter6
+[7]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/Chapter6
 [8]: https://nodejs.org/en/

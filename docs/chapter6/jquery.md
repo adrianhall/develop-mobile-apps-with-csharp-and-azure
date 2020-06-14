@@ -281,6 +281,6 @@ We insert data by passing the object to insert to `table.insert()`, modify with 
 [2]: https://facebook.github.io/react/
 [3]: https://angularjs.org/
 [4]: https://www.npmjs.com/package/azure-mobile-apps-client
-[5]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter6/Backend/Content/spa/jquery/application.css
+[5]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/main/Chapter6/Backend/Content/spa/jquery/application.css
 [6]: https://en.wikipedia.org/wiki/Immediately-invoked_function_expression
 [7]: https://msdn.microsoft.com/en-us/library/azure/jj613353.aspx

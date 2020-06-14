@@ -607,7 +607,7 @@ you can [skip the Social Authentication section](debugging.md).
 <!-- External Links -->
 [classic-portal]: https://manage.windowsazure.com/
 [portal]: https://portal.azure.com/
-[1]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/Helpers/ServiceLocator.cs
-[10]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2
+[1]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/main/Chapter2/TaskList/TaskList/Helpers/ServiceLocator.cs
+[10]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/Chapter2
 [22]: https://developer.xamarin.com/guides/xamarin-forms/dependency-service/
 

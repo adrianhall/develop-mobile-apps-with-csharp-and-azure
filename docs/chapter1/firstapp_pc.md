@@ -1225,7 +1225,7 @@ The following 7 chapters each take one aspect of the cloud services that can be 
 [8]: https://visualstudiogallery.msdn.microsoft.com/e1d736b0-5531-4eee-a27a-30a0318cac45
 [9]: https://developer.xamarin.com/guides/ios/getting_started/installation/windows/connecting-to-mac/
 [10]: https://developer.xamarin.com/guides/xamarin-forms/creating-mobile-apps-xamarin-forms/
-[11]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter1
+[11]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/main/Chapter1
 [12]: https://github.com/
 [13]: https://stackoverflow.com/questions/3480201/how-do-you-install-an-apk-file-in-the-android-emulator/3480235#3480235
 [14]: https://jfarrell.net/2015/02/07/platform-specific-styling-with-xamarin-forms/

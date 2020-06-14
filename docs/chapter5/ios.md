@@ -344,7 +344,7 @@ Next you can move onto [Windows Push](./windows.md) or skip to the [Recipes Sect
 <!-- Links -->
 [Azure portal]: https;//portal.azure.com/
 [NodeJS]: https://nodejs.org/en/download/
-[tools]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/tools
+[tools]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/tools
 [1]: http://developer.apple.com/account
 [2]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html#//apple_ref/doc/uid/TP40012582-CH30-SW991
 [3]: https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html

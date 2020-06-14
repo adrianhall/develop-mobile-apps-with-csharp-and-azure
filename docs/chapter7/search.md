@@ -560,4 +560,4 @@ concerns.
 [6]: http://api.androidhive.info/json/movies.json
 [7]: https://docs.microsoft.com/en-us/rest/api/searchservice/odata-expression-syntax-for-azure-search
 [8]: https://docs.microsoft.com/en-us/rest/api/searchservice/lucene-query-syntax-in-azure-search
-[9]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter7
+[9]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/Chapter7

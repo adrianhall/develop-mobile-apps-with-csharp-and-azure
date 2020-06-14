@@ -26,4 +26,4 @@ To serve the static site locally, use:
 mkdocs serve
 ```
 
-The site will be on http://localhost:8000.  The main site is automatically built when I merge changes into the master branch on GitLab.
+The site will be on http://localhost:8000.  The main site is automatically built when I merge changes into the main branch on GitHub.

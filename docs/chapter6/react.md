@@ -402,4 +402,4 @@ There is a lot more to be said about the capabilities of React, Redux, BabelJS a
 [16]: https://babeljs.io/docs/plugins/transform-class-properties/
 [17]: https://babeljs.io/docs/plugins/transform-object-rest-spread/
 [18]: https://github.com/madskristensen/NpmTaskRunner
-[19]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter6/Backend
+[19]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/Chapter6/Backend

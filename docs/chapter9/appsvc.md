@@ -78,7 +78,7 @@ I also recommend linking a Continuous Deployment stream to the staging slot, rat
 
 The service will download the latest source code from the specified branch, build the server and deploy it.  You can check the status of the deployment through **Deployment options** on the staging slot as well.
 
-As a best practice, create a new branch (I call my branch "azure") and deploy that branch.  When you wish to update the deployed server, merge from the master branch to the azure branch and then push to the remote repository.  This will then be picked up by your App Service and the new service will be deployed.
+As a best practice, create a new branch (I call my branch "azure") and deploy that branch.  When you wish to update the deployed server, merge from the main branch to the azure branch and then push to the remote repository.  This will then be picked up by your App Service and the new service will be deployed.
 
 By combining continuous deployment with slots, you can have control over the deployment to staging and control the production deployment easily.  This is a powerful "DevOps" combination of features.
 

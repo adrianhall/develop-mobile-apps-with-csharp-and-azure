@@ -727,6 +727,6 @@ I've also added a logout button to my `Pages\TaskList.xaml` ([view code][36]) an
 [portal]: https://portal.azure.com/
 [classic-portal]: https://manage.windowsazure.com/
 [34]: http://stackoverflow.com/questions/25044166/how-to-clone-a-httprequestmessage-when-the-original-request-has-content
-[35]: https://github.com/Azure/azure-mobile-apps-net-client/blob/master/src/Microsoft.WindowsAzure.MobileServices/MobileServiceClient.cs
-[36]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/Pages/TaskList.xaml#L12
-[37]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/master/Chapter2/TaskList/TaskList/ViewModels/TaskListViewModel.cs#L112
+[35]: https://github.com/Azure/azure-mobile-apps-net-client/blob/main/src/Microsoft.WindowsAzure.MobileServices/MobileServiceClient.cs
+[36]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/main/Chapter2/TaskList/TaskList/Pages/TaskList.xaml#L12
+[37]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/blob/main/Chapter2/TaskList/TaskList/ViewModels/TaskListViewModel.cs#L112

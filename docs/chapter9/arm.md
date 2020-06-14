@@ -302,7 +302,7 @@ The Azure App Service is
         },
         "deploymentRepoBranch": {
             "type": "string",
-            "defaultValue": "master"
+            "defaultValue": "main"
         }
     },
     "variables": {

@@ -596,7 +596,7 @@ There are a number of pre-built Xamarin libraries for handling provider authenti
 [portal]: https://portal.azure.com/
 [8]: https://facebook.com/
 [9]: https://developers.facebook.com/
-[10]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/master/Chapter2
+[10]: https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/tree/main/Chapter2
 [11]: https://accounts.google.com/
 [12]: https://console.developers.google.com/iam-admin/projects
 [13]: https://apps.dev.microsoft.com/?mkt=en-us#/appList
