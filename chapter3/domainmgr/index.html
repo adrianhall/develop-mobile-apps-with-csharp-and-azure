@@ -1,14 +1,11 @@
 
-
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
       
       
         <link rel="canonical" href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/chapter3/domainmgr/">
@@ -16,27 +13,8 @@
       
         <meta name="author" content="Adrian Hall">
       
-      
-        <meta name="lang:clipboard.copy" content="Copy to clipboard">
-      
-        <meta name="lang:clipboard.copied" content="Copied to clipboard">
-      
-        <meta name="lang:search.language" content="en">
-      
-        <meta name="lang:search.pipeline.stopwords" content="True">
-      
-        <meta name="lang:search.pipeline.trimmer" content="True">
-      
-        <meta name="lang:search.result.none" content="No matching documents">
-      
-        <meta name="lang:search.result.one" content="1 matching document">
-      
-        <meta name="lang:search.result.other" content="# matching documents">
-      
-        <meta name="lang:search.tokenizer" content="[\s\-]+">
-      
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.3.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.3">
     
     
       
@@ -44,21 +22,22 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2cb7adb3.min.css">
       
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.f0267088.min.css">
+        
       
     
     
-      <script src="../../assets/javascripts/modernizr.962652e9.js"></script>
-    
     
       
+        
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
-        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
       
     
-    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
     
       <link rel="stylesheet" href="../../css/extra.css">
@@ -67,96 +46,88 @@
     
     
       
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93366112-1"></script>
-<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-93366112-1")</script>
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-93366112-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
       
     
     
   </head>
   
-    <body dir="ltr">
   
-    <svg class="md-svg">
-      <defs>
-        
-        
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
-    viewBox="0 0 416 448" id="__github">
-  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
-        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
-        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
-        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
-        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
-        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
-        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
-        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
-        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
-        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
-        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
-        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
-        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
-        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
-        99.5z" />
-</svg>
-        
-      </defs>
-    </svg>
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
-    
-      <a href="#the-domain-manager" tabindex="1" class="md-skip">
-        Skip to content
-      </a>
-    
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid">
-    <div class="md-flex">
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo">
-          
-            <i class="md-icon"></i>
-          
-        </a>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
-      </div>
-      <div class="md-flex__cell md-flex__cell--stretch">
-        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
-          
-            
-              <span class="md-header-nav__topic">
-                Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
-              </span>
-              <span class="md-header-nav__topic">
-                The Domain Manager
-              </span>
-            
-          
-        </div>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
         
-          
-            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        <a href="#the-domain-manager" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-header-nav__button md-logo" aria-label="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
             
+              The Domain Manager
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
-      <label class="md-icon md-search__icon" for="__search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
-        &#xE5CD;
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
       </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Type to start searching
+            Initializing search
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -164,80 +135,60 @@
     </div>
   </div>
 </div>
-          
+    
+    
+      <div class="md-header-nav__source">
         
-      </div>
-      
-        <div class="md-flex__cell md-flex__cell--shrink">
-          <div class="md-header-nav__source">
-            
-
-
-  
-
-
-  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+<a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
     
-      <div class="md-source__icon">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <use xlink:href="#__github" width="24" height="24"></use>
-        </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
       </div>
     
-    <div class="md-source__repository">
-      GitHub
-    </div>
-  </a>
-
-          </div>
-        </div>
-      
-    </div>
   </nav>
 </header>
     
-    <div class="md-container">
+    <div class="md-container" data-md-component="container">
+      
       
         
       
-      
-      <main class="md-main">
-        <div class="md-main__inner md-grid" data-md-component="container">
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
           
             
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/" title="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure" class="md-nav__button md-logo" aria-label="Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure">
       
-        <i class="md-icon"></i>
-      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
     </a>
     Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure
   </label>
   
     <div class="md-nav__source">
       
-
-
-  
-
-
-  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source" data-md-source="github">
+<a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
     
-      <div class="md-source__icon">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <use xlink:href="#__github" width="24" height="24"></use>
-        </svg>
-      </div>
-    
-    <div class="md-source__repository">
-      GitHub
-    </div>
-  </a>
-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
     </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -248,7 +199,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../.." title="Getting Started" class="md-nav__link">
+    <a href="../.." class="md-nav__link">
       Getting Started
     </a>
   </li>
@@ -261,13 +212,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       Chapter 1 - Introduction
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 1 - Introduction" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 1 - Introduction
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -279,7 +232,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter1/firstapp_pc/" title="Your First App - PC Edition" class="md-nav__link">
+    <a href="../../chapter1/firstapp_pc/" class="md-nav__link">
       Your First App - PC Edition
     </a>
   </li>
@@ -291,7 +244,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter1/firstapp_mac/" title="Your First App - Mac Edition" class="md-nav__link">
+    <a href="../../chapter1/firstapp_mac/" class="md-nav__link">
       Your First App - Mac Edition
     </a>
   </li>
@@ -309,13 +262,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
       Chapter 2 - Authentication
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 2 - Authentication" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 2 - Authentication
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -327,7 +282,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/authconcepts/" title="Concepts" class="md-nav__link">
+    <a href="../../chapter2/authconcepts/" class="md-nav__link">
       Concepts
     </a>
   </li>
@@ -339,7 +294,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/backend/" title="Authentication in the Backend" class="md-nav__link">
+    <a href="../../chapter2/backend/" class="md-nav__link">
       Authentication in the Backend
     </a>
   </li>
@@ -351,7 +306,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/enterprise/" title="Enterprise Authentication" class="md-nav__link">
+    <a href="../../chapter2/enterprise/" class="md-nav__link">
       Enterprise Authentication
     </a>
   </li>
@@ -363,7 +318,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/social/" title="Social Authentication" class="md-nav__link">
+    <a href="../../chapter2/social/" class="md-nav__link">
       Social Authentication
     </a>
   </li>
@@ -375,7 +330,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/debugging/" title="Debugging Authentication" class="md-nav__link">
+    <a href="../../chapter2/debugging/" class="md-nav__link">
       Debugging Authentication
     </a>
   </li>
@@ -387,7 +342,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/custom/" title="Custom Authentication" class="md-nav__link">
+    <a href="../../chapter2/custom/" class="md-nav__link">
       Custom Authentication
     </a>
   </li>
@@ -399,7 +354,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/authorization/" title="Claims and Authorization" class="md-nav__link">
+    <a href="../../chapter2/authorization/" class="md-nav__link">
       Claims and Authorization
     </a>
   </li>
@@ -411,7 +366,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/realworld/" title="Tokens in Real Apps" class="md-nav__link">
+    <a href="../../chapter2/realworld/" class="md-nav__link">
       Tokens in Real Apps
     </a>
   </li>
@@ -423,7 +378,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter2/bestpractices/" title="Best Practices" class="md-nav__link">
+    <a href="../../chapter2/bestpractices/" class="md-nav__link">
       Best Practices
     </a>
   </li>
@@ -443,13 +398,15 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       Chapter 3 - Data Access and Offline Sync
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 3 - Data Access and Offline Sync" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 3 - Data Access and Offline Sync
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -461,7 +418,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../dataconcepts/" title="Concepts" class="md-nav__link">
+    <a href="../dataconcepts/" class="md-nav__link">
       Concepts
     </a>
   </li>
@@ -473,7 +430,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../server/" title="Implementing Table Controllers" class="md-nav__link">
+    <a href="../server/" class="md-nav__link">
       Implementing Table Controllers
     </a>
   </li>
@@ -485,7 +442,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../projection/" title="Data Projection and Queries" class="md-nav__link">
+    <a href="../projection/" class="md-nav__link">
       Data Projection and Queries
     </a>
   </li>
@@ -497,7 +454,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../client/" title="The Mobile Client" class="md-nav__link">
+    <a href="../client/" class="md-nav__link">
       The Mobile Client
     </a>
   </li>
@@ -509,7 +466,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../relationships/" title="Relationships" class="md-nav__link">
+    <a href="../relationships/" class="md-nav__link">
       Relationships
     </a>
   </li>
@@ -524,46 +481,50 @@
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
         The Domain Manager
+        <span class="md-nav__icon md-icon"></span>
       </label>
     
-    <a href="./" title="The Domain Manager" class="md-nav__link md-nav__link--active">
+    <a href="./" class="md-nav__link md-nav__link--active">
       The Domain Manager
     </a>
     
       
-<nav class="md-nav md-nav--secondary">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#existing-table-relationships-with-the-mappedentitydomainmanager" title="Existing Table Relationships with the MappedEntityDomainManager" class="md-nav__link">
+  <a href="#existing-table-relationships-with-the-mappedentitydomainmanager" class="md-nav__link">
     Existing Table Relationships with the MappedEntityDomainManager
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nosql-storage-with-the-storagedomainmanager" title="NoSQL Storage with the StorageDomainManager" class="md-nav__link">
+  <a href="#nosql-storage-with-the-storagedomainmanager" class="md-nav__link">
     NoSQL Storage with the StorageDomainManager
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="NoSQL Storage with the StorageDomainManager">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#limitations-of-the-azure-storage-domain-manager" title="Limitations of the Azure Storage Domain Manager" class="md-nav__link">
+  <a href="#limitations-of-the-azure-storage-domain-manager" class="md-nav__link">
     Limitations of the Azure Storage Domain Manager
   </a>
   
@@ -573,10 +534,6 @@
     </nav>
   
 </li>
-      
-      
-      
-      
       
     </ul>
   
@@ -597,13 +554,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
       Chapter 4 - Server Side Code
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 4 - Server Side Code" data-md-level="1">
       <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 4 - Server Side Code
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -615,7 +574,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter4/options/" title="Options for Server Code" class="md-nav__link">
+    <a href="../../chapter4/options/" class="md-nav__link">
       Options for Server Code
     </a>
   </li>
@@ -627,7 +586,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter4/custom/" title="Custom HTTP Endpoints" class="md-nav__link">
+    <a href="../../chapter4/custom/" class="md-nav__link">
       Custom HTTP Endpoints
     </a>
   </li>
@@ -639,7 +598,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter4/webjobs/" title="WebJobs" class="md-nav__link">
+    <a href="../../chapter4/webjobs/" class="md-nav__link">
       WebJobs
     </a>
   </li>
@@ -651,7 +610,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter4/functions/" title="Functions" class="md-nav__link">
+    <a href="../../chapter4/functions/" class="md-nav__link">
       Functions
     </a>
   </li>
@@ -663,7 +622,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter4/recipes/" title="Recipes" class="md-nav__link">
+    <a href="../../chapter4/recipes/" class="md-nav__link">
       Recipes
     </a>
   </li>
@@ -681,13 +640,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
     <label class="md-nav__link" for="nav-6">
       Chapter 5 - Push Notifications
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 5 - Push Notifications" data-md-level="1">
       <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 5 - Push Notifications
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -699,7 +660,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter5/concepts/" title="Concepts" class="md-nav__link">
+    <a href="../../chapter5/concepts/" class="md-nav__link">
       Concepts
     </a>
   </li>
@@ -711,7 +672,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter5/android/" title="Android Push" class="md-nav__link">
+    <a href="../../chapter5/android/" class="md-nav__link">
       Android Push
     </a>
   </li>
@@ -723,7 +684,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter5/ios/" title="iOS Push" class="md-nav__link">
+    <a href="../../chapter5/ios/" class="md-nav__link">
       iOS Push
     </a>
   </li>
@@ -735,7 +696,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter5/windows/" title="Windows Push" class="md-nav__link">
+    <a href="../../chapter5/windows/" class="md-nav__link">
       Windows Push
     </a>
   </li>
@@ -747,7 +708,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter5/recipes/" title="Push Recipes" class="md-nav__link">
+    <a href="../../chapter5/recipes/" class="md-nav__link">
       Push Recipes
     </a>
   </li>
@@ -765,13 +726,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
     
     <label class="md-nav__link" for="nav-7">
       Chapter 6 - Combining Web and Mobile Apps
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 6 - Combining Web and Mobile Apps" data-md-level="1">
       <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 6 - Combining Web and Mobile Apps
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -783,7 +746,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter6/mvc/" title="MVC Applications" class="md-nav__link">
+    <a href="../../chapter6/mvc/" class="md-nav__link">
       MVC Applications
     </a>
   </li>
@@ -795,7 +758,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter6/jquery/" title="jQuery Applications" class="md-nav__link">
+    <a href="../../chapter6/jquery/" class="md-nav__link">
       jQuery Applications
     </a>
   </li>
@@ -807,7 +770,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter6/angular/" title="Angular Applications" class="md-nav__link">
+    <a href="../../chapter6/angular/" class="md-nav__link">
       Angular Applications
     </a>
   </li>
@@ -819,7 +782,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter6/react/" title="React Applications" class="md-nav__link">
+    <a href="../../chapter6/react/" class="md-nav__link">
       React Applications
     </a>
   </li>
@@ -837,13 +800,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
     <label class="md-nav__link" for="nav-8">
       Chapter 7 - Other Useful Services
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 7 - Other Useful Services" data-md-level="1">
       <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 7 - Other Useful Services
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -855,7 +820,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter7/services/" title="Useful Azure Services" class="md-nav__link">
+    <a href="../../chapter7/services/" class="md-nav__link">
       Useful Azure Services
     </a>
   </li>
@@ -867,7 +832,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter7/search/" title="Azure Search" class="md-nav__link">
+    <a href="../../chapter7/search/" class="md-nav__link">
       Azure Search
     </a>
   </li>
@@ -879,7 +844,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter7/media/" title="Media Services" class="md-nav__link">
+    <a href="../../chapter7/media/" class="md-nav__link">
       Media Services
     </a>
   </li>
@@ -897,13 +862,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
     <label class="md-nav__link" for="nav-9">
       Chapter 8 - Developing An App
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 8 - Developing An App" data-md-level="1">
       <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 8 - Developing An App
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -915,7 +882,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter8/developing/" title="The Development Environment" class="md-nav__link">
+    <a href="../../chapter8/developing/" class="md-nav__link">
       The Development Environment
     </a>
   </li>
@@ -927,7 +894,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter8/testing/" title="Testing your Application" class="md-nav__link">
+    <a href="../../chapter8/testing/" class="md-nav__link">
       Testing your Application
     </a>
   </li>
@@ -945,13 +912,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
     <label class="md-nav__link" for="nav-10">
       Chapter 9 - Going to Production
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Chapter 9 - Going to Production" data-md-level="1">
       <label class="md-nav__title" for="nav-10">
+        <span class="md-nav__icon md-icon"></span>
         Chapter 9 - Going to Production
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -963,7 +932,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter9/arm/" title="Repeatable Deployments" class="md-nav__link">
+    <a href="../../chapter9/arm/" class="md-nav__link">
       Repeatable Deployments
     </a>
   </li>
@@ -975,7 +944,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter9/appsvc/" title="Safe Deployments" class="md-nav__link">
+    <a href="../../chapter9/appsvc/" class="md-nav__link">
       Safe Deployments
     </a>
   </li>
@@ -987,7 +956,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../chapter9/monitoring/" title="Monitoring and Troubleshooting" class="md-nav__link">
+    <a href="../../chapter9/monitoring/" class="md-nav__link">
       Monitoring and Troubleshooting
     </a>
   </li>
@@ -1004,7 +973,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../xamarin_tips/" title="Xamarin Forms Tips" class="md-nav__link">
+    <a href="../../xamarin_tips/" class="md-nav__link">
       Xamarin Forms Tips
     </a>
   </li>
@@ -1016,7 +985,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../android_appendix/" title="Android Developer Notes" class="md-nav__link">
+    <a href="../../android_appendix/" class="md-nav__link">
       Android Developer Notes
     </a>
   </li>
@@ -1028,7 +997,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../vs_extensions/" title="Visual Studio Extensions" class="md-nav__link">
+    <a href="../../vs_extensions/" class="md-nav__link">
       Visual Studio Extensions
     </a>
   </li>
@@ -1040,7 +1009,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../references/" title="References" class="md-nav__link">
+    <a href="../../references/" class="md-nav__link">
       References
     </a>
   </li>
@@ -1052,7 +1021,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../credits/" title="Credits" class="md-nav__link">
+    <a href="../../credits/" class="md-nav__link">
       Credits
     </a>
   </li>
@@ -1069,32 +1038,35 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-<nav class="md-nav md-nav--secondary">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#existing-table-relationships-with-the-mappedentitydomainmanager" title="Existing Table Relationships with the MappedEntityDomainManager" class="md-nav__link">
+  <a href="#existing-table-relationships-with-the-mappedentitydomainmanager" class="md-nav__link">
     Existing Table Relationships with the MappedEntityDomainManager
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nosql-storage-with-the-storagedomainmanager" title="NoSQL Storage with the StorageDomainManager" class="md-nav__link">
+  <a href="#nosql-storage-with-the-storagedomainmanager" class="md-nav__link">
     NoSQL Storage with the StorageDomainManager
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="NoSQL Storage with the StorageDomainManager">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#limitations-of-the-azure-storage-domain-manager" title="Limitations of the Azure Storage Domain Manager" class="md-nav__link">
+  <a href="#limitations-of-the-azure-storage-domain-manager" class="md-nav__link">
     Limitations of the Azure Storage Domain Manager
   </a>
   
@@ -1104,10 +1076,6 @@
     </nav>
   
 </li>
-      
-      
-      
-      
       
     </ul>
   
@@ -1121,7 +1089,9 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter3/domainmgr.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/adrianhall/develop-mobile-apps-with-csharp-and-azure/edit/master/docs/chapter3/domainmgr.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
                 
                 
                 <h1 id="the-domain-manager">The Domain Manager<a class="headerlink" href="#the-domain-manager" title="Permanent link">&para;</a></h1>
@@ -1132,7 +1102,7 @@ passed to the Domain Manager, which is responsible for converting the request in
 response is then passed back up the stack to be finally given back to the mobile client.</p>
 <p>The Domain Manager is a central part of this process.  It is a class that implements the <code>IDomainManager</code>
 interface:</p>
-<pre><code class="csharp">namespace Microsoft.Azure.Mobile.Server.Tables
+<pre><code class="language-csharp">namespace Microsoft.Azure.Mobile.Server.Tables
 {
     public interface IDomainManager&lt;TData&gt; where TData : class, ITableData
     {
@@ -1147,7 +1117,6 @@ interface:</p>
     }
 }
 </code></pre>
-
 <p>This looks deceptively simple.  Just 8 methods.  In reality, this is anything but simple.  The major issue
 that a prospective domain manager implementor has to grapple with is the translation of an <code>IQueryable</code> into
 something that the backend data source can understand.</p>
@@ -1169,7 +1138,7 @@ by Entity Framework.  If there is a 1:1 mapping, use <code>EntityDomainManager</
 appropriate mappings that map from DTO to domain model and from the domain model to the DTO.</p>
 <p>Let's take a small example.  If I am producing an enterprise mobile app that field engineers can use - the ones
 that, for example, visit your house to install cable.  I can define an Entity Framework model map as follows:</p>
-<pre><code class="csharp">[Table(&quot;Customers&quot;)]
+<pre><code class="language-csharp">[Table(&quot;Customers&quot;)]
 public class Customer
 {
     public Customer()
@@ -1262,10 +1231,9 @@ public class Job : ITableData
     public ICollection&lt;Equipment&gt; Equipments { get; set; }
 }
 </code></pre>
-
 <p>This is the representation of the tables within the database.  They don't have to map to what the client
 requires.  We can wire up the relationships in the normal <a href="http://www.entityframeworktutorial.net/code-first/configure-one-to-one-relationship-in-code-first.aspx">Entity Framework way</a>, within the <code>DbContext</code>:</p>
-<pre><code class="csharp">public partial class ExistingDbContext : DbContext
+<pre><code class="language-csharp">public partial class ExistingDbContext : DbContext
 {
     public FieldDbContext() : base(&quot;name=MS_TableConnectionString&quot;)
     {            
@@ -1306,14 +1274,13 @@ requires.  We can wire up the relationships in the normal <a href="http://www.en
     }
 }
 </code></pre>
-
 <p>We can see the relationship (a Many:Many relationship) at the end of the <code>modelBuilder</code> within
 the DbContext.  The 1:Many and 1:1 relationships are handled within the models themselves, per the
 normal Entity Framework methods. This is pure Entity Framework thus far - we have defined the
 structure of the database.</p>
 <p>To translate this into a mobile client, we need to define Data Transfer Objects.  These don't
 have to be the same shape as the models that Entity Framework is using.  For example:</p>
-<pre><code class="csharp">public class CustomerDTO
+<pre><code class="language-csharp">public class CustomerDTO
 {
     public string FullName { get; set; }
     public string Address { get; set; 
@@ -1340,11 +1307,10 @@ public class JobDTO : EntityData
     public virtual List&lt;EquipmentDTO&gt; Equipments { get; set; }
 }
 </code></pre>
-
 <p>Note that the DTOs are similar, but definitely not the same.  They don't have the same relationships between
 the records, for example.  <code>MappedEntityDomainManager</code> requires that AutoMapper is already configured and
 initialized, so that's the next step.  Set up an AutoMapper configuration in the <code>App_Start</code> directory:</p>
-<pre><code class="csharp">using AutoMapper;
+<pre><code class="language-csharp">using AutoMapper;
 using FieldEngineer.Service.DataObjects;
 using FieldEngineer.Service.Models;
 
@@ -1369,9 +1335,8 @@ namespace FieldEngineer.Service
     }
 }
 </code></pre>
-
 <p>You will also need to initialize the AutoMapper - this can be done where you also configure the Azure Mobile Apps:</p>
-<pre><code class="csharp">using System;
+<pre><code class="language-csharp">using System;
 using System.Web.Http;
 using AutoMapper;
 using Microsoft.WindowsAzure.Mobile.Service;
@@ -1398,9 +1363,8 @@ namespace FieldEngineer.Service
     }
 }
 </code></pre>
-
 <p>Finally, we can create a controller that allows the receipt and update of jobs:</p>
-<pre><code class="csharp">namespace FieldEngineer.Service.Controllers
+<pre><code class="language-csharp">namespace FieldEngineer.Service.Controllers
 {
     [Authorize]  
     public class JobController : TableController&lt;JobDTO&gt;
@@ -1440,13 +1404,12 @@ namespace FieldEngineer.Service
     }
 }
 </code></pre>
-
 <p>We are using <code>[ExpandProperty]</code> to expand the Customer and Equipment data so that it is transferred with the Job object.
 The <code>MappedEntityDomainManager</code> is an abstract type, so we have to create a concrete implementation.  Fortunately, most
 of the work is done for us.  There are already concrete versions of most of the methods we require (like insert, delete
 and lookup). The <code>MappedEntityDomainManager</code> needs help to deal with replacements nor optimistic concurrency - features 
 we want.  We can use the <code>DefaultMappedEntityDomainManager</code>to handle this for us:</p>
-<pre><code class="csharp">namespace FieldEngineerLite.Service.Helpers
+<pre><code class="language-csharp">namespace FieldEngineerLite.Service.Helpers
 {
     public class DefaultMappedEntityDomainManager&lt;TData, TModel&gt;
             : MappedEntityDomainManager&lt;TData, TModel&gt;
@@ -1480,11 +1443,10 @@ we want.  We can use the <code>DefaultMappedEntityDomainManager</code>to handle 
     }
 }
 </code></pre>
-
 <p>The primary thing that the <code>DefaultMappedEntityDomainManager</code> does that the original doesn't is in the <code>SetOriginalVersion</code>
 method.  This causes the model to be updated with a new version, allowing for conflict detection in the domain manager.</p>
 <p>If we move now to the models on the mobile client, we see some fairly standard models:</p>
-<pre><code class="csharp">public class Customer
+<pre><code class="language-csharp">public class Customer
 {
     public string Id { get; set; }
     public string FullName { get; set; }
@@ -1521,16 +1483,14 @@ public class Job
     public string Version { get; set; }
 }
 </code></pre>
-
 <p>In this case, we only need to sync the Job table, so we can define it in the <code>InitializeAsync()</code> method on the client:</p>
-<pre><code class="csharp">public async Task InitializeAsync()
+<pre><code class="language-csharp">public async Task InitializeAsync()
 {
         var store = new MobileServiceSQLiteStore(&quot;localdata.db&quot;);
         store.DefineTable&lt;Job&gt;();
         await MobileService.SyncContext.InitializeAsync(store);
 }
 </code></pre>
-
 <p>You can use <code>GetSyncTable&lt;Job&gt;()</code> to get a reference to the table and deal with it as you normally would.  I'd expect in this
 case that the Customer and Equipment would be handled elsewhere - maybe a separate web application that customer service
 agents use, for example.</p>
@@ -1589,12 +1549,11 @@ causes more code on the mobile client but makes the server much simpler by avoid
 </li>
 </ul>
 <p>Click on the <strong>Application Settings</strong> menu option, then scroll down to the <strong>Connection Strings</strong> section.  Note that the portal has created the connection string as an App Setting for you with the right value:</p>
-<pre><code class="bash">DefaultEndpointsProtocol=https;AccountName=thebook;AccountKey=&lt;key1&gt;
+<pre><code class="language-bash">DefaultEndpointsProtocol=https;AccountName=thebook;AccountKey=&lt;key1&gt;
 </code></pre>
-
 <p>The key is the access key for the storage.  When a storage account is created, two keys are also created.  If you re-generate the storage access keys, remember to update your connection string.  By default, the connection string is called <code>MS_AzureStorageAccountConnectionString</code> and we will use that throughout.</p>
 <p>Now that our resources are set up, let's look at the Backend project.  This started off as a standard Azure Mobile Apps template.  The template assumes you are going to use SQL Azure, so there is quite a bit of work to convert the provided template to use Azure Table Storage.  Let's start with the <code>App_Start\Startup.MobileApp.cs</code> file.  There is no Entity Framework, so that needs to be stripped out:</p>
-<pre><code class="csharp">using System.Configuration;
+<pre><code class="language-csharp">using System.Configuration;
 using System.Web.Http;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Authentication;
@@ -1618,7 +1577,6 @@ namespace Backend
     }
 }
 </code></pre>
-
 <p>We've made three changes:</p>
 <ol>
 <li>We've removed the database seeding.</li>
@@ -1631,7 +1589,7 @@ namespace Backend
 <p>You must add the <code>Microsoft.Azure.Mobile.Server.Storage</code> package from NuGet. </p>
 </div>
 <p>Let's move onto the DataObjects.  These are very similar:</p>
-<pre><code class="csharp">namespace Backend.DataObjects
+<pre><code class="language-csharp">namespace Backend.DataObjects
 {
     public class TodoItem : StorageData
     {
@@ -1640,14 +1598,13 @@ namespace Backend
     }
 }
 </code></pre>
-
 <p>Each storage implementation will likely need their own implementation of the <code>ITableData</code> interface.  The <code>StorageData</code> class performs the same duties as the <code>EntityData</code> class for Entity Framework based backends.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You can remove the <code>Models</code> directory and the <code>DbContext</code> for the project.  These are only needed when working with Entity Framework.</p>
 </div>
 <p>The Azure Table Storage SDK is completely async driven.  Fortunately, the domain manager specification (codified in the definition of <code>IDomainManager</code>) allows both async and synchronous usage.  This does require a change to our controller:</p>
-<pre><code class="csharp">using System.Collections.Generic;
+<pre><code class="language-csharp">using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -1702,13 +1659,11 @@ namespace Backend.Controllers
     }
 }
 </code></pre>
-
 <p>Note how we instantiate the storage domain controller.  This requires a connection string and the name of the table.  We have created the connection string in the portal, but we have not exposed that connection string to our ASP.NET application. We need to edit the <code>Web.config</code> file as well:</p>
-<pre><code class="xml">&lt;connectionStrings&gt;
+<pre><code class="language-xml">&lt;connectionStrings&gt;
     &lt;add name=&quot;MS_AzureStorageAccountConnectionString&quot; connectionString=&quot;UseDevelopmentStorage=true&quot;/&gt;
 &lt;/connectionStrings&gt;
 </code></pre>
-
 <p>This will be overwritten by the connection string in the portal.  If you are running the service locally, you can use this
 setting with the Azure Storage Emulator.  If you don't add this line to the <code>Web.config</code>, you will not be able to run this
 server locally.</p>
@@ -1719,7 +1674,7 @@ of getting some data:</p>
 record:</p>
 <p><img alt="" src="../img/storage-2.PNG" /></p>
 <p>There are a couple of things to note here.  Firstly, the Id must be specified.  It also must be of a specific form.  There are two numbers.  The first is a partition key and the second is a row key.  Tables are partitioned to support load balancing across storage notes.  It can be anything you wish it to be.  Similarly, the row key is unique within a partition.  We can use this information to generate a suitable Id if one is not provided:</p>
-<pre><code class="csharp">// POST tables/TodoItem
+<pre><code class="language-csharp">// POST tables/TodoItem
 public async Task&lt;IHttpActionResult&gt; PostTodoItemAsync(TodoItem item)
 {
     if (item.Id == null || item.Id == &quot;'',''&quot;)
@@ -1737,7 +1692,6 @@ private string GenerateUniqueId()
     return $&quot;'{partitionId}','{rowId}'&quot;;
 }
 </code></pre>
-
 <p>The value <code>'',''</code> is the default value of the Id column.  However, that is not good enough to get a successful store.  This code
 generates a unique identifier in the right format.  A single partition is reasonable for most applications.  If you intend on
 storing massive amounts of data, the data partitioning scheme will require some consideration (just like any other NoSQL application).</p>
@@ -1784,10 +1738,7 @@ particular function.  The Azure Table Storage is ill-suited to the demands of a 
 the domain manager (and the ITableData interface) is relatively simple since it passes through the OData query to Azure Storage.  This
 allows you to see what is truly involved in writing a domain manager.</p>
 <!-- Images -->
-
 <!-- Links -->
-                
-                  
                 
               
               
@@ -1804,34 +1755,34 @@ allows you to see what is truly involved in writing a domain manager.</p>
 <footer class="md-footer">
   
     <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../relationships/" title="Relationships" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+          <a href="../relationships/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
                 Relationships
-              </span>
+              </div>
             </div>
           </a>
         
         
-          <a href="../../chapter4/options/" title="Options for Server Code" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
+          <a href="../../chapter4/options/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
                 Options for Server Code
-              </span>
+              </div>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
             </div>
           </a>
         
@@ -1843,36 +1794,55 @@ allows you to see what is truly involved in writing a domain manager.</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2017 Adrian Hall
+            Copyright &copy; 2017-2020 Adrian Hall
           </div>
         
-        powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
-        and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
-          Material for MkDocs</a>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
       </div>
       
-        
   <div class="md-footer-social">
-    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
     
-      <a href="https://github.com/adrianhall" class="md-footer-social__link fa fa-github"></a>
+      
+      
+        
+        
+      
+      <a href="https://github.com/adrianhall" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+      </a>
     
-      <a href="https://twitter.com/FizzyInTheHall" class="md-footer-social__link fa fa-twitter"></a>
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/FizzyInTheHall" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
     
   </div>
 
-      
     </div>
   </div>
 </footer>
       
     </div>
     
-      <script src="../../assets/javascripts/application.a353778b.js"></script>
+      <script src="../../assets/javascripts/vendor.7e0ee788.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c1ccee15.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
       
         <script src="../../js/highlight.pack.js"></script>
       
