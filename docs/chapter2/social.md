@@ -1,8 +1,8 @@
 ## Social Authentication
 
-Azure App Service provides built-in support for Facebook, Google, Microsoft and Twitter.  Irrespective of whether
-you intend to use server-flow or client-flow, you will need to configure the Azure App Service Authentication /
-Authorization service.  The method is pretty similar in each case:
+Azure App Service provides built-in support for Facebook and Google.  Microsoft and Twitter are also accepted, but Microsoft authentication is handled within the context of Azure Active Directory (and is an option when creating the app registration), and Twitter uses the older (and insecure) OAuth v1 protocol.  It should not be used.
+
+Irrespective of whether you intend to use server-flow or client-flow, you will need to configure the Azure App Service Authentication / Authorization service.  The method is pretty similar in each case:
 
 1.  Obtain a Developer Account for the provider.
 2.  Create a new application, obtaining a Client ID and Secret.
@@ -145,95 +145,6 @@ If you happen to mis-type the Authorized redirect URI, Google will inform you th
 
 !!! warn
     Google has changed the security semantics for its authentication service.  You must use the v3.1.0 of the Azure Mobile Apps Client SDK for Server Flow authentication with Google to work.
-
-## Microsoft Account Configuration
-
-The advantage of the Microsoft Account (or MSA, as it is known) is that you already have an account - you need 
-one for accessing Azure in general.  Go to the [Microsoft Account Developer Center][13] and log on with 
-your Microsoft account.  You should use the same one as you use for Azure, but it is not required.
-
-![Microsoft Account Developer Center][img14]
-
-Just to confuse us, there are two **Add an App** buttons. Strangely, they are different. Click the one next to
-**Converged applications**.
-
-![MSA: Create an application][img15]
-
-Enter an awesome name, then lick **Create application**.
-
-![MSA: Add a Platform][img16]
-
-Click **Add Platform**, followed by **Web**.  In the **Redirect URIs**, enter your app URL +
-`/.auth/login/microsoftaccount/callback`. Then Click **Save**.
-
-![MSA: Redirect URI][img17]
-
-Now Click **Generate New Password** under **Application Secrets**.
-
-![MSA: New password][img18]
-
-Unlike the other social providers, this is the only time you will get to see your client secret, so make a note of it or copy and paste it into a notepad.  Once you have it copied somewhere, Click **OK**, followed by **Save**.
-
-You now have all the information you need to configure the Microsoft Account section within your App Server
-Authentication / Authorization.  The Client ID you need to enter is the Application ID and the Client Secret is the
-password you just copied somewhere.
-
-![MSA: Configuration of App Service][img19]
-
-Note that you have to choose claims that you want to read.  The **wl.basic** and **wl.emails** will give you enough
-information to get started with this tutorial.
-
-Click **OK** (at the bottom), followed by **Save** (at the top).  You can test the settings by pointing your browser
-to https://_yoursite_.azurewebsites.net/.auth/login/microsoftaccount.  You will see what should be a normal claims
-request page:
-
-![MSA: Claims Request][img20]
-
-Clicking on **Yes** should take you to the normal success page.
-
-## Twitter Configuration
-
-I hope you are seeing that all the OAuth providers take a very similar route to configuring their service.  The semantics of the service are slightly different in each case.  Twitter is no different.  As you might expect, before continuing, sign up for [Twitter][14].  Once you have signed up, the [Twitter Developers Portal][15] is your next stop. Once there, click **Create New App**:
-
-![Twitter: New App][img21]
-
-Most of the fields are self-explanatory.  The **Callback URL** is the same thing that the other social providers have
-called the Redirect URL.  The appropriate value is your app URL + `/.auth/login/twitter/callback`.  There is a legal
-agreement at the bottom of the page, then you can Click **Create your Twitter application** button.
-
-!!! danger
-    All social authentication providers have some sort of legal agreement that governs their use.  In general, demo or
-    PoC apps are fair use.  However, you should get a legal opinion before using a social authentication provider in a
-    production app.
-
-Once you have created the app, you will get a tabbed display with all the settings.  Click the **Keys and Access
-Tokens** tab:
-
-![Twitter: Keys][img22]
-
-Note the values for the **Consumer Key (API Key)** and **Consumer Secret (API Secret)**.  They get entered into the
-Azure Portal.
-
-!!! warn
-    There is a check box in the **Settings** tab that says _Allow this application to be used to Sign in with Twitter_.
-    At the time of writing, this is checked by default.  However, if you find you can not log in for some reason, then
-    ensure this checkbox is checked.
-
-Back in the Azure Portal, select your app service, then **All Settings**, **Authentication / Authorization**, and
-finally **Twitter** (assuming you have already turned Authentication on).  You can now cut and paste the Consumer
-Key and Consumer Secret into the appropriate boxes, before clicking on **OK** (at the bottom) followed by **Save**
-(at the top).
-
-As with the other providers, you should test the authentication flow by pointing your browser to
-https://_yoursite_.azurewebsites.net/.auth/login/twitter.
-
-![Twitter: Authorize App][img23]
-
-Clicking on **Authorize app** should show you our normal successful authentication screen.
-
-The social authentication providers should now all be configured to handle a web-based or server-flow authentication
-request.  There are times when configuring a client-flow authentication is different.  We will point those out when we
-get to them.
 
 ## Adding Authentication to a Mobile Client
 

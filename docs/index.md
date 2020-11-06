@@ -12,6 +12,13 @@ notifications.
 This book does not tell you everything there is to know about either topic.  It
 focuses on the topics necessary to get your mobile apps connected to the cloud.
 
+> **UPDATE: .NET Client v4.2.0**
+>
+> In November 2020, Microsoft released v4.2.0 of the .NET Client, which upgraded
+> support to .NET Standard 2.0, along with support for the latest versions of the
+> iOS and Android operating systems.  As a result, some instructions are out of
+> date.  I'm in progress of updating the documentation to reflect this change.
+
 ## What are Cloud Connected Mobile Apps?
 
 I guess I should define some of the terminology that I am going to use.  When I

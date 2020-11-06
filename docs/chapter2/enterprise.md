@@ -48,12 +48,7 @@ Repeat for each test user you wish to use.  Once done, move onto configuring you
     Make sure you create the app service in the right directory / subscription.  If you have access to more than one directory, you can choose the right one by selecting it under your account drop-down in the top-right corner.
 
 There is also an **Advanced** track.  This is used in client-flow situations and in situations where you have more
-than one directory.  The Express flow is great for getting started quickly.
-
-!!! info "Preview Portal Access"
-    Azure Active Directory portal access is in preview right now.  Certain things can only be done through
-    the [Azure Classic Portal][classic-portal].  The list of things that cannot be done in the Azure Portal
-    is thankfully dwindling.
+than one directory.  It's also used if you want to use the newer MSAL library for authentication.  The Express flow is great for getting started quickly.
 
 You can walk through a server-flow authentication to test that you have all the settings correct.  Point your browser at https://_yoursite_.azurewebsites.net/.auth/login/aad.  The browser will take you through an authentication flow before giving you a successful authentication image:
 
@@ -193,7 +188,7 @@ Let us take a closer look at this implementation.  The `LoginAsync()` method on 
 
 Note that we need an extra initialization routine for Android that must be called prior the login provider being
 called to pass along the main window of the app (also known as the context).  This is done in the `MainActivity.cs`
-file **after** the Xamarin Forms initialization call.  The dependency service is not set up until after the Xamarin
+file **after** the Xamarin Forms initialization call.  In addition, Azure Mobile Apps uses Xamarin.Essentials under the covers, and that requires that you handle the callback.  The dependency service is not set up until after the Xamarin
 Forms library is initialized, so we will not be able to get the login provider reference before that point:
 
 ```csharp
@@ -209,10 +204,27 @@ protected override void OnCreate(Bundle bundle)
 
     LoadApplication(new App());
 }
+
+protected override void OnResume()
+{
+    base.OnResume();
+    Xamarin.Essentials.Platform.OnResume();
+}
 ```
 
-iOS is similar, but does not require the initialization step in the main startup class.  The login provider class
-is in `Services\iOSLoginProvider.cs` (in the **TaskList.iOS** project):
+iOS is similar, but does not require the initialization step in the main startup class.  However, it does require handling the callback in the AppDelegate.cs:
+
+```csharp
+public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+{
+    if (Xamarin.Essentials.Platform.OpenUrl(app, url, options)) {
+        return true;
+    }
+    return base.OpenUrl(app, url, options);
+}
+```
+
+The login provider class is in `Services\iOSLoginProvider.cs` (in the **TaskList.iOS** project):
 
 ```csharp
 using System.Threading.Tasks;
