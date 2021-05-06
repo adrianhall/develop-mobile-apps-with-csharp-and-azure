@@ -125,7 +125,7 @@ level by utilizing cloud services.
 This book is not for the beginner.  Explicitly, I already expect you to know how
 to develop mobile applications with C# and Xamarin technologies.  If you are
 unfamiliar with the C# language, you can get started with a free course on the
-Internet.  The basics of the language can be learned at [www.learncs.org][3].
+[Tutlane][24].  The basics of the language can be learned at [www.learncs.org][3].
 Once you have the language basics under your belt, you can move on to building
 mobile applications with Xamarin. You can learn more about developing cross-platform
 mobile development with Xamarin at the [Xamarin][5] website.  Although you do
@@ -267,3 +267,5 @@ Now, let's get developing!  Our next section is dependent on where you are devel
 [21]: https://developer.apple.com/swift/
 [22]: https://developer.android.com/training/index.html
 [23]: https://developer.android.com/
+[24]: https://www.tutlane.com/tutorial/csharp
+
