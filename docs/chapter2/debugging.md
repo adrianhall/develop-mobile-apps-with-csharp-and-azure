@@ -179,7 +179,7 @@ the startup file determines if you are running locally or remote. Talking of whi
         }
 ```
 
-The `UserAppServiceAuthentication()` method sets up authentication checking.  This section is not required when running
+The `UseAppServiceAuthentication()` method sets up authentication checking.  This section is not required when running
 within App Service.
 
 If you are running the server locally, you should either set up a local SQL Server instance and put the connection

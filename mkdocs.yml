@@ -79,6 +79,3 @@ extra_css:
   - css/vs.css
 extra_javascript:
   - js/highlight.pack.js
-google_analytics:
-  - 'UA-93366112-1'
-  - 'auto'
