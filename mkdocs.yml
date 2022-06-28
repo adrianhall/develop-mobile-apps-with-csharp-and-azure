@@ -1,0 +1,23 @@
+INHERIT: ./siteconfig.yml
+
+site_name: Develop Mobile Apps with C# and Azure
+site_url: https://adrianhall.github.cio/develop-mobile-apps-with-csharp-and-azure
+
+# GitHub Repository
+repo_name: adrianhall/develop-mobile-apps-with-csharp-and-azure
+
+# Metadata
+copyright: Copyright &copy; 2022 Adrian Hall
+site_description: Do something amazing
+site_author: Adrian Hall <photoadrian@outlook.com>
+
+# Social Icons
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/adrianhall
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/adrianhall1
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/fizzyinthehall
+

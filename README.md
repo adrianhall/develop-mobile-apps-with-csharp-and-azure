@@ -12,7 +12,7 @@ You can find v1 of [the book online][book].  If you want to view v2, build the b
 The book uses [MkDocs] with the [Material for Mkdocs] theme.  Install pre-requisites with the following:
 
 ```
-pip install mkdocs-material
+pip install mkdocs-material mkdocs-git-revision-date-localized-plugin mkdocs-exclude mkdocs-awesome-pages-plugin
 ```
 
 This will automatically install compatible versions of all dependencies: [Mkdocs], [Markdown], [Pygments], and [Python Markdown Extensions]. 

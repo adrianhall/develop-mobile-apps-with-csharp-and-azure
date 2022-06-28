@@ -10,25 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install Python
-        uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
-          python-version: '3.7'
-          architecture: 'x64'
-      
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install mkdocs
-          python3 -m pip install mkdocs-material
-
-      - name: Build site
-        run: |
-          mkdocs build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+          python-version: '3.x'
+      - run: pip install mkdocs-material mkdocs-git-revision-date-localized-plugin mkdocs-exclude mkdocs-awesome-pages-plugin
+      - run: mkdocs gh-deploy --force
