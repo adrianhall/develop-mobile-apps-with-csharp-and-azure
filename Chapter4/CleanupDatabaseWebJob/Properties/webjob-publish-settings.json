@@ -1,9 +1,0 @@
-﻿{
-  "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
-  "webJobName": "CleanupDatabaseWebJob",
-  "startTime": "2016-10-15T03:00:00-08:00",
-  "endTime": "2016-10-16T04:00:00-08:00",
-  "jobRecurrenceFrequency": "Day",
-  "interval": 1,
-  "runMode": "Scheduled"
-}

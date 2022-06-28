@@ -1,18 +1,21 @@
 # Welcome to my book
 
-This is the main source files for my book - Develop Cloud Connected Mobile Apps with Xamarin and Microsoft Azure.  I'm intending on developing this with some help from my friends.  Content is welcome - just do a PR and I will work with you.
+Welcome to v2 of my book - "Develop Mobile Apps with C# and Azure".  This is a work in progress, with regular content updates.
+Don't expect things to be accurate or stable as yet.
 
 ## Finding the book
 
-You can find [the book online](https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/).
+You can find v1 of [the book online][book].  If you want to view v2, build the book.  Once the book is complete, I will publish it as the current site.
 
 ## Building the book
 
-The book uses [MkDocs](http://www.mkdocs.org) for the content.  Install pre-requisites with the following:
+The book uses [MkDocs] with the [Material for Mkdocs] theme.  Install pre-requisites with the following:
 
 ```
-pip install [--user] mkdocs mkdocs-material
+pip install mkdocs-material
 ```
+
+This will automatically install compatible versions of all dependencies: [Mkdocs], [Markdown], [Pygments], and [Python Markdown Extensions]. 
 
 To build the static site, use:
 
@@ -26,4 +29,12 @@ To serve the static site locally, use:
 mkdocs serve
 ```
 
-The site will be on http://localhost:8000.  The main site is automatically built when I merge changes into the main branch on GitHub.
+The site will be on http://localhost:8000. 
+
+<!-- Links -->
+[book]: https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure/
+[Mkdocs]: https://www.mkdocs.org/
+[Markdown]: https://python-markdown.github.io/
+[Pygments]: https://pygments.org/
+[Python Markdown Extensions]: https://facelessuser.github.io/pymdown-extensions/
+[Material for Mkdocs]: https://squidfunk.github.io/mkdocs-material/
