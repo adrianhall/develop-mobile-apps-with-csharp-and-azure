@@ -1,15 +1,15 @@
 INHERIT: ./siteconfig.yml
 
 site_name: Develop Mobile Apps with C# and Azure
-site_url: https://adrianhall.github.cio/develop-mobile-apps-with-csharp-and-azure
+site_url: https://adrianhall.github.io/develop-mobile-apps-with-csharp-and-azure
 
 # GitHub Repository
 repo_name: adrianhall/develop-mobile-apps-with-csharp-and-azure
 
 # Metadata
 copyright: Copyright &copy; 2022 Adrian Hall
-site_description: Do something amazing
-site_author: Adrian Hall <photoadrian@outlook.com>
+site_description: Take your mobile development to the next level by using cloud services from Azure.  I'll show you how to build responsive data-driven applications for iOS and Android using standard cloud services.
+site_author: Adrian Hall, photoadrian@outlook.com
 
 # Social Icons
 extra:

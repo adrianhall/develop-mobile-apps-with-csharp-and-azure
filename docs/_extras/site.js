@@ -4,6 +4,6 @@
 
 // See https://squidfunk.github.io/mkdocs-material/reference/data-tables/#sortable-tables
 document$.subscribe(function() {
-    var tables = dcoument.querySelectorAll("article table:not([class])");
+    var tables = document.querySelectorAll("article table:not([class])");
     tables.forEach(function(table) { new Tablesort(table); });
 });
