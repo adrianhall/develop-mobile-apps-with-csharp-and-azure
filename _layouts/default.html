@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ site.locale | slice: 0,2 | default: 'en' }}" prefix="og: https://ogp.me/ns#" class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        {% include head/favicon.html %}
+        {% include head/seo.html %}
+        {% include head/stylesheets.html %}
+        {% include head/scripts.html %}
+    </head>
+    <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
+
+    </body>
+</html>

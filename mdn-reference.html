@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: https://ogp.me/ns#">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/favicon-48x48.cbbd161b.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.6803c6f0.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.56b1cedc.json">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="MDN Web Docs">
+    <script>Array.prototype.flat && Array.prototype.includes || document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=Array.prototype.flat%2Ces6"><\/script>')</script>
+    <title>HTML: HyperText Markup Language | MDN</title>
+    <link rel="alternate" title="HTML: HyperText Markup Language"
+        href="https://developer.mozilla.org/en-US/docs/Web/HTML" hreflang="en">
+    <link rel="alternate" title="HTML：超文本標記語言" href="https://developer.mozilla.org/zh-TW/docs/Web/HTML"
+        hreflang="zh-TW">
+    <link rel="alternate" title="HTML（超文本标记语言）" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML" hreflang="zh">
+    <link rel="alternate" title="HTML" href="https://developer.mozilla.org/ru/docs/Web/HTML" hreflang="ru">
+    <link rel="alternate" title="HTML: Linguagem de Marcação de Hipertexto"
+        href="https://developer.mozilla.org/pt-BR/docs/Web/HTML" hreflang="pt">
+    <link rel="alternate" title="HTML" href="https://developer.mozilla.org/pl/docs/Web/HTML" hreflang="pl">
+    <link rel="alternate" title="HTML: Hypertext Markup Language" href="https://developer.mozilla.org/ko/docs/Web/HTML"
+        hreflang="ko">
+    <link rel="alternate" title="HTML: HyperText Markup Language" href="https://developer.mozilla.org/ja/docs/Web/HTML"
+        hreflang="ja">
+    <link rel="alternate" title="HTML (HyperText Markup Language)" href="https://developer.mozilla.org/fr/docs/Web/HTML"
+        hreflang="fr">
+    <link rel="alternate" title="HTML: Lenguaje de etiquetas de hipertexto"
+        href="https://developer.mozilla.org/es/docs/Web/HTML" hreflang="es">
+    <link rel="alternate" title="HTML: HyperText Markup Language" href="https://developer.mozilla.org/de/docs/Web/HTML"
+        hreflang="de">
+    <meta name="description"
+        content="HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content. Other technologies besides HTML are generally used to describe a web page's appearance/presentation (CSS) or functionality/behavior (JavaScript).">
+    <meta property="og:url" content="https://developer.mozilla.org/en-US/docs/Web/HTML">
+    <meta property="og:title" content="HTML: HyperText Markup Language | MDN">
+    <meta property="og:description"
+        content="HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content. Other technologies besides HTML are generally used to describe a web page's appearance/presentation (CSS) or functionality/behavior (JavaScript).">
+    <meta property="og:locale" content="en-US">
+    <meta property="og:image" content="https://developer.mozilla.org/mdn-social-share.cd6c4a5a.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://developer.mozilla.org/en-US/docs/Web/HTML">
+    <style media="print">
+        .breadcrumbs-container,
+        .document-toc-container,
+        .language-menu,
+        .language-toggle,
+        .on-github,
+        .page-footer,
+        .top-navigation-main,
+        nav.sidebar,
+        ul.prev-next {
+            display: none !important
+        }
+
+        .main-page-content,
+        .main-page-content pre {
+            padding: 2px
+        }
+
+        .main-page-content pre {
+            border-left-width: 2px
+        }
+    </style>
+    <script defer="defer" src="/static/js/main.760bff9e.js"></script>
+    <link href="/static/css/main.4c9c6739.css" rel="stylesheet">
+    <script defer="" src="/static/js/ga.js"></script>
+</head>
+
+<body>
+    <script>const c = { light: "#ffffff", dark: "#1b1b1b" }; if (window && document.documentElement) { const e = window.localStorage.getItem("theme"); e && (document.documentElement.className = e, document.documentElement.style.backgroundColor = c[e]) }</script>
+    <div id="root">
+        <ul id="nav-access" class="a11y-nav">
+            <li><a id="skip-main" href="#content">Skip to main content</a></li>
+            <li><a id="skip-search" href="#top-nav-search-q">Skip to search</a></li>
+            <li><a id="skip-select-language" href="#languages-switcher-button">Skip to select language</a></li>
+        </ul>
+        <div class="page-wrapper  category-html document-page">
+            <div class="main-document-header-container">
+                <header class="main-document-header-container top-navigation 
+      
+      ">
+                    <div class="container ">
+                        <div class="top-navigation-wrap"><a href="/en-US/" class="logo" aria-label="MDN homepage"><svg
+                                    id="mdn-docs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0"
+                                    viewBox="0 0 694.9 104.4" style="enable-background:new 0 0 694.9 104.4"
+                                    xml:space="preserve" role="img">
+                                    <title>MDN Web Docs</title>
+                                    <style>
+                                        .logo-m {
+                                            fill: var(--text-link)
+                                        }
+                                    </style>
+                                    <g class="logo-m">
+                                        <path
+                                            d="M40.3 0 11.7 92.1H0L28.5 0h11.8zM50.7 0v92.1H40.3V0h10.4zM91 0 62.5 92.1H50.8L79.3 0H91zM101.4 0v92.1H91V0h10.4z">
+                                        </path>
+                                    </g>
+                                    <path class="logo-m" d="M627.9 95.6h67v8.8h-67v-8.8z"></path>
+                                    <g style="fill:var(--text-primary)">
+                                        <path
+                                            d="M367 42h-4l-10.7 30.8h-5.5l-10.8-26h-.4l-10.5 26h-5.2L308.7 42h-3.8v-5.6H323V42h-6.5l6.8 20.4h.4l10.3-26h4.7l11.2 26h.5l5.7-20.3h-6.2v-5.6H367V42zM401.9 62c-.4 3.2-2 5.9-4.7 8.2-2.8 2.3-6.5 3.4-11.3 3.4-5.4 0-9.7-1.6-13.1-4.7-3.3-3.2-5-7.7-5-13.7 0-5.7 1.6-10.3 4.7-14s7.4-5.5 12.9-5.5c5.1 0 9.1 1.6 11.9 4.7s4.3 6.9 4.3 11.3c0 1.5-.2 3-.5 4.7h-25.6c.3 7.7 4 11.6 10.9 11.6 2.9 0 5.1-.7 6.5-2 1.5-1.4 2.5-3 3-4.9l6 .9zM394 51.3c.2-2.4-.4-4.7-1.8-6.9s-3.8-3.3-7-3.3c-3.1 0-5.3 1-6.9 3-1.5 2-2.5 4.4-2.8 7.2H394zM445 53.7c0 5-1.3 9.5-4 13.7s-6.9 6.2-12.7 6.2c-6 0-10.3-2.2-12.7-6.7-.1.4-.2 1.4-.4 2.9s-.3 2.5-.4 2.9h-7.3c.3-1.7.6-3.5.8-5.3.3-1.8.4-3.7.4-5.5V22.3h-6v-5.6H416v27c1.1-2.2 2.7-4.1 4.7-5.7 2-1.6 4.8-2.4 8.4-2.4 4.6 0 8.4 1.6 11.4 4.7 3 3.2 4.5 7.6 4.5 13.4zm-7.7.6c0-4.2-1-7.4-3-9.5-2-2.2-4.4-3.3-7.4-3.3-3.4 0-6 1.2-8 3.7-1.9 2.4-2.9 5-3 7.7V57c0 3 1 5.6 3 7.7s4.5 3.1 7.6 3.1c3.6 0 6.3-1.3 8.1-3.9 1.8-2.7 2.7-5.9 2.7-9.6zM506.5 72.8h-13.2v-7.2c-1.2 2.2-2.8 4.1-4.9 5.6-2.1 1.6-4.8 2.4-8.3 2.4-4.8 0-8.7-1.6-11.6-4.9-2.9-3.2-4.3-7.7-4.3-13.3 0-5 1.3-9.6 4-13.7 2.6-4.1 6.9-6.2 12.8-6.2 5.7 0 9.8 2.2 12.3 6.5V22.3h-8.6v-5.6h15.8v50.6h6v5.5zM493.2 56v-4.4c-.1-3-1.2-5.5-3.2-7.3s-4.4-2.8-7.2-2.8c-3.6 0-6.3 1.3-8.2 3.9-1.9 2.6-2.8 5.8-2.8 9.6 0 4.1 1 7.3 3 9.5s4.5 3.3 7.4 3.3c3.2 0 5.8-1.3 7.8-3.8 2.1-2.6 3.1-5.3 3.2-8zM546.3 54.6c0 5.6-1.8 10.2-5.3 13.7s-8.2 5.3-13.9 5.3-10.1-1.7-13.4-5.1c-3.3-3.4-5-7.9-5-13.5 0-5.3 1.6-9.9 4.7-13.7 3.2-3.8 7.9-5.7 14.2-5.7s11 1.9 14.1 5.7c3 3.7 4.6 8.1 4.6 13.3zm-7.7-.2c0-4-1-7.2-3-9.5s-4.8-3.5-8.2-3.5c-3.6 0-6.4 1.2-8.3 3.7s-2.9 5.6-2.9 9.5c0 3.7.9 6.8 2.8 9.4 1.9 2.6 4.6 3.9 8.3 3.9 3.6 0 6.4-1.3 8.4-3.8 1.9-2.6 2.9-5.8 2.9-9.7zM583.6 60.2c-.4 3.2-1.9 6.3-4.4 9.1-2.5 2.9-6.4 4.3-11.8 4.3-5.2 0-9.4-1.6-12.6-4.8-3.2-3.2-4.8-7.7-4.8-13.7 0-5.5 1.6-10.1 4.7-13.9 3.2-3.8 7.6-5.7 13.2-5.7 2.3 0 4.6.3 6.7.8 2.2.5 4.2 1.5 6.2 2.9l1.5 9.5-5.9.7-1.3-6.1c-2.1-1.2-4.5-1.8-7.2-1.8-3.5 0-6.1 1.2-7.7 3.7-1.7 2.5-2.5 5.7-2.5 9.6 0 4.1.9 7.3 2.7 9.5 1.8 2.3 4.4 3.4 7.8 3.4 5.2 0 8.2-2.9 9.2-8.8l6.2 1.3zM618.3 62.1c0 3.6-1.5 6.5-4.6 8.5s-7 3-11.7 3c-5.7 0-10.6-1.2-14.6-3.6l1.2-8.8 5.7.6-.2 4.7c1.1.5 2.3.9 3.6 1.1s2.6.3 3.9.3c2.4 0 4.5-.4 6.5-1.3 1.9-.9 2.9-2.2 2.9-4.1 0-1.8-.8-3.1-2.3-3.8s-3.5-1.3-5.8-1.7-4.6-.9-6.9-1.4c-2.3-.6-4.2-1.6-5.7-2.9-1.6-1.4-2.3-3.5-2.3-6.3 0-4.1 1.5-6.9 4.6-8.5s6.4-2.4 9.9-2.4c2.6 0 5 .3 7.2.9 2.2.6 4.3 1.4 6.1 2.4l.8 8.8-5.8.7-.8-5.7c-2.3-1-4.7-1.6-7.2-1.6-2.1 0-3.7.4-5.1 1.1-1.3.8-2 2-2 3.8 0 1.7.8 2.9 2.3 3.6 1.5.7 3.4 1.2 5.7 1.6 2.2.4 4.5.8 6.7 1.4 2.2.6 4.1 1.6 5.7 3 1.4 1.6 2.2 3.7 2.2 6.6zM197.6 73.2h-17.1v-5.5h3.8V51.9c0-3.7-.7-6.3-2.1-7.9-1.4-1.6-3.3-2.3-5.7-2.3-3.2 0-5.6 1.1-7.2 3.4s-2.4 4.6-2.5 6.9v15.6h6v5.5h-17.1v-5.5h3.8V51.9c0-3.8-.7-6.4-2.1-7.9-1.4-1.5-3.3-2.3-5.6-2.3-3.2 0-5.5 1.1-7.2 3.3-1.6 2.2-2.4 4.5-2.5 6.9v15.8h6.9v5.5h-20.2v-5.5h6V42.4h-6.1v-5.6h13.4v6.4c1.2-2.1 2.7-3.8 4.7-5.2 2-1.3 4.4-2 7.3-2s5.3.7 7.5 2.1c2.2 1.4 3.7 3.5 4.5 6.4 1.1-2.5 2.7-4.5 4.9-6.1s4.8-2.4 7.9-2.4c3.5 0 6.5 1.1 8.9 3.3s3.7 5.6 3.7 10.2v18.2h6.1v5.5zm42.5 0h-13.2V66c-1.2 2.2-2.8 4.1-4.9 5.6-2.1 1.6-4.8 2.4-8.3 2.4-4.8 0-8.7-1.6-11.6-4.9-2.9-3.2-4.3-7.7-4.3-13.3 0-5 1.3-9.6 4-13.7 2.6-4.1 6.9-6.2 12.8-6.2s9.8 2.2 12.3 6.5V22.7h-8.6v-5.6h15.8v50.6h6v5.5zm-13.3-16.8V52c-.1-3-1.2-5.5-3.2-7.3s-4.4-2.8-7.2-2.8c-3.6 0-6.3 1.3-8.2 3.9-1.9 2.6-2.8 5.8-2.8 9.6 0 4.1 1 7.3 3 9.5s4.5 3.3 7.4 3.3c3.2 0 5.8-1.3 7.8-3.8 2.1-2.6 3.1-5.3 3.2-8zm61.5 16.8H269v-5.5h6V51.9c0-3.7-.7-6.3-2.2-7.9-1.4-1.6-3.4-2.3-5.7-2.3-3.1 0-5.6 1-7.4 3s-2.8 4.4-2.9 7v15.9h6v5.5h-19.3v-5.5h6V42.4h-6.2v-5.6h13.6V43c2.6-4.6 6.8-6.9 12.7-6.9 3.6 0 6.7 1.1 9.2 3.3s3.7 5.6 3.7 10.2v18.2h6v5.4h-.2z">
+                                        </path>
+                                    </g>
+                                </svg></a><button aria-expanded="false" aria-haspopup="menu" aria-label="Open main menu"
+                                title="Open main menu" type="button"
+                                class="button action has-icon main-menu-toggle"><span class="button-wrap"><span
+                                        class="icon icon-menu "></span><span class="visually-hidden">Open main
+                                        menu</span></span></button></div>
+                        <div class="top-navigation-main">
+                            <nav class="main-nav" aria-label="Main menu">
+                                <ul class="main-menu nojs">
+                                    <li class="top-level-entry-container"><button type="button" id="references-button"
+                                            class="top-level-entry menu-toggle" aria-controls="references-menu"
+                                            aria-haspopup="menu" aria-expanded="false">References</button><a
+                                            class="top-level-entry" href="/en-US/docs/Web">References</a>
+                                        <ul id="references-menu" class="submenu references hidden inline-submenu-lg"
+                                            role="menu" aria-labelledby="references-button">
+                                            <li role="menuitem" class="apis-link-container mobile-only "><a
+                                                    href="/en-US/docs/Web" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">Overview / Web Technology
+                                                        </div>
+                                                        <p class="submenu-item-description">Web technology reference for
+                                                            developers</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="html-link-container "><a
+                                                    href="/en-US/docs/Web/HTML" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon html"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">HTML</div>
+                                                        <p class="submenu-item-description">Structure of content on the
+                                                            web</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="css-link-container "><a
+                                                    href="/en-US/docs/Web/CSS" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon css"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">CSS</div>
+                                                        <p class="submenu-item-description">Code used to describe
+                                                            document style</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="javascript-link-container "><a
+                                                    href="/en-US/docs/Web/JavaScript" class="submenu-item "
+                                                    role="menuitem">
+                                                    <div class="submenu-icon javascript"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">JavaScript</div>
+                                                        <p class="submenu-item-description">General-purpose scripting
+                                                            language</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="http-link-container "><a
+                                                    href="/en-US/docs/Web/HTTP" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon http"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">HTTP</div>
+                                                        <p class="submenu-item-description">Protocol for transmitting
+                                                            web resources</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="apis-link-container "><a
+                                                    href="/en-US/docs/Web/API" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon apis"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">Web APIs</div>
+                                                        <p class="submenu-item-description">Interfaces for building web
+                                                            applications</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="apis-link-container desktop-only "><a
+                                                    href="/en-US/docs/Web" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">Web Technology</div>
+                                                        <p class="submenu-item-description">Web technology reference for
+                                                            developers</p>
+                                                    </div>
+                                                </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="top-level-entry-container"><button type="button" id="guides-button"
+                                            class="top-level-entry menu-toggle" aria-controls="guides-menu"
+                                            aria-haspopup="menu" aria-expanded="false">Guides</button><a
+                                            class="top-level-entry" href="/en-US/docs/Learn">Guides</a>
+                                        <ul id="guides-menu" class="submenu guides hidden inline-submenu-lg" role="menu"
+                                            aria-labelledby="guides-button">
+                                            <li role="menuitem" class="apis-link-container mobile-only "><a
+                                                    href="/en-US/docs/Learn" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon learn"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">Overview / MDN Learning Area
+                                                        </div>
+                                                        <p class="submenu-item-description">Learn web development</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="apis-link-container desktop-only "><a
+                                                    href="/en-US/docs/Learn" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon learn"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">MDN Learning Area</div>
+                                                        <p class="submenu-item-description">Learn web development</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="html-link-container "><a
+                                                    href="/en-US/docs/Learn/HTML" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon html"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">HTML</div>
+                                                        <p class="submenu-item-description">Learn to structure web
+                                                            content with HTML</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="css-link-container "><a
+                                                    href="/en-US/docs/Learn/CSS" class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon css"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">CSS</div>
+                                                        <p class="submenu-item-description">Learn to style content using
+                                                            CSS</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class="javascript-link-container "><a
+                                                    href="/en-US/docs/Learn/JavaScript" class="submenu-item "
+                                                    role="menuitem">
+                                                    <div class="submenu-icon javascript"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">JavaScript</div>
+                                                        <p class="submenu-item-description">Learn to run scripts in the
+                                                            browser</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class=" "><a href="/en-US/docs/Web/Accessibility"
+                                                    class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">Accessibility</div>
+                                                        <p class="submenu-item-description">Learn to make the web
+                                                            accessible to all</p>
+                                                    </div>
+                                                </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="top-level-entry-container"><button type="button" id="mdn-plus-button"
+                                            class="top-level-entry menu-toggle" aria-controls="mdn-plus-menu"
+                                            aria-haspopup="menu" aria-expanded="false">MDN Plus</button><a
+                                            class="top-level-entry" href="/en-US/plus">MDN Plus</a>
+                                        <ul id="mdn-plus-menu" class="submenu mdn-plus hidden inline-submenu-lg"
+                                            role="menu" aria-labelledby="mdn-plus-button">
+                                            <li role="menuitem" class="mobile-only "><a href="/en-US/plus"
+                                                    class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">Overview</div>
+                                                        <p class="submenu-item-description">More MDN. Your MDN.</p>
+                                                    </div>
+                                                </a></li>
+                                            <li role="menuitem" class=" "><a href="/en-US/plus/docs/faq"
+                                                    class="submenu-item " role="menuitem">
+                                                    <div class="submenu-icon"></div>
+                                                    <div class="submenu-content-container">
+                                                        <div class="submenu-item-heading">FAQ</div>
+                                                        <p class="submenu-item-description">Frequently asked questions
+                                                            about MDN Plus</p>
+                                                    </div>
+                                                </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="header-search">
+                                <form action="/en-US/search" role="search" aria-haspopup="listbox"
+                                    aria-owns="top-nav-search-menu" aria-expanded="false"
+                                    class="search-form search-widget" id="top-nav-search-form"><label
+                                        id="top-nav-search-label" for="top-nav-search-input"
+                                        class="visually-hidden">Search MDN</label><input id="top-nav-search-input"
+                                        aria-autocomplete="list" aria-controls="top-nav-search-menu"
+                                        aria-labelledby="top-nav-search-label" autocomplete="off" type="search"
+                                        class="search-input-field" name="q" placeholder="   " required=""
+                                        value=""><button type="button"
+                                        class="button action has-icon clear-search-button"><span
+                                            class="button-wrap"><span class="icon icon-cancel "></span><span
+                                                class="visually-hidden">Clear search input</span></span></button><button
+                                        type="submit" class="button action has-icon search-button"><span
+                                            class="button-wrap"><span class="icon icon-search "></span><span
+                                                class="visually-hidden">Search</span></span></button>
+                                    <div id="top-nav-search-menu" role="listbox" aria-labelledby="top-nav-search-label">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="theme-switcher-menu"><button aria-haspopup="menu" type="button"
+                                    class="button action has-icon theme-switcher-menu small"><span
+                                        class="button-wrap"><span
+                                            class="icon icon-theme-os-default "></span>Theme</span></button></div>
+                            <ul class="auth-container">
+                                <li><a href="/users/fxa/login/authenticate/?next=%2Fen-US%2Fdocs%2FWeb%2FHTML"
+                                        class="signin-link" rel="nofollow">Already a subscriber?</a></li>
+                                <li><a class="button primary mdn-plus-subscribe-link" href="/en-US/plus"><span
+                                            class="button-wrap">Get MDN Plus</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+                <div class="article-actions-container">
+                    <div class="container"><button type="button" class="button action has-icon sidebar-button"><span
+                                class="button-wrap"><span class="icon icon-sidebar "></span></span></button>
+                        <nav class="breadcrumbs-container" aria-label="Breadcrumb navigation">
+                            <ol typeof="BreadcrumbList" vocab="https://schema.org/" aria-label="breadcrumbs">
+                                <li property="itemListElement" typeof="ListItem"><a class="breadcrumb" property="item"
+                                        typeof="WebPage" href="/en-US/docs/Web"><span
+                                            property="name">References</span></a>
+                                    <meta property="position" content="1">
+                                </li>
+                                <li property="itemListElement" typeof="ListItem"><a class="breadcrumb-current-page"
+                                        property="item" typeof="WebPage" href="/en-US/docs/Web/HTML"><span
+                                            property="name">HTML</span></a>
+                                    <meta property="position" content="2">
+                                </li>
+                            </ol>
+                        </nav>
+                        <div class="article-actions"><button type="button"
+                                class="button action has-icon article-actions-toggle"><span class="button-wrap"><span
+                                        class="icon icon-ellipses "></span><span
+                                        class="article-actions-dialog-heading">Article Actions</span></span></button>
+                            <ul class="article-actions-entries">
+                                <li class="article-actions-entry">
+                                    <div class="languages-switcher-menu open-on-focus-within"><button
+                                            aria-haspopup="menu" id="languages-switcher-button" type="button"
+                                            class="button action small has-icon languages-switcher-menu"><span
+                                                class="button-wrap"><span class="icon icon-language "></span>English
+                                                (US)</span></button></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <nav id="sidebar-quicklinks" class="sidebar"><button type="button" class="button action backdrop"><span
+                            class="button-wrap"></span></button>
+                    <div class="sidebar-inner">
+                        <div class="in-nav-toc">
+                            <aside class="document-toc-container">
+                                <section class="document-toc">
+                                    <header>
+                                        <h2 class="document-toc-heading">In this article</h2>
+                                    </header>
+                                    <ul class="document-toc-list" id="toc-entries">
+                                        <li class="document-toc-item "><a class="document-toc-link"
+                                                href="#key_resources">Key resources</a></li>
+                                        <li class="document-toc-item "><a class="document-toc-link"
+                                                href="#beginners_tutorials">Beginner's tutorials</a></li>
+                                        <li class="document-toc-item "><a class="document-toc-link"
+                                                href="#advanced_topics">Advanced topics</a></li>
+                                        <li class="document-toc-item "><a class="document-toc-link"
+                                                href="#reference">Reference</a></li>
+                                        <li class="document-toc-item "><a class="document-toc-link"
+                                                href="#related_topics">Related topics</a></li>
+                                    </ul>
+                                </section>
+                            </aside>
+                        </div>
+                        <h4 class="sidebar-heading">Related Topics</h4>
+                        <div>
+                            <ol>
+                                <li><a href="/en-US/docs/Web/HTML"><strong>HTML</strong></a></li>
+                                <li><a href="/en-US/docs/Learn/HTML"><strong>Tutorials:</strong></a></li>
+                                <li><a href="/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics">HTML basics</a>
+                                </li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary>Introduction to HTML</summary>
+                                        <ol>
+                                            <li><a href="/en-US/docs/Learn/HTML/Introduction_to_HTML">Introduction to
+                                                    HTML overview</a></li>
+                                            <li><a href="/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started">Getting
+                                                    started with HTML</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML">What's
+                                                    in the head? Metadata in HTML</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Introduction_to_HTML/HTML_text_fundamentals">HTML
+                                                    text fundamentals</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks">Creating
+                                                    hyperlinks</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Introduction_to_HTML/Advanced_text_formatting">Advanced
+                                                    text formatting</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Introduction_to_HTML/Document_and_website_structure">Document
+                                                    and website structure</a></li>
+                                            <li><a href="/en-US/docs/Learn/HTML/Introduction_to_HTML/Debugging_HTML">Debugging
+                                                    HTML</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Introduction_to_HTML/Marking_up_a_letter">Assessment:
+                                                    Marking up a letter</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Introduction_to_HTML/Structuring_a_page_of_content">Assessment:
+                                                    Structuring a page of content</a></li>
+                                        </ol>
+                                    </details>
+                                </li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary>Multimedia and embedding</summary>
+                                        <ol>
+                                            <li><a href="/en-US/docs/Learn/HTML/Multimedia_and_embedding">Multimedia and
+                                                    embedding overview</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML">Images
+                                                    in HTML</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Multimedia_and_embedding/Video_and_audio_content">Video
+                                                    and audio content</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Multimedia_and_embedding/Other_embedding_technologies">From
+                                                    object to iframe — other embedding technologies</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Multimedia_and_embedding/Adding_vector_graphics_to_the_Web">Adding
+                                                    vector graphics to the web</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images">Responsive
+                                                    images</a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Learn/HTML/Multimedia_and_embedding/Mozilla_splash_page">Assessment:
+                                                    Mozilla splash page</a></li>
+                                        </ol>
+                                    </details>
+                                </li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary>HTML tables</summary>
+                                        <ol>
+                                            <li><a href="/en-US/docs/Learn/HTML/Tables">HTML tables overview</a></li>
+                                            <li><a href="/en-US/docs/Learn/HTML/Tables/Basics">HTML table basics</a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Learn/HTML/Tables/Advanced">HTML table advanced
+                                                    features and accessibility</a></li>
+                                            <li><a href="/en-US/docs/Learn/HTML/Tables/Structuring_planet_data">Assessment:
+                                                    Structuring planet data</a></li>
+                                        </ol>
+                                    </details>
+                                </li>
+                                <li><strong><a href="/en-US/docs/Web/HTML/Reference">References:</a></strong></li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary>HTML elements</summary>
+                                        <ol>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/a"><code>&lt;a&gt;</code></a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/abbr"><code>&lt;abbr&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/acronym"><code>&lt;acronym&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/address"><code>&lt;address&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/applet"><code>&lt;applet&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/area"><code>&lt;area&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/article"><code>&lt;article&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/aside"><code>&lt;aside&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/audio"><code>&lt;audio&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/b"><code>&lt;b&gt;</code></a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/base"><code>&lt;base&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/basefont"><code>&lt;basefont&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/bdi"><code>&lt;bdi&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/bdo"><code>&lt;bdo&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-nonstandard"
+                                                    title="Non-standard. Check cross-browser support before using.">
+                                                    <span class="visually-hidden">Non-Standard</span>
+                                                </abbr><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/bgsound"><code>&lt;bgsound&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/big"><code>&lt;big&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/blink"><code>&lt;blink&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/blockquote"><code>&lt;blockquote&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/body"><code>&lt;body&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/br"><code>&lt;br&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/button"><code>&lt;button&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/canvas"><code>&lt;canvas&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/caption"><code>&lt;caption&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/center"><code>&lt;center&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/cite"><code>&lt;cite&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/code"><code>&lt;code&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/col"><code>&lt;col&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/colgroup"><code>&lt;colgroup&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/content"><code>&lt;content&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/data"><code>&lt;data&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/datalist"><code>&lt;datalist&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/dd"><code>&lt;dd&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/del"><code>&lt;del&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/details"><code>&lt;details&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/dfn"><code>&lt;dfn&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/dialog"><code>&lt;dialog&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/dir"><code>&lt;dir&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/div"><code>&lt;div&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/dl"><code>&lt;dl&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/dt"><code>&lt;dt&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/em"><code>&lt;em&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/embed"><code>&lt;embed&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/fieldset"><code>&lt;fieldset&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/figcaption"><code>&lt;figcaption&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/figure"><code>&lt;figure&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/font"><code>&lt;font&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/footer"><code>&lt;footer&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/form"><code>&lt;form&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/frame"><code>&lt;frame&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/frameset"><code>&lt;frameset&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/head"><code>&lt;head&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/header"><code>&lt;header&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/Heading_Elements"><code>&lt;h1&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-experimental"
+                                                    title="Experimental. Expect behavior to change in the future.">
+                                                    <span class="visually-hidden">Experimental</span>
+                                                </abbr><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/hgroup"><code>&lt;hgroup&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/hr"><code>&lt;hr&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/html"><code>&lt;html&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/i"><code>&lt;i&gt;</code></a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/iframe"><code>&lt;iframe&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-nonstandard"
+                                                    title="Non-standard. Check cross-browser support before using.">
+                                                    <span class="visually-hidden">Non-Standard</span>
+                                                </abbr><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/image"><code>&lt;image&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/img"><code>&lt;img&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input"><code>&lt;input&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/ins"><code>&lt;ins&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/kbd"><code>&lt;kbd&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/keygen"><code>&lt;keygen&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/label"><code>&lt;label&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/legend"><code>&lt;legend&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/li"><code>&lt;li&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/link"><code>&lt;link&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/main"><code>&lt;main&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/map"><code>&lt;map&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/mark"><code>&lt;mark&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/marquee"><code>&lt;marquee&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/menu"><code>&lt;menu&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/menuitem"><code>&lt;menuitem&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/meta"><code>&lt;meta&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/meter"><code>&lt;meter&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/nav"><code>&lt;nav&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-nonstandard"
+                                                    title="Non-standard. Check cross-browser support before using.">
+                                                    <span class="visually-hidden">Non-Standard</span>
+                                                </abbr><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/nobr"><code>&lt;nobr&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-nonstandard"
+                                                    title="Non-standard. Check cross-browser support before using.">
+                                                    <span class="visually-hidden">Non-Standard</span>
+                                                </abbr><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/noembed"><code>&lt;noembed&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/noframes"><code>&lt;noframes&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/noscript"><code>&lt;noscript&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/object"><code>&lt;object&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/ol"><code>&lt;ol&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/optgroup"><code>&lt;optgroup&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/option"><code>&lt;option&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/output"><code>&lt;output&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/p"><code>&lt;p&gt;</code></a></li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/param"><code>&lt;param&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/picture"><code>&lt;picture&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/plaintext"><code>&lt;plaintext&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/portal"><code>&lt;portal&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/pre"><code>&lt;pre&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/progress"><code>&lt;progress&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/q"><code>&lt;q&gt;</code></a></li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/rb"><code>&lt;rb&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/rp"><code>&lt;rp&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/rt"><code>&lt;rt&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/rtc"><code>&lt;rtc&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/ruby"><code>&lt;ruby&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/s"><code>&lt;s&gt;</code></a></li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/samp"><code>&lt;samp&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/script"><code>&lt;script&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/section"><code>&lt;section&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/select"><code>&lt;select&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/shadow"><code>&lt;shadow&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/slot"><code>&lt;slot&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/small"><code>&lt;small&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/source"><code>&lt;source&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/spacer"><code>&lt;spacer&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/span"><code>&lt;span&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/strike"><code>&lt;strike&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/strong"><code>&lt;strong&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/style"><code>&lt;style&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/sub"><code>&lt;sub&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/summary"><code>&lt;summary&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/sup"><code>&lt;sup&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/table"><code>&lt;table&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/tbody"><code>&lt;tbody&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/td"><code>&lt;td&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/template"><code>&lt;template&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/textarea"><code>&lt;textarea&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/tfoot"><code>&lt;tfoot&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/th"><code>&lt;th&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/thead"><code>&lt;thead&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/time"><code>&lt;time&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/title"><code>&lt;title&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/tr"><code>&lt;tr&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/track"><code>&lt;track&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/tt"><code>&lt;tt&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/u"><code>&lt;u&gt;</code></a></li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/ul"><code>&lt;ul&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/var"><code>&lt;var&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/video"><code>&lt;video&gt;</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Element/wbr"><code>&lt;wbr&gt;</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Element/xmp"><code>&lt;xmp&gt;</code></a>
+                                            </li>
+                                        </ol>
+                                    </details>
+                                </li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary>Global attributes</summary>
+                                        <ol>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/accesskey"><code>accesskey</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/autocapitalize"><code>autocapitalize</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/autofocus"><code>autofocus</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/class"><code>class</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/contenteditable"><code>contenteditable</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-deprecated"
+                                                    title="Deprecated. Not for use in new websites.">
+                                                    <span class="visually-hidden">Deprecated</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/contextmenu"><code>contextmenu</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/data-*"><code>data-*</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/dir"><code>dir</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/draggable"><code>draggable</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/enterkeyhint"><code>enterkeyhint</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/hidden"><code>hidden</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Global_attributes/id"><code>id</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/inputmode"><code>inputmode</code></a>
+                                            </li>
+                                            <li><a href="/en-US/docs/Web/HTML/Global_attributes/is"><code>is</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/itemid"><code>itemid</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/itemprop"><code>itemprop</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/itemref"><code>itemref</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/itemscope"><code>itemscope</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/itemtype"><code>itemtype</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/lang"><code>lang</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/nonce"><code>nonce</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/part"><code>part</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/slot"><code>slot</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/spellcheck"><code>spellcheck</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/style"><code>style</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/tabindex"><code>tabindex</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/title"><code>title</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/translate"><code>translate</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-nonstandard"
+                                                    title="Non-standard. Check cross-browser support before using.">
+                                                    <span class="visually-hidden">Non-Standard</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/x-ms-acceleratorkey"><code>x-ms-acceleratorkey</code></a>
+                                            </li>
+                                            <li><abbr class="icon icon-nonstandard"
+                                                    title="Non-standard. Check cross-browser support before using.">
+                                                    <span class="visually-hidden">Non-Standard</span>
+                                                </abbr><a
+                                                    href="/en-US/docs/Web/HTML/Global_attributes/x-ms-format-detection"><code>x-ms-format-detection</code></a>
+                                            </li>
+                                        </ol>
+                                    </details>
+                                </li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary><code>&lt;input&gt;</code> types</summary>
+                                        <ol>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/button"><code>&lt;input type="button"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/checkbox"><code>&lt;input type="checkbox"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/color"><code>&lt;input type="color"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/date"><code>&lt;input type="date"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/datetime-local"><code>&lt;input type="datetime-local"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/email"><code>&lt;input type="email"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/file"><code>&lt;input type="file"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/hidden"><code>&lt;input type="hidden"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/image"><code>&lt;input type="image"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/month"><code>&lt;input type="month"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/number"><code>&lt;input type="number"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/password"><code>&lt;input type="password"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/radio"><code>&lt;input type="radio"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/range"><code>&lt;input type="range"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/reset"><code>&lt;input type="reset"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/search"><code>&lt;input type="search"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/submit"><code>&lt;input type="submit"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/tel"><code>&lt;input type="tel"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/text"><code>&lt;input type="text"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/time"><code>&lt;input type="time"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/url"><code>&lt;input type="url"&gt;</code></a>
+                                            </li>
+                                            <li><a
+                                                    href="/en-US/docs/Web/HTML/Element/input/week"><code>&lt;input type="week"&gt;</code></a>
+                                            </li>
+                                        </ol>
+                                    </details>
+                                </li>
+                                <li><strong><a href="/en-US/docs/MDN">Documentation:</a></strong></li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary>Useful lists</summary>
+                                        <ol>
+                                            <li><a href="/en-US/docs/Web/HTML/Index">All pages index</a></li>
+                                        </ol>
+                                    </details>
+                                </li>
+                                <li class="toggle">
+                                    <details>
+                                        <summary>Contribute</summary>
+                                        <ol>
+                                            <li><a href="/en-US/docs/MDN">The MDN project</a></li>
+                                        </ol>
+                                    </details>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </nav>
+                <div class="toc">
+                    <aside class="document-toc-container">
+                        <section class="document-toc">
+                            <header>
+                                <h2 class="document-toc-heading">In this article</h2>
+                            </header>
+                            <ul class="document-toc-list" id="toc-entries">
+                                <li class="document-toc-item "><a class="document-toc-link" href="#key_resources">Key
+                                        resources</a></li>
+                                <li class="document-toc-item "><a class="document-toc-link"
+                                        href="#beginners_tutorials">Beginner's tutorials</a></li>
+                                <li class="document-toc-item "><a class="document-toc-link"
+                                        href="#advanced_topics">Advanced topics</a></li>
+                                <li class="document-toc-item "><a class="document-toc-link"
+                                        href="#reference">Reference</a></li>
+                                <li class="document-toc-item "><a class="document-toc-link"
+                                        href="#related_topics">Related topics</a></li>
+                            </ul>
+                        </section>
+                    </aside>
+                </div>
+                <main id="content" class="main-content " role="main">
+                    <article class="main-page-content" lang="en-US">
+                        <h1>HTML: HyperText Markup Language</h1>
+                        <div class="section-content">
+                            <p><strong>HTML</strong> (HyperText Markup Language) is the most basic building block of the
+                                Web. It defines the meaning and structure of web content. Other technologies besides
+                                HTML are generally used to describe a web page's appearance/presentation (<a
+                                    href="/en-US/docs/Web/CSS">CSS</a>) or functionality/behavior (<a
+                                    href="/en-US/docs/Web/JavaScript">JavaScript</a>).</p>
+                            <p>"Hypertext" refers to links that connect web pages to one another, either within a single
+                                website or between websites. Links are a fundamental aspect of the Web. By uploading
+                                content to the Internet and linking it to pages created by other people, you become an
+                                active participant in the World Wide Web.</p>
+                            <p>HTML uses "markup" to annotate text, images, and other content for display in a Web
+                                browser. HTML markup includes special "elements" such as <a
+                                    href="/en-US/docs/Web/HTML/Element/head"><code>&lt;head&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/title"><code>&lt;title&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/body"><code>&lt;body&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/header"><code>&lt;header&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/footer"><code>&lt;footer&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/article"><code>&lt;article&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/section"><code>&lt;section&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/p"><code>&lt;p&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/div"><code>&lt;div&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/span"><code>&lt;span&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/img"><code>&lt;img&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/aside"><code>&lt;aside&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/audio"><code>&lt;audio&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/canvas"><code>&lt;canvas&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/datalist"><code>&lt;datalist&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/details"><code>&lt;details&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/embed"><code>&lt;embed&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/nav"><code>&lt;nav&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/output"><code>&lt;output&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/progress"><code>&lt;progress&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/video"><code>&lt;video&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/ul"><code>&lt;ul&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/ol"><code>&lt;ol&gt;</code></a>, <a
+                                    href="/en-US/docs/Web/HTML/Element/li"><code>&lt;li&gt;</code></a> and many others.
+                            </p>
+                            <p>An HTML element is set off from other text in a document by "tags", which consist of the
+                                element name surrounded by "<code>&lt;</code>" and "<code>&gt;</code>". The name of an
+                                element inside a tag is case insensitive. That is, it can be written in uppercase,
+                                lowercase, or a mixture. For example, the <code>&lt;title&gt;</code> tag can be written
+                                as <code>&lt;Title&gt;</code>, <code>&lt;TITLE&gt;</code>, or in any other way. However,
+                                the convention and recommended practice is to write tags in lowercase.</p>
+                            <p>The articles below can help you learn more about HTML.</p>
+                        </div>
+                        <section aria-labelledby="key_resources">
+                            <h2 id="key_resources"><a href="#key_resources" title="Permalink to Key resources">Key
+                                    resources</a></h2>
+                            <div class="section-content">
+                                <dl>
+                                    <dt id="html_introduction">HTML Introduction</dt>
+                                    <dd>
+                                        <p>If you're new to web development, be sure to read our <a
+                                                href="/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics">HTML
+                                                Basics</a> article to learn what HTML is and how to use it.</p>
+                                    </dd>
+                                    <dt id="html_tutorials">HTML Tutorials</dt>
+                                    <dd>
+                                        <p>For articles about how to use HTML, as well as tutorials and complete
+                                            examples, check out our <a href="/en-US/docs/Learn/HTML">HTML Learning
+                                                Area</a>.</p>
+                                    </dd>
+                                    <dt id="html_reference">HTML Reference</dt>
+                                    <dd>
+                                        <p>In our extensive <a href="/en-US/docs/Web/HTML/Reference">HTML reference</a>
+                                            section, you'll find the details about every element and attribute in HTML.
+                                        </p>
+                                    </dd>
+                                </dl>
+                                <div class="callout" id="sect1">
+                                    <h4 id="looking_to_become_a_front-end_web_developer">Looking to become a front-end
+                                        web developer?</h4>
+                                    <p>
+                                        We have put together a course that includes all the essential information you
+                                        need to
+                                        work towards your goal.
+                                    </p>
+                                    <p><a href="/en-US/docs/Learn/Front-end_web_developer"><strong>Get
+                                                started</strong></a></p>
+                                </div>
+                            </div>
+                        </section>
+                        <section aria-labelledby="beginners_tutorials">
+                            <h2 id="beginners_tutorials"><a href="#beginners_tutorials"
+                                    title="Permalink to Beginner's tutorials">Beginner's tutorials</a></h2>
+                            <div class="section-content">
+                                <p>Our <a href="/en-US/docs/Learn/HTML">HTML Learning Area</a> features multiple modules
+                                    that teach HTML from the ground up — no previous knowledge required.</p>
+                                <dl>
+                                    <dt id="introduction_to_html"><a
+                                            href="/en-US/docs/Learn/HTML/Introduction_to_HTML">Introduction to HTML</a>
+                                    </dt>
+                                    <dd>
+                                        <p>This module sets the stage, getting you used to important concepts and syntax
+                                            such as looking at applying HTML to text, how to create hyperlinks, and how
+                                            to use HTML to structure a web page.</p>
+                                    </dd>
+                                    <dt id="multimedia_and_embedding"><a
+                                            href="/en-US/docs/Learn/HTML/Multimedia_and_embedding">Multimedia and
+                                            embedding</a></dt>
+                                    <dd>
+                                        <p>This module explores how to use HTML to include multimedia in your web pages,
+                                            including the different ways that images can be included, and how to embed
+                                            video, audio, and even entire other webpages.</p>
+                                    </dd>
+                                    <dt id="html_tables"><a href="/en-US/docs/Learn/HTML/Tables">HTML tables</a></dt>
+                                    <dd>
+                                        <p>Representing tabular data on a webpage in an understandable, accessible way
+                                            can be a challenge. This module covers basic table markup, along with more
+                                            complex features such as implementing captions and summaries.</p>
+                                    </dd>
+                                    <dt id="html_forms"><a href="/en-US/docs/Learn/Forms">HTML forms</a></dt>
+                                    <dd>
+                                        <p>Forms are a very important part of the Web — these provide much of the
+                                            functionality you need for interacting with websites, e.g. registering and
+                                            logging in, sending feedback, buying products, and more. This module gets
+                                            you started with creating the client-side/front-end parts of forms.</p>
+                                    </dd>
+                                    <dt id="use_html_to_solve_common_problems"><a
+                                            href="/en-US/docs/Learn/HTML/Howto">Use HTML to solve common problems</a>
+                                    </dt>
+                                    <dd>
+                                        <p>Provides links to sections of content explaining how to use HTML to solve
+                                            very common problems when creating a web page: dealing with titles, adding
+                                            images or videos, emphasizing content, creating a basic form, etc.</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </section>
+                        <section aria-labelledby="advanced_topics">
+                            <h2 id="advanced_topics"><a href="#advanced_topics"
+                                    title="Permalink to Advanced topics">Advanced topics</a></h2>
+                            <div class="section-content">
+                                <dl>
+                                    <dt id="cors_enabled_image"><a href="/en-US/docs/Web/HTML/CORS_enabled_image">CORS
+                                            enabled image</a></dt>
+                                    <dd>
+                                        <p>The <a
+                                                href="/en-US/docs/Web/HTML/Element/img#attr-crossorigin"><code>crossorigin</code></a>
+                                            attribute, in combination with an appropriate <a
+                                                href="/en-US/docs/Glossary/CORS">CORS</a> header, allows images defined
+                                            by the <a
+                                                href="/en-US/docs/Web/HTML/Element/img"><code>&lt;img&gt;</code></a>
+                                            element to be loaded from foreign origins and used in a <a
+                                                href="/en-US/docs/Web/HTML/Element/canvas"><code>&lt;canvas&gt;</code></a>
+                                            element as if they were being loaded from the current origin.</p>
+                                    </dd>
+                                    <dt id="cors_settings_attributes"><a
+                                            href="/en-US/docs/Web/HTML/Attributes/crossorigin">CORS settings
+                                            attributes</a></dt>
+                                    <dd>
+                                        <p>Some HTML elements that provide support for <a
+                                                href="/en-US/docs/Web/HTTP/CORS">CORS</a>, such as <a
+                                                href="/en-US/docs/Web/HTML/Element/img"><code>&lt;img&gt;</code></a> or
+                                            <a href="/en-US/docs/Web/HTML/Element/video"><code>&lt;video&gt;</code></a>,
+                                            have a <code>crossorigin</code> attribute (<code>crossOrigin</code>
+                                            property), which lets you configure the CORS requests for the element's
+                                            fetched data.</p>
+                                    </dd>
+                                    <dt id="preloading_content_with_relpreload"><a
+                                            href="/en-US/docs/Web/HTML/Link_types/preload">Preloading content with
+                                            rel="preload"</a></dt>
+                                    <dd>
+                                        <p>The <code>preload</code> value of the <a
+                                                href="/en-US/docs/Web/HTML/Element/link"><code>&lt;link&gt;</code></a>
+                                            element's <a
+                                                href="/en-US/docs/Web/HTML/Element/link#attr-rel"><code>rel</code></a>
+                                            attribute allows you to write declarative fetch requests in your HTML <a
+                                                href="/en-US/docs/Web/HTML/Element/head"><code>&lt;head&gt;</code></a>,
+                                            specifying resources that your pages will need very soon after loading,
+                                            which you therefore want to start preloading early in the lifecycle of a
+                                            page load, before the browser's main rendering machinery kicks in. This
+                                            ensures that they are made available earlier and are less likely to block
+                                            the page's first render, leading to performance improvements. This article
+                                            provides a basic guide to how <code>preload</code> works.</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </section>
+                        <section aria-labelledby="reference">
+                            <h2 id="reference"><a href="#reference" title="Permalink to Reference">Reference</a></h2>
+                            <div class="section-content">
+                                <dl>
+                                    <dt id="html_reference_2"><a href="/en-US/docs/Web/HTML/Reference">HTML
+                                            reference</a></dt>
+                                    <dd>
+                                        <p>HTML consists of <strong>elements</strong>, each of which may be modified by
+                                            some number of <strong>attributes</strong>. HTML documents are connected to
+                                            each other with <a href="/en-US/docs/Web/HTML/Link_types">links</a>.</p>
+                                    </dd>
+                                    <dt id="html_element_reference"><a href="/en-US/docs/Web/HTML/Element">HTML element
+                                            reference</a></dt>
+                                    <dd>
+                                        <p>Browse a list of all <a href="/en-US/docs/Glossary/HTML">HTML</a> <a
+                                                href="/en-US/docs/Glossary/Element">elements</a>.</p>
+                                    </dd>
+                                    <dt id="html_attribute_reference"><a href="/en-US/docs/Web/HTML/Attributes">HTML
+                                            attribute reference</a></dt>
+                                    <dd>
+                                        <p>Elements in HTML have <strong>attributes</strong>. These are additional
+                                            values that configure the elements or adjust their behavior in various ways.
+                                        </p>
+                                    </dd>
+                                    <dt id="global_attributes"><a href="/en-US/docs/Web/HTML/Global_attributes">Global
+                                            attributes</a></dt>
+                                    <dd>
+                                        <p>Global attributes may be specified on all <a
+                                                href="/en-US/docs/Web/HTML/Element">HTML elements</a>, <em>even those
+                                                not specified in the standard</em>. This means that any non-standard
+                                            elements must still permit these attributes, even though those elements make
+                                            the document HTML5-noncompliant.</p>
+                                    </dd>
+                                    <dt id="inline_elements"><a href="/en-US/docs/Web/HTML/Inline_elements">Inline
+                                            elements</a> and <a
+                                            href="/en-US/docs/Web/HTML/Block-level_elements">block-level elements</a>
+                                    </dt>
+                                    <dd>
+                                        <p>HTML elements are usually "inline" or "block-level" elements. An inline
+                                            element occupies only the space bounded by the tags that define it. A
+                                            block-level element occupies the entire space of its parent element
+                                            (container), thereby creating a "block".</p>
+                                    </dd>
+                                    <dt id="link_types"><a href="/en-US/docs/Web/HTML/Link_types">Link types</a></dt>
+                                    <dd>
+                                        <p>In HTML, various link types can be used to establish and define the
+                                            relationship between two documents. Link elements that types can be set on
+                                            include <a href="/en-US/docs/Web/HTML/Element/a"><code>&lt;a&gt;</code></a>,
+                                            <a href="/en-US/docs/Web/HTML/Element/area"><code>&lt;area&gt;</code></a>
+                                            and <a
+                                                href="/en-US/docs/Web/HTML/Element/link"><code>&lt;link&gt;</code></a>.
+                                        </p>
+                                    </dd>
+                                    <dt id="guide_to_media_types_and_formats_on_the_web"><a
+                                            href="/en-US/docs/Web/Media/Formats">Guide to media types and formats on the
+                                            web</a></dt>
+                                    <dd>
+                                        <p>The <a
+                                                href="/en-US/docs/Web/HTML/Element/audio"><code>&lt;audio&gt;</code></a>
+                                            and <a
+                                                href="/en-US/docs/Web/HTML/Element/video"><code>&lt;video&gt;</code></a>
+                                            elements allow you to play audio and video media natively within your
+                                            content without the need for external software support.</p>
+                                    </dd>
+                                    <dt id="html_content_categories"><a
+                                            href="/en-US/docs/Web/Guide/HTML/Content_categories">HTML content
+                                            categories</a></dt>
+                                    <dd>
+                                        <p>HTML is comprised of several kinds of content, each of which is allowed to be
+                                            used in certain contexts and is disallowed in others. Similarly, each has a
+                                            set of other content categories they can contain and elements that can or
+                                            can't be used in them. This is a guide to these categories.</p>
+                                    </dd>
+                                    <dt id="quirks_mode_and_standards_mode"><a
+                                            href="/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode">Quirks mode and
+                                            standards mode</a></dt>
+                                    <dd>
+                                        <p>Historical information on quirks mode and standards mode.</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </section>
+                        <section aria-labelledby="related_topics">
+                            <h2 id="related_topics"><a href="#related_topics"
+                                    title="Permalink to Related topics">Related topics</a></h2>
+                            <div class="section-content">
+                                <dl>
+                                    <dt id="applying_color_to_html_elements_using_css"><a
+                                            href="/en-US/docs/Web/CSS/CSS_Colors/Applying_color">Applying color to HTML
+                                            elements using CSS</a></dt>
+                                    <dd>
+                                        <p>This article covers most of the ways you use CSS to add color to HTML
+                                            content, listing what parts of HTML documents can be colored and what CSS
+                                            properties to use when doing so. Includes examples, links to
+                                            palette-building tools, and more.</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </section>
+                        <aside class="metadata">
+                            <div class="metadata-content-container">
+                                <div id="on-github" class="on-github">
+                                    <h3>Found a problem with this page?</h3>
+                                    <ul>
+                                        <li><a href="https://github.com/mdn/content/edit/main/files/en-us/web/html/index.md"
+                                                title="You're going to need to sign in to GitHub first (Opens in a new tab)"
+                                                target="_blank" rel="noopener noreferrer">Edit on <b>GitHub</b></a></li>
+                                        <li><a href="https://github.com/mdn/content/blob/main/files/en-us/web/html/index.md?plain=1"
+                                                title="Folder: en-us/web/html (Opens in a new tab)" target="_blank"
+                                                rel="noopener noreferrer">Source on <b>GitHub</b></a></li>
+                                        <li><a href="https://github.com/mdn/content/issues/new?template=page-report.yml&amp;mdn-url=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FHTML&amp;metadata=%3C%21--+Do+not+make+changes+below+this+line+--%3E%0A%3Cdetails%3E%0A%3Csummary%3EPage+report+details%3C%2Fsummary%3E%0A%0A*+Folder%3A+%60en-us%2Fweb%2Fhtml%60%0A*+MDN+URL%3A+https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FHTML%0A*+GitHub+URL%3A+https%3A%2F%2Fgithub.com%2Fmdn%2Fcontent%2Fblob%2Fmain%2Ffiles%2Fen-us%2Fweb%2Fhtml%2Findex.md%0A*+Last+commit%3A+https%3A%2F%2Fgithub.com%2Fmdn%2Fcontent%2Fcommit%2F15ed3e49a0e5ac3cd6833fc6b0fd0ddbd158718f%0A*+Document+last+modified%3A+2022-05-02T14%3A18%3A16.000Z%0A%0A%3C%2Fdetails%3E"
+                                                title="This will take you to GitHub to file a new issue" target="_blank"
+                                                rel="noopener noreferrer">Report a problem with this content on
+                                                <b>GitHub</b></a></li>
+                                        <li>Want to fix the problem yourself? See
+                                            <!-- --> <a href="https://github.com/mdn/content/blob/main/README.md"
+                                                target="_blank" rel="noopener noreferrer">our Contribution guide</a>.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <p class="last-modified-date"><b>Last modified:</b> <time
+                                        datetime="2022-05-02T14:18:16.000Z">May 2, 2022</time>,
+                                    <!-- --> <a href="/en-US/docs/Web/HTML/contributors.txt">by MDN contributors</a>
+                                </p>
+                            </div>
+                        </aside>
+                    </article>
+                </main>
+            </div>
+        </div>
+        <footer id="nav-footer" class="page-footer">
+            <div class="page-footer-grid">
+                <div class="page-footer-logo-col"><a href="/" class="mdn-footer-logo" aria-label="MDN homepage"><svg
+                            width="48" height="17" viewBox="0 0 48 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <title id="mdn-footer-logo-svg">MDN logo</title>
+                            <path
+                                d="M20.04 16.512H15.504V10.416C15.504 9.488 15.344 8.824 15.024 8.424C14.72 8.024 14.264 7.824 13.656 7.824C12.92 7.824 12.384 8.064 12.048 8.544C11.728 9.024 11.568 9.64 11.568 10.392V14.184H13.008V16.512H8.472V10.416C8.472 9.488 8.312 8.824 7.992 8.424C7.688 8.024 7.232 7.824 6.624 7.824C5.872 7.824 5.336 8.064 5.016 8.544C4.696 9.024 4.536 9.64 4.536 10.392V14.184H6.6V16.512H0V14.184H1.44V8.04H0.024V5.688H4.536V7.32C5.224 6.088 6.32 5.472 7.824 5.472C8.608 5.472 9.328 5.664 9.984 6.048C10.64 6.432 11.096 7.016 11.352 7.8C11.992 6.248 13.168 5.472 14.88 5.472C15.856 5.472 16.72 5.776 17.472 6.384C18.224 6.992 18.6 7.936 18.6 9.216V14.184H20.04V16.512Z"
+                                fill="currentColor"></path>
+                            <path
+                                d="M33.6714 16.512H29.1354V14.496C28.8314 15.12 28.3834 15.656 27.7914 16.104C27.1994 16.536 26.4154 16.752 25.4394 16.752C24.0154 16.752 22.8954 16.264 22.0794 15.288C21.2634 14.312 20.8554 12.984 20.8554 11.304C20.8554 9.688 21.2554 8.312 22.0554 7.176C22.8554 6.04 24.0634 5.472 25.6794 5.472C26.5594 5.472 27.2794 5.648 27.8394 6C28.3994 6.352 28.8314 6.8 29.1354 7.344V2.352H26.9754V0H32.2314V14.184H33.6714V16.512ZM29.1354 11.04V10.776C29.1354 9.88 28.8954 9.184 28.4154 8.688C27.9514 8.176 27.3674 7.92 26.6634 7.92C25.9754 7.92 25.3674 8.176 24.8394 8.688C24.3274 9.2 24.0714 10.008 24.0714 11.112C24.0714 12.152 24.3114 12.944 24.7914 13.488C25.2714 14.032 25.8394 14.304 26.4954 14.304C27.3114 14.304 27.9514 13.96 28.4154 13.272C28.8954 12.584 29.1354 11.84 29.1354 11.04Z"
+                                fill="currentColor"></path>
+                            <path
+                                d="M47.9589 16.512H41.9829V14.184H43.4229V10.416C43.4229 9.488 43.2629 8.824 42.9429 8.424C42.6389 8.024 42.1829 7.824 41.5749 7.824C40.8389 7.824 40.2709 8.056 39.8709 8.52C39.4709 8.968 39.2629 9.56 39.2469 10.296V14.184H40.6869V16.512H34.7109V14.184H36.1509V8.04H34.5909V5.688H39.2469V7.344C39.9669 6.096 41.1269 5.472 42.7269 5.472C43.7509 5.472 44.6389 5.776 45.3909 6.384C46.1429 6.992 46.5189 7.936 46.5189 9.216V14.184H47.9589V16.512Z"
+                                fill="currentColor"></path>
+                        </svg></a>
+                    <p>Your blueprint for a better internet.</p>
+                    <ul class="social-icons">
+                        <li><a class="icon icon-twitter" href="https://twitter.com/mozdevnet" target="_blank"
+                                rel="noopener noreferrer"><span class="visually-hidden">MDN on Twitter</span></a></li>
+                        <li><a class="icon icon-github-mark-small" href="https://github.com/mdn/" target="_blank"
+                                rel="noopener noreferrer"><span class="visually-hidden">MDN on GitHub</span></a></li>
+                    </ul>
+                </div>
+                <div class="page-footer-nav-col-1">
+                    <h2 class="footer-nav-heading">MDN</h2>
+                    <ul class="footer-nav-list">
+                        <li class="footer-nav-item"><a href="/en-US/about">About</a></li>
+                        <li class="footer-nav-item"><a href="https://hacks.mozilla.org/" target="_blank"
+                                rel="noopener noreferrer">Hacks Blog</a></li>
+                        <li class="footer-nav-item"><a
+                                href="https://www.mozilla.org/en-US/careers/listings/?team=Marketing" target="_blank"
+                                rel="noopener noreferrer">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="page-footer-nav-col-2">
+                    <h2 class="footer-nav-heading">Support</h2>
+                    <ul class="footer-nav-list">
+                        <li class="footer-nav-item"><a class="footer-nav-link"
+                                href="https://support.mozilla.org/products/mdn-plus">Product help</a></li>
+                        <li class="footer-nav-item"><a class="footer-nav-link"
+                                href="/en-US/docs/MDN/Contribute/Feedback#documentation_issues">Report a page issue</a>
+                        </li>
+                        <li class="footer-nav-item"><a class="footer-nav-link"
+                                href="/en-US/docs/MDN/Contribute/Feedback#site_issues">Report a site issue</a></li>
+                    </ul>
+                </div>
+                <div class="page-footer-nav-col-3">
+                    <h2 class="footer-nav-heading">Our communities</h2>
+                    <ul class="footer-nav-list">
+                        <li class="footer-nav-item"><a class="footer-nav-link" href="/en-US/community">MDN Community</a>
+                        </li>
+                        <li class="footer-nav-item"><a class="footer-nav-link"
+                                href="https://discourse.mozilla.org/c/mdn/236" target="_blank"
+                                rel="noopener noreferrer">MDN Forum</a></li>
+                        <li class="footer-nav-item"><a class="footer-nav-link" href="https://wiki.mozilla.org/Matrix"
+                                target="_blank" rel="noopener noreferrer">MDN Chat</a></li>
+                    </ul>
+                </div>
+                <div class="page-footer-nav-col-4">
+                    <h2 class="footer-nav-heading">Developers</h2>
+                    <ul class="footer-nav-list">
+                        <li class="footer-nav-item"><a class="footer-nav-link" href="/en-US/docs/Web">Web
+                                Technologies</a></li>
+                        <li class="footer-nav-item"><a class="footer-nav-link" href="/en-US/docs/Learn">Learn Web
+                                Development</a></li>
+                        <li class="footer-nav-item"><a class="footer-nav-link" href="/en-US/plus">MDN Plus</a></li>
+                    </ul>
+                </div>
+                <div class="page-footer-moz"><a href="https://www.mozilla.org/" class="footer-moz-logo-link"
+                        target="_blank" rel="noopener noreferrer"><svg width="112" height="32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title id="mozilla-footer-logo-svg">Mozilla logo</title>
+                            <path
+                                d="M41.753 14.218c-2.048 0-3.324 1.522-3.324 4.157 0 2.423 1.119 4.286 3.29 4.286 2.082 0 3.447-1.678 3.447-4.347 0-2.826-1.522-4.096-3.413-4.096Zm54.89 7.044c0 .901.437 1.618 1.645 1.618 1.427 0 2.949-1.024 3.044-3.352-.649-.095-1.365-.185-2.02-.185-1.426-.005-2.668.397-2.668 1.92Z"
+                                fill="currentColor"></path>
+                            <path
+                                d="M0 0v32h111.908V0H0Zm32.56 25.426h-5.87v-7.884c0-2.423-.806-3.352-2.39-3.352-1.924 0-2.702 1.365-2.702 3.324v4.868h1.864v3.044h-5.864v-7.884c0-2.423-.806-3.352-2.39-3.352-1.924 0-2.702 1.365-2.702 3.324v4.868h2.669v3.044H6.642v-3.044h1.863v-7.918H6.642V11.42h5.864v2.11c.839-1.489 2.3-2.39 4.252-2.39 2.02 0 3.878.963 4.566 3.01.778-1.862 2.361-3.01 4.566-3.01 2.512 0 4.812 1.522 4.812 4.84v6.402h1.863v3.044h-.005Zm9.036.307c-4.314 0-7.296-2.635-7.296-7.106 0-4.096 2.484-7.481 7.514-7.481s7.481 3.38 7.481 7.29c0 4.472-3.228 7.297-7.699 7.297Zm22.578-.307H51.942l-.403-2.11 7.7-8.846h-4.376l-.621 2.17-2.888-.313.498-4.907h12.294l.313 2.11-7.767 8.852h4.533l.654-2.172 3.167.308-.872 4.908Zm7.99 0h-4.191v-5.03h4.19v5.03Zm0-8.976h-4.191v-5.03h4.19v5.03Zm2.618 8.976 6.054-21.358h3.945l-6.054 21.358h-3.945Zm8.136 0 6.048-21.358h3.945l-6.054 21.358h-3.939Zm21.486.307c-1.863 0-2.887-1.085-3.072-2.792-.805 1.427-2.232 2.792-4.498 2.792-2.02 0-4.314-1.085-4.314-4.006 0-3.447 3.323-4.253 6.518-4.253.778 0 1.584.034 2.3.124v-.465c0-1.427-.034-3.133-2.3-3.133-.84 0-1.488.061-2.143.402l-.453 1.578-3.195-.34.549-3.224c2.45-.996 3.692-1.27 5.992-1.27 3.01 0 5.556 1.55 5.556 4.75v6.083c0 .805.314 1.085.963 1.085.184 0 .375-.034.587-.095l.034 2.11a5.432 5.432 0 0 1-2.524.654Z"
+                                fill="currentColor"></path>
+                        </svg></a>
+                    <ul class="footer-moz-list">
+                        <li class="footer-moz-item"><a href="https://www.mozilla.org/privacy/websites/"
+                                class="footer-moz-link" target="_blank" rel="noopener noreferrer">Website Privacy
+                                Notice</a></li>
+                        <li class="footer-moz-item"><a href="https://www.mozilla.org/privacy/websites/#cookies"
+                                class="footer-moz-link" target="_blank" rel="noopener noreferrer">Cookies</a></li>
+                        <li class="footer-moz-item"><a href="https://www.mozilla.org/about/legal/terms/mozilla"
+                                class="footer-moz-link" target="_blank" rel="noopener noreferrer">Legal</a></li>
+                        <li class="footer-moz-item"><a
+                                href="https://www.mozilla.org/about/governance/policies/participation/"
+                                class="footer-moz-link" target="_blank" rel="noopener noreferrer">Community
+                                Participation Guidelines</a></li>
+                    </ul>
+                </div>
+                <div class="page-footer-legal">
+                    <p id="license" class="page-footer-legal-text">Visit
+                        <!-- --> <a href="https://www.mozilla.org" target="_blank" rel="noopener noreferrer">Mozilla
+                            Corporation’s</a> <!-- -->not-for-profit parent, the
+                        <!-- --> <a target="_blank" rel="noopener noreferrer"
+                            href="https://foundation.mozilla.org/">Mozilla Foundation</a>.<br>Portions of this content
+                        are ©1998–
+                        <!-- -->2022
+                        <!-- --> by individual mozilla.org contributors. Content available under
+                        <!-- --> <a href="/docs/MDN/About#Copyrights_and_licenses">a Creative Commons license</a>.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script type="application/json"
+        id="hydration">{"doc":{"isMarkdown":true,"isTranslated":false,"isActive":true,"flaws":{},"title":"HTML: HyperText Markup Language","mdn_url":"/en-US/docs/Web/HTML","locale":"en-US","native":"English (US)","sidebarHTML":"\n <ol>\n  <li><a href=\"/en-US/docs/Web/HTML\"><strong>HTML</strong></a></li>\n  <li><a href=\"/en-US/docs/Learn/HTML\"><strong>Tutorials:</strong></a></li>\n  <li><a href=\"/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics\">HTML basics</a></li>\n  <li class=\"toggle\">\n    <details>\n      <summary>Introduction to HTML</summary>\n      <ol>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML\">Introduction to HTML overview</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started\">Getting started with HTML</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML\">What's in the head? Metadata in HTML</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/HTML_text_fundamentals\">HTML text fundamentals</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks\">Creating hyperlinks</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/Advanced_text_formatting\">Advanced text formatting</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/Document_and_website_structure\">Document and website structure</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/Debugging_HTML\">Debugging HTML</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/Marking_up_a_letter\">Assessment: Marking up a letter</a></li>\n          <li><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML/Structuring_a_page_of_content\">Assessment: Structuring a page of content</a></li>\n      </ol>\n    </details>\n  </li>\n  <li class=\"toggle\">\n    <details>\n      <summary>Multimedia and embedding</summary>\n      <ol>\n        <li><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding\">Multimedia and embedding overview</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML\">Images in HTML</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding/Video_and_audio_content\">Video and audio content</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding/Other_embedding_technologies\">From object to iframe — other embedding technologies</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding/Adding_vector_graphics_to_the_Web\">Adding vector graphics to the web</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images\">Responsive images</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding/Mozilla_splash_page\">Assessment: Mozilla splash page</a></li>\n      </ol>\n    </details>\n  </li>\n  <li class=\"toggle\">\n    <details>\n      <summary>HTML tables</summary>\n      <ol>\n        <li><a href=\"/en-US/docs/Learn/HTML/Tables\">HTML tables overview</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Tables/Basics\">HTML table basics</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Tables/Advanced\">HTML table advanced features and accessibility</a></li>\n        <li><a href=\"/en-US/docs/Learn/HTML/Tables/Structuring_planet_data\">Assessment: Structuring planet data</a></li>\n      </ol>\n    </details>\n  </li>\n  <li><strong><a href=\"/en-US/docs/Web/HTML/Reference\">References:</a></strong></li>\n  <li class=\"toggle\">\n    <details>\n      <summary>HTML elements</summary>\n      <ol><li><a href=\"/en-US/docs/Web/HTML/Element/a\"><code>&lt;a&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/abbr\"><code>&lt;abbr&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/acronym\"><code>&lt;acronym&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/address\"><code>&lt;address&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/applet\"><code>&lt;applet&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/area\"><code>&lt;area&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/article\"><code>&lt;article&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/aside\"><code>&lt;aside&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/audio\"><code>&lt;audio&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/b\"><code>&lt;b&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/base\"><code>&lt;base&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/basefont\"><code>&lt;basefont&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/bdi\"><code>&lt;bdi&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/bdo\"><code>&lt;bdo&gt;</code></a></li><li><abbr class=\"icon icon-nonstandard\" title=\"Non-standard. Check cross-browser support before using.\">\n    <span class=\"visually-hidden\">Non-Standard</span>\n</abbr><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/bgsound\"><code>&lt;bgsound&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/big\"><code>&lt;big&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/blink\"><code>&lt;blink&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/blockquote\"><code>&lt;blockquote&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/body\"><code>&lt;body&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/br\"><code>&lt;br&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/button\"><code>&lt;button&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/canvas\"><code>&lt;canvas&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/caption\"><code>&lt;caption&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/center\"><code>&lt;center&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/cite\"><code>&lt;cite&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/code\"><code>&lt;code&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/col\"><code>&lt;col&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/colgroup\"><code>&lt;colgroup&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/content\"><code>&lt;content&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/data\"><code>&lt;data&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/datalist\"><code>&lt;datalist&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/dd\"><code>&lt;dd&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/del\"><code>&lt;del&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/details\"><code>&lt;details&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/dfn\"><code>&lt;dfn&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/dialog\"><code>&lt;dialog&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/dir\"><code>&lt;dir&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/div\"><code>&lt;div&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/dl\"><code>&lt;dl&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/dt\"><code>&lt;dt&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/em\"><code>&lt;em&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/embed\"><code>&lt;embed&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/fieldset\"><code>&lt;fieldset&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/figcaption\"><code>&lt;figcaption&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/figure\"><code>&lt;figure&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/font\"><code>&lt;font&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/footer\"><code>&lt;footer&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/form\"><code>&lt;form&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/frame\"><code>&lt;frame&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/frameset\"><code>&lt;frameset&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/head\"><code>&lt;head&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/header\"><code>&lt;header&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/Heading_Elements\"><code>&lt;h1&gt;</code></a></li><li><abbr class=\"icon icon-experimental\" title=\"Experimental. Expect behavior to change in the future.\">\n    <span class=\"visually-hidden\">Experimental</span>\n</abbr><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/hgroup\"><code>&lt;hgroup&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/hr\"><code>&lt;hr&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/html\"><code>&lt;html&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/i\"><code>&lt;i&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/iframe\"><code>&lt;iframe&gt;</code></a></li><li><abbr class=\"icon icon-nonstandard\" title=\"Non-standard. Check cross-browser support before using.\">\n    <span class=\"visually-hidden\">Non-Standard</span>\n</abbr><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/image\"><code>&lt;image&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/img\"><code>&lt;img&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input\"><code>&lt;input&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/ins\"><code>&lt;ins&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/kbd\"><code>&lt;kbd&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/keygen\"><code>&lt;keygen&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/label\"><code>&lt;label&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/legend\"><code>&lt;legend&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/li\"><code>&lt;li&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/link\"><code>&lt;link&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/main\"><code>&lt;main&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/map\"><code>&lt;map&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/mark\"><code>&lt;mark&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/marquee\"><code>&lt;marquee&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/menu\"><code>&lt;menu&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/menuitem\"><code>&lt;menuitem&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/meta\"><code>&lt;meta&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/meter\"><code>&lt;meter&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/nav\"><code>&lt;nav&gt;</code></a></li><li><abbr class=\"icon icon-nonstandard\" title=\"Non-standard. Check cross-browser support before using.\">\n    <span class=\"visually-hidden\">Non-Standard</span>\n</abbr><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/nobr\"><code>&lt;nobr&gt;</code></a></li><li><abbr class=\"icon icon-nonstandard\" title=\"Non-standard. Check cross-browser support before using.\">\n    <span class=\"visually-hidden\">Non-Standard</span>\n</abbr><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/noembed\"><code>&lt;noembed&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/noframes\"><code>&lt;noframes&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/noscript\"><code>&lt;noscript&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/object\"><code>&lt;object&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/ol\"><code>&lt;ol&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/optgroup\"><code>&lt;optgroup&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/option\"><code>&lt;option&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/output\"><code>&lt;output&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/p\"><code>&lt;p&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/param\"><code>&lt;param&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/picture\"><code>&lt;picture&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/plaintext\"><code>&lt;plaintext&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/portal\"><code>&lt;portal&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/pre\"><code>&lt;pre&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/progress\"><code>&lt;progress&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/q\"><code>&lt;q&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/rb\"><code>&lt;rb&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/rp\"><code>&lt;rp&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/rt\"><code>&lt;rt&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/rtc\"><code>&lt;rtc&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/ruby\"><code>&lt;ruby&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/s\"><code>&lt;s&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/samp\"><code>&lt;samp&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/script\"><code>&lt;script&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/section\"><code>&lt;section&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/select\"><code>&lt;select&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/shadow\"><code>&lt;shadow&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/slot\"><code>&lt;slot&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/small\"><code>&lt;small&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/source\"><code>&lt;source&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/spacer\"><code>&lt;spacer&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/span\"><code>&lt;span&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/strike\"><code>&lt;strike&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/strong\"><code>&lt;strong&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/style\"><code>&lt;style&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/sub\"><code>&lt;sub&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/summary\"><code>&lt;summary&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/sup\"><code>&lt;sup&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/table\"><code>&lt;table&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/tbody\"><code>&lt;tbody&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/td\"><code>&lt;td&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/template\"><code>&lt;template&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/textarea\"><code>&lt;textarea&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/tfoot\"><code>&lt;tfoot&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/th\"><code>&lt;th&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/thead\"><code>&lt;thead&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/time\"><code>&lt;time&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/title\"><code>&lt;title&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/tr\"><code>&lt;tr&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/track\"><code>&lt;track&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/tt\"><code>&lt;tt&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/u\"><code>&lt;u&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/ul\"><code>&lt;ul&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/var\"><code>&lt;var&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/video\"><code>&lt;video&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/wbr\"><code>&lt;wbr&gt;</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Element/xmp\"><code>&lt;xmp&gt;</code></a></li></ol>\n    </details>\n  </li>\n  <li class=\"toggle\">\n    <details>\n      <summary>Global attributes</summary>\n      <ol><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/accesskey\"><code>accesskey</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/autocapitalize\"><code>autocapitalize</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/autofocus\"><code>autofocus</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/class\"><code>class</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/contenteditable\"><code>contenteditable</code></a></li><li><abbr class=\"icon icon-deprecated\" title=\"Deprecated. Not for use in new websites.\">\n    <span class=\"visually-hidden\">Deprecated</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Global_attributes/contextmenu\"><code>contextmenu</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/data-*\"><code>data-*</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/dir\"><code>dir</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/draggable\"><code>draggable</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/enterkeyhint\"><code>enterkeyhint</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/hidden\"><code>hidden</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/id\"><code>id</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/inputmode\"><code>inputmode</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/is\"><code>is</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/itemid\"><code>itemid</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/itemprop\"><code>itemprop</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/itemref\"><code>itemref</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/itemscope\"><code>itemscope</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/itemtype\"><code>itemtype</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/lang\"><code>lang</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/nonce\"><code>nonce</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/part\"><code>part</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/slot\"><code>slot</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/spellcheck\"><code>spellcheck</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/style\"><code>style</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/tabindex\"><code>tabindex</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/title\"><code>title</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Global_attributes/translate\"><code>translate</code></a></li><li><abbr class=\"icon icon-nonstandard\" title=\"Non-standard. Check cross-browser support before using.\">\n    <span class=\"visually-hidden\">Non-Standard</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Global_attributes/x-ms-acceleratorkey\"><code>x-ms-acceleratorkey</code></a></li><li><abbr class=\"icon icon-nonstandard\" title=\"Non-standard. Check cross-browser support before using.\">\n    <span class=\"visually-hidden\">Non-Standard</span>\n</abbr><a href=\"/en-US/docs/Web/HTML/Global_attributes/x-ms-format-detection\"><code>x-ms-format-detection</code></a></li></ol>\n    </details>\n  </li>\n  <li class=\"toggle\">\n    <details>\n      <summary><code>&lt;input&gt;</code> types</summary>\n      <ol><li><a href=\"/en-US/docs/Web/HTML/Element/input/button\"><code>&lt;input type=\"button\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/checkbox\"><code>&lt;input type=\"checkbox\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/color\"><code>&lt;input type=\"color\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/date\"><code>&lt;input type=\"date\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/datetime-local\"><code>&lt;input type=\"datetime-local\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/email\"><code>&lt;input type=\"email\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/file\"><code>&lt;input type=\"file\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/hidden\"><code>&lt;input type=\"hidden\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/image\"><code>&lt;input type=\"image\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/month\"><code>&lt;input type=\"month\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/number\"><code>&lt;input type=\"number\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/password\"><code>&lt;input type=\"password\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/radio\"><code>&lt;input type=\"radio\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/range\"><code>&lt;input type=\"range\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/reset\"><code>&lt;input type=\"reset\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/search\"><code>&lt;input type=\"search\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/submit\"><code>&lt;input type=\"submit\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/tel\"><code>&lt;input type=\"tel\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/text\"><code>&lt;input type=\"text\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/time\"><code>&lt;input type=\"time\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/url\"><code>&lt;input type=\"url\"&gt;</code></a></li><li><a href=\"/en-US/docs/Web/HTML/Element/input/week\"><code>&lt;input type=\"week\"&gt;</code></a></li></ol>\n    </details>\n  </li>\n  <li><strong><a href=\"/en-US/docs/MDN\">Documentation:</a></strong></li>\n  <li class=\"toggle\">\n    <details>\n      <summary>Useful lists</summary>\n      <ol>\n        <li><a href=\"/en-US/docs/Web/HTML/Index\">All pages index</a></li>\n      </ol>\n    </details>\n  </li>\n  <li class=\"toggle\">\n    <details>\n      <summary>Contribute</summary>\n      <ol>\n        <li><a href=\"/en-US/docs/MDN\">The MDN project</a></li>\n      </ol>\n    </details>\n  </li>\n </ol>\n","body":[{"type":"prose","value":{"id":null,"title":null,"isH3":false,"content":"<p><strong>HTML</strong> (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content. Other technologies besides HTML are generally used to describe a web page's appearance/presentation (<a href=\"/en-US/docs/Web/CSS\">CSS</a>) or functionality/behavior (<a href=\"/en-US/docs/Web/JavaScript\">JavaScript</a>).</p>\n<p>\"Hypertext\" refers to links that connect web pages to one another, either within a single website or between websites. Links are a fundamental aspect of the Web. By uploading content to the Internet and linking it to pages created by other people, you become an active participant in the World Wide Web.</p>\n<p>HTML uses \"markup\" to annotate text, images, and other content for display in a Web browser. HTML markup includes special \"elements\" such as <a href=\"/en-US/docs/Web/HTML/Element/head\"><code>&lt;head&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/title\"><code>&lt;title&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/body\"><code>&lt;body&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/header\"><code>&lt;header&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/footer\"><code>&lt;footer&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/article\"><code>&lt;article&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/section\"><code>&lt;section&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/p\"><code>&lt;p&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/div\"><code>&lt;div&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/span\"><code>&lt;span&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/img\"><code>&lt;img&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/aside\"><code>&lt;aside&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/audio\"><code>&lt;audio&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/canvas\"><code>&lt;canvas&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/datalist\"><code>&lt;datalist&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/details\"><code>&lt;details&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/embed\"><code>&lt;embed&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/nav\"><code>&lt;nav&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/output\"><code>&lt;output&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/progress\"><code>&lt;progress&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/video\"><code>&lt;video&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/ul\"><code>&lt;ul&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/ol\"><code>&lt;ol&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/li\"><code>&lt;li&gt;</code></a> and many others.</p>\n<p>An HTML element is set off from other text in a document by \"tags\", which consist of the element name surrounded by \"<code>&lt;</code>\" and \"<code>&gt;</code>\". The name of an element inside a tag is case insensitive. That is, it can be written in uppercase, lowercase, or a mixture. For example, the <code>&lt;title&gt;</code> tag can be written as <code>&lt;Title&gt;</code>, <code>&lt;TITLE&gt;</code>, or in any other way. However, the convention and recommended practice is to write tags in lowercase.</p>\n<p>The articles below can help you learn more about HTML.</p>"}},{"type":"prose","value":{"id":"key_resources","title":"Key resources","isH3":false,"content":"<dl>\n  <dt id=\"html_introduction\">HTML Introduction</dt>\n  <dd>\n    <p>If you're new to web development, be sure to read our <a href=\"/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics\">HTML Basics</a> article to learn what HTML is and how to use it.</p>\n  </dd>\n  <dt id=\"html_tutorials\">HTML Tutorials</dt>\n  <dd>\n    <p>For articles about how to use HTML, as well as tutorials and complete examples, check out our <a href=\"/en-US/docs/Learn/HTML\">HTML Learning Area</a>.</p>\n  </dd>\n  <dt id=\"html_reference\">HTML Reference</dt>\n  <dd>\n    <p>In our extensive <a href=\"/en-US/docs/Web/HTML/Reference\">HTML reference</a> section, you'll find the details about every element and attribute in HTML.</p>\n  </dd>\n</dl>\n<div class=\"callout\" id=\"sect1\">\n  <h4 id=\"looking_to_become_a_front-end_web_developer\">Looking to become a front-end web developer?</h4>\n  <p>\n    We have put together a course that includes all the essential information you need to\n    work towards your goal.\n  </p>\n  <p><a href=\"/en-US/docs/Learn/Front-end_web_developer\"><strong>Get started</strong></a></p>\n</div>"}},{"type":"prose","value":{"id":"beginners_tutorials","title":"Beginner's tutorials","isH3":false,"content":"<p>Our <a href=\"/en-US/docs/Learn/HTML\">HTML Learning Area</a> features multiple modules that teach HTML from the ground up — no previous knowledge required.</p>\n<dl>\n  <dt id=\"introduction_to_html\"><a href=\"/en-US/docs/Learn/HTML/Introduction_to_HTML\">Introduction to HTML</a></dt>\n  <dd>\n    <p>This module sets the stage, getting you used to important concepts and syntax such as looking at applying HTML to text, how to create hyperlinks, and how to use HTML to structure a web page.</p>\n  </dd>\n  <dt id=\"multimedia_and_embedding\"><a href=\"/en-US/docs/Learn/HTML/Multimedia_and_embedding\">Multimedia and embedding</a></dt>\n  <dd>\n    <p>This module explores how to use HTML to include multimedia in your web pages, including the different ways that images can be included, and how to embed video, audio, and even entire other webpages.</p>\n  </dd>\n  <dt id=\"html_tables\"><a href=\"/en-US/docs/Learn/HTML/Tables\">HTML tables</a></dt>\n  <dd>\n    <p>Representing tabular data on a webpage in an understandable, accessible way can be a challenge. This module covers basic table markup, along with more complex features such as implementing captions and summaries.</p>\n  </dd>\n  <dt id=\"html_forms\"><a href=\"/en-US/docs/Learn/Forms\">HTML forms</a></dt>\n  <dd>\n    <p>Forms are a very important part of the Web — these provide much of the functionality you need for interacting with websites, e.g. registering and logging in, sending feedback, buying products, and more. This module gets you started with creating the client-side/front-end parts of forms.</p>\n  </dd>\n  <dt id=\"use_html_to_solve_common_problems\"><a href=\"/en-US/docs/Learn/HTML/Howto\">Use HTML to solve common problems</a></dt>\n  <dd>\n    <p>Provides links to sections of content explaining how to use HTML to solve very common problems when creating a web page: dealing with titles, adding images or videos, emphasizing content, creating a basic form, etc.</p>\n  </dd>\n</dl>"}},{"type":"prose","value":{"id":"advanced_topics","title":"Advanced topics","isH3":false,"content":"<dl>\n  <dt id=\"cors_enabled_image\"><a href=\"/en-US/docs/Web/HTML/CORS_enabled_image\">CORS enabled image</a></dt>\n  <dd>\n    <p>The <a href=\"/en-US/docs/Web/HTML/Element/img#attr-crossorigin\"><code>crossorigin</code></a> attribute, in combination with an appropriate <a href=\"/en-US/docs/Glossary/CORS\">CORS</a> header, allows images defined by the <a href=\"/en-US/docs/Web/HTML/Element/img\"><code>&lt;img&gt;</code></a> element to be loaded from foreign origins and used in a <a href=\"/en-US/docs/Web/HTML/Element/canvas\"><code>&lt;canvas&gt;</code></a> element as if they were being loaded from the current origin.</p>\n  </dd>\n  <dt id=\"cors_settings_attributes\"><a href=\"/en-US/docs/Web/HTML/Attributes/crossorigin\">CORS settings attributes</a></dt>\n  <dd>\n    <p>Some HTML elements that provide support for <a href=\"/en-US/docs/Web/HTTP/CORS\">CORS</a>, such as <a href=\"/en-US/docs/Web/HTML/Element/img\"><code>&lt;img&gt;</code></a> or <a href=\"/en-US/docs/Web/HTML/Element/video\"><code>&lt;video&gt;</code></a>, have a <code>crossorigin</code> attribute (<code>crossOrigin</code> property), which lets you configure the CORS requests for the element's fetched data.</p>\n  </dd>\n  <dt id=\"preloading_content_with_relpreload\"><a href=\"/en-US/docs/Web/HTML/Link_types/preload\">Preloading content with rel=\"preload\"</a></dt>\n  <dd>\n    <p>The <code>preload</code> value of the <a href=\"/en-US/docs/Web/HTML/Element/link\"><code>&lt;link&gt;</code></a> element's <a href=\"/en-US/docs/Web/HTML/Element/link#attr-rel\"><code>rel</code></a> attribute allows you to write declarative fetch requests in your HTML <a href=\"/en-US/docs/Web/HTML/Element/head\"><code>&lt;head&gt;</code></a>, specifying resources that your pages will need very soon after loading, which you therefore want to start preloading early in the lifecycle of a page load, before the browser's main rendering machinery kicks in. This ensures that they are made available earlier and are less likely to block the page's first render, leading to performance improvements. This article provides a basic guide to how <code>preload</code> works.</p>\n  </dd>\n</dl>"}},{"type":"prose","value":{"id":"reference","title":"Reference","isH3":false,"content":"<dl>\n  <dt id=\"html_reference_2\"><a href=\"/en-US/docs/Web/HTML/Reference\">HTML reference</a></dt>\n  <dd>\n    <p>HTML consists of <strong>elements</strong>, each of which may be modified by some number of <strong>attributes</strong>. HTML documents are connected to each other with <a href=\"/en-US/docs/Web/HTML/Link_types\">links</a>.</p>\n  </dd>\n  <dt id=\"html_element_reference\"><a href=\"/en-US/docs/Web/HTML/Element\">HTML element reference</a></dt>\n  <dd>\n    <p>Browse a list of all <a href=\"/en-US/docs/Glossary/HTML\">HTML</a> <a href=\"/en-US/docs/Glossary/Element\">elements</a>.</p>\n  </dd>\n  <dt id=\"html_attribute_reference\"><a href=\"/en-US/docs/Web/HTML/Attributes\">HTML attribute reference</a></dt>\n  <dd>\n    <p>Elements in HTML have <strong>attributes</strong>. These are additional values that configure the elements or adjust their behavior in various ways.</p>\n  </dd>\n  <dt id=\"global_attributes\"><a href=\"/en-US/docs/Web/HTML/Global_attributes\">Global attributes</a></dt>\n  <dd>\n    <p>Global attributes may be specified on all <a href=\"/en-US/docs/Web/HTML/Element\">HTML elements</a>, <em>even those not specified in the standard</em>. This means that any non-standard elements must still permit these attributes, even though those elements make the document HTML5-noncompliant.</p>\n  </dd>\n  <dt id=\"inline_elements\"><a href=\"/en-US/docs/Web/HTML/Inline_elements\">Inline elements</a> and <a href=\"/en-US/docs/Web/HTML/Block-level_elements\">block-level elements</a></dt>\n  <dd>\n    <p>HTML elements are usually \"inline\" or \"block-level\" elements. An inline element occupies only the space bounded by the tags that define it. A block-level element occupies the entire space of its parent element (container), thereby creating a \"block\".</p>\n  </dd>\n  <dt id=\"link_types\"><a href=\"/en-US/docs/Web/HTML/Link_types\">Link types</a></dt>\n  <dd>\n    <p>In HTML, various link types can be used to establish and define the relationship between two documents. Link elements that types can be set on include <a href=\"/en-US/docs/Web/HTML/Element/a\"><code>&lt;a&gt;</code></a>, <a href=\"/en-US/docs/Web/HTML/Element/area\"><code>&lt;area&gt;</code></a> and <a href=\"/en-US/docs/Web/HTML/Element/link\"><code>&lt;link&gt;</code></a>.</p>\n  </dd>\n  <dt id=\"guide_to_media_types_and_formats_on_the_web\"><a href=\"/en-US/docs/Web/Media/Formats\">Guide to media types and formats on the web</a></dt>\n  <dd>\n    <p>The <a href=\"/en-US/docs/Web/HTML/Element/audio\"><code>&lt;audio&gt;</code></a> and <a href=\"/en-US/docs/Web/HTML/Element/video\"><code>&lt;video&gt;</code></a> elements allow you to play audio and video media natively within your content without the need for external software support.</p>\n  </dd>\n  <dt id=\"html_content_categories\"><a href=\"/en-US/docs/Web/Guide/HTML/Content_categories\">HTML content categories</a></dt>\n  <dd>\n    <p>HTML is comprised of several kinds of content, each of which is allowed to be used in certain contexts and is disallowed in others. Similarly, each has a set of other content categories they can contain and elements that can or can't be used in them. This is a guide to these categories.</p>\n  </dd>\n  <dt id=\"quirks_mode_and_standards_mode\"><a href=\"/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode\">Quirks mode and standards mode</a></dt>\n  <dd>\n    <p>Historical information on quirks mode and standards mode.</p>\n  </dd>\n</dl>"}},{"type":"prose","value":{"id":"related_topics","title":"Related topics","isH3":false,"content":"<dl>\n  <dt id=\"applying_color_to_html_elements_using_css\"><a href=\"/en-US/docs/Web/CSS/CSS_Colors/Applying_color\">Applying color to HTML elements using CSS</a></dt>\n  <dd>\n    <p>This article covers most of the ways you use CSS to add color to HTML content, listing what parts of HTML documents can be colored and what CSS properties to use when doing so. Includes examples, links to palette-building tools, and more.</p>\n  </dd>\n</dl>"}}],"toc":[{"text":"Key resources","id":"key_resources"},{"text":"Beginner's tutorials","id":"beginners_tutorials"},{"text":"Advanced topics","id":"advanced_topics"},{"text":"Reference","id":"reference"},{"text":"Related topics","id":"related_topics"}],"summary":"HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content. Other technologies besides HTML are generally used to describe a web page's appearance/presentation (CSS) or functionality/behavior (JavaScript).","popularity":0.1681,"modified":"2022-05-02T14:18:16.000Z","other_translations":[{"title":"HTML: HyperText Markup Language","locale":"de","native":"Deutsch"},{"title":"HTML: Lenguaje de etiquetas de hipertexto","locale":"es","native":"Español"},{"title":"HTML (HyperText Markup Language)","locale":"fr","native":"Français"},{"title":"HTML: HyperText Markup Language","locale":"ja","native":"日本語"},{"title":"HTML: Hypertext Markup Language","locale":"ko","native":"한국어"},{"title":"HTML","locale":"pl","native":"Polski"},{"title":"HTML: Linguagem de Marcação de Hipertexto","locale":"pt-BR","native":"Português (do Brasil)"},{"title":"HTML","locale":"ru","native":"Русский"},{"title":"HTML（超文本标记语言）","locale":"zh-CN","native":"中文 (简体)"},{"title":"HTML：超文本標記語言","locale":"zh-TW","native":"正體中文 (繁體)"}],"source":{"folder":"en-us/web/html","github_url":"https://github.com/mdn/content/blob/main/files/en-us/web/html/index.md","last_commit_url":"https://github.com/mdn/content/commit/15ed3e49a0e5ac3cd6833fc6b0fd0ddbd158718f","filename":"index.md"},"short_title":"HTML","parents":[{"uri":"/en-US/docs/Web","title":"References"},{"uri":"/en-US/docs/Web/HTML","title":"HTML"}],"pageTitle":"HTML: HyperText Markup Language | MDN","noIndexing":false}}</script>
+</body>
+
+</html>
