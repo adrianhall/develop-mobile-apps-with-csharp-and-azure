@@ -80,6 +80,7 @@ Other common tools include:
 * Terminal apps - I use [iTerm2](https://iterm2.com).
 * A good shell - I use zsh and the [oh-my-zsh](https://ohmyz.sh) extensions.
 * [Homebrew](https://brew.sh) - use it to [install and configure git](https://github.com/git-guides/install-git) for your chosen source code repository service.
+* An API Tester - I use [Postman](https://www.postman.com), but [Insomnia](https://insomnia.rest/) and [Thunder Client for VS Code](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client) are both good too.
 * A good programmers font with powerline ligatures - I use [Cascadia Code](https://github.com/microsoft/cascadia-code).
 * A text editor - I use [Visual Studio Code].
 * A good image editor - I use [Gimp], although I also use [ImageMagick], which you can install with Homebrew.
