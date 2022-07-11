@@ -27,6 +27,9 @@ defaults:
 # THEME Settings
 #
 ###############################################################################################
+theme:
+  logo: /assets/site-logo.svg
+  
 favicon:
   tile_color: "#da532c"
   theme_color: "#ffffff"

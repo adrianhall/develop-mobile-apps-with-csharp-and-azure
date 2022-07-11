@@ -1,0 +1,23 @@
+<!-- begin: _includes/header.html -->
+<header class="main-document-header-container top-navigation">
+    <div class="container">
+        <div class="top-navigation-wrap">
+            <a href="{{ '/' | relative_url }}" class="logo" aria-label="Home">
+                <img src="{{ site.theme.logo | default: site.logo | default: '/assets/site-logo.png' | relative_url }}"/>
+            </a>
+            <button aria-expanded="false" aria-haspopup="menu" aria-label="Open main menu" title="Open main menu" type="button" class="button action has-icon main-menu-toggle">
+                <span class="button-wrap">
+                    <span class="icon icon-menu"></span>
+                    <span class="visually-hidden">Open main menu</span>
+                </span>
+            </button>
+        </div>
+
+        <div class="top-navigation-main">
+            {% include topnav.html %}
+            {% include search/header.html %}
+            {% include themeswitcher.html %}
+        </div>
+    </div>
+</header>
+<!-- end: _includes/header.html -->

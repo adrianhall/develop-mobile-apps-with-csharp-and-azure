@@ -8,7 +8,11 @@
         {% include head/stylesheets.html %}
         {% include head/scripts.html %}
     </head>
-    <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
-
+    <body>
+        <div id="root">
+            <div class="page-wrapper category-{{ page.category | default: layout.category | default: layout.layout }} {{ page.pagetype | default: layout.pagetype | default: 'document' }}-page">
+                {{ content }}
+            </div>
+        </div>
     </body>
 </html>
