@@ -29,8 +29,6 @@ theme:
     - navigation.indexes
     - navigation.instant
     - navigation.prune
-    - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
     - search.highlight
@@ -79,10 +77,10 @@ markdown_extensions:
   - pymdownx.snippets
 
 nav:
-    - Getting Started: index.md
-    # - Chapter 1 - Introduction:
-    #     - Your First App - PC Edition: chapter1/firstapp_pc.md
-    #     - Your First App - Mac Edition: chapter1/firstapp_mac.md
+    - Chapter 1 - Introduction:
+        - chapter1/index.md
+        - Your First App - PC Edition: chapter1/pc-intro.md
+        - Your First App - Mac Edition: chapter1/mac-intro.md
     # - Chapter 2 - Authentication:
     #     - Concepts: chapter2/authconcepts.md
     #     - Authentication in the Backend: chapter2/backend.md
