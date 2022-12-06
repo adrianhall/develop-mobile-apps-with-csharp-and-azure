@@ -24,6 +24,31 @@ Now that we have our client screens planned out, we can move onto the thinking a
 
 The mobile backend is an ASP.NET core web API that is served from within Azure App Service: a highly scalable and redundant web hosting service that supports all the major languages.  Azure Mobile Apps is an SDK that creates a mobile-ready web API in ASP.NET Core.  To create the mobile backend, we will use Visual Studio 2022 to create a new Web API project, then add Azure Mobile Apps to it.
 
+First, create a new solution.  You can easily do this using the `dotnet` tool on the command line:
+
+```powershell
+PS> mkdir -p \projects\Chapter1
+PS> cd \projects\Chapter1
+PS> dotnet new sln
+PS> .\Chapter1.sln
+```
+
+This sequence of commands will create a new empty solution called `Chapter1` and then open it within Visual Studio.  You may be prompted to confirm which version of Visual Studio you wish to open.  Make sure you open Visual Studio 2022.
+
+!!! tip
+    Windows 10 and above have an in-built command line tool called [**Terminal**](https://learn.microsoft.com/windows/terminal/) that you can use to easily run command line tools.  Pin it to your task bar for quicker access.
+
+You can also create an empty solution:
+
+* Start Visual Studio 2022.
+* In the **Get started** section of the project selector, select **Create a new project**.
+* Use the search box to search for **Blank Solution**.
+* Enter `Chapter1` as the solution name, then press **Create**.
+
+!!! tip
+    Android apps have a hard time with long filenames.  Create a location at the top of the filesystem (for example: `C:\projects`) to hold your mobile app projects so that you are less likely to run into problems later on.
+
+At this point, you'll be at the same point as using the command line tools.
 
 <!-- Images -->
 [img1]: assets/mockingbot.png
