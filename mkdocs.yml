@@ -5,8 +5,8 @@ repo_name: GitHub
 edit_uri: ""
 site_author: Adrian Hall
 copyright: >-
-  'Copyright &copy; 2017-2023 Adrian Hall' -
-  <a href="#__consent">Change cookie settings</a>
+  Copyright &copy; 2017-2023 Adrian Hall<span id="consent-marker"> -
+  <a href="#__consent">Change cookie settings</a></span>
 extra:
   consent:
     title: Cookie consent
@@ -28,9 +28,13 @@ extra:
       link: https://www.reddit.com/user/photoadrian
 theme: 
   name: material
+  custom_dir: theme
   language: en
   # logo: assets/img/logo.png
   # favicon: assets/img/favicon.png
+  font:
+    text: Open Sans
+    code: Source Code Pro
   palette: 
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"

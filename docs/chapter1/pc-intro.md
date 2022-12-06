@@ -20,7 +20,7 @@ My ideas for this app include:
 
 Now that we have our client screens planned out, we can move onto the thinking about the mobile backend.
 
-## The mobile backend
+## Create a mobile backend
 
 The mobile backend is an ASP.NET core web API that is served from within Azure App Service: a highly scalable and redundant web hosting service that supports all the major languages.  Azure Mobile Apps is an SDK that creates a mobile-ready web API in ASP.NET Core.  To create the mobile backend, we will use Visual Studio 2022 to create a new Web API project, then add Azure Mobile Apps to it.
 

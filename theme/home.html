@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ page.title }}</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ config.site_description }}">
+    <meta name="author" content="{{ config.site_author }}">    
+    <link rel="shortcut icon" href="favicon.ico">  
+    <!-- Theme CSS -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ 'assets/plugins/elegant_font/css/style.css' | url }}">    
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="{{ 'assets/site/styles.css' | url }}">
+</head> 
+
+<body class="landing-page">   
+	
+	<!-- GITHUB BUTTON JS -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+     
+    <!--FACEBOOK LIKE BUTTON JAVASCRIPT SDK-->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=994736563909741&autoLogAppEvents=1"></script>
+    
+    <div class="page-wrapper">
+        
+        <!-- ******Header****** -->
+        <header class="header text-center">
+            <div class="container">
+                <div class="branding">
+                    <h1 class="logo">
+                        Develop cloud connected mobile apps<br/>
+                        with C# and Azure
+                    </h1>
+                </div><!--//branding-->
+                
+	             <div class="main-search-box pt-3 pb-4 d-inline-block">
+	                 <form class="form-inline search-form justify-content-center" action="" method="get">
+	            
+			            <input type="text" placeholder="Enter search terms..." name="search" class="form-control search-input">
+			            
+			            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
+			            
+			        </form>
+	             </div>                
+            </div><!--//container-->
+        </header><!--//header-->
+        
+        <section class="cards-section text-center">
+            <div class="container">
+                <div id="cards-wrapper" class="cards-wrapper row">
+                    <div class="item item-green col-lg-4 col-6">
+                        <div class="item-inner">
+                            <div class="icon-holder">
+                                <i class="icon fa fa-paper-plane"></i>
+                            </div><!--//icon-holder-->
+                            <h3 class="title">Chapter 1</h3>
+                            <p class="intro">Get started with a simple demo app.</p>
+                            <a class="link" href="{{ base_url }}/chapter1/"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary item-2 col-lg-4 col-6">
+                        <div class="item-inner">
+                            <div class="icon-holder">
+                                <span aria-hidden="true" class="icon icon_key"></span>
+                            </div><!--//icon-holder-->
+                            <h3 class="title">Chapter 2</h3>
+                            <p class="intro">Identity, authentication, and authorization.</p>
+                            <a class="link" href="{{ base_url }}/chapter2/"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary col-lg-4 col-6">
+                        <div class="item-inner">
+                            <div class="icon-holder">
+                                <span aria-hidden="true" class="icon fa fa-database"></span>
+                            </div><!--//icon-holder-->
+                            <h3 class="title">Chapter 3</h3>
+                            <p class="intro">Access online and offline database tables.</p>
+                            <a class="link" href="{{ base_url }}/chapter3/"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-primary col-lg-4 col-6">
+                        <div class="item-inner">
+                            <div class="icon-holder">
+                                <span aria-hidden="true" class="icon fa-brands fa-edge"></span>
+                            </div><!--//icon-holder-->
+                            <h3 class="title">Chapter 4</h3>
+                            <p class="intro">Use data tables in the browser with Blazor.</p>
+                            <a class="link" href="{{ base_url }}/chapter4/"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-orange col-lg-4 col-6">
+                        <div class="item-inner">
+                            <div class="icon-holder">
+                                <span aria-hidden="true" class="icon fa-solid fa-toolbox"></span>
+                            </div><!--//icon-holder-->
+                            <h3 class="title">Tools</h3>
+                            <p class="intro">Learn about helpful tools.</p>
+                            <a class="link" href="{{ base_url }}/tools"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                    <div class="item item-orange col-lg-4 col-6">
+                        <div class="item-inner">
+                            <div class="icon-holder">
+                                <span aria-hidden="true" class="icon icon_gift"></span>
+                            </div><!--//icon-holder-->
+                            <h3 class="title">Credits</h3>
+                            <p class="intro">Who contributed to this project!</p>
+                            <a class="link" href="{{ base_url }}/credits"><span></span></a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                </div><!--//cards-->
+                
+            </div><!--//container-->
+        </section><!--//cards-section-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
+            <small class="copyright">{{ config.copyright }}</small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+     
+    <!-- Main Javascript -->          
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stickyfill/2.1.0/stickyfill.min.js" integrity="sha512-dmLpQXesGDP0ZM/s8zGKQU3Xlbix57QfwFNFh+BY5Ad/afObQ/lBo200mHWuHu8LOoI7tlK09yP3L/4DjdQ5Xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{ 'assets/site/main.js' | url }}"></script>
+</body>
+</html> 
