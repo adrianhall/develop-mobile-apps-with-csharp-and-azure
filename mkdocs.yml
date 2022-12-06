@@ -7,35 +7,6 @@ site_author: Adrian Hall
 copyright: >-
   'Copyright &copy; 2017-2023 Adrian Hall' -
   <a href="#__consent">Change cookie settings</a>
-theme: 
-  name: material
-  language: en
-  # logo: assets/img/logo.png
-  # favicon: assets/img/favicon.png
-  palette: 
-    # Palette toggle for light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      toggle:
-        icon: material/brightness-7 
-        name: Switch to dark mode
-    # Palette toggle for dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
-  features:
-    - navigation.indexes
-    - navigation.instant
-    - navigation.prune
-    - navigation.top
-    - navigation.tracking
-    - search.highlight
-    - search.share
-    - search.suggest
-    - toc.follow
-    - toc.integrate
 extra:
   consent:
     title: Cookie consent
@@ -55,8 +26,40 @@ extra:
       link: https://www.linkedin.com/in/adrianhall1/
     - icon: fontawesome/brands/reddit
       link: https://www.reddit.com/user/photoadrian
+theme: 
+  name: material
+  language: en
+  # logo: assets/img/logo.png
+  # favicon: assets/img/favicon.png
+  palette: 
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.tabs.link
+    - navigation.indexes
+    - navigation.instant
+    - navigation.prune
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+
 plugins:
   - search
+
 markdown_extensions:
   - toc:
       permalink: true
@@ -65,22 +68,25 @@ markdown_extensions:
       smart_enable: all
   - pymdownx.caret
   - pymdownx.details
-  - pymdownx.mark
-  - pymdownx.tilde
   - pymdownx.highlight:
       anchor_linenums: true
       auto_title: true
       use_pygments: true
-  - pymdownx.superfences 
   - pymdownx.inlinehilite
   - pymdownx.keys
+  - pymdownx.mark
   - pymdownx.snippets
+  - pymdownx.superfences 
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tilde
 
 nav:
-    - Chapter 1 - Introduction:
-        - chapter1/index.md
-        - Your First App - PC Edition: chapter1/pc-intro.md
-        - Your First App - Mac Edition: chapter1/mac-intro.md
+  - Chapter 1 - Introduction:
+    - chapter1/index.md
+    - Your First App - PC Edition: chapter1/pc-intro.md
+    - Your First App - Mac Edition: chapter1/mac-intro.md
+  - tools.md
     # - Chapter 2 - Authentication:
     #     - Concepts: chapter2/authconcepts.md
     #     - Authentication in the Backend: chapter2/backend.md
