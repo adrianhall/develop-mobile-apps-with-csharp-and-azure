@@ -1,0 +1,4 @@
+figure img {
+    /* anything in a figure image is automatically centered */
+    margin: 0 auto;
+}

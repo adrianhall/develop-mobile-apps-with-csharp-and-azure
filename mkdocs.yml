@@ -26,12 +26,14 @@ extra:
       link: https://www.linkedin.com/in/adrianhall1/
     - icon: fontawesome/brands/reddit
       link: https://www.reddit.com/user/photoadrian
+extra_css:
+  - assets/stylesheets/extra.css
 theme: 
   name: material
   custom_dir: theme
   language: en
-  # logo: assets/img/logo.png
-  # favicon: assets/img/favicon.png
+  logo: assets/images/logo.png
+  favicon: assets/images/favicon.png
   font:
     text: Open Sans
     code: Source Code Pro
@@ -62,12 +64,16 @@ theme:
     - toc.integrate
 
 plugins:
+  - glightbox
   - search
 
 markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
   - toc:
       permalink: true
-  - admonition
+      toc_depth: 2
   - pymdownx.betterem:
       smart_enable: all
   - pymdownx.caret
@@ -86,7 +92,8 @@ markdown_extensions:
   - pymdownx.tilde
 
 nav:
-  - Chapter 1 - Introduction:
+  - Home: index.md
+  - Chapter 1:
     - chapter1/index.md
     - Your First App - PC Edition: chapter1/pc-intro.md
     - Your First App - Mac Edition: chapter1/mac-intro.md
