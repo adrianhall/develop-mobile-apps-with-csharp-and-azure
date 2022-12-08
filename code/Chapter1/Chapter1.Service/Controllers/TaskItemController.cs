@@ -1,33 +1,17 @@
+using Chapter1.Service.Database;
+using Chapter1.Service.Models;
+using Microsoft.AspNetCore.Datasync;
+using Microsoft.AspNetCore.Datasync.EFCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chapter1.Service.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    [Route("tables/taskitem")]
+    public class TaskItemController : TableController<TaskItemDTO>
     {
-        private static readonly string[] Summaries = new[]
+        public TaskItemController(AppDbContext context) : base()
         {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            Repository = new EntityTableRepository<TaskItemDTO>(context);
         }
     }
 }

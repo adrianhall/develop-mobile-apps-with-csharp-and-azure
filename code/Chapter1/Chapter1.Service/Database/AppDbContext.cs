@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Chapter1.Service.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chapter1.Service.Database
 {
@@ -7,6 +8,8 @@ namespace Chapter1.Service.Database
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
+
+        public DbSet<TaskItemDTO> TaskItems => Set<TaskItemDTO>();
 
         public async Task InitializeDatabaseAsync()
         {
