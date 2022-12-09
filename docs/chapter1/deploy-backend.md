@@ -20,6 +20,16 @@ Before we get started with deploying infrastructure, we need to set up the Azure
 
 Start by [downloading and installing](https://learn.microsoft.com/cli/azure/install-azure-cli).  The Azure folks have provided step-by-step instructions on how to do this (linked).  Once you have finished the installation, you should be able to run `az version` on the command line.  This short test will ensure you have installed the tool correctly.
 
+```powershell
+PS> az version
+{
+  "azure-cli": "2.43.0",
+  "azure-cli-core": "2.43.0",
+  "azure-cli-telemetry": "1.0.8",
+  "extensions": {}
+}
+```
+
 Next, login to Azure using `az login`.  This will pop up a browser and ask you to log in to your subscription.  Use the same credentials that you use to log in to the Azure portal.
 
 !!! tip
@@ -33,3 +43,52 @@ If you only have one subscription, nothing more is needed to configure the Azure
 
 !!! tip
     Subscriptions are identified by a globally unique ID (or GUID), but also have a settable friendly name.  You can use either the name or the GUID when setting the subscription.
+
+Finally, before you continue, make sure you have upgraded your Azure CLI to the latest version.  You can do this with two commands:
+
+```powershell
+PS> az upgrade
+PS> az bicep upgrade
+```
+
+## Build a bicep template
+
+Every single cloud service provider has a mechanism for creating infrastructure resources as a group.  In AWS, for example, this functionality is called CloudFormation.  In Azure, it's called Azure Resource Manager.  Both of these technologies use JSON templates to describe the functionality.  However, JSON templates are not the easiest to write.  As a result, Azure has created [bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) - a domain specific language for describing your Azure infrastructure.
+
+When using bicep, you describe the resources you want to deploy in a declarative way.  For instance, our infrastructure consists of an Azure App Service and an Azure SQL database.  We can describe these in a `main.bicep` file:
+
+```text
+@description('The name of the web site (without the .azurewebsites.net)')
+param webServiceName string = 'web-${uniqueString(resourceGroup().id)}'
+
+@description('The name of the database service')
+param databaseServiceName string = 'dbservice-${uniqueString(resourceGroup().id)}'
+
+module database './modules/azure-sql.bicep' = {
+    name: 'database'
+    params: {
+        databaseServiceName: databaseServiceName
+    }
+}
+
+module website './modules/azure-app-service.bicep' = {
+    name: webServiceName
+    params: {
+        webServiceName: webServiceName
+        connectionStrings: [
+            { type: 'sql', name: 'DefaultConnection', value: database.outputs.connectionString }
+        ]
+    }
+}
+
+output mobileBackendUrl string = website.url
+```
+
+Every web service that is hosted on Azure App Service is hosted within the domain `azurewebsites.net`.  Since you are likely to be typing the web service name into other tools (like Postman), I've given you the option of entering your own name.  However, it must be globally unique, so I've also provided a mechanism for generating a unique name for the web service name. I've done the same thing for the database service name.
+
+The template uses two [modules](https://learn.microsoft.com/azure/azure-resource-manager/bicep/modules) (which we'll write in a moment) - one for Azure SQL and one for Azure App Service.  Modules are parameterized and reusable snippets of bicep templates that we can use to organize our infrastructure.
+
+### The Azure SQL module
+
+### The Azure App Service module
+
