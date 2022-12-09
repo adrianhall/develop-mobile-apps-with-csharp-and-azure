@@ -12,9 +12,9 @@
     "Chapter1.Service": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
-      "applicationUrl": "https://localhost:7263;http://localhost:5224",
+      "launchBrowser": false,
+      "launchUrl": "tables/taskitem",
+      "applicationUrl": "https://localhost:8443;http://localhost:8000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

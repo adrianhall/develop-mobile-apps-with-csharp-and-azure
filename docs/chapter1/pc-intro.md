@@ -350,6 +350,145 @@ The three things you **must** do in a datasync controller:
 
 The repository is a standard pattern in service development that provides mechanisms for retrieving, creating, updating, and deleting entities in the database.
 
+## Test your mobile backend
+
+You can run your mobile backend either locally or remotely in the cloud.  
+
+Open the `Properties\launchSettings.json` file and locate the `Chapter1.Service` section.  This provides information on what URL to load in the browser after launch and what URLs to listen on.  Set the `Chapter1.Service` section as follows:
+
+```json linenums="12" title="launchSettings.json" hl_lines="15-17"
+"Chapter1.Service": {
+    "commandName": "Project",
+    "dotnetRunMessages": true,
+    "launchBrowser": false,
+    "launchUrl": "tables/taskitem",
+    "applicationUrl": "https://localhost:8443;http://localhost:8000",
+    "environmentVariables": {
+    "ASPNETCORE_ENVIRONMENT": "Development"
+    }
+},
+```
+
+!!! tip
+    Visual Studio chooses a random port number for your service when the project is created.  Change it to something memorable as it is unlikely that you will be running two services at the same time on the same computer.
+
+Set the `launchUrl` to the same path as your controller.  Also, set `launchBrowser` to false so that the service is launched but no browser is opened.
+
+To run your mobile backend locally:
+
+=== "Command Line"
+
+    ```powershell
+    PS> cd Chapter1.Service
+    PS> dotnet dev-certs https
+    PS> dotnet build
+    PS> dotnet run
+    ```
+
+    The command `dotnet dev-certs https` will install an SSL certificate on your local system so that you can easily connect to your mobile backend securely.  It needs to be run once (per system).
+
+=== "Visual Studio"
+
+
+    Press F5 to build and launch the service.  If this is the first time running an ASP.NET Core application from Visual Studio on your development system, you will be prompted to install an SSL certificate so that you can connect securely.
+
+A mobile backend is a service that exposes a web API for you to use.  In our case, a single endpoint is exposed with multiple options:
+
+* `GET /tables/taskitem` gets a list of tasks and can also be used to search for tasks.
+* `POST /tables/taskitem` creates a new item in the task list.
+* `GET /tables/taskitem/{id}` retrieves a single item from the task list.
+* `DELETE /tables/taskitem/{id}` deletes an existing item in the task list.
+* `PUT /tables/taskitem/{id}` replaces an existing item with new data.
+* `PATCH /tables/taskitem/{id}` replaces a subset of the existing item with new data.
+
+To test the REST API, we need to use a REST client.  There are several options:
+
+* Use an extension for [Visual Studio](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.RestClient) or [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client).
+* Postman has an [API Client](https://www.postman.com/downloads/).
+* Kong provides [Insomnia](https://insomnia.rest/), an open source API client.
+
+All these tools are free to download and use.  I personally use [Postman](https://www.postman.com/downloads) because I can create collections of API calls that I can then save to disk and re-use. 
+
+### Tour the available API calls
+
+Once you have downloaded and started Postman, it provides you with a prompt to create a workspace (which you should do), and then you'll have an empty workspace with menu options on the left hand side.
+
+<figure markdown>
+![Screen shot of the Postman empty app](assets/postman-empty-app.png)
+</figure>
+
+Start by creating an environment:
+
+* Select **Environments** from the left-hand menu.
+* Press **Create Environment**.
+* Give the environment a name, like **Local Service**.
+* Add a new variable:
+  * Variable name: `base_url`
+  * Initial value: `https://localhost:8443`
+* Press **Save**.
+
+An environment is a collection of variables the represent your service.  You will create another environment (later on) when we deploy this service to the Azure cloud so that you can test the cloud version easily.
+
+Next, create a collection:
+
+* Select **Collections** from the left-hand menu.
+* Press **Create Collection**.
+* Give the collection a name, like **Task Items API**.
+* In the top-right corner select the **Local Service** environment that you created earlier.
+
+Finally, let's add a couple of requests to this collection.  First, we'll create a request to create a new task item with some data in it:
+
+* Press **Add a request**.
+* Name the request **Create new item (no ID)**.
+* Change the method from **GET** to **POST**.
+* Enter `{{base_url}}/tables/taskitem` as the Request URL.
+* Switch to the **Headers** tab (below the request URL).
+* Enter a new header:
+  * **KEY**: `ZUMO-API-VERSION`
+  * **VALUE**: `3.0.0`
+* Switch to the **Body** tab (below the request URL).
+* Select **raw** and **JSON** content.
+* Fill in the editable text box with the following:
+
+    ```json title="create-taskitem-noid.json"
+    {
+        "title": "Test Item"
+    }
+    ```
+
+* Press **Save**.
+
+<figure markdown>
+![Screen shot of the Postman create-item-noid settings](assets/postman-create-item-noid-settings.png)
+</figure>
+
+In a similar way, you can add a "Get all items" request as follows:
+
+* Right-click the **Task Items API** collection,then select **Add request**.
+* Name the request **Get all items**.
+* Keep the method as **GET**, and enter `{{base_url}}/tables/taskitem` as the Request URL.
+* Switch to the **Headers** tab (below the request URL).
+* Enter a new header:
+  * **KEY**: `ZUMO-API-VERSION`
+  * **VALUE**: `3.0.0`
+* Press **Save**.
+
+<figure markdown>
+![Screen shot of the Postman get-all-items settings](assets/postman-get-items-settings.png)
+</figure>
+
+Now that you've set up your collection, you can run some tests.  Ensure your mobile backend is runnin. Select your **Create new item (no ID)** request, then press **Send**:
+
+<figure markdown>
+![Screen shot of the Postman create-item-noid response](assets/postman-create-item-noid-response.png)
+</figure>
+
+Similarly, you can not select your **Get all items** request, then press **Send**.  The response will include your newly created item.
+
+Spend some time exploring the [Postman documentation](https://learning.postman.com/docs/getting-started/introduction/) and creating some additional requests for deleting an ID and replacing the title for an ID.  This is an excellent tool for testing your mobile backend and worth exploring.
+
+Once you are finished, press CTRL-C in the command line window that is running your mobile backend service.
+
 <!-- Images -->
 [img1]: assets/mockingbot.png
 
