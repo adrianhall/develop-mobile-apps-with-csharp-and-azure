@@ -112,10 +112,29 @@ You will need a **Developer Account** for the appropriate app store if you inten
   
 The terms of the accounts are changed constantly, so review the current terms when you sign up. At the time of writing, Android apps did not require a developer account for any functionality (although a developer account was required to distribute apps).  However, iOS and macOS apps require a developer account for a number of typical capabilities (including keychain access, which is normally required for authentication).  My recommendation is to defer signing up for these programs until you need something they offer.
 
-Now, let's get developing!  Our next section is dependent on where you are developing:
+## Build your first app
 
-* On a Mac, skip ahead to the [Mac section](./mac-intro.md).
-* On a PC, the [next section](./pc-intro.md) covers Windows.
+Now, let's get developing!  
+
+There is a lot of detail to absorb about the possible services that the mobile client can consume and I will go into significant depth on those subjects. First, wouldn't it be nice to write some code and get something working?  Microsoft Azure has a great [first-steps tutorial](https://learn.microsoft.com/azure/developer/mobile-apps/azure-mobile-apps/quickstarts/maui/?pivots=vs2022-windows) that takes you via the quickest possible route from creating a mobile backend to having a functional backend.  I would like to take things a little slower so that we can understand what is going on while we are doing the process.  We will have practically the same application at the end.  The primary reason for going through this slowly is to ensure that all our build and run processes are set up properly.  If this is the first mobile app you have ever written, you will see that there are quite a few things that need to be set up.  This chapter covers the set up required for a Windows PC.  If you wish to develop your applications on a Mac, then skip to the [next section](./mac-intro.md).
+
+The application I am going to build is a simple task list.  The mobile client will have three screens - an entry screen, a task list and a task details page.  I have mocked these pages up using a screen mocking service.
+
+!!! tip
+    Mocking your screens before you start coding is a great habit to get into. There are some great tools available including free tools and ideas.  Doing mockups before you start coding is a good way to prevent wasted time later on.  For more tools, see the [tools](../tools.md) section of this book.
+
+![Application Mockups for the Task List][img1]
+
+!!! tip
+    If you are using iOS, then you may want to remove the back button as the style guides suggest you don't need one.  Other platforms will need it though, so it's best to start with the least common denominator.  It's the same reason I add a refresh button even though it's only valid on Windows Phone!
+
+My ideas for this app include:
+
+* Tapping on a task title in the task list will bring up the details page.
+* Toggling the completed link in the task list will set the completed flag.
+* Tapping the spinner will initiate a network refresh.
+
+Now that we have our client screens planned out, we can move onto the thinking about [the mobile backend](./mobile-backend.md).
 
 <!-- Links -->
 [maui]: https://learn.microsoft.com/dotnet/maui/what-is-maui

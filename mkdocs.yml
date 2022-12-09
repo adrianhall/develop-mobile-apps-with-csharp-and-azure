@@ -95,8 +95,8 @@ nav:
   - Home: index.md
   - Chapter 1:
     - chapter1/index.md
-    - Your First App - PC Edition: chapter1/pc-intro.md
-    - Your First App - Mac Edition: chapter1/mac-intro.md
+    - chapter1/mobile-backend.md
+    - chapter1/deploy-backend.md
   - tools.md
     # - Chapter 2 - Authentication:
     #     - Concepts: chapter2/authconcepts.md

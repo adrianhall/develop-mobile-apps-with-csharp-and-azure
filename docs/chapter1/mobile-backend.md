@@ -1,30 +1,8 @@
-# Your first app - PC Edition
-
-There is a lot of detail to absorb about the possible services that the mobile client can consume and I will go into significant depth on those subjects. First, wouldn't it be nice to write some code and get something working?  Microsoft Azure has a great [first-steps tutorial](https://learn.microsoft.com/azure/developer/mobile-apps/azure-mobile-apps/quickstarts/maui/?pivots=vs2022-windows) that takes you via the quickest possible route from creating a mobile backend to having a functional backend.  I would like to take things a little slower so that we can understand what is going on while we are doing the process.  We will have practically the same application at the end.  The primary reason for going through this slowly is to ensure that all our build and run processes are set up properly.  If this is the first mobile app you have ever written, you will see that there are quite a few things that need to be set up.  This chapter covers the set up required for a Windows PC.  If you wish to develop your applications on a Mac, then skip to the [next section](./mac-intro.md).
-
-The application I am going to build is a simple task list.  The mobile client will have three screens - an entry screen, a task list and a task details page.  I have mocked these pages up using a screen mocking service.
-
-!!! tip
-    Mocking your screens before you start coding is a great habit to get into. There are some great tools available including free tools and ideas.  Doing mockups before you start coding is a good way to prevent wasted time later on.  For more tools, see the [tools](../tools.md) section of this book.
-
-![Application Mockups for the Task List][img1]
-
-!!! tip
-    If you are using iOS, then you may want to remove the back button as the style guides suggest you don't need one.  Other platforms will need it though, so it's best to start with the least common denominator.  It's the same reason I add a refresh button even though it's only valid on Windows Phone!
-
-My ideas for this app include:
-
-* Tapping on a task title in the task list will bring up the details page.
-* Toggling the completed link in the task list will set the completed flag.
-* Tapping the spinner will initiate a network refresh.
-
-Now that we have our client screens planned out, we can move onto the thinking about the mobile backend.
-
-## Create a mobile backend
+# Create a mobile backend
 
 The mobile backend is an ASP.NET core web API that is served from within Azure App Service: a highly scalable and redundant web hosting service that supports all the major languages.  Azure Mobile Apps is an SDK that creates a mobile-ready web API in ASP.NET Core.  To create the mobile backend, we will use Visual Studio 2022 to create a new Web API project, then add Azure Mobile Apps to it.
 
-### Create a new solution
+## Create a new solution
 
 First, create a new solution.  We'll use the solution to hold both the service project and the mobile app project we will create later.
 
@@ -53,7 +31,7 @@ First, create a new solution.  We'll use the solution to hold both the service p
     !!! tip
         Android apps have a hard time with long filenames.  Create a location at the top of the filesystem (for example: `C:\projects`) to hold your mobile app projects so that you are less likely to run into problems later on.
 
-### Create a new ASP.NET core service project
+## Create a new ASP.NET core service project
 
 Next, create a Web API project:
 
@@ -97,7 +75,7 @@ At this point, you should be running Visual Studio 2022 with the `Chapter1` solu
 
 You can delete the `WeatherForecast.cs` model and `Controllers\WeatherForecastController.cs` classes as we will be replacing them very shortly.
 
-### Add required libraries
+## Add required libraries
 
 The two most important libraries that we need to add are:
 
@@ -133,7 +111,7 @@ The two most important libraries that we need to add are:
 
     You can also use a visual style explorer to install the same packages by right-clicking on the `Chapter1.Service` project and selecting **Manage NuGet Packages...**.
 
-### Configure database access
+## Configure database access
 
 Entity Framework Core and ASP.NET Core are used extensively to provide database-driven web APIs.  Setting up Entity Framework Core is straight forward.  You need to:
 
@@ -225,7 +203,7 @@ app.Run();
 
 The second highlighted block reads the connection string from our `appsettings.json` file and injects a database context based on our `AppDbContext` class into the services for our ASP.NET Core application.  The third highlighted block initializes our database before the service starts listening for connections.
 
-### Configure Azure Mobile Apps
+## Configure Azure Mobile Apps
 
 Adding Azure Mobile Apps to an ASP.NET Core application involves three required steps:
 
@@ -487,8 +465,4 @@ Similarly, you can not select your **Get all items** request, then press **Send*
 
 Spend some time exploring the [Postman documentation](https://learning.postman.com/docs/getting-started/introduction/) and creating some additional requests for deleting an ID and replacing the title for an ID.  This is an excellent tool for testing your mobile backend and worth exploring.
 
-Once you are finished, press CTRL-C in the command line window that is running your mobile backend service.
-
-<!-- Images -->
-[img1]: assets/mockingbot.png
-
+Once you are finished, press CTRL-C in the command line window that is running your mobile backend service.  Now that you have completed building and testing your mobile backend, you can move on to [deploy your mobile backend to the cloud](./deploy-backend.md).
