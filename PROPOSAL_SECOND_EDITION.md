@@ -71,27 +71,15 @@ first edition. That is a gap this edition fills.
 | Migration content | A dedicated front-matter section for v1 readers |
 | Sample code | Author fresh samples in this repo |
 | First-app PC/Mac | Unify into one walkthrough with OS callouts |
-| Repo & title | Rewrite `docs/` on a `second-edition` branch; retitle |
+| Repo, title & branch | Rewrite `docs/` on the `rev.2` branch; keep the working title |
 | Chapter 3 | Split into Basics + Advanced; renumber later chapters |
 | Cloud positioning | Cloud-neutral core; one hyperscaler as the worked example; add an "Other Clouds" comparison chapter |
 | Cloudflare | Covered only as an *augmentation* to a chosen hyperscaler (edge/supporting services), **not** as a standalone host for the .NET server |
-
-## Open questions (to iterate on)
-
-- Is **breadth** still the right call, or should some later chapters (push, web, other
-  services) be trimmed to keep the book maintainable and correct over time?
-- **Chapter 6 (Real-time & Push):** the toolkit has no push. Is SignalR + push-to-sync the
-  right center of gravity, with classic push (Notification Hubs / APNS / FCM) as secondary?
-  Or should push move to an appendix?
-- **Chapter 7 (Web & Other Clients):** lead with Blazor WASM only, or also show a
-  JavaScript/TypeScript client hitting the OData endpoints directly?
-- **Chapter 8 (Other Useful Services):** which services earn a place now? Candidates: Cosmos
-  DB, Azure AI Search, Azure OpenAI / AI, Blob + CDN, App Configuration. Anything to add or
-  cut? Media Services is retired and proposed for removal.
-- **Sample layout:** chapter-aligned snapshots vs. one evolving solution with git tags.
-- **Title** confirmation and **branch name** (`second-edition` proposed).
-- **Screenshots:** all first-edition screenshots are obsolete. New ones must be captured by
-  hand; the rewrite will mark every placeholder.
+| Book breadth | Confirmed — keep the full breadth; the goal is to help readers build great apps |
+| Live sync vs. push/real-time | Treat as **distinct** topics: "keeping data current when connected" = SignalR + sync (the model formerly called push-to-sync, with possible toolkit support for streaming records); push notifications and general real-time get their own separate treatment |
+| Web & other clients | Blazor WASM is the core tutorial; React, Vue, Angular, and Svelte (TodoMVC) are provided as options with tips for using the Datasync Toolkit as a backend |
+| Other Useful Services chapter | **Cut** as a standalone chapter; fold the discussion into the "Other Clouds" chapter (now "Other Clouds & Useful Services") |
+| Sample layout | Chapter-aligned snapshots, each with a **before** and **after** state |
 
 ---
 
@@ -109,12 +97,11 @@ first edition. That is a gap this edition fills.
 3. Data Access & Offline Sync: The Basics
 4. Advanced Data Access & Offline Sync
 5. Server-Side Code
-6. Real-time & Push Notifications
+6. Live Sync, Real-time & Push Notifications
 7. Web & Other Clients
-8. Other Useful Services
-9. Developing an App
-10. Going to Production
-11. Other Clouds
+8. Developing an App
+9. Going to Production
+10. Other Clouds & Useful Services
 
 **Appendices**
 
@@ -269,20 +256,31 @@ write *alongside* your table controllers, plus background processing.
 - Recipes: Blob storage with `Azure.Storage.Blobs`, SAS tokens, file upload/download from
   MAUI with progress, and webhooks / Event Grid.
 
-## Chapter 6 — Real-time & Push Notifications
+## Chapter 6 — Live Sync, Real-time & Push Notifications
 
-**Overview.** Reframes the first edition's push chapter. Because the toolkit does not include
-push, the modern center of gravity is real-time via SignalR, with classic push notifications
-as a "bring your own" topic.
+**Overview.** Reframes the first edition's push chapter. The first edition conflated three
+distinct concerns that this chapter pulls apart and treats separately: **keeping data current
+while connected** (live sync), **general real-time features**, and **device push
+notifications**. The toolkit doesn't ship push, so the center of gravity is live sync over
+SignalR, with real-time and push as their own treatments.
 
 **Topics to cover.**
 
-- Real-time updates with SignalR: the server hub, the `RepositoryUpdated` event /
-  `PostCommitHookAsync`, broadcasting changes; a JS and a MAUI consumer.
-- Push-to-sync: using a silent notification to trigger an offline pull.
-- Classic push notifications (bring your own): Azure Notification Hubs with **FCM HTTP v1**
-  (Android), **APNS token auth (.p8)** (iOS), WNS notes, wired from MAUI.
-- Tags, templates, and targeting; testing and common problems.
+- *Keeping data current when connected (live sync).* The model formerly called "push-to-sync":
+  use SignalR to tell connected clients that server-side data changed, then trigger an
+  incremental `PullAsync`. The server hub fires from the `RepositoryUpdated` event /
+  `PostCommitHookAsync`; a MAUI (and JS) consumer wires it to the offline store. Note a
+  possible future toolkit enhancement to **stream changed records directly** from the service
+  rather than only signalling "pull now."
+- *Real-time features beyond sync (separate treatment).* Patterns for presence, chat, and
+  live collaboration over SignalR; where managed real-time services or Cloudflare Durable
+  Objects fit; and when real-time is the wrong tool.
+- *Push notifications (separate treatment, bring your own).* Device notifications via
+  **FCM HTTP v1** (Android, and iOS via APNs) and **APNS token auth (.p8)**, fronted by Azure
+  Notification Hubs / SNS or sent directly; registering from MAUI; tags, templates, and
+  targeting; testing and common problems.
+- *Where these intersect.* Silent / background push to wake an app and trigger a sync, with
+  the platform caveats that make this unreliable.
 
 ## Chapter 7 — Web & Other Clients
 
@@ -292,28 +290,23 @@ client and other .NET clients.
 
 **Topics to cover.**
 
-- A Blazor WebAssembly client against the same datasync backend (online-only — and why
-  offline isn't supported in the browser).
+- *Core tutorial:* a Blazor WebAssembly client against the same datasync backend (online-only
+  — and why offline isn't supported in the browser).
 - Sharing one backend across mobile and web (shared models, shared auth).
-- Accessing the OData endpoints from JavaScript/TypeScript (optional).
-- A note on the other supported clients (WPF, Avalonia, Uno, WinUI 3) and the
+- *The JavaScript ecosystem as options:* the same TodoMVC app built with **React**, **Vue**,
+  **Angular**, and **Svelte** against the Datasync Toolkit's OData endpoints — offered as
+  alternative tracks with hints/tips for using the toolkit service as a backend (auth, the
+  OData query shape, optimistic concurrency / ETags, paging) rather than full from-scratch
+  tutorials.
+- A note on the other supported .NET clients (WPF, Avalonia, Uno, WinUI 3) and the
   platform-agnostic client.
 
-## Chapter 8 — Other Useful Services
+> **Note.** The first edition's standalone "Other Useful Services" chapter has been **cut**.
+> Its content (complementary services worth knowing — managed NoSQL, AI/search, CDN,
+> configuration) is folded into **Chapter 10 — Other Clouds & Useful Services**, where it sits
+> naturally alongside the cross-hyperscaler discussion. Media Services is dropped (retired).
 
-**Overview.** Modernizes the first edition's "Other Useful Services" survey. Drops retired
-services (Media Services) and refreshes the rest.
-
-**Topics to cover.**
-
-- A survey of complementary Azure services worth knowing.
-- Cosmos DB (formerly DocumentDB) for global-scale data.
-- Azure AI Search (formerly Azure Search): indexing your data and searching from the app.
-- Azure OpenAI / AI features as a modern addition.
-- Blob storage + CDN, and Azure App Configuration.
-- *(Removed: Azure Media Services — retired.)*
-
-## Chapter 9 — Developing an App
+## Chapter 8 — Developing an App
 
 **Overview.** Modernizes the development-environment and testing chapter.
 
@@ -328,7 +321,7 @@ services (Media Services) and refreshes the rest.
 - Distributing to beta users now that App Center is retiring (TestFlight, Play internal
   testing, alternatives).
 
-## Chapter 10 — Going to Production
+## Chapter 9 — Going to Production
 
 **Overview.** Modernizes the "Going to Production" chapter: repeatable, safe deployments and
 monitoring.
@@ -343,15 +336,17 @@ monitoring.
   client-side telemetry options.
 - Closing thoughts.
 
-## Chapter 11 — Other Clouds
+## Chapter 10 — Other Clouds & Useful Services
 
 **Overview.** The main narrative deploys to one hyperscaler so every step stays concrete,
 but the Datasync Toolkit is *just* an ASP.NET Core app plus a database — so it runs anywhere
 .NET runs. This chapter steps back and looks at the wider landscape: a **qualitative
-comparison** of the equivalent services on the major clouds, and an honest look at **where
-Cloudflare can augment** a chosen hyperscaler. It is a survey/decision chapter, not a second
-set of step-by-step deployment tutorials — the goal is to help readers map what they learned
-onto the cloud they actually use, and to know what to reach for.
+comparison** of the equivalent services on the major clouds, an honest look at **where
+Cloudflare can augment** a chosen hyperscaler, and a survey of the **complementary services**
+worth knowing (the former "Other Useful Services" chapter is folded in here). It is a
+survey/decision chapter, not a second set of step-by-step deployment tutorials — the goal is
+to help readers map what they learned onto the cloud they actually use, and to know what to
+reach for.
 
 This chapter deliberately does **not** present any cloud as a drop-in replacement for the
 main narrative. In particular, Cloudflare is framed as an *augmentation layer* in front of /
@@ -397,7 +392,7 @@ observability) already have cloud-neutral spines (any OIDC provider; OpenTelemet
     ASP.NET Core).
   - **Workers + Queues + Cron Triggers** — edge background jobs and webhooks.
   - **Durable Objects + WebSockets** — a strong real-time fit that pairs well with the
-    push-to-sync pattern from Chapter 6.
+    live-sync pattern from Chapter 6.
   - **Vectorize + Workers AI**, plus CDN / cache / WAF in front of any origin.
 - *The candid assessment — why we don't host the .NET server on Cloudflare.* Two concrete
   reasons: (1) .NET can only run as a **Container** (a Worker fronting a Durable
@@ -408,6 +403,12 @@ observability) already have cloud-neutral spines (any OIDC provider; OpenTelemet
   Postgres/MySQL (directly or pooled via Hyperdrive). A Workers-native TypeScript
   reimplementation of the datasync protocol on D1 is theoretically possible but is **not the
   .NET toolkit**, so it is out of scope (one honest paragraph).
+- *Complementary first-party services worth knowing (folded in from the former "Other Useful
+  Services" chapter).* On whichever hyperscaler you chose: managed NoSQL for non-relational
+  workloads (Cosmos DB / DynamoDB / Firestore), AI & search (Azure AI Search / OpenSearch /
+  Vertex AI Search, plus Azure OpenAI and equivalents), object storage + CDN, and app
+  configuration / secrets. These *complement* the datasync server rather than replace it.
+  (Azure Media Services is dropped — retired.)
 - *Choosing a cloud* — a short, opinionated decision guide: pick the cloud you already
   operate in; the toolkit will not be the thing that locks you in.
 
@@ -425,9 +426,9 @@ rather than a full tutorial.
 
 - *Push & messaging:*
   - **Firebase Cloud Messaging (FCM)** — the de-facto cross-platform push transport
-    (Android *and*, via APNs, iOS). Works no matter which cloud hosts the server; pairs with
-    the push-to-sync pattern from Chapter 6. Note its relationship to APNs and to Notification
-    Hubs / SNS (which front FCM rather than replace it).
+    (Android *and*, via APNs, iOS). Works no matter which cloud hosts the server; the push
+    notifications treatment in Chapter 6 builds on it. Note its relationship to APNs and to
+    Notification Hubs / SNS (which front FCM rather than replace it).
   - **Other Firebase bits worth knowing** — Remote Config (feature flags / kill switches),
     A/B testing, Dynamic Links successors / deep linking, and how they coexist with a
     non-Google backend.
@@ -444,7 +445,7 @@ rather than a full tutorial.
     for funnels, retention, and feature usage.
   - **Crash & performance monitoring** — Sentry, Firebase Crashlytics, and the
     OpenTelemetry-based options — especially relevant now that App Center is retiring (ties
-    back to Chapter 9's distribution/telemetry discussion).
+    back to Chapter 8's distribution/telemetry discussion).
 - *Supporting services frequently paired with mobile apps:*
   - **Search** — Algolia / Typesense / Meilisearch as managed, cloud-neutral search that
     complements (or replaces) a hyperscaler's search service.
@@ -474,9 +475,10 @@ rather than a full tutorial.
 - A progressively-built app mirroring the book: a Datasync **server** (`azd`-deployable,
   EF Core / Azure SQL), a **.NET MAUI** client, plus a **Blazor** client and an **Azure
   Functions** project introduced in their respective chapters.
-- Proposed layout: chapter-aligned snapshots (e.g., `samples/chapter1`, `samples/chapter3`,
-  …) so readers can start at any chapter — preserving the first edition's "code per chapter"
-  affordance. (Alternative: one evolving solution with git tags per chapter.)
+- Layout: **chapter-aligned snapshots, each with a `before` and `after` state** (e.g.,
+  `samples/chapter1/before` and `samples/chapter1/after`), so readers can start at any
+  chapter and compare the starting point to the finished result — preserving the first
+  edition's "code per chapter" affordance.
 
 # Production / tooling notes
 
